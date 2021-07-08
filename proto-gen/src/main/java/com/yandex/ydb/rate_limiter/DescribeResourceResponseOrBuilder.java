@@ -13,6 +13,7 @@ public interface DescribeResourceResponseOrBuilder extends
    * </pre>
    *
    * <code>.Ydb.Operations.Operation operation = 1;</code>
+   * @return Whether the operation field is set.
    */
   boolean hasOperation();
   /**
@@ -21,6 +22,7 @@ public interface DescribeResourceResponseOrBuilder extends
    * </pre>
    *
    * <code>.Ydb.Operations.Operation operation = 1;</code>
+   * @return The operation.
    */
   tech.ydb.OperationProtos.Operation getOperation();
   /**

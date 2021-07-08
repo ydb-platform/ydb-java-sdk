@@ -20,10 +20,12 @@ public final class S3InternalProtos {
 
     /**
      * <code>string table_name = 1;</code>
+     * @return The tableName.
      */
     java.lang.String getTableName();
     /**
      * <code>string table_name = 1;</code>
+     * @return The bytes for tableName.
      */
     com.google.protobuf.ByteString
         getTableNameBytes();
@@ -34,6 +36,7 @@ public final class S3InternalProtos {
      * </pre>
      *
      * <code>.Ydb.TypedValue key_prefix = 2;</code>
+     * @return Whether the keyPrefix field is set.
      */
     boolean hasKeyPrefix();
     /**
@@ -42,6 +45,7 @@ public final class S3InternalProtos {
      * </pre>
      *
      * <code>.Ydb.TypedValue key_prefix = 2;</code>
+     * @return The keyPrefix.
      */
     tech.ydb.ValueProtos.TypedValue getKeyPrefix();
     /**
@@ -55,20 +59,24 @@ public final class S3InternalProtos {
 
     /**
      * <code>string path_column_prefix = 3;</code>
+     * @return The pathColumnPrefix.
      */
     java.lang.String getPathColumnPrefix();
     /**
      * <code>string path_column_prefix = 3;</code>
+     * @return The bytes for pathColumnPrefix.
      */
     com.google.protobuf.ByteString
         getPathColumnPrefixBytes();
 
     /**
      * <code>string path_column_delimiter = 4;</code>
+     * @return The pathColumnDelimiter.
      */
     java.lang.String getPathColumnDelimiter();
     /**
      * <code>string path_column_delimiter = 4;</code>
+     * @return The bytes for pathColumnDelimiter.
      */
     com.google.protobuf.ByteString
         getPathColumnDelimiterBytes();
@@ -79,6 +87,7 @@ public final class S3InternalProtos {
      * </pre>
      *
      * <code>.Ydb.TypedValue start_after_key_suffix = 5;</code>
+     * @return Whether the startAfterKeySuffix field is set.
      */
     boolean hasStartAfterKeySuffix();
     /**
@@ -87,6 +96,7 @@ public final class S3InternalProtos {
      * </pre>
      *
      * <code>.Ydb.TypedValue start_after_key_suffix = 5;</code>
+     * @return The startAfterKeySuffix.
      */
     tech.ydb.ValueProtos.TypedValue getStartAfterKeySuffix();
     /**
@@ -100,34 +110,43 @@ public final class S3InternalProtos {
 
     /**
      * <code>uint32 max_keys = 6;</code>
+     * @return The maxKeys.
      */
     int getMaxKeys();
 
     /**
      * <code>repeated string columns_to_return = 7;</code>
+     * @return A list containing the columnsToReturn.
      */
     java.util.List<java.lang.String>
         getColumnsToReturnList();
     /**
      * <code>repeated string columns_to_return = 7;</code>
+     * @return The count of columnsToReturn.
      */
     int getColumnsToReturnCount();
     /**
      * <code>repeated string columns_to_return = 7;</code>
+     * @param index The index of the element to return.
+     * @return The columnsToReturn at the given index.
      */
     java.lang.String getColumnsToReturn(int index);
     /**
      * <code>repeated string columns_to_return = 7;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the columnsToReturn at the given index.
      */
     com.google.protobuf.ByteString
         getColumnsToReturnBytes(int index);
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -138,7 +157,7 @@ public final class S3InternalProtos {
   /**
    * Protobuf type {@code Ydb.S3Internal.S3ListingRequest}
    */
-  public  static final class S3ListingRequest extends
+  public static final class S3ListingRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.S3Internal.S3ListingRequest)
       S3ListingRequestOrBuilder {
@@ -151,8 +170,14 @@ public final class S3InternalProtos {
       tableName_ = "";
       pathColumnPrefix_ = "";
       pathColumnDelimiter_ = "";
-      maxKeys_ = 0;
       columnsToReturn_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new S3ListingRequest();
     }
 
     @java.lang.Override
@@ -165,6 +190,9 @@ public final class S3InternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -176,13 +204,6 @@ public final class S3InternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -234,9 +255,9 @@ public final class S3InternalProtos {
             }
             case 58: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 columnsToReturn_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000040;
+                mutable_bitField0_ |= 0x00000001;
               }
               columnsToReturn_.add(s);
               break;
@@ -254,6 +275,13 @@ public final class S3InternalProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -262,7 +290,7 @@ public final class S3InternalProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           columnsToReturn_ = columnsToReturn_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -274,6 +302,7 @@ public final class S3InternalProtos {
       return tech.ydb.s3_internal.S3InternalProtos.internal_static_Ydb_S3Internal_S3ListingRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.s3_internal.S3InternalProtos.internal_static_Ydb_S3Internal_S3ListingRequest_fieldAccessorTable
@@ -281,12 +310,13 @@ public final class S3InternalProtos {
               tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest.class, tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int TABLE_NAME_FIELD_NUMBER = 1;
     private volatile java.lang.Object tableName_;
     /**
      * <code>string table_name = 1;</code>
+     * @return The tableName.
      */
+    @java.lang.Override
     public java.lang.String getTableName() {
       java.lang.Object ref = tableName_;
       if (ref instanceof java.lang.String) {
@@ -301,7 +331,9 @@ public final class S3InternalProtos {
     }
     /**
      * <code>string table_name = 1;</code>
+     * @return The bytes for tableName.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTableNameBytes() {
       java.lang.Object ref = tableName_;
@@ -324,7 +356,9 @@ public final class S3InternalProtos {
      * </pre>
      *
      * <code>.Ydb.TypedValue key_prefix = 2;</code>
+     * @return Whether the keyPrefix field is set.
      */
+    @java.lang.Override
     public boolean hasKeyPrefix() {
       return keyPrefix_ != null;
     }
@@ -334,7 +368,9 @@ public final class S3InternalProtos {
      * </pre>
      *
      * <code>.Ydb.TypedValue key_prefix = 2;</code>
+     * @return The keyPrefix.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.TypedValue getKeyPrefix() {
       return keyPrefix_ == null ? tech.ydb.ValueProtos.TypedValue.getDefaultInstance() : keyPrefix_;
     }
@@ -345,6 +381,7 @@ public final class S3InternalProtos {
      *
      * <code>.Ydb.TypedValue key_prefix = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.TypedValueOrBuilder getKeyPrefixOrBuilder() {
       return getKeyPrefix();
     }
@@ -353,7 +390,9 @@ public final class S3InternalProtos {
     private volatile java.lang.Object pathColumnPrefix_;
     /**
      * <code>string path_column_prefix = 3;</code>
+     * @return The pathColumnPrefix.
      */
+    @java.lang.Override
     public java.lang.String getPathColumnPrefix() {
       java.lang.Object ref = pathColumnPrefix_;
       if (ref instanceof java.lang.String) {
@@ -368,7 +407,9 @@ public final class S3InternalProtos {
     }
     /**
      * <code>string path_column_prefix = 3;</code>
+     * @return The bytes for pathColumnPrefix.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathColumnPrefixBytes() {
       java.lang.Object ref = pathColumnPrefix_;
@@ -387,7 +428,9 @@ public final class S3InternalProtos {
     private volatile java.lang.Object pathColumnDelimiter_;
     /**
      * <code>string path_column_delimiter = 4;</code>
+     * @return The pathColumnDelimiter.
      */
+    @java.lang.Override
     public java.lang.String getPathColumnDelimiter() {
       java.lang.Object ref = pathColumnDelimiter_;
       if (ref instanceof java.lang.String) {
@@ -402,7 +445,9 @@ public final class S3InternalProtos {
     }
     /**
      * <code>string path_column_delimiter = 4;</code>
+     * @return The bytes for pathColumnDelimiter.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathColumnDelimiterBytes() {
       java.lang.Object ref = pathColumnDelimiter_;
@@ -425,7 +470,9 @@ public final class S3InternalProtos {
      * </pre>
      *
      * <code>.Ydb.TypedValue start_after_key_suffix = 5;</code>
+     * @return Whether the startAfterKeySuffix field is set.
      */
+    @java.lang.Override
     public boolean hasStartAfterKeySuffix() {
       return startAfterKeySuffix_ != null;
     }
@@ -435,7 +482,9 @@ public final class S3InternalProtos {
      * </pre>
      *
      * <code>.Ydb.TypedValue start_after_key_suffix = 5;</code>
+     * @return The startAfterKeySuffix.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.TypedValue getStartAfterKeySuffix() {
       return startAfterKeySuffix_ == null ? tech.ydb.ValueProtos.TypedValue.getDefaultInstance() : startAfterKeySuffix_;
     }
@@ -446,6 +495,7 @@ public final class S3InternalProtos {
      *
      * <code>.Ydb.TypedValue start_after_key_suffix = 5;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.TypedValueOrBuilder getStartAfterKeySuffixOrBuilder() {
       return getStartAfterKeySuffix();
     }
@@ -454,7 +504,9 @@ public final class S3InternalProtos {
     private int maxKeys_;
     /**
      * <code>uint32 max_keys = 6;</code>
+     * @return The maxKeys.
      */
+    @java.lang.Override
     public int getMaxKeys() {
       return maxKeys_;
     }
@@ -463,6 +515,7 @@ public final class S3InternalProtos {
     private com.google.protobuf.LazyStringList columnsToReturn_;
     /**
      * <code>repeated string columns_to_return = 7;</code>
+     * @return A list containing the columnsToReturn.
      */
     public com.google.protobuf.ProtocolStringList
         getColumnsToReturnList() {
@@ -470,18 +523,23 @@ public final class S3InternalProtos {
     }
     /**
      * <code>repeated string columns_to_return = 7;</code>
+     * @return The count of columnsToReturn.
      */
     public int getColumnsToReturnCount() {
       return columnsToReturn_.size();
     }
     /**
      * <code>repeated string columns_to_return = 7;</code>
+     * @param index The index of the element to return.
+     * @return The columnsToReturn at the given index.
      */
     public java.lang.String getColumnsToReturn(int index) {
       return columnsToReturn_.get(index);
     }
     /**
      * <code>repeated string columns_to_return = 7;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the columnsToReturn at the given index.
      */
     public com.google.protobuf.ByteString
         getColumnsToReturnBytes(int index) {
@@ -492,24 +550,30 @@ public final class S3InternalProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -519,6 +583,7 @@ public final class S3InternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTableNameBytes().isEmpty()) {
@@ -548,6 +613,7 @@ public final class S3InternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -601,34 +667,33 @@ public final class S3InternalProtos {
       }
       tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest other = (tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest) obj;
 
-      boolean result = true;
-      result = result && getTableName()
-          .equals(other.getTableName());
-      result = result && (hasKeyPrefix() == other.hasKeyPrefix());
+      if (!getTableName()
+          .equals(other.getTableName())) return false;
+      if (hasKeyPrefix() != other.hasKeyPrefix()) return false;
       if (hasKeyPrefix()) {
-        result = result && getKeyPrefix()
-            .equals(other.getKeyPrefix());
+        if (!getKeyPrefix()
+            .equals(other.getKeyPrefix())) return false;
       }
-      result = result && getPathColumnPrefix()
-          .equals(other.getPathColumnPrefix());
-      result = result && getPathColumnDelimiter()
-          .equals(other.getPathColumnDelimiter());
-      result = result && (hasStartAfterKeySuffix() == other.hasStartAfterKeySuffix());
+      if (!getPathColumnPrefix()
+          .equals(other.getPathColumnPrefix())) return false;
+      if (!getPathColumnDelimiter()
+          .equals(other.getPathColumnDelimiter())) return false;
+      if (hasStartAfterKeySuffix() != other.hasStartAfterKeySuffix()) return false;
       if (hasStartAfterKeySuffix()) {
-        result = result && getStartAfterKeySuffix()
-            .equals(other.getStartAfterKeySuffix());
+        if (!getStartAfterKeySuffix()
+            .equals(other.getStartAfterKeySuffix())) return false;
       }
-      result = result && (getMaxKeys()
-          == other.getMaxKeys());
-      result = result && getColumnsToReturnList()
-          .equals(other.getColumnsToReturnList());
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (getMaxKeys()
+          != other.getMaxKeys()) return false;
+      if (!getColumnsToReturnList()
+          .equals(other.getColumnsToReturnList())) return false;
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -737,6 +802,7 @@ public final class S3InternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -744,6 +810,7 @@ public final class S3InternalProtos {
     public static Builder newBuilder(tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -767,6 +834,7 @@ public final class S3InternalProtos {
         return tech.ydb.s3_internal.S3InternalProtos.internal_static_Ydb_S3Internal_S3ListingRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.s3_internal.S3InternalProtos.internal_static_Ydb_S3Internal_S3ListingRequest_fieldAccessorTable
@@ -789,6 +857,7 @@ public final class S3InternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         tableName_ = "";
@@ -812,7 +881,7 @@ public final class S3InternalProtos {
         maxKeys_ = 0;
 
         columnsToReturn_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000001);
         if (operationParamsBuilder_ == null) {
           operationParams_ = null;
         } else {
@@ -822,15 +891,18 @@ public final class S3InternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.s3_internal.S3InternalProtos.internal_static_Ydb_S3Internal_S3ListingRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest getDefaultInstanceForType() {
         return tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest build() {
         tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -839,10 +911,10 @@ public final class S3InternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest buildPartial() {
         tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest result = new tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.tableName_ = tableName_;
         if (keyPrefixBuilder_ == null) {
           result.keyPrefix_ = keyPrefix_;
@@ -857,9 +929,9 @@ public final class S3InternalProtos {
           result.startAfterKeySuffix_ = startAfterKeySuffixBuilder_.build();
         }
         result.maxKeys_ = maxKeys_;
-        if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           columnsToReturn_ = columnsToReturn_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000040);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.columnsToReturn_ = columnsToReturn_;
         if (operationParamsBuilder_ == null) {
@@ -867,37 +939,43 @@ public final class S3InternalProtos {
         } else {
           result.operationParams_ = operationParamsBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest) {
           return mergeFrom((tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest)other);
@@ -933,7 +1011,7 @@ public final class S3InternalProtos {
         if (!other.columnsToReturn_.isEmpty()) {
           if (columnsToReturn_.isEmpty()) {
             columnsToReturn_ = other.columnsToReturn_;
-            bitField0_ = (bitField0_ & ~0x00000040);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensureColumnsToReturnIsMutable();
             columnsToReturn_.addAll(other.columnsToReturn_);
@@ -948,10 +1026,12 @@ public final class S3InternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -974,6 +1054,7 @@ public final class S3InternalProtos {
       private java.lang.Object tableName_ = "";
       /**
        * <code>string table_name = 1;</code>
+       * @return The tableName.
        */
       public java.lang.String getTableName() {
         java.lang.Object ref = tableName_;
@@ -989,6 +1070,7 @@ public final class S3InternalProtos {
       }
       /**
        * <code>string table_name = 1;</code>
+       * @return The bytes for tableName.
        */
       public com.google.protobuf.ByteString
           getTableNameBytes() {
@@ -1005,6 +1087,8 @@ public final class S3InternalProtos {
       }
       /**
        * <code>string table_name = 1;</code>
+       * @param value The tableName to set.
+       * @return This builder for chaining.
        */
       public Builder setTableName(
           java.lang.String value) {
@@ -1018,6 +1102,7 @@ public final class S3InternalProtos {
       }
       /**
        * <code>string table_name = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTableName() {
         
@@ -1027,6 +1112,8 @@ public final class S3InternalProtos {
       }
       /**
        * <code>string table_name = 1;</code>
+       * @param value The bytes for tableName to set.
+       * @return This builder for chaining.
        */
       public Builder setTableNameBytes(
           com.google.protobuf.ByteString value) {
@@ -1040,7 +1127,7 @@ public final class S3InternalProtos {
         return this;
       }
 
-      private tech.ydb.ValueProtos.TypedValue keyPrefix_ = null;
+      private tech.ydb.ValueProtos.TypedValue keyPrefix_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.ValueProtos.TypedValue, tech.ydb.ValueProtos.TypedValue.Builder, tech.ydb.ValueProtos.TypedValueOrBuilder> keyPrefixBuilder_;
       /**
@@ -1049,6 +1136,7 @@ public final class S3InternalProtos {
        * </pre>
        *
        * <code>.Ydb.TypedValue key_prefix = 2;</code>
+       * @return Whether the keyPrefix field is set.
        */
       public boolean hasKeyPrefix() {
         return keyPrefixBuilder_ != null || keyPrefix_ != null;
@@ -1059,6 +1147,7 @@ public final class S3InternalProtos {
        * </pre>
        *
        * <code>.Ydb.TypedValue key_prefix = 2;</code>
+       * @return The keyPrefix.
        */
       public tech.ydb.ValueProtos.TypedValue getKeyPrefix() {
         if (keyPrefixBuilder_ == null) {
@@ -1196,6 +1285,7 @@ public final class S3InternalProtos {
       private java.lang.Object pathColumnPrefix_ = "";
       /**
        * <code>string path_column_prefix = 3;</code>
+       * @return The pathColumnPrefix.
        */
       public java.lang.String getPathColumnPrefix() {
         java.lang.Object ref = pathColumnPrefix_;
@@ -1211,6 +1301,7 @@ public final class S3InternalProtos {
       }
       /**
        * <code>string path_column_prefix = 3;</code>
+       * @return The bytes for pathColumnPrefix.
        */
       public com.google.protobuf.ByteString
           getPathColumnPrefixBytes() {
@@ -1227,6 +1318,8 @@ public final class S3InternalProtos {
       }
       /**
        * <code>string path_column_prefix = 3;</code>
+       * @param value The pathColumnPrefix to set.
+       * @return This builder for chaining.
        */
       public Builder setPathColumnPrefix(
           java.lang.String value) {
@@ -1240,6 +1333,7 @@ public final class S3InternalProtos {
       }
       /**
        * <code>string path_column_prefix = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPathColumnPrefix() {
         
@@ -1249,6 +1343,8 @@ public final class S3InternalProtos {
       }
       /**
        * <code>string path_column_prefix = 3;</code>
+       * @param value The bytes for pathColumnPrefix to set.
+       * @return This builder for chaining.
        */
       public Builder setPathColumnPrefixBytes(
           com.google.protobuf.ByteString value) {
@@ -1265,6 +1361,7 @@ public final class S3InternalProtos {
       private java.lang.Object pathColumnDelimiter_ = "";
       /**
        * <code>string path_column_delimiter = 4;</code>
+       * @return The pathColumnDelimiter.
        */
       public java.lang.String getPathColumnDelimiter() {
         java.lang.Object ref = pathColumnDelimiter_;
@@ -1280,6 +1377,7 @@ public final class S3InternalProtos {
       }
       /**
        * <code>string path_column_delimiter = 4;</code>
+       * @return The bytes for pathColumnDelimiter.
        */
       public com.google.protobuf.ByteString
           getPathColumnDelimiterBytes() {
@@ -1296,6 +1394,8 @@ public final class S3InternalProtos {
       }
       /**
        * <code>string path_column_delimiter = 4;</code>
+       * @param value The pathColumnDelimiter to set.
+       * @return This builder for chaining.
        */
       public Builder setPathColumnDelimiter(
           java.lang.String value) {
@@ -1309,6 +1409,7 @@ public final class S3InternalProtos {
       }
       /**
        * <code>string path_column_delimiter = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPathColumnDelimiter() {
         
@@ -1318,6 +1419,8 @@ public final class S3InternalProtos {
       }
       /**
        * <code>string path_column_delimiter = 4;</code>
+       * @param value The bytes for pathColumnDelimiter to set.
+       * @return This builder for chaining.
        */
       public Builder setPathColumnDelimiterBytes(
           com.google.protobuf.ByteString value) {
@@ -1331,7 +1434,7 @@ public final class S3InternalProtos {
         return this;
       }
 
-      private tech.ydb.ValueProtos.TypedValue startAfterKeySuffix_ = null;
+      private tech.ydb.ValueProtos.TypedValue startAfterKeySuffix_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.ValueProtos.TypedValue, tech.ydb.ValueProtos.TypedValue.Builder, tech.ydb.ValueProtos.TypedValueOrBuilder> startAfterKeySuffixBuilder_;
       /**
@@ -1340,6 +1443,7 @@ public final class S3InternalProtos {
        * </pre>
        *
        * <code>.Ydb.TypedValue start_after_key_suffix = 5;</code>
+       * @return Whether the startAfterKeySuffix field is set.
        */
       public boolean hasStartAfterKeySuffix() {
         return startAfterKeySuffixBuilder_ != null || startAfterKeySuffix_ != null;
@@ -1350,6 +1454,7 @@ public final class S3InternalProtos {
        * </pre>
        *
        * <code>.Ydb.TypedValue start_after_key_suffix = 5;</code>
+       * @return The startAfterKeySuffix.
        */
       public tech.ydb.ValueProtos.TypedValue getStartAfterKeySuffix() {
         if (startAfterKeySuffixBuilder_ == null) {
@@ -1487,12 +1592,16 @@ public final class S3InternalProtos {
       private int maxKeys_ ;
       /**
        * <code>uint32 max_keys = 6;</code>
+       * @return The maxKeys.
        */
+      @java.lang.Override
       public int getMaxKeys() {
         return maxKeys_;
       }
       /**
        * <code>uint32 max_keys = 6;</code>
+       * @param value The maxKeys to set.
+       * @return This builder for chaining.
        */
       public Builder setMaxKeys(int value) {
         
@@ -1502,6 +1611,7 @@ public final class S3InternalProtos {
       }
       /**
        * <code>uint32 max_keys = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMaxKeys() {
         
@@ -1512,13 +1622,14 @@ public final class S3InternalProtos {
 
       private com.google.protobuf.LazyStringList columnsToReturn_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureColumnsToReturnIsMutable() {
-        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           columnsToReturn_ = new com.google.protobuf.LazyStringArrayList(columnsToReturn_);
-          bitField0_ |= 0x00000040;
+          bitField0_ |= 0x00000001;
          }
       }
       /**
        * <code>repeated string columns_to_return = 7;</code>
+       * @return A list containing the columnsToReturn.
        */
       public com.google.protobuf.ProtocolStringList
           getColumnsToReturnList() {
@@ -1526,18 +1637,23 @@ public final class S3InternalProtos {
       }
       /**
        * <code>repeated string columns_to_return = 7;</code>
+       * @return The count of columnsToReturn.
        */
       public int getColumnsToReturnCount() {
         return columnsToReturn_.size();
       }
       /**
        * <code>repeated string columns_to_return = 7;</code>
+       * @param index The index of the element to return.
+       * @return The columnsToReturn at the given index.
        */
       public java.lang.String getColumnsToReturn(int index) {
         return columnsToReturn_.get(index);
       }
       /**
        * <code>repeated string columns_to_return = 7;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the columnsToReturn at the given index.
        */
       public com.google.protobuf.ByteString
           getColumnsToReturnBytes(int index) {
@@ -1545,6 +1661,9 @@ public final class S3InternalProtos {
       }
       /**
        * <code>repeated string columns_to_return = 7;</code>
+       * @param index The index to set the value at.
+       * @param value The columnsToReturn to set.
+       * @return This builder for chaining.
        */
       public Builder setColumnsToReturn(
           int index, java.lang.String value) {
@@ -1558,6 +1677,8 @@ public final class S3InternalProtos {
       }
       /**
        * <code>repeated string columns_to_return = 7;</code>
+       * @param value The columnsToReturn to add.
+       * @return This builder for chaining.
        */
       public Builder addColumnsToReturn(
           java.lang.String value) {
@@ -1571,6 +1692,8 @@ public final class S3InternalProtos {
       }
       /**
        * <code>repeated string columns_to_return = 7;</code>
+       * @param values The columnsToReturn to add.
+       * @return This builder for chaining.
        */
       public Builder addAllColumnsToReturn(
           java.lang.Iterable<java.lang.String> values) {
@@ -1582,15 +1705,18 @@ public final class S3InternalProtos {
       }
       /**
        * <code>repeated string columns_to_return = 7;</code>
+       * @return This builder for chaining.
        */
       public Builder clearColumnsToReturn() {
         columnsToReturn_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
       /**
        * <code>repeated string columns_to_return = 7;</code>
+       * @param value The bytes of the columnsToReturn to add.
+       * @return This builder for chaining.
        */
       public Builder addColumnsToReturnBytes(
           com.google.protobuf.ByteString value) {
@@ -1604,17 +1730,19 @@ public final class S3InternalProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 8;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -1720,11 +1848,13 @@ public final class S3InternalProtos {
         }
         return operationParamsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1746,11 +1876,12 @@ public final class S3InternalProtos {
 
     private static final com.google.protobuf.Parser<S3ListingRequest>
         PARSER = new com.google.protobuf.AbstractParser<S3ListingRequest>() {
+      @java.lang.Override
       public S3ListingRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new S3ListingRequest(input, extensionRegistry);
+        return new S3ListingRequest(input, extensionRegistry);
       }
     };
 
@@ -1763,6 +1894,7 @@ public final class S3InternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.s3_internal.S3InternalProtos.S3ListingRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1775,10 +1907,12 @@ public final class S3InternalProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -1789,7 +1923,7 @@ public final class S3InternalProtos {
   /**
    * Protobuf type {@code Ydb.S3Internal.S3ListingResponse}
    */
-  public  static final class S3ListingResponse extends
+  public static final class S3ListingResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.S3Internal.S3ListingResponse)
       S3ListingResponseOrBuilder {
@@ -1802,6 +1936,13 @@ public final class S3InternalProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new S3ListingResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -1811,7 +1952,9 @@ public final class S3InternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1822,13 +1965,6 @@ public final class S3InternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -1840,6 +1976,13 @@ public final class S3InternalProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -1859,6 +2002,7 @@ public final class S3InternalProtos {
       return tech.ydb.s3_internal.S3InternalProtos.internal_static_Ydb_S3Internal_S3ListingResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.s3_internal.S3InternalProtos.internal_static_Ydb_S3Internal_S3ListingResponse_fieldAccessorTable
@@ -1870,24 +2014,30 @@ public final class S3InternalProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1897,6 +2047,7 @@ public final class S3InternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -1905,6 +2056,7 @@ public final class S3InternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1929,14 +2081,13 @@ public final class S3InternalProtos {
       }
       tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse other = (tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2025,6 +2176,7 @@ public final class S3InternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2032,6 +2184,7 @@ public final class S3InternalProtos {
     public static Builder newBuilder(tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2055,6 +2208,7 @@ public final class S3InternalProtos {
         return tech.ydb.s3_internal.S3InternalProtos.internal_static_Ydb_S3Internal_S3ListingResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.s3_internal.S3InternalProtos.internal_static_Ydb_S3Internal_S3ListingResponse_fieldAccessorTable
@@ -2077,6 +2231,7 @@ public final class S3InternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -2088,15 +2243,18 @@ public final class S3InternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.s3_internal.S3InternalProtos.internal_static_Ydb_S3Internal_S3ListingResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse getDefaultInstanceForType() {
         return tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse build() {
         tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -2105,6 +2263,7 @@ public final class S3InternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse buildPartial() {
         tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse result = new tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse(this);
         if (operationBuilder_ == null) {
@@ -2116,32 +2275,39 @@ public final class S3InternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse) {
           return mergeFrom((tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse)other);
@@ -2161,10 +2327,12 @@ public final class S3InternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2183,17 +2351,19 @@ public final class S3InternalProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -2299,11 +2469,13 @@ public final class S3InternalProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2325,11 +2497,12 @@ public final class S3InternalProtos {
 
     private static final com.google.protobuf.Parser<S3ListingResponse>
         PARSER = new com.google.protobuf.AbstractParser<S3ListingResponse>() {
+      @java.lang.Override
       public S3ListingResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new S3ListingResponse(input, extensionRegistry);
+        return new S3ListingResponse(input, extensionRegistry);
       }
     };
 
@@ -2342,6 +2515,7 @@ public final class S3InternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.s3_internal.S3InternalProtos.S3ListingResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2358,6 +2532,7 @@ public final class S3InternalProtos {
      * </pre>
      *
      * <code>.Ydb.ResultSet common_prefixes = 1;</code>
+     * @return Whether the commonPrefixes field is set.
      */
     boolean hasCommonPrefixes();
     /**
@@ -2366,6 +2541,7 @@ public final class S3InternalProtos {
      * </pre>
      *
      * <code>.Ydb.ResultSet common_prefixes = 1;</code>
+     * @return The commonPrefixes.
      */
     tech.ydb.ValueProtos.ResultSet getCommonPrefixes();
     /**
@@ -2383,6 +2559,7 @@ public final class S3InternalProtos {
      * </pre>
      *
      * <code>.Ydb.ResultSet contents = 2;</code>
+     * @return Whether the contents field is set.
      */
     boolean hasContents();
     /**
@@ -2391,6 +2568,7 @@ public final class S3InternalProtos {
      * </pre>
      *
      * <code>.Ydb.ResultSet contents = 2;</code>
+     * @return The contents.
      */
     tech.ydb.ValueProtos.ResultSet getContents();
     /**
@@ -2408,13 +2586,14 @@ public final class S3InternalProtos {
      * </pre>
      *
      * <code>uint32 key_suffix_size = 3;</code>
+     * @return The keySuffixSize.
      */
     int getKeySuffixSize();
   }
   /**
    * Protobuf type {@code Ydb.S3Internal.S3ListingResult}
    */
-  public  static final class S3ListingResult extends
+  public static final class S3ListingResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.S3Internal.S3ListingResult)
       S3ListingResultOrBuilder {
@@ -2424,7 +2603,13 @@ public final class S3InternalProtos {
       super(builder);
     }
     private S3ListingResult() {
-      keySuffixSize_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new S3ListingResult();
     }
 
     @java.lang.Override
@@ -2437,7 +2622,9 @@ public final class S3InternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2448,13 +2635,6 @@ public final class S3InternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.ValueProtos.ResultSet.Builder subBuilder = null;
               if (commonPrefixes_ != null) {
@@ -2486,6 +2666,13 @@ public final class S3InternalProtos {
               keySuffixSize_ = input.readUInt32();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2503,6 +2690,7 @@ public final class S3InternalProtos {
       return tech.ydb.s3_internal.S3InternalProtos.internal_static_Ydb_S3Internal_S3ListingResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.s3_internal.S3InternalProtos.internal_static_Ydb_S3Internal_S3ListingResult_fieldAccessorTable
@@ -2518,7 +2706,9 @@ public final class S3InternalProtos {
      * </pre>
      *
      * <code>.Ydb.ResultSet common_prefixes = 1;</code>
+     * @return Whether the commonPrefixes field is set.
      */
+    @java.lang.Override
     public boolean hasCommonPrefixes() {
       return commonPrefixes_ != null;
     }
@@ -2528,7 +2718,9 @@ public final class S3InternalProtos {
      * </pre>
      *
      * <code>.Ydb.ResultSet common_prefixes = 1;</code>
+     * @return The commonPrefixes.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ResultSet getCommonPrefixes() {
       return commonPrefixes_ == null ? tech.ydb.ValueProtos.ResultSet.getDefaultInstance() : commonPrefixes_;
     }
@@ -2539,6 +2731,7 @@ public final class S3InternalProtos {
      *
      * <code>.Ydb.ResultSet common_prefixes = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ResultSetOrBuilder getCommonPrefixesOrBuilder() {
       return getCommonPrefixes();
     }
@@ -2551,7 +2744,9 @@ public final class S3InternalProtos {
      * </pre>
      *
      * <code>.Ydb.ResultSet contents = 2;</code>
+     * @return Whether the contents field is set.
      */
+    @java.lang.Override
     public boolean hasContents() {
       return contents_ != null;
     }
@@ -2561,7 +2756,9 @@ public final class S3InternalProtos {
      * </pre>
      *
      * <code>.Ydb.ResultSet contents = 2;</code>
+     * @return The contents.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ResultSet getContents() {
       return contents_ == null ? tech.ydb.ValueProtos.ResultSet.getDefaultInstance() : contents_;
     }
@@ -2572,6 +2769,7 @@ public final class S3InternalProtos {
      *
      * <code>.Ydb.ResultSet contents = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ResultSetOrBuilder getContentsOrBuilder() {
       return getContents();
     }
@@ -2584,12 +2782,15 @@ public final class S3InternalProtos {
      * </pre>
      *
      * <code>uint32 key_suffix_size = 3;</code>
+     * @return The keySuffixSize.
      */
+    @java.lang.Override
     public int getKeySuffixSize() {
       return keySuffixSize_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2599,6 +2800,7 @@ public final class S3InternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (commonPrefixes_ != null) {
@@ -2613,6 +2815,7 @@ public final class S3InternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2645,21 +2848,20 @@ public final class S3InternalProtos {
       }
       tech.ydb.s3_internal.S3InternalProtos.S3ListingResult other = (tech.ydb.s3_internal.S3InternalProtos.S3ListingResult) obj;
 
-      boolean result = true;
-      result = result && (hasCommonPrefixes() == other.hasCommonPrefixes());
+      if (hasCommonPrefixes() != other.hasCommonPrefixes()) return false;
       if (hasCommonPrefixes()) {
-        result = result && getCommonPrefixes()
-            .equals(other.getCommonPrefixes());
+        if (!getCommonPrefixes()
+            .equals(other.getCommonPrefixes())) return false;
       }
-      result = result && (hasContents() == other.hasContents());
+      if (hasContents() != other.hasContents()) return false;
       if (hasContents()) {
-        result = result && getContents()
-            .equals(other.getContents());
+        if (!getContents()
+            .equals(other.getContents())) return false;
       }
-      result = result && (getKeySuffixSize()
-          == other.getKeySuffixSize());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getKeySuffixSize()
+          != other.getKeySuffixSize()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2754,6 +2956,7 @@ public final class S3InternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2761,6 +2964,7 @@ public final class S3InternalProtos {
     public static Builder newBuilder(tech.ydb.s3_internal.S3InternalProtos.S3ListingResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2784,6 +2988,7 @@ public final class S3InternalProtos {
         return tech.ydb.s3_internal.S3InternalProtos.internal_static_Ydb_S3Internal_S3ListingResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.s3_internal.S3InternalProtos.internal_static_Ydb_S3Internal_S3ListingResult_fieldAccessorTable
@@ -2806,6 +3011,7 @@ public final class S3InternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (commonPrefixesBuilder_ == null) {
@@ -2825,15 +3031,18 @@ public final class S3InternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.s3_internal.S3InternalProtos.internal_static_Ydb_S3Internal_S3ListingResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.s3_internal.S3InternalProtos.S3ListingResult getDefaultInstanceForType() {
         return tech.ydb.s3_internal.S3InternalProtos.S3ListingResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.s3_internal.S3InternalProtos.S3ListingResult build() {
         tech.ydb.s3_internal.S3InternalProtos.S3ListingResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -2842,6 +3051,7 @@ public final class S3InternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.s3_internal.S3InternalProtos.S3ListingResult buildPartial() {
         tech.ydb.s3_internal.S3InternalProtos.S3ListingResult result = new tech.ydb.s3_internal.S3InternalProtos.S3ListingResult(this);
         if (commonPrefixesBuilder_ == null) {
@@ -2859,32 +3069,39 @@ public final class S3InternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.s3_internal.S3InternalProtos.S3ListingResult) {
           return mergeFrom((tech.ydb.s3_internal.S3InternalProtos.S3ListingResult)other);
@@ -2910,10 +3127,12 @@ public final class S3InternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2932,7 +3151,7 @@ public final class S3InternalProtos {
         return this;
       }
 
-      private tech.ydb.ValueProtos.ResultSet commonPrefixes_ = null;
+      private tech.ydb.ValueProtos.ResultSet commonPrefixes_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.ValueProtos.ResultSet, tech.ydb.ValueProtos.ResultSet.Builder, tech.ydb.ValueProtos.ResultSetOrBuilder> commonPrefixesBuilder_;
       /**
@@ -2941,6 +3160,7 @@ public final class S3InternalProtos {
        * </pre>
        *
        * <code>.Ydb.ResultSet common_prefixes = 1;</code>
+       * @return Whether the commonPrefixes field is set.
        */
       public boolean hasCommonPrefixes() {
         return commonPrefixesBuilder_ != null || commonPrefixes_ != null;
@@ -2951,6 +3171,7 @@ public final class S3InternalProtos {
        * </pre>
        *
        * <code>.Ydb.ResultSet common_prefixes = 1;</code>
+       * @return The commonPrefixes.
        */
       public tech.ydb.ValueProtos.ResultSet getCommonPrefixes() {
         if (commonPrefixesBuilder_ == null) {
@@ -3085,7 +3306,7 @@ public final class S3InternalProtos {
         return commonPrefixesBuilder_;
       }
 
-      private tech.ydb.ValueProtos.ResultSet contents_ = null;
+      private tech.ydb.ValueProtos.ResultSet contents_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.ValueProtos.ResultSet, tech.ydb.ValueProtos.ResultSet.Builder, tech.ydb.ValueProtos.ResultSetOrBuilder> contentsBuilder_;
       /**
@@ -3094,6 +3315,7 @@ public final class S3InternalProtos {
        * </pre>
        *
        * <code>.Ydb.ResultSet contents = 2;</code>
+       * @return Whether the contents field is set.
        */
       public boolean hasContents() {
         return contentsBuilder_ != null || contents_ != null;
@@ -3104,6 +3326,7 @@ public final class S3InternalProtos {
        * </pre>
        *
        * <code>.Ydb.ResultSet contents = 2;</code>
+       * @return The contents.
        */
       public tech.ydb.ValueProtos.ResultSet getContents() {
         if (contentsBuilder_ == null) {
@@ -3245,7 +3468,9 @@ public final class S3InternalProtos {
        * </pre>
        *
        * <code>uint32 key_suffix_size = 3;</code>
+       * @return The keySuffixSize.
        */
+      @java.lang.Override
       public int getKeySuffixSize() {
         return keySuffixSize_;
       }
@@ -3255,6 +3480,8 @@ public final class S3InternalProtos {
        * </pre>
        *
        * <code>uint32 key_suffix_size = 3;</code>
+       * @param value The keySuffixSize to set.
+       * @return This builder for chaining.
        */
       public Builder setKeySuffixSize(int value) {
         
@@ -3268,6 +3495,7 @@ public final class S3InternalProtos {
        * </pre>
        *
        * <code>uint32 key_suffix_size = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearKeySuffixSize() {
         
@@ -3275,11 +3503,13 @@ public final class S3InternalProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3301,11 +3531,12 @@ public final class S3InternalProtos {
 
     private static final com.google.protobuf.Parser<S3ListingResult>
         PARSER = new com.google.protobuf.AbstractParser<S3ListingResult>() {
+      @java.lang.Override
       public S3ListingResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new S3ListingResult(input, extensionRegistry);
+        return new S3ListingResult(input, extensionRegistry);
       }
     };
 
@@ -3318,6 +3549,7 @@ public final class S3InternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.s3_internal.S3InternalProtos.S3ListingResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3357,7 +3589,7 @@ public final class S3InternalProtos {
       "olumn_prefix\030\003 \001(\t\022\035\n\025path_column_delimi" +
       "ter\030\004 \001(\t\022/\n\026start_after_key_suffix\030\005 \001(" +
       "\0132\017.Ydb.TypedValue\022\020\n\010max_keys\030\006 \001(\r\022\031\n\021" +
-      "columns_to_return\030\007 \003(\t\0229\n\020operation_par",
+      "columns_to_return\030\007 \003(\t\0229\n\020operation_par" +
       "ams\030\010 \001(\0132\037.Ydb.Operations.OperationPara" +
       "ms\"A\n\021S3ListingResponse\022,\n\toperation\030\001 \001" +
       "(\0132\031.Ydb.Operations.Operation\"u\n\017S3Listi" +
@@ -3367,20 +3599,12 @@ public final class S3InternalProtos {
       "ex.ydb.s3_internalB\020S3InternalProtos\370\001\001b" +
       "\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.OperationProtos.getDescriptor(),
           tech.ydb.ValueProtos.getDescriptor(),
-        }, assigner);
+        });
     internal_static_Ydb_S3Internal_S3ListingRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_S3Internal_S3ListingRequest_fieldAccessorTable = new

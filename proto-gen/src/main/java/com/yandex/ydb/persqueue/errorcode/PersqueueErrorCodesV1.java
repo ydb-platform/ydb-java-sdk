@@ -229,6 +229,8 @@ public final class PersqueueErrorCodesV1 {
     }
 
     /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
@@ -236,6 +238,10 @@ public final class PersqueueErrorCodesV1 {
       return forNumber(value);
     }
 
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
     public static ErrorCode forNumber(int value) {
       switch (value) {
         case 0: return OK;
@@ -280,6 +286,10 @@ public final class PersqueueErrorCodesV1 {
 
     public final com.google.protobuf.Descriptors.EnumValueDescriptor
         getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
       return getDescriptor().getValues().get(ordinal());
     }
     public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -332,7 +342,7 @@ public final class PersqueueErrorCodesV1 {
       "\022\036\n\030WRITE_ERROR_DISK_IS_FULL\020\257\302\036\022\034\n\026WRIT" +
       "E_ERROR_BAD_OFFSET\020\263\302\036\022#\n\035CREATE_SESSION" +
       "_ALREADY_LOCKED\020\246\302\036\022\037\n\031DELETE_SESSION_NO" +
-      "_SESSION\020\247\302\036\022\034\n\026READ_ERROR_IN_PROGRESS\020\250",
+      "_SESSION\020\247\302\036\022\034\n\026READ_ERROR_IN_PROGRESS\020\250" +
       "\302\036\022\033\n\025READ_ERROR_NO_SESSION\020\251\302\036\022!\n\033READ_" +
       "ERROR_TOO_SMALL_OFFSET\020\253\302\036\022\037\n\031READ_ERROR" +
       "_TOO_BIG_OFFSET\020\254\302\036\022\'\n!SET_OFFSET_ERROR_" +
@@ -344,18 +354,10 @@ public final class PersqueueErrorCodesV1 {
       "\n\005ERROR\020\204\303\036B$\n\"tech.ydb.persqueue." +
       "errorcodeb\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+        });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

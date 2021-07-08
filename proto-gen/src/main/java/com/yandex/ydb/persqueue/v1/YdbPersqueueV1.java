@@ -32,7 +32,7 @@ public final class YdbPersqueueV1 {
       "V1.StreamingWriteClientMessage\032-.Ydb.Per" +
       "sQueue.V1.StreamingWriteServerMessage(\0010" +
       "\001\022\212\001\n\026MigrationStreamingRead\0225.Ydb.PersQ" +
-      "ueue.V1.MigrationStreamingReadClientMess",
+      "ueue.V1.MigrationStreamingReadClientMess" +
       "age\0325.Ydb.PersQueue.V1.MigrationStreamin" +
       "gReadServerMessage(\0010\001\022\\\n\023GetReadSession" +
       "sInfo\022!.Ydb.PersQueue.V1.ReadInfoRequest" +
@@ -42,7 +42,7 @@ public final class YdbPersqueueV1 {
       "eTopicResponse\022T\n\tDropTopic\022\".Ydb.PersQu" +
       "eue.V1.DropTopicRequest\032#.Ydb.PersQueue." +
       "V1.DropTopicResponse\022Z\n\013CreateTopic\022$.Yd" +
-      "b.PersQueue.V1.CreateTopicRequest\032%.Ydb.",
+      "b.PersQueue.V1.CreateTopicRequest\032%.Ydb." +
       "PersQueue.V1.CreateTopicResponse\022W\n\nAlte" +
       "rTopic\022#.Ydb.PersQueue.V1.AlterTopicRequ" +
       "est\032$.Ydb.PersQueue.V1.AlterTopicRespons" +
@@ -52,25 +52,17 @@ public final class YdbPersqueueV1 {
       "rsQueue.V1.RemoveReadRuleRequest\032(.Ydb.P" +
       "ersQueue.V1.RemoveReadRuleResponse2\241\001\n\027C" +
       "lusterDiscoveryService\022\205\001\n\020DiscoverClust" +
-      "ers\0227.Ydb.PersQueue.ClusterDiscovery.Dis",
+      "ers\0227.Ydb.PersQueue.ClusterDiscovery.Dis" +
       "coverClustersRequest\0328.Ydb.PersQueue.Clu" +
       "sterDiscovery.DiscoverClustersResponseB " +
       "\n\033tech.ydb.persqueue.v1\370\001\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.getDescriptor(),
           tech.ydb.persqueue.YdbPersqueueV1.getDescriptor(),
-        }, assigner);
+        });
     tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.getDescriptor();
     tech.ydb.persqueue.YdbPersqueueV1.getDescriptor();
   }

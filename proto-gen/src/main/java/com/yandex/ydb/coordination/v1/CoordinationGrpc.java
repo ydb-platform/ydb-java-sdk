@@ -32,7 +32,7 @@ public final class CoordinationGrpc {
       "de\022#.Ydb.Coordination.CreateNodeRequest\032" +
       "$.Ydb.Coordination.CreateNodeResponse\022T\n" +
       "\tAlterNode\022\".Ydb.Coordination.AlterNodeR" +
-      "equest\032#.Ydb.Coordination.AlterNodeRespo",
+      "equest\032#.Ydb.Coordination.AlterNodeRespo" +
       "nse\022Q\n\010DropNode\022!.Ydb.Coordination.DropN" +
       "odeRequest\032\".Ydb.Coordination.DropNodeRe" +
       "sponse\022]\n\014DescribeNode\022%.Ydb.Coordinatio" +
@@ -41,19 +41,11 @@ public final class CoordinationGrpc {
       "coordination.v1B\020CoordinationGrpcP\001b\006pro" +
       "to3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.coordination.CoordinationProtos.getDescriptor(),
-        }, assigner);
+        });
     tech.ydb.coordination.CoordinationProtos.getDescriptor();
   }
 

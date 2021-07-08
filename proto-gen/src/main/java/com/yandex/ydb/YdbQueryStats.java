@@ -20,11 +20,13 @@ public final class YdbQueryStats {
 
     /**
      * <code>uint64 rows = 1;</code>
+     * @return The rows.
      */
     long getRows();
 
     /**
      * <code>uint64 bytes = 2;</code>
+     * @return The bytes.
      */
     long getBytes();
   }
@@ -35,7 +37,7 @@ public final class YdbQueryStats {
    *
    * Protobuf type {@code Ydb.TableStats.OperationStats}
    */
-  public  static final class OperationStats extends
+  public static final class OperationStats extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.TableStats.OperationStats)
       OperationStatsOrBuilder {
@@ -45,8 +47,13 @@ public final class YdbQueryStats {
       super(builder);
     }
     private OperationStats() {
-      rows_ = 0L;
-      bytes_ = 0L;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new OperationStats();
     }
 
     @java.lang.Override
@@ -59,7 +66,9 @@ public final class YdbQueryStats {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -70,13 +79,6 @@ public final class YdbQueryStats {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               rows_ = input.readUInt64();
@@ -85,6 +87,13 @@ public final class YdbQueryStats {
             case 16: {
 
               bytes_ = input.readUInt64();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -104,6 +113,7 @@ public final class YdbQueryStats {
       return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_OperationStats_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_OperationStats_fieldAccessorTable
@@ -115,7 +125,9 @@ public final class YdbQueryStats {
     private long rows_;
     /**
      * <code>uint64 rows = 1;</code>
+     * @return The rows.
      */
+    @java.lang.Override
     public long getRows() {
       return rows_;
     }
@@ -124,12 +136,15 @@ public final class YdbQueryStats {
     private long bytes_;
     /**
      * <code>uint64 bytes = 2;</code>
+     * @return The bytes.
      */
+    @java.lang.Override
     public long getBytes() {
       return bytes_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -139,6 +154,7 @@ public final class YdbQueryStats {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (rows_ != 0L) {
@@ -150,6 +166,7 @@ public final class YdbQueryStats {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -178,13 +195,12 @@ public final class YdbQueryStats {
       }
       tech.ydb.YdbQueryStats.OperationStats other = (tech.ydb.YdbQueryStats.OperationStats) obj;
 
-      boolean result = true;
-      result = result && (getRows()
-          == other.getRows());
-      result = result && (getBytes()
-          == other.getBytes());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getRows()
+          != other.getRows()) return false;
+      if (getBytes()
+          != other.getBytes()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -275,6 +291,7 @@ public final class YdbQueryStats {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -282,6 +299,7 @@ public final class YdbQueryStats {
     public static Builder newBuilder(tech.ydb.YdbQueryStats.OperationStats prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -309,6 +327,7 @@ public final class YdbQueryStats {
         return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_OperationStats_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_OperationStats_fieldAccessorTable
@@ -331,6 +350,7 @@ public final class YdbQueryStats {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         rows_ = 0L;
@@ -340,15 +360,18 @@ public final class YdbQueryStats {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_OperationStats_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.YdbQueryStats.OperationStats getDefaultInstanceForType() {
         return tech.ydb.YdbQueryStats.OperationStats.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.YdbQueryStats.OperationStats build() {
         tech.ydb.YdbQueryStats.OperationStats result = buildPartial();
         if (!result.isInitialized()) {
@@ -357,6 +380,7 @@ public final class YdbQueryStats {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.YdbQueryStats.OperationStats buildPartial() {
         tech.ydb.YdbQueryStats.OperationStats result = new tech.ydb.YdbQueryStats.OperationStats(this);
         result.rows_ = rows_;
@@ -365,32 +389,39 @@ public final class YdbQueryStats {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.YdbQueryStats.OperationStats) {
           return mergeFrom((tech.ydb.YdbQueryStats.OperationStats)other);
@@ -413,10 +444,12 @@ public final class YdbQueryStats {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -438,12 +471,16 @@ public final class YdbQueryStats {
       private long rows_ ;
       /**
        * <code>uint64 rows = 1;</code>
+       * @return The rows.
        */
+      @java.lang.Override
       public long getRows() {
         return rows_;
       }
       /**
        * <code>uint64 rows = 1;</code>
+       * @param value The rows to set.
+       * @return This builder for chaining.
        */
       public Builder setRows(long value) {
         
@@ -453,6 +490,7 @@ public final class YdbQueryStats {
       }
       /**
        * <code>uint64 rows = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearRows() {
         
@@ -464,12 +502,16 @@ public final class YdbQueryStats {
       private long bytes_ ;
       /**
        * <code>uint64 bytes = 2;</code>
+       * @return The bytes.
        */
+      @java.lang.Override
       public long getBytes() {
         return bytes_;
       }
       /**
        * <code>uint64 bytes = 2;</code>
+       * @param value The bytes to set.
+       * @return This builder for chaining.
        */
       public Builder setBytes(long value) {
         
@@ -479,6 +521,7 @@ public final class YdbQueryStats {
       }
       /**
        * <code>uint64 bytes = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearBytes() {
         
@@ -486,11 +529,13 @@ public final class YdbQueryStats {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -512,11 +557,12 @@ public final class YdbQueryStats {
 
     private static final com.google.protobuf.Parser<OperationStats>
         PARSER = new com.google.protobuf.AbstractParser<OperationStats>() {
+      @java.lang.Override
       public OperationStats parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new OperationStats(input, extensionRegistry);
+        return new OperationStats(input, extensionRegistry);
       }
     };
 
@@ -529,6 +575,7 @@ public final class YdbQueryStats {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.OperationStats getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -541,20 +588,24 @@ public final class YdbQueryStats {
 
     /**
      * <code>string name = 1;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
      * <code>.Ydb.TableStats.OperationStats reads = 3;</code>
+     * @return Whether the reads field is set.
      */
     boolean hasReads();
     /**
      * <code>.Ydb.TableStats.OperationStats reads = 3;</code>
+     * @return The reads.
      */
     tech.ydb.YdbQueryStats.OperationStats getReads();
     /**
@@ -564,10 +615,12 @@ public final class YdbQueryStats {
 
     /**
      * <code>.Ydb.TableStats.OperationStats updates = 4;</code>
+     * @return Whether the updates field is set.
      */
     boolean hasUpdates();
     /**
      * <code>.Ydb.TableStats.OperationStats updates = 4;</code>
+     * @return The updates.
      */
     tech.ydb.YdbQueryStats.OperationStats getUpdates();
     /**
@@ -577,10 +630,12 @@ public final class YdbQueryStats {
 
     /**
      * <code>.Ydb.TableStats.OperationStats deletes = 5;</code>
+     * @return Whether the deletes field is set.
      */
     boolean hasDeletes();
     /**
      * <code>.Ydb.TableStats.OperationStats deletes = 5;</code>
+     * @return The deletes.
      */
     tech.ydb.YdbQueryStats.OperationStats getDeletes();
     /**
@@ -590,6 +645,7 @@ public final class YdbQueryStats {
 
     /**
      * <code>uint64 partitions_count = 6;</code>
+     * @return The partitionsCount.
      */
     long getPartitionsCount();
   }
@@ -600,7 +656,7 @@ public final class YdbQueryStats {
    *
    * Protobuf type {@code Ydb.TableStats.TableAccessStats}
    */
-  public  static final class TableAccessStats extends
+  public static final class TableAccessStats extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.TableStats.TableAccessStats)
       TableAccessStatsOrBuilder {
@@ -611,7 +667,13 @@ public final class YdbQueryStats {
     }
     private TableAccessStats() {
       name_ = "";
-      partitionsCount_ = 0L;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TableAccessStats();
     }
 
     @java.lang.Override
@@ -624,7 +686,9 @@ public final class YdbQueryStats {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -635,13 +699,6 @@ public final class YdbQueryStats {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -692,6 +749,13 @@ public final class YdbQueryStats {
               partitionsCount_ = input.readUInt64();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -709,6 +773,7 @@ public final class YdbQueryStats {
       return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_TableAccessStats_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_TableAccessStats_fieldAccessorTable
@@ -720,7 +785,9 @@ public final class YdbQueryStats {
     private volatile java.lang.Object name_;
     /**
      * <code>string name = 1;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -735,7 +802,9 @@ public final class YdbQueryStats {
     }
     /**
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -754,19 +823,24 @@ public final class YdbQueryStats {
     private tech.ydb.YdbQueryStats.OperationStats reads_;
     /**
      * <code>.Ydb.TableStats.OperationStats reads = 3;</code>
+     * @return Whether the reads field is set.
      */
+    @java.lang.Override
     public boolean hasReads() {
       return reads_ != null;
     }
     /**
      * <code>.Ydb.TableStats.OperationStats reads = 3;</code>
+     * @return The reads.
      */
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.OperationStats getReads() {
       return reads_ == null ? tech.ydb.YdbQueryStats.OperationStats.getDefaultInstance() : reads_;
     }
     /**
      * <code>.Ydb.TableStats.OperationStats reads = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.OperationStatsOrBuilder getReadsOrBuilder() {
       return getReads();
     }
@@ -775,19 +849,24 @@ public final class YdbQueryStats {
     private tech.ydb.YdbQueryStats.OperationStats updates_;
     /**
      * <code>.Ydb.TableStats.OperationStats updates = 4;</code>
+     * @return Whether the updates field is set.
      */
+    @java.lang.Override
     public boolean hasUpdates() {
       return updates_ != null;
     }
     /**
      * <code>.Ydb.TableStats.OperationStats updates = 4;</code>
+     * @return The updates.
      */
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.OperationStats getUpdates() {
       return updates_ == null ? tech.ydb.YdbQueryStats.OperationStats.getDefaultInstance() : updates_;
     }
     /**
      * <code>.Ydb.TableStats.OperationStats updates = 4;</code>
      */
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.OperationStatsOrBuilder getUpdatesOrBuilder() {
       return getUpdates();
     }
@@ -796,19 +875,24 @@ public final class YdbQueryStats {
     private tech.ydb.YdbQueryStats.OperationStats deletes_;
     /**
      * <code>.Ydb.TableStats.OperationStats deletes = 5;</code>
+     * @return Whether the deletes field is set.
      */
+    @java.lang.Override
     public boolean hasDeletes() {
       return deletes_ != null;
     }
     /**
      * <code>.Ydb.TableStats.OperationStats deletes = 5;</code>
+     * @return The deletes.
      */
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.OperationStats getDeletes() {
       return deletes_ == null ? tech.ydb.YdbQueryStats.OperationStats.getDefaultInstance() : deletes_;
     }
     /**
      * <code>.Ydb.TableStats.OperationStats deletes = 5;</code>
      */
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.OperationStatsOrBuilder getDeletesOrBuilder() {
       return getDeletes();
     }
@@ -817,12 +901,15 @@ public final class YdbQueryStats {
     private long partitionsCount_;
     /**
      * <code>uint64 partitions_count = 6;</code>
+     * @return The partitionsCount.
      */
+    @java.lang.Override
     public long getPartitionsCount() {
       return partitionsCount_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -832,6 +919,7 @@ public final class YdbQueryStats {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getNameBytes().isEmpty()) {
@@ -852,6 +940,7 @@ public final class YdbQueryStats {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -891,28 +980,27 @@ public final class YdbQueryStats {
       }
       tech.ydb.YdbQueryStats.TableAccessStats other = (tech.ydb.YdbQueryStats.TableAccessStats) obj;
 
-      boolean result = true;
-      result = result && getName()
-          .equals(other.getName());
-      result = result && (hasReads() == other.hasReads());
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (hasReads() != other.hasReads()) return false;
       if (hasReads()) {
-        result = result && getReads()
-            .equals(other.getReads());
+        if (!getReads()
+            .equals(other.getReads())) return false;
       }
-      result = result && (hasUpdates() == other.hasUpdates());
+      if (hasUpdates() != other.hasUpdates()) return false;
       if (hasUpdates()) {
-        result = result && getUpdates()
-            .equals(other.getUpdates());
+        if (!getUpdates()
+            .equals(other.getUpdates())) return false;
       }
-      result = result && (hasDeletes() == other.hasDeletes());
+      if (hasDeletes() != other.hasDeletes()) return false;
       if (hasDeletes()) {
-        result = result && getDeletes()
-            .equals(other.getDeletes());
+        if (!getDeletes()
+            .equals(other.getDeletes())) return false;
       }
-      result = result && (getPartitionsCount()
-          == other.getPartitionsCount());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getPartitionsCount()
+          != other.getPartitionsCount()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1014,6 +1102,7 @@ public final class YdbQueryStats {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1021,6 +1110,7 @@ public final class YdbQueryStats {
     public static Builder newBuilder(tech.ydb.YdbQueryStats.TableAccessStats prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1048,6 +1138,7 @@ public final class YdbQueryStats {
         return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_TableAccessStats_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_TableAccessStats_fieldAccessorTable
@@ -1070,6 +1161,7 @@ public final class YdbQueryStats {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         name_ = "";
@@ -1097,15 +1189,18 @@ public final class YdbQueryStats {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_TableAccessStats_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.YdbQueryStats.TableAccessStats getDefaultInstanceForType() {
         return tech.ydb.YdbQueryStats.TableAccessStats.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.YdbQueryStats.TableAccessStats build() {
         tech.ydb.YdbQueryStats.TableAccessStats result = buildPartial();
         if (!result.isInitialized()) {
@@ -1114,6 +1209,7 @@ public final class YdbQueryStats {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.YdbQueryStats.TableAccessStats buildPartial() {
         tech.ydb.YdbQueryStats.TableAccessStats result = new tech.ydb.YdbQueryStats.TableAccessStats(this);
         result.name_ = name_;
@@ -1137,32 +1233,39 @@ public final class YdbQueryStats {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.YdbQueryStats.TableAccessStats) {
           return mergeFrom((tech.ydb.YdbQueryStats.TableAccessStats)other);
@@ -1195,10 +1298,12 @@ public final class YdbQueryStats {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1220,6 +1325,7 @@ public final class YdbQueryStats {
       private java.lang.Object name_ = "";
       /**
        * <code>string name = 1;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -1235,6 +1341,7 @@ public final class YdbQueryStats {
       }
       /**
        * <code>string name = 1;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -1251,6 +1358,8 @@ public final class YdbQueryStats {
       }
       /**
        * <code>string name = 1;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -1264,6 +1373,7 @@ public final class YdbQueryStats {
       }
       /**
        * <code>string name = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -1273,6 +1383,8 @@ public final class YdbQueryStats {
       }
       /**
        * <code>string name = 1;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -1286,17 +1398,19 @@ public final class YdbQueryStats {
         return this;
       }
 
-      private tech.ydb.YdbQueryStats.OperationStats reads_ = null;
+      private tech.ydb.YdbQueryStats.OperationStats reads_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.YdbQueryStats.OperationStats, tech.ydb.YdbQueryStats.OperationStats.Builder, tech.ydb.YdbQueryStats.OperationStatsOrBuilder> readsBuilder_;
       /**
        * <code>.Ydb.TableStats.OperationStats reads = 3;</code>
+       * @return Whether the reads field is set.
        */
       public boolean hasReads() {
         return readsBuilder_ != null || reads_ != null;
       }
       /**
        * <code>.Ydb.TableStats.OperationStats reads = 3;</code>
+       * @return The reads.
        */
       public tech.ydb.YdbQueryStats.OperationStats getReads() {
         if (readsBuilder_ == null) {
@@ -1403,17 +1517,19 @@ public final class YdbQueryStats {
         return readsBuilder_;
       }
 
-      private tech.ydb.YdbQueryStats.OperationStats updates_ = null;
+      private tech.ydb.YdbQueryStats.OperationStats updates_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.YdbQueryStats.OperationStats, tech.ydb.YdbQueryStats.OperationStats.Builder, tech.ydb.YdbQueryStats.OperationStatsOrBuilder> updatesBuilder_;
       /**
        * <code>.Ydb.TableStats.OperationStats updates = 4;</code>
+       * @return Whether the updates field is set.
        */
       public boolean hasUpdates() {
         return updatesBuilder_ != null || updates_ != null;
       }
       /**
        * <code>.Ydb.TableStats.OperationStats updates = 4;</code>
+       * @return The updates.
        */
       public tech.ydb.YdbQueryStats.OperationStats getUpdates() {
         if (updatesBuilder_ == null) {
@@ -1520,17 +1636,19 @@ public final class YdbQueryStats {
         return updatesBuilder_;
       }
 
-      private tech.ydb.YdbQueryStats.OperationStats deletes_ = null;
+      private tech.ydb.YdbQueryStats.OperationStats deletes_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.YdbQueryStats.OperationStats, tech.ydb.YdbQueryStats.OperationStats.Builder, tech.ydb.YdbQueryStats.OperationStatsOrBuilder> deletesBuilder_;
       /**
        * <code>.Ydb.TableStats.OperationStats deletes = 5;</code>
+       * @return Whether the deletes field is set.
        */
       public boolean hasDeletes() {
         return deletesBuilder_ != null || deletes_ != null;
       }
       /**
        * <code>.Ydb.TableStats.OperationStats deletes = 5;</code>
+       * @return The deletes.
        */
       public tech.ydb.YdbQueryStats.OperationStats getDeletes() {
         if (deletesBuilder_ == null) {
@@ -1640,12 +1758,16 @@ public final class YdbQueryStats {
       private long partitionsCount_ ;
       /**
        * <code>uint64 partitions_count = 6;</code>
+       * @return The partitionsCount.
        */
+      @java.lang.Override
       public long getPartitionsCount() {
         return partitionsCount_;
       }
       /**
        * <code>uint64 partitions_count = 6;</code>
+       * @param value The partitionsCount to set.
+       * @return This builder for chaining.
        */
       public Builder setPartitionsCount(long value) {
         
@@ -1655,6 +1777,7 @@ public final class YdbQueryStats {
       }
       /**
        * <code>uint64 partitions_count = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPartitionsCount() {
         
@@ -1662,11 +1785,13 @@ public final class YdbQueryStats {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1688,11 +1813,12 @@ public final class YdbQueryStats {
 
     private static final com.google.protobuf.Parser<TableAccessStats>
         PARSER = new com.google.protobuf.AbstractParser<TableAccessStats>() {
+      @java.lang.Override
       public TableAccessStats parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TableAccessStats(input, extensionRegistry);
+        return new TableAccessStats(input, extensionRegistry);
       }
     };
 
@@ -1705,6 +1831,7 @@ public final class YdbQueryStats {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.TableAccessStats getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1717,6 +1844,7 @@ public final class YdbQueryStats {
 
     /**
      * <code>uint64 duration_us = 1;</code>
+     * @return The durationUs.
      */
     long getDurationUs();
 
@@ -1746,23 +1874,26 @@ public final class YdbQueryStats {
 
     /**
      * <code>uint64 cpu_time_us = 3;</code>
+     * @return The cpuTimeUs.
      */
     long getCpuTimeUs();
 
     /**
      * <code>uint64 affected_shards = 4;</code>
+     * @return The affectedShards.
      */
     long getAffectedShards();
 
     /**
      * <code>bool literal_phase = 5;</code>
+     * @return The literalPhase.
      */
     boolean getLiteralPhase();
   }
   /**
    * Protobuf type {@code Ydb.TableStats.QueryPhaseStats}
    */
-  public  static final class QueryPhaseStats extends
+  public static final class QueryPhaseStats extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.TableStats.QueryPhaseStats)
       QueryPhaseStatsOrBuilder {
@@ -1772,11 +1903,14 @@ public final class YdbQueryStats {
       super(builder);
     }
     private QueryPhaseStats() {
-      durationUs_ = 0L;
       tableAccess_ = java.util.Collections.emptyList();
-      cpuTimeUs_ = 0L;
-      affectedShards_ = 0L;
-      literalPhase_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new QueryPhaseStats();
     }
 
     @java.lang.Override
@@ -1789,6 +1923,9 @@ public final class YdbQueryStats {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -1800,22 +1937,15 @@ public final class YdbQueryStats {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               durationUs_ = input.readUInt64();
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 tableAccess_ = new java.util.ArrayList<tech.ydb.YdbQueryStats.TableAccessStats>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               tableAccess_.add(
                   input.readMessage(tech.ydb.YdbQueryStats.TableAccessStats.parser(), extensionRegistry));
@@ -1836,6 +1966,13 @@ public final class YdbQueryStats {
               literalPhase_ = input.readBool();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1844,7 +1981,7 @@ public final class YdbQueryStats {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           tableAccess_ = java.util.Collections.unmodifiableList(tableAccess_);
         }
         this.unknownFields = unknownFields.build();
@@ -1856,6 +1993,7 @@ public final class YdbQueryStats {
       return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_QueryPhaseStats_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_QueryPhaseStats_fieldAccessorTable
@@ -1863,12 +2001,13 @@ public final class YdbQueryStats {
               tech.ydb.YdbQueryStats.QueryPhaseStats.class, tech.ydb.YdbQueryStats.QueryPhaseStats.Builder.class);
     }
 
-    private int bitField0_;
     public static final int DURATION_US_FIELD_NUMBER = 1;
     private long durationUs_;
     /**
      * <code>uint64 duration_us = 1;</code>
+     * @return The durationUs.
      */
+    @java.lang.Override
     public long getDurationUs() {
       return durationUs_;
     }
@@ -1878,12 +2017,14 @@ public final class YdbQueryStats {
     /**
      * <code>repeated .Ydb.TableStats.TableAccessStats table_access = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.YdbQueryStats.TableAccessStats> getTableAccessList() {
       return tableAccess_;
     }
     /**
      * <code>repeated .Ydb.TableStats.TableAccessStats table_access = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.YdbQueryStats.TableAccessStatsOrBuilder> 
         getTableAccessOrBuilderList() {
       return tableAccess_;
@@ -1891,18 +2032,21 @@ public final class YdbQueryStats {
     /**
      * <code>repeated .Ydb.TableStats.TableAccessStats table_access = 2;</code>
      */
+    @java.lang.Override
     public int getTableAccessCount() {
       return tableAccess_.size();
     }
     /**
      * <code>repeated .Ydb.TableStats.TableAccessStats table_access = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.TableAccessStats getTableAccess(int index) {
       return tableAccess_.get(index);
     }
     /**
      * <code>repeated .Ydb.TableStats.TableAccessStats table_access = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.TableAccessStatsOrBuilder getTableAccessOrBuilder(
         int index) {
       return tableAccess_.get(index);
@@ -1912,7 +2056,9 @@ public final class YdbQueryStats {
     private long cpuTimeUs_;
     /**
      * <code>uint64 cpu_time_us = 3;</code>
+     * @return The cpuTimeUs.
      */
+    @java.lang.Override
     public long getCpuTimeUs() {
       return cpuTimeUs_;
     }
@@ -1921,7 +2067,9 @@ public final class YdbQueryStats {
     private long affectedShards_;
     /**
      * <code>uint64 affected_shards = 4;</code>
+     * @return The affectedShards.
      */
+    @java.lang.Override
     public long getAffectedShards() {
       return affectedShards_;
     }
@@ -1930,12 +2078,15 @@ public final class YdbQueryStats {
     private boolean literalPhase_;
     /**
      * <code>bool literal_phase = 5;</code>
+     * @return The literalPhase.
      */
+    @java.lang.Override
     public boolean getLiteralPhase() {
       return literalPhase_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1945,6 +2096,7 @@ public final class YdbQueryStats {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (durationUs_ != 0L) {
@@ -1965,6 +2117,7 @@ public final class YdbQueryStats {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2005,19 +2158,18 @@ public final class YdbQueryStats {
       }
       tech.ydb.YdbQueryStats.QueryPhaseStats other = (tech.ydb.YdbQueryStats.QueryPhaseStats) obj;
 
-      boolean result = true;
-      result = result && (getDurationUs()
-          == other.getDurationUs());
-      result = result && getTableAccessList()
-          .equals(other.getTableAccessList());
-      result = result && (getCpuTimeUs()
-          == other.getCpuTimeUs());
-      result = result && (getAffectedShards()
-          == other.getAffectedShards());
-      result = result && (getLiteralPhase()
-          == other.getLiteralPhase());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getDurationUs()
+          != other.getDurationUs()) return false;
+      if (!getTableAccessList()
+          .equals(other.getTableAccessList())) return false;
+      if (getCpuTimeUs()
+          != other.getCpuTimeUs()) return false;
+      if (getAffectedShards()
+          != other.getAffectedShards()) return false;
+      if (getLiteralPhase()
+          != other.getLiteralPhase()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2118,6 +2270,7 @@ public final class YdbQueryStats {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2125,6 +2278,7 @@ public final class YdbQueryStats {
     public static Builder newBuilder(tech.ydb.YdbQueryStats.QueryPhaseStats prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2148,6 +2302,7 @@ public final class YdbQueryStats {
         return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_QueryPhaseStats_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_QueryPhaseStats_fieldAccessorTable
@@ -2171,13 +2326,14 @@ public final class YdbQueryStats {
           getTableAccessFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         durationUs_ = 0L;
 
         if (tableAccessBuilder_ == null) {
           tableAccess_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           tableAccessBuilder_.clear();
         }
@@ -2190,15 +2346,18 @@ public final class YdbQueryStats {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_QueryPhaseStats_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.YdbQueryStats.QueryPhaseStats getDefaultInstanceForType() {
         return tech.ydb.YdbQueryStats.QueryPhaseStats.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.YdbQueryStats.QueryPhaseStats build() {
         tech.ydb.YdbQueryStats.QueryPhaseStats result = buildPartial();
         if (!result.isInitialized()) {
@@ -2207,15 +2366,15 @@ public final class YdbQueryStats {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.YdbQueryStats.QueryPhaseStats buildPartial() {
         tech.ydb.YdbQueryStats.QueryPhaseStats result = new tech.ydb.YdbQueryStats.QueryPhaseStats(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.durationUs_ = durationUs_;
         if (tableAccessBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             tableAccess_ = java.util.Collections.unmodifiableList(tableAccess_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.tableAccess_ = tableAccess_;
         } else {
@@ -2224,37 +2383,43 @@ public final class YdbQueryStats {
         result.cpuTimeUs_ = cpuTimeUs_;
         result.affectedShards_ = affectedShards_;
         result.literalPhase_ = literalPhase_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.YdbQueryStats.QueryPhaseStats) {
           return mergeFrom((tech.ydb.YdbQueryStats.QueryPhaseStats)other);
@@ -2273,7 +2438,7 @@ public final class YdbQueryStats {
           if (!other.tableAccess_.isEmpty()) {
             if (tableAccess_.isEmpty()) {
               tableAccess_ = other.tableAccess_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureTableAccessIsMutable();
               tableAccess_.addAll(other.tableAccess_);
@@ -2286,7 +2451,7 @@ public final class YdbQueryStats {
               tableAccessBuilder_.dispose();
               tableAccessBuilder_ = null;
               tableAccess_ = other.tableAccess_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               tableAccessBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getTableAccessFieldBuilder() : null;
@@ -2309,10 +2474,12 @@ public final class YdbQueryStats {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2335,12 +2502,16 @@ public final class YdbQueryStats {
       private long durationUs_ ;
       /**
        * <code>uint64 duration_us = 1;</code>
+       * @return The durationUs.
        */
+      @java.lang.Override
       public long getDurationUs() {
         return durationUs_;
       }
       /**
        * <code>uint64 duration_us = 1;</code>
+       * @param value The durationUs to set.
+       * @return This builder for chaining.
        */
       public Builder setDurationUs(long value) {
         
@@ -2350,6 +2521,7 @@ public final class YdbQueryStats {
       }
       /**
        * <code>uint64 duration_us = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDurationUs() {
         
@@ -2361,9 +2533,9 @@ public final class YdbQueryStats {
       private java.util.List<tech.ydb.YdbQueryStats.TableAccessStats> tableAccess_ =
         java.util.Collections.emptyList();
       private void ensureTableAccessIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           tableAccess_ = new java.util.ArrayList<tech.ydb.YdbQueryStats.TableAccessStats>(tableAccess_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -2513,7 +2685,7 @@ public final class YdbQueryStats {
       public Builder clearTableAccess() {
         if (tableAccessBuilder_ == null) {
           tableAccess_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           tableAccessBuilder_.clear();
@@ -2590,7 +2762,7 @@ public final class YdbQueryStats {
           tableAccessBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.YdbQueryStats.TableAccessStats, tech.ydb.YdbQueryStats.TableAccessStats.Builder, tech.ydb.YdbQueryStats.TableAccessStatsOrBuilder>(
                   tableAccess_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           tableAccess_ = null;
@@ -2601,12 +2773,16 @@ public final class YdbQueryStats {
       private long cpuTimeUs_ ;
       /**
        * <code>uint64 cpu_time_us = 3;</code>
+       * @return The cpuTimeUs.
        */
+      @java.lang.Override
       public long getCpuTimeUs() {
         return cpuTimeUs_;
       }
       /**
        * <code>uint64 cpu_time_us = 3;</code>
+       * @param value The cpuTimeUs to set.
+       * @return This builder for chaining.
        */
       public Builder setCpuTimeUs(long value) {
         
@@ -2616,6 +2792,7 @@ public final class YdbQueryStats {
       }
       /**
        * <code>uint64 cpu_time_us = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCpuTimeUs() {
         
@@ -2627,12 +2804,16 @@ public final class YdbQueryStats {
       private long affectedShards_ ;
       /**
        * <code>uint64 affected_shards = 4;</code>
+       * @return The affectedShards.
        */
+      @java.lang.Override
       public long getAffectedShards() {
         return affectedShards_;
       }
       /**
        * <code>uint64 affected_shards = 4;</code>
+       * @param value The affectedShards to set.
+       * @return This builder for chaining.
        */
       public Builder setAffectedShards(long value) {
         
@@ -2642,6 +2823,7 @@ public final class YdbQueryStats {
       }
       /**
        * <code>uint64 affected_shards = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearAffectedShards() {
         
@@ -2653,12 +2835,16 @@ public final class YdbQueryStats {
       private boolean literalPhase_ ;
       /**
        * <code>bool literal_phase = 5;</code>
+       * @return The literalPhase.
        */
+      @java.lang.Override
       public boolean getLiteralPhase() {
         return literalPhase_;
       }
       /**
        * <code>bool literal_phase = 5;</code>
+       * @param value The literalPhase to set.
+       * @return This builder for chaining.
        */
       public Builder setLiteralPhase(boolean value) {
         
@@ -2668,6 +2854,7 @@ public final class YdbQueryStats {
       }
       /**
        * <code>bool literal_phase = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearLiteralPhase() {
         
@@ -2675,11 +2862,13 @@ public final class YdbQueryStats {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2701,11 +2890,12 @@ public final class YdbQueryStats {
 
     private static final com.google.protobuf.Parser<QueryPhaseStats>
         PARSER = new com.google.protobuf.AbstractParser<QueryPhaseStats>() {
+      @java.lang.Override
       public QueryPhaseStats parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new QueryPhaseStats(input, extensionRegistry);
+        return new QueryPhaseStats(input, extensionRegistry);
       }
     };
 
@@ -2718,6 +2908,7 @@ public final class YdbQueryStats {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.QueryPhaseStats getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2730,23 +2921,26 @@ public final class YdbQueryStats {
 
     /**
      * <code>bool from_cache = 1;</code>
+     * @return The fromCache.
      */
     boolean getFromCache();
 
     /**
      * <code>uint64 duration_us = 2;</code>
+     * @return The durationUs.
      */
     long getDurationUs();
 
     /**
      * <code>uint64 cpu_time_us = 3;</code>
+     * @return The cpuTimeUs.
      */
     long getCpuTimeUs();
   }
   /**
    * Protobuf type {@code Ydb.TableStats.CompilationStats}
    */
-  public  static final class CompilationStats extends
+  public static final class CompilationStats extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.TableStats.CompilationStats)
       CompilationStatsOrBuilder {
@@ -2756,9 +2950,13 @@ public final class YdbQueryStats {
       super(builder);
     }
     private CompilationStats() {
-      fromCache_ = false;
-      durationUs_ = 0L;
-      cpuTimeUs_ = 0L;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CompilationStats();
     }
 
     @java.lang.Override
@@ -2771,7 +2969,9 @@ public final class YdbQueryStats {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2782,13 +2982,6 @@ public final class YdbQueryStats {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               fromCache_ = input.readBool();
@@ -2802,6 +2995,13 @@ public final class YdbQueryStats {
             case 24: {
 
               cpuTimeUs_ = input.readUInt64();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -2821,6 +3021,7 @@ public final class YdbQueryStats {
       return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_CompilationStats_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_CompilationStats_fieldAccessorTable
@@ -2832,7 +3033,9 @@ public final class YdbQueryStats {
     private boolean fromCache_;
     /**
      * <code>bool from_cache = 1;</code>
+     * @return The fromCache.
      */
+    @java.lang.Override
     public boolean getFromCache() {
       return fromCache_;
     }
@@ -2841,7 +3044,9 @@ public final class YdbQueryStats {
     private long durationUs_;
     /**
      * <code>uint64 duration_us = 2;</code>
+     * @return The durationUs.
      */
+    @java.lang.Override
     public long getDurationUs() {
       return durationUs_;
     }
@@ -2850,12 +3055,15 @@ public final class YdbQueryStats {
     private long cpuTimeUs_;
     /**
      * <code>uint64 cpu_time_us = 3;</code>
+     * @return The cpuTimeUs.
      */
+    @java.lang.Override
     public long getCpuTimeUs() {
       return cpuTimeUs_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2865,6 +3073,7 @@ public final class YdbQueryStats {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (fromCache_ != false) {
@@ -2879,6 +3088,7 @@ public final class YdbQueryStats {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2911,15 +3121,14 @@ public final class YdbQueryStats {
       }
       tech.ydb.YdbQueryStats.CompilationStats other = (tech.ydb.YdbQueryStats.CompilationStats) obj;
 
-      boolean result = true;
-      result = result && (getFromCache()
-          == other.getFromCache());
-      result = result && (getDurationUs()
-          == other.getDurationUs());
-      result = result && (getCpuTimeUs()
-          == other.getCpuTimeUs());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getFromCache()
+          != other.getFromCache()) return false;
+      if (getDurationUs()
+          != other.getDurationUs()) return false;
+      if (getCpuTimeUs()
+          != other.getCpuTimeUs()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3013,6 +3222,7 @@ public final class YdbQueryStats {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3020,6 +3230,7 @@ public final class YdbQueryStats {
     public static Builder newBuilder(tech.ydb.YdbQueryStats.CompilationStats prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3043,6 +3254,7 @@ public final class YdbQueryStats {
         return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_CompilationStats_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_CompilationStats_fieldAccessorTable
@@ -3065,6 +3277,7 @@ public final class YdbQueryStats {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         fromCache_ = false;
@@ -3076,15 +3289,18 @@ public final class YdbQueryStats {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_CompilationStats_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.YdbQueryStats.CompilationStats getDefaultInstanceForType() {
         return tech.ydb.YdbQueryStats.CompilationStats.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.YdbQueryStats.CompilationStats build() {
         tech.ydb.YdbQueryStats.CompilationStats result = buildPartial();
         if (!result.isInitialized()) {
@@ -3093,6 +3309,7 @@ public final class YdbQueryStats {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.YdbQueryStats.CompilationStats buildPartial() {
         tech.ydb.YdbQueryStats.CompilationStats result = new tech.ydb.YdbQueryStats.CompilationStats(this);
         result.fromCache_ = fromCache_;
@@ -3102,32 +3319,39 @@ public final class YdbQueryStats {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.YdbQueryStats.CompilationStats) {
           return mergeFrom((tech.ydb.YdbQueryStats.CompilationStats)other);
@@ -3153,10 +3377,12 @@ public final class YdbQueryStats {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3178,12 +3404,16 @@ public final class YdbQueryStats {
       private boolean fromCache_ ;
       /**
        * <code>bool from_cache = 1;</code>
+       * @return The fromCache.
        */
+      @java.lang.Override
       public boolean getFromCache() {
         return fromCache_;
       }
       /**
        * <code>bool from_cache = 1;</code>
+       * @param value The fromCache to set.
+       * @return This builder for chaining.
        */
       public Builder setFromCache(boolean value) {
         
@@ -3193,6 +3423,7 @@ public final class YdbQueryStats {
       }
       /**
        * <code>bool from_cache = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFromCache() {
         
@@ -3204,12 +3435,16 @@ public final class YdbQueryStats {
       private long durationUs_ ;
       /**
        * <code>uint64 duration_us = 2;</code>
+       * @return The durationUs.
        */
+      @java.lang.Override
       public long getDurationUs() {
         return durationUs_;
       }
       /**
        * <code>uint64 duration_us = 2;</code>
+       * @param value The durationUs to set.
+       * @return This builder for chaining.
        */
       public Builder setDurationUs(long value) {
         
@@ -3219,6 +3454,7 @@ public final class YdbQueryStats {
       }
       /**
        * <code>uint64 duration_us = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDurationUs() {
         
@@ -3230,12 +3466,16 @@ public final class YdbQueryStats {
       private long cpuTimeUs_ ;
       /**
        * <code>uint64 cpu_time_us = 3;</code>
+       * @return The cpuTimeUs.
        */
+      @java.lang.Override
       public long getCpuTimeUs() {
         return cpuTimeUs_;
       }
       /**
        * <code>uint64 cpu_time_us = 3;</code>
+       * @param value The cpuTimeUs to set.
+       * @return This builder for chaining.
        */
       public Builder setCpuTimeUs(long value) {
         
@@ -3245,6 +3485,7 @@ public final class YdbQueryStats {
       }
       /**
        * <code>uint64 cpu_time_us = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCpuTimeUs() {
         
@@ -3252,11 +3493,13 @@ public final class YdbQueryStats {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3278,11 +3521,12 @@ public final class YdbQueryStats {
 
     private static final com.google.protobuf.Parser<CompilationStats>
         PARSER = new com.google.protobuf.AbstractParser<CompilationStats>() {
+      @java.lang.Override
       public CompilationStats parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CompilationStats(input, extensionRegistry);
+        return new CompilationStats(input, extensionRegistry);
       }
     };
 
@@ -3295,6 +3539,7 @@ public final class YdbQueryStats {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.CompilationStats getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3351,10 +3596,12 @@ public final class YdbQueryStats {
 
     /**
      * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+     * @return Whether the compilation field is set.
      */
     boolean hasCompilation();
     /**
      * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+     * @return The compilation.
      */
     tech.ydb.YdbQueryStats.CompilationStats getCompilation();
     /**
@@ -3364,25 +3611,30 @@ public final class YdbQueryStats {
 
     /**
      * <code>uint64 process_cpu_time_us = 3;</code>
+     * @return The processCpuTimeUs.
      */
     long getProcessCpuTimeUs();
 
     /**
      * <code>string query_plan = 4;</code>
+     * @return The queryPlan.
      */
     java.lang.String getQueryPlan();
     /**
      * <code>string query_plan = 4;</code>
+     * @return The bytes for queryPlan.
      */
     com.google.protobuf.ByteString
         getQueryPlanBytes();
 
     /**
      * <code>string query_ast = 5;</code>
+     * @return The queryAst.
      */
     java.lang.String getQueryAst();
     /**
      * <code>string query_ast = 5;</code>
+     * @return The bytes for queryAst.
      */
     com.google.protobuf.ByteString
         getQueryAstBytes();
@@ -3390,7 +3642,7 @@ public final class YdbQueryStats {
   /**
    * Protobuf type {@code Ydb.TableStats.QueryStats}
    */
-  public  static final class QueryStats extends
+  public static final class QueryStats extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.TableStats.QueryStats)
       QueryStatsOrBuilder {
@@ -3401,9 +3653,15 @@ public final class YdbQueryStats {
     }
     private QueryStats() {
       queryPhases_ = java.util.Collections.emptyList();
-      processCpuTimeUs_ = 0L;
       queryPlan_ = "";
       queryAst_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new QueryStats();
     }
 
     @java.lang.Override
@@ -3416,6 +3674,9 @@ public final class YdbQueryStats {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -3427,15 +3688,8 @@ public final class YdbQueryStats {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 queryPhases_ = new java.util.ArrayList<tech.ydb.YdbQueryStats.QueryPhaseStats>();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -3473,6 +3727,13 @@ public final class YdbQueryStats {
               queryAst_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3481,7 +3742,7 @@ public final class YdbQueryStats {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           queryPhases_ = java.util.Collections.unmodifiableList(queryPhases_);
         }
         this.unknownFields = unknownFields.build();
@@ -3493,6 +3754,7 @@ public final class YdbQueryStats {
       return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_QueryStats_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_QueryStats_fieldAccessorTable
@@ -3500,7 +3762,6 @@ public final class YdbQueryStats {
               tech.ydb.YdbQueryStats.QueryStats.class, tech.ydb.YdbQueryStats.QueryStats.Builder.class);
     }
 
-    private int bitField0_;
     public static final int QUERY_PHASES_FIELD_NUMBER = 1;
     private java.util.List<tech.ydb.YdbQueryStats.QueryPhaseStats> queryPhases_;
     /**
@@ -3510,6 +3771,7 @@ public final class YdbQueryStats {
      *
      * <code>repeated .Ydb.TableStats.QueryPhaseStats query_phases = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.YdbQueryStats.QueryPhaseStats> getQueryPhasesList() {
       return queryPhases_;
     }
@@ -3520,6 +3782,7 @@ public final class YdbQueryStats {
      *
      * <code>repeated .Ydb.TableStats.QueryPhaseStats query_phases = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.YdbQueryStats.QueryPhaseStatsOrBuilder> 
         getQueryPhasesOrBuilderList() {
       return queryPhases_;
@@ -3531,6 +3794,7 @@ public final class YdbQueryStats {
      *
      * <code>repeated .Ydb.TableStats.QueryPhaseStats query_phases = 1;</code>
      */
+    @java.lang.Override
     public int getQueryPhasesCount() {
       return queryPhases_.size();
     }
@@ -3541,6 +3805,7 @@ public final class YdbQueryStats {
      *
      * <code>repeated .Ydb.TableStats.QueryPhaseStats query_phases = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.QueryPhaseStats getQueryPhases(int index) {
       return queryPhases_.get(index);
     }
@@ -3551,6 +3816,7 @@ public final class YdbQueryStats {
      *
      * <code>repeated .Ydb.TableStats.QueryPhaseStats query_phases = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.QueryPhaseStatsOrBuilder getQueryPhasesOrBuilder(
         int index) {
       return queryPhases_.get(index);
@@ -3560,19 +3826,24 @@ public final class YdbQueryStats {
     private tech.ydb.YdbQueryStats.CompilationStats compilation_;
     /**
      * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+     * @return Whether the compilation field is set.
      */
+    @java.lang.Override
     public boolean hasCompilation() {
       return compilation_ != null;
     }
     /**
      * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+     * @return The compilation.
      */
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.CompilationStats getCompilation() {
       return compilation_ == null ? tech.ydb.YdbQueryStats.CompilationStats.getDefaultInstance() : compilation_;
     }
     /**
      * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.CompilationStatsOrBuilder getCompilationOrBuilder() {
       return getCompilation();
     }
@@ -3581,7 +3852,9 @@ public final class YdbQueryStats {
     private long processCpuTimeUs_;
     /**
      * <code>uint64 process_cpu_time_us = 3;</code>
+     * @return The processCpuTimeUs.
      */
+    @java.lang.Override
     public long getProcessCpuTimeUs() {
       return processCpuTimeUs_;
     }
@@ -3590,7 +3863,9 @@ public final class YdbQueryStats {
     private volatile java.lang.Object queryPlan_;
     /**
      * <code>string query_plan = 4;</code>
+     * @return The queryPlan.
      */
+    @java.lang.Override
     public java.lang.String getQueryPlan() {
       java.lang.Object ref = queryPlan_;
       if (ref instanceof java.lang.String) {
@@ -3605,7 +3880,9 @@ public final class YdbQueryStats {
     }
     /**
      * <code>string query_plan = 4;</code>
+     * @return The bytes for queryPlan.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getQueryPlanBytes() {
       java.lang.Object ref = queryPlan_;
@@ -3624,7 +3901,9 @@ public final class YdbQueryStats {
     private volatile java.lang.Object queryAst_;
     /**
      * <code>string query_ast = 5;</code>
+     * @return The queryAst.
      */
+    @java.lang.Override
     public java.lang.String getQueryAst() {
       java.lang.Object ref = queryAst_;
       if (ref instanceof java.lang.String) {
@@ -3639,7 +3918,9 @@ public final class YdbQueryStats {
     }
     /**
      * <code>string query_ast = 5;</code>
+     * @return The bytes for queryAst.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getQueryAstBytes() {
       java.lang.Object ref = queryAst_;
@@ -3655,6 +3936,7 @@ public final class YdbQueryStats {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3664,6 +3946,7 @@ public final class YdbQueryStats {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < queryPhases_.size(); i++) {
@@ -3684,6 +3967,7 @@ public final class YdbQueryStats {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3722,22 +4006,21 @@ public final class YdbQueryStats {
       }
       tech.ydb.YdbQueryStats.QueryStats other = (tech.ydb.YdbQueryStats.QueryStats) obj;
 
-      boolean result = true;
-      result = result && getQueryPhasesList()
-          .equals(other.getQueryPhasesList());
-      result = result && (hasCompilation() == other.hasCompilation());
+      if (!getQueryPhasesList()
+          .equals(other.getQueryPhasesList())) return false;
+      if (hasCompilation() != other.hasCompilation()) return false;
       if (hasCompilation()) {
-        result = result && getCompilation()
-            .equals(other.getCompilation());
+        if (!getCompilation()
+            .equals(other.getCompilation())) return false;
       }
-      result = result && (getProcessCpuTimeUs()
-          == other.getProcessCpuTimeUs());
-      result = result && getQueryPlan()
-          .equals(other.getQueryPlan());
-      result = result && getQueryAst()
-          .equals(other.getQueryAst());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getProcessCpuTimeUs()
+          != other.getProcessCpuTimeUs()) return false;
+      if (!getQueryPlan()
+          .equals(other.getQueryPlan())) return false;
+      if (!getQueryAst()
+          .equals(other.getQueryAst())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3837,6 +4120,7 @@ public final class YdbQueryStats {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3844,6 +4128,7 @@ public final class YdbQueryStats {
     public static Builder newBuilder(tech.ydb.YdbQueryStats.QueryStats prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3867,6 +4152,7 @@ public final class YdbQueryStats {
         return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_QueryStats_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_QueryStats_fieldAccessorTable
@@ -3890,6 +4176,7 @@ public final class YdbQueryStats {
           getQueryPhasesFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (queryPhasesBuilder_ == null) {
@@ -3913,15 +4200,18 @@ public final class YdbQueryStats {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.YdbQueryStats.internal_static_Ydb_TableStats_QueryStats_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.YdbQueryStats.QueryStats getDefaultInstanceForType() {
         return tech.ydb.YdbQueryStats.QueryStats.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.YdbQueryStats.QueryStats build() {
         tech.ydb.YdbQueryStats.QueryStats result = buildPartial();
         if (!result.isInitialized()) {
@@ -3930,12 +4220,12 @@ public final class YdbQueryStats {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.YdbQueryStats.QueryStats buildPartial() {
         tech.ydb.YdbQueryStats.QueryStats result = new tech.ydb.YdbQueryStats.QueryStats(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (queryPhasesBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             queryPhases_ = java.util.Collections.unmodifiableList(queryPhases_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -3951,37 +4241,43 @@ public final class YdbQueryStats {
         result.processCpuTimeUs_ = processCpuTimeUs_;
         result.queryPlan_ = queryPlan_;
         result.queryAst_ = queryAst_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.YdbQueryStats.QueryStats) {
           return mergeFrom((tech.ydb.YdbQueryStats.QueryStats)other);
@@ -4038,10 +4334,12 @@ public final class YdbQueryStats {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4064,7 +4362,7 @@ public final class YdbQueryStats {
       private java.util.List<tech.ydb.YdbQueryStats.QueryPhaseStats> queryPhases_ =
         java.util.Collections.emptyList();
       private void ensureQueryPhasesIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           queryPhases_ = new java.util.ArrayList<tech.ydb.YdbQueryStats.QueryPhaseStats>(queryPhases_);
           bitField0_ |= 0x00000001;
          }
@@ -4365,7 +4663,7 @@ public final class YdbQueryStats {
           queryPhasesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.YdbQueryStats.QueryPhaseStats, tech.ydb.YdbQueryStats.QueryPhaseStats.Builder, tech.ydb.YdbQueryStats.QueryPhaseStatsOrBuilder>(
                   queryPhases_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           queryPhases_ = null;
@@ -4373,17 +4671,19 @@ public final class YdbQueryStats {
         return queryPhasesBuilder_;
       }
 
-      private tech.ydb.YdbQueryStats.CompilationStats compilation_ = null;
+      private tech.ydb.YdbQueryStats.CompilationStats compilation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.YdbQueryStats.CompilationStats, tech.ydb.YdbQueryStats.CompilationStats.Builder, tech.ydb.YdbQueryStats.CompilationStatsOrBuilder> compilationBuilder_;
       /**
        * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+       * @return Whether the compilation field is set.
        */
       public boolean hasCompilation() {
         return compilationBuilder_ != null || compilation_ != null;
       }
       /**
        * <code>.Ydb.TableStats.CompilationStats compilation = 2;</code>
+       * @return The compilation.
        */
       public tech.ydb.YdbQueryStats.CompilationStats getCompilation() {
         if (compilationBuilder_ == null) {
@@ -4493,12 +4793,16 @@ public final class YdbQueryStats {
       private long processCpuTimeUs_ ;
       /**
        * <code>uint64 process_cpu_time_us = 3;</code>
+       * @return The processCpuTimeUs.
        */
+      @java.lang.Override
       public long getProcessCpuTimeUs() {
         return processCpuTimeUs_;
       }
       /**
        * <code>uint64 process_cpu_time_us = 3;</code>
+       * @param value The processCpuTimeUs to set.
+       * @return This builder for chaining.
        */
       public Builder setProcessCpuTimeUs(long value) {
         
@@ -4508,6 +4812,7 @@ public final class YdbQueryStats {
       }
       /**
        * <code>uint64 process_cpu_time_us = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearProcessCpuTimeUs() {
         
@@ -4519,6 +4824,7 @@ public final class YdbQueryStats {
       private java.lang.Object queryPlan_ = "";
       /**
        * <code>string query_plan = 4;</code>
+       * @return The queryPlan.
        */
       public java.lang.String getQueryPlan() {
         java.lang.Object ref = queryPlan_;
@@ -4534,6 +4840,7 @@ public final class YdbQueryStats {
       }
       /**
        * <code>string query_plan = 4;</code>
+       * @return The bytes for queryPlan.
        */
       public com.google.protobuf.ByteString
           getQueryPlanBytes() {
@@ -4550,6 +4857,8 @@ public final class YdbQueryStats {
       }
       /**
        * <code>string query_plan = 4;</code>
+       * @param value The queryPlan to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryPlan(
           java.lang.String value) {
@@ -4563,6 +4872,7 @@ public final class YdbQueryStats {
       }
       /**
        * <code>string query_plan = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearQueryPlan() {
         
@@ -4572,6 +4882,8 @@ public final class YdbQueryStats {
       }
       /**
        * <code>string query_plan = 4;</code>
+       * @param value The bytes for queryPlan to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryPlanBytes(
           com.google.protobuf.ByteString value) {
@@ -4588,6 +4900,7 @@ public final class YdbQueryStats {
       private java.lang.Object queryAst_ = "";
       /**
        * <code>string query_ast = 5;</code>
+       * @return The queryAst.
        */
       public java.lang.String getQueryAst() {
         java.lang.Object ref = queryAst_;
@@ -4603,6 +4916,7 @@ public final class YdbQueryStats {
       }
       /**
        * <code>string query_ast = 5;</code>
+       * @return The bytes for queryAst.
        */
       public com.google.protobuf.ByteString
           getQueryAstBytes() {
@@ -4619,6 +4933,8 @@ public final class YdbQueryStats {
       }
       /**
        * <code>string query_ast = 5;</code>
+       * @param value The queryAst to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryAst(
           java.lang.String value) {
@@ -4632,6 +4948,7 @@ public final class YdbQueryStats {
       }
       /**
        * <code>string query_ast = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearQueryAst() {
         
@@ -4641,6 +4958,8 @@ public final class YdbQueryStats {
       }
       /**
        * <code>string query_ast = 5;</code>
+       * @param value The bytes for queryAst to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryAstBytes(
           com.google.protobuf.ByteString value) {
@@ -4653,11 +4972,13 @@ public final class YdbQueryStats {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4679,11 +5000,12 @@ public final class YdbQueryStats {
 
     private static final com.google.protobuf.Parser<QueryStats>
         PARSER = new com.google.protobuf.AbstractParser<QueryStats>() {
+      @java.lang.Override
       public QueryStats parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new QueryStats(input, extensionRegistry);
+        return new QueryStats(input, extensionRegistry);
       }
     };
 
@@ -4696,6 +5018,7 @@ public final class YdbQueryStats {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.QueryStats getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4745,7 +5068,7 @@ public final class YdbQueryStats {
       "ts\022/\n\007deletes\030\005 \001(\0132\036.Ydb.TableStats.Ope" +
       "rationStats\022\030\n\020partitions_count\030\006 \001(\004J\004\010" +
       "\002\020\003\"\243\001\n\017QueryPhaseStats\022\023\n\013duration_us\030\001" +
-      " \001(\004\0226\n\014table_access\030\002 \003(\0132 .Ydb.TableSt",
+      " \001(\004\0226\n\014table_access\030\002 \003(\0132 .Ydb.TableSt" +
       "ats.TableAccessStats\022\023\n\013cpu_time_us\030\003 \001(" +
       "\004\022\027\n\017affected_shards\030\004 \001(\004\022\025\n\rliteral_ph" +
       "ase\030\005 \001(\010\"P\n\020CompilationStats\022\022\n\nfrom_ca" +
@@ -4757,18 +5080,10 @@ public final class YdbQueryStats {
       "\003 \001(\004\022\022\n\nquery_plan\030\004 \001(\t\022\021\n\tquery_ast\030\005" +
       " \001(\tB\023\n\016tech.ydb\370\001\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+        });
     internal_static_Ydb_TableStats_OperationStats_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_TableStats_OperationStats_fieldAccessorTable = new

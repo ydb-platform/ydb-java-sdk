@@ -32,22 +32,14 @@ public final class YqlDbV1 {
       "tics.PingTaskRequest\032\037.Yql.Analytics.Pin" +
       "gTaskResponse\022`\n\017WriteTaskResult\022%.Yql.A" +
       "nalytics.WriteTaskResultRequest\032&.Yql.An" +
-      "alytics.WriteTaskResultResponseB \n\036com.y",
+      "alytics.WriteTaskResultResponseB \n\036com.y" +
       "andex.yql.analytics.db.v1b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.getDescriptor(),
-        }, assigner);
+        });
     com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.getDescriptor();
   }
 

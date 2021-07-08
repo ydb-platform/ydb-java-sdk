@@ -20,15 +20,18 @@ public final class StreamingConfig {
 
     /**
      * <code>bool EnableStreaming = 1;</code>
+     * @return The enableStreaming.
      */
     boolean getEnableStreaming();
 
     /**
      * <code>.NYql.TDqGatewayConfig Dq = 2;</code>
+     * @return Whether the dq field is set.
      */
     boolean hasDq();
     /**
      * <code>.NYql.TDqGatewayConfig Dq = 2;</code>
+     * @return The dq.
      */
     ru.yandex.yql.proto.GatewaysConfig.TDqGatewayConfig getDq();
     /**
@@ -38,10 +41,12 @@ public final class StreamingConfig {
 
     /**
      * <code>.NYql.TPqGatewayConfig Pq = 3;</code>
+     * @return Whether the pq field is set.
      */
     boolean hasPq();
     /**
      * <code>.NYql.TPqGatewayConfig Pq = 3;</code>
+     * @return The pq.
      */
     ru.yandex.yql.proto.GatewaysConfig.TPqGatewayConfig getPq();
     /**
@@ -51,10 +56,12 @@ public final class StreamingConfig {
 
     /**
      * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 4;</code>
+     * @return Whether the storageConfig field is set.
      */
     boolean hasStorageConfig();
     /**
      * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 4;</code>
+     * @return The storageConfig.
      */
     NStreams.NConfig.StorageConfig.TStorageConfig getStorageConfig();
     /**
@@ -64,10 +71,12 @@ public final class StreamingConfig {
 
     /**
      * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 5;</code>
+     * @return Whether the checkpointCoordinator field is set.
      */
     boolean hasCheckpointCoordinator();
     /**
      * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 5;</code>
+     * @return The checkpointCoordinator.
      */
     NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig getCheckpointCoordinator();
     /**
@@ -81,6 +90,7 @@ public final class StreamingConfig {
      * </pre>
      *
      * <code>uint32 ExpectedNodeCount = 6;</code>
+     * @return The expectedNodeCount.
      */
     int getExpectedNodeCount();
 
@@ -90,13 +100,14 @@ public final class StreamingConfig {
      * </pre>
      *
      * <code>uint32 NodeDiscoveryMaxTimeSec = 7;</code>
+     * @return The nodeDiscoveryMaxTimeSec.
      */
     int getNodeDiscoveryMaxTimeSec();
   }
   /**
    * Protobuf type {@code NStreams.NConfig.Config}
    */
-  public  static final class Config extends
+  public static final class Config extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NStreams.NConfig.Config)
       ConfigOrBuilder {
@@ -106,9 +117,13 @@ public final class StreamingConfig {
       super(builder);
     }
     private Config() {
-      enableStreaming_ = false;
-      expectedNodeCount_ = 0;
-      nodeDiscoveryMaxTimeSec_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Config();
     }
 
     @java.lang.Override
@@ -121,7 +136,9 @@ public final class StreamingConfig {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -132,13 +149,6 @@ public final class StreamingConfig {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               enableStreaming_ = input.readBool();
@@ -206,6 +216,13 @@ public final class StreamingConfig {
               nodeDiscoveryMaxTimeSec_ = input.readUInt32();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -223,6 +240,7 @@ public final class StreamingConfig {
       return ru.yandex.kikimr.proto.StreamingConfig.internal_static_NStreams_NConfig_Config_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return ru.yandex.kikimr.proto.StreamingConfig.internal_static_NStreams_NConfig_Config_fieldAccessorTable
@@ -234,7 +252,9 @@ public final class StreamingConfig {
     private boolean enableStreaming_;
     /**
      * <code>bool EnableStreaming = 1;</code>
+     * @return The enableStreaming.
      */
+    @java.lang.Override
     public boolean getEnableStreaming() {
       return enableStreaming_;
     }
@@ -243,19 +263,24 @@ public final class StreamingConfig {
     private ru.yandex.yql.proto.GatewaysConfig.TDqGatewayConfig dq_;
     /**
      * <code>.NYql.TDqGatewayConfig Dq = 2;</code>
+     * @return Whether the dq field is set.
      */
+    @java.lang.Override
     public boolean hasDq() {
       return dq_ != null;
     }
     /**
      * <code>.NYql.TDqGatewayConfig Dq = 2;</code>
+     * @return The dq.
      */
+    @java.lang.Override
     public ru.yandex.yql.proto.GatewaysConfig.TDqGatewayConfig getDq() {
       return dq_ == null ? ru.yandex.yql.proto.GatewaysConfig.TDqGatewayConfig.getDefaultInstance() : dq_;
     }
     /**
      * <code>.NYql.TDqGatewayConfig Dq = 2;</code>
      */
+    @java.lang.Override
     public ru.yandex.yql.proto.GatewaysConfig.TDqGatewayConfigOrBuilder getDqOrBuilder() {
       return getDq();
     }
@@ -264,19 +289,24 @@ public final class StreamingConfig {
     private ru.yandex.yql.proto.GatewaysConfig.TPqGatewayConfig pq_;
     /**
      * <code>.NYql.TPqGatewayConfig Pq = 3;</code>
+     * @return Whether the pq field is set.
      */
+    @java.lang.Override
     public boolean hasPq() {
       return pq_ != null;
     }
     /**
      * <code>.NYql.TPqGatewayConfig Pq = 3;</code>
+     * @return The pq.
      */
+    @java.lang.Override
     public ru.yandex.yql.proto.GatewaysConfig.TPqGatewayConfig getPq() {
       return pq_ == null ? ru.yandex.yql.proto.GatewaysConfig.TPqGatewayConfig.getDefaultInstance() : pq_;
     }
     /**
      * <code>.NYql.TPqGatewayConfig Pq = 3;</code>
      */
+    @java.lang.Override
     public ru.yandex.yql.proto.GatewaysConfig.TPqGatewayConfigOrBuilder getPqOrBuilder() {
       return getPq();
     }
@@ -285,19 +315,24 @@ public final class StreamingConfig {
     private NStreams.NConfig.StorageConfig.TStorageConfig storageConfig_;
     /**
      * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 4;</code>
+     * @return Whether the storageConfig field is set.
      */
+    @java.lang.Override
     public boolean hasStorageConfig() {
       return storageConfig_ != null;
     }
     /**
      * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 4;</code>
+     * @return The storageConfig.
      */
+    @java.lang.Override
     public NStreams.NConfig.StorageConfig.TStorageConfig getStorageConfig() {
       return storageConfig_ == null ? NStreams.NConfig.StorageConfig.TStorageConfig.getDefaultInstance() : storageConfig_;
     }
     /**
      * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 4;</code>
      */
+    @java.lang.Override
     public NStreams.NConfig.StorageConfig.TStorageConfigOrBuilder getStorageConfigOrBuilder() {
       return getStorageConfig();
     }
@@ -306,19 +341,24 @@ public final class StreamingConfig {
     private NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig checkpointCoordinator_;
     /**
      * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 5;</code>
+     * @return Whether the checkpointCoordinator field is set.
      */
+    @java.lang.Override
     public boolean hasCheckpointCoordinator() {
       return checkpointCoordinator_ != null;
     }
     /**
      * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 5;</code>
+     * @return The checkpointCoordinator.
      */
+    @java.lang.Override
     public NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig getCheckpointCoordinator() {
       return checkpointCoordinator_ == null ? NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig.getDefaultInstance() : checkpointCoordinator_;
     }
     /**
      * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 5;</code>
      */
+    @java.lang.Override
     public NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfigOrBuilder getCheckpointCoordinatorOrBuilder() {
       return getCheckpointCoordinator();
     }
@@ -331,7 +371,9 @@ public final class StreamingConfig {
      * </pre>
      *
      * <code>uint32 ExpectedNodeCount = 6;</code>
+     * @return The expectedNodeCount.
      */
+    @java.lang.Override
     public int getExpectedNodeCount() {
       return expectedNodeCount_;
     }
@@ -344,12 +386,15 @@ public final class StreamingConfig {
      * </pre>
      *
      * <code>uint32 NodeDiscoveryMaxTimeSec = 7;</code>
+     * @return The nodeDiscoveryMaxTimeSec.
      */
+    @java.lang.Override
     public int getNodeDiscoveryMaxTimeSec() {
       return nodeDiscoveryMaxTimeSec_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -371,6 +416,7 @@ public final class StreamingConfig {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (enableStreaming_ != false) {
@@ -397,6 +443,7 @@ public final class StreamingConfig {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -445,35 +492,34 @@ public final class StreamingConfig {
       }
       ru.yandex.kikimr.proto.StreamingConfig.Config other = (ru.yandex.kikimr.proto.StreamingConfig.Config) obj;
 
-      boolean result = true;
-      result = result && (getEnableStreaming()
-          == other.getEnableStreaming());
-      result = result && (hasDq() == other.hasDq());
+      if (getEnableStreaming()
+          != other.getEnableStreaming()) return false;
+      if (hasDq() != other.hasDq()) return false;
       if (hasDq()) {
-        result = result && getDq()
-            .equals(other.getDq());
+        if (!getDq()
+            .equals(other.getDq())) return false;
       }
-      result = result && (hasPq() == other.hasPq());
+      if (hasPq() != other.hasPq()) return false;
       if (hasPq()) {
-        result = result && getPq()
-            .equals(other.getPq());
+        if (!getPq()
+            .equals(other.getPq())) return false;
       }
-      result = result && (hasStorageConfig() == other.hasStorageConfig());
+      if (hasStorageConfig() != other.hasStorageConfig()) return false;
       if (hasStorageConfig()) {
-        result = result && getStorageConfig()
-            .equals(other.getStorageConfig());
+        if (!getStorageConfig()
+            .equals(other.getStorageConfig())) return false;
       }
-      result = result && (hasCheckpointCoordinator() == other.hasCheckpointCoordinator());
+      if (hasCheckpointCoordinator() != other.hasCheckpointCoordinator()) return false;
       if (hasCheckpointCoordinator()) {
-        result = result && getCheckpointCoordinator()
-            .equals(other.getCheckpointCoordinator());
+        if (!getCheckpointCoordinator()
+            .equals(other.getCheckpointCoordinator())) return false;
       }
-      result = result && (getExpectedNodeCount()
-          == other.getExpectedNodeCount());
-      result = result && (getNodeDiscoveryMaxTimeSec()
-          == other.getNodeDiscoveryMaxTimeSec());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getExpectedNodeCount()
+          != other.getExpectedNodeCount()) return false;
+      if (getNodeDiscoveryMaxTimeSec()
+          != other.getNodeDiscoveryMaxTimeSec()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -581,6 +627,7 @@ public final class StreamingConfig {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -588,6 +635,7 @@ public final class StreamingConfig {
     public static Builder newBuilder(ru.yandex.kikimr.proto.StreamingConfig.Config prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -611,6 +659,7 @@ public final class StreamingConfig {
         return ru.yandex.kikimr.proto.StreamingConfig.internal_static_NStreams_NConfig_Config_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return ru.yandex.kikimr.proto.StreamingConfig.internal_static_NStreams_NConfig_Config_fieldAccessorTable
@@ -633,6 +682,7 @@ public final class StreamingConfig {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         enableStreaming_ = false;
@@ -668,15 +718,18 @@ public final class StreamingConfig {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return ru.yandex.kikimr.proto.StreamingConfig.internal_static_NStreams_NConfig_Config_descriptor;
       }
 
+      @java.lang.Override
       public ru.yandex.kikimr.proto.StreamingConfig.Config getDefaultInstanceForType() {
         return ru.yandex.kikimr.proto.StreamingConfig.Config.getDefaultInstance();
       }
 
+      @java.lang.Override
       public ru.yandex.kikimr.proto.StreamingConfig.Config build() {
         ru.yandex.kikimr.proto.StreamingConfig.Config result = buildPartial();
         if (!result.isInitialized()) {
@@ -685,6 +738,7 @@ public final class StreamingConfig {
         return result;
       }
 
+      @java.lang.Override
       public ru.yandex.kikimr.proto.StreamingConfig.Config buildPartial() {
         ru.yandex.kikimr.proto.StreamingConfig.Config result = new ru.yandex.kikimr.proto.StreamingConfig.Config(this);
         result.enableStreaming_ = enableStreaming_;
@@ -714,32 +768,39 @@ public final class StreamingConfig {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof ru.yandex.kikimr.proto.StreamingConfig.Config) {
           return mergeFrom((ru.yandex.kikimr.proto.StreamingConfig.Config)other);
@@ -777,6 +838,7 @@ public final class StreamingConfig {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (hasDq()) {
           if (!getDq().isInitialized()) {
@@ -791,6 +853,7 @@ public final class StreamingConfig {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -812,12 +875,16 @@ public final class StreamingConfig {
       private boolean enableStreaming_ ;
       /**
        * <code>bool EnableStreaming = 1;</code>
+       * @return The enableStreaming.
        */
+      @java.lang.Override
       public boolean getEnableStreaming() {
         return enableStreaming_;
       }
       /**
        * <code>bool EnableStreaming = 1;</code>
+       * @param value The enableStreaming to set.
+       * @return This builder for chaining.
        */
       public Builder setEnableStreaming(boolean value) {
         
@@ -827,6 +894,7 @@ public final class StreamingConfig {
       }
       /**
        * <code>bool EnableStreaming = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearEnableStreaming() {
         
@@ -835,17 +903,19 @@ public final class StreamingConfig {
         return this;
       }
 
-      private ru.yandex.yql.proto.GatewaysConfig.TDqGatewayConfig dq_ = null;
+      private ru.yandex.yql.proto.GatewaysConfig.TDqGatewayConfig dq_;
       private com.google.protobuf.SingleFieldBuilderV3<
           ru.yandex.yql.proto.GatewaysConfig.TDqGatewayConfig, ru.yandex.yql.proto.GatewaysConfig.TDqGatewayConfig.Builder, ru.yandex.yql.proto.GatewaysConfig.TDqGatewayConfigOrBuilder> dqBuilder_;
       /**
        * <code>.NYql.TDqGatewayConfig Dq = 2;</code>
+       * @return Whether the dq field is set.
        */
       public boolean hasDq() {
         return dqBuilder_ != null || dq_ != null;
       }
       /**
        * <code>.NYql.TDqGatewayConfig Dq = 2;</code>
+       * @return The dq.
        */
       public ru.yandex.yql.proto.GatewaysConfig.TDqGatewayConfig getDq() {
         if (dqBuilder_ == null) {
@@ -952,17 +1022,19 @@ public final class StreamingConfig {
         return dqBuilder_;
       }
 
-      private ru.yandex.yql.proto.GatewaysConfig.TPqGatewayConfig pq_ = null;
+      private ru.yandex.yql.proto.GatewaysConfig.TPqGatewayConfig pq_;
       private com.google.protobuf.SingleFieldBuilderV3<
           ru.yandex.yql.proto.GatewaysConfig.TPqGatewayConfig, ru.yandex.yql.proto.GatewaysConfig.TPqGatewayConfig.Builder, ru.yandex.yql.proto.GatewaysConfig.TPqGatewayConfigOrBuilder> pqBuilder_;
       /**
        * <code>.NYql.TPqGatewayConfig Pq = 3;</code>
+       * @return Whether the pq field is set.
        */
       public boolean hasPq() {
         return pqBuilder_ != null || pq_ != null;
       }
       /**
        * <code>.NYql.TPqGatewayConfig Pq = 3;</code>
+       * @return The pq.
        */
       public ru.yandex.yql.proto.GatewaysConfig.TPqGatewayConfig getPq() {
         if (pqBuilder_ == null) {
@@ -1069,17 +1141,19 @@ public final class StreamingConfig {
         return pqBuilder_;
       }
 
-      private NStreams.NConfig.StorageConfig.TStorageConfig storageConfig_ = null;
+      private NStreams.NConfig.StorageConfig.TStorageConfig storageConfig_;
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NConfig.StorageConfig.TStorageConfig, NStreams.NConfig.StorageConfig.TStorageConfig.Builder, NStreams.NConfig.StorageConfig.TStorageConfigOrBuilder> storageConfigBuilder_;
       /**
        * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 4;</code>
+       * @return Whether the storageConfig field is set.
        */
       public boolean hasStorageConfig() {
         return storageConfigBuilder_ != null || storageConfig_ != null;
       }
       /**
        * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 4;</code>
+       * @return The storageConfig.
        */
       public NStreams.NConfig.StorageConfig.TStorageConfig getStorageConfig() {
         if (storageConfigBuilder_ == null) {
@@ -1186,17 +1260,19 @@ public final class StreamingConfig {
         return storageConfigBuilder_;
       }
 
-      private NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig checkpointCoordinator_ = null;
+      private NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig checkpointCoordinator_;
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig, NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig.Builder, NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfigOrBuilder> checkpointCoordinatorBuilder_;
       /**
        * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 5;</code>
+       * @return Whether the checkpointCoordinator field is set.
        */
       public boolean hasCheckpointCoordinator() {
         return checkpointCoordinatorBuilder_ != null || checkpointCoordinator_ != null;
       }
       /**
        * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 5;</code>
+       * @return The checkpointCoordinator.
        */
       public NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig getCheckpointCoordinator() {
         if (checkpointCoordinatorBuilder_ == null) {
@@ -1310,7 +1386,9 @@ public final class StreamingConfig {
        * </pre>
        *
        * <code>uint32 ExpectedNodeCount = 6;</code>
+       * @return The expectedNodeCount.
        */
+      @java.lang.Override
       public int getExpectedNodeCount() {
         return expectedNodeCount_;
       }
@@ -1320,6 +1398,8 @@ public final class StreamingConfig {
        * </pre>
        *
        * <code>uint32 ExpectedNodeCount = 6;</code>
+       * @param value The expectedNodeCount to set.
+       * @return This builder for chaining.
        */
       public Builder setExpectedNodeCount(int value) {
         
@@ -1333,6 +1413,7 @@ public final class StreamingConfig {
        * </pre>
        *
        * <code>uint32 ExpectedNodeCount = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearExpectedNodeCount() {
         
@@ -1348,7 +1429,9 @@ public final class StreamingConfig {
        * </pre>
        *
        * <code>uint32 NodeDiscoveryMaxTimeSec = 7;</code>
+       * @return The nodeDiscoveryMaxTimeSec.
        */
+      @java.lang.Override
       public int getNodeDiscoveryMaxTimeSec() {
         return nodeDiscoveryMaxTimeSec_;
       }
@@ -1358,6 +1441,8 @@ public final class StreamingConfig {
        * </pre>
        *
        * <code>uint32 NodeDiscoveryMaxTimeSec = 7;</code>
+       * @param value The nodeDiscoveryMaxTimeSec to set.
+       * @return This builder for chaining.
        */
       public Builder setNodeDiscoveryMaxTimeSec(int value) {
         
@@ -1371,6 +1456,7 @@ public final class StreamingConfig {
        * </pre>
        *
        * <code>uint32 NodeDiscoveryMaxTimeSec = 7;</code>
+       * @return This builder for chaining.
        */
       public Builder clearNodeDiscoveryMaxTimeSec() {
         
@@ -1378,11 +1464,13 @@ public final class StreamingConfig {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1404,11 +1492,12 @@ public final class StreamingConfig {
 
     private static final com.google.protobuf.Parser<Config>
         PARSER = new com.google.protobuf.AbstractParser<Config>() {
+      @java.lang.Override
       public Config parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Config(input, extensionRegistry);
+        return new Config(input, extensionRegistry);
       }
     };
 
@@ -1421,6 +1510,7 @@ public final class StreamingConfig {
       return PARSER;
     }
 
+    @java.lang.Override
     public ru.yandex.kikimr.proto.StreamingConfig.Config getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1450,28 +1540,20 @@ public final class StreamingConfig {
       "g.proto\"\255\002\n\006Config\022\027\n\017EnableStreaming\030\001 " +
       "\001(\010\022\"\n\002Dq\030\002 \001(\0132\026.NYql.TDqGatewayConfig\022" +
       "\"\n\002Pq\030\003 \001(\0132\026.NYql.TPqGatewayConfig\0227\n\rS" +
-      "torageConfig\030\004 \001(\0132 .NStreams.NConfig.TS",
+      "torageConfig\030\004 \001(\0132 .NStreams.NConfig.TS" +
       "torageConfig\022M\n\025CheckpointCoordinator\030\005 " +
       "\001(\0132..NStreams.NConfig.TCheckpointCoordi" +
       "natorConfig\022\031\n\021ExpectedNodeCount\030\006 \001(\r\022\037" +
       "\n\027NodeDiscoveryMaxTimeSec\030\007 \001(\rB\033\n\026ru.ya" +
       "ndex.kikimr.proto\370\001\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           ru.yandex.yql.proto.GatewaysConfig.getDescriptor(),
           NStreams.NConfig.CheckpointingConfig.getDescriptor(),
           NStreams.NConfig.StorageConfig.getDescriptor(),
-        }, assigner);
+        });
     internal_static_NStreams_NConfig_Config_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_NStreams_NConfig_Config_fieldAccessorTable = new

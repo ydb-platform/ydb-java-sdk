@@ -24,6 +24,7 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>string topic = 1;</code>
+     * @return The topic.
      */
     java.lang.String getTopic();
     /**
@@ -32,6 +33,7 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>string topic = 1;</code>
+     * @return The bytes for topic.
      */
     com.google.protobuf.ByteString
         getTopicBytes();
@@ -42,6 +44,7 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>bytes source_id = 2;</code>
+     * @return The sourceId.
      */
     com.google.protobuf.ByteString getSourceId();
 
@@ -51,6 +54,7 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>uint32 partition_group = 3;</code>
+     * @return The partitionGroup.
      */
     int getPartitionGroup();
 
@@ -60,6 +64,7 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>string preferred_cluster_name = 4;</code>
+     * @return The preferredClusterName.
      */
     java.lang.String getPreferredClusterName();
     /**
@@ -68,6 +73,7 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>string preferred_cluster_name = 4;</code>
+     * @return The bytes for preferredClusterName.
      */
     com.google.protobuf.ByteString
         getPreferredClusterNameBytes();
@@ -75,7 +81,7 @@ public final class YdbPersqueueClusterDiscovery {
   /**
    * Protobuf type {@code Ydb.PersQueue.ClusterDiscovery.WriteSessionParams}
    */
-  public  static final class WriteSessionParams extends
+  public static final class WriteSessionParams extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.PersQueue.ClusterDiscovery.WriteSessionParams)
       WriteSessionParamsOrBuilder {
@@ -87,8 +93,14 @@ public final class YdbPersqueueClusterDiscovery {
     private WriteSessionParams() {
       topic_ = "";
       sourceId_ = com.google.protobuf.ByteString.EMPTY;
-      partitionGroup_ = 0;
       preferredClusterName_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new WriteSessionParams();
     }
 
     @java.lang.Override
@@ -101,7 +113,9 @@ public final class YdbPersqueueClusterDiscovery {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -112,13 +126,6 @@ public final class YdbPersqueueClusterDiscovery {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -141,6 +148,13 @@ public final class YdbPersqueueClusterDiscovery {
               preferredClusterName_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -158,6 +172,7 @@ public final class YdbPersqueueClusterDiscovery {
       return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_WriteSessionParams_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_WriteSessionParams_fieldAccessorTable
@@ -173,7 +188,9 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>string topic = 1;</code>
+     * @return The topic.
      */
+    @java.lang.Override
     public java.lang.String getTopic() {
       java.lang.Object ref = topic_;
       if (ref instanceof java.lang.String) {
@@ -192,7 +209,9 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>string topic = 1;</code>
+     * @return The bytes for topic.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTopicBytes() {
       java.lang.Object ref = topic_;
@@ -215,7 +234,9 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>bytes source_id = 2;</code>
+     * @return The sourceId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getSourceId() {
       return sourceId_;
     }
@@ -228,7 +249,9 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>uint32 partition_group = 3;</code>
+     * @return The partitionGroup.
      */
+    @java.lang.Override
     public int getPartitionGroup() {
       return partitionGroup_;
     }
@@ -241,7 +264,9 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>string preferred_cluster_name = 4;</code>
+     * @return The preferredClusterName.
      */
+    @java.lang.Override
     public java.lang.String getPreferredClusterName() {
       java.lang.Object ref = preferredClusterName_;
       if (ref instanceof java.lang.String) {
@@ -260,7 +285,9 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>string preferred_cluster_name = 4;</code>
+     * @return The bytes for preferredClusterName.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPreferredClusterNameBytes() {
       java.lang.Object ref = preferredClusterName_;
@@ -276,6 +303,7 @@ public final class YdbPersqueueClusterDiscovery {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -285,6 +313,7 @@ public final class YdbPersqueueClusterDiscovery {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTopicBytes().isEmpty()) {
@@ -302,6 +331,7 @@ public final class YdbPersqueueClusterDiscovery {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -336,17 +366,16 @@ public final class YdbPersqueueClusterDiscovery {
       }
       tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams other = (tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams) obj;
 
-      boolean result = true;
-      result = result && getTopic()
-          .equals(other.getTopic());
-      result = result && getSourceId()
-          .equals(other.getSourceId());
-      result = result && (getPartitionGroup()
-          == other.getPartitionGroup());
-      result = result && getPreferredClusterName()
-          .equals(other.getPreferredClusterName());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getTopic()
+          .equals(other.getTopic())) return false;
+      if (!getSourceId()
+          .equals(other.getSourceId())) return false;
+      if (getPartitionGroup()
+          != other.getPartitionGroup()) return false;
+      if (!getPreferredClusterName()
+          .equals(other.getPreferredClusterName())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -439,6 +468,7 @@ public final class YdbPersqueueClusterDiscovery {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -446,6 +476,7 @@ public final class YdbPersqueueClusterDiscovery {
     public static Builder newBuilder(tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -469,6 +500,7 @@ public final class YdbPersqueueClusterDiscovery {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_WriteSessionParams_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_WriteSessionParams_fieldAccessorTable
@@ -491,6 +523,7 @@ public final class YdbPersqueueClusterDiscovery {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         topic_ = "";
@@ -504,15 +537,18 @@ public final class YdbPersqueueClusterDiscovery {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_WriteSessionParams_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams getDefaultInstanceForType() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams build() {
         tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams result = buildPartial();
         if (!result.isInitialized()) {
@@ -521,6 +557,7 @@ public final class YdbPersqueueClusterDiscovery {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams buildPartial() {
         tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams result = new tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams(this);
         result.topic_ = topic_;
@@ -531,32 +568,39 @@ public final class YdbPersqueueClusterDiscovery {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams) {
           return mergeFrom((tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams)other);
@@ -587,10 +631,12 @@ public final class YdbPersqueueClusterDiscovery {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -616,6 +662,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string topic = 1;</code>
+       * @return The topic.
        */
       public java.lang.String getTopic() {
         java.lang.Object ref = topic_;
@@ -635,6 +682,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string topic = 1;</code>
+       * @return The bytes for topic.
        */
       public com.google.protobuf.ByteString
           getTopicBytes() {
@@ -655,6 +703,8 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string topic = 1;</code>
+       * @param value The topic to set.
+       * @return This builder for chaining.
        */
       public Builder setTopic(
           java.lang.String value) {
@@ -672,6 +722,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string topic = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTopic() {
         
@@ -685,6 +736,8 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string topic = 1;</code>
+       * @param value The bytes for topic to set.
+       * @return This builder for chaining.
        */
       public Builder setTopicBytes(
           com.google.protobuf.ByteString value) {
@@ -705,7 +758,9 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>bytes source_id = 2;</code>
+       * @return The sourceId.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getSourceId() {
         return sourceId_;
       }
@@ -715,6 +770,8 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>bytes source_id = 2;</code>
+       * @param value The sourceId to set.
+       * @return This builder for chaining.
        */
       public Builder setSourceId(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -731,6 +788,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>bytes source_id = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSourceId() {
         
@@ -746,7 +804,9 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>uint32 partition_group = 3;</code>
+       * @return The partitionGroup.
        */
+      @java.lang.Override
       public int getPartitionGroup() {
         return partitionGroup_;
       }
@@ -756,6 +816,8 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>uint32 partition_group = 3;</code>
+       * @param value The partitionGroup to set.
+       * @return This builder for chaining.
        */
       public Builder setPartitionGroup(int value) {
         
@@ -769,6 +831,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>uint32 partition_group = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPartitionGroup() {
         
@@ -784,6 +847,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string preferred_cluster_name = 4;</code>
+       * @return The preferredClusterName.
        */
       public java.lang.String getPreferredClusterName() {
         java.lang.Object ref = preferredClusterName_;
@@ -803,6 +867,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string preferred_cluster_name = 4;</code>
+       * @return The bytes for preferredClusterName.
        */
       public com.google.protobuf.ByteString
           getPreferredClusterNameBytes() {
@@ -823,6 +888,8 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string preferred_cluster_name = 4;</code>
+       * @param value The preferredClusterName to set.
+       * @return This builder for chaining.
        */
       public Builder setPreferredClusterName(
           java.lang.String value) {
@@ -840,6 +907,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string preferred_cluster_name = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPreferredClusterName() {
         
@@ -853,6 +921,8 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string preferred_cluster_name = 4;</code>
+       * @param value The bytes for preferredClusterName to set.
+       * @return This builder for chaining.
        */
       public Builder setPreferredClusterNameBytes(
           com.google.protobuf.ByteString value) {
@@ -865,11 +935,13 @@ public final class YdbPersqueueClusterDiscovery {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -891,11 +963,12 @@ public final class YdbPersqueueClusterDiscovery {
 
     private static final com.google.protobuf.Parser<WriteSessionParams>
         PARSER = new com.google.protobuf.AbstractParser<WriteSessionParams>() {
+      @java.lang.Override
       public WriteSessionParams parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new WriteSessionParams(input, extensionRegistry);
+        return new WriteSessionParams(input, extensionRegistry);
       }
     };
 
@@ -908,6 +981,7 @@ public final class YdbPersqueueClusterDiscovery {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -924,6 +998,7 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>string endpoint = 1;</code>
+     * @return The endpoint.
      */
     java.lang.String getEndpoint();
     /**
@@ -932,6 +1007,7 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>string endpoint = 1;</code>
+     * @return The bytes for endpoint.
      */
     com.google.protobuf.ByteString
         getEndpointBytes();
@@ -942,6 +1018,7 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
@@ -950,6 +1027,7 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -960,13 +1038,14 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>bool available = 3;</code>
+     * @return The available.
      */
     boolean getAvailable();
   }
   /**
    * Protobuf type {@code Ydb.PersQueue.ClusterDiscovery.ClusterInfo}
    */
-  public  static final class ClusterInfo extends
+  public static final class ClusterInfo extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.PersQueue.ClusterDiscovery.ClusterInfo)
       ClusterInfoOrBuilder {
@@ -978,7 +1057,13 @@ public final class YdbPersqueueClusterDiscovery {
     private ClusterInfo() {
       endpoint_ = "";
       name_ = "";
-      available_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ClusterInfo();
     }
 
     @java.lang.Override
@@ -991,7 +1076,9 @@ public final class YdbPersqueueClusterDiscovery {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1002,13 +1089,6 @@ public final class YdbPersqueueClusterDiscovery {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -1024,6 +1104,13 @@ public final class YdbPersqueueClusterDiscovery {
             case 24: {
 
               available_ = input.readBool();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -1043,6 +1130,7 @@ public final class YdbPersqueueClusterDiscovery {
       return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_ClusterInfo_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_ClusterInfo_fieldAccessorTable
@@ -1058,7 +1146,9 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>string endpoint = 1;</code>
+     * @return The endpoint.
      */
+    @java.lang.Override
     public java.lang.String getEndpoint() {
       java.lang.Object ref = endpoint_;
       if (ref instanceof java.lang.String) {
@@ -1077,7 +1167,9 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>string endpoint = 1;</code>
+     * @return The bytes for endpoint.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getEndpointBytes() {
       java.lang.Object ref = endpoint_;
@@ -1100,7 +1192,9 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -1119,7 +1213,9 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -1142,12 +1238,15 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>bool available = 3;</code>
+     * @return The available.
      */
+    @java.lang.Override
     public boolean getAvailable() {
       return available_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1157,6 +1256,7 @@ public final class YdbPersqueueClusterDiscovery {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getEndpointBytes().isEmpty()) {
@@ -1171,6 +1271,7 @@ public final class YdbPersqueueClusterDiscovery {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1201,15 +1302,14 @@ public final class YdbPersqueueClusterDiscovery {
       }
       tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo other = (tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo) obj;
 
-      boolean result = true;
-      result = result && getEndpoint()
-          .equals(other.getEndpoint());
-      result = result && getName()
-          .equals(other.getName());
-      result = result && (getAvailable()
-          == other.getAvailable());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getEndpoint()
+          .equals(other.getEndpoint())) return false;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (getAvailable()
+          != other.getAvailable()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1301,6 +1401,7 @@ public final class YdbPersqueueClusterDiscovery {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1308,6 +1409,7 @@ public final class YdbPersqueueClusterDiscovery {
     public static Builder newBuilder(tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1331,6 +1433,7 @@ public final class YdbPersqueueClusterDiscovery {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_ClusterInfo_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_ClusterInfo_fieldAccessorTable
@@ -1353,6 +1456,7 @@ public final class YdbPersqueueClusterDiscovery {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         endpoint_ = "";
@@ -1364,15 +1468,18 @@ public final class YdbPersqueueClusterDiscovery {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_ClusterInfo_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo getDefaultInstanceForType() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo build() {
         tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo result = buildPartial();
         if (!result.isInitialized()) {
@@ -1381,6 +1488,7 @@ public final class YdbPersqueueClusterDiscovery {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo buildPartial() {
         tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo result = new tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo(this);
         result.endpoint_ = endpoint_;
@@ -1390,32 +1498,39 @@ public final class YdbPersqueueClusterDiscovery {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo) {
           return mergeFrom((tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo)other);
@@ -1443,10 +1558,12 @@ public final class YdbPersqueueClusterDiscovery {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1472,6 +1589,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string endpoint = 1;</code>
+       * @return The endpoint.
        */
       public java.lang.String getEndpoint() {
         java.lang.Object ref = endpoint_;
@@ -1491,6 +1609,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string endpoint = 1;</code>
+       * @return The bytes for endpoint.
        */
       public com.google.protobuf.ByteString
           getEndpointBytes() {
@@ -1511,6 +1630,8 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string endpoint = 1;</code>
+       * @param value The endpoint to set.
+       * @return This builder for chaining.
        */
       public Builder setEndpoint(
           java.lang.String value) {
@@ -1528,6 +1649,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string endpoint = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearEndpoint() {
         
@@ -1541,6 +1663,8 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string endpoint = 1;</code>
+       * @param value The bytes for endpoint to set.
+       * @return This builder for chaining.
        */
       public Builder setEndpointBytes(
           com.google.protobuf.ByteString value) {
@@ -1561,6 +1685,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -1580,6 +1705,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -1600,6 +1726,8 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -1617,6 +1745,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -1630,6 +1759,8 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -1650,7 +1781,9 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>bool available = 3;</code>
+       * @return The available.
        */
+      @java.lang.Override
       public boolean getAvailable() {
         return available_;
       }
@@ -1660,6 +1793,8 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>bool available = 3;</code>
+       * @param value The available to set.
+       * @return This builder for chaining.
        */
       public Builder setAvailable(boolean value) {
         
@@ -1673,6 +1808,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>bool available = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearAvailable() {
         
@@ -1680,11 +1816,13 @@ public final class YdbPersqueueClusterDiscovery {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1706,11 +1844,12 @@ public final class YdbPersqueueClusterDiscovery {
 
     private static final com.google.protobuf.Parser<ClusterInfo>
         PARSER = new com.google.protobuf.AbstractParser<ClusterInfo>() {
+      @java.lang.Override
       public ClusterInfo parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ClusterInfo(input, extensionRegistry);
+        return new ClusterInfo(input, extensionRegistry);
       }
     };
 
@@ -1723,6 +1862,7 @@ public final class YdbPersqueueClusterDiscovery {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1739,6 +1879,7 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>string topic = 1;</code>
+     * @return The topic.
      */
     java.lang.String getTopic();
     /**
@@ -1747,26 +1888,36 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>string topic = 1;</code>
+     * @return The bytes for topic.
      */
     com.google.protobuf.ByteString
         getTopicBytes();
 
     /**
      * <code>string mirror_to_cluster = 2;</code>
+     * @return Whether the mirrorToCluster field is set.
+     */
+    boolean hasMirrorToCluster();
+    /**
+     * <code>string mirror_to_cluster = 2;</code>
+     * @return The mirrorToCluster.
      */
     java.lang.String getMirrorToCluster();
     /**
      * <code>string mirror_to_cluster = 2;</code>
+     * @return The bytes for mirrorToCluster.
      */
     com.google.protobuf.ByteString
         getMirrorToClusterBytes();
 
     /**
      * <code>.google.protobuf.Empty all_original = 3;</code>
+     * @return Whether the allOriginal field is set.
      */
     boolean hasAllOriginal();
     /**
      * <code>.google.protobuf.Empty all_original = 3;</code>
+     * @return The allOriginal.
      */
     com.google.protobuf.Empty getAllOriginal();
     /**
@@ -1779,7 +1930,7 @@ public final class YdbPersqueueClusterDiscovery {
   /**
    * Protobuf type {@code Ydb.PersQueue.ClusterDiscovery.ReadSessionParams}
    */
-  public  static final class ReadSessionParams extends
+  public static final class ReadSessionParams extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.PersQueue.ClusterDiscovery.ReadSessionParams)
       ReadSessionParamsOrBuilder {
@@ -1793,6 +1944,13 @@ public final class YdbPersqueueClusterDiscovery {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ReadSessionParams();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -1802,7 +1960,9 @@ public final class YdbPersqueueClusterDiscovery {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1813,13 +1973,6 @@ public final class YdbPersqueueClusterDiscovery {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -1846,6 +1999,13 @@ public final class YdbPersqueueClusterDiscovery {
               readRuleCase_ = 3;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1863,6 +2023,7 @@ public final class YdbPersqueueClusterDiscovery {
       return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_ReadSessionParams_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_ReadSessionParams_fieldAccessorTable
@@ -1873,7 +2034,8 @@ public final class YdbPersqueueClusterDiscovery {
     private int readRuleCase_ = 0;
     private java.lang.Object readRule_;
     public enum ReadRuleCase
-        implements com.google.protobuf.Internal.EnumLite {
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       MIRROR_TO_CLUSTER(2),
       ALL_ORIGINAL(3),
       READRULE_NOT_SET(0);
@@ -1882,6 +2044,8 @@ public final class YdbPersqueueClusterDiscovery {
         this.value = value;
       }
       /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -1916,7 +2080,9 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>string topic = 1;</code>
+     * @return The topic.
      */
+    @java.lang.Override
     public java.lang.String getTopic() {
       java.lang.Object ref = topic_;
       if (ref instanceof java.lang.String) {
@@ -1935,7 +2101,9 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>string topic = 1;</code>
+     * @return The bytes for topic.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTopicBytes() {
       java.lang.Object ref = topic_;
@@ -1953,6 +2121,14 @@ public final class YdbPersqueueClusterDiscovery {
     public static final int MIRROR_TO_CLUSTER_FIELD_NUMBER = 2;
     /**
      * <code>string mirror_to_cluster = 2;</code>
+     * @return Whether the mirrorToCluster field is set.
+     */
+    public boolean hasMirrorToCluster() {
+      return readRuleCase_ == 2;
+    }
+    /**
+     * <code>string mirror_to_cluster = 2;</code>
+     * @return The mirrorToCluster.
      */
     public java.lang.String getMirrorToCluster() {
       java.lang.Object ref = "";
@@ -1973,6 +2149,7 @@ public final class YdbPersqueueClusterDiscovery {
     }
     /**
      * <code>string mirror_to_cluster = 2;</code>
+     * @return The bytes for mirrorToCluster.
      */
     public com.google.protobuf.ByteString
         getMirrorToClusterBytes() {
@@ -1996,13 +2173,17 @@ public final class YdbPersqueueClusterDiscovery {
     public static final int ALL_ORIGINAL_FIELD_NUMBER = 3;
     /**
      * <code>.google.protobuf.Empty all_original = 3;</code>
+     * @return Whether the allOriginal field is set.
      */
+    @java.lang.Override
     public boolean hasAllOriginal() {
       return readRuleCase_ == 3;
     }
     /**
      * <code>.google.protobuf.Empty all_original = 3;</code>
+     * @return The allOriginal.
      */
+    @java.lang.Override
     public com.google.protobuf.Empty getAllOriginal() {
       if (readRuleCase_ == 3) {
          return (com.google.protobuf.Empty) readRule_;
@@ -2012,6 +2193,7 @@ public final class YdbPersqueueClusterDiscovery {
     /**
      * <code>.google.protobuf.Empty all_original = 3;</code>
      */
+    @java.lang.Override
     public com.google.protobuf.EmptyOrBuilder getAllOriginalOrBuilder() {
       if (readRuleCase_ == 3) {
          return (com.google.protobuf.Empty) readRule_;
@@ -2020,6 +2202,7 @@ public final class YdbPersqueueClusterDiscovery {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2029,6 +2212,7 @@ public final class YdbPersqueueClusterDiscovery {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTopicBytes().isEmpty()) {
@@ -2043,6 +2227,7 @@ public final class YdbPersqueueClusterDiscovery {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2073,26 +2258,23 @@ public final class YdbPersqueueClusterDiscovery {
       }
       tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams other = (tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams) obj;
 
-      boolean result = true;
-      result = result && getTopic()
-          .equals(other.getTopic());
-      result = result && getReadRuleCase().equals(
-          other.getReadRuleCase());
-      if (!result) return false;
+      if (!getTopic()
+          .equals(other.getTopic())) return false;
+      if (!getReadRuleCase().equals(other.getReadRuleCase())) return false;
       switch (readRuleCase_) {
         case 2:
-          result = result && getMirrorToCluster()
-              .equals(other.getMirrorToCluster());
+          if (!getMirrorToCluster()
+              .equals(other.getMirrorToCluster())) return false;
           break;
         case 3:
-          result = result && getAllOriginal()
-              .equals(other.getAllOriginal());
+          if (!getAllOriginal()
+              .equals(other.getAllOriginal())) return false;
           break;
         case 0:
         default:
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2191,6 +2373,7 @@ public final class YdbPersqueueClusterDiscovery {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2198,6 +2381,7 @@ public final class YdbPersqueueClusterDiscovery {
     public static Builder newBuilder(tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2221,6 +2405,7 @@ public final class YdbPersqueueClusterDiscovery {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_ReadSessionParams_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_ReadSessionParams_fieldAccessorTable
@@ -2243,6 +2428,7 @@ public final class YdbPersqueueClusterDiscovery {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         topic_ = "";
@@ -2252,15 +2438,18 @@ public final class YdbPersqueueClusterDiscovery {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_ReadSessionParams_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams getDefaultInstanceForType() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams build() {
         tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams result = buildPartial();
         if (!result.isInitialized()) {
@@ -2269,6 +2458,7 @@ public final class YdbPersqueueClusterDiscovery {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams buildPartial() {
         tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams result = new tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams(this);
         result.topic_ = topic_;
@@ -2287,32 +2477,39 @@ public final class YdbPersqueueClusterDiscovery {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams) {
           return mergeFrom((tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams)other);
@@ -2348,10 +2545,12 @@ public final class YdbPersqueueClusterDiscovery {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2392,6 +2591,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string topic = 1;</code>
+       * @return The topic.
        */
       public java.lang.String getTopic() {
         java.lang.Object ref = topic_;
@@ -2411,6 +2611,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string topic = 1;</code>
+       * @return The bytes for topic.
        */
       public com.google.protobuf.ByteString
           getTopicBytes() {
@@ -2431,6 +2632,8 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string topic = 1;</code>
+       * @param value The topic to set.
+       * @return This builder for chaining.
        */
       public Builder setTopic(
           java.lang.String value) {
@@ -2448,6 +2651,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string topic = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTopic() {
         
@@ -2461,6 +2665,8 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>string topic = 1;</code>
+       * @param value The bytes for topic to set.
+       * @return This builder for chaining.
        */
       public Builder setTopicBytes(
           com.google.protobuf.ByteString value) {
@@ -2476,7 +2682,17 @@ public final class YdbPersqueueClusterDiscovery {
 
       /**
        * <code>string mirror_to_cluster = 2;</code>
+       * @return Whether the mirrorToCluster field is set.
        */
+      @java.lang.Override
+      public boolean hasMirrorToCluster() {
+        return readRuleCase_ == 2;
+      }
+      /**
+       * <code>string mirror_to_cluster = 2;</code>
+       * @return The mirrorToCluster.
+       */
+      @java.lang.Override
       public java.lang.String getMirrorToCluster() {
         java.lang.Object ref = "";
         if (readRuleCase_ == 2) {
@@ -2496,7 +2712,9 @@ public final class YdbPersqueueClusterDiscovery {
       }
       /**
        * <code>string mirror_to_cluster = 2;</code>
+       * @return The bytes for mirrorToCluster.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getMirrorToClusterBytes() {
         java.lang.Object ref = "";
@@ -2517,6 +2735,8 @@ public final class YdbPersqueueClusterDiscovery {
       }
       /**
        * <code>string mirror_to_cluster = 2;</code>
+       * @param value The mirrorToCluster to set.
+       * @return This builder for chaining.
        */
       public Builder setMirrorToCluster(
           java.lang.String value) {
@@ -2530,6 +2750,7 @@ public final class YdbPersqueueClusterDiscovery {
       }
       /**
        * <code>string mirror_to_cluster = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMirrorToCluster() {
         if (readRuleCase_ == 2) {
@@ -2541,6 +2762,8 @@ public final class YdbPersqueueClusterDiscovery {
       }
       /**
        * <code>string mirror_to_cluster = 2;</code>
+       * @param value The bytes for mirrorToCluster to set.
+       * @return This builder for chaining.
        */
       public Builder setMirrorToClusterBytes(
           com.google.protobuf.ByteString value) {
@@ -2558,13 +2781,17 @@ public final class YdbPersqueueClusterDiscovery {
           com.google.protobuf.Empty, com.google.protobuf.Empty.Builder, com.google.protobuf.EmptyOrBuilder> allOriginalBuilder_;
       /**
        * <code>.google.protobuf.Empty all_original = 3;</code>
+       * @return Whether the allOriginal field is set.
        */
+      @java.lang.Override
       public boolean hasAllOriginal() {
         return readRuleCase_ == 3;
       }
       /**
        * <code>.google.protobuf.Empty all_original = 3;</code>
+       * @return The allOriginal.
        */
+      @java.lang.Override
       public com.google.protobuf.Empty getAllOriginal() {
         if (allOriginalBuilder_ == null) {
           if (readRuleCase_ == 3) {
@@ -2658,6 +2885,7 @@ public final class YdbPersqueueClusterDiscovery {
       /**
        * <code>.google.protobuf.Empty all_original = 3;</code>
        */
+      @java.lang.Override
       public com.google.protobuf.EmptyOrBuilder getAllOriginalOrBuilder() {
         if ((readRuleCase_ == 3) && (allOriginalBuilder_ != null)) {
           return allOriginalBuilder_.getMessageOrBuilder();
@@ -2689,11 +2917,13 @@ public final class YdbPersqueueClusterDiscovery {
         onChanged();;
         return allOriginalBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2715,11 +2945,12 @@ public final class YdbPersqueueClusterDiscovery {
 
     private static final com.google.protobuf.Parser<ReadSessionParams>
         PARSER = new com.google.protobuf.AbstractParser<ReadSessionParams>() {
+      @java.lang.Override
       public ReadSessionParams parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ReadSessionParams(input, extensionRegistry);
+        return new ReadSessionParams(input, extensionRegistry);
       }
     };
 
@@ -2732,6 +2963,7 @@ public final class YdbPersqueueClusterDiscovery {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2792,6 +3024,7 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason primary_cluster_selection_reason = 2;</code>
+     * @return The enum numeric value on the wire for primaryClusterSelectionReason.
      */
     int getPrimaryClusterSelectionReasonValue();
     /**
@@ -2800,13 +3033,14 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason primary_cluster_selection_reason = 2;</code>
+     * @return The primaryClusterSelectionReason.
      */
     tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason getPrimaryClusterSelectionReason();
   }
   /**
    * Protobuf type {@code Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters}
    */
-  public  static final class WriteSessionClusters extends
+  public static final class WriteSessionClusters extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters)
       WriteSessionClustersOrBuilder {
@@ -2821,6 +3055,13 @@ public final class YdbPersqueueClusterDiscovery {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new WriteSessionClusters();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2830,6 +3071,9 @@ public final class YdbPersqueueClusterDiscovery {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -2841,15 +3085,8 @@ public final class YdbPersqueueClusterDiscovery {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 clusters_ = new java.util.ArrayList<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo>();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -2863,6 +3100,13 @@ public final class YdbPersqueueClusterDiscovery {
               primaryClusterSelectionReason_ = rawValue;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2871,7 +3115,7 @@ public final class YdbPersqueueClusterDiscovery {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           clusters_ = java.util.Collections.unmodifiableList(clusters_);
         }
         this.unknownFields = unknownFields.build();
@@ -2883,6 +3127,7 @@ public final class YdbPersqueueClusterDiscovery {
       return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_WriteSessionClusters_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_WriteSessionClusters_fieldAccessorTable
@@ -2941,6 +3186,8 @@ public final class YdbPersqueueClusterDiscovery {
       }
 
       /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -2948,6 +3195,10 @@ public final class YdbPersqueueClusterDiscovery {
         return forNumber(value);
       }
 
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
       public static SelectionReason forNumber(int value) {
         switch (value) {
           case 0: return SELECTION_REASON_UNSPECIFIED;
@@ -2972,6 +3223,10 @@ public final class YdbPersqueueClusterDiscovery {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -3006,7 +3261,6 @@ public final class YdbPersqueueClusterDiscovery {
       // @@protoc_insertion_point(enum_scope:Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason)
     }
 
-    private int bitField0_;
     public static final int CLUSTERS_FIELD_NUMBER = 1;
     private java.util.List<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo> clusters_;
     /**
@@ -3016,6 +3270,7 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.ClusterInfo clusters = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo> getClustersList() {
       return clusters_;
     }
@@ -3026,6 +3281,7 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.ClusterInfo clusters = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfoOrBuilder> 
         getClustersOrBuilderList() {
       return clusters_;
@@ -3037,6 +3293,7 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.ClusterInfo clusters = 1;</code>
      */
+    @java.lang.Override
     public int getClustersCount() {
       return clusters_.size();
     }
@@ -3047,6 +3304,7 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.ClusterInfo clusters = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo getClusters(int index) {
       return clusters_.get(index);
     }
@@ -3057,6 +3315,7 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.ClusterInfo clusters = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfoOrBuilder getClustersOrBuilder(
         int index) {
       return clusters_.get(index);
@@ -3070,8 +3329,9 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason primary_cluster_selection_reason = 2;</code>
+     * @return The enum numeric value on the wire for primaryClusterSelectionReason.
      */
-    public int getPrimaryClusterSelectionReasonValue() {
+    @java.lang.Override public int getPrimaryClusterSelectionReasonValue() {
       return primaryClusterSelectionReason_;
     }
     /**
@@ -3080,13 +3340,16 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason primary_cluster_selection_reason = 2;</code>
+     * @return The primaryClusterSelectionReason.
      */
-    public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason getPrimaryClusterSelectionReason() {
+    @java.lang.Override public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason getPrimaryClusterSelectionReason() {
+      @SuppressWarnings("deprecation")
       tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason result = tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason.valueOf(primaryClusterSelectionReason_);
       return result == null ? tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3096,6 +3359,7 @@ public final class YdbPersqueueClusterDiscovery {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < clusters_.size(); i++) {
@@ -3107,6 +3371,7 @@ public final class YdbPersqueueClusterDiscovery {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3135,12 +3400,11 @@ public final class YdbPersqueueClusterDiscovery {
       }
       tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters other = (tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters) obj;
 
-      boolean result = true;
-      result = result && getClustersList()
-          .equals(other.getClustersList());
-      result = result && primaryClusterSelectionReason_ == other.primaryClusterSelectionReason_;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getClustersList()
+          .equals(other.getClustersList())) return false;
+      if (primaryClusterSelectionReason_ != other.primaryClusterSelectionReason_) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3231,6 +3495,7 @@ public final class YdbPersqueueClusterDiscovery {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3238,6 +3503,7 @@ public final class YdbPersqueueClusterDiscovery {
     public static Builder newBuilder(tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3261,6 +3527,7 @@ public final class YdbPersqueueClusterDiscovery {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_WriteSessionClusters_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_WriteSessionClusters_fieldAccessorTable
@@ -3284,6 +3551,7 @@ public final class YdbPersqueueClusterDiscovery {
           getClustersFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (clustersBuilder_ == null) {
@@ -3297,15 +3565,18 @@ public final class YdbPersqueueClusterDiscovery {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_WriteSessionClusters_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters getDefaultInstanceForType() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters build() {
         tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters result = buildPartial();
         if (!result.isInitialized()) {
@@ -3314,12 +3585,12 @@ public final class YdbPersqueueClusterDiscovery {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters buildPartial() {
         tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters result = new tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (clustersBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             clusters_ = java.util.Collections.unmodifiableList(clusters_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -3328,37 +3599,43 @@ public final class YdbPersqueueClusterDiscovery {
           result.clusters_ = clustersBuilder_.build();
         }
         result.primaryClusterSelectionReason_ = primaryClusterSelectionReason_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters) {
           return mergeFrom((tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters)other);
@@ -3404,10 +3681,12 @@ public final class YdbPersqueueClusterDiscovery {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3430,7 +3709,7 @@ public final class YdbPersqueueClusterDiscovery {
       private java.util.List<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo> clusters_ =
         java.util.Collections.emptyList();
       private void ensureClustersIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           clusters_ = new java.util.ArrayList<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo>(clusters_);
           bitField0_ |= 0x00000001;
          }
@@ -3731,7 +4010,7 @@ public final class YdbPersqueueClusterDiscovery {
           clustersBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo, tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo.Builder, tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfoOrBuilder>(
                   clusters_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           clusters_ = null;
@@ -3746,8 +4025,9 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason primary_cluster_selection_reason = 2;</code>
+       * @return The enum numeric value on the wire for primaryClusterSelectionReason.
        */
-      public int getPrimaryClusterSelectionReasonValue() {
+      @java.lang.Override public int getPrimaryClusterSelectionReasonValue() {
         return primaryClusterSelectionReason_;
       }
       /**
@@ -3756,8 +4036,11 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason primary_cluster_selection_reason = 2;</code>
+       * @param value The enum numeric value on the wire for primaryClusterSelectionReason to set.
+       * @return This builder for chaining.
        */
       public Builder setPrimaryClusterSelectionReasonValue(int value) {
+        
         primaryClusterSelectionReason_ = value;
         onChanged();
         return this;
@@ -3768,8 +4051,11 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason primary_cluster_selection_reason = 2;</code>
+       * @return The primaryClusterSelectionReason.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason getPrimaryClusterSelectionReason() {
+        @SuppressWarnings("deprecation")
         tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason result = tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason.valueOf(primaryClusterSelectionReason_);
         return result == null ? tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason.UNRECOGNIZED : result;
       }
@@ -3779,6 +4065,8 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason primary_cluster_selection_reason = 2;</code>
+       * @param value The primaryClusterSelectionReason to set.
+       * @return This builder for chaining.
        */
       public Builder setPrimaryClusterSelectionReason(tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.SelectionReason value) {
         if (value == null) {
@@ -3795,6 +4083,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>.Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters.SelectionReason primary_cluster_selection_reason = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPrimaryClusterSelectionReason() {
         
@@ -3802,11 +4091,13 @@ public final class YdbPersqueueClusterDiscovery {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3828,11 +4119,12 @@ public final class YdbPersqueueClusterDiscovery {
 
     private static final com.google.protobuf.Parser<WriteSessionClusters>
         PARSER = new com.google.protobuf.AbstractParser<WriteSessionClusters>() {
+      @java.lang.Override
       public WriteSessionClusters parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new WriteSessionClusters(input, extensionRegistry);
+        return new WriteSessionClusters(input, extensionRegistry);
       }
     };
 
@@ -3845,6 +4137,7 @@ public final class YdbPersqueueClusterDiscovery {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3902,7 +4195,7 @@ public final class YdbPersqueueClusterDiscovery {
   /**
    * Protobuf type {@code Ydb.PersQueue.ClusterDiscovery.ReadSessionClusters}
    */
-  public  static final class ReadSessionClusters extends
+  public static final class ReadSessionClusters extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.PersQueue.ClusterDiscovery.ReadSessionClusters)
       ReadSessionClustersOrBuilder {
@@ -3916,6 +4209,13 @@ public final class YdbPersqueueClusterDiscovery {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ReadSessionClusters();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3925,6 +4225,9 @@ public final class YdbPersqueueClusterDiscovery {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -3936,20 +4239,20 @@ public final class YdbPersqueueClusterDiscovery {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 clusters_ = new java.util.ArrayList<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo>();
                 mutable_bitField0_ |= 0x00000001;
               }
               clusters_.add(
                   input.readMessage(tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -3960,7 +4263,7 @@ public final class YdbPersqueueClusterDiscovery {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           clusters_ = java.util.Collections.unmodifiableList(clusters_);
         }
         this.unknownFields = unknownFields.build();
@@ -3972,6 +4275,7 @@ public final class YdbPersqueueClusterDiscovery {
       return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_ReadSessionClusters_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_ReadSessionClusters_fieldAccessorTable
@@ -3988,6 +4292,7 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.ClusterInfo clusters = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo> getClustersList() {
       return clusters_;
     }
@@ -3998,6 +4303,7 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.ClusterInfo clusters = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfoOrBuilder> 
         getClustersOrBuilderList() {
       return clusters_;
@@ -4009,6 +4315,7 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.ClusterInfo clusters = 1;</code>
      */
+    @java.lang.Override
     public int getClustersCount() {
       return clusters_.size();
     }
@@ -4019,6 +4326,7 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.ClusterInfo clusters = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo getClusters(int index) {
       return clusters_.get(index);
     }
@@ -4029,12 +4337,14 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.ClusterInfo clusters = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfoOrBuilder getClustersOrBuilder(
         int index) {
       return clusters_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4044,6 +4354,7 @@ public final class YdbPersqueueClusterDiscovery {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < clusters_.size(); i++) {
@@ -4052,6 +4363,7 @@ public final class YdbPersqueueClusterDiscovery {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4076,11 +4388,10 @@ public final class YdbPersqueueClusterDiscovery {
       }
       tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClusters other = (tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClusters) obj;
 
-      boolean result = true;
-      result = result && getClustersList()
-          .equals(other.getClustersList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getClustersList()
+          .equals(other.getClustersList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4169,6 +4480,7 @@ public final class YdbPersqueueClusterDiscovery {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4176,6 +4488,7 @@ public final class YdbPersqueueClusterDiscovery {
     public static Builder newBuilder(tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClusters prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4199,6 +4512,7 @@ public final class YdbPersqueueClusterDiscovery {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_ReadSessionClusters_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_ReadSessionClusters_fieldAccessorTable
@@ -4222,6 +4536,7 @@ public final class YdbPersqueueClusterDiscovery {
           getClustersFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (clustersBuilder_ == null) {
@@ -4233,15 +4548,18 @@ public final class YdbPersqueueClusterDiscovery {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_ReadSessionClusters_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClusters getDefaultInstanceForType() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClusters.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClusters build() {
         tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClusters result = buildPartial();
         if (!result.isInitialized()) {
@@ -4250,11 +4568,12 @@ public final class YdbPersqueueClusterDiscovery {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClusters buildPartial() {
         tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClusters result = new tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClusters(this);
         int from_bitField0_ = bitField0_;
         if (clustersBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             clusters_ = java.util.Collections.unmodifiableList(clusters_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -4266,32 +4585,39 @@ public final class YdbPersqueueClusterDiscovery {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClusters) {
           return mergeFrom((tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClusters)other);
@@ -4334,10 +4660,12 @@ public final class YdbPersqueueClusterDiscovery {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4360,7 +4688,7 @@ public final class YdbPersqueueClusterDiscovery {
       private java.util.List<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo> clusters_ =
         java.util.Collections.emptyList();
       private void ensureClustersIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           clusters_ = new java.util.ArrayList<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo>(clusters_);
           bitField0_ |= 0x00000001;
          }
@@ -4661,18 +4989,20 @@ public final class YdbPersqueueClusterDiscovery {
           clustersBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo, tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfo.Builder, tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ClusterInfoOrBuilder>(
                   clusters_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           clusters_ = null;
         }
         return clustersBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4694,11 +5024,12 @@ public final class YdbPersqueueClusterDiscovery {
 
     private static final com.google.protobuf.Parser<ReadSessionClusters>
         PARSER = new com.google.protobuf.AbstractParser<ReadSessionClusters>() {
+      @java.lang.Override
       public ReadSessionClusters parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ReadSessionClusters(input, extensionRegistry);
+        return new ReadSessionClusters(input, extensionRegistry);
       }
     };
 
@@ -4711,6 +5042,7 @@ public final class YdbPersqueueClusterDiscovery {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClusters getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4723,10 +5055,12 @@ public final class YdbPersqueueClusterDiscovery {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -4808,13 +5142,14 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>int64 minimal_version = 4;</code>
+     * @return The minimalVersion.
      */
     long getMinimalVersion();
   }
   /**
    * Protobuf type {@code Ydb.PersQueue.ClusterDiscovery.DiscoverClustersRequest}
    */
-  public  static final class DiscoverClustersRequest extends
+  public static final class DiscoverClustersRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.PersQueue.ClusterDiscovery.DiscoverClustersRequest)
       DiscoverClustersRequestOrBuilder {
@@ -4826,7 +5161,13 @@ public final class YdbPersqueueClusterDiscovery {
     private DiscoverClustersRequest() {
       writeSessions_ = java.util.Collections.emptyList();
       readSessions_ = java.util.Collections.emptyList();
-      minimalVersion_ = 0L;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DiscoverClustersRequest();
     }
 
     @java.lang.Override
@@ -4839,6 +5180,9 @@ public final class YdbPersqueueClusterDiscovery {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -4850,13 +5194,6 @@ public final class YdbPersqueueClusterDiscovery {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -4871,18 +5208,18 @@ public final class YdbPersqueueClusterDiscovery {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 writeSessions_ = new java.util.ArrayList<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               writeSessions_.add(
                   input.readMessage(tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams.parser(), extensionRegistry));
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 readSessions_ = new java.util.ArrayList<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams>();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000002;
               }
               readSessions_.add(
                   input.readMessage(tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams.parser(), extensionRegistry));
@@ -4893,6 +5230,13 @@ public final class YdbPersqueueClusterDiscovery {
               minimalVersion_ = input.readInt64();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -4901,10 +5245,10 @@ public final class YdbPersqueueClusterDiscovery {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           writeSessions_ = java.util.Collections.unmodifiableList(writeSessions_);
         }
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           readSessions_ = java.util.Collections.unmodifiableList(readSessions_);
         }
         this.unknownFields = unknownFields.build();
@@ -4916,6 +5260,7 @@ public final class YdbPersqueueClusterDiscovery {
       return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_DiscoverClustersRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_DiscoverClustersRequest_fieldAccessorTable
@@ -4923,24 +5268,28 @@ public final class YdbPersqueueClusterDiscovery {
               tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersRequest.class, tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -4954,6 +5303,7 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.WriteSessionParams write_sessions = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams> getWriteSessionsList() {
       return writeSessions_;
     }
@@ -4964,6 +5314,7 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.WriteSessionParams write_sessions = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParamsOrBuilder> 
         getWriteSessionsOrBuilderList() {
       return writeSessions_;
@@ -4975,6 +5326,7 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.WriteSessionParams write_sessions = 2;</code>
      */
+    @java.lang.Override
     public int getWriteSessionsCount() {
       return writeSessions_.size();
     }
@@ -4985,6 +5337,7 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.WriteSessionParams write_sessions = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams getWriteSessions(int index) {
       return writeSessions_.get(index);
     }
@@ -4995,6 +5348,7 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.WriteSessionParams write_sessions = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParamsOrBuilder getWriteSessionsOrBuilder(
         int index) {
       return writeSessions_.get(index);
@@ -5005,12 +5359,14 @@ public final class YdbPersqueueClusterDiscovery {
     /**
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.ReadSessionParams read_sessions = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams> getReadSessionsList() {
       return readSessions_;
     }
     /**
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.ReadSessionParams read_sessions = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParamsOrBuilder> 
         getReadSessionsOrBuilderList() {
       return readSessions_;
@@ -5018,18 +5374,21 @@ public final class YdbPersqueueClusterDiscovery {
     /**
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.ReadSessionParams read_sessions = 3;</code>
      */
+    @java.lang.Override
     public int getReadSessionsCount() {
       return readSessions_.size();
     }
     /**
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.ReadSessionParams read_sessions = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams getReadSessions(int index) {
       return readSessions_.get(index);
     }
     /**
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.ReadSessionParams read_sessions = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParamsOrBuilder getReadSessionsOrBuilder(
         int index) {
       return readSessions_.get(index);
@@ -5043,12 +5402,15 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>int64 minimal_version = 4;</code>
+     * @return The minimalVersion.
      */
+    @java.lang.Override
     public long getMinimalVersion() {
       return minimalVersion_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -5058,6 +5420,7 @@ public final class YdbPersqueueClusterDiscovery {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -5075,6 +5438,7 @@ public final class YdbPersqueueClusterDiscovery {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -5111,20 +5475,19 @@ public final class YdbPersqueueClusterDiscovery {
       }
       tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersRequest other = (tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getWriteSessionsList()
-          .equals(other.getWriteSessionsList());
-      result = result && getReadSessionsList()
-          .equals(other.getReadSessionsList());
-      result = result && (getMinimalVersion()
-          == other.getMinimalVersion());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getWriteSessionsList()
+          .equals(other.getWriteSessionsList())) return false;
+      if (!getReadSessionsList()
+          .equals(other.getReadSessionsList())) return false;
+      if (getMinimalVersion()
+          != other.getMinimalVersion()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5224,6 +5587,7 @@ public final class YdbPersqueueClusterDiscovery {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5231,6 +5595,7 @@ public final class YdbPersqueueClusterDiscovery {
     public static Builder newBuilder(tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5254,6 +5619,7 @@ public final class YdbPersqueueClusterDiscovery {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_DiscoverClustersRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_DiscoverClustersRequest_fieldAccessorTable
@@ -5278,6 +5644,7 @@ public final class YdbPersqueueClusterDiscovery {
           getReadSessionsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -5288,13 +5655,13 @@ public final class YdbPersqueueClusterDiscovery {
         }
         if (writeSessionsBuilder_ == null) {
           writeSessions_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           writeSessionsBuilder_.clear();
         }
         if (readSessionsBuilder_ == null) {
           readSessions_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
           readSessionsBuilder_.clear();
         }
@@ -5303,15 +5670,18 @@ public final class YdbPersqueueClusterDiscovery {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_DiscoverClustersRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersRequest getDefaultInstanceForType() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersRequest build() {
         tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -5320,65 +5690,71 @@ public final class YdbPersqueueClusterDiscovery {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersRequest buildPartial() {
         tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersRequest result = new tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
         } else {
           result.operationParams_ = operationParamsBuilder_.build();
         }
         if (writeSessionsBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             writeSessions_ = java.util.Collections.unmodifiableList(writeSessions_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.writeSessions_ = writeSessions_;
         } else {
           result.writeSessions_ = writeSessionsBuilder_.build();
         }
         if (readSessionsBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000002) != 0)) {
             readSessions_ = java.util.Collections.unmodifiableList(readSessions_);
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
           result.readSessions_ = readSessions_;
         } else {
           result.readSessions_ = readSessionsBuilder_.build();
         }
         result.minimalVersion_ = minimalVersion_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersRequest) {
           return mergeFrom((tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersRequest)other);
@@ -5397,7 +5773,7 @@ public final class YdbPersqueueClusterDiscovery {
           if (!other.writeSessions_.isEmpty()) {
             if (writeSessions_.isEmpty()) {
               writeSessions_ = other.writeSessions_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureWriteSessionsIsMutable();
               writeSessions_.addAll(other.writeSessions_);
@@ -5410,7 +5786,7 @@ public final class YdbPersqueueClusterDiscovery {
               writeSessionsBuilder_.dispose();
               writeSessionsBuilder_ = null;
               writeSessions_ = other.writeSessions_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               writeSessionsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getWriteSessionsFieldBuilder() : null;
@@ -5423,7 +5799,7 @@ public final class YdbPersqueueClusterDiscovery {
           if (!other.readSessions_.isEmpty()) {
             if (readSessions_.isEmpty()) {
               readSessions_ = other.readSessions_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensureReadSessionsIsMutable();
               readSessions_.addAll(other.readSessions_);
@@ -5436,7 +5812,7 @@ public final class YdbPersqueueClusterDiscovery {
               readSessionsBuilder_.dispose();
               readSessionsBuilder_ = null;
               readSessions_ = other.readSessions_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000002);
               readSessionsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getReadSessionsFieldBuilder() : null;
@@ -5453,10 +5829,12 @@ public final class YdbPersqueueClusterDiscovery {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5476,17 +5854,19 @@ public final class YdbPersqueueClusterDiscovery {
       }
       private int bitField0_;
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -5596,9 +5976,9 @@ public final class YdbPersqueueClusterDiscovery {
       private java.util.List<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams> writeSessions_ =
         java.util.Collections.emptyList();
       private void ensureWriteSessionsIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           writeSessions_ = new java.util.ArrayList<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams>(writeSessions_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -5792,7 +6172,7 @@ public final class YdbPersqueueClusterDiscovery {
       public Builder clearWriteSessions() {
         if (writeSessionsBuilder_ == null) {
           writeSessions_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           writeSessionsBuilder_.clear();
@@ -5897,7 +6277,7 @@ public final class YdbPersqueueClusterDiscovery {
           writeSessionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams, tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParams.Builder, tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionParamsOrBuilder>(
                   writeSessions_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           writeSessions_ = null;
@@ -5908,9 +6288,9 @@ public final class YdbPersqueueClusterDiscovery {
       private java.util.List<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams> readSessions_ =
         java.util.Collections.emptyList();
       private void ensureReadSessionsIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           readSessions_ = new java.util.ArrayList<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams>(readSessions_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000002;
          }
       }
 
@@ -6060,7 +6440,7 @@ public final class YdbPersqueueClusterDiscovery {
       public Builder clearReadSessions() {
         if (readSessionsBuilder_ == null) {
           readSessions_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
           readSessionsBuilder_.clear();
@@ -6137,7 +6517,7 @@ public final class YdbPersqueueClusterDiscovery {
           readSessionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams, tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParams.Builder, tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionParamsOrBuilder>(
                   readSessions_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           readSessions_ = null;
@@ -6152,7 +6532,9 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>int64 minimal_version = 4;</code>
+       * @return The minimalVersion.
        */
+      @java.lang.Override
       public long getMinimalVersion() {
         return minimalVersion_;
       }
@@ -6162,6 +6544,8 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>int64 minimal_version = 4;</code>
+       * @param value The minimalVersion to set.
+       * @return This builder for chaining.
        */
       public Builder setMinimalVersion(long value) {
         
@@ -6175,6 +6559,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>int64 minimal_version = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMinimalVersion() {
         
@@ -6182,11 +6567,13 @@ public final class YdbPersqueueClusterDiscovery {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -6208,11 +6595,12 @@ public final class YdbPersqueueClusterDiscovery {
 
     private static final com.google.protobuf.Parser<DiscoverClustersRequest>
         PARSER = new com.google.protobuf.AbstractParser<DiscoverClustersRequest>() {
+      @java.lang.Override
       public DiscoverClustersRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DiscoverClustersRequest(input, extensionRegistry);
+        return new DiscoverClustersRequest(input, extensionRegistry);
       }
     };
 
@@ -6225,6 +6613,7 @@ public final class YdbPersqueueClusterDiscovery {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -6241,6 +6630,7 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
@@ -6249,6 +6639,7 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -6263,7 +6654,7 @@ public final class YdbPersqueueClusterDiscovery {
   /**
    * Protobuf type {@code Ydb.PersQueue.ClusterDiscovery.DiscoverClustersResponse}
    */
-  public  static final class DiscoverClustersResponse extends
+  public static final class DiscoverClustersResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.PersQueue.ClusterDiscovery.DiscoverClustersResponse)
       DiscoverClustersResponseOrBuilder {
@@ -6276,6 +6667,13 @@ public final class YdbPersqueueClusterDiscovery {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DiscoverClustersResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -6285,7 +6683,9 @@ public final class YdbPersqueueClusterDiscovery {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -6296,13 +6696,6 @@ public final class YdbPersqueueClusterDiscovery {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -6314,6 +6707,13 @@ public final class YdbPersqueueClusterDiscovery {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -6333,6 +6733,7 @@ public final class YdbPersqueueClusterDiscovery {
       return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_DiscoverClustersResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_DiscoverClustersResponse_fieldAccessorTable
@@ -6348,7 +6749,9 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
@@ -6358,7 +6761,9 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
@@ -6369,11 +6774,13 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6383,6 +6790,7 @@ public final class YdbPersqueueClusterDiscovery {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -6391,6 +6799,7 @@ public final class YdbPersqueueClusterDiscovery {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -6415,14 +6824,13 @@ public final class YdbPersqueueClusterDiscovery {
       }
       tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResponse other = (tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -6511,6 +6919,7 @@ public final class YdbPersqueueClusterDiscovery {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -6518,6 +6927,7 @@ public final class YdbPersqueueClusterDiscovery {
     public static Builder newBuilder(tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -6541,6 +6951,7 @@ public final class YdbPersqueueClusterDiscovery {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_DiscoverClustersResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_DiscoverClustersResponse_fieldAccessorTable
@@ -6563,6 +6974,7 @@ public final class YdbPersqueueClusterDiscovery {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -6574,15 +6986,18 @@ public final class YdbPersqueueClusterDiscovery {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_DiscoverClustersResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResponse getDefaultInstanceForType() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResponse build() {
         tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -6591,6 +7006,7 @@ public final class YdbPersqueueClusterDiscovery {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResponse buildPartial() {
         tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResponse result = new tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResponse(this);
         if (operationBuilder_ == null) {
@@ -6602,32 +7018,39 @@ public final class YdbPersqueueClusterDiscovery {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResponse) {
           return mergeFrom((tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResponse)other);
@@ -6647,10 +7070,12 @@ public final class YdbPersqueueClusterDiscovery {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6669,7 +7094,7 @@ public final class YdbPersqueueClusterDiscovery {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
@@ -6678,6 +7103,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
@@ -6688,6 +7114,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -6821,11 +7248,13 @@ public final class YdbPersqueueClusterDiscovery {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -6847,11 +7276,12 @@ public final class YdbPersqueueClusterDiscovery {
 
     private static final com.google.protobuf.Parser<DiscoverClustersResponse>
         PARSER = new com.google.protobuf.AbstractParser<DiscoverClustersResponse>() {
+      @java.lang.Override
       public DiscoverClustersResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DiscoverClustersResponse(input, extensionRegistry);
+        return new DiscoverClustersResponse(input, extensionRegistry);
       }
     };
 
@@ -6864,6 +7294,7 @@ public final class YdbPersqueueClusterDiscovery {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -6948,13 +7379,14 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>int64 version = 3;</code>
+     * @return The version.
      */
     long getVersion();
   }
   /**
    * Protobuf type {@code Ydb.PersQueue.ClusterDiscovery.DiscoverClustersResult}
    */
-  public  static final class DiscoverClustersResult extends
+  public static final class DiscoverClustersResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.PersQueue.ClusterDiscovery.DiscoverClustersResult)
       DiscoverClustersResultOrBuilder {
@@ -6966,7 +7398,13 @@ public final class YdbPersqueueClusterDiscovery {
     private DiscoverClustersResult() {
       writeSessionsClusters_ = java.util.Collections.emptyList();
       readSessionsClusters_ = java.util.Collections.emptyList();
-      version_ = 0L;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DiscoverClustersResult();
     }
 
     @java.lang.Override
@@ -6979,6 +7417,9 @@ public final class YdbPersqueueClusterDiscovery {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -6990,15 +7431,8 @@ public final class YdbPersqueueClusterDiscovery {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 writeSessionsClusters_ = new java.util.ArrayList<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters>();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -7007,7 +7441,7 @@ public final class YdbPersqueueClusterDiscovery {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 readSessionsClusters_ = new java.util.ArrayList<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClusters>();
                 mutable_bitField0_ |= 0x00000002;
               }
@@ -7020,6 +7454,13 @@ public final class YdbPersqueueClusterDiscovery {
               version_ = input.readInt64();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -7028,10 +7469,10 @@ public final class YdbPersqueueClusterDiscovery {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           writeSessionsClusters_ = java.util.Collections.unmodifiableList(writeSessionsClusters_);
         }
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           readSessionsClusters_ = java.util.Collections.unmodifiableList(readSessionsClusters_);
         }
         this.unknownFields = unknownFields.build();
@@ -7043,6 +7484,7 @@ public final class YdbPersqueueClusterDiscovery {
       return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_DiscoverClustersResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_DiscoverClustersResult_fieldAccessorTable
@@ -7050,7 +7492,6 @@ public final class YdbPersqueueClusterDiscovery {
               tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResult.class, tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResult.Builder.class);
     }
 
-    private int bitField0_;
     public static final int WRITE_SESSIONS_CLUSTERS_FIELD_NUMBER = 1;
     private java.util.List<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters> writeSessionsClusters_;
     /**
@@ -7060,6 +7501,7 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters write_sessions_clusters = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters> getWriteSessionsClustersList() {
       return writeSessionsClusters_;
     }
@@ -7070,6 +7512,7 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters write_sessions_clusters = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClustersOrBuilder> 
         getWriteSessionsClustersOrBuilderList() {
       return writeSessionsClusters_;
@@ -7081,6 +7524,7 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters write_sessions_clusters = 1;</code>
      */
+    @java.lang.Override
     public int getWriteSessionsClustersCount() {
       return writeSessionsClusters_.size();
     }
@@ -7091,6 +7535,7 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters write_sessions_clusters = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters getWriteSessionsClusters(int index) {
       return writeSessionsClusters_.get(index);
     }
@@ -7101,6 +7546,7 @@ public final class YdbPersqueueClusterDiscovery {
      *
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.WriteSessionClusters write_sessions_clusters = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClustersOrBuilder getWriteSessionsClustersOrBuilder(
         int index) {
       return writeSessionsClusters_.get(index);
@@ -7111,12 +7557,14 @@ public final class YdbPersqueueClusterDiscovery {
     /**
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.ReadSessionClusters read_sessions_clusters = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClusters> getReadSessionsClustersList() {
       return readSessionsClusters_;
     }
     /**
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.ReadSessionClusters read_sessions_clusters = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClustersOrBuilder> 
         getReadSessionsClustersOrBuilderList() {
       return readSessionsClusters_;
@@ -7124,18 +7572,21 @@ public final class YdbPersqueueClusterDiscovery {
     /**
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.ReadSessionClusters read_sessions_clusters = 2;</code>
      */
+    @java.lang.Override
     public int getReadSessionsClustersCount() {
       return readSessionsClusters_.size();
     }
     /**
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.ReadSessionClusters read_sessions_clusters = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClusters getReadSessionsClusters(int index) {
       return readSessionsClusters_.get(index);
     }
     /**
      * <code>repeated .Ydb.PersQueue.ClusterDiscovery.ReadSessionClusters read_sessions_clusters = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClustersOrBuilder getReadSessionsClustersOrBuilder(
         int index) {
       return readSessionsClusters_.get(index);
@@ -7149,12 +7600,15 @@ public final class YdbPersqueueClusterDiscovery {
      * </pre>
      *
      * <code>int64 version = 3;</code>
+     * @return The version.
      */
+    @java.lang.Override
     public long getVersion() {
       return version_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -7164,6 +7618,7 @@ public final class YdbPersqueueClusterDiscovery {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < writeSessionsClusters_.size(); i++) {
@@ -7178,6 +7633,7 @@ public final class YdbPersqueueClusterDiscovery {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -7210,15 +7666,14 @@ public final class YdbPersqueueClusterDiscovery {
       }
       tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResult other = (tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResult) obj;
 
-      boolean result = true;
-      result = result && getWriteSessionsClustersList()
-          .equals(other.getWriteSessionsClustersList());
-      result = result && getReadSessionsClustersList()
-          .equals(other.getReadSessionsClustersList());
-      result = result && (getVersion()
-          == other.getVersion());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getWriteSessionsClustersList()
+          .equals(other.getWriteSessionsClustersList())) return false;
+      if (!getReadSessionsClustersList()
+          .equals(other.getReadSessionsClustersList())) return false;
+      if (getVersion()
+          != other.getVersion()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -7314,6 +7769,7 @@ public final class YdbPersqueueClusterDiscovery {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -7321,6 +7777,7 @@ public final class YdbPersqueueClusterDiscovery {
     public static Builder newBuilder(tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -7344,6 +7801,7 @@ public final class YdbPersqueueClusterDiscovery {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_DiscoverClustersResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_DiscoverClustersResult_fieldAccessorTable
@@ -7368,6 +7826,7 @@ public final class YdbPersqueueClusterDiscovery {
           getReadSessionsClustersFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (writeSessionsClustersBuilder_ == null) {
@@ -7387,15 +7846,18 @@ public final class YdbPersqueueClusterDiscovery {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.internal_static_Ydb_PersQueue_ClusterDiscovery_DiscoverClustersResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResult getDefaultInstanceForType() {
         return tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResult build() {
         tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -7404,12 +7866,12 @@ public final class YdbPersqueueClusterDiscovery {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResult buildPartial() {
         tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResult result = new tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResult(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (writeSessionsClustersBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             writeSessionsClusters_ = java.util.Collections.unmodifiableList(writeSessionsClusters_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -7418,7 +7880,7 @@ public final class YdbPersqueueClusterDiscovery {
           result.writeSessionsClusters_ = writeSessionsClustersBuilder_.build();
         }
         if (readSessionsClustersBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000002) != 0)) {
             readSessionsClusters_ = java.util.Collections.unmodifiableList(readSessionsClusters_);
             bitField0_ = (bitField0_ & ~0x00000002);
           }
@@ -7427,37 +7889,43 @@ public final class YdbPersqueueClusterDiscovery {
           result.readSessionsClusters_ = readSessionsClustersBuilder_.build();
         }
         result.version_ = version_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResult) {
           return mergeFrom((tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResult)other);
@@ -7529,10 +7997,12 @@ public final class YdbPersqueueClusterDiscovery {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -7555,7 +8025,7 @@ public final class YdbPersqueueClusterDiscovery {
       private java.util.List<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters> writeSessionsClusters_ =
         java.util.Collections.emptyList();
       private void ensureWriteSessionsClustersIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           writeSessionsClusters_ = new java.util.ArrayList<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters>(writeSessionsClusters_);
           bitField0_ |= 0x00000001;
          }
@@ -7856,7 +8326,7 @@ public final class YdbPersqueueClusterDiscovery {
           writeSessionsClustersBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters, tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClusters.Builder, tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.WriteSessionClustersOrBuilder>(
                   writeSessionsClusters_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           writeSessionsClusters_ = null;
@@ -7867,7 +8337,7 @@ public final class YdbPersqueueClusterDiscovery {
       private java.util.List<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClusters> readSessionsClusters_ =
         java.util.Collections.emptyList();
       private void ensureReadSessionsClustersIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           readSessionsClusters_ = new java.util.ArrayList<tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClusters>(readSessionsClusters_);
           bitField0_ |= 0x00000002;
          }
@@ -8096,7 +8566,7 @@ public final class YdbPersqueueClusterDiscovery {
           readSessionsClustersBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClusters, tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClusters.Builder, tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.ReadSessionClustersOrBuilder>(
                   readSessionsClusters_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           readSessionsClusters_ = null;
@@ -8111,7 +8581,9 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>int64 version = 3;</code>
+       * @return The version.
        */
+      @java.lang.Override
       public long getVersion() {
         return version_;
       }
@@ -8121,6 +8593,8 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>int64 version = 3;</code>
+       * @param value The version to set.
+       * @return This builder for chaining.
        */
       public Builder setVersion(long value) {
         
@@ -8134,6 +8608,7 @@ public final class YdbPersqueueClusterDiscovery {
        * </pre>
        *
        * <code>int64 version = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearVersion() {
         
@@ -8141,11 +8616,13 @@ public final class YdbPersqueueClusterDiscovery {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -8167,11 +8644,12 @@ public final class YdbPersqueueClusterDiscovery {
 
     private static final com.google.protobuf.Parser<DiscoverClustersResult>
         PARSER = new com.google.protobuf.AbstractParser<DiscoverClustersResult>() {
+      @java.lang.Override
       public DiscoverClustersResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DiscoverClustersResult(input, extensionRegistry);
+        return new DiscoverClustersResult(input, extensionRegistry);
       }
     };
 
@@ -8184,6 +8662,7 @@ public final class YdbPersqueueClusterDiscovery {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.persqueue.cluster_discovery.YdbPersqueueClusterDiscovery.DiscoverClustersResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -8248,7 +8727,7 @@ public final class YdbPersqueueClusterDiscovery {
       "_group\030\003 \001(\r\022\036\n\026preferred_cluster_name\030\004" +
       " \001(\t\"@\n\013ClusterInfo\022\020\n\010endpoint\030\001 \001(\t\022\014\n" +
       "\004name\030\002 \001(\t\022\021\n\tavailable\030\003 \001(\010\"|\n\021ReadSe" +
-      "ssionParams\022\r\n\005topic\030\001 \001(\t\022\033\n\021mirror_to_",
+      "ssionParams\022\r\n\005topic\030\001 \001(\t\022\033\n\021mirror_to_" +
       "cluster\030\002 \001(\tH\000\022.\n\014all_original\030\003 \001(\0132\026." +
       "google.protobuf.EmptyH\000B\013\n\tread_rule\"\303\002\n" +
       "\024WriteSessionClusters\022=\n\010clusters\030\001 \003(\0132" +
@@ -8258,7 +8737,7 @@ public final class YdbPersqueueClusterDiscovery {
       "WriteSessionClusters.SelectionReason\"|\n\017" +
       "SelectionReason\022 \n\034SELECTION_REASON_UNSP" +
       "ECIFIED\020\000\022\025\n\021CLIENT_PREFERENCE\020\001\022\023\n\017CLIE" +
-      "NT_LOCATION\020\002\022\033\n\027CONSISTENT_DISTRIBUTION",
+      "NT_LOCATION\020\002\022\033\n\027CONSISTENT_DISTRIBUTION" +
       "\020\003\"T\n\023ReadSessionClusters\022=\n\010clusters\030\001 " +
       "\003(\0132+.Ydb.PersQueue.ClusterDiscovery.Clu" +
       "sterInfo\"\203\002\n\027DiscoverClustersRequest\0229\n\020" +
@@ -8268,7 +8747,7 @@ public final class YdbPersqueueClusterDiscovery {
       "ssionParams\022H\n\rread_sessions\030\003 \003(\01321.Ydb" +
       ".PersQueue.ClusterDiscovery.ReadSessionP" +
       "arams\022\027\n\017minimal_version\030\004 \001(\003\"H\n\030Discov" +
-      "erClustersResponse\022,\n\toperation\030\001 \001(\0132\031.",
+      "erClustersResponse\022,\n\toperation\030\001 \001(\0132\031." +
       "Ydb.Operations.Operation\"\325\001\n\026DiscoverClu" +
       "stersResult\022U\n\027write_sessions_clusters\030\001" +
       " \003(\01324.Ydb.PersQueue.ClusterDiscovery.Wr" +
@@ -8278,20 +8757,12 @@ public final class YdbPersqueueClusterDiscovery {
       "B/\n*tech.ydb.persqueue.cluster_dis" +
       "covery\370\001\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.google.protobuf.EmptyProto.getDescriptor(),
           tech.ydb.OperationProtos.getDescriptor(),
-        }, assigner);
+        });
     internal_static_Ydb_PersQueue_ClusterDiscovery_WriteSessionParams_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_PersQueue_ClusterDiscovery_WriteSessionParams_fieldAccessorTable = new

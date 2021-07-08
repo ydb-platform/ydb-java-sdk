@@ -9,10 +9,12 @@ public interface CreateNodeResponseOrBuilder extends
 
   /**
    * <code>.Ydb.Operations.Operation operation = 1;</code>
+   * @return Whether the operation field is set.
    */
   boolean hasOperation();
   /**
    * <code>.Ydb.Operations.Operation operation = 1;</code>
+   * @return The operation.
    */
   tech.ydb.OperationProtos.Operation getOperation();
   /**

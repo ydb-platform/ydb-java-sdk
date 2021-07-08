@@ -20,22 +20,25 @@ public final class LongTxProtos {
 
     /**
      * <code>.Ydb.LongTx.Data.Format format = 1;</code>
+     * @return The enum numeric value on the wire for format.
      */
     int getFormatValue();
     /**
      * <code>.Ydb.LongTx.Data.Format format = 1;</code>
+     * @return The format.
      */
     tech.ydb.long_tx.LongTxProtos.Data.Format getFormat();
 
     /**
      * <code>bytes data = 2;</code>
+     * @return The data.
      */
     com.google.protobuf.ByteString getData();
   }
   /**
    * Protobuf type {@code Ydb.LongTx.Data}
    */
-  public  static final class Data extends
+  public static final class Data extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.LongTx.Data)
       DataOrBuilder {
@@ -50,6 +53,13 @@ public final class LongTxProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Data();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -59,7 +69,9 @@ public final class LongTxProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -70,13 +82,6 @@ public final class LongTxProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               int rawValue = input.readEnum();
 
@@ -86,6 +91,13 @@ public final class LongTxProtos {
             case 18: {
 
               data_ = input.readBytes();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -105,6 +117,7 @@ public final class LongTxProtos {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_Data_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_Data_fieldAccessorTable
@@ -163,6 +176,8 @@ public final class LongTxProtos {
       }
 
       /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -170,6 +185,10 @@ public final class LongTxProtos {
         return forNumber(value);
       }
 
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
       public static Format forNumber(int value) {
         switch (value) {
           case 0: return FORMAT_UNSPECIFIED;
@@ -193,6 +212,10 @@ public final class LongTxProtos {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -231,14 +254,17 @@ public final class LongTxProtos {
     private int format_;
     /**
      * <code>.Ydb.LongTx.Data.Format format = 1;</code>
+     * @return The enum numeric value on the wire for format.
      */
-    public int getFormatValue() {
+    @java.lang.Override public int getFormatValue() {
       return format_;
     }
     /**
      * <code>.Ydb.LongTx.Data.Format format = 1;</code>
+     * @return The format.
      */
-    public tech.ydb.long_tx.LongTxProtos.Data.Format getFormat() {
+    @java.lang.Override public tech.ydb.long_tx.LongTxProtos.Data.Format getFormat() {
+      @SuppressWarnings("deprecation")
       tech.ydb.long_tx.LongTxProtos.Data.Format result = tech.ydb.long_tx.LongTxProtos.Data.Format.valueOf(format_);
       return result == null ? tech.ydb.long_tx.LongTxProtos.Data.Format.UNRECOGNIZED : result;
     }
@@ -247,12 +273,15 @@ public final class LongTxProtos {
     private com.google.protobuf.ByteString data_;
     /**
      * <code>bytes data = 2;</code>
+     * @return The data.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getData() {
       return data_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -262,6 +291,7 @@ public final class LongTxProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (format_ != tech.ydb.long_tx.LongTxProtos.Data.Format.FORMAT_UNSPECIFIED.getNumber()) {
@@ -273,6 +303,7 @@ public final class LongTxProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -301,12 +332,11 @@ public final class LongTxProtos {
       }
       tech.ydb.long_tx.LongTxProtos.Data other = (tech.ydb.long_tx.LongTxProtos.Data) obj;
 
-      boolean result = true;
-      result = result && format_ == other.format_;
-      result = result && getData()
-          .equals(other.getData());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (format_ != other.format_) return false;
+      if (!getData()
+          .equals(other.getData())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -395,6 +425,7 @@ public final class LongTxProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -402,6 +433,7 @@ public final class LongTxProtos {
     public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.Data prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -425,6 +457,7 @@ public final class LongTxProtos {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_Data_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_Data_fieldAccessorTable
@@ -447,6 +480,7 @@ public final class LongTxProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         format_ = 0;
@@ -456,15 +490,18 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_Data_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.Data getDefaultInstanceForType() {
         return tech.ydb.long_tx.LongTxProtos.Data.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.Data build() {
         tech.ydb.long_tx.LongTxProtos.Data result = buildPartial();
         if (!result.isInitialized()) {
@@ -473,6 +510,7 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.Data buildPartial() {
         tech.ydb.long_tx.LongTxProtos.Data result = new tech.ydb.long_tx.LongTxProtos.Data(this);
         result.format_ = format_;
@@ -481,32 +519,39 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.long_tx.LongTxProtos.Data) {
           return mergeFrom((tech.ydb.long_tx.LongTxProtos.Data)other);
@@ -529,10 +574,12 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -554,27 +601,36 @@ public final class LongTxProtos {
       private int format_ = 0;
       /**
        * <code>.Ydb.LongTx.Data.Format format = 1;</code>
+       * @return The enum numeric value on the wire for format.
        */
-      public int getFormatValue() {
+      @java.lang.Override public int getFormatValue() {
         return format_;
       }
       /**
        * <code>.Ydb.LongTx.Data.Format format = 1;</code>
+       * @param value The enum numeric value on the wire for format to set.
+       * @return This builder for chaining.
        */
       public Builder setFormatValue(int value) {
+        
         format_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.LongTx.Data.Format format = 1;</code>
+       * @return The format.
        */
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.Data.Format getFormat() {
+        @SuppressWarnings("deprecation")
         tech.ydb.long_tx.LongTxProtos.Data.Format result = tech.ydb.long_tx.LongTxProtos.Data.Format.valueOf(format_);
         return result == null ? tech.ydb.long_tx.LongTxProtos.Data.Format.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.LongTx.Data.Format format = 1;</code>
+       * @param value The format to set.
+       * @return This builder for chaining.
        */
       public Builder setFormat(tech.ydb.long_tx.LongTxProtos.Data.Format value) {
         if (value == null) {
@@ -587,6 +643,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>.Ydb.LongTx.Data.Format format = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFormat() {
         
@@ -598,12 +655,16 @@ public final class LongTxProtos {
       private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes data = 2;</code>
+       * @return The data.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getData() {
         return data_;
       }
       /**
        * <code>bytes data = 2;</code>
+       * @param value The data to set.
+       * @return This builder for chaining.
        */
       public Builder setData(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -616,6 +677,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>bytes data = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearData() {
         
@@ -623,11 +685,13 @@ public final class LongTxProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -649,11 +713,12 @@ public final class LongTxProtos {
 
     private static final com.google.protobuf.Parser<Data>
         PARSER = new com.google.protobuf.AbstractParser<Data>() {
+      @java.lang.Override
       public Data parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Data(input, extensionRegistry);
+        return new Data(input, extensionRegistry);
       }
     };
 
@@ -666,6 +731,7 @@ public final class LongTxProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.long_tx.LongTxProtos.Data getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -678,10 +744,12 @@ public final class LongTxProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -691,17 +759,19 @@ public final class LongTxProtos {
 
     /**
      * <code>.Ydb.LongTx.BeginTransactionRequest.TxTypeId tx_type = 2;</code>
+     * @return The enum numeric value on the wire for txType.
      */
     int getTxTypeValue();
     /**
      * <code>.Ydb.LongTx.BeginTransactionRequest.TxTypeId tx_type = 2;</code>
+     * @return The txType.
      */
     tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId getTxType();
   }
   /**
    * Protobuf type {@code Ydb.LongTx.BeginTransactionRequest}
    */
-  public  static final class BeginTransactionRequest extends
+  public static final class BeginTransactionRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.LongTx.BeginTransactionRequest)
       BeginTransactionRequestOrBuilder {
@@ -715,6 +785,13 @@ public final class LongTxProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new BeginTransactionRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -724,7 +801,9 @@ public final class LongTxProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -735,13 +814,6 @@ public final class LongTxProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -761,6 +833,13 @@ public final class LongTxProtos {
               txType_ = rawValue;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -778,6 +857,7 @@ public final class LongTxProtos {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionRequest_fieldAccessorTable
@@ -838,6 +918,8 @@ public final class LongTxProtos {
       }
 
       /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -845,6 +927,10 @@ public final class LongTxProtos {
         return forNumber(value);
       }
 
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
       public static TxTypeId forNumber(int value) {
         switch (value) {
           case 0: return TX_TYPE_ID_UNSPECIFIED;
@@ -868,6 +954,10 @@ public final class LongTxProtos {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -906,19 +996,24 @@ public final class LongTxProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -927,19 +1022,23 @@ public final class LongTxProtos {
     private int txType_;
     /**
      * <code>.Ydb.LongTx.BeginTransactionRequest.TxTypeId tx_type = 2;</code>
+     * @return The enum numeric value on the wire for txType.
      */
-    public int getTxTypeValue() {
+    @java.lang.Override public int getTxTypeValue() {
       return txType_;
     }
     /**
      * <code>.Ydb.LongTx.BeginTransactionRequest.TxTypeId tx_type = 2;</code>
+     * @return The txType.
      */
-    public tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId getTxType() {
+    @java.lang.Override public tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId getTxType() {
+      @SuppressWarnings("deprecation")
       tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId result = tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId.valueOf(txType_);
       return result == null ? tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -949,6 +1048,7 @@ public final class LongTxProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -960,6 +1060,7 @@ public final class LongTxProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -988,15 +1089,14 @@ public final class LongTxProtos {
       }
       tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest other = (tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && txType_ == other.txType_;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (txType_ != other.txType_) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1087,6 +1187,7 @@ public final class LongTxProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1094,6 +1195,7 @@ public final class LongTxProtos {
     public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1117,6 +1219,7 @@ public final class LongTxProtos {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionRequest_fieldAccessorTable
@@ -1139,6 +1242,7 @@ public final class LongTxProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -1152,15 +1256,18 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest getDefaultInstanceForType() {
         return tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest build() {
         tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -1169,6 +1276,7 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest buildPartial() {
         tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest result = new tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -1181,32 +1289,39 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest) {
           return mergeFrom((tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest)other);
@@ -1229,10 +1344,12 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1251,17 +1368,19 @@ public final class LongTxProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -1371,27 +1490,36 @@ public final class LongTxProtos {
       private int txType_ = 0;
       /**
        * <code>.Ydb.LongTx.BeginTransactionRequest.TxTypeId tx_type = 2;</code>
+       * @return The enum numeric value on the wire for txType.
        */
-      public int getTxTypeValue() {
+      @java.lang.Override public int getTxTypeValue() {
         return txType_;
       }
       /**
        * <code>.Ydb.LongTx.BeginTransactionRequest.TxTypeId tx_type = 2;</code>
+       * @param value The enum numeric value on the wire for txType to set.
+       * @return This builder for chaining.
        */
       public Builder setTxTypeValue(int value) {
+        
         txType_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.LongTx.BeginTransactionRequest.TxTypeId tx_type = 2;</code>
+       * @return The txType.
        */
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId getTxType() {
+        @SuppressWarnings("deprecation")
         tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId result = tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId.valueOf(txType_);
         return result == null ? tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.LongTx.BeginTransactionRequest.TxTypeId tx_type = 2;</code>
+       * @param value The txType to set.
+       * @return This builder for chaining.
        */
       public Builder setTxType(tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest.TxTypeId value) {
         if (value == null) {
@@ -1404,6 +1532,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>.Ydb.LongTx.BeginTransactionRequest.TxTypeId tx_type = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTxType() {
         
@@ -1411,11 +1540,13 @@ public final class LongTxProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1437,11 +1568,12 @@ public final class LongTxProtos {
 
     private static final com.google.protobuf.Parser<BeginTransactionRequest>
         PARSER = new com.google.protobuf.AbstractParser<BeginTransactionRequest>() {
+      @java.lang.Override
       public BeginTransactionRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new BeginTransactionRequest(input, extensionRegistry);
+        return new BeginTransactionRequest(input, extensionRegistry);
       }
     };
 
@@ -1454,6 +1586,7 @@ public final class LongTxProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.long_tx.LongTxProtos.BeginTransactionRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1470,6 +1603,7 @@ public final class LongTxProtos {
      * </pre>
      *
      * <code>string tx_id = 1;</code>
+     * @return The txId.
      */
     java.lang.String getTxId();
     /**
@@ -1478,6 +1612,7 @@ public final class LongTxProtos {
      * </pre>
      *
      * <code>string tx_id = 1;</code>
+     * @return The bytes for txId.
      */
     com.google.protobuf.ByteString
         getTxIdBytes();
@@ -1485,7 +1620,7 @@ public final class LongTxProtos {
   /**
    * Protobuf type {@code Ydb.LongTx.BeginTransactionResult}
    */
-  public  static final class BeginTransactionResult extends
+  public static final class BeginTransactionResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.LongTx.BeginTransactionResult)
       BeginTransactionResultOrBuilder {
@@ -1499,6 +1634,13 @@ public final class LongTxProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new BeginTransactionResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -1508,7 +1650,9 @@ public final class LongTxProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1519,17 +1663,17 @@ public final class LongTxProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
               txId_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -1549,6 +1693,7 @@ public final class LongTxProtos {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionResult_fieldAccessorTable
@@ -1564,7 +1709,9 @@ public final class LongTxProtos {
      * </pre>
      *
      * <code>string tx_id = 1;</code>
+     * @return The txId.
      */
+    @java.lang.Override
     public java.lang.String getTxId() {
       java.lang.Object ref = txId_;
       if (ref instanceof java.lang.String) {
@@ -1583,7 +1730,9 @@ public final class LongTxProtos {
      * </pre>
      *
      * <code>string tx_id = 1;</code>
+     * @return The bytes for txId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTxIdBytes() {
       java.lang.Object ref = txId_;
@@ -1599,6 +1748,7 @@ public final class LongTxProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1608,6 +1758,7 @@ public final class LongTxProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTxIdBytes().isEmpty()) {
@@ -1616,6 +1767,7 @@ public final class LongTxProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1639,11 +1791,10 @@ public final class LongTxProtos {
       }
       tech.ydb.long_tx.LongTxProtos.BeginTransactionResult other = (tech.ydb.long_tx.LongTxProtos.BeginTransactionResult) obj;
 
-      boolean result = true;
-      result = result && getTxId()
-          .equals(other.getTxId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getTxId()
+          .equals(other.getTxId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1730,6 +1881,7 @@ public final class LongTxProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1737,6 +1889,7 @@ public final class LongTxProtos {
     public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.BeginTransactionResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1760,6 +1913,7 @@ public final class LongTxProtos {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionResult_fieldAccessorTable
@@ -1782,6 +1936,7 @@ public final class LongTxProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         txId_ = "";
@@ -1789,15 +1944,18 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.BeginTransactionResult getDefaultInstanceForType() {
         return tech.ydb.long_tx.LongTxProtos.BeginTransactionResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.BeginTransactionResult build() {
         tech.ydb.long_tx.LongTxProtos.BeginTransactionResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -1806,6 +1964,7 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.BeginTransactionResult buildPartial() {
         tech.ydb.long_tx.LongTxProtos.BeginTransactionResult result = new tech.ydb.long_tx.LongTxProtos.BeginTransactionResult(this);
         result.txId_ = txId_;
@@ -1813,32 +1972,39 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.long_tx.LongTxProtos.BeginTransactionResult) {
           return mergeFrom((tech.ydb.long_tx.LongTxProtos.BeginTransactionResult)other);
@@ -1859,10 +2025,12 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1888,6 +2056,7 @@ public final class LongTxProtos {
        * </pre>
        *
        * <code>string tx_id = 1;</code>
+       * @return The txId.
        */
       public java.lang.String getTxId() {
         java.lang.Object ref = txId_;
@@ -1907,6 +2076,7 @@ public final class LongTxProtos {
        * </pre>
        *
        * <code>string tx_id = 1;</code>
+       * @return The bytes for txId.
        */
       public com.google.protobuf.ByteString
           getTxIdBytes() {
@@ -1927,6 +2097,8 @@ public final class LongTxProtos {
        * </pre>
        *
        * <code>string tx_id = 1;</code>
+       * @param value The txId to set.
+       * @return This builder for chaining.
        */
       public Builder setTxId(
           java.lang.String value) {
@@ -1944,6 +2116,7 @@ public final class LongTxProtos {
        * </pre>
        *
        * <code>string tx_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTxId() {
         
@@ -1957,6 +2130,8 @@ public final class LongTxProtos {
        * </pre>
        *
        * <code>string tx_id = 1;</code>
+       * @param value The bytes for txId to set.
+       * @return This builder for chaining.
        */
       public Builder setTxIdBytes(
           com.google.protobuf.ByteString value) {
@@ -1969,11 +2144,13 @@ public final class LongTxProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1995,11 +2172,12 @@ public final class LongTxProtos {
 
     private static final com.google.protobuf.Parser<BeginTransactionResult>
         PARSER = new com.google.protobuf.AbstractParser<BeginTransactionResult>() {
+      @java.lang.Override
       public BeginTransactionResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new BeginTransactionResult(input, extensionRegistry);
+        return new BeginTransactionResult(input, extensionRegistry);
       }
     };
 
@@ -2012,6 +2190,7 @@ public final class LongTxProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.long_tx.LongTxProtos.BeginTransactionResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2024,10 +2203,12 @@ public final class LongTxProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -2038,7 +2219,7 @@ public final class LongTxProtos {
   /**
    * Protobuf type {@code Ydb.LongTx.BeginTransactionResponse}
    */
-  public  static final class BeginTransactionResponse extends
+  public static final class BeginTransactionResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.LongTx.BeginTransactionResponse)
       BeginTransactionResponseOrBuilder {
@@ -2051,6 +2232,13 @@ public final class LongTxProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new BeginTransactionResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2060,7 +2248,9 @@ public final class LongTxProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2071,13 +2261,6 @@ public final class LongTxProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -2089,6 +2272,13 @@ public final class LongTxProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -2108,6 +2298,7 @@ public final class LongTxProtos {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionResponse_fieldAccessorTable
@@ -2119,24 +2310,30 @@ public final class LongTxProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2146,6 +2343,7 @@ public final class LongTxProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -2154,6 +2352,7 @@ public final class LongTxProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2178,14 +2377,13 @@ public final class LongTxProtos {
       }
       tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse other = (tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2274,6 +2472,7 @@ public final class LongTxProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2281,6 +2480,7 @@ public final class LongTxProtos {
     public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2304,6 +2504,7 @@ public final class LongTxProtos {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionResponse_fieldAccessorTable
@@ -2326,6 +2527,7 @@ public final class LongTxProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -2337,15 +2539,18 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_BeginTransactionResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse getDefaultInstanceForType() {
         return tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse build() {
         tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -2354,6 +2559,7 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse buildPartial() {
         tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse result = new tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse(this);
         if (operationBuilder_ == null) {
@@ -2365,32 +2571,39 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse) {
           return mergeFrom((tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse)other);
@@ -2410,10 +2623,12 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2432,17 +2647,19 @@ public final class LongTxProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -2548,11 +2765,13 @@ public final class LongTxProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2574,11 +2793,12 @@ public final class LongTxProtos {
 
     private static final com.google.protobuf.Parser<BeginTransactionResponse>
         PARSER = new com.google.protobuf.AbstractParser<BeginTransactionResponse>() {
+      @java.lang.Override
       public BeginTransactionResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new BeginTransactionResponse(input, extensionRegistry);
+        return new BeginTransactionResponse(input, extensionRegistry);
       }
     };
 
@@ -2591,6 +2811,7 @@ public final class LongTxProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.long_tx.LongTxProtos.BeginTransactionResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2603,10 +2824,12 @@ public final class LongTxProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -2616,10 +2839,12 @@ public final class LongTxProtos {
 
     /**
      * <code>string tx_id = 2;</code>
+     * @return The txId.
      */
     java.lang.String getTxId();
     /**
      * <code>string tx_id = 2;</code>
+     * @return The bytes for txId.
      */
     com.google.protobuf.ByteString
         getTxIdBytes();
@@ -2627,7 +2852,7 @@ public final class LongTxProtos {
   /**
    * Protobuf type {@code Ydb.LongTx.CommitTransactionRequest}
    */
-  public  static final class CommitTransactionRequest extends
+  public static final class CommitTransactionRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.LongTx.CommitTransactionRequest)
       CommitTransactionRequestOrBuilder {
@@ -2641,6 +2866,13 @@ public final class LongTxProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CommitTransactionRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2650,7 +2882,9 @@ public final class LongTxProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2661,13 +2895,6 @@ public final class LongTxProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -2687,6 +2914,13 @@ public final class LongTxProtos {
               txId_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2704,6 +2938,7 @@ public final class LongTxProtos {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionRequest_fieldAccessorTable
@@ -2715,19 +2950,24 @@ public final class LongTxProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -2736,7 +2976,9 @@ public final class LongTxProtos {
     private volatile java.lang.Object txId_;
     /**
      * <code>string tx_id = 2;</code>
+     * @return The txId.
      */
+    @java.lang.Override
     public java.lang.String getTxId() {
       java.lang.Object ref = txId_;
       if (ref instanceof java.lang.String) {
@@ -2751,7 +2993,9 @@ public final class LongTxProtos {
     }
     /**
      * <code>string tx_id = 2;</code>
+     * @return The bytes for txId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTxIdBytes() {
       java.lang.Object ref = txId_;
@@ -2767,6 +3011,7 @@ public final class LongTxProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2776,6 +3021,7 @@ public final class LongTxProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -2787,6 +3033,7 @@ public final class LongTxProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2814,16 +3061,15 @@ public final class LongTxProtos {
       }
       tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest other = (tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getTxId()
-          .equals(other.getTxId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getTxId()
+          .equals(other.getTxId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2914,6 +3160,7 @@ public final class LongTxProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2921,6 +3168,7 @@ public final class LongTxProtos {
     public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2944,6 +3192,7 @@ public final class LongTxProtos {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionRequest_fieldAccessorTable
@@ -2966,6 +3215,7 @@ public final class LongTxProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -2979,15 +3229,18 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest getDefaultInstanceForType() {
         return tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest build() {
         tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -2996,6 +3249,7 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest buildPartial() {
         tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest result = new tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -3008,32 +3262,39 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest) {
           return mergeFrom((tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest)other);
@@ -3057,10 +3318,12 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3079,17 +3342,19 @@ public final class LongTxProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -3199,6 +3464,7 @@ public final class LongTxProtos {
       private java.lang.Object txId_ = "";
       /**
        * <code>string tx_id = 2;</code>
+       * @return The txId.
        */
       public java.lang.String getTxId() {
         java.lang.Object ref = txId_;
@@ -3214,6 +3480,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 2;</code>
+       * @return The bytes for txId.
        */
       public com.google.protobuf.ByteString
           getTxIdBytes() {
@@ -3230,6 +3497,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 2;</code>
+       * @param value The txId to set.
+       * @return This builder for chaining.
        */
       public Builder setTxId(
           java.lang.String value) {
@@ -3243,6 +3512,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTxId() {
         
@@ -3252,6 +3522,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 2;</code>
+       * @param value The bytes for txId to set.
+       * @return This builder for chaining.
        */
       public Builder setTxIdBytes(
           com.google.protobuf.ByteString value) {
@@ -3264,11 +3536,13 @@ public final class LongTxProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3290,11 +3564,12 @@ public final class LongTxProtos {
 
     private static final com.google.protobuf.Parser<CommitTransactionRequest>
         PARSER = new com.google.protobuf.AbstractParser<CommitTransactionRequest>() {
+      @java.lang.Override
       public CommitTransactionRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CommitTransactionRequest(input, extensionRegistry);
+        return new CommitTransactionRequest(input, extensionRegistry);
       }
     };
 
@@ -3307,6 +3582,7 @@ public final class LongTxProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.long_tx.LongTxProtos.CommitTransactionRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3319,10 +3595,12 @@ public final class LongTxProtos {
 
     /**
      * <code>string tx_id = 1;</code>
+     * @return The txId.
      */
     java.lang.String getTxId();
     /**
      * <code>string tx_id = 1;</code>
+     * @return The bytes for txId.
      */
     com.google.protobuf.ByteString
         getTxIdBytes();
@@ -3330,7 +3608,7 @@ public final class LongTxProtos {
   /**
    * Protobuf type {@code Ydb.LongTx.CommitTransactionResult}
    */
-  public  static final class CommitTransactionResult extends
+  public static final class CommitTransactionResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.LongTx.CommitTransactionResult)
       CommitTransactionResultOrBuilder {
@@ -3344,6 +3622,13 @@ public final class LongTxProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CommitTransactionResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3353,7 +3638,9 @@ public final class LongTxProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3364,17 +3651,17 @@ public final class LongTxProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
               txId_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -3394,6 +3681,7 @@ public final class LongTxProtos {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionResult_fieldAccessorTable
@@ -3405,7 +3693,9 @@ public final class LongTxProtos {
     private volatile java.lang.Object txId_;
     /**
      * <code>string tx_id = 1;</code>
+     * @return The txId.
      */
+    @java.lang.Override
     public java.lang.String getTxId() {
       java.lang.Object ref = txId_;
       if (ref instanceof java.lang.String) {
@@ -3420,7 +3710,9 @@ public final class LongTxProtos {
     }
     /**
      * <code>string tx_id = 1;</code>
+     * @return The bytes for txId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTxIdBytes() {
       java.lang.Object ref = txId_;
@@ -3436,6 +3728,7 @@ public final class LongTxProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3445,6 +3738,7 @@ public final class LongTxProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTxIdBytes().isEmpty()) {
@@ -3453,6 +3747,7 @@ public final class LongTxProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3476,11 +3771,10 @@ public final class LongTxProtos {
       }
       tech.ydb.long_tx.LongTxProtos.CommitTransactionResult other = (tech.ydb.long_tx.LongTxProtos.CommitTransactionResult) obj;
 
-      boolean result = true;
-      result = result && getTxId()
-          .equals(other.getTxId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getTxId()
+          .equals(other.getTxId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3567,6 +3861,7 @@ public final class LongTxProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3574,6 +3869,7 @@ public final class LongTxProtos {
     public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.CommitTransactionResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3597,6 +3893,7 @@ public final class LongTxProtos {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionResult_fieldAccessorTable
@@ -3619,6 +3916,7 @@ public final class LongTxProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         txId_ = "";
@@ -3626,15 +3924,18 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.CommitTransactionResult getDefaultInstanceForType() {
         return tech.ydb.long_tx.LongTxProtos.CommitTransactionResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.CommitTransactionResult build() {
         tech.ydb.long_tx.LongTxProtos.CommitTransactionResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -3643,6 +3944,7 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.CommitTransactionResult buildPartial() {
         tech.ydb.long_tx.LongTxProtos.CommitTransactionResult result = new tech.ydb.long_tx.LongTxProtos.CommitTransactionResult(this);
         result.txId_ = txId_;
@@ -3650,32 +3952,39 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.long_tx.LongTxProtos.CommitTransactionResult) {
           return mergeFrom((tech.ydb.long_tx.LongTxProtos.CommitTransactionResult)other);
@@ -3696,10 +4005,12 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3721,6 +4032,7 @@ public final class LongTxProtos {
       private java.lang.Object txId_ = "";
       /**
        * <code>string tx_id = 1;</code>
+       * @return The txId.
        */
       public java.lang.String getTxId() {
         java.lang.Object ref = txId_;
@@ -3736,6 +4048,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 1;</code>
+       * @return The bytes for txId.
        */
       public com.google.protobuf.ByteString
           getTxIdBytes() {
@@ -3752,6 +4065,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 1;</code>
+       * @param value The txId to set.
+       * @return This builder for chaining.
        */
       public Builder setTxId(
           java.lang.String value) {
@@ -3765,6 +4080,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTxId() {
         
@@ -3774,6 +4090,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 1;</code>
+       * @param value The bytes for txId to set.
+       * @return This builder for chaining.
        */
       public Builder setTxIdBytes(
           com.google.protobuf.ByteString value) {
@@ -3786,11 +4104,13 @@ public final class LongTxProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3812,11 +4132,12 @@ public final class LongTxProtos {
 
     private static final com.google.protobuf.Parser<CommitTransactionResult>
         PARSER = new com.google.protobuf.AbstractParser<CommitTransactionResult>() {
+      @java.lang.Override
       public CommitTransactionResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CommitTransactionResult(input, extensionRegistry);
+        return new CommitTransactionResult(input, extensionRegistry);
       }
     };
 
@@ -3829,6 +4150,7 @@ public final class LongTxProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.long_tx.LongTxProtos.CommitTransactionResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3841,10 +4163,12 @@ public final class LongTxProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -3855,7 +4179,7 @@ public final class LongTxProtos {
   /**
    * Protobuf type {@code Ydb.LongTx.CommitTransactionResponse}
    */
-  public  static final class CommitTransactionResponse extends
+  public static final class CommitTransactionResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.LongTx.CommitTransactionResponse)
       CommitTransactionResponseOrBuilder {
@@ -3868,6 +4192,13 @@ public final class LongTxProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CommitTransactionResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3877,7 +4208,9 @@ public final class LongTxProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3888,13 +4221,6 @@ public final class LongTxProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -3906,6 +4232,13 @@ public final class LongTxProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -3925,6 +4258,7 @@ public final class LongTxProtos {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionResponse_fieldAccessorTable
@@ -3936,24 +4270,30 @@ public final class LongTxProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3963,6 +4303,7 @@ public final class LongTxProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -3971,6 +4312,7 @@ public final class LongTxProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3995,14 +4337,13 @@ public final class LongTxProtos {
       }
       tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse other = (tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4091,6 +4432,7 @@ public final class LongTxProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4098,6 +4440,7 @@ public final class LongTxProtos {
     public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4121,6 +4464,7 @@ public final class LongTxProtos {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionResponse_fieldAccessorTable
@@ -4143,6 +4487,7 @@ public final class LongTxProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -4154,15 +4499,18 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_CommitTransactionResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse getDefaultInstanceForType() {
         return tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse build() {
         tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -4171,6 +4519,7 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse buildPartial() {
         tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse result = new tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse(this);
         if (operationBuilder_ == null) {
@@ -4182,32 +4531,39 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse) {
           return mergeFrom((tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse)other);
@@ -4227,10 +4583,12 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4249,17 +4607,19 @@ public final class LongTxProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -4365,11 +4725,13 @@ public final class LongTxProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4391,11 +4753,12 @@ public final class LongTxProtos {
 
     private static final com.google.protobuf.Parser<CommitTransactionResponse>
         PARSER = new com.google.protobuf.AbstractParser<CommitTransactionResponse>() {
+      @java.lang.Override
       public CommitTransactionResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CommitTransactionResponse(input, extensionRegistry);
+        return new CommitTransactionResponse(input, extensionRegistry);
       }
     };
 
@@ -4408,6 +4771,7 @@ public final class LongTxProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.long_tx.LongTxProtos.CommitTransactionResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4420,10 +4784,12 @@ public final class LongTxProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -4433,10 +4799,12 @@ public final class LongTxProtos {
 
     /**
      * <code>string tx_id = 2;</code>
+     * @return The txId.
      */
     java.lang.String getTxId();
     /**
      * <code>string tx_id = 2;</code>
+     * @return The bytes for txId.
      */
     com.google.protobuf.ByteString
         getTxIdBytes();
@@ -4444,7 +4812,7 @@ public final class LongTxProtos {
   /**
    * Protobuf type {@code Ydb.LongTx.RollbackTransactionRequest}
    */
-  public  static final class RollbackTransactionRequest extends
+  public static final class RollbackTransactionRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.LongTx.RollbackTransactionRequest)
       RollbackTransactionRequestOrBuilder {
@@ -4458,6 +4826,13 @@ public final class LongTxProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RollbackTransactionRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -4467,7 +4842,9 @@ public final class LongTxProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4478,13 +4855,6 @@ public final class LongTxProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -4504,6 +4874,13 @@ public final class LongTxProtos {
               txId_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -4521,6 +4898,7 @@ public final class LongTxProtos {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionRequest_fieldAccessorTable
@@ -4532,19 +4910,24 @@ public final class LongTxProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -4553,7 +4936,9 @@ public final class LongTxProtos {
     private volatile java.lang.Object txId_;
     /**
      * <code>string tx_id = 2;</code>
+     * @return The txId.
      */
+    @java.lang.Override
     public java.lang.String getTxId() {
       java.lang.Object ref = txId_;
       if (ref instanceof java.lang.String) {
@@ -4568,7 +4953,9 @@ public final class LongTxProtos {
     }
     /**
      * <code>string tx_id = 2;</code>
+     * @return The bytes for txId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTxIdBytes() {
       java.lang.Object ref = txId_;
@@ -4584,6 +4971,7 @@ public final class LongTxProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4593,6 +4981,7 @@ public final class LongTxProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -4604,6 +4993,7 @@ public final class LongTxProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4631,16 +5021,15 @@ public final class LongTxProtos {
       }
       tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest other = (tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getTxId()
-          .equals(other.getTxId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getTxId()
+          .equals(other.getTxId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4731,6 +5120,7 @@ public final class LongTxProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4738,6 +5128,7 @@ public final class LongTxProtos {
     public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4761,6 +5152,7 @@ public final class LongTxProtos {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionRequest_fieldAccessorTable
@@ -4783,6 +5175,7 @@ public final class LongTxProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -4796,15 +5189,18 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest getDefaultInstanceForType() {
         return tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest build() {
         tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -4813,6 +5209,7 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest buildPartial() {
         tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest result = new tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -4825,32 +5222,39 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest) {
           return mergeFrom((tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest)other);
@@ -4874,10 +5278,12 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4896,17 +5302,19 @@ public final class LongTxProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -5016,6 +5424,7 @@ public final class LongTxProtos {
       private java.lang.Object txId_ = "";
       /**
        * <code>string tx_id = 2;</code>
+       * @return The txId.
        */
       public java.lang.String getTxId() {
         java.lang.Object ref = txId_;
@@ -5031,6 +5440,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 2;</code>
+       * @return The bytes for txId.
        */
       public com.google.protobuf.ByteString
           getTxIdBytes() {
@@ -5047,6 +5457,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 2;</code>
+       * @param value The txId to set.
+       * @return This builder for chaining.
        */
       public Builder setTxId(
           java.lang.String value) {
@@ -5060,6 +5472,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTxId() {
         
@@ -5069,6 +5482,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 2;</code>
+       * @param value The bytes for txId to set.
+       * @return This builder for chaining.
        */
       public Builder setTxIdBytes(
           com.google.protobuf.ByteString value) {
@@ -5081,11 +5496,13 @@ public final class LongTxProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5107,11 +5524,12 @@ public final class LongTxProtos {
 
     private static final com.google.protobuf.Parser<RollbackTransactionRequest>
         PARSER = new com.google.protobuf.AbstractParser<RollbackTransactionRequest>() {
+      @java.lang.Override
       public RollbackTransactionRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new RollbackTransactionRequest(input, extensionRegistry);
+        return new RollbackTransactionRequest(input, extensionRegistry);
       }
     };
 
@@ -5124,6 +5542,7 @@ public final class LongTxProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.long_tx.LongTxProtos.RollbackTransactionRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5136,10 +5555,12 @@ public final class LongTxProtos {
 
     /**
      * <code>string tx_id = 1;</code>
+     * @return The txId.
      */
     java.lang.String getTxId();
     /**
      * <code>string tx_id = 1;</code>
+     * @return The bytes for txId.
      */
     com.google.protobuf.ByteString
         getTxIdBytes();
@@ -5147,7 +5568,7 @@ public final class LongTxProtos {
   /**
    * Protobuf type {@code Ydb.LongTx.RollbackTransactionResult}
    */
-  public  static final class RollbackTransactionResult extends
+  public static final class RollbackTransactionResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.LongTx.RollbackTransactionResult)
       RollbackTransactionResultOrBuilder {
@@ -5161,6 +5582,13 @@ public final class LongTxProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RollbackTransactionResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -5170,7 +5598,9 @@ public final class LongTxProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -5181,17 +5611,17 @@ public final class LongTxProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
               txId_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -5211,6 +5641,7 @@ public final class LongTxProtos {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionResult_fieldAccessorTable
@@ -5222,7 +5653,9 @@ public final class LongTxProtos {
     private volatile java.lang.Object txId_;
     /**
      * <code>string tx_id = 1;</code>
+     * @return The txId.
      */
+    @java.lang.Override
     public java.lang.String getTxId() {
       java.lang.Object ref = txId_;
       if (ref instanceof java.lang.String) {
@@ -5237,7 +5670,9 @@ public final class LongTxProtos {
     }
     /**
      * <code>string tx_id = 1;</code>
+     * @return The bytes for txId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTxIdBytes() {
       java.lang.Object ref = txId_;
@@ -5253,6 +5688,7 @@ public final class LongTxProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -5262,6 +5698,7 @@ public final class LongTxProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTxIdBytes().isEmpty()) {
@@ -5270,6 +5707,7 @@ public final class LongTxProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -5293,11 +5731,10 @@ public final class LongTxProtos {
       }
       tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult other = (tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult) obj;
 
-      boolean result = true;
-      result = result && getTxId()
-          .equals(other.getTxId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getTxId()
+          .equals(other.getTxId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5384,6 +5821,7 @@ public final class LongTxProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5391,6 +5829,7 @@ public final class LongTxProtos {
     public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5414,6 +5853,7 @@ public final class LongTxProtos {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionResult_fieldAccessorTable
@@ -5436,6 +5876,7 @@ public final class LongTxProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         txId_ = "";
@@ -5443,15 +5884,18 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult getDefaultInstanceForType() {
         return tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult build() {
         tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -5460,6 +5904,7 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult buildPartial() {
         tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult result = new tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult(this);
         result.txId_ = txId_;
@@ -5467,32 +5912,39 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult) {
           return mergeFrom((tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult)other);
@@ -5513,10 +5965,12 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5538,6 +5992,7 @@ public final class LongTxProtos {
       private java.lang.Object txId_ = "";
       /**
        * <code>string tx_id = 1;</code>
+       * @return The txId.
        */
       public java.lang.String getTxId() {
         java.lang.Object ref = txId_;
@@ -5553,6 +6008,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 1;</code>
+       * @return The bytes for txId.
        */
       public com.google.protobuf.ByteString
           getTxIdBytes() {
@@ -5569,6 +6025,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 1;</code>
+       * @param value The txId to set.
+       * @return This builder for chaining.
        */
       public Builder setTxId(
           java.lang.String value) {
@@ -5582,6 +6040,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTxId() {
         
@@ -5591,6 +6050,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 1;</code>
+       * @param value The bytes for txId to set.
+       * @return This builder for chaining.
        */
       public Builder setTxIdBytes(
           com.google.protobuf.ByteString value) {
@@ -5603,11 +6064,13 @@ public final class LongTxProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5629,11 +6092,12 @@ public final class LongTxProtos {
 
     private static final com.google.protobuf.Parser<RollbackTransactionResult>
         PARSER = new com.google.protobuf.AbstractParser<RollbackTransactionResult>() {
+      @java.lang.Override
       public RollbackTransactionResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new RollbackTransactionResult(input, extensionRegistry);
+        return new RollbackTransactionResult(input, extensionRegistry);
       }
     };
 
@@ -5646,6 +6110,7 @@ public final class LongTxProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.long_tx.LongTxProtos.RollbackTransactionResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5658,10 +6123,12 @@ public final class LongTxProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -5672,7 +6139,7 @@ public final class LongTxProtos {
   /**
    * Protobuf type {@code Ydb.LongTx.RollbackTransactionResponse}
    */
-  public  static final class RollbackTransactionResponse extends
+  public static final class RollbackTransactionResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.LongTx.RollbackTransactionResponse)
       RollbackTransactionResponseOrBuilder {
@@ -5685,6 +6152,13 @@ public final class LongTxProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RollbackTransactionResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -5694,7 +6168,9 @@ public final class LongTxProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -5705,13 +6181,6 @@ public final class LongTxProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -5723,6 +6192,13 @@ public final class LongTxProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -5742,6 +6218,7 @@ public final class LongTxProtos {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionResponse_fieldAccessorTable
@@ -5753,24 +6230,30 @@ public final class LongTxProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -5780,6 +6263,7 @@ public final class LongTxProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -5788,6 +6272,7 @@ public final class LongTxProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -5812,14 +6297,13 @@ public final class LongTxProtos {
       }
       tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse other = (tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5908,6 +6392,7 @@ public final class LongTxProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5915,6 +6400,7 @@ public final class LongTxProtos {
     public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5938,6 +6424,7 @@ public final class LongTxProtos {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionResponse_fieldAccessorTable
@@ -5960,6 +6447,7 @@ public final class LongTxProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -5971,15 +6459,18 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_RollbackTransactionResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse getDefaultInstanceForType() {
         return tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse build() {
         tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -5988,6 +6479,7 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse buildPartial() {
         tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse result = new tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse(this);
         if (operationBuilder_ == null) {
@@ -5999,32 +6491,39 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse) {
           return mergeFrom((tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse)other);
@@ -6044,10 +6543,12 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6066,17 +6567,19 @@ public final class LongTxProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -6182,11 +6685,13 @@ public final class LongTxProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -6208,11 +6713,12 @@ public final class LongTxProtos {
 
     private static final com.google.protobuf.Parser<RollbackTransactionResponse>
         PARSER = new com.google.protobuf.AbstractParser<RollbackTransactionResponse>() {
+      @java.lang.Override
       public RollbackTransactionResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new RollbackTransactionResponse(input, extensionRegistry);
+        return new RollbackTransactionResponse(input, extensionRegistry);
       }
     };
 
@@ -6225,6 +6731,7 @@ public final class LongTxProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.long_tx.LongTxProtos.RollbackTransactionResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -6237,10 +6744,12 @@ public final class LongTxProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -6250,40 +6759,48 @@ public final class LongTxProtos {
 
     /**
      * <code>string tx_id = 2;</code>
+     * @return The txId.
      */
     java.lang.String getTxId();
     /**
      * <code>string tx_id = 2;</code>
+     * @return The bytes for txId.
      */
     com.google.protobuf.ByteString
         getTxIdBytes();
 
     /**
      * <code>string path = 3;</code>
+     * @return The path.
      */
     java.lang.String getPath();
     /**
      * <code>string path = 3;</code>
+     * @return The bytes for path.
      */
     com.google.protobuf.ByteString
         getPathBytes();
 
     /**
      * <code>string dedup_id = 4;</code>
+     * @return The dedupId.
      */
     java.lang.String getDedupId();
     /**
      * <code>string dedup_id = 4;</code>
+     * @return The bytes for dedupId.
      */
     com.google.protobuf.ByteString
         getDedupIdBytes();
 
     /**
      * <code>.Ydb.LongTx.Data data = 5;</code>
+     * @return Whether the data field is set.
      */
     boolean hasData();
     /**
      * <code>.Ydb.LongTx.Data data = 5;</code>
+     * @return The data.
      */
     tech.ydb.long_tx.LongTxProtos.Data getData();
     /**
@@ -6294,7 +6811,7 @@ public final class LongTxProtos {
   /**
    * Protobuf type {@code Ydb.LongTx.WriteRequest}
    */
-  public  static final class WriteRequest extends
+  public static final class WriteRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.LongTx.WriteRequest)
       WriteRequestOrBuilder {
@@ -6310,6 +6827,13 @@ public final class LongTxProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new WriteRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -6319,7 +6843,9 @@ public final class LongTxProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -6330,13 +6856,6 @@ public final class LongTxProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -6381,6 +6900,13 @@ public final class LongTxProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -6398,6 +6924,7 @@ public final class LongTxProtos {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_WriteRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_WriteRequest_fieldAccessorTable
@@ -6409,19 +6936,24 @@ public final class LongTxProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -6430,7 +6962,9 @@ public final class LongTxProtos {
     private volatile java.lang.Object txId_;
     /**
      * <code>string tx_id = 2;</code>
+     * @return The txId.
      */
+    @java.lang.Override
     public java.lang.String getTxId() {
       java.lang.Object ref = txId_;
       if (ref instanceof java.lang.String) {
@@ -6445,7 +6979,9 @@ public final class LongTxProtos {
     }
     /**
      * <code>string tx_id = 2;</code>
+     * @return The bytes for txId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTxIdBytes() {
       java.lang.Object ref = txId_;
@@ -6464,7 +7000,9 @@ public final class LongTxProtos {
     private volatile java.lang.Object path_;
     /**
      * <code>string path = 3;</code>
+     * @return The path.
      */
+    @java.lang.Override
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
@@ -6479,7 +7017,9 @@ public final class LongTxProtos {
     }
     /**
      * <code>string path = 3;</code>
+     * @return The bytes for path.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathBytes() {
       java.lang.Object ref = path_;
@@ -6498,7 +7038,9 @@ public final class LongTxProtos {
     private volatile java.lang.Object dedupId_;
     /**
      * <code>string dedup_id = 4;</code>
+     * @return The dedupId.
      */
+    @java.lang.Override
     public java.lang.String getDedupId() {
       java.lang.Object ref = dedupId_;
       if (ref instanceof java.lang.String) {
@@ -6513,7 +7055,9 @@ public final class LongTxProtos {
     }
     /**
      * <code>string dedup_id = 4;</code>
+     * @return The bytes for dedupId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getDedupIdBytes() {
       java.lang.Object ref = dedupId_;
@@ -6532,24 +7076,30 @@ public final class LongTxProtos {
     private tech.ydb.long_tx.LongTxProtos.Data data_;
     /**
      * <code>.Ydb.LongTx.Data data = 5;</code>
+     * @return Whether the data field is set.
      */
+    @java.lang.Override
     public boolean hasData() {
       return data_ != null;
     }
     /**
      * <code>.Ydb.LongTx.Data data = 5;</code>
+     * @return The data.
      */
+    @java.lang.Override
     public tech.ydb.long_tx.LongTxProtos.Data getData() {
       return data_ == null ? tech.ydb.long_tx.LongTxProtos.Data.getDefaultInstance() : data_;
     }
     /**
      * <code>.Ydb.LongTx.Data data = 5;</code>
      */
+    @java.lang.Override
     public tech.ydb.long_tx.LongTxProtos.DataOrBuilder getDataOrBuilder() {
       return getData();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6559,6 +7109,7 @@ public final class LongTxProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -6579,6 +7130,7 @@ public final class LongTxProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -6616,25 +7168,24 @@ public final class LongTxProtos {
       }
       tech.ydb.long_tx.LongTxProtos.WriteRequest other = (tech.ydb.long_tx.LongTxProtos.WriteRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getTxId()
-          .equals(other.getTxId());
-      result = result && getPath()
-          .equals(other.getPath());
-      result = result && getDedupId()
-          .equals(other.getDedupId());
-      result = result && (hasData() == other.hasData());
+      if (!getTxId()
+          .equals(other.getTxId())) return false;
+      if (!getPath()
+          .equals(other.getPath())) return false;
+      if (!getDedupId()
+          .equals(other.getDedupId())) return false;
+      if (hasData() != other.hasData()) return false;
       if (hasData()) {
-        result = result && getData()
-            .equals(other.getData());
+        if (!getData()
+            .equals(other.getData())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -6733,6 +7284,7 @@ public final class LongTxProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -6740,6 +7292,7 @@ public final class LongTxProtos {
     public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.WriteRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -6763,6 +7316,7 @@ public final class LongTxProtos {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_WriteRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_WriteRequest_fieldAccessorTable
@@ -6785,6 +7339,7 @@ public final class LongTxProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -6808,15 +7363,18 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_WriteRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.WriteRequest getDefaultInstanceForType() {
         return tech.ydb.long_tx.LongTxProtos.WriteRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.WriteRequest build() {
         tech.ydb.long_tx.LongTxProtos.WriteRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -6825,6 +7383,7 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.WriteRequest buildPartial() {
         tech.ydb.long_tx.LongTxProtos.WriteRequest result = new tech.ydb.long_tx.LongTxProtos.WriteRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -6844,32 +7403,39 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.long_tx.LongTxProtos.WriteRequest) {
           return mergeFrom((tech.ydb.long_tx.LongTxProtos.WriteRequest)other);
@@ -6904,10 +7470,12 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6926,17 +7494,19 @@ public final class LongTxProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -7046,6 +7616,7 @@ public final class LongTxProtos {
       private java.lang.Object txId_ = "";
       /**
        * <code>string tx_id = 2;</code>
+       * @return The txId.
        */
       public java.lang.String getTxId() {
         java.lang.Object ref = txId_;
@@ -7061,6 +7632,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 2;</code>
+       * @return The bytes for txId.
        */
       public com.google.protobuf.ByteString
           getTxIdBytes() {
@@ -7077,6 +7649,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 2;</code>
+       * @param value The txId to set.
+       * @return This builder for chaining.
        */
       public Builder setTxId(
           java.lang.String value) {
@@ -7090,6 +7664,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTxId() {
         
@@ -7099,6 +7674,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 2;</code>
+       * @param value The bytes for txId to set.
+       * @return This builder for chaining.
        */
       public Builder setTxIdBytes(
           com.google.protobuf.ByteString value) {
@@ -7115,6 +7692,7 @@ public final class LongTxProtos {
       private java.lang.Object path_ = "";
       /**
        * <code>string path = 3;</code>
+       * @return The path.
        */
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
@@ -7130,6 +7708,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string path = 3;</code>
+       * @return The bytes for path.
        */
       public com.google.protobuf.ByteString
           getPathBytes() {
@@ -7146,6 +7725,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string path = 3;</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           java.lang.String value) {
@@ -7159,6 +7740,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string path = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         
@@ -7168,6 +7750,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string path = 3;</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
        */
       public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
@@ -7184,6 +7768,7 @@ public final class LongTxProtos {
       private java.lang.Object dedupId_ = "";
       /**
        * <code>string dedup_id = 4;</code>
+       * @return The dedupId.
        */
       public java.lang.String getDedupId() {
         java.lang.Object ref = dedupId_;
@@ -7199,6 +7784,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string dedup_id = 4;</code>
+       * @return The bytes for dedupId.
        */
       public com.google.protobuf.ByteString
           getDedupIdBytes() {
@@ -7215,6 +7801,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string dedup_id = 4;</code>
+       * @param value The dedupId to set.
+       * @return This builder for chaining.
        */
       public Builder setDedupId(
           java.lang.String value) {
@@ -7228,6 +7816,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string dedup_id = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDedupId() {
         
@@ -7237,6 +7826,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string dedup_id = 4;</code>
+       * @param value The bytes for dedupId to set.
+       * @return This builder for chaining.
        */
       public Builder setDedupIdBytes(
           com.google.protobuf.ByteString value) {
@@ -7250,17 +7841,19 @@ public final class LongTxProtos {
         return this;
       }
 
-      private tech.ydb.long_tx.LongTxProtos.Data data_ = null;
+      private tech.ydb.long_tx.LongTxProtos.Data data_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.long_tx.LongTxProtos.Data, tech.ydb.long_tx.LongTxProtos.Data.Builder, tech.ydb.long_tx.LongTxProtos.DataOrBuilder> dataBuilder_;
       /**
        * <code>.Ydb.LongTx.Data data = 5;</code>
+       * @return Whether the data field is set.
        */
       public boolean hasData() {
         return dataBuilder_ != null || data_ != null;
       }
       /**
        * <code>.Ydb.LongTx.Data data = 5;</code>
+       * @return The data.
        */
       public tech.ydb.long_tx.LongTxProtos.Data getData() {
         if (dataBuilder_ == null) {
@@ -7366,11 +7959,13 @@ public final class LongTxProtos {
         }
         return dataBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -7392,11 +7987,12 @@ public final class LongTxProtos {
 
     private static final com.google.protobuf.Parser<WriteRequest>
         PARSER = new com.google.protobuf.AbstractParser<WriteRequest>() {
+      @java.lang.Override
       public WriteRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new WriteRequest(input, extensionRegistry);
+        return new WriteRequest(input, extensionRegistry);
       }
     };
 
@@ -7409,6 +8005,7 @@ public final class LongTxProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.long_tx.LongTxProtos.WriteRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -7421,30 +8018,36 @@ public final class LongTxProtos {
 
     /**
      * <code>string tx_id = 1;</code>
+     * @return The txId.
      */
     java.lang.String getTxId();
     /**
      * <code>string tx_id = 1;</code>
+     * @return The bytes for txId.
      */
     com.google.protobuf.ByteString
         getTxIdBytes();
 
     /**
      * <code>string path = 2;</code>
+     * @return The path.
      */
     java.lang.String getPath();
     /**
      * <code>string path = 2;</code>
+     * @return The bytes for path.
      */
     com.google.protobuf.ByteString
         getPathBytes();
 
     /**
      * <code>string dedup_id = 3;</code>
+     * @return The dedupId.
      */
     java.lang.String getDedupId();
     /**
      * <code>string dedup_id = 3;</code>
+     * @return The bytes for dedupId.
      */
     com.google.protobuf.ByteString
         getDedupIdBytes();
@@ -7452,7 +8055,7 @@ public final class LongTxProtos {
   /**
    * Protobuf type {@code Ydb.LongTx.WriteResult}
    */
-  public  static final class WriteResult extends
+  public static final class WriteResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.LongTx.WriteResult)
       WriteResultOrBuilder {
@@ -7468,6 +8071,13 @@ public final class LongTxProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new WriteResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -7477,7 +8087,9 @@ public final class LongTxProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -7488,13 +8100,6 @@ public final class LongTxProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -7511,6 +8116,13 @@ public final class LongTxProtos {
               java.lang.String s = input.readStringRequireUtf8();
 
               dedupId_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -7530,6 +8142,7 @@ public final class LongTxProtos {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_WriteResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_WriteResult_fieldAccessorTable
@@ -7541,7 +8154,9 @@ public final class LongTxProtos {
     private volatile java.lang.Object txId_;
     /**
      * <code>string tx_id = 1;</code>
+     * @return The txId.
      */
+    @java.lang.Override
     public java.lang.String getTxId() {
       java.lang.Object ref = txId_;
       if (ref instanceof java.lang.String) {
@@ -7556,7 +8171,9 @@ public final class LongTxProtos {
     }
     /**
      * <code>string tx_id = 1;</code>
+     * @return The bytes for txId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTxIdBytes() {
       java.lang.Object ref = txId_;
@@ -7575,7 +8192,9 @@ public final class LongTxProtos {
     private volatile java.lang.Object path_;
     /**
      * <code>string path = 2;</code>
+     * @return The path.
      */
+    @java.lang.Override
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
@@ -7590,7 +8209,9 @@ public final class LongTxProtos {
     }
     /**
      * <code>string path = 2;</code>
+     * @return The bytes for path.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathBytes() {
       java.lang.Object ref = path_;
@@ -7609,7 +8230,9 @@ public final class LongTxProtos {
     private volatile java.lang.Object dedupId_;
     /**
      * <code>string dedup_id = 3;</code>
+     * @return The dedupId.
      */
+    @java.lang.Override
     public java.lang.String getDedupId() {
       java.lang.Object ref = dedupId_;
       if (ref instanceof java.lang.String) {
@@ -7624,7 +8247,9 @@ public final class LongTxProtos {
     }
     /**
      * <code>string dedup_id = 3;</code>
+     * @return The bytes for dedupId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getDedupIdBytes() {
       java.lang.Object ref = dedupId_;
@@ -7640,6 +8265,7 @@ public final class LongTxProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -7649,6 +8275,7 @@ public final class LongTxProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTxIdBytes().isEmpty()) {
@@ -7663,6 +8290,7 @@ public final class LongTxProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -7692,15 +8320,14 @@ public final class LongTxProtos {
       }
       tech.ydb.long_tx.LongTxProtos.WriteResult other = (tech.ydb.long_tx.LongTxProtos.WriteResult) obj;
 
-      boolean result = true;
-      result = result && getTxId()
-          .equals(other.getTxId());
-      result = result && getPath()
-          .equals(other.getPath());
-      result = result && getDedupId()
-          .equals(other.getDedupId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getTxId()
+          .equals(other.getTxId())) return false;
+      if (!getPath()
+          .equals(other.getPath())) return false;
+      if (!getDedupId()
+          .equals(other.getDedupId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -7791,6 +8418,7 @@ public final class LongTxProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -7798,6 +8426,7 @@ public final class LongTxProtos {
     public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.WriteResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -7821,6 +8450,7 @@ public final class LongTxProtos {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_WriteResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_WriteResult_fieldAccessorTable
@@ -7843,6 +8473,7 @@ public final class LongTxProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         txId_ = "";
@@ -7854,15 +8485,18 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_WriteResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.WriteResult getDefaultInstanceForType() {
         return tech.ydb.long_tx.LongTxProtos.WriteResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.WriteResult build() {
         tech.ydb.long_tx.LongTxProtos.WriteResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -7871,6 +8505,7 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.WriteResult buildPartial() {
         tech.ydb.long_tx.LongTxProtos.WriteResult result = new tech.ydb.long_tx.LongTxProtos.WriteResult(this);
         result.txId_ = txId_;
@@ -7880,32 +8515,39 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.long_tx.LongTxProtos.WriteResult) {
           return mergeFrom((tech.ydb.long_tx.LongTxProtos.WriteResult)other);
@@ -7934,10 +8576,12 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -7959,6 +8603,7 @@ public final class LongTxProtos {
       private java.lang.Object txId_ = "";
       /**
        * <code>string tx_id = 1;</code>
+       * @return The txId.
        */
       public java.lang.String getTxId() {
         java.lang.Object ref = txId_;
@@ -7974,6 +8619,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 1;</code>
+       * @return The bytes for txId.
        */
       public com.google.protobuf.ByteString
           getTxIdBytes() {
@@ -7990,6 +8636,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 1;</code>
+       * @param value The txId to set.
+       * @return This builder for chaining.
        */
       public Builder setTxId(
           java.lang.String value) {
@@ -8003,6 +8651,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTxId() {
         
@@ -8012,6 +8661,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 1;</code>
+       * @param value The bytes for txId to set.
+       * @return This builder for chaining.
        */
       public Builder setTxIdBytes(
           com.google.protobuf.ByteString value) {
@@ -8028,6 +8679,7 @@ public final class LongTxProtos {
       private java.lang.Object path_ = "";
       /**
        * <code>string path = 2;</code>
+       * @return The path.
        */
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
@@ -8043,6 +8695,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @return The bytes for path.
        */
       public com.google.protobuf.ByteString
           getPathBytes() {
@@ -8059,6 +8712,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           java.lang.String value) {
@@ -8072,6 +8727,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         
@@ -8081,6 +8737,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
        */
       public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
@@ -8097,6 +8755,7 @@ public final class LongTxProtos {
       private java.lang.Object dedupId_ = "";
       /**
        * <code>string dedup_id = 3;</code>
+       * @return The dedupId.
        */
       public java.lang.String getDedupId() {
         java.lang.Object ref = dedupId_;
@@ -8112,6 +8771,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string dedup_id = 3;</code>
+       * @return The bytes for dedupId.
        */
       public com.google.protobuf.ByteString
           getDedupIdBytes() {
@@ -8128,6 +8788,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string dedup_id = 3;</code>
+       * @param value The dedupId to set.
+       * @return This builder for chaining.
        */
       public Builder setDedupId(
           java.lang.String value) {
@@ -8141,6 +8803,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string dedup_id = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDedupId() {
         
@@ -8150,6 +8813,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string dedup_id = 3;</code>
+       * @param value The bytes for dedupId to set.
+       * @return This builder for chaining.
        */
       public Builder setDedupIdBytes(
           com.google.protobuf.ByteString value) {
@@ -8162,11 +8827,13 @@ public final class LongTxProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -8188,11 +8855,12 @@ public final class LongTxProtos {
 
     private static final com.google.protobuf.Parser<WriteResult>
         PARSER = new com.google.protobuf.AbstractParser<WriteResult>() {
+      @java.lang.Override
       public WriteResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new WriteResult(input, extensionRegistry);
+        return new WriteResult(input, extensionRegistry);
       }
     };
 
@@ -8205,6 +8873,7 @@ public final class LongTxProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.long_tx.LongTxProtos.WriteResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -8217,10 +8886,12 @@ public final class LongTxProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -8231,7 +8902,7 @@ public final class LongTxProtos {
   /**
    * Protobuf type {@code Ydb.LongTx.WriteResponse}
    */
-  public  static final class WriteResponse extends
+  public static final class WriteResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.LongTx.WriteResponse)
       WriteResponseOrBuilder {
@@ -8244,6 +8915,13 @@ public final class LongTxProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new WriteResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -8253,7 +8931,9 @@ public final class LongTxProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -8264,13 +8944,6 @@ public final class LongTxProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -8282,6 +8955,13 @@ public final class LongTxProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -8301,6 +8981,7 @@ public final class LongTxProtos {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_WriteResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_WriteResponse_fieldAccessorTable
@@ -8312,24 +8993,30 @@ public final class LongTxProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -8339,6 +9026,7 @@ public final class LongTxProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -8347,6 +9035,7 @@ public final class LongTxProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -8371,14 +9060,13 @@ public final class LongTxProtos {
       }
       tech.ydb.long_tx.LongTxProtos.WriteResponse other = (tech.ydb.long_tx.LongTxProtos.WriteResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -8467,6 +9155,7 @@ public final class LongTxProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -8474,6 +9163,7 @@ public final class LongTxProtos {
     public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.WriteResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -8497,6 +9187,7 @@ public final class LongTxProtos {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_WriteResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_WriteResponse_fieldAccessorTable
@@ -8519,6 +9210,7 @@ public final class LongTxProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -8530,15 +9222,18 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_WriteResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.WriteResponse getDefaultInstanceForType() {
         return tech.ydb.long_tx.LongTxProtos.WriteResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.WriteResponse build() {
         tech.ydb.long_tx.LongTxProtos.WriteResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -8547,6 +9242,7 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.WriteResponse buildPartial() {
         tech.ydb.long_tx.LongTxProtos.WriteResponse result = new tech.ydb.long_tx.LongTxProtos.WriteResponse(this);
         if (operationBuilder_ == null) {
@@ -8558,32 +9254,39 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.long_tx.LongTxProtos.WriteResponse) {
           return mergeFrom((tech.ydb.long_tx.LongTxProtos.WriteResponse)other);
@@ -8603,10 +9306,12 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8625,17 +9330,19 @@ public final class LongTxProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -8741,11 +9448,13 @@ public final class LongTxProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -8767,11 +9476,12 @@ public final class LongTxProtos {
 
     private static final com.google.protobuf.Parser<WriteResponse>
         PARSER = new com.google.protobuf.AbstractParser<WriteResponse>() {
+      @java.lang.Override
       public WriteResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new WriteResponse(input, extensionRegistry);
+        return new WriteResponse(input, extensionRegistry);
       }
     };
 
@@ -8784,6 +9494,7 @@ public final class LongTxProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.long_tx.LongTxProtos.WriteResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -8796,10 +9507,12 @@ public final class LongTxProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -8809,30 +9522,41 @@ public final class LongTxProtos {
 
     /**
      * <code>string tx_id = 2;</code>
+     * @return The txId.
      */
     java.lang.String getTxId();
     /**
      * <code>string tx_id = 2;</code>
+     * @return The bytes for txId.
      */
     com.google.protobuf.ByteString
         getTxIdBytes();
 
     /**
      * <code>string path = 3;</code>
+     * @return The path.
      */
     java.lang.String getPath();
     /**
      * <code>string path = 3;</code>
+     * @return The bytes for path.
      */
     com.google.protobuf.ByteString
         getPathBytes();
 
     /**
      * <code>string sql = 11;</code>
+     * @return Whether the sql field is set.
+     */
+    boolean hasSql();
+    /**
+     * <code>string sql = 11;</code>
+     * @return The sql.
      */
     java.lang.String getSql();
     /**
      * <code>string sql = 11;</code>
+     * @return The bytes for sql.
      */
     com.google.protobuf.ByteString
         getSqlBytes();
@@ -8842,7 +9566,7 @@ public final class LongTxProtos {
   /**
    * Protobuf type {@code Ydb.LongTx.ReadRequest}
    */
-  public  static final class ReadRequest extends
+  public static final class ReadRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.LongTx.ReadRequest)
       ReadRequestOrBuilder {
@@ -8857,6 +9581,13 @@ public final class LongTxProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ReadRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -8866,7 +9597,9 @@ public final class LongTxProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -8877,13 +9610,6 @@ public final class LongTxProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -8915,6 +9641,13 @@ public final class LongTxProtos {
               query_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -8932,6 +9665,7 @@ public final class LongTxProtos {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_fieldAccessorTable
@@ -8942,7 +9676,8 @@ public final class LongTxProtos {
     private int queryCase_ = 0;
     private java.lang.Object query_;
     public enum QueryCase
-        implements com.google.protobuf.Internal.EnumLite {
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       SQL(11),
       QUERY_NOT_SET(0);
       private final int value;
@@ -8950,6 +9685,8 @@ public final class LongTxProtos {
         this.value = value;
       }
       /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -8979,19 +9716,24 @@ public final class LongTxProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -9000,7 +9742,9 @@ public final class LongTxProtos {
     private volatile java.lang.Object txId_;
     /**
      * <code>string tx_id = 2;</code>
+     * @return The txId.
      */
+    @java.lang.Override
     public java.lang.String getTxId() {
       java.lang.Object ref = txId_;
       if (ref instanceof java.lang.String) {
@@ -9015,7 +9759,9 @@ public final class LongTxProtos {
     }
     /**
      * <code>string tx_id = 2;</code>
+     * @return The bytes for txId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTxIdBytes() {
       java.lang.Object ref = txId_;
@@ -9034,7 +9780,9 @@ public final class LongTxProtos {
     private volatile java.lang.Object path_;
     /**
      * <code>string path = 3;</code>
+     * @return The path.
      */
+    @java.lang.Override
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
@@ -9049,7 +9797,9 @@ public final class LongTxProtos {
     }
     /**
      * <code>string path = 3;</code>
+     * @return The bytes for path.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathBytes() {
       java.lang.Object ref = path_;
@@ -9067,6 +9817,14 @@ public final class LongTxProtos {
     public static final int SQL_FIELD_NUMBER = 11;
     /**
      * <code>string sql = 11;</code>
+     * @return Whether the sql field is set.
+     */
+    public boolean hasSql() {
+      return queryCase_ == 11;
+    }
+    /**
+     * <code>string sql = 11;</code>
+     * @return The sql.
      */
     public java.lang.String getSql() {
       java.lang.Object ref = "";
@@ -9087,6 +9845,7 @@ public final class LongTxProtos {
     }
     /**
      * <code>string sql = 11;</code>
+     * @return The bytes for sql.
      */
     public com.google.protobuf.ByteString
         getSqlBytes() {
@@ -9108,6 +9867,7 @@ public final class LongTxProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -9117,6 +9877,7 @@ public final class LongTxProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -9134,6 +9895,7 @@ public final class LongTxProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -9167,29 +9929,26 @@ public final class LongTxProtos {
       }
       tech.ydb.long_tx.LongTxProtos.ReadRequest other = (tech.ydb.long_tx.LongTxProtos.ReadRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getTxId()
-          .equals(other.getTxId());
-      result = result && getPath()
-          .equals(other.getPath());
-      result = result && getQueryCase().equals(
-          other.getQueryCase());
-      if (!result) return false;
+      if (!getTxId()
+          .equals(other.getTxId())) return false;
+      if (!getPath()
+          .equals(other.getPath())) return false;
+      if (!getQueryCase().equals(other.getQueryCase())) return false;
       switch (queryCase_) {
         case 11:
-          result = result && getSql()
-              .equals(other.getSql());
+          if (!getSql()
+              .equals(other.getSql())) return false;
           break;
         case 0:
         default:
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -9290,6 +10049,7 @@ public final class LongTxProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -9297,6 +10057,7 @@ public final class LongTxProtos {
     public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.ReadRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -9320,6 +10081,7 @@ public final class LongTxProtos {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_fieldAccessorTable
@@ -9342,6 +10104,7 @@ public final class LongTxProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -9359,15 +10122,18 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.ReadRequest getDefaultInstanceForType() {
         return tech.ydb.long_tx.LongTxProtos.ReadRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.ReadRequest build() {
         tech.ydb.long_tx.LongTxProtos.ReadRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -9376,6 +10142,7 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.ReadRequest buildPartial() {
         tech.ydb.long_tx.LongTxProtos.ReadRequest result = new tech.ydb.long_tx.LongTxProtos.ReadRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -9393,32 +10160,39 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.long_tx.LongTxProtos.ReadRequest) {
           return mergeFrom((tech.ydb.long_tx.LongTxProtos.ReadRequest)other);
@@ -9457,10 +10231,12 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -9494,17 +10270,19 @@ public final class LongTxProtos {
       }
 
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -9614,6 +10392,7 @@ public final class LongTxProtos {
       private java.lang.Object txId_ = "";
       /**
        * <code>string tx_id = 2;</code>
+       * @return The txId.
        */
       public java.lang.String getTxId() {
         java.lang.Object ref = txId_;
@@ -9629,6 +10408,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 2;</code>
+       * @return The bytes for txId.
        */
       public com.google.protobuf.ByteString
           getTxIdBytes() {
@@ -9645,6 +10425,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 2;</code>
+       * @param value The txId to set.
+       * @return This builder for chaining.
        */
       public Builder setTxId(
           java.lang.String value) {
@@ -9658,6 +10440,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTxId() {
         
@@ -9667,6 +10450,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 2;</code>
+       * @param value The bytes for txId to set.
+       * @return This builder for chaining.
        */
       public Builder setTxIdBytes(
           com.google.protobuf.ByteString value) {
@@ -9683,6 +10468,7 @@ public final class LongTxProtos {
       private java.lang.Object path_ = "";
       /**
        * <code>string path = 3;</code>
+       * @return The path.
        */
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
@@ -9698,6 +10484,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string path = 3;</code>
+       * @return The bytes for path.
        */
       public com.google.protobuf.ByteString
           getPathBytes() {
@@ -9714,6 +10501,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string path = 3;</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           java.lang.String value) {
@@ -9727,6 +10516,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string path = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         
@@ -9736,6 +10526,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string path = 3;</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
        */
       public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
@@ -9751,7 +10543,17 @@ public final class LongTxProtos {
 
       /**
        * <code>string sql = 11;</code>
+       * @return Whether the sql field is set.
        */
+      @java.lang.Override
+      public boolean hasSql() {
+        return queryCase_ == 11;
+      }
+      /**
+       * <code>string sql = 11;</code>
+       * @return The sql.
+       */
+      @java.lang.Override
       public java.lang.String getSql() {
         java.lang.Object ref = "";
         if (queryCase_ == 11) {
@@ -9771,7 +10573,9 @@ public final class LongTxProtos {
       }
       /**
        * <code>string sql = 11;</code>
+       * @return The bytes for sql.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getSqlBytes() {
         java.lang.Object ref = "";
@@ -9792,6 +10596,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string sql = 11;</code>
+       * @param value The sql to set.
+       * @return This builder for chaining.
        */
       public Builder setSql(
           java.lang.String value) {
@@ -9805,6 +10611,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string sql = 11;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSql() {
         if (queryCase_ == 11) {
@@ -9816,6 +10623,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string sql = 11;</code>
+       * @param value The bytes for sql to set.
+       * @return This builder for chaining.
        */
       public Builder setSqlBytes(
           com.google.protobuf.ByteString value) {
@@ -9828,11 +10637,13 @@ public final class LongTxProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -9854,11 +10665,12 @@ public final class LongTxProtos {
 
     private static final com.google.protobuf.Parser<ReadRequest>
         PARSER = new com.google.protobuf.AbstractParser<ReadRequest>() {
+      @java.lang.Override
       public ReadRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ReadRequest(input, extensionRegistry);
+        return new ReadRequest(input, extensionRegistry);
       }
     };
 
@@ -9871,6 +10683,7 @@ public final class LongTxProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.long_tx.LongTxProtos.ReadRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -9883,40 +10696,48 @@ public final class LongTxProtos {
 
     /**
      * <code>string tx_id = 1;</code>
+     * @return The txId.
      */
     java.lang.String getTxId();
     /**
      * <code>string tx_id = 1;</code>
+     * @return The bytes for txId.
      */
     com.google.protobuf.ByteString
         getTxIdBytes();
 
     /**
      * <code>string path = 2;</code>
+     * @return The path.
      */
     java.lang.String getPath();
     /**
      * <code>string path = 2;</code>
+     * @return The bytes for path.
      */
     com.google.protobuf.ByteString
         getPathBytes();
 
     /**
      * <code>uint64 chunk = 3;</code>
+     * @return The chunk.
      */
     long getChunk();
 
     /**
      * <code>bool finished = 4;</code>
+     * @return The finished.
      */
     boolean getFinished();
 
     /**
      * <code>.Ydb.LongTx.Data data = 5;</code>
+     * @return Whether the data field is set.
      */
     boolean hasData();
     /**
      * <code>.Ydb.LongTx.Data data = 5;</code>
+     * @return The data.
      */
     tech.ydb.long_tx.LongTxProtos.Data getData();
     /**
@@ -9927,7 +10748,7 @@ public final class LongTxProtos {
   /**
    * Protobuf type {@code Ydb.LongTx.ReadResult}
    */
-  public  static final class ReadResult extends
+  public static final class ReadResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.LongTx.ReadResult)
       ReadResultOrBuilder {
@@ -9939,8 +10760,13 @@ public final class LongTxProtos {
     private ReadResult() {
       txId_ = "";
       path_ = "";
-      chunk_ = 0L;
-      finished_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ReadResult();
     }
 
     @java.lang.Override
@@ -9953,7 +10779,9 @@ public final class LongTxProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -9964,13 +10792,6 @@ public final class LongTxProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -10006,6 +10827,13 @@ public final class LongTxProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -10023,6 +10851,7 @@ public final class LongTxProtos {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadResult_fieldAccessorTable
@@ -10034,7 +10863,9 @@ public final class LongTxProtos {
     private volatile java.lang.Object txId_;
     /**
      * <code>string tx_id = 1;</code>
+     * @return The txId.
      */
+    @java.lang.Override
     public java.lang.String getTxId() {
       java.lang.Object ref = txId_;
       if (ref instanceof java.lang.String) {
@@ -10049,7 +10880,9 @@ public final class LongTxProtos {
     }
     /**
      * <code>string tx_id = 1;</code>
+     * @return The bytes for txId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTxIdBytes() {
       java.lang.Object ref = txId_;
@@ -10068,7 +10901,9 @@ public final class LongTxProtos {
     private volatile java.lang.Object path_;
     /**
      * <code>string path = 2;</code>
+     * @return The path.
      */
+    @java.lang.Override
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
@@ -10083,7 +10918,9 @@ public final class LongTxProtos {
     }
     /**
      * <code>string path = 2;</code>
+     * @return The bytes for path.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathBytes() {
       java.lang.Object ref = path_;
@@ -10102,7 +10939,9 @@ public final class LongTxProtos {
     private long chunk_;
     /**
      * <code>uint64 chunk = 3;</code>
+     * @return The chunk.
      */
+    @java.lang.Override
     public long getChunk() {
       return chunk_;
     }
@@ -10111,7 +10950,9 @@ public final class LongTxProtos {
     private boolean finished_;
     /**
      * <code>bool finished = 4;</code>
+     * @return The finished.
      */
+    @java.lang.Override
     public boolean getFinished() {
       return finished_;
     }
@@ -10120,24 +10961,30 @@ public final class LongTxProtos {
     private tech.ydb.long_tx.LongTxProtos.Data data_;
     /**
      * <code>.Ydb.LongTx.Data data = 5;</code>
+     * @return Whether the data field is set.
      */
+    @java.lang.Override
     public boolean hasData() {
       return data_ != null;
     }
     /**
      * <code>.Ydb.LongTx.Data data = 5;</code>
+     * @return The data.
      */
+    @java.lang.Override
     public tech.ydb.long_tx.LongTxProtos.Data getData() {
       return data_ == null ? tech.ydb.long_tx.LongTxProtos.Data.getDefaultInstance() : data_;
     }
     /**
      * <code>.Ydb.LongTx.Data data = 5;</code>
      */
+    @java.lang.Override
     public tech.ydb.long_tx.LongTxProtos.DataOrBuilder getDataOrBuilder() {
       return getData();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -10147,6 +10994,7 @@ public final class LongTxProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTxIdBytes().isEmpty()) {
@@ -10167,6 +11015,7 @@ public final class LongTxProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -10205,22 +11054,21 @@ public final class LongTxProtos {
       }
       tech.ydb.long_tx.LongTxProtos.ReadResult other = (tech.ydb.long_tx.LongTxProtos.ReadResult) obj;
 
-      boolean result = true;
-      result = result && getTxId()
-          .equals(other.getTxId());
-      result = result && getPath()
-          .equals(other.getPath());
-      result = result && (getChunk()
-          == other.getChunk());
-      result = result && (getFinished()
-          == other.getFinished());
-      result = result && (hasData() == other.hasData());
+      if (!getTxId()
+          .equals(other.getTxId())) return false;
+      if (!getPath()
+          .equals(other.getPath())) return false;
+      if (getChunk()
+          != other.getChunk()) return false;
+      if (getFinished()
+          != other.getFinished()) return false;
+      if (hasData() != other.hasData()) return false;
       if (hasData()) {
-        result = result && getData()
-            .equals(other.getData());
+        if (!getData()
+            .equals(other.getData())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -10319,6 +11167,7 @@ public final class LongTxProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -10326,6 +11175,7 @@ public final class LongTxProtos {
     public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.ReadResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -10349,6 +11199,7 @@ public final class LongTxProtos {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadResult_fieldAccessorTable
@@ -10371,6 +11222,7 @@ public final class LongTxProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         txId_ = "";
@@ -10390,15 +11242,18 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.ReadResult getDefaultInstanceForType() {
         return tech.ydb.long_tx.LongTxProtos.ReadResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.ReadResult build() {
         tech.ydb.long_tx.LongTxProtos.ReadResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -10407,6 +11262,7 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.ReadResult buildPartial() {
         tech.ydb.long_tx.LongTxProtos.ReadResult result = new tech.ydb.long_tx.LongTxProtos.ReadResult(this);
         result.txId_ = txId_;
@@ -10422,32 +11278,39 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.long_tx.LongTxProtos.ReadResult) {
           return mergeFrom((tech.ydb.long_tx.LongTxProtos.ReadResult)other);
@@ -10481,10 +11344,12 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -10506,6 +11371,7 @@ public final class LongTxProtos {
       private java.lang.Object txId_ = "";
       /**
        * <code>string tx_id = 1;</code>
+       * @return The txId.
        */
       public java.lang.String getTxId() {
         java.lang.Object ref = txId_;
@@ -10521,6 +11387,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 1;</code>
+       * @return The bytes for txId.
        */
       public com.google.protobuf.ByteString
           getTxIdBytes() {
@@ -10537,6 +11404,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 1;</code>
+       * @param value The txId to set.
+       * @return This builder for chaining.
        */
       public Builder setTxId(
           java.lang.String value) {
@@ -10550,6 +11419,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTxId() {
         
@@ -10559,6 +11429,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string tx_id = 1;</code>
+       * @param value The bytes for txId to set.
+       * @return This builder for chaining.
        */
       public Builder setTxIdBytes(
           com.google.protobuf.ByteString value) {
@@ -10575,6 +11447,7 @@ public final class LongTxProtos {
       private java.lang.Object path_ = "";
       /**
        * <code>string path = 2;</code>
+       * @return The path.
        */
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
@@ -10590,6 +11463,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @return The bytes for path.
        */
       public com.google.protobuf.ByteString
           getPathBytes() {
@@ -10606,6 +11480,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           java.lang.String value) {
@@ -10619,6 +11495,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         
@@ -10628,6 +11505,8 @@ public final class LongTxProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
        */
       public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
@@ -10644,12 +11523,16 @@ public final class LongTxProtos {
       private long chunk_ ;
       /**
        * <code>uint64 chunk = 3;</code>
+       * @return The chunk.
        */
+      @java.lang.Override
       public long getChunk() {
         return chunk_;
       }
       /**
        * <code>uint64 chunk = 3;</code>
+       * @param value The chunk to set.
+       * @return This builder for chaining.
        */
       public Builder setChunk(long value) {
         
@@ -10659,6 +11542,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>uint64 chunk = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearChunk() {
         
@@ -10670,12 +11554,16 @@ public final class LongTxProtos {
       private boolean finished_ ;
       /**
        * <code>bool finished = 4;</code>
+       * @return The finished.
        */
+      @java.lang.Override
       public boolean getFinished() {
         return finished_;
       }
       /**
        * <code>bool finished = 4;</code>
+       * @param value The finished to set.
+       * @return This builder for chaining.
        */
       public Builder setFinished(boolean value) {
         
@@ -10685,6 +11573,7 @@ public final class LongTxProtos {
       }
       /**
        * <code>bool finished = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFinished() {
         
@@ -10693,17 +11582,19 @@ public final class LongTxProtos {
         return this;
       }
 
-      private tech.ydb.long_tx.LongTxProtos.Data data_ = null;
+      private tech.ydb.long_tx.LongTxProtos.Data data_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.long_tx.LongTxProtos.Data, tech.ydb.long_tx.LongTxProtos.Data.Builder, tech.ydb.long_tx.LongTxProtos.DataOrBuilder> dataBuilder_;
       /**
        * <code>.Ydb.LongTx.Data data = 5;</code>
+       * @return Whether the data field is set.
        */
       public boolean hasData() {
         return dataBuilder_ != null || data_ != null;
       }
       /**
        * <code>.Ydb.LongTx.Data data = 5;</code>
+       * @return The data.
        */
       public tech.ydb.long_tx.LongTxProtos.Data getData() {
         if (dataBuilder_ == null) {
@@ -10809,11 +11700,13 @@ public final class LongTxProtos {
         }
         return dataBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -10835,11 +11728,12 @@ public final class LongTxProtos {
 
     private static final com.google.protobuf.Parser<ReadResult>
         PARSER = new com.google.protobuf.AbstractParser<ReadResult>() {
+      @java.lang.Override
       public ReadResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ReadResult(input, extensionRegistry);
+        return new ReadResult(input, extensionRegistry);
       }
     };
 
@@ -10852,6 +11746,7 @@ public final class LongTxProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.long_tx.LongTxProtos.ReadResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -10864,10 +11759,12 @@ public final class LongTxProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -10878,7 +11775,7 @@ public final class LongTxProtos {
   /**
    * Protobuf type {@code Ydb.LongTx.ReadResponse}
    */
-  public  static final class ReadResponse extends
+  public static final class ReadResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.LongTx.ReadResponse)
       ReadResponseOrBuilder {
@@ -10891,6 +11788,13 @@ public final class LongTxProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ReadResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -10900,7 +11804,9 @@ public final class LongTxProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -10911,13 +11817,6 @@ public final class LongTxProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -10929,6 +11828,13 @@ public final class LongTxProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -10948,6 +11854,7 @@ public final class LongTxProtos {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadResponse_fieldAccessorTable
@@ -10959,24 +11866,30 @@ public final class LongTxProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -10986,6 +11899,7 @@ public final class LongTxProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -10994,6 +11908,7 @@ public final class LongTxProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -11018,14 +11933,13 @@ public final class LongTxProtos {
       }
       tech.ydb.long_tx.LongTxProtos.ReadResponse other = (tech.ydb.long_tx.LongTxProtos.ReadResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -11114,6 +12028,7 @@ public final class LongTxProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -11121,6 +12036,7 @@ public final class LongTxProtos {
     public static Builder newBuilder(tech.ydb.long_tx.LongTxProtos.ReadResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -11144,6 +12060,7 @@ public final class LongTxProtos {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadResponse_fieldAccessorTable
@@ -11166,6 +12083,7 @@ public final class LongTxProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -11177,15 +12095,18 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.long_tx.LongTxProtos.internal_static_Ydb_LongTx_ReadResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.ReadResponse getDefaultInstanceForType() {
         return tech.ydb.long_tx.LongTxProtos.ReadResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.ReadResponse build() {
         tech.ydb.long_tx.LongTxProtos.ReadResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -11194,6 +12115,7 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.long_tx.LongTxProtos.ReadResponse buildPartial() {
         tech.ydb.long_tx.LongTxProtos.ReadResponse result = new tech.ydb.long_tx.LongTxProtos.ReadResponse(this);
         if (operationBuilder_ == null) {
@@ -11205,32 +12127,39 @@ public final class LongTxProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.long_tx.LongTxProtos.ReadResponse) {
           return mergeFrom((tech.ydb.long_tx.LongTxProtos.ReadResponse)other);
@@ -11250,10 +12179,12 @@ public final class LongTxProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -11272,17 +12203,19 @@ public final class LongTxProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -11388,11 +12321,13 @@ public final class LongTxProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -11414,11 +12349,12 @@ public final class LongTxProtos {
 
     private static final com.google.protobuf.Parser<ReadResponse>
         PARSER = new com.google.protobuf.AbstractParser<ReadResponse>() {
+      @java.lang.Override
       public ReadResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ReadResponse(input, extensionRegistry);
+        return new ReadResponse(input, extensionRegistry);
       }
     };
 
@@ -11431,6 +12367,7 @@ public final class LongTxProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.long_tx.LongTxProtos.ReadResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -11535,7 +12472,7 @@ public final class LongTxProtos {
       "\n\027BeginTransactionRequest\0229\n\020operation_p" +
       "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa" +
       "rams\022=\n\007tx_type\030\002 \001(\0162,.Ydb.LongTx.Begin" +
-      "TransactionRequest.TxTypeId\";\n\010TxTypeId\022",
+      "TransactionRequest.TxTypeId\";\n\010TxTypeId\022" +
       "\032\n\026TX_TYPE_ID_UNSPECIFIED\020\000\022\t\n\005WRITE\020\001\022\010" +
       "\n\004READ\020\002\"\'\n\026BeginTransactionResult\022\r\n\005tx" +
       "_id\030\001 \001(\t\"H\n\030BeginTransactionResponse\022,\n" +
@@ -11545,7 +12482,7 @@ public final class LongTxProtos {
       "tionParams\022\r\n\005tx_id\030\002 \001(\t\"(\n\027CommitTrans" +
       "actionResult\022\r\n\005tx_id\030\001 \001(\t\"I\n\031CommitTra" +
       "nsactionResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
-      "b.Operations.Operation\"f\n\032RollbackTransa",
+      "b.Operations.Operation\"f\n\032RollbackTransa" +
       "ctionRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
       ".Ydb.Operations.OperationParams\022\r\n\005tx_id" +
       "\030\002 \001(\t\"*\n\031RollbackTransactionResult\022\r\n\005t" +
@@ -11555,7 +12492,7 @@ public final class LongTxProtos {
       "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
       "ams\022\r\n\005tx_id\030\002 \001(\t\022\014\n\004path\030\003 \001(\t\022\020\n\010dedu" +
       "p_id\030\004 \001(\t\022\036\n\004data\030\005 \001(\0132\020.Ydb.LongTx.Da" +
-      "ta\"<\n\013WriteResult\022\r\n\005tx_id\030\001 \001(\t\022\014\n\004path",
+      "ta\"<\n\013WriteResult\022\r\n\005tx_id\030\001 \001(\t\022\014\n\004path" +
       "\030\002 \001(\t\022\020\n\010dedup_id\030\003 \001(\t\"=\n\rWriteRespons" +
       "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
       "eration\"}\n\013ReadRequest\0229\n\020operation_para" +
@@ -11565,22 +12502,14 @@ public final class LongTxProtos {
       "\001(\t\022\014\n\004path\030\002 \001(\t\022\r\n\005chunk\030\003 \001(\004\022\020\n\010fini" +
       "shed\030\004 \001(\010\022\036\n\004data\030\005 \001(\0132\020.Ydb.LongTx.Da" +
       "ta\"<\n\014ReadResponse\022,\n\toperation\030\001 \001(\0132\031." +
-      "Ydb.Operations.OperationB)\n\026com.yandex.y",
+      "Ydb.Operations.OperationB)\n\026com.yandex.y" +
       "db.long_txB\014LongTxProtos\370\001\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.OperationProtos.getDescriptor(),
-        }, assigner);
+        });
     internal_static_Ydb_LongTx_Data_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_LongTx_Data_fieldAccessorTable = new

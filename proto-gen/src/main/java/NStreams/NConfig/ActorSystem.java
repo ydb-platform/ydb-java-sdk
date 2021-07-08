@@ -44,44 +44,52 @@ public final class ActorSystem {
 
     /**
      * <code>optional uint32 SystemExecutorPoolId = 10 [default = 0];</code>
+     * @return Whether the systemExecutorPoolId field is set.
      */
     boolean hasSystemExecutorPoolId();
     /**
      * <code>optional uint32 SystemExecutorPoolId = 10 [default = 0];</code>
+     * @return The systemExecutorPoolId.
      */
     int getSystemExecutorPoolId();
 
     /**
      * <code>optional uint32 UserExecutorPoolId = 11 [default = 1];</code>
+     * @return Whether the userExecutorPoolId field is set.
      */
     boolean hasUserExecutorPoolId();
     /**
      * <code>optional uint32 UserExecutorPoolId = 11 [default = 1];</code>
+     * @return The userExecutorPoolId.
      */
     int getUserExecutorPoolId();
 
     /**
      * <code>optional uint32 IoExecutorPoolId = 12 [default = 2];</code>
+     * @return Whether the ioExecutorPoolId field is set.
      */
     boolean hasIoExecutorPoolId();
     /**
      * <code>optional uint32 IoExecutorPoolId = 12 [default = 2];</code>
+     * @return The ioExecutorPoolId.
      */
     int getIoExecutorPoolId();
 
     /**
      * <code>optional uint32 BatchExecutorPoolId = 13 [default = 3];</code>
+     * @return Whether the batchExecutorPoolId field is set.
      */
     boolean hasBatchExecutorPoolId();
     /**
      * <code>optional uint32 BatchExecutorPoolId = 13 [default = 3];</code>
+     * @return The batchExecutorPoolId.
      */
     int getBatchExecutorPoolId();
   }
   /**
    * Protobuf type {@code NStreams.NConfig.TActorSystemConfig}
    */
-  public  static final class TActorSystemConfig extends
+  public static final class TActorSystemConfig extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NStreams.NConfig.TActorSystemConfig)
       TActorSystemConfigOrBuilder {
@@ -92,10 +100,16 @@ public final class ActorSystem {
     }
     private TActorSystemConfig() {
       executor_ = java.util.Collections.emptyList();
-      systemExecutorPoolId_ = 0;
       userExecutorPoolId_ = 1;
       ioExecutorPoolId_ = 2;
       batchExecutorPoolId_ = 3;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TActorSystemConfig();
     }
 
     @java.lang.Override
@@ -108,6 +122,9 @@ public final class ActorSystem {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -119,15 +136,8 @@ public final class ActorSystem {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 executor_ = new java.util.ArrayList<NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor>();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -155,6 +165,13 @@ public final class ActorSystem {
               batchExecutorPoolId_ = input.readUInt32();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -163,7 +180,7 @@ public final class ActorSystem {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           executor_ = java.util.Collections.unmodifiableList(executor_);
         }
         this.unknownFields = unknownFields.build();
@@ -175,6 +192,7 @@ public final class ActorSystem {
       return NStreams.NConfig.ActorSystem.internal_static_NStreams_NConfig_TActorSystemConfig_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return NStreams.NConfig.ActorSystem.internal_static_NStreams_NConfig_TActorSystemConfig_fieldAccessorTable
@@ -188,41 +206,50 @@ public final class ActorSystem {
 
       /**
        * <code>optional .NStreams.NConfig.TActorSystemConfig.TExecutor.EType Type = 1 [default = BASIC];</code>
+       * @return Whether the type field is set.
        */
       boolean hasType();
       /**
        * <code>optional .NStreams.NConfig.TActorSystemConfig.TExecutor.EType Type = 1 [default = BASIC];</code>
+       * @return The type.
        */
       NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor.EType getType();
 
       /**
        * <code>optional uint32 Threads = 2;</code>
+       * @return Whether the threads field is set.
        */
       boolean hasThreads();
       /**
        * <code>optional uint32 Threads = 2;</code>
+       * @return The threads.
        */
       int getThreads();
 
       /**
        * <code>optional uint64 SpinThreshold = 3;</code>
+       * @return Whether the spinThreshold field is set.
        */
       boolean hasSpinThreshold();
       /**
        * <code>optional uint64 SpinThreshold = 3;</code>
+       * @return The spinThreshold.
        */
       long getSpinThreshold();
 
       /**
        * <code>optional string Name = 4;</code>
+       * @return Whether the name field is set.
        */
       boolean hasName();
       /**
        * <code>optional string Name = 4;</code>
+       * @return The name.
        */
       java.lang.String getName();
       /**
        * <code>optional string Name = 4;</code>
+       * @return The bytes for name.
        */
       com.google.protobuf.ByteString
           getNameBytes();
@@ -230,7 +257,7 @@ public final class ActorSystem {
     /**
      * Protobuf type {@code NStreams.NConfig.TActorSystemConfig.TExecutor}
      */
-    public  static final class TExecutor extends
+    public static final class TExecutor extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NStreams.NConfig.TActorSystemConfig.TExecutor)
         TExecutorOrBuilder {
@@ -241,9 +268,14 @@ public final class ActorSystem {
       }
       private TExecutor() {
         type_ = 1;
-        threads_ = 0;
-        spinThreshold_ = 0L;
         name_ = "";
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new TExecutor();
       }
 
       @java.lang.Override
@@ -256,6 +288,9 @@ public final class ActorSystem {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         int mutable_bitField0_ = 0;
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -267,15 +302,9 @@ public final class ActorSystem {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownField(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 8: {
                 int rawValue = input.readEnum();
+                  @SuppressWarnings("deprecation")
                 NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor.EType value = NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor.EType.valueOf(rawValue);
                 if (value == null) {
                   unknownFields.mergeVarintField(1, rawValue);
@@ -301,6 +330,13 @@ public final class ActorSystem {
                 name_ = bs;
                 break;
               }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -318,6 +354,7 @@ public final class ActorSystem {
         return NStreams.NConfig.ActorSystem.internal_static_NStreams_NConfig_TActorSystemConfig_TExecutor_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NStreams.NConfig.ActorSystem.internal_static_NStreams_NConfig_TActorSystemConfig_TExecutor_fieldAccessorTable
@@ -355,6 +392,8 @@ public final class ActorSystem {
         }
 
         /**
+         * @param value The numeric wire value of the corresponding enum entry.
+         * @return The enum associated with the given numeric wire value.
          * @deprecated Use {@link #forNumber(int)} instead.
          */
         @java.lang.Deprecated
@@ -362,6 +401,10 @@ public final class ActorSystem {
           return forNumber(value);
         }
 
+        /**
+         * @param value The numeric wire value of the corresponding enum entry.
+         * @return The enum associated with the given numeric wire value.
+         */
         public static EType forNumber(int value) {
           switch (value) {
             case 1: return BASIC;
@@ -420,14 +463,17 @@ public final class ActorSystem {
       private int type_;
       /**
        * <code>optional .NStreams.NConfig.TActorSystemConfig.TExecutor.EType Type = 1 [default = BASIC];</code>
+       * @return Whether the type field is set.
        */
-      public boolean hasType() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+      @java.lang.Override public boolean hasType() {
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional .NStreams.NConfig.TActorSystemConfig.TExecutor.EType Type = 1 [default = BASIC];</code>
+       * @return The type.
        */
-      public NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor.EType getType() {
+      @java.lang.Override public NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor.EType getType() {
+        @SuppressWarnings("deprecation")
         NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor.EType result = NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor.EType.valueOf(type_);
         return result == null ? NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor.EType.BASIC : result;
       }
@@ -436,13 +482,17 @@ public final class ActorSystem {
       private int threads_;
       /**
        * <code>optional uint32 Threads = 2;</code>
+       * @return Whether the threads field is set.
        */
+      @java.lang.Override
       public boolean hasThreads() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional uint32 Threads = 2;</code>
+       * @return The threads.
        */
+      @java.lang.Override
       public int getThreads() {
         return threads_;
       }
@@ -451,13 +501,17 @@ public final class ActorSystem {
       private long spinThreshold_;
       /**
        * <code>optional uint64 SpinThreshold = 3;</code>
+       * @return Whether the spinThreshold field is set.
        */
+      @java.lang.Override
       public boolean hasSpinThreshold() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>optional uint64 SpinThreshold = 3;</code>
+       * @return The spinThreshold.
        */
+      @java.lang.Override
       public long getSpinThreshold() {
         return spinThreshold_;
       }
@@ -466,13 +520,17 @@ public final class ActorSystem {
       private volatile java.lang.Object name_;
       /**
        * <code>optional string Name = 4;</code>
+       * @return Whether the name field is set.
        */
+      @java.lang.Override
       public boolean hasName() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <code>optional string Name = 4;</code>
+       * @return The name.
        */
+      @java.lang.Override
       public java.lang.String getName() {
         java.lang.Object ref = name_;
         if (ref instanceof java.lang.String) {
@@ -489,7 +547,9 @@ public final class ActorSystem {
       }
       /**
        * <code>optional string Name = 4;</code>
+       * @return The bytes for name.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getNameBytes() {
         java.lang.Object ref = name_;
@@ -505,6 +565,7 @@ public final class ActorSystem {
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -514,41 +575,43 @@ public final class ActorSystem {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           output.writeEnum(1, type_);
         }
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((bitField0_ & 0x00000002) != 0)) {
           output.writeUInt32(2, threads_);
         }
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((bitField0_ & 0x00000004) != 0)) {
           output.writeUInt64(3, spinThreshold_);
         }
-        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((bitField0_ & 0x00000008) != 0)) {
           com.google.protobuf.GeneratedMessageV3.writeString(output, 4, name_);
         }
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
 
         size = 0;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           size += com.google.protobuf.CodedOutputStream
             .computeEnumSize(1, type_);
         }
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((bitField0_ & 0x00000002) != 0)) {
           size += com.google.protobuf.CodedOutputStream
             .computeUInt32Size(2, threads_);
         }
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((bitField0_ & 0x00000004) != 0)) {
           size += com.google.protobuf.CodedOutputStream
             .computeUInt64Size(3, spinThreshold_);
         }
-        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((bitField0_ & 0x00000008) != 0)) {
           size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, name_);
         }
         size += unknownFields.getSerializedSize();
@@ -566,28 +629,27 @@ public final class ActorSystem {
         }
         NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor other = (NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor) obj;
 
-        boolean result = true;
-        result = result && (hasType() == other.hasType());
+        if (hasType() != other.hasType()) return false;
         if (hasType()) {
-          result = result && type_ == other.type_;
+          if (type_ != other.type_) return false;
         }
-        result = result && (hasThreads() == other.hasThreads());
+        if (hasThreads() != other.hasThreads()) return false;
         if (hasThreads()) {
-          result = result && (getThreads()
-              == other.getThreads());
+          if (getThreads()
+              != other.getThreads()) return false;
         }
-        result = result && (hasSpinThreshold() == other.hasSpinThreshold());
+        if (hasSpinThreshold() != other.hasSpinThreshold()) return false;
         if (hasSpinThreshold()) {
-          result = result && (getSpinThreshold()
-              == other.getSpinThreshold());
+          if (getSpinThreshold()
+              != other.getSpinThreshold()) return false;
         }
-        result = result && (hasName() == other.hasName());
+        if (hasName() != other.hasName()) return false;
         if (hasName()) {
-          result = result && getName()
-              .equals(other.getName());
+          if (!getName()
+              .equals(other.getName())) return false;
         }
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -689,6 +751,7 @@ public final class ActorSystem {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -696,6 +759,7 @@ public final class ActorSystem {
       public static Builder newBuilder(NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -719,6 +783,7 @@ public final class ActorSystem {
           return NStreams.NConfig.ActorSystem.internal_static_NStreams_NConfig_TActorSystemConfig_TExecutor_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return NStreams.NConfig.ActorSystem.internal_static_NStreams_NConfig_TActorSystemConfig_TExecutor_fieldAccessorTable
@@ -741,6 +806,7 @@ public final class ActorSystem {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           type_ = 1;
@@ -754,15 +820,18 @@ public final class ActorSystem {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return NStreams.NConfig.ActorSystem.internal_static_NStreams_NConfig_TActorSystemConfig_TExecutor_descriptor;
         }
 
+        @java.lang.Override
         public NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor getDefaultInstanceForType() {
           return NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor.getDefaultInstance();
         }
 
+        @java.lang.Override
         public NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor build() {
           NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor result = buildPartial();
           if (!result.isInitialized()) {
@@ -771,23 +840,24 @@ public final class ActorSystem {
           return result;
         }
 
+        @java.lang.Override
         public NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor buildPartial() {
           NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor result = new NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor(this);
           int from_bitField0_ = bitField0_;
           int to_bitField0_ = 0;
-          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((from_bitField0_ & 0x00000001) != 0)) {
             to_bitField0_ |= 0x00000001;
           }
           result.type_ = type_;
-          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((from_bitField0_ & 0x00000002) != 0)) {
+            result.threads_ = threads_;
             to_bitField0_ |= 0x00000002;
           }
-          result.threads_ = threads_;
-          if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((from_bitField0_ & 0x00000004) != 0)) {
+            result.spinThreshold_ = spinThreshold_;
             to_bitField0_ |= 0x00000004;
           }
-          result.spinThreshold_ = spinThreshold_;
-          if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          if (((from_bitField0_ & 0x00000008) != 0)) {
             to_bitField0_ |= 0x00000008;
           }
           result.name_ = name_;
@@ -796,32 +866,39 @@ public final class ActorSystem {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor) {
             return mergeFrom((NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor)other);
@@ -852,10 +929,12 @@ public final class ActorSystem {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -878,19 +957,25 @@ public final class ActorSystem {
         private int type_ = 1;
         /**
          * <code>optional .NStreams.NConfig.TActorSystemConfig.TExecutor.EType Type = 1 [default = BASIC];</code>
+         * @return Whether the type field is set.
          */
-        public boolean hasType() {
-          return ((bitField0_ & 0x00000001) == 0x00000001);
+        @java.lang.Override public boolean hasType() {
+          return ((bitField0_ & 0x00000001) != 0);
         }
         /**
          * <code>optional .NStreams.NConfig.TActorSystemConfig.TExecutor.EType Type = 1 [default = BASIC];</code>
+         * @return The type.
          */
+        @java.lang.Override
         public NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor.EType getType() {
+          @SuppressWarnings("deprecation")
           NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor.EType result = NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor.EType.valueOf(type_);
           return result == null ? NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor.EType.BASIC : result;
         }
         /**
          * <code>optional .NStreams.NConfig.TActorSystemConfig.TExecutor.EType Type = 1 [default = BASIC];</code>
+         * @param value The type to set.
+         * @return This builder for chaining.
          */
         public Builder setType(NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor.EType value) {
           if (value == null) {
@@ -903,6 +988,7 @@ public final class ActorSystem {
         }
         /**
          * <code>optional .NStreams.NConfig.TActorSystemConfig.TExecutor.EType Type = 1 [default = BASIC];</code>
+         * @return This builder for chaining.
          */
         public Builder clearType() {
           bitField0_ = (bitField0_ & ~0x00000001);
@@ -914,18 +1000,24 @@ public final class ActorSystem {
         private int threads_ ;
         /**
          * <code>optional uint32 Threads = 2;</code>
+         * @return Whether the threads field is set.
          */
+        @java.lang.Override
         public boolean hasThreads() {
-          return ((bitField0_ & 0x00000002) == 0x00000002);
+          return ((bitField0_ & 0x00000002) != 0);
         }
         /**
          * <code>optional uint32 Threads = 2;</code>
+         * @return The threads.
          */
+        @java.lang.Override
         public int getThreads() {
           return threads_;
         }
         /**
          * <code>optional uint32 Threads = 2;</code>
+         * @param value The threads to set.
+         * @return This builder for chaining.
          */
         public Builder setThreads(int value) {
           bitField0_ |= 0x00000002;
@@ -935,6 +1027,7 @@ public final class ActorSystem {
         }
         /**
          * <code>optional uint32 Threads = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearThreads() {
           bitField0_ = (bitField0_ & ~0x00000002);
@@ -946,18 +1039,24 @@ public final class ActorSystem {
         private long spinThreshold_ ;
         /**
          * <code>optional uint64 SpinThreshold = 3;</code>
+         * @return Whether the spinThreshold field is set.
          */
+        @java.lang.Override
         public boolean hasSpinThreshold() {
-          return ((bitField0_ & 0x00000004) == 0x00000004);
+          return ((bitField0_ & 0x00000004) != 0);
         }
         /**
          * <code>optional uint64 SpinThreshold = 3;</code>
+         * @return The spinThreshold.
          */
+        @java.lang.Override
         public long getSpinThreshold() {
           return spinThreshold_;
         }
         /**
          * <code>optional uint64 SpinThreshold = 3;</code>
+         * @param value The spinThreshold to set.
+         * @return This builder for chaining.
          */
         public Builder setSpinThreshold(long value) {
           bitField0_ |= 0x00000004;
@@ -967,6 +1066,7 @@ public final class ActorSystem {
         }
         /**
          * <code>optional uint64 SpinThreshold = 3;</code>
+         * @return This builder for chaining.
          */
         public Builder clearSpinThreshold() {
           bitField0_ = (bitField0_ & ~0x00000004);
@@ -978,12 +1078,14 @@ public final class ActorSystem {
         private java.lang.Object name_ = "";
         /**
          * <code>optional string Name = 4;</code>
+         * @return Whether the name field is set.
          */
         public boolean hasName() {
-          return ((bitField0_ & 0x00000008) == 0x00000008);
+          return ((bitField0_ & 0x00000008) != 0);
         }
         /**
          * <code>optional string Name = 4;</code>
+         * @return The name.
          */
         public java.lang.String getName() {
           java.lang.Object ref = name_;
@@ -1001,6 +1103,7 @@ public final class ActorSystem {
         }
         /**
          * <code>optional string Name = 4;</code>
+         * @return The bytes for name.
          */
         public com.google.protobuf.ByteString
             getNameBytes() {
@@ -1017,6 +1120,8 @@ public final class ActorSystem {
         }
         /**
          * <code>optional string Name = 4;</code>
+         * @param value The name to set.
+         * @return This builder for chaining.
          */
         public Builder setName(
             java.lang.String value) {
@@ -1030,6 +1135,7 @@ public final class ActorSystem {
         }
         /**
          * <code>optional string Name = 4;</code>
+         * @return This builder for chaining.
          */
         public Builder clearName() {
           bitField0_ = (bitField0_ & ~0x00000008);
@@ -1039,6 +1145,8 @@ public final class ActorSystem {
         }
         /**
          * <code>optional string Name = 4;</code>
+         * @param value The bytes for name to set.
+         * @return This builder for chaining.
          */
         public Builder setNameBytes(
             com.google.protobuf.ByteString value) {
@@ -1050,11 +1158,13 @@ public final class ActorSystem {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -1076,11 +1186,12 @@ public final class ActorSystem {
 
       @java.lang.Deprecated public static final com.google.protobuf.Parser<TExecutor>
           PARSER = new com.google.protobuf.AbstractParser<TExecutor>() {
+        @java.lang.Override
         public TExecutor parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new TExecutor(input, extensionRegistry);
+          return new TExecutor(input, extensionRegistry);
         }
       };
 
@@ -1093,6 +1204,7 @@ public final class ActorSystem {
         return PARSER;
       }
 
+      @java.lang.Override
       public NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -1105,12 +1217,14 @@ public final class ActorSystem {
     /**
      * <code>repeated .NStreams.NConfig.TActorSystemConfig.TExecutor Executor = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor> getExecutorList() {
       return executor_;
     }
     /**
      * <code>repeated .NStreams.NConfig.TActorSystemConfig.TExecutor Executor = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutorOrBuilder> 
         getExecutorOrBuilderList() {
       return executor_;
@@ -1118,18 +1232,21 @@ public final class ActorSystem {
     /**
      * <code>repeated .NStreams.NConfig.TActorSystemConfig.TExecutor Executor = 1;</code>
      */
+    @java.lang.Override
     public int getExecutorCount() {
       return executor_.size();
     }
     /**
      * <code>repeated .NStreams.NConfig.TActorSystemConfig.TExecutor Executor = 1;</code>
      */
+    @java.lang.Override
     public NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor getExecutor(int index) {
       return executor_.get(index);
     }
     /**
      * <code>repeated .NStreams.NConfig.TActorSystemConfig.TExecutor Executor = 1;</code>
      */
+    @java.lang.Override
     public NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutorOrBuilder getExecutorOrBuilder(
         int index) {
       return executor_.get(index);
@@ -1139,13 +1256,17 @@ public final class ActorSystem {
     private int systemExecutorPoolId_;
     /**
      * <code>optional uint32 SystemExecutorPoolId = 10 [default = 0];</code>
+     * @return Whether the systemExecutorPoolId field is set.
      */
+    @java.lang.Override
     public boolean hasSystemExecutorPoolId() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional uint32 SystemExecutorPoolId = 10 [default = 0];</code>
+     * @return The systemExecutorPoolId.
      */
+    @java.lang.Override
     public int getSystemExecutorPoolId() {
       return systemExecutorPoolId_;
     }
@@ -1154,13 +1275,17 @@ public final class ActorSystem {
     private int userExecutorPoolId_;
     /**
      * <code>optional uint32 UserExecutorPoolId = 11 [default = 1];</code>
+     * @return Whether the userExecutorPoolId field is set.
      */
+    @java.lang.Override
     public boolean hasUserExecutorPoolId() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional uint32 UserExecutorPoolId = 11 [default = 1];</code>
+     * @return The userExecutorPoolId.
      */
+    @java.lang.Override
     public int getUserExecutorPoolId() {
       return userExecutorPoolId_;
     }
@@ -1169,13 +1294,17 @@ public final class ActorSystem {
     private int ioExecutorPoolId_;
     /**
      * <code>optional uint32 IoExecutorPoolId = 12 [default = 2];</code>
+     * @return Whether the ioExecutorPoolId field is set.
      */
+    @java.lang.Override
     public boolean hasIoExecutorPoolId() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>optional uint32 IoExecutorPoolId = 12 [default = 2];</code>
+     * @return The ioExecutorPoolId.
      */
+    @java.lang.Override
     public int getIoExecutorPoolId() {
       return ioExecutorPoolId_;
     }
@@ -1184,18 +1313,23 @@ public final class ActorSystem {
     private int batchExecutorPoolId_;
     /**
      * <code>optional uint32 BatchExecutorPoolId = 13 [default = 3];</code>
+     * @return Whether the batchExecutorPoolId field is set.
      */
+    @java.lang.Override
     public boolean hasBatchExecutorPoolId() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
      * <code>optional uint32 BatchExecutorPoolId = 13 [default = 3];</code>
+     * @return The batchExecutorPoolId.
      */
+    @java.lang.Override
     public int getBatchExecutorPoolId() {
       return batchExecutorPoolId_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1205,26 +1339,28 @@ public final class ActorSystem {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < executor_.size(); i++) {
         output.writeMessage(1, executor_.get(i));
       }
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeUInt32(10, systemExecutorPoolId_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeUInt32(11, userExecutorPoolId_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeUInt32(12, ioExecutorPoolId_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         output.writeUInt32(13, batchExecutorPoolId_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1234,19 +1370,19 @@ public final class ActorSystem {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, executor_.get(i));
       }
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(10, systemExecutorPoolId_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(11, userExecutorPoolId_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(12, ioExecutorPoolId_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(13, batchExecutorPoolId_);
       }
@@ -1265,31 +1401,30 @@ public final class ActorSystem {
       }
       NStreams.NConfig.ActorSystem.TActorSystemConfig other = (NStreams.NConfig.ActorSystem.TActorSystemConfig) obj;
 
-      boolean result = true;
-      result = result && getExecutorList()
-          .equals(other.getExecutorList());
-      result = result && (hasSystemExecutorPoolId() == other.hasSystemExecutorPoolId());
+      if (!getExecutorList()
+          .equals(other.getExecutorList())) return false;
+      if (hasSystemExecutorPoolId() != other.hasSystemExecutorPoolId()) return false;
       if (hasSystemExecutorPoolId()) {
-        result = result && (getSystemExecutorPoolId()
-            == other.getSystemExecutorPoolId());
+        if (getSystemExecutorPoolId()
+            != other.getSystemExecutorPoolId()) return false;
       }
-      result = result && (hasUserExecutorPoolId() == other.hasUserExecutorPoolId());
+      if (hasUserExecutorPoolId() != other.hasUserExecutorPoolId()) return false;
       if (hasUserExecutorPoolId()) {
-        result = result && (getUserExecutorPoolId()
-            == other.getUserExecutorPoolId());
+        if (getUserExecutorPoolId()
+            != other.getUserExecutorPoolId()) return false;
       }
-      result = result && (hasIoExecutorPoolId() == other.hasIoExecutorPoolId());
+      if (hasIoExecutorPoolId() != other.hasIoExecutorPoolId()) return false;
       if (hasIoExecutorPoolId()) {
-        result = result && (getIoExecutorPoolId()
-            == other.getIoExecutorPoolId());
+        if (getIoExecutorPoolId()
+            != other.getIoExecutorPoolId()) return false;
       }
-      result = result && (hasBatchExecutorPoolId() == other.hasBatchExecutorPoolId());
+      if (hasBatchExecutorPoolId() != other.hasBatchExecutorPoolId()) return false;
       if (hasBatchExecutorPoolId()) {
-        result = result && (getBatchExecutorPoolId()
-            == other.getBatchExecutorPoolId());
+        if (getBatchExecutorPoolId()
+            != other.getBatchExecutorPoolId()) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1394,6 +1529,7 @@ public final class ActorSystem {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1401,6 +1537,7 @@ public final class ActorSystem {
     public static Builder newBuilder(NStreams.NConfig.ActorSystem.TActorSystemConfig prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1424,6 +1561,7 @@ public final class ActorSystem {
         return NStreams.NConfig.ActorSystem.internal_static_NStreams_NConfig_TActorSystemConfig_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NStreams.NConfig.ActorSystem.internal_static_NStreams_NConfig_TActorSystemConfig_fieldAccessorTable
@@ -1447,6 +1585,7 @@ public final class ActorSystem {
           getExecutorFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (executorBuilder_ == null) {
@@ -1466,15 +1605,18 @@ public final class ActorSystem {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return NStreams.NConfig.ActorSystem.internal_static_NStreams_NConfig_TActorSystemConfig_descriptor;
       }
 
+      @java.lang.Override
       public NStreams.NConfig.ActorSystem.TActorSystemConfig getDefaultInstanceForType() {
         return NStreams.NConfig.ActorSystem.TActorSystemConfig.getDefaultInstance();
       }
 
+      @java.lang.Override
       public NStreams.NConfig.ActorSystem.TActorSystemConfig build() {
         NStreams.NConfig.ActorSystem.TActorSystemConfig result = buildPartial();
         if (!result.isInitialized()) {
@@ -1483,12 +1625,13 @@ public final class ActorSystem {
         return result;
       }
 
+      @java.lang.Override
       public NStreams.NConfig.ActorSystem.TActorSystemConfig buildPartial() {
         NStreams.NConfig.ActorSystem.TActorSystemConfig result = new NStreams.NConfig.ActorSystem.TActorSystemConfig(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (executorBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             executor_ = java.util.Collections.unmodifiableList(executor_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -1496,19 +1639,19 @@ public final class ActorSystem {
         } else {
           result.executor_ = executorBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.systemExecutorPoolId_ = systemExecutorPoolId_;
           to_bitField0_ |= 0x00000001;
         }
-        result.systemExecutorPoolId_ = systemExecutorPoolId_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
         result.userExecutorPoolId_ = userExecutorPoolId_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((from_bitField0_ & 0x00000008) != 0)) {
           to_bitField0_ |= 0x00000004;
         }
         result.ioExecutorPoolId_ = ioExecutorPoolId_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((from_bitField0_ & 0x00000010) != 0)) {
           to_bitField0_ |= 0x00000008;
         }
         result.batchExecutorPoolId_ = batchExecutorPoolId_;
@@ -1517,32 +1660,39 @@ public final class ActorSystem {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof NStreams.NConfig.ActorSystem.TActorSystemConfig) {
           return mergeFrom((NStreams.NConfig.ActorSystem.TActorSystemConfig)other);
@@ -1597,10 +1747,12 @@ public final class ActorSystem {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1623,7 +1775,7 @@ public final class ActorSystem {
       private java.util.List<NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor> executor_ =
         java.util.Collections.emptyList();
       private void ensureExecutorIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           executor_ = new java.util.ArrayList<NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor>(executor_);
           bitField0_ |= 0x00000001;
          }
@@ -1852,7 +2004,7 @@ public final class ActorSystem {
           executorBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor, NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutor.Builder, NStreams.NConfig.ActorSystem.TActorSystemConfig.TExecutorOrBuilder>(
                   executor_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           executor_ = null;
@@ -1863,18 +2015,24 @@ public final class ActorSystem {
       private int systemExecutorPoolId_ ;
       /**
        * <code>optional uint32 SystemExecutorPoolId = 10 [default = 0];</code>
+       * @return Whether the systemExecutorPoolId field is set.
        */
+      @java.lang.Override
       public boolean hasSystemExecutorPoolId() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional uint32 SystemExecutorPoolId = 10 [default = 0];</code>
+       * @return The systemExecutorPoolId.
        */
+      @java.lang.Override
       public int getSystemExecutorPoolId() {
         return systemExecutorPoolId_;
       }
       /**
        * <code>optional uint32 SystemExecutorPoolId = 10 [default = 0];</code>
+       * @param value The systemExecutorPoolId to set.
+       * @return This builder for chaining.
        */
       public Builder setSystemExecutorPoolId(int value) {
         bitField0_ |= 0x00000002;
@@ -1884,6 +2042,7 @@ public final class ActorSystem {
       }
       /**
        * <code>optional uint32 SystemExecutorPoolId = 10 [default = 0];</code>
+       * @return This builder for chaining.
        */
       public Builder clearSystemExecutorPoolId() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -1895,18 +2054,24 @@ public final class ActorSystem {
       private int userExecutorPoolId_ = 1;
       /**
        * <code>optional uint32 UserExecutorPoolId = 11 [default = 1];</code>
+       * @return Whether the userExecutorPoolId field is set.
        */
+      @java.lang.Override
       public boolean hasUserExecutorPoolId() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>optional uint32 UserExecutorPoolId = 11 [default = 1];</code>
+       * @return The userExecutorPoolId.
        */
+      @java.lang.Override
       public int getUserExecutorPoolId() {
         return userExecutorPoolId_;
       }
       /**
        * <code>optional uint32 UserExecutorPoolId = 11 [default = 1];</code>
+       * @param value The userExecutorPoolId to set.
+       * @return This builder for chaining.
        */
       public Builder setUserExecutorPoolId(int value) {
         bitField0_ |= 0x00000004;
@@ -1916,6 +2081,7 @@ public final class ActorSystem {
       }
       /**
        * <code>optional uint32 UserExecutorPoolId = 11 [default = 1];</code>
+       * @return This builder for chaining.
        */
       public Builder clearUserExecutorPoolId() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -1927,18 +2093,24 @@ public final class ActorSystem {
       private int ioExecutorPoolId_ = 2;
       /**
        * <code>optional uint32 IoExecutorPoolId = 12 [default = 2];</code>
+       * @return Whether the ioExecutorPoolId field is set.
        */
+      @java.lang.Override
       public boolean hasIoExecutorPoolId() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <code>optional uint32 IoExecutorPoolId = 12 [default = 2];</code>
+       * @return The ioExecutorPoolId.
        */
+      @java.lang.Override
       public int getIoExecutorPoolId() {
         return ioExecutorPoolId_;
       }
       /**
        * <code>optional uint32 IoExecutorPoolId = 12 [default = 2];</code>
+       * @param value The ioExecutorPoolId to set.
+       * @return This builder for chaining.
        */
       public Builder setIoExecutorPoolId(int value) {
         bitField0_ |= 0x00000008;
@@ -1948,6 +2120,7 @@ public final class ActorSystem {
       }
       /**
        * <code>optional uint32 IoExecutorPoolId = 12 [default = 2];</code>
+       * @return This builder for chaining.
        */
       public Builder clearIoExecutorPoolId() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -1959,18 +2132,24 @@ public final class ActorSystem {
       private int batchExecutorPoolId_ = 3;
       /**
        * <code>optional uint32 BatchExecutorPoolId = 13 [default = 3];</code>
+       * @return Whether the batchExecutorPoolId field is set.
        */
+      @java.lang.Override
       public boolean hasBatchExecutorPoolId() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
        * <code>optional uint32 BatchExecutorPoolId = 13 [default = 3];</code>
+       * @return The batchExecutorPoolId.
        */
+      @java.lang.Override
       public int getBatchExecutorPoolId() {
         return batchExecutorPoolId_;
       }
       /**
        * <code>optional uint32 BatchExecutorPoolId = 13 [default = 3];</code>
+       * @param value The batchExecutorPoolId to set.
+       * @return This builder for chaining.
        */
       public Builder setBatchExecutorPoolId(int value) {
         bitField0_ |= 0x00000010;
@@ -1980,6 +2159,7 @@ public final class ActorSystem {
       }
       /**
        * <code>optional uint32 BatchExecutorPoolId = 13 [default = 3];</code>
+       * @return This builder for chaining.
        */
       public Builder clearBatchExecutorPoolId() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -1987,11 +2167,13 @@ public final class ActorSystem {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2013,11 +2195,12 @@ public final class ActorSystem {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<TActorSystemConfig>
         PARSER = new com.google.protobuf.AbstractParser<TActorSystemConfig>() {
+      @java.lang.Override
       public TActorSystemConfig parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TActorSystemConfig(input, extensionRegistry);
+        return new TActorSystemConfig(input, extensionRegistry);
       }
     };
 
@@ -2030,6 +2213,7 @@ public final class ActorSystem {
       return PARSER;
     }
 
+    @java.lang.Override
     public NStreams.NConfig.ActorSystem.TActorSystemConfig getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2064,22 +2248,14 @@ public final class ActorSystem {
       "PoolId\030\014 \001(\r:\0012\022\036\n\023BatchExecutorPoolId\030\r" +
       " \001(\r:\0013\032\250\001\n\tTExecutor\022I\n\004Type\030\001 \001(\01624.NS" +
       "treams.NConfig.TActorSystemConfig.TExecu" +
-      "tor.EType:\005BASIC\022\017\n\007Threads\030\002 \001(\r\022\025\n\rSpi",
+      "tor.EType:\005BASIC\022\017\n\007Threads\030\002 \001(\r\022\025\n\rSpi" +
       "nThreshold\030\003 \001(\004\022\014\n\004Name\030\004 \001(\t\"\032\n\005EType\022" +
       "\t\n\005BASIC\020\001\022\006\n\002IO\020\002"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+        });
     internal_static_NStreams_NConfig_TActorSystemConfig_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_NStreams_NConfig_TActorSystemConfig_fieldAccessorTable = new

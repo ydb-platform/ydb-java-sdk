@@ -9,10 +9,12 @@ public interface DescribeResourceRequestOrBuilder extends
 
   /**
    * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+   * @return Whether the operationParams field is set.
    */
   boolean hasOperationParams();
   /**
    * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+   * @return The operationParams.
    */
   tech.ydb.OperationProtos.OperationParams getOperationParams();
   /**
@@ -26,6 +28,7 @@ public interface DescribeResourceRequestOrBuilder extends
    * </pre>
    *
    * <code>string coordination_node_path = 2;</code>
+   * @return The coordinationNodePath.
    */
   java.lang.String getCoordinationNodePath();
   /**
@@ -34,6 +37,7 @@ public interface DescribeResourceRequestOrBuilder extends
    * </pre>
    *
    * <code>string coordination_node_path = 2;</code>
+   * @return The bytes for coordinationNodePath.
    */
   com.google.protobuf.ByteString
       getCoordinationNodePathBytes();
@@ -44,6 +48,7 @@ public interface DescribeResourceRequestOrBuilder extends
    * </pre>
    *
    * <code>string resource_path = 3;</code>
+   * @return The resourcePath.
    */
   java.lang.String getResourcePath();
   /**
@@ -52,6 +57,7 @@ public interface DescribeResourceRequestOrBuilder extends
    * </pre>
    *
    * <code>string resource_path = 3;</code>
+   * @return The bytes for resourcePath.
    */
   com.google.protobuf.ByteString
       getResourcePathBytes();

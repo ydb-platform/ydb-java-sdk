@@ -9,10 +9,12 @@ public interface DescribeResourceResultOrBuilder extends
 
   /**
    * <code>.Ydb.RateLimiter.Resource resource = 1;</code>
+   * @return Whether the resource field is set.
    */
   boolean hasResource();
   /**
    * <code>.Ydb.RateLimiter.Resource resource = 1;</code>
+   * @return The resource.
    */
   tech.ydb.rate_limiter.Resource getResource();
   /**

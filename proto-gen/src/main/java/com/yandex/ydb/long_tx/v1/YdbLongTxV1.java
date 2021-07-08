@@ -32,26 +32,18 @@ public final class YdbLongTxV1 {
       "ongTx.CommitTransactionRequest\032%.Ydb.Lon" +
       "gTx.CommitTransactionResponse\022]\n\nRollbac" +
       "kTx\022&.Ydb.LongTx.RollbackTransactionRequ" +
-      "est\032\'.Ydb.LongTx.RollbackTransactionResp",
+      "est\032\'.Ydb.LongTx.RollbackTransactionResp" +
       "onse\022<\n\005Write\022\030.Ydb.LongTx.WriteRequest\032" +
       "\031.Ydb.LongTx.WriteResponse\0229\n\004Read\022\027.Ydb" +
       ".LongTx.ReadRequest\032\030.Ydb.LongTx.ReadRes" +
       "ponseB\033\n\031tech.ydb.long_tx.v1b\006prot" +
       "o3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.long_tx.LongTxProtos.getDescriptor(),
-        }, assigner);
+        });
     tech.ydb.long_tx.LongTxProtos.getDescriptor();
   }
 

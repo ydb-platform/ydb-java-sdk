@@ -32,22 +32,14 @@ public final class YdbYqlInternal {
       "stResponse\022p\n\023ExplainDataQueryAst\022+.Ydb." +
       "YqlInternal.ExplainDataQueryAstRequest\032," +
       ".Ydb.YqlInternal.ExplainDataQueryAstResp" +
-      "onseB \n\036tech.ydb.yql_internal.v1b\006",
+      "onseB \n\036tech.ydb.yql_internal.v1b\006" +
       "proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.yql_internal.YqlInternalProtos.getDescriptor(),
-        }, assigner);
+        });
     tech.ydb.yql_internal.YqlInternalProtos.getDescriptor();
   }
 

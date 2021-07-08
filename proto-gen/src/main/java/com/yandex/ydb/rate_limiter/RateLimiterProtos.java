@@ -132,7 +132,7 @@ public final class RateLimiterProtos {
       "prefetch_watermark\030\004 \001(\001\"o\n\010Resource\022\025\n\r" +
       "resource_path\030\001 \001(\t\022D\n\020hierarchical_drr\030" +
       "\002 \001(\0132(.Ydb.RateLimiter.HierarchicalDrrS" +
-      "ettingsH\000B\006\n\004type\"\237\001\n\025CreateResourceRequ",
+      "ettingsH\000B\006\n\004type\"\237\001\n\025CreateResourceRequ" +
       "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
       "ations.OperationParams\022\036\n\026coordination_n" +
       "ode_path\030\002 \001(\t\022+\n\010resource\030\003 \001(\0132\031.Ydb.R" +
@@ -142,7 +142,7 @@ public final class RateLimiterProtos {
       "AlterResourceRequest\0229\n\020operation_params" +
       "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\022" +
       "\036\n\026coordination_node_path\030\002 \001(\t\022+\n\010resou" +
-      "rce\030\003 \001(\0132\031.Ydb.RateLimiter.Resource\"E\n\025",
+      "rce\030\003 \001(\0132\031.Ydb.RateLimiter.Resource\"E\n\025" +
       "AlterResourceResponse\022,\n\toperation\030\001 \001(\013" +
       "2\031.Ydb.Operations.Operation\"\025\n\023AlterReso" +
       "urceResult\"\207\001\n\023DropResourceRequest\0229\n\020op" +
@@ -152,7 +152,7 @@ public final class RateLimiterProtos {
       "urceResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
       "erations.Operation\"\024\n\022DropResourceResult" +
       "\"\233\001\n\024ListResourcesRequest\0229\n\020operation_p" +
-      "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa",
+      "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa" +
       "rams\022\036\n\026coordination_node_path\030\002 \001(\t\022\025\n\r" +
       "resource_path\030\003 \001(\t\022\021\n\trecursive\030\004 \001(\010\"E" +
       "\n\025ListResourcesResponse\022,\n\toperation\030\001 \001" +
@@ -162,7 +162,7 @@ public final class RateLimiterProtos {
       "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
       "ams\022\036\n\026coordination_node_path\030\002 \001(\t\022\025\n\rr" +
       "esource_path\030\003 \001(\t\"H\n\030DescribeResourceRe" +
-      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio",
+      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
       "ns.Operation\"E\n\026DescribeResourceResult\022+" +
       "\n\010resource\030\001 \001(\0132\031.Ydb.RateLimiter.Resou" +
       "rce\"\267\001\n\026AcquireResourceRequest\0229\n\020operat" +
@@ -172,22 +172,14 @@ public final class RateLimiterProtos {
       "(\004H\000\022\016\n\004used\030\005 \001(\004H\000B\007\n\005units\"G\n\027Acquire" +
       "ResourceResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
       "b.Operations.Operation\"\027\n\025AcquireResourc" +
-      "eResultB5\n\033tech.ydb.rate_limiterB\021",
+      "eResultB5\n\033tech.ydb.rate_limiterB\021" +
       "RateLimiterProtosP\001\370\001\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.OperationProtos.getDescriptor(),
-        }, assigner);
+        });
     internal_static_Ydb_RateLimiter_HierarchicalDrrSettings_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_RateLimiter_HierarchicalDrrSettings_fieldAccessorTable = new

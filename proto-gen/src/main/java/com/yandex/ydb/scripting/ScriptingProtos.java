@@ -20,10 +20,12 @@ public final class ScriptingProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -33,10 +35,12 @@ public final class ScriptingProtos {
 
     /**
      * <code>string script = 2;</code>
+     * @return The script.
      */
     java.lang.String getScript();
     /**
      * <code>string script = 2;</code>
+     * @return The bytes for script.
      */
     com.google.protobuf.ByteString
         getScriptBytes();
@@ -77,17 +81,19 @@ public final class ScriptingProtos {
 
     /**
      * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 4;</code>
+     * @return The enum numeric value on the wire for collectStats.
      */
     int getCollectStatsValue();
     /**
      * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 4;</code>
+     * @return The collectStats.
      */
     tech.ydb.table.YdbTable.QueryStatsCollection.Mode getCollectStats();
   }
   /**
    * Protobuf type {@code Ydb.Scripting.ExecuteYqlRequest}
    */
-  public  static final class ExecuteYqlRequest extends
+  public static final class ExecuteYqlRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scripting.ExecuteYqlRequest)
       ExecuteYqlRequestOrBuilder {
@@ -102,6 +108,13 @@ public final class ScriptingProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExecuteYqlRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -111,6 +124,9 @@ public final class ScriptingProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -122,13 +138,6 @@ public final class ScriptingProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -149,10 +158,10 @@ public final class ScriptingProtos {
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 parameters_ = com.google.protobuf.MapField.newMapField(
                     ParametersDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000001;
               }
               com.google.protobuf.MapEntry<java.lang.String, tech.ydb.ValueProtos.TypedValue>
               parameters__ = input.readMessage(
@@ -165,6 +174,13 @@ public final class ScriptingProtos {
               int rawValue = input.readEnum();
 
               collectStats_ = rawValue;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -185,6 +201,7 @@ public final class ScriptingProtos {
     }
 
     @SuppressWarnings({"rawtypes"})
+    @java.lang.Override
     protected com.google.protobuf.MapField internalGetMapField(
         int number) {
       switch (number) {
@@ -195,6 +212,7 @@ public final class ScriptingProtos {
               "Invalid map field number: " + number);
       }
     }
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlRequest_fieldAccessorTable
@@ -202,24 +220,28 @@ public final class ScriptingProtos {
               tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest.class, tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -228,7 +250,9 @@ public final class ScriptingProtos {
     private volatile java.lang.Object script_;
     /**
      * <code>string script = 2;</code>
+     * @return The script.
      */
+    @java.lang.Override
     public java.lang.String getScript() {
       java.lang.Object ref = script_;
       if (ref instanceof java.lang.String) {
@@ -243,7 +267,9 @@ public final class ScriptingProtos {
     }
     /**
      * <code>string script = 2;</code>
+     * @return The bytes for script.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getScriptBytes() {
       java.lang.Object ref = script_;
@@ -288,6 +314,7 @@ public final class ScriptingProtos {
      * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 3;</code>
      */
 
+    @java.lang.Override
     public boolean containsParameters(
         java.lang.String key) {
       if (key == null) { throw new java.lang.NullPointerException(); }
@@ -296,6 +323,7 @@ public final class ScriptingProtos {
     /**
      * Use {@link #getParametersMap()} instead.
      */
+    @java.lang.Override
     @java.lang.Deprecated
     public java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue> getParameters() {
       return getParametersMap();
@@ -303,6 +331,7 @@ public final class ScriptingProtos {
     /**
      * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 3;</code>
      */
+    @java.lang.Override
 
     public java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue> getParametersMap() {
       return internalGetParameters().getMap();
@@ -310,6 +339,7 @@ public final class ScriptingProtos {
     /**
      * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 3;</code>
      */
+    @java.lang.Override
 
     public tech.ydb.ValueProtos.TypedValue getParametersOrDefault(
         java.lang.String key,
@@ -322,6 +352,7 @@ public final class ScriptingProtos {
     /**
      * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 3;</code>
      */
+    @java.lang.Override
 
     public tech.ydb.ValueProtos.TypedValue getParametersOrThrow(
         java.lang.String key) {
@@ -338,19 +369,23 @@ public final class ScriptingProtos {
     private int collectStats_;
     /**
      * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 4;</code>
+     * @return The enum numeric value on the wire for collectStats.
      */
-    public int getCollectStatsValue() {
+    @java.lang.Override public int getCollectStatsValue() {
       return collectStats_;
     }
     /**
      * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 4;</code>
+     * @return The collectStats.
      */
-    public tech.ydb.table.YdbTable.QueryStatsCollection.Mode getCollectStats() {
+    @java.lang.Override public tech.ydb.table.YdbTable.QueryStatsCollection.Mode getCollectStats() {
+      @SuppressWarnings("deprecation")
       tech.ydb.table.YdbTable.QueryStatsCollection.Mode result = tech.ydb.table.YdbTable.QueryStatsCollection.Mode.valueOf(collectStats_);
       return result == null ? tech.ydb.table.YdbTable.QueryStatsCollection.Mode.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -360,6 +395,7 @@ public final class ScriptingProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -380,6 +416,7 @@ public final class ScriptingProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -421,19 +458,18 @@ public final class ScriptingProtos {
       }
       tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest other = (tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getScript()
-          .equals(other.getScript());
-      result = result && internalGetParameters().equals(
-          other.internalGetParameters());
-      result = result && collectStats_ == other.collectStats_;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getScript()
+          .equals(other.getScript())) return false;
+      if (!internalGetParameters().equals(
+          other.internalGetParameters())) return false;
+      if (collectStats_ != other.collectStats_) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -530,6 +566,7 @@ public final class ScriptingProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -537,6 +574,7 @@ public final class ScriptingProtos {
     public static Builder newBuilder(tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -582,6 +620,7 @@ public final class ScriptingProtos {
                 "Invalid map field number: " + number);
         }
       }
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlRequest_fieldAccessorTable
@@ -604,6 +643,7 @@ public final class ScriptingProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -620,15 +660,18 @@ public final class ScriptingProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest getDefaultInstanceForType() {
         return tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest build() {
         tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -637,10 +680,10 @@ public final class ScriptingProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest buildPartial() {
         tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest result = new tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
         } else {
@@ -650,37 +693,43 @@ public final class ScriptingProtos {
         result.parameters_ = internalGetParameters();
         result.parameters_.makeImmutable();
         result.collectStats_ = collectStats_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest) {
           return mergeFrom((tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest)other);
@@ -709,10 +758,12 @@ public final class ScriptingProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -732,17 +783,19 @@ public final class ScriptingProtos {
       }
       private int bitField0_;
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -852,6 +905,7 @@ public final class ScriptingProtos {
       private java.lang.Object script_ = "";
       /**
        * <code>string script = 2;</code>
+       * @return The script.
        */
       public java.lang.String getScript() {
         java.lang.Object ref = script_;
@@ -867,6 +921,7 @@ public final class ScriptingProtos {
       }
       /**
        * <code>string script = 2;</code>
+       * @return The bytes for script.
        */
       public com.google.protobuf.ByteString
           getScriptBytes() {
@@ -883,6 +938,8 @@ public final class ScriptingProtos {
       }
       /**
        * <code>string script = 2;</code>
+       * @param value The script to set.
+       * @return This builder for chaining.
        */
       public Builder setScript(
           java.lang.String value) {
@@ -896,6 +953,7 @@ public final class ScriptingProtos {
       }
       /**
        * <code>string script = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearScript() {
         
@@ -905,6 +963,8 @@ public final class ScriptingProtos {
       }
       /**
        * <code>string script = 2;</code>
+       * @param value The bytes for script to set.
+       * @return This builder for chaining.
        */
       public Builder setScriptBytes(
           com.google.protobuf.ByteString value) {
@@ -948,6 +1008,7 @@ public final class ScriptingProtos {
        * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 3;</code>
        */
 
+      @java.lang.Override
       public boolean containsParameters(
           java.lang.String key) {
         if (key == null) { throw new java.lang.NullPointerException(); }
@@ -956,6 +1017,7 @@ public final class ScriptingProtos {
       /**
        * Use {@link #getParametersMap()} instead.
        */
+      @java.lang.Override
       @java.lang.Deprecated
       public java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue> getParameters() {
         return getParametersMap();
@@ -963,6 +1025,7 @@ public final class ScriptingProtos {
       /**
        * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 3;</code>
        */
+      @java.lang.Override
 
       public java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue> getParametersMap() {
         return internalGetParameters().getMap();
@@ -970,6 +1033,7 @@ public final class ScriptingProtos {
       /**
        * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 3;</code>
        */
+      @java.lang.Override
 
       public tech.ydb.ValueProtos.TypedValue getParametersOrDefault(
           java.lang.String key,
@@ -982,6 +1046,7 @@ public final class ScriptingProtos {
       /**
        * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 3;</code>
        */
+      @java.lang.Override
 
       public tech.ydb.ValueProtos.TypedValue getParametersOrThrow(
           java.lang.String key) {
@@ -1044,27 +1109,36 @@ public final class ScriptingProtos {
       private int collectStats_ = 0;
       /**
        * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 4;</code>
+       * @return The enum numeric value on the wire for collectStats.
        */
-      public int getCollectStatsValue() {
+      @java.lang.Override public int getCollectStatsValue() {
         return collectStats_;
       }
       /**
        * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 4;</code>
+       * @param value The enum numeric value on the wire for collectStats to set.
+       * @return This builder for chaining.
        */
       public Builder setCollectStatsValue(int value) {
+        
         collectStats_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 4;</code>
+       * @return The collectStats.
        */
+      @java.lang.Override
       public tech.ydb.table.YdbTable.QueryStatsCollection.Mode getCollectStats() {
+        @SuppressWarnings("deprecation")
         tech.ydb.table.YdbTable.QueryStatsCollection.Mode result = tech.ydb.table.YdbTable.QueryStatsCollection.Mode.valueOf(collectStats_);
         return result == null ? tech.ydb.table.YdbTable.QueryStatsCollection.Mode.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 4;</code>
+       * @param value The collectStats to set.
+       * @return This builder for chaining.
        */
       public Builder setCollectStats(tech.ydb.table.YdbTable.QueryStatsCollection.Mode value) {
         if (value == null) {
@@ -1077,6 +1151,7 @@ public final class ScriptingProtos {
       }
       /**
        * <code>.Ydb.Table.QueryStatsCollection.Mode collect_stats = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCollectStats() {
         
@@ -1084,11 +1159,13 @@ public final class ScriptingProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1110,11 +1187,12 @@ public final class ScriptingProtos {
 
     private static final com.google.protobuf.Parser<ExecuteYqlRequest>
         PARSER = new com.google.protobuf.AbstractParser<ExecuteYqlRequest>() {
+      @java.lang.Override
       public ExecuteYqlRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExecuteYqlRequest(input, extensionRegistry);
+        return new ExecuteYqlRequest(input, extensionRegistry);
       }
     };
 
@@ -1127,6 +1205,7 @@ public final class ScriptingProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scripting.ScriptingProtos.ExecuteYqlRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1139,10 +1218,12 @@ public final class ScriptingProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -1153,7 +1234,7 @@ public final class ScriptingProtos {
   /**
    * Protobuf type {@code Ydb.Scripting.ExecuteYqlResponse}
    */
-  public  static final class ExecuteYqlResponse extends
+  public static final class ExecuteYqlResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scripting.ExecuteYqlResponse)
       ExecuteYqlResponseOrBuilder {
@@ -1166,6 +1247,13 @@ public final class ScriptingProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExecuteYqlResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -1175,7 +1263,9 @@ public final class ScriptingProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1186,13 +1276,6 @@ public final class ScriptingProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -1204,6 +1287,13 @@ public final class ScriptingProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -1223,6 +1313,7 @@ public final class ScriptingProtos {
       return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlResponse_fieldAccessorTable
@@ -1234,24 +1325,30 @@ public final class ScriptingProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1261,6 +1358,7 @@ public final class ScriptingProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -1269,6 +1367,7 @@ public final class ScriptingProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1293,14 +1392,13 @@ public final class ScriptingProtos {
       }
       tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse other = (tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1389,6 +1487,7 @@ public final class ScriptingProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1396,6 +1495,7 @@ public final class ScriptingProtos {
     public static Builder newBuilder(tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1419,6 +1519,7 @@ public final class ScriptingProtos {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlResponse_fieldAccessorTable
@@ -1441,6 +1542,7 @@ public final class ScriptingProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -1452,15 +1554,18 @@ public final class ScriptingProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse getDefaultInstanceForType() {
         return tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse build() {
         tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -1469,6 +1574,7 @@ public final class ScriptingProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse buildPartial() {
         tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse result = new tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse(this);
         if (operationBuilder_ == null) {
@@ -1480,32 +1586,39 @@ public final class ScriptingProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse) {
           return mergeFrom((tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse)other);
@@ -1525,10 +1638,12 @@ public final class ScriptingProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1547,17 +1662,19 @@ public final class ScriptingProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -1663,11 +1780,13 @@ public final class ScriptingProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1689,11 +1808,12 @@ public final class ScriptingProtos {
 
     private static final com.google.protobuf.Parser<ExecuteYqlResponse>
         PARSER = new com.google.protobuf.AbstractParser<ExecuteYqlResponse>() {
+      @java.lang.Override
       public ExecuteYqlResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExecuteYqlResponse(input, extensionRegistry);
+        return new ExecuteYqlResponse(input, extensionRegistry);
       }
     };
 
@@ -1706,6 +1826,7 @@ public final class ScriptingProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scripting.ScriptingProtos.ExecuteYqlResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1742,10 +1863,12 @@ public final class ScriptingProtos {
 
     /**
      * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+     * @return Whether the queryStats field is set.
      */
     boolean hasQueryStats();
     /**
      * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+     * @return The queryStats.
      */
     tech.ydb.YdbQueryStats.QueryStats getQueryStats();
     /**
@@ -1756,7 +1879,7 @@ public final class ScriptingProtos {
   /**
    * Protobuf type {@code Ydb.Scripting.ExecuteYqlResult}
    */
-  public  static final class ExecuteYqlResult extends
+  public static final class ExecuteYqlResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scripting.ExecuteYqlResult)
       ExecuteYqlResultOrBuilder {
@@ -1770,6 +1893,13 @@ public final class ScriptingProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExecuteYqlResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -1779,6 +1909,9 @@ public final class ScriptingProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -1790,15 +1923,8 @@ public final class ScriptingProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 resultSets_ = new java.util.ArrayList<tech.ydb.ValueProtos.ResultSet>();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -1819,6 +1945,13 @@ public final class ScriptingProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1827,7 +1960,7 @@ public final class ScriptingProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           resultSets_ = java.util.Collections.unmodifiableList(resultSets_);
         }
         this.unknownFields = unknownFields.build();
@@ -1839,6 +1972,7 @@ public final class ScriptingProtos {
       return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlResult_fieldAccessorTable
@@ -1846,18 +1980,19 @@ public final class ScriptingProtos {
               tech.ydb.scripting.ScriptingProtos.ExecuteYqlResult.class, tech.ydb.scripting.ScriptingProtos.ExecuteYqlResult.Builder.class);
     }
 
-    private int bitField0_;
     public static final int RESULT_SETS_FIELD_NUMBER = 1;
     private java.util.List<tech.ydb.ValueProtos.ResultSet> resultSets_;
     /**
      * <code>repeated .Ydb.ResultSet result_sets = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.ValueProtos.ResultSet> getResultSetsList() {
       return resultSets_;
     }
     /**
      * <code>repeated .Ydb.ResultSet result_sets = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.ValueProtos.ResultSetOrBuilder> 
         getResultSetsOrBuilderList() {
       return resultSets_;
@@ -1865,18 +2000,21 @@ public final class ScriptingProtos {
     /**
      * <code>repeated .Ydb.ResultSet result_sets = 1;</code>
      */
+    @java.lang.Override
     public int getResultSetsCount() {
       return resultSets_.size();
     }
     /**
      * <code>repeated .Ydb.ResultSet result_sets = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ResultSet getResultSets(int index) {
       return resultSets_.get(index);
     }
     /**
      * <code>repeated .Ydb.ResultSet result_sets = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ResultSetOrBuilder getResultSetsOrBuilder(
         int index) {
       return resultSets_.get(index);
@@ -1886,24 +2024,30 @@ public final class ScriptingProtos {
     private tech.ydb.YdbQueryStats.QueryStats queryStats_;
     /**
      * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+     * @return Whether the queryStats field is set.
      */
+    @java.lang.Override
     public boolean hasQueryStats() {
       return queryStats_ != null;
     }
     /**
      * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+     * @return The queryStats.
      */
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.QueryStats getQueryStats() {
       return queryStats_ == null ? tech.ydb.YdbQueryStats.QueryStats.getDefaultInstance() : queryStats_;
     }
     /**
      * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.QueryStatsOrBuilder getQueryStatsOrBuilder() {
       return getQueryStats();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1913,6 +2057,7 @@ public final class ScriptingProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < resultSets_.size(); i++) {
@@ -1924,6 +2069,7 @@ public final class ScriptingProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1952,16 +2098,15 @@ public final class ScriptingProtos {
       }
       tech.ydb.scripting.ScriptingProtos.ExecuteYqlResult other = (tech.ydb.scripting.ScriptingProtos.ExecuteYqlResult) obj;
 
-      boolean result = true;
-      result = result && getResultSetsList()
-          .equals(other.getResultSetsList());
-      result = result && (hasQueryStats() == other.hasQueryStats());
+      if (!getResultSetsList()
+          .equals(other.getResultSetsList())) return false;
+      if (hasQueryStats() != other.hasQueryStats()) return false;
       if (hasQueryStats()) {
-        result = result && getQueryStats()
-            .equals(other.getQueryStats());
+        if (!getQueryStats()
+            .equals(other.getQueryStats())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2054,6 +2199,7 @@ public final class ScriptingProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2061,6 +2207,7 @@ public final class ScriptingProtos {
     public static Builder newBuilder(tech.ydb.scripting.ScriptingProtos.ExecuteYqlResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2084,6 +2231,7 @@ public final class ScriptingProtos {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlResult_fieldAccessorTable
@@ -2107,6 +2255,7 @@ public final class ScriptingProtos {
           getResultSetsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (resultSetsBuilder_ == null) {
@@ -2124,15 +2273,18 @@ public final class ScriptingProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExecuteYqlResult getDefaultInstanceForType() {
         return tech.ydb.scripting.ScriptingProtos.ExecuteYqlResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExecuteYqlResult build() {
         tech.ydb.scripting.ScriptingProtos.ExecuteYqlResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -2141,12 +2293,12 @@ public final class ScriptingProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExecuteYqlResult buildPartial() {
         tech.ydb.scripting.ScriptingProtos.ExecuteYqlResult result = new tech.ydb.scripting.ScriptingProtos.ExecuteYqlResult(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (resultSetsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             resultSets_ = java.util.Collections.unmodifiableList(resultSets_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -2159,37 +2311,43 @@ public final class ScriptingProtos {
         } else {
           result.queryStats_ = queryStatsBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scripting.ScriptingProtos.ExecuteYqlResult) {
           return mergeFrom((tech.ydb.scripting.ScriptingProtos.ExecuteYqlResult)other);
@@ -2235,10 +2393,12 @@ public final class ScriptingProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2261,7 +2421,7 @@ public final class ScriptingProtos {
       private java.util.List<tech.ydb.ValueProtos.ResultSet> resultSets_ =
         java.util.Collections.emptyList();
       private void ensureResultSetsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           resultSets_ = new java.util.ArrayList<tech.ydb.ValueProtos.ResultSet>(resultSets_);
           bitField0_ |= 0x00000001;
          }
@@ -2490,7 +2650,7 @@ public final class ScriptingProtos {
           resultSetsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.ValueProtos.ResultSet, tech.ydb.ValueProtos.ResultSet.Builder, tech.ydb.ValueProtos.ResultSetOrBuilder>(
                   resultSets_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           resultSets_ = null;
@@ -2498,17 +2658,19 @@ public final class ScriptingProtos {
         return resultSetsBuilder_;
       }
 
-      private tech.ydb.YdbQueryStats.QueryStats queryStats_ = null;
+      private tech.ydb.YdbQueryStats.QueryStats queryStats_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.YdbQueryStats.QueryStats, tech.ydb.YdbQueryStats.QueryStats.Builder, tech.ydb.YdbQueryStats.QueryStatsOrBuilder> queryStatsBuilder_;
       /**
        * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+       * @return Whether the queryStats field is set.
        */
       public boolean hasQueryStats() {
         return queryStatsBuilder_ != null || queryStats_ != null;
       }
       /**
        * <code>.Ydb.TableStats.QueryStats query_stats = 2;</code>
+       * @return The queryStats.
        */
       public tech.ydb.YdbQueryStats.QueryStats getQueryStats() {
         if (queryStatsBuilder_ == null) {
@@ -2614,11 +2776,13 @@ public final class ScriptingProtos {
         }
         return queryStatsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2640,11 +2804,12 @@ public final class ScriptingProtos {
 
     private static final com.google.protobuf.Parser<ExecuteYqlResult>
         PARSER = new com.google.protobuf.AbstractParser<ExecuteYqlResult>() {
+      @java.lang.Override
       public ExecuteYqlResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExecuteYqlResult(input, extensionRegistry);
+        return new ExecuteYqlResult(input, extensionRegistry);
       }
     };
 
@@ -2657,6 +2822,7 @@ public final class ScriptingProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scripting.ScriptingProtos.ExecuteYqlResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2669,10 +2835,12 @@ public final class ScriptingProtos {
 
     /**
      * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     * @return The enum numeric value on the wire for status.
      */
     int getStatusValue();
     /**
      * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     * @return The status.
      */
     tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus();
 
@@ -2702,10 +2870,12 @@ public final class ScriptingProtos {
 
     /**
      * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
+     * @return Whether the result field is set.
      */
     boolean hasResult();
     /**
      * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
+     * @return The result.
      */
     tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult getResult();
     /**
@@ -2724,7 +2894,7 @@ public final class ScriptingProtos {
    *
    * Protobuf type {@code Ydb.Scripting.ExecuteYqlPartialResponse}
    */
-  public  static final class ExecuteYqlPartialResponse extends
+  public static final class ExecuteYqlPartialResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scripting.ExecuteYqlPartialResponse)
       ExecuteYqlPartialResponseOrBuilder {
@@ -2739,6 +2909,13 @@ public final class ScriptingProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExecuteYqlPartialResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2748,6 +2925,9 @@ public final class ScriptingProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -2759,13 +2939,6 @@ public final class ScriptingProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               int rawValue = input.readEnum();
 
@@ -2773,9 +2946,9 @@ public final class ScriptingProtos {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 issues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               issues_.add(
                   input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
@@ -2794,6 +2967,13 @@ public final class ScriptingProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2802,7 +2982,7 @@ public final class ScriptingProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           issues_ = java.util.Collections.unmodifiableList(issues_);
         }
         this.unknownFields = unknownFields.build();
@@ -2814,6 +2994,7 @@ public final class ScriptingProtos {
       return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlPartialResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlPartialResponse_fieldAccessorTable
@@ -2821,19 +3002,21 @@ public final class ScriptingProtos {
               tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse.class, tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse.Builder.class);
     }
 
-    private int bitField0_;
     public static final int STATUS_FIELD_NUMBER = 1;
     private int status_;
     /**
      * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     * @return The enum numeric value on the wire for status.
      */
-    public int getStatusValue() {
+    @java.lang.Override public int getStatusValue() {
       return status_;
     }
     /**
      * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     * @return The status.
      */
-    public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+    @java.lang.Override public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+      @SuppressWarnings("deprecation")
       tech.ydb.StatusCodesProtos.StatusIds.StatusCode result = tech.ydb.StatusCodesProtos.StatusIds.StatusCode.valueOf(status_);
       return result == null ? tech.ydb.StatusCodesProtos.StatusIds.StatusCode.UNRECOGNIZED : result;
     }
@@ -2843,12 +3026,14 @@ public final class ScriptingProtos {
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> getIssuesList() {
       return issues_;
     }
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
         getIssuesOrBuilderList() {
       return issues_;
@@ -2856,18 +3041,21 @@ public final class ScriptingProtos {
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
      */
+    @java.lang.Override
     public int getIssuesCount() {
       return issues_.size();
     }
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.YdbIssueMessage.IssueMessage getIssues(int index) {
       return issues_.get(index);
     }
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.YdbIssueMessage.IssueMessageOrBuilder getIssuesOrBuilder(
         int index) {
       return issues_.get(index);
@@ -2877,24 +3065,30 @@ public final class ScriptingProtos {
     private tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult result_;
     /**
      * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
+     * @return Whether the result field is set.
      */
+    @java.lang.Override
     public boolean hasResult() {
       return result_ != null;
     }
     /**
      * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
+     * @return The result.
      */
+    @java.lang.Override
     public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult getResult() {
       return result_ == null ? tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.getDefaultInstance() : result_;
     }
     /**
      * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResultOrBuilder getResultOrBuilder() {
       return getResult();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2904,6 +3098,7 @@ public final class ScriptingProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (status_ != tech.ydb.StatusCodesProtos.StatusIds.StatusCode.STATUS_CODE_UNSPECIFIED.getNumber()) {
@@ -2918,6 +3113,7 @@ public final class ScriptingProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2950,17 +3146,16 @@ public final class ScriptingProtos {
       }
       tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse other = (tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse) obj;
 
-      boolean result = true;
-      result = result && status_ == other.status_;
-      result = result && getIssuesList()
-          .equals(other.getIssuesList());
-      result = result && (hasResult() == other.hasResult());
+      if (status_ != other.status_) return false;
+      if (!getIssuesList()
+          .equals(other.getIssuesList())) return false;
+      if (hasResult() != other.hasResult()) return false;
       if (hasResult()) {
-        result = result && getResult()
-            .equals(other.getResult());
+        if (!getResult()
+            .equals(other.getResult())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3055,6 +3250,7 @@ public final class ScriptingProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3062,6 +3258,7 @@ public final class ScriptingProtos {
     public static Builder newBuilder(tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3093,6 +3290,7 @@ public final class ScriptingProtos {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlPartialResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlPartialResponse_fieldAccessorTable
@@ -3116,13 +3314,14 @@ public final class ScriptingProtos {
           getIssuesFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         status_ = 0;
 
         if (issuesBuilder_ == null) {
           issues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           issuesBuilder_.clear();
         }
@@ -3135,15 +3334,18 @@ public final class ScriptingProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlPartialResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse getDefaultInstanceForType() {
         return tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse build() {
         tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -3152,15 +3354,15 @@ public final class ScriptingProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse buildPartial() {
         tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse result = new tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.status_ = status_;
         if (issuesBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             issues_ = java.util.Collections.unmodifiableList(issues_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.issues_ = issues_;
         } else {
@@ -3171,37 +3373,43 @@ public final class ScriptingProtos {
         } else {
           result.result_ = resultBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse) {
           return mergeFrom((tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse)other);
@@ -3220,7 +3428,7 @@ public final class ScriptingProtos {
           if (!other.issues_.isEmpty()) {
             if (issues_.isEmpty()) {
               issues_ = other.issues_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureIssuesIsMutable();
               issues_.addAll(other.issues_);
@@ -3233,7 +3441,7 @@ public final class ScriptingProtos {
               issuesBuilder_.dispose();
               issuesBuilder_ = null;
               issues_ = other.issues_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               issuesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getIssuesFieldBuilder() : null;
@@ -3250,10 +3458,12 @@ public final class ScriptingProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3276,27 +3486,36 @@ public final class ScriptingProtos {
       private int status_ = 0;
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       * @return The enum numeric value on the wire for status.
        */
-      public int getStatusValue() {
+      @java.lang.Override public int getStatusValue() {
         return status_;
       }
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       * @param value The enum numeric value on the wire for status to set.
+       * @return This builder for chaining.
        */
       public Builder setStatusValue(int value) {
+        
         status_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       * @return The status.
        */
+      @java.lang.Override
       public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+        @SuppressWarnings("deprecation")
         tech.ydb.StatusCodesProtos.StatusIds.StatusCode result = tech.ydb.StatusCodesProtos.StatusIds.StatusCode.valueOf(status_);
         return result == null ? tech.ydb.StatusCodesProtos.StatusIds.StatusCode.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       * @param value The status to set.
+       * @return This builder for chaining.
        */
       public Builder setStatus(tech.ydb.StatusCodesProtos.StatusIds.StatusCode value) {
         if (value == null) {
@@ -3309,6 +3528,7 @@ public final class ScriptingProtos {
       }
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearStatus() {
         
@@ -3320,9 +3540,9 @@ public final class ScriptingProtos {
       private java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> issues_ =
         java.util.Collections.emptyList();
       private void ensureIssuesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           issues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>(issues_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -3472,7 +3692,7 @@ public final class ScriptingProtos {
       public Builder clearIssues() {
         if (issuesBuilder_ == null) {
           issues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           issuesBuilder_.clear();
@@ -3549,7 +3769,7 @@ public final class ScriptingProtos {
           issuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.YdbIssueMessage.IssueMessage, tech.ydb.YdbIssueMessage.IssueMessage.Builder, tech.ydb.YdbIssueMessage.IssueMessageOrBuilder>(
                   issues_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           issues_ = null;
@@ -3557,17 +3777,19 @@ public final class ScriptingProtos {
         return issuesBuilder_;
       }
 
-      private tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult result_ = null;
+      private tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult result_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult, tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.Builder, tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResultOrBuilder> resultBuilder_;
       /**
        * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
+       * @return Whether the result field is set.
        */
       public boolean hasResult() {
         return resultBuilder_ != null || result_ != null;
       }
       /**
        * <code>.Ydb.Scripting.ExecuteYqlPartialResult result = 3;</code>
+       * @return The result.
        */
       public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult getResult() {
         if (resultBuilder_ == null) {
@@ -3673,11 +3895,13 @@ public final class ScriptingProtos {
         }
         return resultBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3699,11 +3923,12 @@ public final class ScriptingProtos {
 
     private static final com.google.protobuf.Parser<ExecuteYqlPartialResponse>
         PARSER = new com.google.protobuf.AbstractParser<ExecuteYqlPartialResponse>() {
+      @java.lang.Override
       public ExecuteYqlPartialResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExecuteYqlPartialResponse(input, extensionRegistry);
+        return new ExecuteYqlPartialResponse(input, extensionRegistry);
       }
     };
 
@@ -3716,6 +3941,7 @@ public final class ScriptingProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3732,6 +3958,7 @@ public final class ScriptingProtos {
      * </pre>
      *
      * <code>uint32 result_set_index = 1;</code>
+     * @return The resultSetIndex.
      */
     int getResultSetIndex();
 
@@ -3741,6 +3968,7 @@ public final class ScriptingProtos {
      * </pre>
      *
      * <code>.Ydb.ResultSet result_set = 2;</code>
+     * @return Whether the resultSet field is set.
      */
     boolean hasResultSet();
     /**
@@ -3749,6 +3977,7 @@ public final class ScriptingProtos {
      * </pre>
      *
      * <code>.Ydb.ResultSet result_set = 2;</code>
+     * @return The resultSet.
      */
     tech.ydb.ValueProtos.ResultSet getResultSet();
     /**
@@ -3762,10 +3991,12 @@ public final class ScriptingProtos {
 
     /**
      * <code>.Ydb.TableStats.QueryStats query_stats = 3;</code>
+     * @return Whether the queryStats field is set.
      */
     boolean hasQueryStats();
     /**
      * <code>.Ydb.TableStats.QueryStats query_stats = 3;</code>
+     * @return The queryStats.
      */
     tech.ydb.YdbQueryStats.QueryStats getQueryStats();
     /**
@@ -3782,7 +4013,7 @@ public final class ScriptingProtos {
    *
    * Protobuf type {@code Ydb.Scripting.ExecuteYqlPartialResult}
    */
-  public  static final class ExecuteYqlPartialResult extends
+  public static final class ExecuteYqlPartialResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scripting.ExecuteYqlPartialResult)
       ExecuteYqlPartialResultOrBuilder {
@@ -3792,7 +4023,13 @@ public final class ScriptingProtos {
       super(builder);
     }
     private ExecuteYqlPartialResult() {
-      resultSetIndex_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExecuteYqlPartialResult();
     }
 
     @java.lang.Override
@@ -3805,7 +4042,9 @@ public final class ScriptingProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3816,13 +4055,6 @@ public final class ScriptingProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               resultSetIndex_ = input.readUInt32();
@@ -3854,6 +4086,13 @@ public final class ScriptingProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3871,6 +4110,7 @@ public final class ScriptingProtos {
       return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlPartialResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlPartialResult_fieldAccessorTable
@@ -3886,7 +4126,9 @@ public final class ScriptingProtos {
      * </pre>
      *
      * <code>uint32 result_set_index = 1;</code>
+     * @return The resultSetIndex.
      */
+    @java.lang.Override
     public int getResultSetIndex() {
       return resultSetIndex_;
     }
@@ -3899,7 +4141,9 @@ public final class ScriptingProtos {
      * </pre>
      *
      * <code>.Ydb.ResultSet result_set = 2;</code>
+     * @return Whether the resultSet field is set.
      */
+    @java.lang.Override
     public boolean hasResultSet() {
       return resultSet_ != null;
     }
@@ -3909,7 +4153,9 @@ public final class ScriptingProtos {
      * </pre>
      *
      * <code>.Ydb.ResultSet result_set = 2;</code>
+     * @return The resultSet.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ResultSet getResultSet() {
       return resultSet_ == null ? tech.ydb.ValueProtos.ResultSet.getDefaultInstance() : resultSet_;
     }
@@ -3920,6 +4166,7 @@ public final class ScriptingProtos {
      *
      * <code>.Ydb.ResultSet result_set = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ResultSetOrBuilder getResultSetOrBuilder() {
       return getResultSet();
     }
@@ -3928,24 +4175,30 @@ public final class ScriptingProtos {
     private tech.ydb.YdbQueryStats.QueryStats queryStats_;
     /**
      * <code>.Ydb.TableStats.QueryStats query_stats = 3;</code>
+     * @return Whether the queryStats field is set.
      */
+    @java.lang.Override
     public boolean hasQueryStats() {
       return queryStats_ != null;
     }
     /**
      * <code>.Ydb.TableStats.QueryStats query_stats = 3;</code>
+     * @return The queryStats.
      */
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.QueryStats getQueryStats() {
       return queryStats_ == null ? tech.ydb.YdbQueryStats.QueryStats.getDefaultInstance() : queryStats_;
     }
     /**
      * <code>.Ydb.TableStats.QueryStats query_stats = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.YdbQueryStats.QueryStatsOrBuilder getQueryStatsOrBuilder() {
       return getQueryStats();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3955,6 +4208,7 @@ public final class ScriptingProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (resultSetIndex_ != 0) {
@@ -3969,6 +4223,7 @@ public final class ScriptingProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4001,21 +4256,20 @@ public final class ScriptingProtos {
       }
       tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult other = (tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult) obj;
 
-      boolean result = true;
-      result = result && (getResultSetIndex()
-          == other.getResultSetIndex());
-      result = result && (hasResultSet() == other.hasResultSet());
+      if (getResultSetIndex()
+          != other.getResultSetIndex()) return false;
+      if (hasResultSet() != other.hasResultSet()) return false;
       if (hasResultSet()) {
-        result = result && getResultSet()
-            .equals(other.getResultSet());
+        if (!getResultSet()
+            .equals(other.getResultSet())) return false;
       }
-      result = result && (hasQueryStats() == other.hasQueryStats());
+      if (hasQueryStats() != other.hasQueryStats()) return false;
       if (hasQueryStats()) {
-        result = result && getQueryStats()
-            .equals(other.getQueryStats());
+        if (!getQueryStats()
+            .equals(other.getQueryStats())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4110,6 +4364,7 @@ public final class ScriptingProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4117,6 +4372,7 @@ public final class ScriptingProtos {
     public static Builder newBuilder(tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4146,6 +4402,7 @@ public final class ScriptingProtos {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlPartialResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlPartialResult_fieldAccessorTable
@@ -4168,6 +4425,7 @@ public final class ScriptingProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         resultSetIndex_ = 0;
@@ -4187,15 +4445,18 @@ public final class ScriptingProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExecuteYqlPartialResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult getDefaultInstanceForType() {
         return tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult build() {
         tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -4204,6 +4465,7 @@ public final class ScriptingProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult buildPartial() {
         tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult result = new tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult(this);
         result.resultSetIndex_ = resultSetIndex_;
@@ -4221,32 +4483,39 @@ public final class ScriptingProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult) {
           return mergeFrom((tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult)other);
@@ -4272,10 +4541,12 @@ public final class ScriptingProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4301,7 +4572,9 @@ public final class ScriptingProtos {
        * </pre>
        *
        * <code>uint32 result_set_index = 1;</code>
+       * @return The resultSetIndex.
        */
+      @java.lang.Override
       public int getResultSetIndex() {
         return resultSetIndex_;
       }
@@ -4311,6 +4584,8 @@ public final class ScriptingProtos {
        * </pre>
        *
        * <code>uint32 result_set_index = 1;</code>
+       * @param value The resultSetIndex to set.
+       * @return This builder for chaining.
        */
       public Builder setResultSetIndex(int value) {
         
@@ -4324,6 +4599,7 @@ public final class ScriptingProtos {
        * </pre>
        *
        * <code>uint32 result_set_index = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearResultSetIndex() {
         
@@ -4332,7 +4608,7 @@ public final class ScriptingProtos {
         return this;
       }
 
-      private tech.ydb.ValueProtos.ResultSet resultSet_ = null;
+      private tech.ydb.ValueProtos.ResultSet resultSet_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.ValueProtos.ResultSet, tech.ydb.ValueProtos.ResultSet.Builder, tech.ydb.ValueProtos.ResultSetOrBuilder> resultSetBuilder_;
       /**
@@ -4341,6 +4617,7 @@ public final class ScriptingProtos {
        * </pre>
        *
        * <code>.Ydb.ResultSet result_set = 2;</code>
+       * @return Whether the resultSet field is set.
        */
       public boolean hasResultSet() {
         return resultSetBuilder_ != null || resultSet_ != null;
@@ -4351,6 +4628,7 @@ public final class ScriptingProtos {
        * </pre>
        *
        * <code>.Ydb.ResultSet result_set = 2;</code>
+       * @return The resultSet.
        */
       public tech.ydb.ValueProtos.ResultSet getResultSet() {
         if (resultSetBuilder_ == null) {
@@ -4485,17 +4763,19 @@ public final class ScriptingProtos {
         return resultSetBuilder_;
       }
 
-      private tech.ydb.YdbQueryStats.QueryStats queryStats_ = null;
+      private tech.ydb.YdbQueryStats.QueryStats queryStats_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.YdbQueryStats.QueryStats, tech.ydb.YdbQueryStats.QueryStats.Builder, tech.ydb.YdbQueryStats.QueryStatsOrBuilder> queryStatsBuilder_;
       /**
        * <code>.Ydb.TableStats.QueryStats query_stats = 3;</code>
+       * @return Whether the queryStats field is set.
        */
       public boolean hasQueryStats() {
         return queryStatsBuilder_ != null || queryStats_ != null;
       }
       /**
        * <code>.Ydb.TableStats.QueryStats query_stats = 3;</code>
+       * @return The queryStats.
        */
       public tech.ydb.YdbQueryStats.QueryStats getQueryStats() {
         if (queryStatsBuilder_ == null) {
@@ -4601,11 +4881,13 @@ public final class ScriptingProtos {
         }
         return queryStatsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4627,11 +4909,12 @@ public final class ScriptingProtos {
 
     private static final com.google.protobuf.Parser<ExecuteYqlPartialResult>
         PARSER = new com.google.protobuf.AbstractParser<ExecuteYqlPartialResult>() {
+      @java.lang.Override
       public ExecuteYqlPartialResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExecuteYqlPartialResult(input, extensionRegistry);
+        return new ExecuteYqlPartialResult(input, extensionRegistry);
       }
     };
 
@@ -4644,6 +4927,7 @@ public final class ScriptingProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scripting.ScriptingProtos.ExecuteYqlPartialResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4656,10 +4940,12 @@ public final class ScriptingProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -4669,27 +4955,31 @@ public final class ScriptingProtos {
 
     /**
      * <code>string script = 2;</code>
+     * @return The script.
      */
     java.lang.String getScript();
     /**
      * <code>string script = 2;</code>
+     * @return The bytes for script.
      */
     com.google.protobuf.ByteString
         getScriptBytes();
 
     /**
      * <code>.Ydb.Scripting.ExplainYqlRequest.Mode mode = 3;</code>
+     * @return The enum numeric value on the wire for mode.
      */
     int getModeValue();
     /**
      * <code>.Ydb.Scripting.ExplainYqlRequest.Mode mode = 3;</code>
+     * @return The mode.
      */
     tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest.Mode getMode();
   }
   /**
    * Protobuf type {@code Ydb.Scripting.ExplainYqlRequest}
    */
-  public  static final class ExplainYqlRequest extends
+  public static final class ExplainYqlRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scripting.ExplainYqlRequest)
       ExplainYqlRequestOrBuilder {
@@ -4704,6 +4994,13 @@ public final class ScriptingProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExplainYqlRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -4713,7 +5010,9 @@ public final class ScriptingProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4724,13 +5023,6 @@ public final class ScriptingProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -4756,6 +5048,13 @@ public final class ScriptingProtos {
               mode_ = rawValue;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -4773,6 +5072,7 @@ public final class ScriptingProtos {
       return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExplainYqlRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExplainYqlRequest_fieldAccessorTable
@@ -4831,6 +5131,8 @@ public final class ScriptingProtos {
       }
 
       /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -4838,6 +5140,10 @@ public final class ScriptingProtos {
         return forNumber(value);
       }
 
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
       public static Mode forNumber(int value) {
         switch (value) {
           case 0: return MODE_UNSPECIFIED;
@@ -4861,6 +5167,10 @@ public final class ScriptingProtos {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -4899,19 +5209,24 @@ public final class ScriptingProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -4920,7 +5235,9 @@ public final class ScriptingProtos {
     private volatile java.lang.Object script_;
     /**
      * <code>string script = 2;</code>
+     * @return The script.
      */
+    @java.lang.Override
     public java.lang.String getScript() {
       java.lang.Object ref = script_;
       if (ref instanceof java.lang.String) {
@@ -4935,7 +5252,9 @@ public final class ScriptingProtos {
     }
     /**
      * <code>string script = 2;</code>
+     * @return The bytes for script.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getScriptBytes() {
       java.lang.Object ref = script_;
@@ -4954,19 +5273,23 @@ public final class ScriptingProtos {
     private int mode_;
     /**
      * <code>.Ydb.Scripting.ExplainYqlRequest.Mode mode = 3;</code>
+     * @return The enum numeric value on the wire for mode.
      */
-    public int getModeValue() {
+    @java.lang.Override public int getModeValue() {
       return mode_;
     }
     /**
      * <code>.Ydb.Scripting.ExplainYqlRequest.Mode mode = 3;</code>
+     * @return The mode.
      */
-    public tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest.Mode getMode() {
+    @java.lang.Override public tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest.Mode getMode() {
+      @SuppressWarnings("deprecation")
       tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest.Mode result = tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest.Mode.valueOf(mode_);
       return result == null ? tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest.Mode.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4976,6 +5299,7 @@ public final class ScriptingProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -4990,6 +5314,7 @@ public final class ScriptingProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -5021,17 +5346,16 @@ public final class ScriptingProtos {
       }
       tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest other = (tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getScript()
-          .equals(other.getScript());
-      result = result && mode_ == other.mode_;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getScript()
+          .equals(other.getScript())) return false;
+      if (mode_ != other.mode_) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5124,6 +5448,7 @@ public final class ScriptingProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5131,6 +5456,7 @@ public final class ScriptingProtos {
     public static Builder newBuilder(tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5154,6 +5480,7 @@ public final class ScriptingProtos {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExplainYqlRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExplainYqlRequest_fieldAccessorTable
@@ -5176,6 +5503,7 @@ public final class ScriptingProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -5191,15 +5519,18 @@ public final class ScriptingProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExplainYqlRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest getDefaultInstanceForType() {
         return tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest build() {
         tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -5208,6 +5539,7 @@ public final class ScriptingProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest buildPartial() {
         tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest result = new tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -5221,32 +5553,39 @@ public final class ScriptingProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest) {
           return mergeFrom((tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest)other);
@@ -5273,10 +5612,12 @@ public final class ScriptingProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5295,17 +5636,19 @@ public final class ScriptingProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -5415,6 +5758,7 @@ public final class ScriptingProtos {
       private java.lang.Object script_ = "";
       /**
        * <code>string script = 2;</code>
+       * @return The script.
        */
       public java.lang.String getScript() {
         java.lang.Object ref = script_;
@@ -5430,6 +5774,7 @@ public final class ScriptingProtos {
       }
       /**
        * <code>string script = 2;</code>
+       * @return The bytes for script.
        */
       public com.google.protobuf.ByteString
           getScriptBytes() {
@@ -5446,6 +5791,8 @@ public final class ScriptingProtos {
       }
       /**
        * <code>string script = 2;</code>
+       * @param value The script to set.
+       * @return This builder for chaining.
        */
       public Builder setScript(
           java.lang.String value) {
@@ -5459,6 +5806,7 @@ public final class ScriptingProtos {
       }
       /**
        * <code>string script = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearScript() {
         
@@ -5468,6 +5816,8 @@ public final class ScriptingProtos {
       }
       /**
        * <code>string script = 2;</code>
+       * @param value The bytes for script to set.
+       * @return This builder for chaining.
        */
       public Builder setScriptBytes(
           com.google.protobuf.ByteString value) {
@@ -5484,27 +5834,36 @@ public final class ScriptingProtos {
       private int mode_ = 0;
       /**
        * <code>.Ydb.Scripting.ExplainYqlRequest.Mode mode = 3;</code>
+       * @return The enum numeric value on the wire for mode.
        */
-      public int getModeValue() {
+      @java.lang.Override public int getModeValue() {
         return mode_;
       }
       /**
        * <code>.Ydb.Scripting.ExplainYqlRequest.Mode mode = 3;</code>
+       * @param value The enum numeric value on the wire for mode to set.
+       * @return This builder for chaining.
        */
       public Builder setModeValue(int value) {
+        
         mode_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Scripting.ExplainYqlRequest.Mode mode = 3;</code>
+       * @return The mode.
        */
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest.Mode getMode() {
+        @SuppressWarnings("deprecation")
         tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest.Mode result = tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest.Mode.valueOf(mode_);
         return result == null ? tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest.Mode.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Scripting.ExplainYqlRequest.Mode mode = 3;</code>
+       * @param value The mode to set.
+       * @return This builder for chaining.
        */
       public Builder setMode(tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest.Mode value) {
         if (value == null) {
@@ -5517,6 +5876,7 @@ public final class ScriptingProtos {
       }
       /**
        * <code>.Ydb.Scripting.ExplainYqlRequest.Mode mode = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMode() {
         
@@ -5524,11 +5884,13 @@ public final class ScriptingProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5550,11 +5912,12 @@ public final class ScriptingProtos {
 
     private static final com.google.protobuf.Parser<ExplainYqlRequest>
         PARSER = new com.google.protobuf.AbstractParser<ExplainYqlRequest>() {
+      @java.lang.Override
       public ExplainYqlRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExplainYqlRequest(input, extensionRegistry);
+        return new ExplainYqlRequest(input, extensionRegistry);
       }
     };
 
@@ -5567,6 +5930,7 @@ public final class ScriptingProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scripting.ScriptingProtos.ExplainYqlRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5579,10 +5943,12 @@ public final class ScriptingProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -5593,7 +5959,7 @@ public final class ScriptingProtos {
   /**
    * Protobuf type {@code Ydb.Scripting.ExplainYqlResponse}
    */
-  public  static final class ExplainYqlResponse extends
+  public static final class ExplainYqlResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scripting.ExplainYqlResponse)
       ExplainYqlResponseOrBuilder {
@@ -5606,6 +5972,13 @@ public final class ScriptingProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExplainYqlResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -5615,7 +5988,9 @@ public final class ScriptingProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -5626,13 +6001,6 @@ public final class ScriptingProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -5644,6 +6012,13 @@ public final class ScriptingProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -5663,6 +6038,7 @@ public final class ScriptingProtos {
       return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExplainYqlResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExplainYqlResponse_fieldAccessorTable
@@ -5674,24 +6050,30 @@ public final class ScriptingProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -5701,6 +6083,7 @@ public final class ScriptingProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -5709,6 +6092,7 @@ public final class ScriptingProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -5733,14 +6117,13 @@ public final class ScriptingProtos {
       }
       tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse other = (tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5829,6 +6212,7 @@ public final class ScriptingProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5836,6 +6220,7 @@ public final class ScriptingProtos {
     public static Builder newBuilder(tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5859,6 +6244,7 @@ public final class ScriptingProtos {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExplainYqlResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExplainYqlResponse_fieldAccessorTable
@@ -5881,6 +6267,7 @@ public final class ScriptingProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -5892,15 +6279,18 @@ public final class ScriptingProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExplainYqlResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse getDefaultInstanceForType() {
         return tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse build() {
         tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -5909,6 +6299,7 @@ public final class ScriptingProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse buildPartial() {
         tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse result = new tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse(this);
         if (operationBuilder_ == null) {
@@ -5920,32 +6311,39 @@ public final class ScriptingProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse) {
           return mergeFrom((tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse)other);
@@ -5965,10 +6363,12 @@ public final class ScriptingProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5987,17 +6387,19 @@ public final class ScriptingProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -6103,11 +6505,13 @@ public final class ScriptingProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -6129,11 +6533,12 @@ public final class ScriptingProtos {
 
     private static final com.google.protobuf.Parser<ExplainYqlResponse>
         PARSER = new com.google.protobuf.AbstractParser<ExplainYqlResponse>() {
+      @java.lang.Override
       public ExplainYqlResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExplainYqlResponse(input, extensionRegistry);
+        return new ExplainYqlResponse(input, extensionRegistry);
       }
     };
 
@@ -6146,6 +6551,7 @@ public final class ScriptingProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scripting.ScriptingProtos.ExplainYqlResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -6192,10 +6598,12 @@ public final class ScriptingProtos {
 
     /**
      * <code>string plan = 2;</code>
+     * @return The plan.
      */
     java.lang.String getPlan();
     /**
      * <code>string plan = 2;</code>
+     * @return The bytes for plan.
      */
     com.google.protobuf.ByteString
         getPlanBytes();
@@ -6203,7 +6611,7 @@ public final class ScriptingProtos {
   /**
    * Protobuf type {@code Ydb.Scripting.ExplainYqlResult}
    */
-  public  static final class ExplainYqlResult extends
+  public static final class ExplainYqlResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scripting.ExplainYqlResult)
       ExplainYqlResultOrBuilder {
@@ -6217,6 +6625,13 @@ public final class ScriptingProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExplainYqlResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -6226,6 +6641,9 @@ public final class ScriptingProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -6237,15 +6655,8 @@ public final class ScriptingProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 parametersTypes_ = com.google.protobuf.MapField.newMapField(
                     ParametersTypesDefaultEntryHolder.defaultEntry);
                 mutable_bitField0_ |= 0x00000001;
@@ -6261,6 +6672,13 @@ public final class ScriptingProtos {
               java.lang.String s = input.readStringRequireUtf8();
 
               plan_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -6281,6 +6699,7 @@ public final class ScriptingProtos {
     }
 
     @SuppressWarnings({"rawtypes"})
+    @java.lang.Override
     protected com.google.protobuf.MapField internalGetMapField(
         int number) {
       switch (number) {
@@ -6291,6 +6710,7 @@ public final class ScriptingProtos {
               "Invalid map field number: " + number);
       }
     }
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExplainYqlResult_fieldAccessorTable
@@ -6298,7 +6718,6 @@ public final class ScriptingProtos {
               tech.ydb.scripting.ScriptingProtos.ExplainYqlResult.class, tech.ydb.scripting.ScriptingProtos.ExplainYqlResult.Builder.class);
     }
 
-    private int bitField0_;
     public static final int PARAMETERS_TYPES_FIELD_NUMBER = 1;
     private static final class ParametersTypesDefaultEntryHolder {
       static final com.google.protobuf.MapEntry<
@@ -6329,6 +6748,7 @@ public final class ScriptingProtos {
      * <code>map&lt;string, .Ydb.Type&gt; parameters_types = 1;</code>
      */
 
+    @java.lang.Override
     public boolean containsParametersTypes(
         java.lang.String key) {
       if (key == null) { throw new java.lang.NullPointerException(); }
@@ -6337,6 +6757,7 @@ public final class ScriptingProtos {
     /**
      * Use {@link #getParametersTypesMap()} instead.
      */
+    @java.lang.Override
     @java.lang.Deprecated
     public java.util.Map<java.lang.String, tech.ydb.ValueProtos.Type> getParametersTypes() {
       return getParametersTypesMap();
@@ -6344,6 +6765,7 @@ public final class ScriptingProtos {
     /**
      * <code>map&lt;string, .Ydb.Type&gt; parameters_types = 1;</code>
      */
+    @java.lang.Override
 
     public java.util.Map<java.lang.String, tech.ydb.ValueProtos.Type> getParametersTypesMap() {
       return internalGetParametersTypes().getMap();
@@ -6351,6 +6773,7 @@ public final class ScriptingProtos {
     /**
      * <code>map&lt;string, .Ydb.Type&gt; parameters_types = 1;</code>
      */
+    @java.lang.Override
 
     public tech.ydb.ValueProtos.Type getParametersTypesOrDefault(
         java.lang.String key,
@@ -6363,6 +6786,7 @@ public final class ScriptingProtos {
     /**
      * <code>map&lt;string, .Ydb.Type&gt; parameters_types = 1;</code>
      */
+    @java.lang.Override
 
     public tech.ydb.ValueProtos.Type getParametersTypesOrThrow(
         java.lang.String key) {
@@ -6379,7 +6803,9 @@ public final class ScriptingProtos {
     private volatile java.lang.Object plan_;
     /**
      * <code>string plan = 2;</code>
+     * @return The plan.
      */
+    @java.lang.Override
     public java.lang.String getPlan() {
       java.lang.Object ref = plan_;
       if (ref instanceof java.lang.String) {
@@ -6394,7 +6820,9 @@ public final class ScriptingProtos {
     }
     /**
      * <code>string plan = 2;</code>
+     * @return The bytes for plan.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPlanBytes() {
       java.lang.Object ref = plan_;
@@ -6410,6 +6838,7 @@ public final class ScriptingProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6419,6 +6848,7 @@ public final class ScriptingProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       com.google.protobuf.GeneratedMessageV3
@@ -6433,6 +6863,7 @@ public final class ScriptingProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -6466,13 +6897,12 @@ public final class ScriptingProtos {
       }
       tech.ydb.scripting.ScriptingProtos.ExplainYqlResult other = (tech.ydb.scripting.ScriptingProtos.ExplainYqlResult) obj;
 
-      boolean result = true;
-      result = result && internalGetParametersTypes().equals(
-          other.internalGetParametersTypes());
-      result = result && getPlan()
-          .equals(other.getPlan());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!internalGetParametersTypes().equals(
+          other.internalGetParametersTypes())) return false;
+      if (!getPlan()
+          .equals(other.getPlan())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -6563,6 +6993,7 @@ public final class ScriptingProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -6570,6 +7001,7 @@ public final class ScriptingProtos {
     public static Builder newBuilder(tech.ydb.scripting.ScriptingProtos.ExplainYqlResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -6615,6 +7047,7 @@ public final class ScriptingProtos {
                 "Invalid map field number: " + number);
         }
       }
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExplainYqlResult_fieldAccessorTable
@@ -6637,6 +7070,7 @@ public final class ScriptingProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         internalGetMutableParametersTypes().clear();
@@ -6645,15 +7079,18 @@ public final class ScriptingProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scripting.ScriptingProtos.internal_static_Ydb_Scripting_ExplainYqlResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExplainYqlResult getDefaultInstanceForType() {
         return tech.ydb.scripting.ScriptingProtos.ExplainYqlResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExplainYqlResult build() {
         tech.ydb.scripting.ScriptingProtos.ExplainYqlResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -6662,44 +7099,50 @@ public final class ScriptingProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scripting.ScriptingProtos.ExplainYqlResult buildPartial() {
         tech.ydb.scripting.ScriptingProtos.ExplainYqlResult result = new tech.ydb.scripting.ScriptingProtos.ExplainYqlResult(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.parametersTypes_ = internalGetParametersTypes();
         result.parametersTypes_.makeImmutable();
         result.plan_ = plan_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scripting.ScriptingProtos.ExplainYqlResult) {
           return mergeFrom((tech.ydb.scripting.ScriptingProtos.ExplainYqlResult)other);
@@ -6722,10 +7165,12 @@ public final class ScriptingProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6775,6 +7220,7 @@ public final class ScriptingProtos {
        * <code>map&lt;string, .Ydb.Type&gt; parameters_types = 1;</code>
        */
 
+      @java.lang.Override
       public boolean containsParametersTypes(
           java.lang.String key) {
         if (key == null) { throw new java.lang.NullPointerException(); }
@@ -6783,6 +7229,7 @@ public final class ScriptingProtos {
       /**
        * Use {@link #getParametersTypesMap()} instead.
        */
+      @java.lang.Override
       @java.lang.Deprecated
       public java.util.Map<java.lang.String, tech.ydb.ValueProtos.Type> getParametersTypes() {
         return getParametersTypesMap();
@@ -6790,6 +7237,7 @@ public final class ScriptingProtos {
       /**
        * <code>map&lt;string, .Ydb.Type&gt; parameters_types = 1;</code>
        */
+      @java.lang.Override
 
       public java.util.Map<java.lang.String, tech.ydb.ValueProtos.Type> getParametersTypesMap() {
         return internalGetParametersTypes().getMap();
@@ -6797,6 +7245,7 @@ public final class ScriptingProtos {
       /**
        * <code>map&lt;string, .Ydb.Type&gt; parameters_types = 1;</code>
        */
+      @java.lang.Override
 
       public tech.ydb.ValueProtos.Type getParametersTypesOrDefault(
           java.lang.String key,
@@ -6809,6 +7258,7 @@ public final class ScriptingProtos {
       /**
        * <code>map&lt;string, .Ydb.Type&gt; parameters_types = 1;</code>
        */
+      @java.lang.Override
 
       public tech.ydb.ValueProtos.Type getParametersTypesOrThrow(
           java.lang.String key) {
@@ -6871,6 +7321,7 @@ public final class ScriptingProtos {
       private java.lang.Object plan_ = "";
       /**
        * <code>string plan = 2;</code>
+       * @return The plan.
        */
       public java.lang.String getPlan() {
         java.lang.Object ref = plan_;
@@ -6886,6 +7337,7 @@ public final class ScriptingProtos {
       }
       /**
        * <code>string plan = 2;</code>
+       * @return The bytes for plan.
        */
       public com.google.protobuf.ByteString
           getPlanBytes() {
@@ -6902,6 +7354,8 @@ public final class ScriptingProtos {
       }
       /**
        * <code>string plan = 2;</code>
+       * @param value The plan to set.
+       * @return This builder for chaining.
        */
       public Builder setPlan(
           java.lang.String value) {
@@ -6915,6 +7369,7 @@ public final class ScriptingProtos {
       }
       /**
        * <code>string plan = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPlan() {
         
@@ -6924,6 +7379,8 @@ public final class ScriptingProtos {
       }
       /**
        * <code>string plan = 2;</code>
+       * @param value The bytes for plan to set.
+       * @return This builder for chaining.
        */
       public Builder setPlanBytes(
           com.google.protobuf.ByteString value) {
@@ -6936,11 +7393,13 @@ public final class ScriptingProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -6962,11 +7421,12 @@ public final class ScriptingProtos {
 
     private static final com.google.protobuf.Parser<ExplainYqlResult>
         PARSER = new com.google.protobuf.AbstractParser<ExplainYqlResult>() {
+      @java.lang.Override
       public ExplainYqlResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExplainYqlResult(input, extensionRegistry);
+        return new ExplainYqlResult(input, extensionRegistry);
       }
     };
 
@@ -6979,6 +7439,7 @@ public final class ScriptingProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scripting.ScriptingProtos.ExplainYqlResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -7053,7 +7514,7 @@ public final class ScriptingProtos {
       "0kikimr/public/api/protos/ydb_issue_mess" +
       "age.proto\032/kikimr/public/api/protos/ydb_" +
       "status_codes.proto\"\245\002\n\021ExecuteYqlRequest" +
-      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati",
+      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
       "ons.OperationParams\022\016\n\006script\030\002 \001(\t\022D\n\np" +
       "arameters\030\003 \003(\01320.Ydb.Scripting.ExecuteY" +
       "qlRequest.ParametersEntry\022;\n\rcollect_sta" +
@@ -7063,7 +7524,7 @@ public final class ScriptingProtos {
       "ecuteYqlResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
       "b.Operations.Operation\"h\n\020ExecuteYqlResu" +
       "lt\022#\n\013result_sets\030\001 \003(\0132\016.Ydb.ResultSet\022" +
-      "/\n\013query_stats\030\002 \001(\0132\032.Ydb.TableStats.Qu",
+      "/\n\013query_stats\030\002 \001(\0132\032.Ydb.TableStats.Qu" +
       "eryStats\"\247\001\n\031ExecuteYqlPartialResponse\022)" +
       "\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.StatusCod" +
       "e\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueMessa" +
@@ -7073,7 +7534,7 @@ public final class ScriptingProtos {
       "lt_set\030\002 \001(\0132\016.Ydb.ResultSet\022/\n\013query_st" +
       "ats\030\003 \001(\0132\032.Ydb.TableStats.QueryStats\"\311\001" +
       "\n\021ExplainYqlRequest\0229\n\020operation_params\030" +
-      "\001 \001(\0132\037.Ydb.Operations.OperationParams\022\016",
+      "\001 \001(\0132\037.Ydb.Operations.OperationParams\022\016" +
       "\n\006script\030\002 \001(\t\0223\n\004mode\030\003 \001(\0162%.Ydb.Scrip" +
       "ting.ExplainYqlRequest.Mode\"4\n\004Mode\022\024\n\020M" +
       "ODE_UNSPECIFIED\020\000\022\014\n\010VALIDATE\020\002\022\010\n\004PLAN\020" +
@@ -7083,18 +7544,10 @@ public final class ScriptingProtos {
       "db.Scripting.ExplainYqlResult.Parameters" +
       "TypesEntry\022\014\n\004plan\030\002 \001(\t\032A\n\024ParametersTy" +
       "pesEntry\022\013\n\003key\030\001 \001(\t\022\030\n\005value\030\002 \001(\0132\t.Y" +
-      "db.Type:\0028\001B.\n\030tech.ydb.scriptingB",
+      "db.Type:\0028\001B.\n\030tech.ydb.scriptingB" +
       "\017ScriptingProtos\370\001\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.OperationProtos.getDescriptor(),
@@ -7103,7 +7556,7 @@ public final class ScriptingProtos {
           tech.ydb.YdbQueryStats.getDescriptor(),
           tech.ydb.YdbIssueMessage.getDescriptor(),
           tech.ydb.StatusCodesProtos.getDescriptor(),
-        }, assigner);
+        });
     internal_static_Ydb_Scripting_ExecuteYqlRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_Scripting_ExecuteYqlRequest_fieldAccessorTable = new

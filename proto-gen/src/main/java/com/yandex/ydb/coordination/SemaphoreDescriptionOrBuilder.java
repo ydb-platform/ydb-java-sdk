@@ -13,6 +13,7 @@ public interface SemaphoreDescriptionOrBuilder extends
    * </pre>
    *
    * <code>string name = 1;</code>
+   * @return The name.
    */
   java.lang.String getName();
   /**
@@ -21,6 +22,7 @@ public interface SemaphoreDescriptionOrBuilder extends
    * </pre>
    *
    * <code>string name = 1;</code>
+   * @return The bytes for name.
    */
   com.google.protobuf.ByteString
       getNameBytes();
@@ -31,6 +33,7 @@ public interface SemaphoreDescriptionOrBuilder extends
    * </pre>
    *
    * <code>bytes data = 2;</code>
+   * @return The data.
    */
   com.google.protobuf.ByteString getData();
 
@@ -40,6 +43,7 @@ public interface SemaphoreDescriptionOrBuilder extends
    * </pre>
    *
    * <code>uint64 count = 7;</code>
+   * @return The count.
    */
   long getCount();
 
@@ -49,6 +53,7 @@ public interface SemaphoreDescriptionOrBuilder extends
    * </pre>
    *
    * <code>uint64 limit = 3;</code>
+   * @return The limit.
    */
   long getLimit();
 
@@ -58,6 +63,7 @@ public interface SemaphoreDescriptionOrBuilder extends
    * </pre>
    *
    * <code>bool ephemeral = 4;</code>
+   * @return The ephemeral.
    */
   boolean getEphemeral();
 

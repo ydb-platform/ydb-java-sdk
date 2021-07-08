@@ -6,7 +6,7 @@ package tech.ydb.rate_limiter;
 /**
  * Protobuf type {@code Ydb.RateLimiter.CreateResourceResult}
  */
-public  final class CreateResourceResult extends
+public final class CreateResourceResult extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:Ydb.RateLimiter.CreateResourceResult)
     CreateResourceResultOrBuilder {
@@ -19,6 +19,13 @@ private static final long serialVersionUID = 0L;
   }
 
   @java.lang.Override
+  @SuppressWarnings({"unused"})
+  protected java.lang.Object newInstance(
+      UnusedPrivateParameter unused) {
+    return new CreateResourceResult();
+  }
+
+  @java.lang.Override
   public final com.google.protobuf.UnknownFieldSet
   getUnknownFields() {
     return this.unknownFields;
@@ -28,6 +35,9 @@ private static final long serialVersionUID = 0L;
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     this();
+    if (extensionRegistry == null) {
+      throw new java.lang.NullPointerException();
+    }
     com.google.protobuf.UnknownFieldSet.Builder unknownFields =
         com.google.protobuf.UnknownFieldSet.newBuilder();
     try {
@@ -39,7 +49,7 @@ private static final long serialVersionUID = 0L;
             done = true;
             break;
           default: {
-            if (!parseUnknownFieldProto3(
+            if (!parseUnknownField(
                 input, unknownFields, extensionRegistry, tag)) {
               done = true;
             }
@@ -62,6 +72,7 @@ private static final long serialVersionUID = 0L;
     return tech.ydb.rate_limiter.RateLimiterProtos.internal_static_Ydb_RateLimiter_CreateResourceResult_descriptor;
   }
 
+  @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return tech.ydb.rate_limiter.RateLimiterProtos.internal_static_Ydb_RateLimiter_CreateResourceResult_fieldAccessorTable
@@ -70,6 +81,7 @@ private static final long serialVersionUID = 0L;
   }
 
   private byte memoizedIsInitialized = -1;
+  @java.lang.Override
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
     if (isInitialized == 1) return true;
@@ -79,11 +91,13 @@ private static final long serialVersionUID = 0L;
     return true;
   }
 
+  @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     unknownFields.writeTo(output);
   }
 
+  @java.lang.Override
   public int getSerializedSize() {
     int size = memoizedSize;
     if (size != -1) return size;
@@ -104,9 +118,8 @@ private static final long serialVersionUID = 0L;
     }
     tech.ydb.rate_limiter.CreateResourceResult other = (tech.ydb.rate_limiter.CreateResourceResult) obj;
 
-    boolean result = true;
-    result = result && unknownFields.equals(other.unknownFields);
-    return result;
+    if (!unknownFields.equals(other.unknownFields)) return false;
+    return true;
   }
 
   @java.lang.Override
@@ -191,6 +204,7 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
+  @java.lang.Override
   public Builder newBuilderForType() { return newBuilder(); }
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
@@ -198,6 +212,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder(tech.ydb.rate_limiter.CreateResourceResult prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
+  @java.lang.Override
   public Builder toBuilder() {
     return this == DEFAULT_INSTANCE
         ? new Builder() : new Builder().mergeFrom(this);
@@ -221,6 +236,7 @@ private static final long serialVersionUID = 0L;
       return tech.ydb.rate_limiter.RateLimiterProtos.internal_static_Ydb_RateLimiter_CreateResourceResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.rate_limiter.RateLimiterProtos.internal_static_Ydb_RateLimiter_CreateResourceResult_fieldAccessorTable
@@ -243,20 +259,24 @@ private static final long serialVersionUID = 0L;
               .alwaysUseFieldBuilders) {
       }
     }
+    @java.lang.Override
     public Builder clear() {
       super.clear();
       return this;
     }
 
+    @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
       return tech.ydb.rate_limiter.RateLimiterProtos.internal_static_Ydb_RateLimiter_CreateResourceResult_descriptor;
     }
 
+    @java.lang.Override
     public tech.ydb.rate_limiter.CreateResourceResult getDefaultInstanceForType() {
       return tech.ydb.rate_limiter.CreateResourceResult.getDefaultInstance();
     }
 
+    @java.lang.Override
     public tech.ydb.rate_limiter.CreateResourceResult build() {
       tech.ydb.rate_limiter.CreateResourceResult result = buildPartial();
       if (!result.isInitialized()) {
@@ -265,38 +285,46 @@ private static final long serialVersionUID = 0L;
       return result;
     }
 
+    @java.lang.Override
     public tech.ydb.rate_limiter.CreateResourceResult buildPartial() {
       tech.ydb.rate_limiter.CreateResourceResult result = new tech.ydb.rate_limiter.CreateResourceResult(this);
       onBuilt();
       return result;
     }
 
+    @java.lang.Override
     public Builder clone() {
-      return (Builder) super.clone();
+      return super.clone();
     }
+    @java.lang.Override
     public Builder setField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         java.lang.Object value) {
-      return (Builder) super.setField(field, value);
+      return super.setField(field, value);
     }
+    @java.lang.Override
     public Builder clearField(
         com.google.protobuf.Descriptors.FieldDescriptor field) {
-      return (Builder) super.clearField(field);
+      return super.clearField(field);
     }
+    @java.lang.Override
     public Builder clearOneof(
         com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-      return (Builder) super.clearOneof(oneof);
+      return super.clearOneof(oneof);
     }
+    @java.lang.Override
     public Builder setRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         int index, java.lang.Object value) {
-      return (Builder) super.setRepeatedField(field, index, value);
+      return super.setRepeatedField(field, index, value);
     }
+    @java.lang.Override
     public Builder addRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         java.lang.Object value) {
-      return (Builder) super.addRepeatedField(field, value);
+      return super.addRepeatedField(field, value);
     }
+    @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof tech.ydb.rate_limiter.CreateResourceResult) {
         return mergeFrom((tech.ydb.rate_limiter.CreateResourceResult)other);
@@ -313,10 +341,12 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
+    @java.lang.Override
     public final boolean isInitialized() {
       return true;
     }
 
+    @java.lang.Override
     public Builder mergeFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -334,11 +364,13 @@ private static final long serialVersionUID = 0L;
       }
       return this;
     }
+    @java.lang.Override
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return super.setUnknownFieldsProto3(unknownFields);
+      return super.setUnknownFields(unknownFields);
     }
 
+    @java.lang.Override
     public final Builder mergeUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
       return super.mergeUnknownFields(unknownFields);
@@ -360,11 +392,12 @@ private static final long serialVersionUID = 0L;
 
   private static final com.google.protobuf.Parser<CreateResourceResult>
       PARSER = new com.google.protobuf.AbstractParser<CreateResourceResult>() {
+    @java.lang.Override
     public CreateResourceResult parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new CreateResourceResult(input, extensionRegistry);
+      return new CreateResourceResult(input, extensionRegistry);
     }
   };
 
@@ -377,6 +410,7 @@ private static final long serialVersionUID = 0L;
     return PARSER;
   }
 
+  @java.lang.Override
   public tech.ydb.rate_limiter.CreateResourceResult getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }

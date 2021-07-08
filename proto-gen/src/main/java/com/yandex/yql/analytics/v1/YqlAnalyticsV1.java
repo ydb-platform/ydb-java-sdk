@@ -32,7 +32,7 @@ public final class YqlAnalyticsV1 {
       "GetConnections\022$.Yql.Analytics.GetConnec" +
       "tionsRequest\032%.Yql.Analytics.GetConnecti" +
       "onsResponse\022f\n\021ModifyConnections\022\'.Yql.A" +
-      "nalytics.ModifyConnectionsRequest\032(.Yql.",
+      "nalytics.ModifyConnectionsRequest\032(.Yql." +
       "Analytics.ModifyConnectionsResponse\022Q\n\nG" +
       "etQueries\022 .Yql.Analytics.GetQueriesRequ" +
       "est\032!.Yql.Analytics.GetQueriesResponse\022T" +
@@ -42,22 +42,14 @@ public final class YqlAnalyticsV1 {
       "storyRequest\032!.Yql.Analytics.GetHistoryR" +
       "esponse\022Z\n\rModifyHistory\022#.Yql.Analytics" +
       ".ModifyHistoryRequest\032$.Yql.Analytics.Mo" +
-      "difyHistoryResponseB\035\n\033com.yandex.yql.an",
+      "difyHistoryResponseB\035\n\033com.yandex.yql.an" +
       "alytics.v1b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.yandex.yql.analytics.AnalyticsProtos.getDescriptor(),
-        }, assigner);
+        });
     com.yandex.yql.analytics.AnalyticsProtos.getDescriptor();
   }
 

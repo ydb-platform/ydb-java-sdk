@@ -20,10 +20,12 @@ public final class ControlPlaneConfig {
 
     /**
      * <code>.NStreams.NConfig.TYdbStorageConfig storage = 1;</code>
+     * @return Whether the storage field is set.
      */
     boolean hasStorage();
     /**
      * <code>.NStreams.NConfig.TYdbStorageConfig storage = 1;</code>
+     * @return The storage.
      */
     NStreams.NConfig.StorageConfig.TYdbStorageConfig getStorage();
     /**
@@ -33,49 +35,61 @@ public final class ControlPlaneConfig {
 
     /**
      * <code>string idempotency_keys_ttl = 2;</code>
+     * @return The idempotencyKeysTtl.
      */
     java.lang.String getIdempotencyKeysTtl();
     /**
      * <code>string idempotency_keys_ttl = 2;</code>
+     * @return The bytes for idempotencyKeysTtl.
      */
     com.google.protobuf.ByteString
         getIdempotencyKeysTtlBytes();
 
     /**
      * <code>uint64 max_request_size = 3;</code>
+     * @return The maxRequestSize.
      */
     long getMaxRequestSize();
 
     /**
      * <code>uint64 max_count_jobs = 4;</code>
+     * @return The maxCountJobs.
      */
     long getMaxCountJobs();
 
     /**
      * <code>uint64 max_count_connections = 5;</code>
+     * @return The maxCountConnections.
      */
     long getMaxCountConnections();
 
     /**
      * <code>uint64 max_count_bindings = 6;</code>
+     * @return The maxCountBindings.
      */
     long getMaxCountBindings();
 
     /**
      * <code>repeated string super_users = 7;</code>
+     * @return A list containing the superUsers.
      */
     java.util.List<java.lang.String>
         getSuperUsersList();
     /**
      * <code>repeated string super_users = 7;</code>
+     * @return The count of superUsers.
      */
     int getSuperUsersCount();
     /**
      * <code>repeated string super_users = 7;</code>
+     * @param index The index of the element to return.
+     * @return The superUsers at the given index.
      */
     java.lang.String getSuperUsers(int index);
     /**
      * <code>repeated string super_users = 7;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the superUsers at the given index.
      */
     com.google.protobuf.ByteString
         getSuperUsersBytes(int index);
@@ -83,7 +97,7 @@ public final class ControlPlaneConfig {
   /**
    * Protobuf type {@code NYq.NConfig.ControlPlaneStorageConfig}
    */
-  public  static final class ControlPlaneStorageConfig extends
+  public static final class ControlPlaneStorageConfig extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NYq.NConfig.ControlPlaneStorageConfig)
       ControlPlaneStorageConfigOrBuilder {
@@ -94,11 +108,14 @@ public final class ControlPlaneConfig {
     }
     private ControlPlaneStorageConfig() {
       idempotencyKeysTtl_ = "";
-      maxRequestSize_ = 0L;
-      maxCountJobs_ = 0L;
-      maxCountConnections_ = 0L;
-      maxCountBindings_ = 0L;
       superUsers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ControlPlaneStorageConfig();
     }
 
     @java.lang.Override
@@ -111,6 +128,9 @@ public final class ControlPlaneConfig {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -122,13 +142,6 @@ public final class ControlPlaneConfig {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder subBuilder = null;
               if (storage_ != null) {
@@ -170,11 +183,18 @@ public final class ControlPlaneConfig {
             }
             case 58: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 superUsers_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000040;
+                mutable_bitField0_ |= 0x00000001;
               }
               superUsers_.add(s);
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -185,7 +205,7 @@ public final class ControlPlaneConfig {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           superUsers_ = superUsers_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -197,6 +217,7 @@ public final class ControlPlaneConfig {
       return NYq.NConfig.ControlPlaneConfig.internal_static_NYq_NConfig_ControlPlaneStorageConfig_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return NYq.NConfig.ControlPlaneConfig.internal_static_NYq_NConfig_ControlPlaneStorageConfig_fieldAccessorTable
@@ -204,24 +225,28 @@ public final class ControlPlaneConfig {
               NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig.class, NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig.Builder.class);
     }
 
-    private int bitField0_;
     public static final int STORAGE_FIELD_NUMBER = 1;
     private NStreams.NConfig.StorageConfig.TYdbStorageConfig storage_;
     /**
      * <code>.NStreams.NConfig.TYdbStorageConfig storage = 1;</code>
+     * @return Whether the storage field is set.
      */
+    @java.lang.Override
     public boolean hasStorage() {
       return storage_ != null;
     }
     /**
      * <code>.NStreams.NConfig.TYdbStorageConfig storage = 1;</code>
+     * @return The storage.
      */
+    @java.lang.Override
     public NStreams.NConfig.StorageConfig.TYdbStorageConfig getStorage() {
       return storage_ == null ? NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance() : storage_;
     }
     /**
      * <code>.NStreams.NConfig.TYdbStorageConfig storage = 1;</code>
      */
+    @java.lang.Override
     public NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder getStorageOrBuilder() {
       return getStorage();
     }
@@ -230,7 +255,9 @@ public final class ControlPlaneConfig {
     private volatile java.lang.Object idempotencyKeysTtl_;
     /**
      * <code>string idempotency_keys_ttl = 2;</code>
+     * @return The idempotencyKeysTtl.
      */
+    @java.lang.Override
     public java.lang.String getIdempotencyKeysTtl() {
       java.lang.Object ref = idempotencyKeysTtl_;
       if (ref instanceof java.lang.String) {
@@ -245,7 +272,9 @@ public final class ControlPlaneConfig {
     }
     /**
      * <code>string idempotency_keys_ttl = 2;</code>
+     * @return The bytes for idempotencyKeysTtl.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdempotencyKeysTtlBytes() {
       java.lang.Object ref = idempotencyKeysTtl_;
@@ -264,7 +293,9 @@ public final class ControlPlaneConfig {
     private long maxRequestSize_;
     /**
      * <code>uint64 max_request_size = 3;</code>
+     * @return The maxRequestSize.
      */
+    @java.lang.Override
     public long getMaxRequestSize() {
       return maxRequestSize_;
     }
@@ -273,7 +304,9 @@ public final class ControlPlaneConfig {
     private long maxCountJobs_;
     /**
      * <code>uint64 max_count_jobs = 4;</code>
+     * @return The maxCountJobs.
      */
+    @java.lang.Override
     public long getMaxCountJobs() {
       return maxCountJobs_;
     }
@@ -282,7 +315,9 @@ public final class ControlPlaneConfig {
     private long maxCountConnections_;
     /**
      * <code>uint64 max_count_connections = 5;</code>
+     * @return The maxCountConnections.
      */
+    @java.lang.Override
     public long getMaxCountConnections() {
       return maxCountConnections_;
     }
@@ -291,7 +326,9 @@ public final class ControlPlaneConfig {
     private long maxCountBindings_;
     /**
      * <code>uint64 max_count_bindings = 6;</code>
+     * @return The maxCountBindings.
      */
+    @java.lang.Override
     public long getMaxCountBindings() {
       return maxCountBindings_;
     }
@@ -300,6 +337,7 @@ public final class ControlPlaneConfig {
     private com.google.protobuf.LazyStringList superUsers_;
     /**
      * <code>repeated string super_users = 7;</code>
+     * @return A list containing the superUsers.
      */
     public com.google.protobuf.ProtocolStringList
         getSuperUsersList() {
@@ -307,18 +345,23 @@ public final class ControlPlaneConfig {
     }
     /**
      * <code>repeated string super_users = 7;</code>
+     * @return The count of superUsers.
      */
     public int getSuperUsersCount() {
       return superUsers_.size();
     }
     /**
      * <code>repeated string super_users = 7;</code>
+     * @param index The index of the element to return.
+     * @return The superUsers at the given index.
      */
     public java.lang.String getSuperUsers(int index) {
       return superUsers_.get(index);
     }
     /**
      * <code>repeated string super_users = 7;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the superUsers at the given index.
      */
     public com.google.protobuf.ByteString
         getSuperUsersBytes(int index) {
@@ -326,6 +369,7 @@ public final class ControlPlaneConfig {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -335,6 +379,7 @@ public final class ControlPlaneConfig {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (storage_ != null) {
@@ -361,6 +406,7 @@ public final class ControlPlaneConfig {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -412,26 +458,25 @@ public final class ControlPlaneConfig {
       }
       NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig other = (NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig) obj;
 
-      boolean result = true;
-      result = result && (hasStorage() == other.hasStorage());
+      if (hasStorage() != other.hasStorage()) return false;
       if (hasStorage()) {
-        result = result && getStorage()
-            .equals(other.getStorage());
+        if (!getStorage()
+            .equals(other.getStorage())) return false;
       }
-      result = result && getIdempotencyKeysTtl()
-          .equals(other.getIdempotencyKeysTtl());
-      result = result && (getMaxRequestSize()
-          == other.getMaxRequestSize());
-      result = result && (getMaxCountJobs()
-          == other.getMaxCountJobs());
-      result = result && (getMaxCountConnections()
-          == other.getMaxCountConnections());
-      result = result && (getMaxCountBindings()
-          == other.getMaxCountBindings());
-      result = result && getSuperUsersList()
-          .equals(other.getSuperUsersList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getIdempotencyKeysTtl()
+          .equals(other.getIdempotencyKeysTtl())) return false;
+      if (getMaxRequestSize()
+          != other.getMaxRequestSize()) return false;
+      if (getMaxCountJobs()
+          != other.getMaxCountJobs()) return false;
+      if (getMaxCountConnections()
+          != other.getMaxCountConnections()) return false;
+      if (getMaxCountBindings()
+          != other.getMaxCountBindings()) return false;
+      if (!getSuperUsersList()
+          .equals(other.getSuperUsersList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -538,6 +583,7 @@ public final class ControlPlaneConfig {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -545,6 +591,7 @@ public final class ControlPlaneConfig {
     public static Builder newBuilder(NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -568,6 +615,7 @@ public final class ControlPlaneConfig {
         return NYq.NConfig.ControlPlaneConfig.internal_static_NYq_NConfig_ControlPlaneStorageConfig_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NYq.NConfig.ControlPlaneConfig.internal_static_NYq_NConfig_ControlPlaneStorageConfig_fieldAccessorTable
@@ -590,6 +638,7 @@ public final class ControlPlaneConfig {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (storageBuilder_ == null) {
@@ -609,19 +658,22 @@ public final class ControlPlaneConfig {
         maxCountBindings_ = 0L;
 
         superUsers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return NYq.NConfig.ControlPlaneConfig.internal_static_NYq_NConfig_ControlPlaneStorageConfig_descriptor;
       }
 
+      @java.lang.Override
       public NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig getDefaultInstanceForType() {
         return NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig.getDefaultInstance();
       }
 
+      @java.lang.Override
       public NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig build() {
         NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig result = buildPartial();
         if (!result.isInitialized()) {
@@ -630,10 +682,10 @@ public final class ControlPlaneConfig {
         return result;
       }
 
+      @java.lang.Override
       public NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig buildPartial() {
         NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig result = new NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (storageBuilder_ == null) {
           result.storage_ = storage_;
         } else {
@@ -644,42 +696,48 @@ public final class ControlPlaneConfig {
         result.maxCountJobs_ = maxCountJobs_;
         result.maxCountConnections_ = maxCountConnections_;
         result.maxCountBindings_ = maxCountBindings_;
-        if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           superUsers_ = superUsers_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000040);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.superUsers_ = superUsers_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig) {
           return mergeFrom((NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig)other);
@@ -713,7 +771,7 @@ public final class ControlPlaneConfig {
         if (!other.superUsers_.isEmpty()) {
           if (superUsers_.isEmpty()) {
             superUsers_ = other.superUsers_;
-            bitField0_ = (bitField0_ & ~0x00000040);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensureSuperUsersIsMutable();
             superUsers_.addAll(other.superUsers_);
@@ -725,10 +783,12 @@ public final class ControlPlaneConfig {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -748,17 +808,19 @@ public final class ControlPlaneConfig {
       }
       private int bitField0_;
 
-      private NStreams.NConfig.StorageConfig.TYdbStorageConfig storage_ = null;
+      private NStreams.NConfig.StorageConfig.TYdbStorageConfig storage_;
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NConfig.StorageConfig.TYdbStorageConfig, NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder, NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder> storageBuilder_;
       /**
        * <code>.NStreams.NConfig.TYdbStorageConfig storage = 1;</code>
+       * @return Whether the storage field is set.
        */
       public boolean hasStorage() {
         return storageBuilder_ != null || storage_ != null;
       }
       /**
        * <code>.NStreams.NConfig.TYdbStorageConfig storage = 1;</code>
+       * @return The storage.
        */
       public NStreams.NConfig.StorageConfig.TYdbStorageConfig getStorage() {
         if (storageBuilder_ == null) {
@@ -868,6 +930,7 @@ public final class ControlPlaneConfig {
       private java.lang.Object idempotencyKeysTtl_ = "";
       /**
        * <code>string idempotency_keys_ttl = 2;</code>
+       * @return The idempotencyKeysTtl.
        */
       public java.lang.String getIdempotencyKeysTtl() {
         java.lang.Object ref = idempotencyKeysTtl_;
@@ -883,6 +946,7 @@ public final class ControlPlaneConfig {
       }
       /**
        * <code>string idempotency_keys_ttl = 2;</code>
+       * @return The bytes for idempotencyKeysTtl.
        */
       public com.google.protobuf.ByteString
           getIdempotencyKeysTtlBytes() {
@@ -899,6 +963,8 @@ public final class ControlPlaneConfig {
       }
       /**
        * <code>string idempotency_keys_ttl = 2;</code>
+       * @param value The idempotencyKeysTtl to set.
+       * @return This builder for chaining.
        */
       public Builder setIdempotencyKeysTtl(
           java.lang.String value) {
@@ -912,6 +978,7 @@ public final class ControlPlaneConfig {
       }
       /**
        * <code>string idempotency_keys_ttl = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIdempotencyKeysTtl() {
         
@@ -921,6 +988,8 @@ public final class ControlPlaneConfig {
       }
       /**
        * <code>string idempotency_keys_ttl = 2;</code>
+       * @param value The bytes for idempotencyKeysTtl to set.
+       * @return This builder for chaining.
        */
       public Builder setIdempotencyKeysTtlBytes(
           com.google.protobuf.ByteString value) {
@@ -937,12 +1006,16 @@ public final class ControlPlaneConfig {
       private long maxRequestSize_ ;
       /**
        * <code>uint64 max_request_size = 3;</code>
+       * @return The maxRequestSize.
        */
+      @java.lang.Override
       public long getMaxRequestSize() {
         return maxRequestSize_;
       }
       /**
        * <code>uint64 max_request_size = 3;</code>
+       * @param value The maxRequestSize to set.
+       * @return This builder for chaining.
        */
       public Builder setMaxRequestSize(long value) {
         
@@ -952,6 +1025,7 @@ public final class ControlPlaneConfig {
       }
       /**
        * <code>uint64 max_request_size = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMaxRequestSize() {
         
@@ -963,12 +1037,16 @@ public final class ControlPlaneConfig {
       private long maxCountJobs_ ;
       /**
        * <code>uint64 max_count_jobs = 4;</code>
+       * @return The maxCountJobs.
        */
+      @java.lang.Override
       public long getMaxCountJobs() {
         return maxCountJobs_;
       }
       /**
        * <code>uint64 max_count_jobs = 4;</code>
+       * @param value The maxCountJobs to set.
+       * @return This builder for chaining.
        */
       public Builder setMaxCountJobs(long value) {
         
@@ -978,6 +1056,7 @@ public final class ControlPlaneConfig {
       }
       /**
        * <code>uint64 max_count_jobs = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMaxCountJobs() {
         
@@ -989,12 +1068,16 @@ public final class ControlPlaneConfig {
       private long maxCountConnections_ ;
       /**
        * <code>uint64 max_count_connections = 5;</code>
+       * @return The maxCountConnections.
        */
+      @java.lang.Override
       public long getMaxCountConnections() {
         return maxCountConnections_;
       }
       /**
        * <code>uint64 max_count_connections = 5;</code>
+       * @param value The maxCountConnections to set.
+       * @return This builder for chaining.
        */
       public Builder setMaxCountConnections(long value) {
         
@@ -1004,6 +1087,7 @@ public final class ControlPlaneConfig {
       }
       /**
        * <code>uint64 max_count_connections = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMaxCountConnections() {
         
@@ -1015,12 +1099,16 @@ public final class ControlPlaneConfig {
       private long maxCountBindings_ ;
       /**
        * <code>uint64 max_count_bindings = 6;</code>
+       * @return The maxCountBindings.
        */
+      @java.lang.Override
       public long getMaxCountBindings() {
         return maxCountBindings_;
       }
       /**
        * <code>uint64 max_count_bindings = 6;</code>
+       * @param value The maxCountBindings to set.
+       * @return This builder for chaining.
        */
       public Builder setMaxCountBindings(long value) {
         
@@ -1030,6 +1118,7 @@ public final class ControlPlaneConfig {
       }
       /**
        * <code>uint64 max_count_bindings = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMaxCountBindings() {
         
@@ -1040,13 +1129,14 @@ public final class ControlPlaneConfig {
 
       private com.google.protobuf.LazyStringList superUsers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureSuperUsersIsMutable() {
-        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           superUsers_ = new com.google.protobuf.LazyStringArrayList(superUsers_);
-          bitField0_ |= 0x00000040;
+          bitField0_ |= 0x00000001;
          }
       }
       /**
        * <code>repeated string super_users = 7;</code>
+       * @return A list containing the superUsers.
        */
       public com.google.protobuf.ProtocolStringList
           getSuperUsersList() {
@@ -1054,18 +1144,23 @@ public final class ControlPlaneConfig {
       }
       /**
        * <code>repeated string super_users = 7;</code>
+       * @return The count of superUsers.
        */
       public int getSuperUsersCount() {
         return superUsers_.size();
       }
       /**
        * <code>repeated string super_users = 7;</code>
+       * @param index The index of the element to return.
+       * @return The superUsers at the given index.
        */
       public java.lang.String getSuperUsers(int index) {
         return superUsers_.get(index);
       }
       /**
        * <code>repeated string super_users = 7;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the superUsers at the given index.
        */
       public com.google.protobuf.ByteString
           getSuperUsersBytes(int index) {
@@ -1073,6 +1168,9 @@ public final class ControlPlaneConfig {
       }
       /**
        * <code>repeated string super_users = 7;</code>
+       * @param index The index to set the value at.
+       * @param value The superUsers to set.
+       * @return This builder for chaining.
        */
       public Builder setSuperUsers(
           int index, java.lang.String value) {
@@ -1086,6 +1184,8 @@ public final class ControlPlaneConfig {
       }
       /**
        * <code>repeated string super_users = 7;</code>
+       * @param value The superUsers to add.
+       * @return This builder for chaining.
        */
       public Builder addSuperUsers(
           java.lang.String value) {
@@ -1099,6 +1199,8 @@ public final class ControlPlaneConfig {
       }
       /**
        * <code>repeated string super_users = 7;</code>
+       * @param values The superUsers to add.
+       * @return This builder for chaining.
        */
       public Builder addAllSuperUsers(
           java.lang.Iterable<java.lang.String> values) {
@@ -1110,15 +1212,18 @@ public final class ControlPlaneConfig {
       }
       /**
        * <code>repeated string super_users = 7;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSuperUsers() {
         superUsers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
       /**
        * <code>repeated string super_users = 7;</code>
+       * @param value The bytes of the superUsers to add.
+       * @return This builder for chaining.
        */
       public Builder addSuperUsersBytes(
           com.google.protobuf.ByteString value) {
@@ -1131,11 +1236,13 @@ public final class ControlPlaneConfig {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1157,11 +1264,12 @@ public final class ControlPlaneConfig {
 
     private static final com.google.protobuf.Parser<ControlPlaneStorageConfig>
         PARSER = new com.google.protobuf.AbstractParser<ControlPlaneStorageConfig>() {
+      @java.lang.Override
       public ControlPlaneStorageConfig parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ControlPlaneStorageConfig(input, extensionRegistry);
+        return new ControlPlaneStorageConfig(input, extensionRegistry);
       }
     };
 
@@ -1174,6 +1282,7 @@ public final class ControlPlaneConfig {
       return PARSER;
     }
 
+    @java.lang.Override
     public NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1186,23 +1295,26 @@ public final class ControlPlaneConfig {
 
     /**
      * <code>string request_timeout = 1;</code>
+     * @return The requestTimeout.
      */
     java.lang.String getRequestTimeout();
     /**
      * <code>string request_timeout = 1;</code>
+     * @return The bytes for requestTimeout.
      */
     com.google.protobuf.ByteString
         getRequestTimeoutBytes();
 
     /**
      * <code>bool enable_forward_analytics = 2;</code>
+     * @return The enableForwardAnalytics.
      */
     boolean getEnableForwardAnalytics();
   }
   /**
    * Protobuf type {@code NYq.NConfig.ControlPlaneProxyConfig}
    */
-  public  static final class ControlPlaneProxyConfig extends
+  public static final class ControlPlaneProxyConfig extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NYq.NConfig.ControlPlaneProxyConfig)
       ControlPlaneProxyConfigOrBuilder {
@@ -1213,7 +1325,13 @@ public final class ControlPlaneConfig {
     }
     private ControlPlaneProxyConfig() {
       requestTimeout_ = "";
-      enableForwardAnalytics_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ControlPlaneProxyConfig();
     }
 
     @java.lang.Override
@@ -1226,7 +1344,9 @@ public final class ControlPlaneConfig {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1237,13 +1357,6 @@ public final class ControlPlaneConfig {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -1253,6 +1366,13 @@ public final class ControlPlaneConfig {
             case 16: {
 
               enableForwardAnalytics_ = input.readBool();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -1272,6 +1392,7 @@ public final class ControlPlaneConfig {
       return NYq.NConfig.ControlPlaneConfig.internal_static_NYq_NConfig_ControlPlaneProxyConfig_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return NYq.NConfig.ControlPlaneConfig.internal_static_NYq_NConfig_ControlPlaneProxyConfig_fieldAccessorTable
@@ -1283,7 +1404,9 @@ public final class ControlPlaneConfig {
     private volatile java.lang.Object requestTimeout_;
     /**
      * <code>string request_timeout = 1;</code>
+     * @return The requestTimeout.
      */
+    @java.lang.Override
     public java.lang.String getRequestTimeout() {
       java.lang.Object ref = requestTimeout_;
       if (ref instanceof java.lang.String) {
@@ -1298,7 +1421,9 @@ public final class ControlPlaneConfig {
     }
     /**
      * <code>string request_timeout = 1;</code>
+     * @return The bytes for requestTimeout.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getRequestTimeoutBytes() {
       java.lang.Object ref = requestTimeout_;
@@ -1317,12 +1442,15 @@ public final class ControlPlaneConfig {
     private boolean enableForwardAnalytics_;
     /**
      * <code>bool enable_forward_analytics = 2;</code>
+     * @return The enableForwardAnalytics.
      */
+    @java.lang.Override
     public boolean getEnableForwardAnalytics() {
       return enableForwardAnalytics_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1332,6 +1460,7 @@ public final class ControlPlaneConfig {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getRequestTimeoutBytes().isEmpty()) {
@@ -1343,6 +1472,7 @@ public final class ControlPlaneConfig {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1370,13 +1500,12 @@ public final class ControlPlaneConfig {
       }
       NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig other = (NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig) obj;
 
-      boolean result = true;
-      result = result && getRequestTimeout()
-          .equals(other.getRequestTimeout());
-      result = result && (getEnableForwardAnalytics()
-          == other.getEnableForwardAnalytics());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getRequestTimeout()
+          .equals(other.getRequestTimeout())) return false;
+      if (getEnableForwardAnalytics()
+          != other.getEnableForwardAnalytics()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1466,6 +1595,7 @@ public final class ControlPlaneConfig {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1473,6 +1603,7 @@ public final class ControlPlaneConfig {
     public static Builder newBuilder(NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1496,6 +1627,7 @@ public final class ControlPlaneConfig {
         return NYq.NConfig.ControlPlaneConfig.internal_static_NYq_NConfig_ControlPlaneProxyConfig_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NYq.NConfig.ControlPlaneConfig.internal_static_NYq_NConfig_ControlPlaneProxyConfig_fieldAccessorTable
@@ -1518,6 +1650,7 @@ public final class ControlPlaneConfig {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         requestTimeout_ = "";
@@ -1527,15 +1660,18 @@ public final class ControlPlaneConfig {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return NYq.NConfig.ControlPlaneConfig.internal_static_NYq_NConfig_ControlPlaneProxyConfig_descriptor;
       }
 
+      @java.lang.Override
       public NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig getDefaultInstanceForType() {
         return NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig.getDefaultInstance();
       }
 
+      @java.lang.Override
       public NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig build() {
         NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig result = buildPartial();
         if (!result.isInitialized()) {
@@ -1544,6 +1680,7 @@ public final class ControlPlaneConfig {
         return result;
       }
 
+      @java.lang.Override
       public NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig buildPartial() {
         NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig result = new NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig(this);
         result.requestTimeout_ = requestTimeout_;
@@ -1552,32 +1689,39 @@ public final class ControlPlaneConfig {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig) {
           return mergeFrom((NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig)other);
@@ -1601,10 +1745,12 @@ public final class ControlPlaneConfig {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1626,6 +1772,7 @@ public final class ControlPlaneConfig {
       private java.lang.Object requestTimeout_ = "";
       /**
        * <code>string request_timeout = 1;</code>
+       * @return The requestTimeout.
        */
       public java.lang.String getRequestTimeout() {
         java.lang.Object ref = requestTimeout_;
@@ -1641,6 +1788,7 @@ public final class ControlPlaneConfig {
       }
       /**
        * <code>string request_timeout = 1;</code>
+       * @return The bytes for requestTimeout.
        */
       public com.google.protobuf.ByteString
           getRequestTimeoutBytes() {
@@ -1657,6 +1805,8 @@ public final class ControlPlaneConfig {
       }
       /**
        * <code>string request_timeout = 1;</code>
+       * @param value The requestTimeout to set.
+       * @return This builder for chaining.
        */
       public Builder setRequestTimeout(
           java.lang.String value) {
@@ -1670,6 +1820,7 @@ public final class ControlPlaneConfig {
       }
       /**
        * <code>string request_timeout = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearRequestTimeout() {
         
@@ -1679,6 +1830,8 @@ public final class ControlPlaneConfig {
       }
       /**
        * <code>string request_timeout = 1;</code>
+       * @param value The bytes for requestTimeout to set.
+       * @return This builder for chaining.
        */
       public Builder setRequestTimeoutBytes(
           com.google.protobuf.ByteString value) {
@@ -1695,12 +1848,16 @@ public final class ControlPlaneConfig {
       private boolean enableForwardAnalytics_ ;
       /**
        * <code>bool enable_forward_analytics = 2;</code>
+       * @return The enableForwardAnalytics.
        */
+      @java.lang.Override
       public boolean getEnableForwardAnalytics() {
         return enableForwardAnalytics_;
       }
       /**
        * <code>bool enable_forward_analytics = 2;</code>
+       * @param value The enableForwardAnalytics to set.
+       * @return This builder for chaining.
        */
       public Builder setEnableForwardAnalytics(boolean value) {
         
@@ -1710,6 +1867,7 @@ public final class ControlPlaneConfig {
       }
       /**
        * <code>bool enable_forward_analytics = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearEnableForwardAnalytics() {
         
@@ -1717,11 +1875,13 @@ public final class ControlPlaneConfig {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1743,11 +1903,12 @@ public final class ControlPlaneConfig {
 
     private static final com.google.protobuf.Parser<ControlPlaneProxyConfig>
         PARSER = new com.google.protobuf.AbstractParser<ControlPlaneProxyConfig>() {
+      @java.lang.Override
       public ControlPlaneProxyConfig parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ControlPlaneProxyConfig(input, extensionRegistry);
+        return new ControlPlaneProxyConfig(input, extensionRegistry);
       }
     };
 
@@ -1760,6 +1921,7 @@ public final class ControlPlaneConfig {
       return PARSER;
     }
 
+    @java.lang.Override
     public NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1794,23 +1956,15 @@ public final class ControlPlaneConfig {
       "l\030\002 \001(\t\022\030\n\020max_request_size\030\003 \001(\004\022\026\n\016max" +
       "_count_jobs\030\004 \001(\004\022\035\n\025max_count_connectio" +
       "ns\030\005 \001(\004\022\032\n\022max_count_bindings\030\006 \001(\004\022\023\n\013" +
-      "super_users\030\007 \003(\t\"T\n\027ControlPlaneProxyCo",
+      "super_users\030\007 \003(\t\"T\n\027ControlPlaneProxyCo" +
       "nfig\022\027\n\017request_timeout\030\001 \001(\t\022 \n\030enable_" +
       "forward_analytics\030\002 \001(\010b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           NStreams.NConfig.StorageConfig.getDescriptor(),
-        }, assigner);
+        });
     internal_static_NYq_NConfig_ControlPlaneStorageConfig_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_NYq_NConfig_ControlPlaneStorageConfig_fieldAccessorTable = new

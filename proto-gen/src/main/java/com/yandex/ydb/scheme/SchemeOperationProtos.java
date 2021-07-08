@@ -20,10 +20,12 @@ public final class SchemeOperationProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -33,10 +35,12 @@ public final class SchemeOperationProtos {
 
     /**
      * <code>string path = 2;</code>
+     * @return The path.
      */
     java.lang.String getPath();
     /**
      * <code>string path = 2;</code>
+     * @return The bytes for path.
      */
     com.google.protobuf.ByteString
         getPathBytes();
@@ -49,7 +53,7 @@ public final class SchemeOperationProtos {
    *
    * Protobuf type {@code Ydb.Scheme.MakeDirectoryRequest}
    */
-  public  static final class MakeDirectoryRequest extends
+  public static final class MakeDirectoryRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scheme.MakeDirectoryRequest)
       MakeDirectoryRequestOrBuilder {
@@ -63,6 +67,13 @@ public final class SchemeOperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new MakeDirectoryRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -72,7 +83,9 @@ public final class SchemeOperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -83,13 +96,6 @@ public final class SchemeOperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -109,6 +115,13 @@ public final class SchemeOperationProtos {
               path_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -126,6 +139,7 @@ public final class SchemeOperationProtos {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_MakeDirectoryRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_MakeDirectoryRequest_fieldAccessorTable
@@ -137,19 +151,24 @@ public final class SchemeOperationProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -158,7 +177,9 @@ public final class SchemeOperationProtos {
     private volatile java.lang.Object path_;
     /**
      * <code>string path = 2;</code>
+     * @return The path.
      */
+    @java.lang.Override
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
@@ -173,7 +194,9 @@ public final class SchemeOperationProtos {
     }
     /**
      * <code>string path = 2;</code>
+     * @return The bytes for path.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathBytes() {
       java.lang.Object ref = path_;
@@ -189,6 +212,7 @@ public final class SchemeOperationProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -198,6 +222,7 @@ public final class SchemeOperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -209,6 +234,7 @@ public final class SchemeOperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -236,16 +262,15 @@ public final class SchemeOperationProtos {
       }
       tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest other = (tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getPath()
-          .equals(other.getPath());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getPath()
+          .equals(other.getPath())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -336,6 +361,7 @@ public final class SchemeOperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -343,6 +369,7 @@ public final class SchemeOperationProtos {
     public static Builder newBuilder(tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -371,6 +398,7 @@ public final class SchemeOperationProtos {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_MakeDirectoryRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_MakeDirectoryRequest_fieldAccessorTable
@@ -393,6 +421,7 @@ public final class SchemeOperationProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -406,15 +435,18 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_MakeDirectoryRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest getDefaultInstanceForType() {
         return tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest build() {
         tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -423,6 +455,7 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest buildPartial() {
         tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest result = new tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -435,32 +468,39 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest) {
           return mergeFrom((tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest)other);
@@ -484,10 +524,12 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -506,17 +548,19 @@ public final class SchemeOperationProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -626,6 +670,7 @@ public final class SchemeOperationProtos {
       private java.lang.Object path_ = "";
       /**
        * <code>string path = 2;</code>
+       * @return The path.
        */
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
@@ -641,6 +686,7 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @return The bytes for path.
        */
       public com.google.protobuf.ByteString
           getPathBytes() {
@@ -657,6 +703,8 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           java.lang.String value) {
@@ -670,6 +718,7 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         
@@ -679,6 +728,8 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
        */
       public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
@@ -691,11 +742,13 @@ public final class SchemeOperationProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -717,11 +770,12 @@ public final class SchemeOperationProtos {
 
     private static final com.google.protobuf.Parser<MakeDirectoryRequest>
         PARSER = new com.google.protobuf.AbstractParser<MakeDirectoryRequest>() {
+      @java.lang.Override
       public MakeDirectoryRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new MakeDirectoryRequest(input, extensionRegistry);
+        return new MakeDirectoryRequest(input, extensionRegistry);
       }
     };
 
@@ -734,6 +788,7 @@ public final class SchemeOperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -746,10 +801,12 @@ public final class SchemeOperationProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -760,7 +817,7 @@ public final class SchemeOperationProtos {
   /**
    * Protobuf type {@code Ydb.Scheme.MakeDirectoryResponse}
    */
-  public  static final class MakeDirectoryResponse extends
+  public static final class MakeDirectoryResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scheme.MakeDirectoryResponse)
       MakeDirectoryResponseOrBuilder {
@@ -773,6 +830,13 @@ public final class SchemeOperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new MakeDirectoryResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -782,7 +846,9 @@ public final class SchemeOperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -793,13 +859,6 @@ public final class SchemeOperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -811,6 +870,13 @@ public final class SchemeOperationProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -830,6 +896,7 @@ public final class SchemeOperationProtos {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_MakeDirectoryResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_MakeDirectoryResponse_fieldAccessorTable
@@ -841,24 +908,30 @@ public final class SchemeOperationProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -868,6 +941,7 @@ public final class SchemeOperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -876,6 +950,7 @@ public final class SchemeOperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -900,14 +975,13 @@ public final class SchemeOperationProtos {
       }
       tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse other = (tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -996,6 +1070,7 @@ public final class SchemeOperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1003,6 +1078,7 @@ public final class SchemeOperationProtos {
     public static Builder newBuilder(tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1026,6 +1102,7 @@ public final class SchemeOperationProtos {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_MakeDirectoryResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_MakeDirectoryResponse_fieldAccessorTable
@@ -1048,6 +1125,7 @@ public final class SchemeOperationProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -1059,15 +1137,18 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_MakeDirectoryResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse getDefaultInstanceForType() {
         return tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse build() {
         tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -1076,6 +1157,7 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse buildPartial() {
         tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse result = new tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse(this);
         if (operationBuilder_ == null) {
@@ -1087,32 +1169,39 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse) {
           return mergeFrom((tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse)other);
@@ -1132,10 +1221,12 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1154,17 +1245,19 @@ public final class SchemeOperationProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -1270,11 +1363,13 @@ public final class SchemeOperationProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1296,11 +1391,12 @@ public final class SchemeOperationProtos {
 
     private static final com.google.protobuf.Parser<MakeDirectoryResponse>
         PARSER = new com.google.protobuf.AbstractParser<MakeDirectoryResponse>() {
+      @java.lang.Override
       public MakeDirectoryResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new MakeDirectoryResponse(input, extensionRegistry);
+        return new MakeDirectoryResponse(input, extensionRegistry);
       }
     };
 
@@ -1313,6 +1409,7 @@ public final class SchemeOperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1325,10 +1422,12 @@ public final class SchemeOperationProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -1338,10 +1437,12 @@ public final class SchemeOperationProtos {
 
     /**
      * <code>string path = 2;</code>
+     * @return The path.
      */
     java.lang.String getPath();
     /**
      * <code>string path = 2;</code>
+     * @return The bytes for path.
      */
     com.google.protobuf.ByteString
         getPathBytes();
@@ -1353,7 +1454,7 @@ public final class SchemeOperationProtos {
    *
    * Protobuf type {@code Ydb.Scheme.RemoveDirectoryRequest}
    */
-  public  static final class RemoveDirectoryRequest extends
+  public static final class RemoveDirectoryRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scheme.RemoveDirectoryRequest)
       RemoveDirectoryRequestOrBuilder {
@@ -1367,6 +1468,13 @@ public final class SchemeOperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RemoveDirectoryRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -1376,7 +1484,9 @@ public final class SchemeOperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1387,13 +1497,6 @@ public final class SchemeOperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -1413,6 +1516,13 @@ public final class SchemeOperationProtos {
               path_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1430,6 +1540,7 @@ public final class SchemeOperationProtos {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_RemoveDirectoryRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_RemoveDirectoryRequest_fieldAccessorTable
@@ -1441,19 +1552,24 @@ public final class SchemeOperationProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -1462,7 +1578,9 @@ public final class SchemeOperationProtos {
     private volatile java.lang.Object path_;
     /**
      * <code>string path = 2;</code>
+     * @return The path.
      */
+    @java.lang.Override
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
@@ -1477,7 +1595,9 @@ public final class SchemeOperationProtos {
     }
     /**
      * <code>string path = 2;</code>
+     * @return The bytes for path.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathBytes() {
       java.lang.Object ref = path_;
@@ -1493,6 +1613,7 @@ public final class SchemeOperationProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1502,6 +1623,7 @@ public final class SchemeOperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -1513,6 +1635,7 @@ public final class SchemeOperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1540,16 +1663,15 @@ public final class SchemeOperationProtos {
       }
       tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest other = (tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getPath()
-          .equals(other.getPath());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getPath()
+          .equals(other.getPath())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1640,6 +1762,7 @@ public final class SchemeOperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1647,6 +1770,7 @@ public final class SchemeOperationProtos {
     public static Builder newBuilder(tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1674,6 +1798,7 @@ public final class SchemeOperationProtos {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_RemoveDirectoryRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_RemoveDirectoryRequest_fieldAccessorTable
@@ -1696,6 +1821,7 @@ public final class SchemeOperationProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -1709,15 +1835,18 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_RemoveDirectoryRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest getDefaultInstanceForType() {
         return tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest build() {
         tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -1726,6 +1855,7 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest buildPartial() {
         tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest result = new tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -1738,32 +1868,39 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest) {
           return mergeFrom((tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest)other);
@@ -1787,10 +1924,12 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1809,17 +1948,19 @@ public final class SchemeOperationProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -1929,6 +2070,7 @@ public final class SchemeOperationProtos {
       private java.lang.Object path_ = "";
       /**
        * <code>string path = 2;</code>
+       * @return The path.
        */
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
@@ -1944,6 +2086,7 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @return The bytes for path.
        */
       public com.google.protobuf.ByteString
           getPathBytes() {
@@ -1960,6 +2103,8 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           java.lang.String value) {
@@ -1973,6 +2118,7 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         
@@ -1982,6 +2128,8 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
        */
       public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
@@ -1994,11 +2142,13 @@ public final class SchemeOperationProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2020,11 +2170,12 @@ public final class SchemeOperationProtos {
 
     private static final com.google.protobuf.Parser<RemoveDirectoryRequest>
         PARSER = new com.google.protobuf.AbstractParser<RemoveDirectoryRequest>() {
+      @java.lang.Override
       public RemoveDirectoryRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new RemoveDirectoryRequest(input, extensionRegistry);
+        return new RemoveDirectoryRequest(input, extensionRegistry);
       }
     };
 
@@ -2037,6 +2188,7 @@ public final class SchemeOperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2049,10 +2201,12 @@ public final class SchemeOperationProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -2063,7 +2217,7 @@ public final class SchemeOperationProtos {
   /**
    * Protobuf type {@code Ydb.Scheme.RemoveDirectoryResponse}
    */
-  public  static final class RemoveDirectoryResponse extends
+  public static final class RemoveDirectoryResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scheme.RemoveDirectoryResponse)
       RemoveDirectoryResponseOrBuilder {
@@ -2076,6 +2230,13 @@ public final class SchemeOperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RemoveDirectoryResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2085,7 +2246,9 @@ public final class SchemeOperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2096,13 +2259,6 @@ public final class SchemeOperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -2114,6 +2270,13 @@ public final class SchemeOperationProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -2133,6 +2296,7 @@ public final class SchemeOperationProtos {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_RemoveDirectoryResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_RemoveDirectoryResponse_fieldAccessorTable
@@ -2144,24 +2308,30 @@ public final class SchemeOperationProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2171,6 +2341,7 @@ public final class SchemeOperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -2179,6 +2350,7 @@ public final class SchemeOperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2203,14 +2375,13 @@ public final class SchemeOperationProtos {
       }
       tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse other = (tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2299,6 +2470,7 @@ public final class SchemeOperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2306,6 +2478,7 @@ public final class SchemeOperationProtos {
     public static Builder newBuilder(tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2329,6 +2502,7 @@ public final class SchemeOperationProtos {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_RemoveDirectoryResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_RemoveDirectoryResponse_fieldAccessorTable
@@ -2351,6 +2525,7 @@ public final class SchemeOperationProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -2362,15 +2537,18 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_RemoveDirectoryResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse getDefaultInstanceForType() {
         return tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse build() {
         tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -2379,6 +2557,7 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse buildPartial() {
         tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse result = new tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse(this);
         if (operationBuilder_ == null) {
@@ -2390,32 +2569,39 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse) {
           return mergeFrom((tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse)other);
@@ -2435,10 +2621,12 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2457,17 +2645,19 @@ public final class SchemeOperationProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -2573,11 +2763,13 @@ public final class SchemeOperationProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2599,11 +2791,12 @@ public final class SchemeOperationProtos {
 
     private static final com.google.protobuf.Parser<RemoveDirectoryResponse>
         PARSER = new com.google.protobuf.AbstractParser<RemoveDirectoryResponse>() {
+      @java.lang.Override
       public RemoveDirectoryResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new RemoveDirectoryResponse(input, extensionRegistry);
+        return new RemoveDirectoryResponse(input, extensionRegistry);
       }
     };
 
@@ -2616,6 +2809,7 @@ public final class SchemeOperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2628,10 +2822,12 @@ public final class SchemeOperationProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -2641,10 +2837,12 @@ public final class SchemeOperationProtos {
 
     /**
      * <code>string path = 2;</code>
+     * @return The path.
      */
     java.lang.String getPath();
     /**
      * <code>string path = 2;</code>
+     * @return The bytes for path.
      */
     com.google.protobuf.ByteString
         getPathBytes();
@@ -2656,7 +2854,7 @@ public final class SchemeOperationProtos {
    *
    * Protobuf type {@code Ydb.Scheme.ListDirectoryRequest}
    */
-  public  static final class ListDirectoryRequest extends
+  public static final class ListDirectoryRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scheme.ListDirectoryRequest)
       ListDirectoryRequestOrBuilder {
@@ -2670,6 +2868,13 @@ public final class SchemeOperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ListDirectoryRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2679,7 +2884,9 @@ public final class SchemeOperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2690,13 +2897,6 @@ public final class SchemeOperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -2716,6 +2916,13 @@ public final class SchemeOperationProtos {
               path_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2733,6 +2940,7 @@ public final class SchemeOperationProtos {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ListDirectoryRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ListDirectoryRequest_fieldAccessorTable
@@ -2744,19 +2952,24 @@ public final class SchemeOperationProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -2765,7 +2978,9 @@ public final class SchemeOperationProtos {
     private volatile java.lang.Object path_;
     /**
      * <code>string path = 2;</code>
+     * @return The path.
      */
+    @java.lang.Override
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
@@ -2780,7 +2995,9 @@ public final class SchemeOperationProtos {
     }
     /**
      * <code>string path = 2;</code>
+     * @return The bytes for path.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathBytes() {
       java.lang.Object ref = path_;
@@ -2796,6 +3013,7 @@ public final class SchemeOperationProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2805,6 +3023,7 @@ public final class SchemeOperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -2816,6 +3035,7 @@ public final class SchemeOperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2843,16 +3063,15 @@ public final class SchemeOperationProtos {
       }
       tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest other = (tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getPath()
-          .equals(other.getPath());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getPath()
+          .equals(other.getPath())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2943,6 +3162,7 @@ public final class SchemeOperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2950,6 +3170,7 @@ public final class SchemeOperationProtos {
     public static Builder newBuilder(tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2977,6 +3198,7 @@ public final class SchemeOperationProtos {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ListDirectoryRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ListDirectoryRequest_fieldAccessorTable
@@ -2999,6 +3221,7 @@ public final class SchemeOperationProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -3012,15 +3235,18 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ListDirectoryRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest getDefaultInstanceForType() {
         return tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest build() {
         tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -3029,6 +3255,7 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest buildPartial() {
         tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest result = new tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -3041,32 +3268,39 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest) {
           return mergeFrom((tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest)other);
@@ -3090,10 +3324,12 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3112,17 +3348,19 @@ public final class SchemeOperationProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -3232,6 +3470,7 @@ public final class SchemeOperationProtos {
       private java.lang.Object path_ = "";
       /**
        * <code>string path = 2;</code>
+       * @return The path.
        */
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
@@ -3247,6 +3486,7 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @return The bytes for path.
        */
       public com.google.protobuf.ByteString
           getPathBytes() {
@@ -3263,6 +3503,8 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           java.lang.String value) {
@@ -3276,6 +3518,7 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         
@@ -3285,6 +3528,8 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
        */
       public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
@@ -3297,11 +3542,13 @@ public final class SchemeOperationProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3323,11 +3570,12 @@ public final class SchemeOperationProtos {
 
     private static final com.google.protobuf.Parser<ListDirectoryRequest>
         PARSER = new com.google.protobuf.AbstractParser<ListDirectoryRequest>() {
+      @java.lang.Override
       public ListDirectoryRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ListDirectoryRequest(input, extensionRegistry);
+        return new ListDirectoryRequest(input, extensionRegistry);
       }
     };
 
@@ -3340,6 +3588,7 @@ public final class SchemeOperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3356,6 +3605,7 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
@@ -3364,6 +3614,7 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -3378,7 +3629,7 @@ public final class SchemeOperationProtos {
   /**
    * Protobuf type {@code Ydb.Scheme.ListDirectoryResponse}
    */
-  public  static final class ListDirectoryResponse extends
+  public static final class ListDirectoryResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scheme.ListDirectoryResponse)
       ListDirectoryResponseOrBuilder {
@@ -3391,6 +3642,13 @@ public final class SchemeOperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ListDirectoryResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3400,7 +3658,9 @@ public final class SchemeOperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3411,13 +3671,6 @@ public final class SchemeOperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -3429,6 +3682,13 @@ public final class SchemeOperationProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -3448,6 +3708,7 @@ public final class SchemeOperationProtos {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ListDirectoryResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ListDirectoryResponse_fieldAccessorTable
@@ -3463,7 +3724,9 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
@@ -3473,7 +3736,9 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
@@ -3484,11 +3749,13 @@ public final class SchemeOperationProtos {
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3498,6 +3765,7 @@ public final class SchemeOperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -3506,6 +3774,7 @@ public final class SchemeOperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3530,14 +3799,13 @@ public final class SchemeOperationProtos {
       }
       tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse other = (tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3626,6 +3894,7 @@ public final class SchemeOperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3633,6 +3902,7 @@ public final class SchemeOperationProtos {
     public static Builder newBuilder(tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3656,6 +3926,7 @@ public final class SchemeOperationProtos {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ListDirectoryResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ListDirectoryResponse_fieldAccessorTable
@@ -3678,6 +3949,7 @@ public final class SchemeOperationProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -3689,15 +3961,18 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ListDirectoryResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse getDefaultInstanceForType() {
         return tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse build() {
         tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -3706,6 +3981,7 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse buildPartial() {
         tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse result = new tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse(this);
         if (operationBuilder_ == null) {
@@ -3717,32 +3993,39 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse) {
           return mergeFrom((tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse)other);
@@ -3762,10 +4045,12 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3784,7 +4069,7 @@ public final class SchemeOperationProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
@@ -3793,6 +4078,7 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
@@ -3803,6 +4089,7 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -3936,11 +4223,13 @@ public final class SchemeOperationProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3962,11 +4251,12 @@ public final class SchemeOperationProtos {
 
     private static final com.google.protobuf.Parser<ListDirectoryResponse>
         PARSER = new com.google.protobuf.AbstractParser<ListDirectoryResponse>() {
+      @java.lang.Override
       public ListDirectoryResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ListDirectoryResponse(input, extensionRegistry);
+        return new ListDirectoryResponse(input, extensionRegistry);
       }
     };
 
@@ -3979,6 +4269,7 @@ public final class SchemeOperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3995,6 +4286,7 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>string subject = 1;</code>
+     * @return The subject.
      */
     java.lang.String getSubject();
     /**
@@ -4003,25 +4295,32 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>string subject = 1;</code>
+     * @return The bytes for subject.
      */
     com.google.protobuf.ByteString
         getSubjectBytes();
 
     /**
      * <code>repeated string permission_names = 2;</code>
+     * @return A list containing the permissionNames.
      */
     java.util.List<java.lang.String>
         getPermissionNamesList();
     /**
      * <code>repeated string permission_names = 2;</code>
+     * @return The count of permissionNames.
      */
     int getPermissionNamesCount();
     /**
      * <code>repeated string permission_names = 2;</code>
+     * @param index The index of the element to return.
+     * @return The permissionNames at the given index.
      */
     java.lang.String getPermissionNames(int index);
     /**
      * <code>repeated string permission_names = 2;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the permissionNames at the given index.
      */
     com.google.protobuf.ByteString
         getPermissionNamesBytes(int index);
@@ -4029,7 +4328,7 @@ public final class SchemeOperationProtos {
   /**
    * Protobuf type {@code Ydb.Scheme.Permissions}
    */
-  public  static final class Permissions extends
+  public static final class Permissions extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scheme.Permissions)
       PermissionsOrBuilder {
@@ -4044,6 +4343,13 @@ public final class SchemeOperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Permissions();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -4053,6 +4359,9 @@ public final class SchemeOperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -4064,13 +4373,6 @@ public final class SchemeOperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -4079,11 +4381,18 @@ public final class SchemeOperationProtos {
             }
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 permissionNames_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               permissionNames_.add(s);
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -4094,7 +4403,7 @@ public final class SchemeOperationProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           permissionNames_ = permissionNames_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -4106,6 +4415,7 @@ public final class SchemeOperationProtos {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_Permissions_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_Permissions_fieldAccessorTable
@@ -4113,7 +4423,6 @@ public final class SchemeOperationProtos {
               tech.ydb.scheme.SchemeOperationProtos.Permissions.class, tech.ydb.scheme.SchemeOperationProtos.Permissions.Builder.class);
     }
 
-    private int bitField0_;
     public static final int SUBJECT_FIELD_NUMBER = 1;
     private volatile java.lang.Object subject_;
     /**
@@ -4122,7 +4431,9 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>string subject = 1;</code>
+     * @return The subject.
      */
+    @java.lang.Override
     public java.lang.String getSubject() {
       java.lang.Object ref = subject_;
       if (ref instanceof java.lang.String) {
@@ -4141,7 +4452,9 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>string subject = 1;</code>
+     * @return The bytes for subject.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getSubjectBytes() {
       java.lang.Object ref = subject_;
@@ -4160,6 +4473,7 @@ public final class SchemeOperationProtos {
     private com.google.protobuf.LazyStringList permissionNames_;
     /**
      * <code>repeated string permission_names = 2;</code>
+     * @return A list containing the permissionNames.
      */
     public com.google.protobuf.ProtocolStringList
         getPermissionNamesList() {
@@ -4167,18 +4481,23 @@ public final class SchemeOperationProtos {
     }
     /**
      * <code>repeated string permission_names = 2;</code>
+     * @return The count of permissionNames.
      */
     public int getPermissionNamesCount() {
       return permissionNames_.size();
     }
     /**
      * <code>repeated string permission_names = 2;</code>
+     * @param index The index of the element to return.
+     * @return The permissionNames at the given index.
      */
     public java.lang.String getPermissionNames(int index) {
       return permissionNames_.get(index);
     }
     /**
      * <code>repeated string permission_names = 2;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the permissionNames at the given index.
      */
     public com.google.protobuf.ByteString
         getPermissionNamesBytes(int index) {
@@ -4186,6 +4505,7 @@ public final class SchemeOperationProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4195,6 +4515,7 @@ public final class SchemeOperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getSubjectBytes().isEmpty()) {
@@ -4206,6 +4527,7 @@ public final class SchemeOperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4237,13 +4559,12 @@ public final class SchemeOperationProtos {
       }
       tech.ydb.scheme.SchemeOperationProtos.Permissions other = (tech.ydb.scheme.SchemeOperationProtos.Permissions) obj;
 
-      boolean result = true;
-      result = result && getSubject()
-          .equals(other.getSubject());
-      result = result && getPermissionNamesList()
-          .equals(other.getPermissionNamesList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getSubject()
+          .equals(other.getSubject())) return false;
+      if (!getPermissionNamesList()
+          .equals(other.getPermissionNamesList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4334,6 +4655,7 @@ public final class SchemeOperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4341,6 +4663,7 @@ public final class SchemeOperationProtos {
     public static Builder newBuilder(tech.ydb.scheme.SchemeOperationProtos.Permissions prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4364,6 +4687,7 @@ public final class SchemeOperationProtos {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_Permissions_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_Permissions_fieldAccessorTable
@@ -4386,24 +4710,28 @@ public final class SchemeOperationProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         subject_ = "";
 
         permissionNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_Permissions_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.Permissions getDefaultInstanceForType() {
         return tech.ydb.scheme.SchemeOperationProtos.Permissions.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.Permissions build() {
         tech.ydb.scheme.SchemeOperationProtos.Permissions result = buildPartial();
         if (!result.isInitialized()) {
@@ -4412,47 +4740,53 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.Permissions buildPartial() {
         tech.ydb.scheme.SchemeOperationProtos.Permissions result = new tech.ydb.scheme.SchemeOperationProtos.Permissions(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.subject_ = subject_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           permissionNames_ = permissionNames_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.permissionNames_ = permissionNames_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scheme.SchemeOperationProtos.Permissions) {
           return mergeFrom((tech.ydb.scheme.SchemeOperationProtos.Permissions)other);
@@ -4471,7 +4805,7 @@ public final class SchemeOperationProtos {
         if (!other.permissionNames_.isEmpty()) {
           if (permissionNames_.isEmpty()) {
             permissionNames_ = other.permissionNames_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensurePermissionNamesIsMutable();
             permissionNames_.addAll(other.permissionNames_);
@@ -4483,10 +4817,12 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4513,6 +4849,7 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>string subject = 1;</code>
+       * @return The subject.
        */
       public java.lang.String getSubject() {
         java.lang.Object ref = subject_;
@@ -4532,6 +4869,7 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>string subject = 1;</code>
+       * @return The bytes for subject.
        */
       public com.google.protobuf.ByteString
           getSubjectBytes() {
@@ -4552,6 +4890,8 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>string subject = 1;</code>
+       * @param value The subject to set.
+       * @return This builder for chaining.
        */
       public Builder setSubject(
           java.lang.String value) {
@@ -4569,6 +4909,7 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>string subject = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSubject() {
         
@@ -4582,6 +4923,8 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>string subject = 1;</code>
+       * @param value The bytes for subject to set.
+       * @return This builder for chaining.
        */
       public Builder setSubjectBytes(
           com.google.protobuf.ByteString value) {
@@ -4597,13 +4940,14 @@ public final class SchemeOperationProtos {
 
       private com.google.protobuf.LazyStringList permissionNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensurePermissionNamesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           permissionNames_ = new com.google.protobuf.LazyStringArrayList(permissionNames_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
       /**
        * <code>repeated string permission_names = 2;</code>
+       * @return A list containing the permissionNames.
        */
       public com.google.protobuf.ProtocolStringList
           getPermissionNamesList() {
@@ -4611,18 +4955,23 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>repeated string permission_names = 2;</code>
+       * @return The count of permissionNames.
        */
       public int getPermissionNamesCount() {
         return permissionNames_.size();
       }
       /**
        * <code>repeated string permission_names = 2;</code>
+       * @param index The index of the element to return.
+       * @return The permissionNames at the given index.
        */
       public java.lang.String getPermissionNames(int index) {
         return permissionNames_.get(index);
       }
       /**
        * <code>repeated string permission_names = 2;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the permissionNames at the given index.
        */
       public com.google.protobuf.ByteString
           getPermissionNamesBytes(int index) {
@@ -4630,6 +4979,9 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>repeated string permission_names = 2;</code>
+       * @param index The index to set the value at.
+       * @param value The permissionNames to set.
+       * @return This builder for chaining.
        */
       public Builder setPermissionNames(
           int index, java.lang.String value) {
@@ -4643,6 +4995,8 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>repeated string permission_names = 2;</code>
+       * @param value The permissionNames to add.
+       * @return This builder for chaining.
        */
       public Builder addPermissionNames(
           java.lang.String value) {
@@ -4656,6 +5010,8 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>repeated string permission_names = 2;</code>
+       * @param values The permissionNames to add.
+       * @return This builder for chaining.
        */
       public Builder addAllPermissionNames(
           java.lang.Iterable<java.lang.String> values) {
@@ -4667,15 +5023,18 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>repeated string permission_names = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPermissionNames() {
         permissionNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
       /**
        * <code>repeated string permission_names = 2;</code>
+       * @param value The bytes of the permissionNames to add.
+       * @return This builder for chaining.
        */
       public Builder addPermissionNamesBytes(
           com.google.protobuf.ByteString value) {
@@ -4688,11 +5047,13 @@ public final class SchemeOperationProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4714,11 +5075,12 @@ public final class SchemeOperationProtos {
 
     private static final com.google.protobuf.Parser<Permissions>
         PARSER = new com.google.protobuf.AbstractParser<Permissions>() {
+      @java.lang.Override
       public Permissions parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Permissions(input, extensionRegistry);
+        return new Permissions(input, extensionRegistry);
       }
     };
 
@@ -4731,6 +5093,7 @@ public final class SchemeOperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.Permissions getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4747,6 +5110,7 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>string name = 1;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
@@ -4755,6 +5119,7 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -4765,6 +5130,7 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>string owner = 2;</code>
+     * @return The owner.
      */
     java.lang.String getOwner();
     /**
@@ -4773,16 +5139,19 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>string owner = 2;</code>
+     * @return The bytes for owner.
      */
     com.google.protobuf.ByteString
         getOwnerBytes();
 
     /**
      * <code>.Ydb.Scheme.Entry.Type type = 5;</code>
+     * @return The enum numeric value on the wire for type.
      */
     int getTypeValue();
     /**
      * <code>.Ydb.Scheme.Entry.Type type = 5;</code>
+     * @return The type.
      */
     tech.ydb.scheme.SchemeOperationProtos.Entry.Type getType();
 
@@ -4837,7 +5206,7 @@ public final class SchemeOperationProtos {
   /**
    * Protobuf type {@code Ydb.Scheme.Entry}
    */
-  public  static final class Entry extends
+  public static final class Entry extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scheme.Entry)
       EntryOrBuilder {
@@ -4855,6 +5224,13 @@ public final class SchemeOperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Entry();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -4864,6 +5240,9 @@ public final class SchemeOperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -4875,13 +5254,6 @@ public final class SchemeOperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -4901,21 +5273,28 @@ public final class SchemeOperationProtos {
               break;
             }
             case 50: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 effectivePermissions_ = new java.util.ArrayList<tech.ydb.scheme.SchemeOperationProtos.Permissions>();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000001;
               }
               effectivePermissions_.add(
                   input.readMessage(tech.ydb.scheme.SchemeOperationProtos.Permissions.parser(), extensionRegistry));
               break;
             }
             case 58: {
-              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 permissions_ = new java.util.ArrayList<tech.ydb.scheme.SchemeOperationProtos.Permissions>();
-                mutable_bitField0_ |= 0x00000010;
+                mutable_bitField0_ |= 0x00000002;
               }
               permissions_.add(
                   input.readMessage(tech.ydb.scheme.SchemeOperationProtos.Permissions.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -4926,10 +5305,10 @@ public final class SchemeOperationProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           effectivePermissions_ = java.util.Collections.unmodifiableList(effectivePermissions_);
         }
-        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           permissions_ = java.util.Collections.unmodifiableList(permissions_);
         }
         this.unknownFields = unknownFields.build();
@@ -4941,6 +5320,7 @@ public final class SchemeOperationProtos {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_Entry_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_Entry_fieldAccessorTable
@@ -5031,6 +5411,8 @@ public final class SchemeOperationProtos {
       }
 
       /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -5038,6 +5420,10 @@ public final class SchemeOperationProtos {
         return forNumber(value);
       }
 
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
       public static Type forNumber(int value) {
         switch (value) {
           case 0: return TYPE_UNSPECIFIED;
@@ -5066,6 +5452,10 @@ public final class SchemeOperationProtos {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -5100,7 +5490,6 @@ public final class SchemeOperationProtos {
       // @@protoc_insertion_point(enum_scope:Ydb.Scheme.Entry.Type)
     }
 
-    private int bitField0_;
     public static final int NAME_FIELD_NUMBER = 1;
     private volatile java.lang.Object name_;
     /**
@@ -5109,7 +5498,9 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>string name = 1;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -5128,7 +5519,9 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -5151,7 +5544,9 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>string owner = 2;</code>
+     * @return The owner.
      */
+    @java.lang.Override
     public java.lang.String getOwner() {
       java.lang.Object ref = owner_;
       if (ref instanceof java.lang.String) {
@@ -5170,7 +5565,9 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>string owner = 2;</code>
+     * @return The bytes for owner.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getOwnerBytes() {
       java.lang.Object ref = owner_;
@@ -5189,14 +5586,17 @@ public final class SchemeOperationProtos {
     private int type_;
     /**
      * <code>.Ydb.Scheme.Entry.Type type = 5;</code>
+     * @return The enum numeric value on the wire for type.
      */
-    public int getTypeValue() {
+    @java.lang.Override public int getTypeValue() {
       return type_;
     }
     /**
      * <code>.Ydb.Scheme.Entry.Type type = 5;</code>
+     * @return The type.
      */
-    public tech.ydb.scheme.SchemeOperationProtos.Entry.Type getType() {
+    @java.lang.Override public tech.ydb.scheme.SchemeOperationProtos.Entry.Type getType() {
+      @SuppressWarnings("deprecation")
       tech.ydb.scheme.SchemeOperationProtos.Entry.Type result = tech.ydb.scheme.SchemeOperationProtos.Entry.Type.valueOf(type_);
       return result == null ? tech.ydb.scheme.SchemeOperationProtos.Entry.Type.UNRECOGNIZED : result;
     }
@@ -5206,12 +5606,14 @@ public final class SchemeOperationProtos {
     /**
      * <code>repeated .Ydb.Scheme.Permissions effective_permissions = 6;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.scheme.SchemeOperationProtos.Permissions> getEffectivePermissionsList() {
       return effectivePermissions_;
     }
     /**
      * <code>repeated .Ydb.Scheme.Permissions effective_permissions = 6;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.scheme.SchemeOperationProtos.PermissionsOrBuilder> 
         getEffectivePermissionsOrBuilderList() {
       return effectivePermissions_;
@@ -5219,18 +5621,21 @@ public final class SchemeOperationProtos {
     /**
      * <code>repeated .Ydb.Scheme.Permissions effective_permissions = 6;</code>
      */
+    @java.lang.Override
     public int getEffectivePermissionsCount() {
       return effectivePermissions_.size();
     }
     /**
      * <code>repeated .Ydb.Scheme.Permissions effective_permissions = 6;</code>
      */
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.Permissions getEffectivePermissions(int index) {
       return effectivePermissions_.get(index);
     }
     /**
      * <code>repeated .Ydb.Scheme.Permissions effective_permissions = 6;</code>
      */
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.PermissionsOrBuilder getEffectivePermissionsOrBuilder(
         int index) {
       return effectivePermissions_.get(index);
@@ -5241,12 +5646,14 @@ public final class SchemeOperationProtos {
     /**
      * <code>repeated .Ydb.Scheme.Permissions permissions = 7;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.scheme.SchemeOperationProtos.Permissions> getPermissionsList() {
       return permissions_;
     }
     /**
      * <code>repeated .Ydb.Scheme.Permissions permissions = 7;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.scheme.SchemeOperationProtos.PermissionsOrBuilder> 
         getPermissionsOrBuilderList() {
       return permissions_;
@@ -5254,24 +5661,28 @@ public final class SchemeOperationProtos {
     /**
      * <code>repeated .Ydb.Scheme.Permissions permissions = 7;</code>
      */
+    @java.lang.Override
     public int getPermissionsCount() {
       return permissions_.size();
     }
     /**
      * <code>repeated .Ydb.Scheme.Permissions permissions = 7;</code>
      */
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.Permissions getPermissions(int index) {
       return permissions_.get(index);
     }
     /**
      * <code>repeated .Ydb.Scheme.Permissions permissions = 7;</code>
      */
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.PermissionsOrBuilder getPermissionsOrBuilder(
         int index) {
       return permissions_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -5281,6 +5692,7 @@ public final class SchemeOperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getNameBytes().isEmpty()) {
@@ -5301,6 +5713,7 @@ public final class SchemeOperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -5339,18 +5752,17 @@ public final class SchemeOperationProtos {
       }
       tech.ydb.scheme.SchemeOperationProtos.Entry other = (tech.ydb.scheme.SchemeOperationProtos.Entry) obj;
 
-      boolean result = true;
-      result = result && getName()
-          .equals(other.getName());
-      result = result && getOwner()
-          .equals(other.getOwner());
-      result = result && type_ == other.type_;
-      result = result && getEffectivePermissionsList()
-          .equals(other.getEffectivePermissionsList());
-      result = result && getPermissionsList()
-          .equals(other.getPermissionsList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (!getOwner()
+          .equals(other.getOwner())) return false;
+      if (type_ != other.type_) return false;
+      if (!getEffectivePermissionsList()
+          .equals(other.getEffectivePermissionsList())) return false;
+      if (!getPermissionsList()
+          .equals(other.getPermissionsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5449,6 +5861,7 @@ public final class SchemeOperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5456,6 +5869,7 @@ public final class SchemeOperationProtos {
     public static Builder newBuilder(tech.ydb.scheme.SchemeOperationProtos.Entry prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5479,6 +5893,7 @@ public final class SchemeOperationProtos {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_Entry_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_Entry_fieldAccessorTable
@@ -5503,6 +5918,7 @@ public final class SchemeOperationProtos {
           getPermissionsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         name_ = "";
@@ -5513,28 +5929,31 @@ public final class SchemeOperationProtos {
 
         if (effectivePermissionsBuilder_ == null) {
           effectivePermissions_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           effectivePermissionsBuilder_.clear();
         }
         if (permissionsBuilder_ == null) {
           permissions_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
+          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
           permissionsBuilder_.clear();
         }
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_Entry_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.Entry getDefaultInstanceForType() {
         return tech.ydb.scheme.SchemeOperationProtos.Entry.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.Entry build() {
         tech.ydb.scheme.SchemeOperationProtos.Entry result = buildPartial();
         if (!result.isInitialized()) {
@@ -5543,62 +5962,68 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.Entry buildPartial() {
         tech.ydb.scheme.SchemeOperationProtos.Entry result = new tech.ydb.scheme.SchemeOperationProtos.Entry(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.name_ = name_;
         result.owner_ = owner_;
         result.type_ = type_;
         if (effectivePermissionsBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             effectivePermissions_ = java.util.Collections.unmodifiableList(effectivePermissions_);
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.effectivePermissions_ = effectivePermissions_;
         } else {
           result.effectivePermissions_ = effectivePermissionsBuilder_.build();
         }
         if (permissionsBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          if (((bitField0_ & 0x00000002) != 0)) {
             permissions_ = java.util.Collections.unmodifiableList(permissions_);
-            bitField0_ = (bitField0_ & ~0x00000010);
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
           result.permissions_ = permissions_;
         } else {
           result.permissions_ = permissionsBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scheme.SchemeOperationProtos.Entry) {
           return mergeFrom((tech.ydb.scheme.SchemeOperationProtos.Entry)other);
@@ -5625,7 +6050,7 @@ public final class SchemeOperationProtos {
           if (!other.effectivePermissions_.isEmpty()) {
             if (effectivePermissions_.isEmpty()) {
               effectivePermissions_ = other.effectivePermissions_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureEffectivePermissionsIsMutable();
               effectivePermissions_.addAll(other.effectivePermissions_);
@@ -5638,7 +6063,7 @@ public final class SchemeOperationProtos {
               effectivePermissionsBuilder_.dispose();
               effectivePermissionsBuilder_ = null;
               effectivePermissions_ = other.effectivePermissions_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000001);
               effectivePermissionsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getEffectivePermissionsFieldBuilder() : null;
@@ -5651,7 +6076,7 @@ public final class SchemeOperationProtos {
           if (!other.permissions_.isEmpty()) {
             if (permissions_.isEmpty()) {
               permissions_ = other.permissions_;
-              bitField0_ = (bitField0_ & ~0x00000010);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensurePermissionsIsMutable();
               permissions_.addAll(other.permissions_);
@@ -5664,7 +6089,7 @@ public final class SchemeOperationProtos {
               permissionsBuilder_.dispose();
               permissionsBuilder_ = null;
               permissions_ = other.permissions_;
-              bitField0_ = (bitField0_ & ~0x00000010);
+              bitField0_ = (bitField0_ & ~0x00000002);
               permissionsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getPermissionsFieldBuilder() : null;
@@ -5678,10 +6103,12 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5708,6 +6135,7 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>string name = 1;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -5727,6 +6155,7 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>string name = 1;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -5747,6 +6176,8 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>string name = 1;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -5764,6 +6195,7 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>string name = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -5777,6 +6209,8 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>string name = 1;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -5797,6 +6231,7 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>string owner = 2;</code>
+       * @return The owner.
        */
       public java.lang.String getOwner() {
         java.lang.Object ref = owner_;
@@ -5816,6 +6251,7 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>string owner = 2;</code>
+       * @return The bytes for owner.
        */
       public com.google.protobuf.ByteString
           getOwnerBytes() {
@@ -5836,6 +6272,8 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>string owner = 2;</code>
+       * @param value The owner to set.
+       * @return This builder for chaining.
        */
       public Builder setOwner(
           java.lang.String value) {
@@ -5853,6 +6291,7 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>string owner = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearOwner() {
         
@@ -5866,6 +6305,8 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>string owner = 2;</code>
+       * @param value The bytes for owner to set.
+       * @return This builder for chaining.
        */
       public Builder setOwnerBytes(
           com.google.protobuf.ByteString value) {
@@ -5882,27 +6323,36 @@ public final class SchemeOperationProtos {
       private int type_ = 0;
       /**
        * <code>.Ydb.Scheme.Entry.Type type = 5;</code>
+       * @return The enum numeric value on the wire for type.
        */
-      public int getTypeValue() {
+      @java.lang.Override public int getTypeValue() {
         return type_;
       }
       /**
        * <code>.Ydb.Scheme.Entry.Type type = 5;</code>
+       * @param value The enum numeric value on the wire for type to set.
+       * @return This builder for chaining.
        */
       public Builder setTypeValue(int value) {
+        
         type_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Scheme.Entry.Type type = 5;</code>
+       * @return The type.
        */
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.Entry.Type getType() {
+        @SuppressWarnings("deprecation")
         tech.ydb.scheme.SchemeOperationProtos.Entry.Type result = tech.ydb.scheme.SchemeOperationProtos.Entry.Type.valueOf(type_);
         return result == null ? tech.ydb.scheme.SchemeOperationProtos.Entry.Type.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Scheme.Entry.Type type = 5;</code>
+       * @param value The type to set.
+       * @return This builder for chaining.
        */
       public Builder setType(tech.ydb.scheme.SchemeOperationProtos.Entry.Type value) {
         if (value == null) {
@@ -5915,6 +6365,7 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>.Ydb.Scheme.Entry.Type type = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearType() {
         
@@ -5926,9 +6377,9 @@ public final class SchemeOperationProtos {
       private java.util.List<tech.ydb.scheme.SchemeOperationProtos.Permissions> effectivePermissions_ =
         java.util.Collections.emptyList();
       private void ensureEffectivePermissionsIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           effectivePermissions_ = new java.util.ArrayList<tech.ydb.scheme.SchemeOperationProtos.Permissions>(effectivePermissions_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -6078,7 +6529,7 @@ public final class SchemeOperationProtos {
       public Builder clearEffectivePermissions() {
         if (effectivePermissionsBuilder_ == null) {
           effectivePermissions_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           effectivePermissionsBuilder_.clear();
@@ -6155,7 +6606,7 @@ public final class SchemeOperationProtos {
           effectivePermissionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.scheme.SchemeOperationProtos.Permissions, tech.ydb.scheme.SchemeOperationProtos.Permissions.Builder, tech.ydb.scheme.SchemeOperationProtos.PermissionsOrBuilder>(
                   effectivePermissions_,
-                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           effectivePermissions_ = null;
@@ -6166,9 +6617,9 @@ public final class SchemeOperationProtos {
       private java.util.List<tech.ydb.scheme.SchemeOperationProtos.Permissions> permissions_ =
         java.util.Collections.emptyList();
       private void ensurePermissionsIsMutable() {
-        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           permissions_ = new java.util.ArrayList<tech.ydb.scheme.SchemeOperationProtos.Permissions>(permissions_);
-          bitField0_ |= 0x00000010;
+          bitField0_ |= 0x00000002;
          }
       }
 
@@ -6318,7 +6769,7 @@ public final class SchemeOperationProtos {
       public Builder clearPermissions() {
         if (permissionsBuilder_ == null) {
           permissions_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
           permissionsBuilder_.clear();
@@ -6395,18 +6846,20 @@ public final class SchemeOperationProtos {
           permissionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.scheme.SchemeOperationProtos.Permissions, tech.ydb.scheme.SchemeOperationProtos.Permissions.Builder, tech.ydb.scheme.SchemeOperationProtos.PermissionsOrBuilder>(
                   permissions_,
-                  ((bitField0_ & 0x00000010) == 0x00000010),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           permissions_ = null;
         }
         return permissionsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -6428,11 +6881,12 @@ public final class SchemeOperationProtos {
 
     private static final com.google.protobuf.Parser<Entry>
         PARSER = new com.google.protobuf.AbstractParser<Entry>() {
+      @java.lang.Override
       public Entry parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Entry(input, extensionRegistry);
+        return new Entry(input, extensionRegistry);
       }
     };
 
@@ -6445,6 +6899,7 @@ public final class SchemeOperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.Entry getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -6457,10 +6912,12 @@ public final class SchemeOperationProtos {
 
     /**
      * <code>.Ydb.Scheme.Entry self = 1;</code>
+     * @return Whether the self field is set.
      */
     boolean hasSelf();
     /**
      * <code>.Ydb.Scheme.Entry self = 1;</code>
+     * @return The self.
      */
     tech.ydb.scheme.SchemeOperationProtos.Entry getSelf();
     /**
@@ -6495,7 +6952,7 @@ public final class SchemeOperationProtos {
   /**
    * Protobuf type {@code Ydb.Scheme.ListDirectoryResult}
    */
-  public  static final class ListDirectoryResult extends
+  public static final class ListDirectoryResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scheme.ListDirectoryResult)
       ListDirectoryResultOrBuilder {
@@ -6509,6 +6966,13 @@ public final class SchemeOperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ListDirectoryResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -6518,6 +6982,9 @@ public final class SchemeOperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -6529,13 +6996,6 @@ public final class SchemeOperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.scheme.SchemeOperationProtos.Entry.Builder subBuilder = null;
               if (self_ != null) {
@@ -6550,12 +7010,19 @@ public final class SchemeOperationProtos {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 children_ = new java.util.ArrayList<tech.ydb.scheme.SchemeOperationProtos.Entry>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               children_.add(
                   input.readMessage(tech.ydb.scheme.SchemeOperationProtos.Entry.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -6566,7 +7033,7 @@ public final class SchemeOperationProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           children_ = java.util.Collections.unmodifiableList(children_);
         }
         this.unknownFields = unknownFields.build();
@@ -6578,6 +7045,7 @@ public final class SchemeOperationProtos {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ListDirectoryResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ListDirectoryResult_fieldAccessorTable
@@ -6585,24 +7053,28 @@ public final class SchemeOperationProtos {
               tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResult.class, tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResult.Builder.class);
     }
 
-    private int bitField0_;
     public static final int SELF_FIELD_NUMBER = 1;
     private tech.ydb.scheme.SchemeOperationProtos.Entry self_;
     /**
      * <code>.Ydb.Scheme.Entry self = 1;</code>
+     * @return Whether the self field is set.
      */
+    @java.lang.Override
     public boolean hasSelf() {
       return self_ != null;
     }
     /**
      * <code>.Ydb.Scheme.Entry self = 1;</code>
+     * @return The self.
      */
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.Entry getSelf() {
       return self_ == null ? tech.ydb.scheme.SchemeOperationProtos.Entry.getDefaultInstance() : self_;
     }
     /**
      * <code>.Ydb.Scheme.Entry self = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.EntryOrBuilder getSelfOrBuilder() {
       return getSelf();
     }
@@ -6612,12 +7084,14 @@ public final class SchemeOperationProtos {
     /**
      * <code>repeated .Ydb.Scheme.Entry children = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.scheme.SchemeOperationProtos.Entry> getChildrenList() {
       return children_;
     }
     /**
      * <code>repeated .Ydb.Scheme.Entry children = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.scheme.SchemeOperationProtos.EntryOrBuilder> 
         getChildrenOrBuilderList() {
       return children_;
@@ -6625,24 +7099,28 @@ public final class SchemeOperationProtos {
     /**
      * <code>repeated .Ydb.Scheme.Entry children = 2;</code>
      */
+    @java.lang.Override
     public int getChildrenCount() {
       return children_.size();
     }
     /**
      * <code>repeated .Ydb.Scheme.Entry children = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.Entry getChildren(int index) {
       return children_.get(index);
     }
     /**
      * <code>repeated .Ydb.Scheme.Entry children = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.EntryOrBuilder getChildrenOrBuilder(
         int index) {
       return children_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6652,6 +7130,7 @@ public final class SchemeOperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (self_ != null) {
@@ -6663,6 +7142,7 @@ public final class SchemeOperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -6691,16 +7171,15 @@ public final class SchemeOperationProtos {
       }
       tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResult other = (tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResult) obj;
 
-      boolean result = true;
-      result = result && (hasSelf() == other.hasSelf());
+      if (hasSelf() != other.hasSelf()) return false;
       if (hasSelf()) {
-        result = result && getSelf()
-            .equals(other.getSelf());
+        if (!getSelf()
+            .equals(other.getSelf())) return false;
       }
-      result = result && getChildrenList()
-          .equals(other.getChildrenList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getChildrenList()
+          .equals(other.getChildrenList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -6793,6 +7272,7 @@ public final class SchemeOperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -6800,6 +7280,7 @@ public final class SchemeOperationProtos {
     public static Builder newBuilder(tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -6823,6 +7304,7 @@ public final class SchemeOperationProtos {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ListDirectoryResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ListDirectoryResult_fieldAccessorTable
@@ -6846,6 +7328,7 @@ public final class SchemeOperationProtos {
           getChildrenFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (selfBuilder_ == null) {
@@ -6856,22 +7339,25 @@ public final class SchemeOperationProtos {
         }
         if (childrenBuilder_ == null) {
           children_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           childrenBuilder_.clear();
         }
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ListDirectoryResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResult getDefaultInstanceForType() {
         return tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResult build() {
         tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -6880,55 +7366,61 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResult buildPartial() {
         tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResult result = new tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResult(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (selfBuilder_ == null) {
           result.self_ = self_;
         } else {
           result.self_ = selfBuilder_.build();
         }
         if (childrenBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             children_ = java.util.Collections.unmodifiableList(children_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.children_ = children_;
         } else {
           result.children_ = childrenBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResult) {
           return mergeFrom((tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResult)other);
@@ -6947,7 +7439,7 @@ public final class SchemeOperationProtos {
           if (!other.children_.isEmpty()) {
             if (children_.isEmpty()) {
               children_ = other.children_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureChildrenIsMutable();
               children_.addAll(other.children_);
@@ -6960,7 +7452,7 @@ public final class SchemeOperationProtos {
               childrenBuilder_.dispose();
               childrenBuilder_ = null;
               children_ = other.children_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               childrenBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getChildrenFieldBuilder() : null;
@@ -6974,10 +7466,12 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6997,17 +7491,19 @@ public final class SchemeOperationProtos {
       }
       private int bitField0_;
 
-      private tech.ydb.scheme.SchemeOperationProtos.Entry self_ = null;
+      private tech.ydb.scheme.SchemeOperationProtos.Entry self_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.scheme.SchemeOperationProtos.Entry, tech.ydb.scheme.SchemeOperationProtos.Entry.Builder, tech.ydb.scheme.SchemeOperationProtos.EntryOrBuilder> selfBuilder_;
       /**
        * <code>.Ydb.Scheme.Entry self = 1;</code>
+       * @return Whether the self field is set.
        */
       public boolean hasSelf() {
         return selfBuilder_ != null || self_ != null;
       }
       /**
        * <code>.Ydb.Scheme.Entry self = 1;</code>
+       * @return The self.
        */
       public tech.ydb.scheme.SchemeOperationProtos.Entry getSelf() {
         if (selfBuilder_ == null) {
@@ -7117,9 +7613,9 @@ public final class SchemeOperationProtos {
       private java.util.List<tech.ydb.scheme.SchemeOperationProtos.Entry> children_ =
         java.util.Collections.emptyList();
       private void ensureChildrenIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           children_ = new java.util.ArrayList<tech.ydb.scheme.SchemeOperationProtos.Entry>(children_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -7269,7 +7765,7 @@ public final class SchemeOperationProtos {
       public Builder clearChildren() {
         if (childrenBuilder_ == null) {
           children_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           childrenBuilder_.clear();
@@ -7346,18 +7842,20 @@ public final class SchemeOperationProtos {
           childrenBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.scheme.SchemeOperationProtos.Entry, tech.ydb.scheme.SchemeOperationProtos.Entry.Builder, tech.ydb.scheme.SchemeOperationProtos.EntryOrBuilder>(
                   children_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           children_ = null;
         }
         return childrenBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -7379,11 +7877,12 @@ public final class SchemeOperationProtos {
 
     private static final com.google.protobuf.Parser<ListDirectoryResult>
         PARSER = new com.google.protobuf.AbstractParser<ListDirectoryResult>() {
+      @java.lang.Override
       public ListDirectoryResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ListDirectoryResult(input, extensionRegistry);
+        return new ListDirectoryResult(input, extensionRegistry);
       }
     };
 
@@ -7396,6 +7895,7 @@ public final class SchemeOperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -7408,10 +7908,12 @@ public final class SchemeOperationProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -7421,10 +7923,12 @@ public final class SchemeOperationProtos {
 
     /**
      * <code>string path = 2;</code>
+     * @return The path.
      */
     java.lang.String getPath();
     /**
      * <code>string path = 2;</code>
+     * @return The bytes for path.
      */
     com.google.protobuf.ByteString
         getPathBytes();
@@ -7436,7 +7940,7 @@ public final class SchemeOperationProtos {
    *
    * Protobuf type {@code Ydb.Scheme.DescribePathRequest}
    */
-  public  static final class DescribePathRequest extends
+  public static final class DescribePathRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scheme.DescribePathRequest)
       DescribePathRequestOrBuilder {
@@ -7450,6 +7954,13 @@ public final class SchemeOperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DescribePathRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -7459,7 +7970,9 @@ public final class SchemeOperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -7470,13 +7983,6 @@ public final class SchemeOperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -7496,6 +8002,13 @@ public final class SchemeOperationProtos {
               path_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -7513,6 +8026,7 @@ public final class SchemeOperationProtos {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_DescribePathRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_DescribePathRequest_fieldAccessorTable
@@ -7524,19 +8038,24 @@ public final class SchemeOperationProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -7545,7 +8064,9 @@ public final class SchemeOperationProtos {
     private volatile java.lang.Object path_;
     /**
      * <code>string path = 2;</code>
+     * @return The path.
      */
+    @java.lang.Override
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
@@ -7560,7 +8081,9 @@ public final class SchemeOperationProtos {
     }
     /**
      * <code>string path = 2;</code>
+     * @return The bytes for path.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathBytes() {
       java.lang.Object ref = path_;
@@ -7576,6 +8099,7 @@ public final class SchemeOperationProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -7585,6 +8109,7 @@ public final class SchemeOperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -7596,6 +8121,7 @@ public final class SchemeOperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -7623,16 +8149,15 @@ public final class SchemeOperationProtos {
       }
       tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest other = (tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getPath()
-          .equals(other.getPath());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getPath()
+          .equals(other.getPath())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -7723,6 +8248,7 @@ public final class SchemeOperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -7730,6 +8256,7 @@ public final class SchemeOperationProtos {
     public static Builder newBuilder(tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -7757,6 +8284,7 @@ public final class SchemeOperationProtos {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_DescribePathRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_DescribePathRequest_fieldAccessorTable
@@ -7779,6 +8307,7 @@ public final class SchemeOperationProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -7792,15 +8321,18 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_DescribePathRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest getDefaultInstanceForType() {
         return tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest build() {
         tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -7809,6 +8341,7 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest buildPartial() {
         tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest result = new tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -7821,32 +8354,39 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest) {
           return mergeFrom((tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest)other);
@@ -7870,10 +8410,12 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -7892,17 +8434,19 @@ public final class SchemeOperationProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -8012,6 +8556,7 @@ public final class SchemeOperationProtos {
       private java.lang.Object path_ = "";
       /**
        * <code>string path = 2;</code>
+       * @return The path.
        */
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
@@ -8027,6 +8572,7 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @return The bytes for path.
        */
       public com.google.protobuf.ByteString
           getPathBytes() {
@@ -8043,6 +8589,8 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           java.lang.String value) {
@@ -8056,6 +8604,7 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         
@@ -8065,6 +8614,8 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
        */
       public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
@@ -8077,11 +8628,13 @@ public final class SchemeOperationProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -8103,11 +8656,12 @@ public final class SchemeOperationProtos {
 
     private static final com.google.protobuf.Parser<DescribePathRequest>
         PARSER = new com.google.protobuf.AbstractParser<DescribePathRequest>() {
+      @java.lang.Override
       public DescribePathRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DescribePathRequest(input, extensionRegistry);
+        return new DescribePathRequest(input, extensionRegistry);
       }
     };
 
@@ -8120,6 +8674,7 @@ public final class SchemeOperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -8136,6 +8691,7 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
@@ -8144,6 +8700,7 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -8158,7 +8715,7 @@ public final class SchemeOperationProtos {
   /**
    * Protobuf type {@code Ydb.Scheme.DescribePathResponse}
    */
-  public  static final class DescribePathResponse extends
+  public static final class DescribePathResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scheme.DescribePathResponse)
       DescribePathResponseOrBuilder {
@@ -8171,6 +8728,13 @@ public final class SchemeOperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DescribePathResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -8180,7 +8744,9 @@ public final class SchemeOperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -8191,13 +8757,6 @@ public final class SchemeOperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -8209,6 +8768,13 @@ public final class SchemeOperationProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -8228,6 +8794,7 @@ public final class SchemeOperationProtos {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_DescribePathResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_DescribePathResponse_fieldAccessorTable
@@ -8243,7 +8810,9 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
@@ -8253,7 +8822,9 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
@@ -8264,11 +8835,13 @@ public final class SchemeOperationProtos {
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -8278,6 +8851,7 @@ public final class SchemeOperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -8286,6 +8860,7 @@ public final class SchemeOperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -8310,14 +8885,13 @@ public final class SchemeOperationProtos {
       }
       tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse other = (tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -8406,6 +8980,7 @@ public final class SchemeOperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -8413,6 +8988,7 @@ public final class SchemeOperationProtos {
     public static Builder newBuilder(tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -8436,6 +9012,7 @@ public final class SchemeOperationProtos {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_DescribePathResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_DescribePathResponse_fieldAccessorTable
@@ -8458,6 +9035,7 @@ public final class SchemeOperationProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -8469,15 +9047,18 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_DescribePathResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse getDefaultInstanceForType() {
         return tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse build() {
         tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -8486,6 +9067,7 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse buildPartial() {
         tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse result = new tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse(this);
         if (operationBuilder_ == null) {
@@ -8497,32 +9079,39 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse) {
           return mergeFrom((tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse)other);
@@ -8542,10 +9131,12 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8564,7 +9155,7 @@ public final class SchemeOperationProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
@@ -8573,6 +9164,7 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
@@ -8583,6 +9175,7 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -8716,11 +9309,13 @@ public final class SchemeOperationProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -8742,11 +9337,12 @@ public final class SchemeOperationProtos {
 
     private static final com.google.protobuf.Parser<DescribePathResponse>
         PARSER = new com.google.protobuf.AbstractParser<DescribePathResponse>() {
+      @java.lang.Override
       public DescribePathResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DescribePathResponse(input, extensionRegistry);
+        return new DescribePathResponse(input, extensionRegistry);
       }
     };
 
@@ -8759,6 +9355,7 @@ public final class SchemeOperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -8771,10 +9368,12 @@ public final class SchemeOperationProtos {
 
     /**
      * <code>.Ydb.Scheme.Entry self = 1;</code>
+     * @return Whether the self field is set.
      */
     boolean hasSelf();
     /**
      * <code>.Ydb.Scheme.Entry self = 1;</code>
+     * @return The self.
      */
     tech.ydb.scheme.SchemeOperationProtos.Entry getSelf();
     /**
@@ -8785,7 +9384,7 @@ public final class SchemeOperationProtos {
   /**
    * Protobuf type {@code Ydb.Scheme.DescribePathResult}
    */
-  public  static final class DescribePathResult extends
+  public static final class DescribePathResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scheme.DescribePathResult)
       DescribePathResultOrBuilder {
@@ -8798,6 +9397,13 @@ public final class SchemeOperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DescribePathResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -8807,7 +9413,9 @@ public final class SchemeOperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -8818,13 +9426,6 @@ public final class SchemeOperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.scheme.SchemeOperationProtos.Entry.Builder subBuilder = null;
               if (self_ != null) {
@@ -8836,6 +9437,13 @@ public final class SchemeOperationProtos {
                 self_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -8855,6 +9463,7 @@ public final class SchemeOperationProtos {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_DescribePathResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_DescribePathResult_fieldAccessorTable
@@ -8866,24 +9475,30 @@ public final class SchemeOperationProtos {
     private tech.ydb.scheme.SchemeOperationProtos.Entry self_;
     /**
      * <code>.Ydb.Scheme.Entry self = 1;</code>
+     * @return Whether the self field is set.
      */
+    @java.lang.Override
     public boolean hasSelf() {
       return self_ != null;
     }
     /**
      * <code>.Ydb.Scheme.Entry self = 1;</code>
+     * @return The self.
      */
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.Entry getSelf() {
       return self_ == null ? tech.ydb.scheme.SchemeOperationProtos.Entry.getDefaultInstance() : self_;
     }
     /**
      * <code>.Ydb.Scheme.Entry self = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.EntryOrBuilder getSelfOrBuilder() {
       return getSelf();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -8893,6 +9508,7 @@ public final class SchemeOperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (self_ != null) {
@@ -8901,6 +9517,7 @@ public final class SchemeOperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -8925,14 +9542,13 @@ public final class SchemeOperationProtos {
       }
       tech.ydb.scheme.SchemeOperationProtos.DescribePathResult other = (tech.ydb.scheme.SchemeOperationProtos.DescribePathResult) obj;
 
-      boolean result = true;
-      result = result && (hasSelf() == other.hasSelf());
+      if (hasSelf() != other.hasSelf()) return false;
       if (hasSelf()) {
-        result = result && getSelf()
-            .equals(other.getSelf());
+        if (!getSelf()
+            .equals(other.getSelf())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -9021,6 +9637,7 @@ public final class SchemeOperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -9028,6 +9645,7 @@ public final class SchemeOperationProtos {
     public static Builder newBuilder(tech.ydb.scheme.SchemeOperationProtos.DescribePathResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -9051,6 +9669,7 @@ public final class SchemeOperationProtos {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_DescribePathResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_DescribePathResult_fieldAccessorTable
@@ -9073,6 +9692,7 @@ public final class SchemeOperationProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (selfBuilder_ == null) {
@@ -9084,15 +9704,18 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_DescribePathResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.DescribePathResult getDefaultInstanceForType() {
         return tech.ydb.scheme.SchemeOperationProtos.DescribePathResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.DescribePathResult build() {
         tech.ydb.scheme.SchemeOperationProtos.DescribePathResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -9101,6 +9724,7 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.DescribePathResult buildPartial() {
         tech.ydb.scheme.SchemeOperationProtos.DescribePathResult result = new tech.ydb.scheme.SchemeOperationProtos.DescribePathResult(this);
         if (selfBuilder_ == null) {
@@ -9112,32 +9736,39 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scheme.SchemeOperationProtos.DescribePathResult) {
           return mergeFrom((tech.ydb.scheme.SchemeOperationProtos.DescribePathResult)other);
@@ -9157,10 +9788,12 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -9179,17 +9812,19 @@ public final class SchemeOperationProtos {
         return this;
       }
 
-      private tech.ydb.scheme.SchemeOperationProtos.Entry self_ = null;
+      private tech.ydb.scheme.SchemeOperationProtos.Entry self_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.scheme.SchemeOperationProtos.Entry, tech.ydb.scheme.SchemeOperationProtos.Entry.Builder, tech.ydb.scheme.SchemeOperationProtos.EntryOrBuilder> selfBuilder_;
       /**
        * <code>.Ydb.Scheme.Entry self = 1;</code>
+       * @return Whether the self field is set.
        */
       public boolean hasSelf() {
         return selfBuilder_ != null || self_ != null;
       }
       /**
        * <code>.Ydb.Scheme.Entry self = 1;</code>
+       * @return The self.
        */
       public tech.ydb.scheme.SchemeOperationProtos.Entry getSelf() {
         if (selfBuilder_ == null) {
@@ -9295,11 +9930,13 @@ public final class SchemeOperationProtos {
         }
         return selfBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -9321,11 +9958,12 @@ public final class SchemeOperationProtos {
 
     private static final com.google.protobuf.Parser<DescribePathResult>
         PARSER = new com.google.protobuf.AbstractParser<DescribePathResult>() {
+      @java.lang.Override
       public DescribePathResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DescribePathResult(input, extensionRegistry);
+        return new DescribePathResult(input, extensionRegistry);
       }
     };
 
@@ -9338,6 +9976,7 @@ public final class SchemeOperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.DescribePathResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -9354,6 +9993,7 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>.Ydb.Scheme.Permissions grant = 1;</code>
+     * @return Whether the grant field is set.
      */
     boolean hasGrant();
     /**
@@ -9362,6 +10002,7 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>.Ydb.Scheme.Permissions grant = 1;</code>
+     * @return The grant.
      */
     tech.ydb.scheme.SchemeOperationProtos.Permissions getGrant();
     /**
@@ -9379,6 +10020,7 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>.Ydb.Scheme.Permissions revoke = 2;</code>
+     * @return Whether the revoke field is set.
      */
     boolean hasRevoke();
     /**
@@ -9387,6 +10029,7 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>.Ydb.Scheme.Permissions revoke = 2;</code>
+     * @return The revoke.
      */
     tech.ydb.scheme.SchemeOperationProtos.Permissions getRevoke();
     /**
@@ -9404,6 +10047,7 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>.Ydb.Scheme.Permissions set = 3;</code>
+     * @return Whether the set field is set.
      */
     boolean hasSet();
     /**
@@ -9412,6 +10056,7 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>.Ydb.Scheme.Permissions set = 3;</code>
+     * @return The set.
      */
     tech.ydb.scheme.SchemeOperationProtos.Permissions getSet();
     /**
@@ -9429,6 +10074,16 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>string change_owner = 4;</code>
+     * @return Whether the changeOwner field is set.
+     */
+    boolean hasChangeOwner();
+    /**
+     * <pre>
+     * New owner for object
+     * </pre>
+     *
+     * <code>string change_owner = 4;</code>
+     * @return The changeOwner.
      */
     java.lang.String getChangeOwner();
     /**
@@ -9437,6 +10092,7 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>string change_owner = 4;</code>
+     * @return The bytes for changeOwner.
      */
     com.google.protobuf.ByteString
         getChangeOwnerBytes();
@@ -9446,7 +10102,7 @@ public final class SchemeOperationProtos {
   /**
    * Protobuf type {@code Ydb.Scheme.PermissionsAction}
    */
-  public  static final class PermissionsAction extends
+  public static final class PermissionsAction extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scheme.PermissionsAction)
       PermissionsActionOrBuilder {
@@ -9459,6 +10115,13 @@ public final class SchemeOperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new PermissionsAction();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -9468,7 +10131,9 @@ public final class SchemeOperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -9479,13 +10144,6 @@ public final class SchemeOperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.scheme.SchemeOperationProtos.Permissions.Builder subBuilder = null;
               if (actionCase_ == 1) {
@@ -9534,6 +10192,13 @@ public final class SchemeOperationProtos {
               action_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -9551,6 +10216,7 @@ public final class SchemeOperationProtos {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_PermissionsAction_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_PermissionsAction_fieldAccessorTable
@@ -9561,7 +10227,8 @@ public final class SchemeOperationProtos {
     private int actionCase_ = 0;
     private java.lang.Object action_;
     public enum ActionCase
-        implements com.google.protobuf.Internal.EnumLite {
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       GRANT(1),
       REVOKE(2),
       SET(3),
@@ -9572,6 +10239,8 @@ public final class SchemeOperationProtos {
         this.value = value;
       }
       /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -9607,7 +10276,9 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>.Ydb.Scheme.Permissions grant = 1;</code>
+     * @return Whether the grant field is set.
      */
+    @java.lang.Override
     public boolean hasGrant() {
       return actionCase_ == 1;
     }
@@ -9617,7 +10288,9 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>.Ydb.Scheme.Permissions grant = 1;</code>
+     * @return The grant.
      */
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.Permissions getGrant() {
       if (actionCase_ == 1) {
          return (tech.ydb.scheme.SchemeOperationProtos.Permissions) action_;
@@ -9631,6 +10304,7 @@ public final class SchemeOperationProtos {
      *
      * <code>.Ydb.Scheme.Permissions grant = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.PermissionsOrBuilder getGrantOrBuilder() {
       if (actionCase_ == 1) {
          return (tech.ydb.scheme.SchemeOperationProtos.Permissions) action_;
@@ -9645,7 +10319,9 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>.Ydb.Scheme.Permissions revoke = 2;</code>
+     * @return Whether the revoke field is set.
      */
+    @java.lang.Override
     public boolean hasRevoke() {
       return actionCase_ == 2;
     }
@@ -9655,7 +10331,9 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>.Ydb.Scheme.Permissions revoke = 2;</code>
+     * @return The revoke.
      */
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.Permissions getRevoke() {
       if (actionCase_ == 2) {
          return (tech.ydb.scheme.SchemeOperationProtos.Permissions) action_;
@@ -9669,6 +10347,7 @@ public final class SchemeOperationProtos {
      *
      * <code>.Ydb.Scheme.Permissions revoke = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.PermissionsOrBuilder getRevokeOrBuilder() {
       if (actionCase_ == 2) {
          return (tech.ydb.scheme.SchemeOperationProtos.Permissions) action_;
@@ -9683,7 +10362,9 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>.Ydb.Scheme.Permissions set = 3;</code>
+     * @return Whether the set field is set.
      */
+    @java.lang.Override
     public boolean hasSet() {
       return actionCase_ == 3;
     }
@@ -9693,7 +10374,9 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>.Ydb.Scheme.Permissions set = 3;</code>
+     * @return The set.
      */
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.Permissions getSet() {
       if (actionCase_ == 3) {
          return (tech.ydb.scheme.SchemeOperationProtos.Permissions) action_;
@@ -9707,6 +10390,7 @@ public final class SchemeOperationProtos {
      *
      * <code>.Ydb.Scheme.Permissions set = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.PermissionsOrBuilder getSetOrBuilder() {
       if (actionCase_ == 3) {
          return (tech.ydb.scheme.SchemeOperationProtos.Permissions) action_;
@@ -9721,6 +10405,18 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>string change_owner = 4;</code>
+     * @return Whether the changeOwner field is set.
+     */
+    public boolean hasChangeOwner() {
+      return actionCase_ == 4;
+    }
+    /**
+     * <pre>
+     * New owner for object
+     * </pre>
+     *
+     * <code>string change_owner = 4;</code>
+     * @return The changeOwner.
      */
     public java.lang.String getChangeOwner() {
       java.lang.Object ref = "";
@@ -9745,6 +10441,7 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>string change_owner = 4;</code>
+     * @return The bytes for changeOwner.
      */
     public com.google.protobuf.ByteString
         getChangeOwnerBytes() {
@@ -9766,6 +10463,7 @@ public final class SchemeOperationProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -9775,6 +10473,7 @@ public final class SchemeOperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (actionCase_ == 1) {
@@ -9792,6 +10491,7 @@ public final class SchemeOperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -9827,32 +10527,29 @@ public final class SchemeOperationProtos {
       }
       tech.ydb.scheme.SchemeOperationProtos.PermissionsAction other = (tech.ydb.scheme.SchemeOperationProtos.PermissionsAction) obj;
 
-      boolean result = true;
-      result = result && getActionCase().equals(
-          other.getActionCase());
-      if (!result) return false;
+      if (!getActionCase().equals(other.getActionCase())) return false;
       switch (actionCase_) {
         case 1:
-          result = result && getGrant()
-              .equals(other.getGrant());
+          if (!getGrant()
+              .equals(other.getGrant())) return false;
           break;
         case 2:
-          result = result && getRevoke()
-              .equals(other.getRevoke());
+          if (!getRevoke()
+              .equals(other.getRevoke())) return false;
           break;
         case 3:
-          result = result && getSet()
-              .equals(other.getSet());
+          if (!getSet()
+              .equals(other.getSet())) return false;
           break;
         case 4:
-          result = result && getChangeOwner()
-              .equals(other.getChangeOwner());
+          if (!getChangeOwner()
+              .equals(other.getChangeOwner())) return false;
           break;
         case 0:
         default:
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -9957,6 +10654,7 @@ public final class SchemeOperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -9964,6 +10662,7 @@ public final class SchemeOperationProtos {
     public static Builder newBuilder(tech.ydb.scheme.SchemeOperationProtos.PermissionsAction prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -9987,6 +10686,7 @@ public final class SchemeOperationProtos {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_PermissionsAction_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_PermissionsAction_fieldAccessorTable
@@ -10009,6 +10709,7 @@ public final class SchemeOperationProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         actionCase_ = 0;
@@ -10016,15 +10717,18 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_PermissionsAction_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.PermissionsAction getDefaultInstanceForType() {
         return tech.ydb.scheme.SchemeOperationProtos.PermissionsAction.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.PermissionsAction build() {
         tech.ydb.scheme.SchemeOperationProtos.PermissionsAction result = buildPartial();
         if (!result.isInitialized()) {
@@ -10033,6 +10737,7 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.PermissionsAction buildPartial() {
         tech.ydb.scheme.SchemeOperationProtos.PermissionsAction result = new tech.ydb.scheme.SchemeOperationProtos.PermissionsAction(this);
         if (actionCase_ == 1) {
@@ -10064,32 +10769,39 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scheme.SchemeOperationProtos.PermissionsAction) {
           return mergeFrom((tech.ydb.scheme.SchemeOperationProtos.PermissionsAction)other);
@@ -10129,10 +10841,12 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -10174,7 +10888,9 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>.Ydb.Scheme.Permissions grant = 1;</code>
+       * @return Whether the grant field is set.
        */
+      @java.lang.Override
       public boolean hasGrant() {
         return actionCase_ == 1;
       }
@@ -10184,7 +10900,9 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>.Ydb.Scheme.Permissions grant = 1;</code>
+       * @return The grant.
        */
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.Permissions getGrant() {
         if (grantBuilder_ == null) {
           if (actionCase_ == 1) {
@@ -10302,6 +11020,7 @@ public final class SchemeOperationProtos {
        *
        * <code>.Ydb.Scheme.Permissions grant = 1;</code>
        */
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.PermissionsOrBuilder getGrantOrBuilder() {
         if ((actionCase_ == 1) && (grantBuilder_ != null)) {
           return grantBuilder_.getMessageOrBuilder();
@@ -10346,7 +11065,9 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>.Ydb.Scheme.Permissions revoke = 2;</code>
+       * @return Whether the revoke field is set.
        */
+      @java.lang.Override
       public boolean hasRevoke() {
         return actionCase_ == 2;
       }
@@ -10356,7 +11077,9 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>.Ydb.Scheme.Permissions revoke = 2;</code>
+       * @return The revoke.
        */
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.Permissions getRevoke() {
         if (revokeBuilder_ == null) {
           if (actionCase_ == 2) {
@@ -10474,6 +11197,7 @@ public final class SchemeOperationProtos {
        *
        * <code>.Ydb.Scheme.Permissions revoke = 2;</code>
        */
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.PermissionsOrBuilder getRevokeOrBuilder() {
         if ((actionCase_ == 2) && (revokeBuilder_ != null)) {
           return revokeBuilder_.getMessageOrBuilder();
@@ -10518,7 +11242,9 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>.Ydb.Scheme.Permissions set = 3;</code>
+       * @return Whether the set field is set.
        */
+      @java.lang.Override
       public boolean hasSet() {
         return actionCase_ == 3;
       }
@@ -10528,7 +11254,9 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>.Ydb.Scheme.Permissions set = 3;</code>
+       * @return The set.
        */
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.Permissions getSet() {
         if (setBuilder_ == null) {
           if (actionCase_ == 3) {
@@ -10646,6 +11374,7 @@ public final class SchemeOperationProtos {
        *
        * <code>.Ydb.Scheme.Permissions set = 3;</code>
        */
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.PermissionsOrBuilder getSetOrBuilder() {
         if ((actionCase_ == 3) && (setBuilder_ != null)) {
           return setBuilder_.getMessageOrBuilder();
@@ -10688,7 +11417,21 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>string change_owner = 4;</code>
+       * @return Whether the changeOwner field is set.
        */
+      @java.lang.Override
+      public boolean hasChangeOwner() {
+        return actionCase_ == 4;
+      }
+      /**
+       * <pre>
+       * New owner for object
+       * </pre>
+       *
+       * <code>string change_owner = 4;</code>
+       * @return The changeOwner.
+       */
+      @java.lang.Override
       public java.lang.String getChangeOwner() {
         java.lang.Object ref = "";
         if (actionCase_ == 4) {
@@ -10712,7 +11455,9 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>string change_owner = 4;</code>
+       * @return The bytes for changeOwner.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getChangeOwnerBytes() {
         java.lang.Object ref = "";
@@ -10737,6 +11482,8 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>string change_owner = 4;</code>
+       * @param value The changeOwner to set.
+       * @return This builder for chaining.
        */
       public Builder setChangeOwner(
           java.lang.String value) {
@@ -10754,6 +11501,7 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>string change_owner = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearChangeOwner() {
         if (actionCase_ == 4) {
@@ -10769,6 +11517,8 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>string change_owner = 4;</code>
+       * @param value The bytes for changeOwner to set.
+       * @return This builder for chaining.
        */
       public Builder setChangeOwnerBytes(
           com.google.protobuf.ByteString value) {
@@ -10781,11 +11531,13 @@ public final class SchemeOperationProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -10807,11 +11559,12 @@ public final class SchemeOperationProtos {
 
     private static final com.google.protobuf.Parser<PermissionsAction>
         PARSER = new com.google.protobuf.AbstractParser<PermissionsAction>() {
+      @java.lang.Override
       public PermissionsAction parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new PermissionsAction(input, extensionRegistry);
+        return new PermissionsAction(input, extensionRegistry);
       }
     };
 
@@ -10824,6 +11577,7 @@ public final class SchemeOperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.PermissionsAction getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -10836,10 +11590,12 @@ public final class SchemeOperationProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -10849,10 +11605,12 @@ public final class SchemeOperationProtos {
 
     /**
      * <code>string path = 2;</code>
+     * @return The path.
      */
     java.lang.String getPath();
     /**
      * <code>string path = 2;</code>
+     * @return The bytes for path.
      */
     com.google.protobuf.ByteString
         getPathBytes();
@@ -10887,6 +11645,7 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>bool clear_permissions = 4;</code>
+     * @return The clearPermissions.
      */
     boolean getClearPermissions();
   }
@@ -10897,7 +11656,7 @@ public final class SchemeOperationProtos {
    *
    * Protobuf type {@code Ydb.Scheme.ModifyPermissionsRequest}
    */
-  public  static final class ModifyPermissionsRequest extends
+  public static final class ModifyPermissionsRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scheme.ModifyPermissionsRequest)
       ModifyPermissionsRequestOrBuilder {
@@ -10909,7 +11668,13 @@ public final class SchemeOperationProtos {
     private ModifyPermissionsRequest() {
       path_ = "";
       actions_ = java.util.Collections.emptyList();
-      clearPermissions_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ModifyPermissionsRequest();
     }
 
     @java.lang.Override
@@ -10922,6 +11687,9 @@ public final class SchemeOperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -10933,13 +11701,6 @@ public final class SchemeOperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -10960,9 +11721,9 @@ public final class SchemeOperationProtos {
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 actions_ = new java.util.ArrayList<tech.ydb.scheme.SchemeOperationProtos.PermissionsAction>();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000001;
               }
               actions_.add(
                   input.readMessage(tech.ydb.scheme.SchemeOperationProtos.PermissionsAction.parser(), extensionRegistry));
@@ -10973,6 +11734,13 @@ public final class SchemeOperationProtos {
               clearPermissions_ = input.readBool();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -10981,7 +11749,7 @@ public final class SchemeOperationProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           actions_ = java.util.Collections.unmodifiableList(actions_);
         }
         this.unknownFields = unknownFields.build();
@@ -10993,6 +11761,7 @@ public final class SchemeOperationProtos {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ModifyPermissionsRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ModifyPermissionsRequest_fieldAccessorTable
@@ -11000,24 +11769,28 @@ public final class SchemeOperationProtos {
               tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest.class, tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -11026,7 +11799,9 @@ public final class SchemeOperationProtos {
     private volatile java.lang.Object path_;
     /**
      * <code>string path = 2;</code>
+     * @return The path.
      */
+    @java.lang.Override
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
@@ -11041,7 +11816,9 @@ public final class SchemeOperationProtos {
     }
     /**
      * <code>string path = 2;</code>
+     * @return The bytes for path.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathBytes() {
       java.lang.Object ref = path_;
@@ -11061,12 +11838,14 @@ public final class SchemeOperationProtos {
     /**
      * <code>repeated .Ydb.Scheme.PermissionsAction actions = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.scheme.SchemeOperationProtos.PermissionsAction> getActionsList() {
       return actions_;
     }
     /**
      * <code>repeated .Ydb.Scheme.PermissionsAction actions = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.scheme.SchemeOperationProtos.PermissionsActionOrBuilder> 
         getActionsOrBuilderList() {
       return actions_;
@@ -11074,18 +11853,21 @@ public final class SchemeOperationProtos {
     /**
      * <code>repeated .Ydb.Scheme.PermissionsAction actions = 3;</code>
      */
+    @java.lang.Override
     public int getActionsCount() {
       return actions_.size();
     }
     /**
      * <code>repeated .Ydb.Scheme.PermissionsAction actions = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.PermissionsAction getActions(int index) {
       return actions_.get(index);
     }
     /**
      * <code>repeated .Ydb.Scheme.PermissionsAction actions = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.PermissionsActionOrBuilder getActionsOrBuilder(
         int index) {
       return actions_.get(index);
@@ -11099,12 +11881,15 @@ public final class SchemeOperationProtos {
      * </pre>
      *
      * <code>bool clear_permissions = 4;</code>
+     * @return The clearPermissions.
      */
+    @java.lang.Override
     public boolean getClearPermissions() {
       return clearPermissions_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -11114,6 +11899,7 @@ public final class SchemeOperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -11131,6 +11917,7 @@ public final class SchemeOperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -11166,20 +11953,19 @@ public final class SchemeOperationProtos {
       }
       tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest other = (tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getPath()
-          .equals(other.getPath());
-      result = result && getActionsList()
-          .equals(other.getActionsList());
-      result = result && (getClearPermissions()
-          == other.getClearPermissions());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getPath()
+          .equals(other.getPath())) return false;
+      if (!getActionsList()
+          .equals(other.getActionsList())) return false;
+      if (getClearPermissions()
+          != other.getClearPermissions()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -11277,6 +12063,7 @@ public final class SchemeOperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -11284,6 +12071,7 @@ public final class SchemeOperationProtos {
     public static Builder newBuilder(tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -11311,6 +12099,7 @@ public final class SchemeOperationProtos {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ModifyPermissionsRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ModifyPermissionsRequest_fieldAccessorTable
@@ -11334,6 +12123,7 @@ public final class SchemeOperationProtos {
           getActionsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -11346,7 +12136,7 @@ public final class SchemeOperationProtos {
 
         if (actionsBuilder_ == null) {
           actions_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           actionsBuilder_.clear();
         }
@@ -11355,15 +12145,18 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ModifyPermissionsRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest getDefaultInstanceForType() {
         return tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest build() {
         tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -11372,10 +12165,10 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest buildPartial() {
         tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest result = new tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
         } else {
@@ -11383,46 +12176,52 @@ public final class SchemeOperationProtos {
         }
         result.path_ = path_;
         if (actionsBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             actions_ = java.util.Collections.unmodifiableList(actions_);
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.actions_ = actions_;
         } else {
           result.actions_ = actionsBuilder_.build();
         }
         result.clearPermissions_ = clearPermissions_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest) {
           return mergeFrom((tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest)other);
@@ -11445,7 +12244,7 @@ public final class SchemeOperationProtos {
           if (!other.actions_.isEmpty()) {
             if (actions_.isEmpty()) {
               actions_ = other.actions_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureActionsIsMutable();
               actions_.addAll(other.actions_);
@@ -11458,7 +12257,7 @@ public final class SchemeOperationProtos {
               actionsBuilder_.dispose();
               actionsBuilder_ = null;
               actions_ = other.actions_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000001);
               actionsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getActionsFieldBuilder() : null;
@@ -11475,10 +12274,12 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -11498,17 +12299,19 @@ public final class SchemeOperationProtos {
       }
       private int bitField0_;
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -11618,6 +12421,7 @@ public final class SchemeOperationProtos {
       private java.lang.Object path_ = "";
       /**
        * <code>string path = 2;</code>
+       * @return The path.
        */
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
@@ -11633,6 +12437,7 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @return The bytes for path.
        */
       public com.google.protobuf.ByteString
           getPathBytes() {
@@ -11649,6 +12454,8 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           java.lang.String value) {
@@ -11662,6 +12469,7 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         
@@ -11671,6 +12479,8 @@ public final class SchemeOperationProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
        */
       public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
@@ -11687,9 +12497,9 @@ public final class SchemeOperationProtos {
       private java.util.List<tech.ydb.scheme.SchemeOperationProtos.PermissionsAction> actions_ =
         java.util.Collections.emptyList();
       private void ensureActionsIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           actions_ = new java.util.ArrayList<tech.ydb.scheme.SchemeOperationProtos.PermissionsAction>(actions_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -11839,7 +12649,7 @@ public final class SchemeOperationProtos {
       public Builder clearActions() {
         if (actionsBuilder_ == null) {
           actions_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           actionsBuilder_.clear();
@@ -11916,7 +12726,7 @@ public final class SchemeOperationProtos {
           actionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.scheme.SchemeOperationProtos.PermissionsAction, tech.ydb.scheme.SchemeOperationProtos.PermissionsAction.Builder, tech.ydb.scheme.SchemeOperationProtos.PermissionsActionOrBuilder>(
                   actions_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           actions_ = null;
@@ -11931,7 +12741,9 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>bool clear_permissions = 4;</code>
+       * @return The clearPermissions.
        */
+      @java.lang.Override
       public boolean getClearPermissions() {
         return clearPermissions_;
       }
@@ -11941,6 +12753,8 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>bool clear_permissions = 4;</code>
+       * @param value The clearPermissions to set.
+       * @return This builder for chaining.
        */
       public Builder setClearPermissions(boolean value) {
         
@@ -11954,6 +12768,7 @@ public final class SchemeOperationProtos {
        * </pre>
        *
        * <code>bool clear_permissions = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearClearPermissions() {
         
@@ -11961,11 +12776,13 @@ public final class SchemeOperationProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -11987,11 +12804,12 @@ public final class SchemeOperationProtos {
 
     private static final com.google.protobuf.Parser<ModifyPermissionsRequest>
         PARSER = new com.google.protobuf.AbstractParser<ModifyPermissionsRequest>() {
+      @java.lang.Override
       public ModifyPermissionsRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ModifyPermissionsRequest(input, extensionRegistry);
+        return new ModifyPermissionsRequest(input, extensionRegistry);
       }
     };
 
@@ -12004,6 +12822,7 @@ public final class SchemeOperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -12016,10 +12835,12 @@ public final class SchemeOperationProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -12030,7 +12851,7 @@ public final class SchemeOperationProtos {
   /**
    * Protobuf type {@code Ydb.Scheme.ModifyPermissionsResponse}
    */
-  public  static final class ModifyPermissionsResponse extends
+  public static final class ModifyPermissionsResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Scheme.ModifyPermissionsResponse)
       ModifyPermissionsResponseOrBuilder {
@@ -12043,6 +12864,13 @@ public final class SchemeOperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ModifyPermissionsResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -12052,7 +12880,9 @@ public final class SchemeOperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -12063,13 +12893,6 @@ public final class SchemeOperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -12081,6 +12904,13 @@ public final class SchemeOperationProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -12100,6 +12930,7 @@ public final class SchemeOperationProtos {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ModifyPermissionsResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ModifyPermissionsResponse_fieldAccessorTable
@@ -12111,24 +12942,30 @@ public final class SchemeOperationProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -12138,6 +12975,7 @@ public final class SchemeOperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -12146,6 +12984,7 @@ public final class SchemeOperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -12170,14 +13009,13 @@ public final class SchemeOperationProtos {
       }
       tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse other = (tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -12266,6 +13104,7 @@ public final class SchemeOperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -12273,6 +13112,7 @@ public final class SchemeOperationProtos {
     public static Builder newBuilder(tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -12296,6 +13136,7 @@ public final class SchemeOperationProtos {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ModifyPermissionsResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ModifyPermissionsResponse_fieldAccessorTable
@@ -12318,6 +13159,7 @@ public final class SchemeOperationProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -12329,15 +13171,18 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.scheme.SchemeOperationProtos.internal_static_Ydb_Scheme_ModifyPermissionsResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse getDefaultInstanceForType() {
         return tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse build() {
         tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -12346,6 +13191,7 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse buildPartial() {
         tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse result = new tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse(this);
         if (operationBuilder_ == null) {
@@ -12357,32 +13203,39 @@ public final class SchemeOperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse) {
           return mergeFrom((tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse)other);
@@ -12402,10 +13255,12 @@ public final class SchemeOperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -12424,17 +13279,19 @@ public final class SchemeOperationProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -12540,11 +13397,13 @@ public final class SchemeOperationProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -12566,11 +13425,12 @@ public final class SchemeOperationProtos {
 
     private static final com.google.protobuf.Parser<ModifyPermissionsResponse>
         PARSER = new com.google.protobuf.AbstractParser<ModifyPermissionsResponse>() {
+      @java.lang.Override
       public ModifyPermissionsResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ModifyPermissionsResponse(input, extensionRegistry);
+        return new ModifyPermissionsResponse(input, extensionRegistry);
       }
     };
 
@@ -12583,6 +13443,7 @@ public final class SchemeOperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.scheme.SchemeOperationProtos.ModifyPermissionsResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -12682,7 +13543,7 @@ public final class SchemeOperationProtos {
       "(\0132\031.Ydb.Operations.Operation\"a\n\026RemoveD" +
       "irectoryRequest\0229\n\020operation_params\030\001 \001(" +
       "\0132\037.Ydb.Operations.OperationParams\022\014\n\004pa" +
-      "th\030\002 \001(\t\"G\n\027RemoveDirectoryResponse\022,\n\to",
+      "th\030\002 \001(\t\"G\n\027RemoveDirectoryResponse\022,\n\to" +
       "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
       "n\"_\n\024ListDirectoryRequest\0229\n\020operation_p" +
       "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa" +
@@ -12692,7 +13553,7 @@ public final class SchemeOperationProtos {
       "\t\022\030\n\020permission_names\030\002 \003(\t\"\315\002\n\005Entry\022\014\n" +
       "\004name\030\001 \001(\t\022\r\n\005owner\030\002 \001(\t\022$\n\004type\030\005 \001(\016" +
       "2\026.Ydb.Scheme.Entry.Type\0226\n\025effective_pe" +
-      "rmissions\030\006 \003(\0132\027.Ydb.Scheme.Permissions",
+      "rmissions\030\006 \003(\0132\027.Ydb.Scheme.Permissions" +
       "\022,\n\013permissions\030\007 \003(\0132\027.Ydb.Scheme.Permi" +
       "ssions\"\232\001\n\004Type\022\024\n\020TYPE_UNSPECIFIED\020\000\022\r\n" +
       "\tDIRECTORY\020\001\022\t\n\005TABLE\020\002\022\024\n\020PERS_QUEUE_GR" +
@@ -12702,7 +13563,7 @@ public final class SchemeOperationProtos {
       "2\021.Ydb.Scheme.Entry\022#\n\010children\030\002 \003(\0132\021." +
       "Ydb.Scheme.Entry\"^\n\023DescribePathRequest\022" +
       "9\n\020operation_params\030\001 \001(\0132\037.Ydb.Operatio" +
-      "ns.OperationParams\022\014\n\004path\030\002 \001(\t\"D\n\024Desc",
+      "ns.OperationParams\022\014\n\004path\030\002 \001(\t\"D\n\024Desc" +
       "ribePathResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
       "b.Operations.Operation\"5\n\022DescribePathRe" +
       "sult\022\037\n\004self\030\001 \001(\0132\021.Ydb.Scheme.Entry\"\262\001" +
@@ -12712,7 +13573,7 @@ public final class SchemeOperationProtos {
       "Ydb.Scheme.PermissionsH\000\022\026\n\014change_owner" +
       "\030\004 \001(\tH\000B\010\n\006action\"\256\001\n\030ModifyPermissions" +
       "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb." +
-      "Operations.OperationParams\022\014\n\004path\030\002 \001(\t",
+      "Operations.OperationParams\022\014\n\004path\030\002 \001(\t" +
       "\022.\n\007actions\030\003 \003(\0132\035.Ydb.Scheme.Permissio" +
       "nsAction\022\031\n\021clear_permissions\030\004 \001(\010\"I\n\031M" +
       "odifyPermissionsResponse\022,\n\toperation\030\001 " +
@@ -12720,19 +13581,11 @@ public final class SchemeOperationProtos {
       "ndex.ydb.schemeB\025SchemeOperationProtos\370\001" +
       "\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.OperationProtos.getDescriptor(),
-        }, assigner);
+        });
     internal_static_Ydb_Scheme_MakeDirectoryRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_Scheme_MakeDirectoryRequest_fieldAccessorTable = new

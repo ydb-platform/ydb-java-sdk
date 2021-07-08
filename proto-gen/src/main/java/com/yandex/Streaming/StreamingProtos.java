@@ -20,10 +20,12 @@ public final class StreamingProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -33,10 +35,12 @@ public final class StreamingProtos {
 
     /**
      * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
+     * @return Whether the request field is set.
      */
     boolean hasRequest();
     /**
      * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
+     * @return The request.
      */
     NStreams.NControlPlane.ControlPlane.TInstallQueryRequest getRequest();
     /**
@@ -52,7 +56,7 @@ public final class StreamingProtos {
    *
    * Protobuf type {@code Streaming.InstallQueryRequest}
    */
-  public  static final class InstallQueryRequest extends
+  public static final class InstallQueryRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Streaming.InstallQueryRequest)
       InstallQueryRequestOrBuilder {
@@ -65,6 +69,13 @@ public final class StreamingProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new InstallQueryRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -74,7 +85,9 @@ public final class StreamingProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -85,13 +98,6 @@ public final class StreamingProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -118,6 +124,13 @@ public final class StreamingProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -135,6 +148,7 @@ public final class StreamingProtos {
       return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_InstallQueryRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_InstallQueryRequest_fieldAccessorTable
@@ -146,19 +160,24 @@ public final class StreamingProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -167,24 +186,30 @@ public final class StreamingProtos {
     private NStreams.NControlPlane.ControlPlane.TInstallQueryRequest request_;
     /**
      * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
+     * @return Whether the request field is set.
      */
+    @java.lang.Override
     public boolean hasRequest() {
       return request_ != null;
     }
     /**
      * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
+     * @return The request.
      */
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TInstallQueryRequest getRequest() {
       return request_ == null ? NStreams.NControlPlane.ControlPlane.TInstallQueryRequest.getDefaultInstance() : request_;
     }
     /**
      * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
      */
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TInstallQueryRequestOrBuilder getRequestOrBuilder() {
       return getRequest();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -194,6 +219,7 @@ public final class StreamingProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -205,6 +231,7 @@ public final class StreamingProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -233,19 +260,18 @@ public final class StreamingProtos {
       }
       com.yandex.Streaming.StreamingProtos.InstallQueryRequest other = (com.yandex.Streaming.StreamingProtos.InstallQueryRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && (hasRequest() == other.hasRequest());
+      if (hasRequest() != other.hasRequest()) return false;
       if (hasRequest()) {
-        result = result && getRequest()
-            .equals(other.getRequest());
+        if (!getRequest()
+            .equals(other.getRequest())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -338,6 +364,7 @@ public final class StreamingProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -345,6 +372,7 @@ public final class StreamingProtos {
     public static Builder newBuilder(com.yandex.Streaming.StreamingProtos.InstallQueryRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -373,6 +401,7 @@ public final class StreamingProtos {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_InstallQueryRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_InstallQueryRequest_fieldAccessorTable
@@ -395,6 +424,7 @@ public final class StreamingProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -412,15 +442,18 @@ public final class StreamingProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_InstallQueryRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.InstallQueryRequest getDefaultInstanceForType() {
         return com.yandex.Streaming.StreamingProtos.InstallQueryRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.InstallQueryRequest build() {
         com.yandex.Streaming.StreamingProtos.InstallQueryRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -429,6 +462,7 @@ public final class StreamingProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.InstallQueryRequest buildPartial() {
         com.yandex.Streaming.StreamingProtos.InstallQueryRequest result = new com.yandex.Streaming.StreamingProtos.InstallQueryRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -445,32 +479,39 @@ public final class StreamingProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.Streaming.StreamingProtos.InstallQueryRequest) {
           return mergeFrom((com.yandex.Streaming.StreamingProtos.InstallQueryRequest)other);
@@ -493,10 +534,12 @@ public final class StreamingProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -515,17 +558,19 @@ public final class StreamingProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -632,17 +677,19 @@ public final class StreamingProtos {
         return operationParamsBuilder_;
       }
 
-      private NStreams.NControlPlane.ControlPlane.TInstallQueryRequest request_ = null;
+      private NStreams.NControlPlane.ControlPlane.TInstallQueryRequest request_;
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NControlPlane.ControlPlane.TInstallQueryRequest, NStreams.NControlPlane.ControlPlane.TInstallQueryRequest.Builder, NStreams.NControlPlane.ControlPlane.TInstallQueryRequestOrBuilder> requestBuilder_;
       /**
        * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
+       * @return Whether the request field is set.
        */
       public boolean hasRequest() {
         return requestBuilder_ != null || request_ != null;
       }
       /**
        * <code>.NStreams.NControlPlane.TInstallQueryRequest request = 2;</code>
+       * @return The request.
        */
       public NStreams.NControlPlane.ControlPlane.TInstallQueryRequest getRequest() {
         if (requestBuilder_ == null) {
@@ -748,11 +795,13 @@ public final class StreamingProtos {
         }
         return requestBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -774,11 +823,12 @@ public final class StreamingProtos {
 
     private static final com.google.protobuf.Parser<InstallQueryRequest>
         PARSER = new com.google.protobuf.AbstractParser<InstallQueryRequest>() {
+      @java.lang.Override
       public InstallQueryRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new InstallQueryRequest(input, extensionRegistry);
+        return new InstallQueryRequest(input, extensionRegistry);
       }
     };
 
@@ -791,6 +841,7 @@ public final class StreamingProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.Streaming.StreamingProtos.InstallQueryRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -807,6 +858,7 @@ public final class StreamingProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
@@ -815,6 +867,7 @@ public final class StreamingProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -829,7 +882,7 @@ public final class StreamingProtos {
   /**
    * Protobuf type {@code Streaming.InstallQueryResponse}
    */
-  public  static final class InstallQueryResponse extends
+  public static final class InstallQueryResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Streaming.InstallQueryResponse)
       InstallQueryResponseOrBuilder {
@@ -842,6 +895,13 @@ public final class StreamingProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new InstallQueryResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -851,7 +911,9 @@ public final class StreamingProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -862,13 +924,6 @@ public final class StreamingProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -880,6 +935,13 @@ public final class StreamingProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -899,6 +961,7 @@ public final class StreamingProtos {
       return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_InstallQueryResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_InstallQueryResponse_fieldAccessorTable
@@ -914,7 +977,9 @@ public final class StreamingProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
@@ -924,7 +989,9 @@ public final class StreamingProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
@@ -935,11 +1002,13 @@ public final class StreamingProtos {
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -949,6 +1018,7 @@ public final class StreamingProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -957,6 +1027,7 @@ public final class StreamingProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -981,14 +1052,13 @@ public final class StreamingProtos {
       }
       com.yandex.Streaming.StreamingProtos.InstallQueryResponse other = (com.yandex.Streaming.StreamingProtos.InstallQueryResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1077,6 +1147,7 @@ public final class StreamingProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1084,6 +1155,7 @@ public final class StreamingProtos {
     public static Builder newBuilder(com.yandex.Streaming.StreamingProtos.InstallQueryResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1107,6 +1179,7 @@ public final class StreamingProtos {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_InstallQueryResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_InstallQueryResponse_fieldAccessorTable
@@ -1129,6 +1202,7 @@ public final class StreamingProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -1140,15 +1214,18 @@ public final class StreamingProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_InstallQueryResponse_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.InstallQueryResponse getDefaultInstanceForType() {
         return com.yandex.Streaming.StreamingProtos.InstallQueryResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.InstallQueryResponse build() {
         com.yandex.Streaming.StreamingProtos.InstallQueryResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -1157,6 +1234,7 @@ public final class StreamingProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.InstallQueryResponse buildPartial() {
         com.yandex.Streaming.StreamingProtos.InstallQueryResponse result = new com.yandex.Streaming.StreamingProtos.InstallQueryResponse(this);
         if (operationBuilder_ == null) {
@@ -1168,32 +1246,39 @@ public final class StreamingProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.Streaming.StreamingProtos.InstallQueryResponse) {
           return mergeFrom((com.yandex.Streaming.StreamingProtos.InstallQueryResponse)other);
@@ -1213,10 +1298,12 @@ public final class StreamingProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1235,7 +1322,7 @@ public final class StreamingProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
@@ -1244,6 +1331,7 @@ public final class StreamingProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
@@ -1254,6 +1342,7 @@ public final class StreamingProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -1387,11 +1476,13 @@ public final class StreamingProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1413,11 +1504,12 @@ public final class StreamingProtos {
 
     private static final com.google.protobuf.Parser<InstallQueryResponse>
         PARSER = new com.google.protobuf.AbstractParser<InstallQueryResponse>() {
+      @java.lang.Override
       public InstallQueryResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new InstallQueryResponse(input, extensionRegistry);
+        return new InstallQueryResponse(input, extensionRegistry);
       }
     };
 
@@ -1430,6 +1522,7 @@ public final class StreamingProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.Streaming.StreamingProtos.InstallQueryResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1442,10 +1535,12 @@ public final class StreamingProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -1455,10 +1550,12 @@ public final class StreamingProtos {
 
     /**
      * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
+     * @return Whether the request field is set.
      */
     boolean hasRequest();
     /**
      * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
+     * @return The request.
      */
     NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest getRequest();
     /**
@@ -1469,7 +1566,7 @@ public final class StreamingProtos {
   /**
    * Protobuf type {@code Streaming.DeleteQueryRequest}
    */
-  public  static final class DeleteQueryRequest extends
+  public static final class DeleteQueryRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Streaming.DeleteQueryRequest)
       DeleteQueryRequestOrBuilder {
@@ -1482,6 +1579,13 @@ public final class StreamingProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DeleteQueryRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -1491,7 +1595,9 @@ public final class StreamingProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1502,13 +1608,6 @@ public final class StreamingProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -1535,6 +1634,13 @@ public final class StreamingProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1552,6 +1658,7 @@ public final class StreamingProtos {
       return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DeleteQueryRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DeleteQueryRequest_fieldAccessorTable
@@ -1563,19 +1670,24 @@ public final class StreamingProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -1584,24 +1696,30 @@ public final class StreamingProtos {
     private NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest request_;
     /**
      * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
+     * @return Whether the request field is set.
      */
+    @java.lang.Override
     public boolean hasRequest() {
       return request_ != null;
     }
     /**
      * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
+     * @return The request.
      */
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest getRequest() {
       return request_ == null ? NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest.getDefaultInstance() : request_;
     }
     /**
      * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
      */
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TDeleteQueryRequestOrBuilder getRequestOrBuilder() {
       return getRequest();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1611,6 +1729,7 @@ public final class StreamingProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -1622,6 +1741,7 @@ public final class StreamingProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1650,19 +1770,18 @@ public final class StreamingProtos {
       }
       com.yandex.Streaming.StreamingProtos.DeleteQueryRequest other = (com.yandex.Streaming.StreamingProtos.DeleteQueryRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && (hasRequest() == other.hasRequest());
+      if (hasRequest() != other.hasRequest()) return false;
       if (hasRequest()) {
-        result = result && getRequest()
-            .equals(other.getRequest());
+        if (!getRequest()
+            .equals(other.getRequest())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1755,6 +1874,7 @@ public final class StreamingProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1762,6 +1882,7 @@ public final class StreamingProtos {
     public static Builder newBuilder(com.yandex.Streaming.StreamingProtos.DeleteQueryRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1785,6 +1906,7 @@ public final class StreamingProtos {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DeleteQueryRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DeleteQueryRequest_fieldAccessorTable
@@ -1807,6 +1929,7 @@ public final class StreamingProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -1824,15 +1947,18 @@ public final class StreamingProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DeleteQueryRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.DeleteQueryRequest getDefaultInstanceForType() {
         return com.yandex.Streaming.StreamingProtos.DeleteQueryRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.DeleteQueryRequest build() {
         com.yandex.Streaming.StreamingProtos.DeleteQueryRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -1841,6 +1967,7 @@ public final class StreamingProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.DeleteQueryRequest buildPartial() {
         com.yandex.Streaming.StreamingProtos.DeleteQueryRequest result = new com.yandex.Streaming.StreamingProtos.DeleteQueryRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -1857,32 +1984,39 @@ public final class StreamingProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.Streaming.StreamingProtos.DeleteQueryRequest) {
           return mergeFrom((com.yandex.Streaming.StreamingProtos.DeleteQueryRequest)other);
@@ -1905,10 +2039,12 @@ public final class StreamingProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1927,17 +2063,19 @@ public final class StreamingProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -2044,17 +2182,19 @@ public final class StreamingProtos {
         return operationParamsBuilder_;
       }
 
-      private NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest request_ = null;
+      private NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest request_;
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest, NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest.Builder, NStreams.NControlPlane.ControlPlane.TDeleteQueryRequestOrBuilder> requestBuilder_;
       /**
        * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
+       * @return Whether the request field is set.
        */
       public boolean hasRequest() {
         return requestBuilder_ != null || request_ != null;
       }
       /**
        * <code>.NStreams.NControlPlane.TDeleteQueryRequest request = 2;</code>
+       * @return The request.
        */
       public NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest getRequest() {
         if (requestBuilder_ == null) {
@@ -2160,11 +2300,13 @@ public final class StreamingProtos {
         }
         return requestBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2186,11 +2328,12 @@ public final class StreamingProtos {
 
     private static final com.google.protobuf.Parser<DeleteQueryRequest>
         PARSER = new com.google.protobuf.AbstractParser<DeleteQueryRequest>() {
+      @java.lang.Override
       public DeleteQueryRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DeleteQueryRequest(input, extensionRegistry);
+        return new DeleteQueryRequest(input, extensionRegistry);
       }
     };
 
@@ -2203,6 +2346,7 @@ public final class StreamingProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.Streaming.StreamingProtos.DeleteQueryRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2219,6 +2363,7 @@ public final class StreamingProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
@@ -2227,6 +2372,7 @@ public final class StreamingProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -2241,7 +2387,7 @@ public final class StreamingProtos {
   /**
    * Protobuf type {@code Streaming.DeleteQueryResponse}
    */
-  public  static final class DeleteQueryResponse extends
+  public static final class DeleteQueryResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Streaming.DeleteQueryResponse)
       DeleteQueryResponseOrBuilder {
@@ -2254,6 +2400,13 @@ public final class StreamingProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DeleteQueryResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2263,7 +2416,9 @@ public final class StreamingProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2274,13 +2429,6 @@ public final class StreamingProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -2292,6 +2440,13 @@ public final class StreamingProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -2311,6 +2466,7 @@ public final class StreamingProtos {
       return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DeleteQueryResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DeleteQueryResponse_fieldAccessorTable
@@ -2326,7 +2482,9 @@ public final class StreamingProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
@@ -2336,7 +2494,9 @@ public final class StreamingProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
@@ -2347,11 +2507,13 @@ public final class StreamingProtos {
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2361,6 +2523,7 @@ public final class StreamingProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -2369,6 +2532,7 @@ public final class StreamingProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2393,14 +2557,13 @@ public final class StreamingProtos {
       }
       com.yandex.Streaming.StreamingProtos.DeleteQueryResponse other = (com.yandex.Streaming.StreamingProtos.DeleteQueryResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2489,6 +2652,7 @@ public final class StreamingProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2496,6 +2660,7 @@ public final class StreamingProtos {
     public static Builder newBuilder(com.yandex.Streaming.StreamingProtos.DeleteQueryResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2519,6 +2684,7 @@ public final class StreamingProtos {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DeleteQueryResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DeleteQueryResponse_fieldAccessorTable
@@ -2541,6 +2707,7 @@ public final class StreamingProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -2552,15 +2719,18 @@ public final class StreamingProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DeleteQueryResponse_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.DeleteQueryResponse getDefaultInstanceForType() {
         return com.yandex.Streaming.StreamingProtos.DeleteQueryResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.DeleteQueryResponse build() {
         com.yandex.Streaming.StreamingProtos.DeleteQueryResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -2569,6 +2739,7 @@ public final class StreamingProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.DeleteQueryResponse buildPartial() {
         com.yandex.Streaming.StreamingProtos.DeleteQueryResponse result = new com.yandex.Streaming.StreamingProtos.DeleteQueryResponse(this);
         if (operationBuilder_ == null) {
@@ -2580,32 +2751,39 @@ public final class StreamingProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.Streaming.StreamingProtos.DeleteQueryResponse) {
           return mergeFrom((com.yandex.Streaming.StreamingProtos.DeleteQueryResponse)other);
@@ -2625,10 +2803,12 @@ public final class StreamingProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2647,7 +2827,7 @@ public final class StreamingProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
@@ -2656,6 +2836,7 @@ public final class StreamingProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
@@ -2666,6 +2847,7 @@ public final class StreamingProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -2799,11 +2981,13 @@ public final class StreamingProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2825,11 +3009,12 @@ public final class StreamingProtos {
 
     private static final com.google.protobuf.Parser<DeleteQueryResponse>
         PARSER = new com.google.protobuf.AbstractParser<DeleteQueryResponse>() {
+      @java.lang.Override
       public DeleteQueryResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DeleteQueryResponse(input, extensionRegistry);
+        return new DeleteQueryResponse(input, extensionRegistry);
       }
     };
 
@@ -2842,6 +3027,7 @@ public final class StreamingProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.Streaming.StreamingProtos.DeleteQueryResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2854,10 +3040,12 @@ public final class StreamingProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -2867,10 +3055,12 @@ public final class StreamingProtos {
 
     /**
      * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+     * @return Whether the request field is set.
      */
     boolean hasRequest();
     /**
      * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+     * @return The request.
      */
     NStreams.NControlPlane.ControlPlane.TListQueriesRequest getRequest();
     /**
@@ -2881,7 +3071,7 @@ public final class StreamingProtos {
   /**
    * Protobuf type {@code Streaming.ListQueriesRequest}
    */
-  public  static final class ListQueriesRequest extends
+  public static final class ListQueriesRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Streaming.ListQueriesRequest)
       ListQueriesRequestOrBuilder {
@@ -2894,6 +3084,13 @@ public final class StreamingProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ListQueriesRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2903,7 +3100,9 @@ public final class StreamingProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2914,13 +3113,6 @@ public final class StreamingProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -2947,6 +3139,13 @@ public final class StreamingProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2964,6 +3163,7 @@ public final class StreamingProtos {
       return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ListQueriesRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ListQueriesRequest_fieldAccessorTable
@@ -2975,19 +3175,24 @@ public final class StreamingProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -2996,24 +3201,30 @@ public final class StreamingProtos {
     private NStreams.NControlPlane.ControlPlane.TListQueriesRequest request_;
     /**
      * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+     * @return Whether the request field is set.
      */
+    @java.lang.Override
     public boolean hasRequest() {
       return request_ != null;
     }
     /**
      * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+     * @return The request.
      */
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TListQueriesRequest getRequest() {
       return request_ == null ? NStreams.NControlPlane.ControlPlane.TListQueriesRequest.getDefaultInstance() : request_;
     }
     /**
      * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
      */
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TListQueriesRequestOrBuilder getRequestOrBuilder() {
       return getRequest();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3023,6 +3234,7 @@ public final class StreamingProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -3034,6 +3246,7 @@ public final class StreamingProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3062,19 +3275,18 @@ public final class StreamingProtos {
       }
       com.yandex.Streaming.StreamingProtos.ListQueriesRequest other = (com.yandex.Streaming.StreamingProtos.ListQueriesRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && (hasRequest() == other.hasRequest());
+      if (hasRequest() != other.hasRequest()) return false;
       if (hasRequest()) {
-        result = result && getRequest()
-            .equals(other.getRequest());
+        if (!getRequest()
+            .equals(other.getRequest())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3167,6 +3379,7 @@ public final class StreamingProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3174,6 +3387,7 @@ public final class StreamingProtos {
     public static Builder newBuilder(com.yandex.Streaming.StreamingProtos.ListQueriesRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3197,6 +3411,7 @@ public final class StreamingProtos {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ListQueriesRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ListQueriesRequest_fieldAccessorTable
@@ -3219,6 +3434,7 @@ public final class StreamingProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -3236,15 +3452,18 @@ public final class StreamingProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ListQueriesRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.ListQueriesRequest getDefaultInstanceForType() {
         return com.yandex.Streaming.StreamingProtos.ListQueriesRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.ListQueriesRequest build() {
         com.yandex.Streaming.StreamingProtos.ListQueriesRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -3253,6 +3472,7 @@ public final class StreamingProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.ListQueriesRequest buildPartial() {
         com.yandex.Streaming.StreamingProtos.ListQueriesRequest result = new com.yandex.Streaming.StreamingProtos.ListQueriesRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -3269,32 +3489,39 @@ public final class StreamingProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.Streaming.StreamingProtos.ListQueriesRequest) {
           return mergeFrom((com.yandex.Streaming.StreamingProtos.ListQueriesRequest)other);
@@ -3317,10 +3544,12 @@ public final class StreamingProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3339,17 +3568,19 @@ public final class StreamingProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -3456,17 +3687,19 @@ public final class StreamingProtos {
         return operationParamsBuilder_;
       }
 
-      private NStreams.NControlPlane.ControlPlane.TListQueriesRequest request_ = null;
+      private NStreams.NControlPlane.ControlPlane.TListQueriesRequest request_;
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NControlPlane.ControlPlane.TListQueriesRequest, NStreams.NControlPlane.ControlPlane.TListQueriesRequest.Builder, NStreams.NControlPlane.ControlPlane.TListQueriesRequestOrBuilder> requestBuilder_;
       /**
        * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+       * @return Whether the request field is set.
        */
       public boolean hasRequest() {
         return requestBuilder_ != null || request_ != null;
       }
       /**
        * <code>.NStreams.NControlPlane.TListQueriesRequest request = 2;</code>
+       * @return The request.
        */
       public NStreams.NControlPlane.ControlPlane.TListQueriesRequest getRequest() {
         if (requestBuilder_ == null) {
@@ -3572,11 +3805,13 @@ public final class StreamingProtos {
         }
         return requestBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3598,11 +3833,12 @@ public final class StreamingProtos {
 
     private static final com.google.protobuf.Parser<ListQueriesRequest>
         PARSER = new com.google.protobuf.AbstractParser<ListQueriesRequest>() {
+      @java.lang.Override
       public ListQueriesRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ListQueriesRequest(input, extensionRegistry);
+        return new ListQueriesRequest(input, extensionRegistry);
       }
     };
 
@@ -3615,6 +3851,7 @@ public final class StreamingProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.Streaming.StreamingProtos.ListQueriesRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3631,6 +3868,7 @@ public final class StreamingProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
@@ -3639,6 +3877,7 @@ public final class StreamingProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -3653,7 +3892,7 @@ public final class StreamingProtos {
   /**
    * Protobuf type {@code Streaming.ListQueriesResponse}
    */
-  public  static final class ListQueriesResponse extends
+  public static final class ListQueriesResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Streaming.ListQueriesResponse)
       ListQueriesResponseOrBuilder {
@@ -3666,6 +3905,13 @@ public final class StreamingProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ListQueriesResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3675,7 +3921,9 @@ public final class StreamingProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3686,13 +3934,6 @@ public final class StreamingProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -3704,6 +3945,13 @@ public final class StreamingProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -3723,6 +3971,7 @@ public final class StreamingProtos {
       return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ListQueriesResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ListQueriesResponse_fieldAccessorTable
@@ -3738,7 +3987,9 @@ public final class StreamingProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
@@ -3748,7 +3999,9 @@ public final class StreamingProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
@@ -3759,11 +4012,13 @@ public final class StreamingProtos {
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3773,6 +4028,7 @@ public final class StreamingProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -3781,6 +4037,7 @@ public final class StreamingProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3805,14 +4062,13 @@ public final class StreamingProtos {
       }
       com.yandex.Streaming.StreamingProtos.ListQueriesResponse other = (com.yandex.Streaming.StreamingProtos.ListQueriesResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3901,6 +4157,7 @@ public final class StreamingProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3908,6 +4165,7 @@ public final class StreamingProtos {
     public static Builder newBuilder(com.yandex.Streaming.StreamingProtos.ListQueriesResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3931,6 +4189,7 @@ public final class StreamingProtos {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ListQueriesResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ListQueriesResponse_fieldAccessorTable
@@ -3953,6 +4212,7 @@ public final class StreamingProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -3964,15 +4224,18 @@ public final class StreamingProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_ListQueriesResponse_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.ListQueriesResponse getDefaultInstanceForType() {
         return com.yandex.Streaming.StreamingProtos.ListQueriesResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.ListQueriesResponse build() {
         com.yandex.Streaming.StreamingProtos.ListQueriesResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -3981,6 +4244,7 @@ public final class StreamingProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.ListQueriesResponse buildPartial() {
         com.yandex.Streaming.StreamingProtos.ListQueriesResponse result = new com.yandex.Streaming.StreamingProtos.ListQueriesResponse(this);
         if (operationBuilder_ == null) {
@@ -3992,32 +4256,39 @@ public final class StreamingProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.Streaming.StreamingProtos.ListQueriesResponse) {
           return mergeFrom((com.yandex.Streaming.StreamingProtos.ListQueriesResponse)other);
@@ -4037,10 +4308,12 @@ public final class StreamingProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4059,7 +4332,7 @@ public final class StreamingProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
@@ -4068,6 +4341,7 @@ public final class StreamingProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
@@ -4078,6 +4352,7 @@ public final class StreamingProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -4211,11 +4486,13 @@ public final class StreamingProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4237,11 +4514,12 @@ public final class StreamingProtos {
 
     private static final com.google.protobuf.Parser<ListQueriesResponse>
         PARSER = new com.google.protobuf.AbstractParser<ListQueriesResponse>() {
+      @java.lang.Override
       public ListQueriesResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ListQueriesResponse(input, extensionRegistry);
+        return new ListQueriesResponse(input, extensionRegistry);
       }
     };
 
@@ -4254,6 +4532,7 @@ public final class StreamingProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.Streaming.StreamingProtos.ListQueriesResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4266,10 +4545,12 @@ public final class StreamingProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -4279,10 +4560,12 @@ public final class StreamingProtos {
 
     /**
      * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+     * @return Whether the request field is set.
      */
     boolean hasRequest();
     /**
      * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+     * @return The request.
      */
     NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest getRequest();
     /**
@@ -4293,7 +4576,7 @@ public final class StreamingProtos {
   /**
    * Protobuf type {@code Streaming.DescribeQueryRequest}
    */
-  public  static final class DescribeQueryRequest extends
+  public static final class DescribeQueryRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Streaming.DescribeQueryRequest)
       DescribeQueryRequestOrBuilder {
@@ -4306,6 +4589,13 @@ public final class StreamingProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DescribeQueryRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -4315,7 +4605,9 @@ public final class StreamingProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4326,13 +4618,6 @@ public final class StreamingProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -4359,6 +4644,13 @@ public final class StreamingProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -4376,6 +4668,7 @@ public final class StreamingProtos {
       return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DescribeQueryRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DescribeQueryRequest_fieldAccessorTable
@@ -4387,19 +4680,24 @@ public final class StreamingProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -4408,24 +4706,30 @@ public final class StreamingProtos {
     private NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest request_;
     /**
      * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+     * @return Whether the request field is set.
      */
+    @java.lang.Override
     public boolean hasRequest() {
       return request_ != null;
     }
     /**
      * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+     * @return The request.
      */
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest getRequest() {
       return request_ == null ? NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest.getDefaultInstance() : request_;
     }
     /**
      * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
      */
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TDescribeQueryRequestOrBuilder getRequestOrBuilder() {
       return getRequest();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4435,6 +4739,7 @@ public final class StreamingProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -4446,6 +4751,7 @@ public final class StreamingProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4474,19 +4780,18 @@ public final class StreamingProtos {
       }
       com.yandex.Streaming.StreamingProtos.DescribeQueryRequest other = (com.yandex.Streaming.StreamingProtos.DescribeQueryRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && (hasRequest() == other.hasRequest());
+      if (hasRequest() != other.hasRequest()) return false;
       if (hasRequest()) {
-        result = result && getRequest()
-            .equals(other.getRequest());
+        if (!getRequest()
+            .equals(other.getRequest())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4579,6 +4884,7 @@ public final class StreamingProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4586,6 +4892,7 @@ public final class StreamingProtos {
     public static Builder newBuilder(com.yandex.Streaming.StreamingProtos.DescribeQueryRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4609,6 +4916,7 @@ public final class StreamingProtos {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DescribeQueryRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DescribeQueryRequest_fieldAccessorTable
@@ -4631,6 +4939,7 @@ public final class StreamingProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -4648,15 +4957,18 @@ public final class StreamingProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DescribeQueryRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.DescribeQueryRequest getDefaultInstanceForType() {
         return com.yandex.Streaming.StreamingProtos.DescribeQueryRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.DescribeQueryRequest build() {
         com.yandex.Streaming.StreamingProtos.DescribeQueryRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -4665,6 +4977,7 @@ public final class StreamingProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.DescribeQueryRequest buildPartial() {
         com.yandex.Streaming.StreamingProtos.DescribeQueryRequest result = new com.yandex.Streaming.StreamingProtos.DescribeQueryRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -4681,32 +4994,39 @@ public final class StreamingProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.Streaming.StreamingProtos.DescribeQueryRequest) {
           return mergeFrom((com.yandex.Streaming.StreamingProtos.DescribeQueryRequest)other);
@@ -4729,10 +5049,12 @@ public final class StreamingProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4751,17 +5073,19 @@ public final class StreamingProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -4868,17 +5192,19 @@ public final class StreamingProtos {
         return operationParamsBuilder_;
       }
 
-      private NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest request_ = null;
+      private NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest request_;
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest, NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest.Builder, NStreams.NControlPlane.ControlPlane.TDescribeQueryRequestOrBuilder> requestBuilder_;
       /**
        * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+       * @return Whether the request field is set.
        */
       public boolean hasRequest() {
         return requestBuilder_ != null || request_ != null;
       }
       /**
        * <code>.NStreams.NControlPlane.TDescribeQueryRequest request = 2;</code>
+       * @return The request.
        */
       public NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest getRequest() {
         if (requestBuilder_ == null) {
@@ -4984,11 +5310,13 @@ public final class StreamingProtos {
         }
         return requestBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5010,11 +5338,12 @@ public final class StreamingProtos {
 
     private static final com.google.protobuf.Parser<DescribeQueryRequest>
         PARSER = new com.google.protobuf.AbstractParser<DescribeQueryRequest>() {
+      @java.lang.Override
       public DescribeQueryRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DescribeQueryRequest(input, extensionRegistry);
+        return new DescribeQueryRequest(input, extensionRegistry);
       }
     };
 
@@ -5027,6 +5356,7 @@ public final class StreamingProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.Streaming.StreamingProtos.DescribeQueryRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5043,6 +5373,7 @@ public final class StreamingProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
@@ -5051,6 +5382,7 @@ public final class StreamingProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -5065,7 +5397,7 @@ public final class StreamingProtos {
   /**
    * Protobuf type {@code Streaming.DescribeQueryResponse}
    */
-  public  static final class DescribeQueryResponse extends
+  public static final class DescribeQueryResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Streaming.DescribeQueryResponse)
       DescribeQueryResponseOrBuilder {
@@ -5078,6 +5410,13 @@ public final class StreamingProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DescribeQueryResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -5087,7 +5426,9 @@ public final class StreamingProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -5098,13 +5439,6 @@ public final class StreamingProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -5116,6 +5450,13 @@ public final class StreamingProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -5135,6 +5476,7 @@ public final class StreamingProtos {
       return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DescribeQueryResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DescribeQueryResponse_fieldAccessorTable
@@ -5150,7 +5492,9 @@ public final class StreamingProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
@@ -5160,7 +5504,9 @@ public final class StreamingProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
@@ -5171,11 +5517,13 @@ public final class StreamingProtos {
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -5185,6 +5533,7 @@ public final class StreamingProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -5193,6 +5542,7 @@ public final class StreamingProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -5217,14 +5567,13 @@ public final class StreamingProtos {
       }
       com.yandex.Streaming.StreamingProtos.DescribeQueryResponse other = (com.yandex.Streaming.StreamingProtos.DescribeQueryResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5313,6 +5662,7 @@ public final class StreamingProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5320,6 +5670,7 @@ public final class StreamingProtos {
     public static Builder newBuilder(com.yandex.Streaming.StreamingProtos.DescribeQueryResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5343,6 +5694,7 @@ public final class StreamingProtos {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DescribeQueryResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DescribeQueryResponse_fieldAccessorTable
@@ -5365,6 +5717,7 @@ public final class StreamingProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -5376,15 +5729,18 @@ public final class StreamingProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.Streaming.StreamingProtos.internal_static_Streaming_DescribeQueryResponse_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.DescribeQueryResponse getDefaultInstanceForType() {
         return com.yandex.Streaming.StreamingProtos.DescribeQueryResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.DescribeQueryResponse build() {
         com.yandex.Streaming.StreamingProtos.DescribeQueryResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -5393,6 +5749,7 @@ public final class StreamingProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.Streaming.StreamingProtos.DescribeQueryResponse buildPartial() {
         com.yandex.Streaming.StreamingProtos.DescribeQueryResponse result = new com.yandex.Streaming.StreamingProtos.DescribeQueryResponse(this);
         if (operationBuilder_ == null) {
@@ -5404,32 +5761,39 @@ public final class StreamingProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.Streaming.StreamingProtos.DescribeQueryResponse) {
           return mergeFrom((com.yandex.Streaming.StreamingProtos.DescribeQueryResponse)other);
@@ -5449,10 +5813,12 @@ public final class StreamingProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5471,7 +5837,7 @@ public final class StreamingProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
@@ -5480,6 +5846,7 @@ public final class StreamingProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
@@ -5490,6 +5857,7 @@ public final class StreamingProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -5623,11 +5991,13 @@ public final class StreamingProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5649,11 +6019,12 @@ public final class StreamingProtos {
 
     private static final com.google.protobuf.Parser<DescribeQueryResponse>
         PARSER = new com.google.protobuf.AbstractParser<DescribeQueryResponse>() {
+      @java.lang.Override
       public DescribeQueryResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DescribeQueryResponse(input, extensionRegistry);
+        return new DescribeQueryResponse(input, extensionRegistry);
       }
     };
 
@@ -5666,6 +6037,7 @@ public final class StreamingProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.Streaming.StreamingProtos.DescribeQueryResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5730,7 +6102,7 @@ public final class StreamingProtos {
       "ns.OperationParams\022=\n\007request\030\002 \001(\0132,.NS" +
       "treams.NControlPlane.TInstallQueryReques" +
       "t\"D\n\024InstallQueryResponse\022,\n\toperation\030\001" +
-      " \001(\0132\031.Ydb.Operations.Operation\"\215\001\n\022Dele",
+      " \001(\0132\031.Ydb.Operations.Operation\"\215\001\n\022Dele" +
       "teQueryRequest\0229\n\020operation_params\030\001 \001(\013" +
       "2\037.Ydb.Operations.OperationParams\022<\n\007req" +
       "uest\030\002 \001(\0132+.NStreams.NControlPlane.TDel" +
@@ -5740,7 +6112,7 @@ public final class StreamingProtos {
       "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
       "Params\022<\n\007request\030\002 \001(\0132+.NStreams.NCont" +
       "rolPlane.TListQueriesRequest\"C\n\023ListQuer" +
-      "iesResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope",
+      "iesResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
       "rations.Operation\"\221\001\n\024DescribeQueryReque" +
       "st\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Opera" +
       "tions.OperationParams\022>\n\007request\030\002 \001(\0132-" +
@@ -5750,20 +6122,12 @@ public final class StreamingProtos {
       "com.yandex.StreamingB\017StreamingProtos\370\001\001" +
       "b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.OperationProtos.getDescriptor(),
           NStreams.NControlPlane.ControlPlane.getDescriptor(),
-        }, assigner);
+        });
     internal_static_Streaming_InstallQueryRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Streaming_InstallQueryRequest_fieldAccessorTable = new

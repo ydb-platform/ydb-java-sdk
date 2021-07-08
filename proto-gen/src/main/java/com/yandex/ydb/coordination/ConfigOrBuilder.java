@@ -13,6 +13,7 @@ public interface ConfigOrBuilder extends
    * </pre>
    *
    * <code>string path = 1;</code>
+   * @return The path.
    */
   java.lang.String getPath();
   /**
@@ -21,6 +22,7 @@ public interface ConfigOrBuilder extends
    * </pre>
    *
    * <code>string path = 1;</code>
+   * @return The bytes for path.
    */
   com.google.protobuf.ByteString
       getPathBytes();
@@ -31,6 +33,7 @@ public interface ConfigOrBuilder extends
    * </pre>
    *
    * <code>uint32 self_check_period_millis = 2;</code>
+   * @return The selfCheckPeriodMillis.
    */
   int getSelfCheckPeriodMillis();
 
@@ -40,6 +43,7 @@ public interface ConfigOrBuilder extends
    * </pre>
    *
    * <code>uint32 session_grace_period_millis = 3;</code>
+   * @return The sessionGracePeriodMillis.
    */
   int getSessionGracePeriodMillis();
 
@@ -49,6 +53,7 @@ public interface ConfigOrBuilder extends
    * </pre>
    *
    * <code>.Ydb.Coordination.ConsistencyMode read_consistency_mode = 4;</code>
+   * @return The enum numeric value on the wire for readConsistencyMode.
    */
   int getReadConsistencyModeValue();
   /**
@@ -57,6 +62,7 @@ public interface ConfigOrBuilder extends
    * </pre>
    *
    * <code>.Ydb.Coordination.ConsistencyMode read_consistency_mode = 4;</code>
+   * @return The readConsistencyMode.
    */
   tech.ydb.coordination.ConsistencyMode getReadConsistencyMode();
 
@@ -66,6 +72,7 @@ public interface ConfigOrBuilder extends
    * </pre>
    *
    * <code>.Ydb.Coordination.ConsistencyMode attach_consistency_mode = 5;</code>
+   * @return The enum numeric value on the wire for attachConsistencyMode.
    */
   int getAttachConsistencyModeValue();
   /**
@@ -74,6 +81,7 @@ public interface ConfigOrBuilder extends
    * </pre>
    *
    * <code>.Ydb.Coordination.ConsistencyMode attach_consistency_mode = 5;</code>
+   * @return The attachConsistencyMode.
    */
   tech.ydb.coordination.ConsistencyMode getAttachConsistencyMode();
 
@@ -83,6 +91,7 @@ public interface ConfigOrBuilder extends
    * </pre>
    *
    * <code>.Ydb.Coordination.RateLimiterCountersMode rate_limiter_counters_mode = 6;</code>
+   * @return The enum numeric value on the wire for rateLimiterCountersMode.
    */
   int getRateLimiterCountersModeValue();
   /**
@@ -91,6 +100,7 @@ public interface ConfigOrBuilder extends
    * </pre>
    *
    * <code>.Ydb.Coordination.RateLimiterCountersMode rate_limiter_counters_mode = 6;</code>
+   * @return The rateLimiterCountersMode.
    */
   tech.ydb.coordination.RateLimiterCountersMode getRateLimiterCountersMode();
 }

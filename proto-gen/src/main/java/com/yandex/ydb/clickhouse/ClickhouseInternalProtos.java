@@ -20,10 +20,12 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -33,69 +35,85 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>string table = 2;</code>
+     * @return The table.
      */
     java.lang.String getTable();
     /**
      * <code>string table = 2;</code>
+     * @return The bytes for table.
      */
     com.google.protobuf.ByteString
         getTableBytes();
 
     /**
      * <code>repeated string columns = 3;</code>
+     * @return A list containing the columns.
      */
     java.util.List<java.lang.String>
         getColumnsList();
     /**
      * <code>repeated string columns = 3;</code>
+     * @return The count of columns.
      */
     int getColumnsCount();
     /**
      * <code>repeated string columns = 3;</code>
+     * @param index The index of the element to return.
+     * @return The columns at the given index.
      */
     java.lang.String getColumns(int index);
     /**
      * <code>repeated string columns = 3;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the columns at the given index.
      */
     com.google.protobuf.ByteString
         getColumnsBytes(int index);
 
     /**
      * <code>bytes from_key = 4;</code>
+     * @return The fromKey.
      */
     com.google.protobuf.ByteString getFromKey();
 
     /**
      * <code>bool from_key_inclusive = 5;</code>
+     * @return The fromKeyInclusive.
      */
     boolean getFromKeyInclusive();
 
     /**
      * <code>bytes to_key = 6;</code>
+     * @return The toKey.
      */
     com.google.protobuf.ByteString getToKey();
 
     /**
      * <code>bool to_key_inclusive = 7;</code>
+     * @return The toKeyInclusive.
      */
     boolean getToKeyInclusive();
 
     /**
      * <code>uint64 max_rows = 8;</code>
+     * @return The maxRows.
      */
     long getMaxRows();
 
     /**
      * <code>uint64 max_bytes = 9;</code>
+     * @return The maxBytes.
      */
     long getMaxBytes();
 
     /**
      * <code>string snapshot_id = 10;</code>
+     * @return The snapshotId.
      */
     java.lang.String getSnapshotId();
     /**
      * <code>string snapshot_id = 10;</code>
+     * @return The bytes for snapshotId.
      */
     com.google.protobuf.ByteString
         getSnapshotIdBytes();
@@ -103,7 +121,7 @@ public final class ClickhouseInternalProtos {
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.ScanRequest}
    */
-  public  static final class ScanRequest extends
+  public static final class ScanRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.ScanRequest)
       ScanRequestOrBuilder {
@@ -116,12 +134,15 @@ public final class ClickhouseInternalProtos {
       table_ = "";
       columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       fromKey_ = com.google.protobuf.ByteString.EMPTY;
-      fromKeyInclusive_ = false;
       toKey_ = com.google.protobuf.ByteString.EMPTY;
-      toKeyInclusive_ = false;
-      maxRows_ = 0L;
-      maxBytes_ = 0L;
       snapshotId_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ScanRequest();
     }
 
     @java.lang.Override
@@ -134,6 +155,9 @@ public final class ClickhouseInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -145,13 +169,6 @@ public final class ClickhouseInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -173,9 +190,9 @@ public final class ClickhouseInternalProtos {
             }
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 columns_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000001;
               }
               columns_.add(s);
               break;
@@ -216,6 +233,13 @@ public final class ClickhouseInternalProtos {
               snapshotId_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -224,7 +248,7 @@ public final class ClickhouseInternalProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           columns_ = columns_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -236,6 +260,7 @@ public final class ClickhouseInternalProtos {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_ScanRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_ScanRequest_fieldAccessorTable
@@ -243,24 +268,28 @@ public final class ClickhouseInternalProtos {
               tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest.class, tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -269,7 +298,9 @@ public final class ClickhouseInternalProtos {
     private volatile java.lang.Object table_;
     /**
      * <code>string table = 2;</code>
+     * @return The table.
      */
+    @java.lang.Override
     public java.lang.String getTable() {
       java.lang.Object ref = table_;
       if (ref instanceof java.lang.String) {
@@ -284,7 +315,9 @@ public final class ClickhouseInternalProtos {
     }
     /**
      * <code>string table = 2;</code>
+     * @return The bytes for table.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTableBytes() {
       java.lang.Object ref = table_;
@@ -303,6 +336,7 @@ public final class ClickhouseInternalProtos {
     private com.google.protobuf.LazyStringList columns_;
     /**
      * <code>repeated string columns = 3;</code>
+     * @return A list containing the columns.
      */
     public com.google.protobuf.ProtocolStringList
         getColumnsList() {
@@ -310,18 +344,23 @@ public final class ClickhouseInternalProtos {
     }
     /**
      * <code>repeated string columns = 3;</code>
+     * @return The count of columns.
      */
     public int getColumnsCount() {
       return columns_.size();
     }
     /**
      * <code>repeated string columns = 3;</code>
+     * @param index The index of the element to return.
+     * @return The columns at the given index.
      */
     public java.lang.String getColumns(int index) {
       return columns_.get(index);
     }
     /**
      * <code>repeated string columns = 3;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the columns at the given index.
      */
     public com.google.protobuf.ByteString
         getColumnsBytes(int index) {
@@ -332,7 +371,9 @@ public final class ClickhouseInternalProtos {
     private com.google.protobuf.ByteString fromKey_;
     /**
      * <code>bytes from_key = 4;</code>
+     * @return The fromKey.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getFromKey() {
       return fromKey_;
     }
@@ -341,7 +382,9 @@ public final class ClickhouseInternalProtos {
     private boolean fromKeyInclusive_;
     /**
      * <code>bool from_key_inclusive = 5;</code>
+     * @return The fromKeyInclusive.
      */
+    @java.lang.Override
     public boolean getFromKeyInclusive() {
       return fromKeyInclusive_;
     }
@@ -350,7 +393,9 @@ public final class ClickhouseInternalProtos {
     private com.google.protobuf.ByteString toKey_;
     /**
      * <code>bytes to_key = 6;</code>
+     * @return The toKey.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getToKey() {
       return toKey_;
     }
@@ -359,7 +404,9 @@ public final class ClickhouseInternalProtos {
     private boolean toKeyInclusive_;
     /**
      * <code>bool to_key_inclusive = 7;</code>
+     * @return The toKeyInclusive.
      */
+    @java.lang.Override
     public boolean getToKeyInclusive() {
       return toKeyInclusive_;
     }
@@ -368,7 +415,9 @@ public final class ClickhouseInternalProtos {
     private long maxRows_;
     /**
      * <code>uint64 max_rows = 8;</code>
+     * @return The maxRows.
      */
+    @java.lang.Override
     public long getMaxRows() {
       return maxRows_;
     }
@@ -377,7 +426,9 @@ public final class ClickhouseInternalProtos {
     private long maxBytes_;
     /**
      * <code>uint64 max_bytes = 9;</code>
+     * @return The maxBytes.
      */
+    @java.lang.Override
     public long getMaxBytes() {
       return maxBytes_;
     }
@@ -386,7 +437,9 @@ public final class ClickhouseInternalProtos {
     private volatile java.lang.Object snapshotId_;
     /**
      * <code>string snapshot_id = 10;</code>
+     * @return The snapshotId.
      */
+    @java.lang.Override
     public java.lang.String getSnapshotId() {
       java.lang.Object ref = snapshotId_;
       if (ref instanceof java.lang.String) {
@@ -401,7 +454,9 @@ public final class ClickhouseInternalProtos {
     }
     /**
      * <code>string snapshot_id = 10;</code>
+     * @return The bytes for snapshotId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getSnapshotIdBytes() {
       java.lang.Object ref = snapshotId_;
@@ -417,6 +472,7 @@ public final class ClickhouseInternalProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -426,6 +482,7 @@ public final class ClickhouseInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -461,6 +518,7 @@ public final class ClickhouseInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -523,32 +581,31 @@ public final class ClickhouseInternalProtos {
       }
       tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest other = (tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getTable()
-          .equals(other.getTable());
-      result = result && getColumnsList()
-          .equals(other.getColumnsList());
-      result = result && getFromKey()
-          .equals(other.getFromKey());
-      result = result && (getFromKeyInclusive()
-          == other.getFromKeyInclusive());
-      result = result && getToKey()
-          .equals(other.getToKey());
-      result = result && (getToKeyInclusive()
-          == other.getToKeyInclusive());
-      result = result && (getMaxRows()
-          == other.getMaxRows());
-      result = result && (getMaxBytes()
-          == other.getMaxBytes());
-      result = result && getSnapshotId()
-          .equals(other.getSnapshotId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getTable()
+          .equals(other.getTable())) return false;
+      if (!getColumnsList()
+          .equals(other.getColumnsList())) return false;
+      if (!getFromKey()
+          .equals(other.getFromKey())) return false;
+      if (getFromKeyInclusive()
+          != other.getFromKeyInclusive()) return false;
+      if (!getToKey()
+          .equals(other.getToKey())) return false;
+      if (getToKeyInclusive()
+          != other.getToKeyInclusive()) return false;
+      if (getMaxRows()
+          != other.getMaxRows()) return false;
+      if (getMaxBytes()
+          != other.getMaxBytes()) return false;
+      if (!getSnapshotId()
+          .equals(other.getSnapshotId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -661,6 +718,7 @@ public final class ClickhouseInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -668,6 +726,7 @@ public final class ClickhouseInternalProtos {
     public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -691,6 +750,7 @@ public final class ClickhouseInternalProtos {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_ScanRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_ScanRequest_fieldAccessorTable
@@ -713,6 +773,7 @@ public final class ClickhouseInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -724,7 +785,7 @@ public final class ClickhouseInternalProtos {
         table_ = "";
 
         columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000001);
         fromKey_ = com.google.protobuf.ByteString.EMPTY;
 
         fromKeyInclusive_ = false;
@@ -742,15 +803,18 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_ScanRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest getDefaultInstanceForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest build() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -759,19 +823,19 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest buildPartial() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest result = new tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
         } else {
           result.operationParams_ = operationParamsBuilder_.build();
         }
         result.table_ = table_;
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           columns_ = columns_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.columns_ = columns_;
         result.fromKey_ = fromKey_;
@@ -781,37 +845,43 @@ public final class ClickhouseInternalProtos {
         result.maxRows_ = maxRows_;
         result.maxBytes_ = maxBytes_;
         result.snapshotId_ = snapshotId_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest) {
           return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest)other);
@@ -833,7 +903,7 @@ public final class ClickhouseInternalProtos {
         if (!other.columns_.isEmpty()) {
           if (columns_.isEmpty()) {
             columns_ = other.columns_;
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensureColumnsIsMutable();
             columns_.addAll(other.columns_);
@@ -867,10 +937,12 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -890,17 +962,19 @@ public final class ClickhouseInternalProtos {
       }
       private int bitField0_;
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -1010,6 +1084,7 @@ public final class ClickhouseInternalProtos {
       private java.lang.Object table_ = "";
       /**
        * <code>string table = 2;</code>
+       * @return The table.
        */
       public java.lang.String getTable() {
         java.lang.Object ref = table_;
@@ -1025,6 +1100,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string table = 2;</code>
+       * @return The bytes for table.
        */
       public com.google.protobuf.ByteString
           getTableBytes() {
@@ -1041,6 +1117,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string table = 2;</code>
+       * @param value The table to set.
+       * @return This builder for chaining.
        */
       public Builder setTable(
           java.lang.String value) {
@@ -1054,6 +1132,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string table = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTable() {
         
@@ -1063,6 +1142,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string table = 2;</code>
+       * @param value The bytes for table to set.
+       * @return This builder for chaining.
        */
       public Builder setTableBytes(
           com.google.protobuf.ByteString value) {
@@ -1078,13 +1159,14 @@ public final class ClickhouseInternalProtos {
 
       private com.google.protobuf.LazyStringList columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureColumnsIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           columns_ = new com.google.protobuf.LazyStringArrayList(columns_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000001;
          }
       }
       /**
        * <code>repeated string columns = 3;</code>
+       * @return A list containing the columns.
        */
       public com.google.protobuf.ProtocolStringList
           getColumnsList() {
@@ -1092,18 +1174,23 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string columns = 3;</code>
+       * @return The count of columns.
        */
       public int getColumnsCount() {
         return columns_.size();
       }
       /**
        * <code>repeated string columns = 3;</code>
+       * @param index The index of the element to return.
+       * @return The columns at the given index.
        */
       public java.lang.String getColumns(int index) {
         return columns_.get(index);
       }
       /**
        * <code>repeated string columns = 3;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the columns at the given index.
        */
       public com.google.protobuf.ByteString
           getColumnsBytes(int index) {
@@ -1111,6 +1198,9 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string columns = 3;</code>
+       * @param index The index to set the value at.
+       * @param value The columns to set.
+       * @return This builder for chaining.
        */
       public Builder setColumns(
           int index, java.lang.String value) {
@@ -1124,6 +1214,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string columns = 3;</code>
+       * @param value The columns to add.
+       * @return This builder for chaining.
        */
       public Builder addColumns(
           java.lang.String value) {
@@ -1137,6 +1229,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string columns = 3;</code>
+       * @param values The columns to add.
+       * @return This builder for chaining.
        */
       public Builder addAllColumns(
           java.lang.Iterable<java.lang.String> values) {
@@ -1148,15 +1242,18 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string columns = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearColumns() {
         columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
       /**
        * <code>repeated string columns = 3;</code>
+       * @param value The bytes of the columns to add.
+       * @return This builder for chaining.
        */
       public Builder addColumnsBytes(
           com.google.protobuf.ByteString value) {
@@ -1173,12 +1270,16 @@ public final class ClickhouseInternalProtos {
       private com.google.protobuf.ByteString fromKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes from_key = 4;</code>
+       * @return The fromKey.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getFromKey() {
         return fromKey_;
       }
       /**
        * <code>bytes from_key = 4;</code>
+       * @param value The fromKey to set.
+       * @return This builder for chaining.
        */
       public Builder setFromKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -1191,6 +1292,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>bytes from_key = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFromKey() {
         
@@ -1202,12 +1304,16 @@ public final class ClickhouseInternalProtos {
       private boolean fromKeyInclusive_ ;
       /**
        * <code>bool from_key_inclusive = 5;</code>
+       * @return The fromKeyInclusive.
        */
+      @java.lang.Override
       public boolean getFromKeyInclusive() {
         return fromKeyInclusive_;
       }
       /**
        * <code>bool from_key_inclusive = 5;</code>
+       * @param value The fromKeyInclusive to set.
+       * @return This builder for chaining.
        */
       public Builder setFromKeyInclusive(boolean value) {
         
@@ -1217,6 +1323,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>bool from_key_inclusive = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFromKeyInclusive() {
         
@@ -1228,12 +1335,16 @@ public final class ClickhouseInternalProtos {
       private com.google.protobuf.ByteString toKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes to_key = 6;</code>
+       * @return The toKey.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getToKey() {
         return toKey_;
       }
       /**
        * <code>bytes to_key = 6;</code>
+       * @param value The toKey to set.
+       * @return This builder for chaining.
        */
       public Builder setToKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -1246,6 +1357,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>bytes to_key = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearToKey() {
         
@@ -1257,12 +1369,16 @@ public final class ClickhouseInternalProtos {
       private boolean toKeyInclusive_ ;
       /**
        * <code>bool to_key_inclusive = 7;</code>
+       * @return The toKeyInclusive.
        */
+      @java.lang.Override
       public boolean getToKeyInclusive() {
         return toKeyInclusive_;
       }
       /**
        * <code>bool to_key_inclusive = 7;</code>
+       * @param value The toKeyInclusive to set.
+       * @return This builder for chaining.
        */
       public Builder setToKeyInclusive(boolean value) {
         
@@ -1272,6 +1388,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>bool to_key_inclusive = 7;</code>
+       * @return This builder for chaining.
        */
       public Builder clearToKeyInclusive() {
         
@@ -1283,12 +1400,16 @@ public final class ClickhouseInternalProtos {
       private long maxRows_ ;
       /**
        * <code>uint64 max_rows = 8;</code>
+       * @return The maxRows.
        */
+      @java.lang.Override
       public long getMaxRows() {
         return maxRows_;
       }
       /**
        * <code>uint64 max_rows = 8;</code>
+       * @param value The maxRows to set.
+       * @return This builder for chaining.
        */
       public Builder setMaxRows(long value) {
         
@@ -1298,6 +1419,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>uint64 max_rows = 8;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMaxRows() {
         
@@ -1309,12 +1431,16 @@ public final class ClickhouseInternalProtos {
       private long maxBytes_ ;
       /**
        * <code>uint64 max_bytes = 9;</code>
+       * @return The maxBytes.
        */
+      @java.lang.Override
       public long getMaxBytes() {
         return maxBytes_;
       }
       /**
        * <code>uint64 max_bytes = 9;</code>
+       * @param value The maxBytes to set.
+       * @return This builder for chaining.
        */
       public Builder setMaxBytes(long value) {
         
@@ -1324,6 +1450,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>uint64 max_bytes = 9;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMaxBytes() {
         
@@ -1335,6 +1462,7 @@ public final class ClickhouseInternalProtos {
       private java.lang.Object snapshotId_ = "";
       /**
        * <code>string snapshot_id = 10;</code>
+       * @return The snapshotId.
        */
       public java.lang.String getSnapshotId() {
         java.lang.Object ref = snapshotId_;
@@ -1350,6 +1478,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 10;</code>
+       * @return The bytes for snapshotId.
        */
       public com.google.protobuf.ByteString
           getSnapshotIdBytes() {
@@ -1366,6 +1495,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 10;</code>
+       * @param value The snapshotId to set.
+       * @return This builder for chaining.
        */
       public Builder setSnapshotId(
           java.lang.String value) {
@@ -1379,6 +1510,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 10;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSnapshotId() {
         
@@ -1388,6 +1520,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 10;</code>
+       * @param value The bytes for snapshotId to set.
+       * @return This builder for chaining.
        */
       public Builder setSnapshotIdBytes(
           com.google.protobuf.ByteString value) {
@@ -1400,11 +1534,13 @@ public final class ClickhouseInternalProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1426,11 +1562,12 @@ public final class ClickhouseInternalProtos {
 
     private static final com.google.protobuf.Parser<ScanRequest>
         PARSER = new com.google.protobuf.AbstractParser<ScanRequest>() {
+      @java.lang.Override
       public ScanRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ScanRequest(input, extensionRegistry);
+        return new ScanRequest(input, extensionRegistry);
       }
     };
 
@@ -1443,6 +1580,7 @@ public final class ClickhouseInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.ScanRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1455,10 +1593,12 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -1469,7 +1609,7 @@ public final class ClickhouseInternalProtos {
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.ScanResponse}
    */
-  public  static final class ScanResponse extends
+  public static final class ScanResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.ScanResponse)
       ScanResponseOrBuilder {
@@ -1482,6 +1622,13 @@ public final class ClickhouseInternalProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ScanResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -1491,7 +1638,9 @@ public final class ClickhouseInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1502,13 +1651,6 @@ public final class ClickhouseInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -1520,6 +1662,13 @@ public final class ClickhouseInternalProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -1539,6 +1688,7 @@ public final class ClickhouseInternalProtos {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_ScanResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_ScanResponse_fieldAccessorTable
@@ -1550,24 +1700,30 @@ public final class ClickhouseInternalProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1577,6 +1733,7 @@ public final class ClickhouseInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -1585,6 +1742,7 @@ public final class ClickhouseInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1609,14 +1767,13 @@ public final class ClickhouseInternalProtos {
       }
       tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse other = (tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1705,6 +1862,7 @@ public final class ClickhouseInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1712,6 +1870,7 @@ public final class ClickhouseInternalProtos {
     public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1735,6 +1894,7 @@ public final class ClickhouseInternalProtos {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_ScanResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_ScanResponse_fieldAccessorTable
@@ -1757,6 +1917,7 @@ public final class ClickhouseInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -1768,15 +1929,18 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_ScanResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse getDefaultInstanceForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse build() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -1785,6 +1949,7 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse buildPartial() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse result = new tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse(this);
         if (operationBuilder_ == null) {
@@ -1796,32 +1961,39 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse) {
           return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse)other);
@@ -1841,10 +2013,12 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1863,17 +2037,19 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -1979,11 +2155,13 @@ public final class ClickhouseInternalProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2005,11 +2183,12 @@ public final class ClickhouseInternalProtos {
 
     private static final com.google.protobuf.Parser<ScanResponse>
         PARSER = new com.google.protobuf.AbstractParser<ScanResponse>() {
+      @java.lang.Override
       public ScanResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ScanResponse(input, extensionRegistry);
+        return new ScanResponse(input, extensionRegistry);
       }
     };
 
@@ -2022,6 +2201,7 @@ public final class ClickhouseInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2034,14 +2214,18 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>repeated bytes blocks = 1;</code>
+     * @return A list containing the blocks.
      */
     java.util.List<com.google.protobuf.ByteString> getBlocksList();
     /**
      * <code>repeated bytes blocks = 1;</code>
+     * @return The count of blocks.
      */
     int getBlocksCount();
     /**
      * <code>repeated bytes blocks = 1;</code>
+     * @param index The index of the element to return.
+     * @return The blocks at the given index.
      */
     com.google.protobuf.ByteString getBlocks(int index);
 
@@ -2051,23 +2235,26 @@ public final class ClickhouseInternalProtos {
      * </pre>
      *
      * <code>bool eos = 2;</code>
+     * @return The eos.
      */
     boolean getEos();
 
     /**
      * <code>bytes last_key = 3;</code>
+     * @return The lastKey.
      */
     com.google.protobuf.ByteString getLastKey();
 
     /**
      * <code>bool last_key_inclusive = 4;</code>
+     * @return The lastKeyInclusive.
      */
     boolean getLastKeyInclusive();
   }
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.ScanResult}
    */
-  public  static final class ScanResult extends
+  public static final class ScanResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.ScanResult)
       ScanResultOrBuilder {
@@ -2078,9 +2265,14 @@ public final class ClickhouseInternalProtos {
     }
     private ScanResult() {
       blocks_ = java.util.Collections.emptyList();
-      eos_ = false;
       lastKey_ = com.google.protobuf.ByteString.EMPTY;
-      lastKeyInclusive_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ScanResult();
     }
 
     @java.lang.Override
@@ -2093,6 +2285,9 @@ public final class ClickhouseInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -2104,15 +2299,8 @@ public final class ClickhouseInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 blocks_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -2134,6 +2322,13 @@ public final class ClickhouseInternalProtos {
               lastKeyInclusive_ = input.readBool();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2142,8 +2337,8 @@ public final class ClickhouseInternalProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          blocks_ = java.util.Collections.unmodifiableList(blocks_);
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          blocks_ = java.util.Collections.unmodifiableList(blocks_); // C
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -2154,6 +2349,7 @@ public final class ClickhouseInternalProtos {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_ScanResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_ScanResult_fieldAccessorTable
@@ -2161,24 +2357,28 @@ public final class ClickhouseInternalProtos {
               tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResult.class, tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResult.Builder.class);
     }
 
-    private int bitField0_;
     public static final int BLOCKS_FIELD_NUMBER = 1;
     private java.util.List<com.google.protobuf.ByteString> blocks_;
     /**
      * <code>repeated bytes blocks = 1;</code>
+     * @return A list containing the blocks.
      */
+    @java.lang.Override
     public java.util.List<com.google.protobuf.ByteString>
         getBlocksList() {
       return blocks_;
     }
     /**
      * <code>repeated bytes blocks = 1;</code>
+     * @return The count of blocks.
      */
     public int getBlocksCount() {
       return blocks_.size();
     }
     /**
      * <code>repeated bytes blocks = 1;</code>
+     * @param index The index of the element to return.
+     * @return The blocks at the given index.
      */
     public com.google.protobuf.ByteString getBlocks(int index) {
       return blocks_.get(index);
@@ -2192,7 +2392,9 @@ public final class ClickhouseInternalProtos {
      * </pre>
      *
      * <code>bool eos = 2;</code>
+     * @return The eos.
      */
+    @java.lang.Override
     public boolean getEos() {
       return eos_;
     }
@@ -2201,7 +2403,9 @@ public final class ClickhouseInternalProtos {
     private com.google.protobuf.ByteString lastKey_;
     /**
      * <code>bytes last_key = 3;</code>
+     * @return The lastKey.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getLastKey() {
       return lastKey_;
     }
@@ -2210,12 +2414,15 @@ public final class ClickhouseInternalProtos {
     private boolean lastKeyInclusive_;
     /**
      * <code>bool last_key_inclusive = 4;</code>
+     * @return The lastKeyInclusive.
      */
+    @java.lang.Override
     public boolean getLastKeyInclusive() {
       return lastKeyInclusive_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2225,6 +2432,7 @@ public final class ClickhouseInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < blocks_.size(); i++) {
@@ -2242,6 +2450,7 @@ public final class ClickhouseInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2283,17 +2492,16 @@ public final class ClickhouseInternalProtos {
       }
       tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResult other = (tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResult) obj;
 
-      boolean result = true;
-      result = result && getBlocksList()
-          .equals(other.getBlocksList());
-      result = result && (getEos()
-          == other.getEos());
-      result = result && getLastKey()
-          .equals(other.getLastKey());
-      result = result && (getLastKeyInclusive()
-          == other.getLastKeyInclusive());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getBlocksList()
+          .equals(other.getBlocksList())) return false;
+      if (getEos()
+          != other.getEos()) return false;
+      if (!getLastKey()
+          .equals(other.getLastKey())) return false;
+      if (getLastKeyInclusive()
+          != other.getLastKeyInclusive()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2390,6 +2598,7 @@ public final class ClickhouseInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2397,6 +2606,7 @@ public final class ClickhouseInternalProtos {
     public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2420,6 +2630,7 @@ public final class ClickhouseInternalProtos {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_ScanResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_ScanResult_fieldAccessorTable
@@ -2442,6 +2653,7 @@ public final class ClickhouseInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         blocks_ = java.util.Collections.emptyList();
@@ -2455,15 +2667,18 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_ScanResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResult getDefaultInstanceForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResult build() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -2472,11 +2687,11 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResult buildPartial() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResult result = new tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResult(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           blocks_ = java.util.Collections.unmodifiableList(blocks_);
           bitField0_ = (bitField0_ & ~0x00000001);
         }
@@ -2484,37 +2699,43 @@ public final class ClickhouseInternalProtos {
         result.eos_ = eos_;
         result.lastKey_ = lastKey_;
         result.lastKeyInclusive_ = lastKeyInclusive_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResult) {
           return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResult)other);
@@ -2550,10 +2771,12 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2575,32 +2798,40 @@ public final class ClickhouseInternalProtos {
 
       private java.util.List<com.google.protobuf.ByteString> blocks_ = java.util.Collections.emptyList();
       private void ensureBlocksIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           blocks_ = new java.util.ArrayList<com.google.protobuf.ByteString>(blocks_);
           bitField0_ |= 0x00000001;
          }
       }
       /**
        * <code>repeated bytes blocks = 1;</code>
+       * @return A list containing the blocks.
        */
       public java.util.List<com.google.protobuf.ByteString>
           getBlocksList() {
-        return java.util.Collections.unmodifiableList(blocks_);
+        return ((bitField0_ & 0x00000001) != 0) ?
+                 java.util.Collections.unmodifiableList(blocks_) : blocks_;
       }
       /**
        * <code>repeated bytes blocks = 1;</code>
+       * @return The count of blocks.
        */
       public int getBlocksCount() {
         return blocks_.size();
       }
       /**
        * <code>repeated bytes blocks = 1;</code>
+       * @param index The index of the element to return.
+       * @return The blocks at the given index.
        */
       public com.google.protobuf.ByteString getBlocks(int index) {
         return blocks_.get(index);
       }
       /**
        * <code>repeated bytes blocks = 1;</code>
+       * @param index The index to set the value at.
+       * @param value The blocks to set.
+       * @return This builder for chaining.
        */
       public Builder setBlocks(
           int index, com.google.protobuf.ByteString value) {
@@ -2614,6 +2845,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated bytes blocks = 1;</code>
+       * @param value The blocks to add.
+       * @return This builder for chaining.
        */
       public Builder addBlocks(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -2626,6 +2859,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated bytes blocks = 1;</code>
+       * @param values The blocks to add.
+       * @return This builder for chaining.
        */
       public Builder addAllBlocks(
           java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
@@ -2637,6 +2872,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated bytes blocks = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearBlocks() {
         blocks_ = java.util.Collections.emptyList();
@@ -2652,7 +2888,9 @@ public final class ClickhouseInternalProtos {
        * </pre>
        *
        * <code>bool eos = 2;</code>
+       * @return The eos.
        */
+      @java.lang.Override
       public boolean getEos() {
         return eos_;
       }
@@ -2662,6 +2900,8 @@ public final class ClickhouseInternalProtos {
        * </pre>
        *
        * <code>bool eos = 2;</code>
+       * @param value The eos to set.
+       * @return This builder for chaining.
        */
       public Builder setEos(boolean value) {
         
@@ -2675,6 +2915,7 @@ public final class ClickhouseInternalProtos {
        * </pre>
        *
        * <code>bool eos = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearEos() {
         
@@ -2686,12 +2927,16 @@ public final class ClickhouseInternalProtos {
       private com.google.protobuf.ByteString lastKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes last_key = 3;</code>
+       * @return The lastKey.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getLastKey() {
         return lastKey_;
       }
       /**
        * <code>bytes last_key = 3;</code>
+       * @param value The lastKey to set.
+       * @return This builder for chaining.
        */
       public Builder setLastKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -2704,6 +2949,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>bytes last_key = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearLastKey() {
         
@@ -2715,12 +2961,16 @@ public final class ClickhouseInternalProtos {
       private boolean lastKeyInclusive_ ;
       /**
        * <code>bool last_key_inclusive = 4;</code>
+       * @return The lastKeyInclusive.
        */
+      @java.lang.Override
       public boolean getLastKeyInclusive() {
         return lastKeyInclusive_;
       }
       /**
        * <code>bool last_key_inclusive = 4;</code>
+       * @param value The lastKeyInclusive to set.
+       * @return This builder for chaining.
        */
       public Builder setLastKeyInclusive(boolean value) {
         
@@ -2730,6 +2980,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>bool last_key_inclusive = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearLastKeyInclusive() {
         
@@ -2737,11 +2988,13 @@ public final class ClickhouseInternalProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2763,11 +3016,12 @@ public final class ClickhouseInternalProtos {
 
     private static final com.google.protobuf.Parser<ScanResult>
         PARSER = new com.google.protobuf.AbstractParser<ScanResult>() {
+      @java.lang.Override
       public ScanResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ScanResult(input, extensionRegistry);
+        return new ScanResult(input, extensionRegistry);
       }
     };
 
@@ -2780,6 +3034,7 @@ public final class ClickhouseInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.ScanResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2792,10 +3047,12 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -2805,21 +3062,25 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>repeated uint64 tablet_ids = 2;</code>
+     * @return A list containing the tabletIds.
      */
     java.util.List<java.lang.Long> getTabletIdsList();
     /**
      * <code>repeated uint64 tablet_ids = 2;</code>
+     * @return The count of tabletIds.
      */
     int getTabletIdsCount();
     /**
      * <code>repeated uint64 tablet_ids = 2;</code>
+     * @param index The index of the element to return.
+     * @return The tabletIds at the given index.
      */
     long getTabletIds(int index);
   }
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.GetShardLocationsRequest}
    */
-  public  static final class GetShardLocationsRequest extends
+  public static final class GetShardLocationsRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.GetShardLocationsRequest)
       GetShardLocationsRequestOrBuilder {
@@ -2829,7 +3090,14 @@ public final class ClickhouseInternalProtos {
       super(builder);
     }
     private GetShardLocationsRequest() {
-      tabletIds_ = java.util.Collections.emptyList();
+      tabletIds_ = emptyLongList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetShardLocationsRequest();
     }
 
     @java.lang.Override
@@ -2842,6 +3110,9 @@ public final class ClickhouseInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -2853,13 +3124,6 @@ public final class ClickhouseInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -2874,24 +3138,31 @@ public final class ClickhouseInternalProtos {
               break;
             }
             case 16: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                tabletIds_ = new java.util.ArrayList<java.lang.Long>();
-                mutable_bitField0_ |= 0x00000002;
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                tabletIds_ = newLongList();
+                mutable_bitField0_ |= 0x00000001;
               }
-              tabletIds_.add(input.readUInt64());
+              tabletIds_.addLong(input.readUInt64());
               break;
             }
             case 18: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
-                tabletIds_ = new java.util.ArrayList<java.lang.Long>();
-                mutable_bitField0_ |= 0x00000002;
+              if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
+                tabletIds_ = newLongList();
+                mutable_bitField0_ |= 0x00000001;
               }
               while (input.getBytesUntilLimit() > 0) {
-                tabletIds_.add(input.readUInt64());
+                tabletIds_.addLong(input.readUInt64());
               }
               input.popLimit(limit);
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -2902,8 +3173,8 @@ public final class ClickhouseInternalProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          tabletIds_ = java.util.Collections.unmodifiableList(tabletIds_);
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          tabletIds_.makeImmutable(); // C
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -2914,6 +3185,7 @@ public final class ClickhouseInternalProtos {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_GetShardLocationsRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_GetShardLocationsRequest_fieldAccessorTable
@@ -2921,52 +3193,62 @@ public final class ClickhouseInternalProtos {
               tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest.class, tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
 
     public static final int TABLET_IDS_FIELD_NUMBER = 2;
-    private java.util.List<java.lang.Long> tabletIds_;
+    private com.google.protobuf.Internal.LongList tabletIds_;
     /**
      * <code>repeated uint64 tablet_ids = 2;</code>
+     * @return A list containing the tabletIds.
      */
+    @java.lang.Override
     public java.util.List<java.lang.Long>
         getTabletIdsList() {
       return tabletIds_;
     }
     /**
      * <code>repeated uint64 tablet_ids = 2;</code>
+     * @return The count of tabletIds.
      */
     public int getTabletIdsCount() {
       return tabletIds_.size();
     }
     /**
      * <code>repeated uint64 tablet_ids = 2;</code>
+     * @param index The index of the element to return.
+     * @return The tabletIds at the given index.
      */
     public long getTabletIds(int index) {
-      return tabletIds_.get(index);
+      return tabletIds_.getLong(index);
     }
     private int tabletIdsMemoizedSerializedSize = -1;
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2976,6 +3258,7 @@ public final class ClickhouseInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
@@ -2987,11 +3270,12 @@ public final class ClickhouseInternalProtos {
         output.writeUInt32NoTag(tabletIdsMemoizedSerializedSize);
       }
       for (int i = 0; i < tabletIds_.size(); i++) {
-        output.writeUInt64NoTag(tabletIds_.get(i));
+        output.writeUInt64NoTag(tabletIds_.getLong(i));
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3005,7 +3289,7 @@ public final class ClickhouseInternalProtos {
         int dataSize = 0;
         for (int i = 0; i < tabletIds_.size(); i++) {
           dataSize += com.google.protobuf.CodedOutputStream
-            .computeUInt64SizeNoTag(tabletIds_.get(i));
+            .computeUInt64SizeNoTag(tabletIds_.getLong(i));
         }
         size += dataSize;
         if (!getTabletIdsList().isEmpty()) {
@@ -3030,16 +3314,15 @@ public final class ClickhouseInternalProtos {
       }
       tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest other = (tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getTabletIdsList()
-          .equals(other.getTabletIdsList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getTabletIdsList()
+          .equals(other.getTabletIdsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3132,6 +3415,7 @@ public final class ClickhouseInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3139,6 +3423,7 @@ public final class ClickhouseInternalProtos {
     public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3162,6 +3447,7 @@ public final class ClickhouseInternalProtos {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_GetShardLocationsRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_GetShardLocationsRequest_fieldAccessorTable
@@ -3184,6 +3470,7 @@ public final class ClickhouseInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -3192,20 +3479,23 @@ public final class ClickhouseInternalProtos {
           operationParams_ = null;
           operationParamsBuilder_ = null;
         }
-        tabletIds_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+        tabletIds_ = emptyLongList();
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_GetShardLocationsRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest getDefaultInstanceForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest build() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -3214,51 +3504,57 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest buildPartial() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest result = new tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
         } else {
           result.operationParams_ = operationParamsBuilder_.build();
         }
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          tabletIds_ = java.util.Collections.unmodifiableList(tabletIds_);
-          bitField0_ = (bitField0_ & ~0x00000002);
+        if (((bitField0_ & 0x00000001) != 0)) {
+          tabletIds_.makeImmutable();
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.tabletIds_ = tabletIds_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest) {
           return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest)other);
@@ -3276,7 +3572,7 @@ public final class ClickhouseInternalProtos {
         if (!other.tabletIds_.isEmpty()) {
           if (tabletIds_.isEmpty()) {
             tabletIds_ = other.tabletIds_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensureTabletIdsIsMutable();
             tabletIds_.addAll(other.tabletIds_);
@@ -3288,10 +3584,12 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3311,17 +3609,19 @@ public final class ClickhouseInternalProtos {
       }
       private int bitField0_;
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -3428,53 +3728,65 @@ public final class ClickhouseInternalProtos {
         return operationParamsBuilder_;
       }
 
-      private java.util.List<java.lang.Long> tabletIds_ = java.util.Collections.emptyList();
+      private com.google.protobuf.Internal.LongList tabletIds_ = emptyLongList();
       private void ensureTabletIdsIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          tabletIds_ = new java.util.ArrayList<java.lang.Long>(tabletIds_);
-          bitField0_ |= 0x00000002;
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          tabletIds_ = mutableCopy(tabletIds_);
+          bitField0_ |= 0x00000001;
          }
       }
       /**
        * <code>repeated uint64 tablet_ids = 2;</code>
+       * @return A list containing the tabletIds.
        */
       public java.util.List<java.lang.Long>
           getTabletIdsList() {
-        return java.util.Collections.unmodifiableList(tabletIds_);
+        return ((bitField0_ & 0x00000001) != 0) ?
+                 java.util.Collections.unmodifiableList(tabletIds_) : tabletIds_;
       }
       /**
        * <code>repeated uint64 tablet_ids = 2;</code>
+       * @return The count of tabletIds.
        */
       public int getTabletIdsCount() {
         return tabletIds_.size();
       }
       /**
        * <code>repeated uint64 tablet_ids = 2;</code>
+       * @param index The index of the element to return.
+       * @return The tabletIds at the given index.
        */
       public long getTabletIds(int index) {
-        return tabletIds_.get(index);
+        return tabletIds_.getLong(index);
       }
       /**
        * <code>repeated uint64 tablet_ids = 2;</code>
+       * @param index The index to set the value at.
+       * @param value The tabletIds to set.
+       * @return This builder for chaining.
        */
       public Builder setTabletIds(
           int index, long value) {
         ensureTabletIdsIsMutable();
-        tabletIds_.set(index, value);
+        tabletIds_.setLong(index, value);
         onChanged();
         return this;
       }
       /**
        * <code>repeated uint64 tablet_ids = 2;</code>
+       * @param value The tabletIds to add.
+       * @return This builder for chaining.
        */
       public Builder addTabletIds(long value) {
         ensureTabletIdsIsMutable();
-        tabletIds_.add(value);
+        tabletIds_.addLong(value);
         onChanged();
         return this;
       }
       /**
        * <code>repeated uint64 tablet_ids = 2;</code>
+       * @param values The tabletIds to add.
+       * @return This builder for chaining.
        */
       public Builder addAllTabletIds(
           java.lang.Iterable<? extends java.lang.Long> values) {
@@ -3486,18 +3798,21 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated uint64 tablet_ids = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTabletIds() {
-        tabletIds_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000002);
+        tabletIds_ = emptyLongList();
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3519,11 +3834,12 @@ public final class ClickhouseInternalProtos {
 
     private static final com.google.protobuf.Parser<GetShardLocationsRequest>
         PARSER = new com.google.protobuf.AbstractParser<GetShardLocationsRequest>() {
+      @java.lang.Override
       public GetShardLocationsRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetShardLocationsRequest(input, extensionRegistry);
+        return new GetShardLocationsRequest(input, extensionRegistry);
       }
     };
 
@@ -3536,6 +3852,7 @@ public final class ClickhouseInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3548,10 +3865,12 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -3562,7 +3881,7 @@ public final class ClickhouseInternalProtos {
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.GetShardLocationsResponse}
    */
-  public  static final class GetShardLocationsResponse extends
+  public static final class GetShardLocationsResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.GetShardLocationsResponse)
       GetShardLocationsResponseOrBuilder {
@@ -3575,6 +3894,13 @@ public final class ClickhouseInternalProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetShardLocationsResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3584,7 +3910,9 @@ public final class ClickhouseInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3595,13 +3923,6 @@ public final class ClickhouseInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -3613,6 +3934,13 @@ public final class ClickhouseInternalProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -3632,6 +3960,7 @@ public final class ClickhouseInternalProtos {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_GetShardLocationsResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_GetShardLocationsResponse_fieldAccessorTable
@@ -3643,24 +3972,30 @@ public final class ClickhouseInternalProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3670,6 +4005,7 @@ public final class ClickhouseInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -3678,6 +4014,7 @@ public final class ClickhouseInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3702,14 +4039,13 @@ public final class ClickhouseInternalProtos {
       }
       tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse other = (tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3798,6 +4134,7 @@ public final class ClickhouseInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3805,6 +4142,7 @@ public final class ClickhouseInternalProtos {
     public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3828,6 +4166,7 @@ public final class ClickhouseInternalProtos {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_GetShardLocationsResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_GetShardLocationsResponse_fieldAccessorTable
@@ -3850,6 +4189,7 @@ public final class ClickhouseInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -3861,15 +4201,18 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_GetShardLocationsResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse getDefaultInstanceForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse build() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -3878,6 +4221,7 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse buildPartial() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse result = new tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse(this);
         if (operationBuilder_ == null) {
@@ -3889,32 +4233,39 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse) {
           return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse)other);
@@ -3934,10 +4285,12 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3956,17 +4309,19 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -4072,11 +4427,13 @@ public final class ClickhouseInternalProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4098,11 +4455,12 @@ public final class ClickhouseInternalProtos {
 
     private static final com.google.protobuf.Parser<GetShardLocationsResponse>
         PARSER = new com.google.protobuf.AbstractParser<GetShardLocationsResponse>() {
+      @java.lang.Override
       public GetShardLocationsResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetShardLocationsResponse(input, extensionRegistry);
+        return new GetShardLocationsResponse(input, extensionRegistry);
       }
     };
 
@@ -4115,6 +4473,7 @@ public final class ClickhouseInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4127,28 +4486,32 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>uint64 tablet_id = 1;</code>
+     * @return The tabletId.
      */
     long getTabletId();
 
     /**
      * <code>string host = 2;</code>
+     * @return The host.
      */
     java.lang.String getHost();
     /**
      * <code>string host = 2;</code>
+     * @return The bytes for host.
      */
     com.google.protobuf.ByteString
         getHostBytes();
 
     /**
      * <code>uint32 port = 3;</code>
+     * @return The port.
      */
     int getPort();
   }
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.TabletInfo}
    */
-  public  static final class TabletInfo extends
+  public static final class TabletInfo extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.TabletInfo)
       TabletInfoOrBuilder {
@@ -4158,9 +4521,14 @@ public final class ClickhouseInternalProtos {
       super(builder);
     }
     private TabletInfo() {
-      tabletId_ = 0L;
       host_ = "";
-      port_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TabletInfo();
     }
 
     @java.lang.Override
@@ -4173,7 +4541,9 @@ public final class ClickhouseInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4184,13 +4554,6 @@ public final class ClickhouseInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               tabletId_ = input.readUInt64();
@@ -4205,6 +4568,13 @@ public final class ClickhouseInternalProtos {
             case 24: {
 
               port_ = input.readUInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -4224,6 +4594,7 @@ public final class ClickhouseInternalProtos {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_TabletInfo_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_TabletInfo_fieldAccessorTable
@@ -4235,7 +4606,9 @@ public final class ClickhouseInternalProtos {
     private long tabletId_;
     /**
      * <code>uint64 tablet_id = 1;</code>
+     * @return The tabletId.
      */
+    @java.lang.Override
     public long getTabletId() {
       return tabletId_;
     }
@@ -4244,7 +4617,9 @@ public final class ClickhouseInternalProtos {
     private volatile java.lang.Object host_;
     /**
      * <code>string host = 2;</code>
+     * @return The host.
      */
+    @java.lang.Override
     public java.lang.String getHost() {
       java.lang.Object ref = host_;
       if (ref instanceof java.lang.String) {
@@ -4259,7 +4634,9 @@ public final class ClickhouseInternalProtos {
     }
     /**
      * <code>string host = 2;</code>
+     * @return The bytes for host.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getHostBytes() {
       java.lang.Object ref = host_;
@@ -4278,12 +4655,15 @@ public final class ClickhouseInternalProtos {
     private int port_;
     /**
      * <code>uint32 port = 3;</code>
+     * @return The port.
      */
+    @java.lang.Override
     public int getPort() {
       return port_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4293,6 +4673,7 @@ public final class ClickhouseInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (tabletId_ != 0L) {
@@ -4307,6 +4688,7 @@ public final class ClickhouseInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4338,15 +4720,14 @@ public final class ClickhouseInternalProtos {
       }
       tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo other = (tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo) obj;
 
-      boolean result = true;
-      result = result && (getTabletId()
-          == other.getTabletId());
-      result = result && getHost()
-          .equals(other.getHost());
-      result = result && (getPort()
-          == other.getPort());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getTabletId()
+          != other.getTabletId()) return false;
+      if (!getHost()
+          .equals(other.getHost())) return false;
+      if (getPort()
+          != other.getPort()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4438,6 +4819,7 @@ public final class ClickhouseInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4445,6 +4827,7 @@ public final class ClickhouseInternalProtos {
     public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4468,6 +4851,7 @@ public final class ClickhouseInternalProtos {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_TabletInfo_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_TabletInfo_fieldAccessorTable
@@ -4490,6 +4874,7 @@ public final class ClickhouseInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         tabletId_ = 0L;
@@ -4501,15 +4886,18 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_TabletInfo_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo getDefaultInstanceForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo build() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo result = buildPartial();
         if (!result.isInitialized()) {
@@ -4518,6 +4906,7 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo buildPartial() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo result = new tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo(this);
         result.tabletId_ = tabletId_;
@@ -4527,32 +4916,39 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo) {
           return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo)other);
@@ -4579,10 +4975,12 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4604,12 +5002,16 @@ public final class ClickhouseInternalProtos {
       private long tabletId_ ;
       /**
        * <code>uint64 tablet_id = 1;</code>
+       * @return The tabletId.
        */
+      @java.lang.Override
       public long getTabletId() {
         return tabletId_;
       }
       /**
        * <code>uint64 tablet_id = 1;</code>
+       * @param value The tabletId to set.
+       * @return This builder for chaining.
        */
       public Builder setTabletId(long value) {
         
@@ -4619,6 +5021,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>uint64 tablet_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTabletId() {
         
@@ -4630,6 +5033,7 @@ public final class ClickhouseInternalProtos {
       private java.lang.Object host_ = "";
       /**
        * <code>string host = 2;</code>
+       * @return The host.
        */
       public java.lang.String getHost() {
         java.lang.Object ref = host_;
@@ -4645,6 +5049,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string host = 2;</code>
+       * @return The bytes for host.
        */
       public com.google.protobuf.ByteString
           getHostBytes() {
@@ -4661,6 +5066,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string host = 2;</code>
+       * @param value The host to set.
+       * @return This builder for chaining.
        */
       public Builder setHost(
           java.lang.String value) {
@@ -4674,6 +5081,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string host = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearHost() {
         
@@ -4683,6 +5091,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string host = 2;</code>
+       * @param value The bytes for host to set.
+       * @return This builder for chaining.
        */
       public Builder setHostBytes(
           com.google.protobuf.ByteString value) {
@@ -4699,12 +5109,16 @@ public final class ClickhouseInternalProtos {
       private int port_ ;
       /**
        * <code>uint32 port = 3;</code>
+       * @return The port.
        */
+      @java.lang.Override
       public int getPort() {
         return port_;
       }
       /**
        * <code>uint32 port = 3;</code>
+       * @param value The port to set.
+       * @return This builder for chaining.
        */
       public Builder setPort(int value) {
         
@@ -4714,6 +5128,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>uint32 port = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPort() {
         
@@ -4721,11 +5136,13 @@ public final class ClickhouseInternalProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4747,11 +5164,12 @@ public final class ClickhouseInternalProtos {
 
     private static final com.google.protobuf.Parser<TabletInfo>
         PARSER = new com.google.protobuf.AbstractParser<TabletInfo>() {
+      @java.lang.Override
       public TabletInfo parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TabletInfo(input, extensionRegistry);
+        return new TabletInfo(input, extensionRegistry);
       }
     };
 
@@ -4764,6 +5182,7 @@ public final class ClickhouseInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4801,7 +5220,7 @@ public final class ClickhouseInternalProtos {
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.GetShardLocationsResult}
    */
-  public  static final class GetShardLocationsResult extends
+  public static final class GetShardLocationsResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.GetShardLocationsResult)
       GetShardLocationsResultOrBuilder {
@@ -4815,6 +5234,13 @@ public final class ClickhouseInternalProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetShardLocationsResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -4824,6 +5250,9 @@ public final class ClickhouseInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -4835,20 +5264,20 @@ public final class ClickhouseInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 tablets_ = new java.util.ArrayList<tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo>();
                 mutable_bitField0_ |= 0x00000001;
               }
               tablets_.add(
                   input.readMessage(tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -4859,7 +5288,7 @@ public final class ClickhouseInternalProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           tablets_ = java.util.Collections.unmodifiableList(tablets_);
         }
         this.unknownFields = unknownFields.build();
@@ -4871,6 +5300,7 @@ public final class ClickhouseInternalProtos {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_GetShardLocationsResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_GetShardLocationsResult_fieldAccessorTable
@@ -4883,12 +5313,14 @@ public final class ClickhouseInternalProtos {
     /**
      * <code>repeated .Ydb.ClickhouseInternal.TabletInfo tablets = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo> getTabletsList() {
       return tablets_;
     }
     /**
      * <code>repeated .Ydb.ClickhouseInternal.TabletInfo tablets = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfoOrBuilder> 
         getTabletsOrBuilderList() {
       return tablets_;
@@ -4896,24 +5328,28 @@ public final class ClickhouseInternalProtos {
     /**
      * <code>repeated .Ydb.ClickhouseInternal.TabletInfo tablets = 1;</code>
      */
+    @java.lang.Override
     public int getTabletsCount() {
       return tablets_.size();
     }
     /**
      * <code>repeated .Ydb.ClickhouseInternal.TabletInfo tablets = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo getTablets(int index) {
       return tablets_.get(index);
     }
     /**
      * <code>repeated .Ydb.ClickhouseInternal.TabletInfo tablets = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfoOrBuilder getTabletsOrBuilder(
         int index) {
       return tablets_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4923,6 +5359,7 @@ public final class ClickhouseInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < tablets_.size(); i++) {
@@ -4931,6 +5368,7 @@ public final class ClickhouseInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4955,11 +5393,10 @@ public final class ClickhouseInternalProtos {
       }
       tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResult other = (tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResult) obj;
 
-      boolean result = true;
-      result = result && getTabletsList()
-          .equals(other.getTabletsList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getTabletsList()
+          .equals(other.getTabletsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5048,6 +5485,7 @@ public final class ClickhouseInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5055,6 +5493,7 @@ public final class ClickhouseInternalProtos {
     public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5078,6 +5517,7 @@ public final class ClickhouseInternalProtos {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_GetShardLocationsResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_GetShardLocationsResult_fieldAccessorTable
@@ -5101,6 +5541,7 @@ public final class ClickhouseInternalProtos {
           getTabletsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (tabletsBuilder_ == null) {
@@ -5112,15 +5553,18 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_GetShardLocationsResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResult getDefaultInstanceForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResult build() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -5129,11 +5573,12 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResult buildPartial() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResult result = new tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResult(this);
         int from_bitField0_ = bitField0_;
         if (tabletsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             tablets_ = java.util.Collections.unmodifiableList(tablets_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -5145,32 +5590,39 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResult) {
           return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResult)other);
@@ -5213,10 +5665,12 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5239,7 +5693,7 @@ public final class ClickhouseInternalProtos {
       private java.util.List<tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo> tablets_ =
         java.util.Collections.emptyList();
       private void ensureTabletsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           tablets_ = new java.util.ArrayList<tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo>(tablets_);
           bitField0_ |= 0x00000001;
          }
@@ -5468,18 +5922,20 @@ public final class ClickhouseInternalProtos {
           tabletsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo, tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfo.Builder, tech.ydb.clickhouse.ClickhouseInternalProtos.TabletInfoOrBuilder>(
                   tablets_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           tablets_ = null;
         }
         return tabletsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5501,11 +5957,12 @@ public final class ClickhouseInternalProtos {
 
     private static final com.google.protobuf.Parser<GetShardLocationsResult>
         PARSER = new com.google.protobuf.AbstractParser<GetShardLocationsResult>() {
+      @java.lang.Override
       public GetShardLocationsResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetShardLocationsResult(input, extensionRegistry);
+        return new GetShardLocationsResult(input, extensionRegistry);
       }
     };
 
@@ -5518,6 +5975,7 @@ public final class ClickhouseInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.GetShardLocationsResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5530,10 +5988,12 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -5543,23 +6003,26 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>string path = 2;</code>
+     * @return The path.
      */
     java.lang.String getPath();
     /**
      * <code>string path = 2;</code>
+     * @return The bytes for path.
      */
     com.google.protobuf.ByteString
         getPathBytes();
 
     /**
      * <code>bool include_partitions_info = 3;</code>
+     * @return The includePartitionsInfo.
      */
     boolean getIncludePartitionsInfo();
   }
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.DescribeTableRequest}
    */
-  public  static final class DescribeTableRequest extends
+  public static final class DescribeTableRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.DescribeTableRequest)
       DescribeTableRequestOrBuilder {
@@ -5570,7 +6033,13 @@ public final class ClickhouseInternalProtos {
     }
     private DescribeTableRequest() {
       path_ = "";
-      includePartitionsInfo_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DescribeTableRequest();
     }
 
     @java.lang.Override
@@ -5583,7 +6052,9 @@ public final class ClickhouseInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -5594,13 +6065,6 @@ public final class ClickhouseInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -5625,6 +6089,13 @@ public final class ClickhouseInternalProtos {
               includePartitionsInfo_ = input.readBool();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -5642,6 +6113,7 @@ public final class ClickhouseInternalProtos {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableRequest_fieldAccessorTable
@@ -5653,19 +6125,24 @@ public final class ClickhouseInternalProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -5674,7 +6151,9 @@ public final class ClickhouseInternalProtos {
     private volatile java.lang.Object path_;
     /**
      * <code>string path = 2;</code>
+     * @return The path.
      */
+    @java.lang.Override
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
@@ -5689,7 +6168,9 @@ public final class ClickhouseInternalProtos {
     }
     /**
      * <code>string path = 2;</code>
+     * @return The bytes for path.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathBytes() {
       java.lang.Object ref = path_;
@@ -5708,12 +6189,15 @@ public final class ClickhouseInternalProtos {
     private boolean includePartitionsInfo_;
     /**
      * <code>bool include_partitions_info = 3;</code>
+     * @return The includePartitionsInfo.
      */
+    @java.lang.Override
     public boolean getIncludePartitionsInfo() {
       return includePartitionsInfo_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -5723,6 +6207,7 @@ public final class ClickhouseInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -5737,6 +6222,7 @@ public final class ClickhouseInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -5768,18 +6254,17 @@ public final class ClickhouseInternalProtos {
       }
       tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest other = (tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getPath()
-          .equals(other.getPath());
-      result = result && (getIncludePartitionsInfo()
-          == other.getIncludePartitionsInfo());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getPath()
+          .equals(other.getPath())) return false;
+      if (getIncludePartitionsInfo()
+          != other.getIncludePartitionsInfo()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5873,6 +6358,7 @@ public final class ClickhouseInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5880,6 +6366,7 @@ public final class ClickhouseInternalProtos {
     public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5903,6 +6390,7 @@ public final class ClickhouseInternalProtos {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableRequest_fieldAccessorTable
@@ -5925,6 +6413,7 @@ public final class ClickhouseInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -5940,15 +6429,18 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest getDefaultInstanceForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest build() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -5957,6 +6449,7 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest buildPartial() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest result = new tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -5970,32 +6463,39 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest) {
           return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest)other);
@@ -6022,10 +6522,12 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6044,17 +6546,19 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -6164,6 +6668,7 @@ public final class ClickhouseInternalProtos {
       private java.lang.Object path_ = "";
       /**
        * <code>string path = 2;</code>
+       * @return The path.
        */
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
@@ -6179,6 +6684,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @return The bytes for path.
        */
       public com.google.protobuf.ByteString
           getPathBytes() {
@@ -6195,6 +6701,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           java.lang.String value) {
@@ -6208,6 +6716,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         
@@ -6217,6 +6726,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
        */
       public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
@@ -6233,12 +6744,16 @@ public final class ClickhouseInternalProtos {
       private boolean includePartitionsInfo_ ;
       /**
        * <code>bool include_partitions_info = 3;</code>
+       * @return The includePartitionsInfo.
        */
+      @java.lang.Override
       public boolean getIncludePartitionsInfo() {
         return includePartitionsInfo_;
       }
       /**
        * <code>bool include_partitions_info = 3;</code>
+       * @param value The includePartitionsInfo to set.
+       * @return This builder for chaining.
        */
       public Builder setIncludePartitionsInfo(boolean value) {
         
@@ -6248,6 +6763,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>bool include_partitions_info = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIncludePartitionsInfo() {
         
@@ -6255,11 +6771,13 @@ public final class ClickhouseInternalProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -6281,11 +6799,12 @@ public final class ClickhouseInternalProtos {
 
     private static final com.google.protobuf.Parser<DescribeTableRequest>
         PARSER = new com.google.protobuf.AbstractParser<DescribeTableRequest>() {
+      @java.lang.Override
       public DescribeTableRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DescribeTableRequest(input, extensionRegistry);
+        return new DescribeTableRequest(input, extensionRegistry);
       }
     };
 
@@ -6298,6 +6817,7 @@ public final class ClickhouseInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -6310,23 +6830,26 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>uint64 tablet_id = 1;</code>
+     * @return The tabletId.
      */
     long getTabletId();
 
     /**
      * <code>bytes end_key = 2;</code>
+     * @return The endKey.
      */
     com.google.protobuf.ByteString getEndKey();
 
     /**
      * <code>bool end_key_inclusive = 3;</code>
+     * @return The endKeyInclusive.
      */
     boolean getEndKeyInclusive();
   }
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.PartitionInfo}
    */
-  public  static final class PartitionInfo extends
+  public static final class PartitionInfo extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.PartitionInfo)
       PartitionInfoOrBuilder {
@@ -6336,9 +6859,14 @@ public final class ClickhouseInternalProtos {
       super(builder);
     }
     private PartitionInfo() {
-      tabletId_ = 0L;
       endKey_ = com.google.protobuf.ByteString.EMPTY;
-      endKeyInclusive_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new PartitionInfo();
     }
 
     @java.lang.Override
@@ -6351,7 +6879,9 @@ public final class ClickhouseInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -6362,13 +6892,6 @@ public final class ClickhouseInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               tabletId_ = input.readUInt64();
@@ -6382,6 +6905,13 @@ public final class ClickhouseInternalProtos {
             case 24: {
 
               endKeyInclusive_ = input.readBool();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -6401,6 +6931,7 @@ public final class ClickhouseInternalProtos {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_PartitionInfo_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_PartitionInfo_fieldAccessorTable
@@ -6412,7 +6943,9 @@ public final class ClickhouseInternalProtos {
     private long tabletId_;
     /**
      * <code>uint64 tablet_id = 1;</code>
+     * @return The tabletId.
      */
+    @java.lang.Override
     public long getTabletId() {
       return tabletId_;
     }
@@ -6421,7 +6954,9 @@ public final class ClickhouseInternalProtos {
     private com.google.protobuf.ByteString endKey_;
     /**
      * <code>bytes end_key = 2;</code>
+     * @return The endKey.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getEndKey() {
       return endKey_;
     }
@@ -6430,12 +6965,15 @@ public final class ClickhouseInternalProtos {
     private boolean endKeyInclusive_;
     /**
      * <code>bool end_key_inclusive = 3;</code>
+     * @return The endKeyInclusive.
      */
+    @java.lang.Override
     public boolean getEndKeyInclusive() {
       return endKeyInclusive_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6445,6 +6983,7 @@ public final class ClickhouseInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (tabletId_ != 0L) {
@@ -6459,6 +6998,7 @@ public final class ClickhouseInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -6491,15 +7031,14 @@ public final class ClickhouseInternalProtos {
       }
       tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo other = (tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo) obj;
 
-      boolean result = true;
-      result = result && (getTabletId()
-          == other.getTabletId());
-      result = result && getEndKey()
-          .equals(other.getEndKey());
-      result = result && (getEndKeyInclusive()
-          == other.getEndKeyInclusive());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getTabletId()
+          != other.getTabletId()) return false;
+      if (!getEndKey()
+          .equals(other.getEndKey())) return false;
+      if (getEndKeyInclusive()
+          != other.getEndKeyInclusive()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -6592,6 +7131,7 @@ public final class ClickhouseInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -6599,6 +7139,7 @@ public final class ClickhouseInternalProtos {
     public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -6622,6 +7163,7 @@ public final class ClickhouseInternalProtos {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_PartitionInfo_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_PartitionInfo_fieldAccessorTable
@@ -6644,6 +7186,7 @@ public final class ClickhouseInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         tabletId_ = 0L;
@@ -6655,15 +7198,18 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_PartitionInfo_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo getDefaultInstanceForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo build() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo result = buildPartial();
         if (!result.isInitialized()) {
@@ -6672,6 +7218,7 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo buildPartial() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo result = new tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo(this);
         result.tabletId_ = tabletId_;
@@ -6681,32 +7228,39 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo) {
           return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo)other);
@@ -6732,10 +7286,12 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6757,12 +7313,16 @@ public final class ClickhouseInternalProtos {
       private long tabletId_ ;
       /**
        * <code>uint64 tablet_id = 1;</code>
+       * @return The tabletId.
        */
+      @java.lang.Override
       public long getTabletId() {
         return tabletId_;
       }
       /**
        * <code>uint64 tablet_id = 1;</code>
+       * @param value The tabletId to set.
+       * @return This builder for chaining.
        */
       public Builder setTabletId(long value) {
         
@@ -6772,6 +7332,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>uint64 tablet_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTabletId() {
         
@@ -6783,12 +7344,16 @@ public final class ClickhouseInternalProtos {
       private com.google.protobuf.ByteString endKey_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes end_key = 2;</code>
+       * @return The endKey.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getEndKey() {
         return endKey_;
       }
       /**
        * <code>bytes end_key = 2;</code>
+       * @param value The endKey to set.
+       * @return This builder for chaining.
        */
       public Builder setEndKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -6801,6 +7366,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>bytes end_key = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearEndKey() {
         
@@ -6812,12 +7378,16 @@ public final class ClickhouseInternalProtos {
       private boolean endKeyInclusive_ ;
       /**
        * <code>bool end_key_inclusive = 3;</code>
+       * @return The endKeyInclusive.
        */
+      @java.lang.Override
       public boolean getEndKeyInclusive() {
         return endKeyInclusive_;
       }
       /**
        * <code>bool end_key_inclusive = 3;</code>
+       * @param value The endKeyInclusive to set.
+       * @return This builder for chaining.
        */
       public Builder setEndKeyInclusive(boolean value) {
         
@@ -6827,6 +7397,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>bool end_key_inclusive = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearEndKeyInclusive() {
         
@@ -6834,11 +7405,13 @@ public final class ClickhouseInternalProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -6860,11 +7433,12 @@ public final class ClickhouseInternalProtos {
 
     private static final com.google.protobuf.Parser<PartitionInfo>
         PARSER = new com.google.protobuf.AbstractParser<PartitionInfo>() {
+      @java.lang.Override
       public PartitionInfo parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new PartitionInfo(input, extensionRegistry);
+        return new PartitionInfo(input, extensionRegistry);
       }
     };
 
@@ -6877,6 +7451,7 @@ public final class ClickhouseInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -6913,19 +7488,25 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>repeated string primary_key = 3;</code>
+     * @return A list containing the primaryKey.
      */
     java.util.List<java.lang.String>
         getPrimaryKeyList();
     /**
      * <code>repeated string primary_key = 3;</code>
+     * @return The count of primaryKey.
      */
     int getPrimaryKeyCount();
     /**
      * <code>repeated string primary_key = 3;</code>
+     * @param index The index of the element to return.
+     * @return The primaryKey at the given index.
      */
     java.lang.String getPrimaryKey(int index);
     /**
      * <code>repeated string primary_key = 3;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the primaryKey at the given index.
      */
     com.google.protobuf.ByteString
         getPrimaryKeyBytes(int index);
@@ -6956,13 +7537,14 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>bool is_virtual = 5;</code>
+     * @return The isVirtual.
      */
     boolean getIsVirtual();
   }
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.DescribeTableResult}
    */
-  public  static final class DescribeTableResult extends
+  public static final class DescribeTableResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.DescribeTableResult)
       DescribeTableResultOrBuilder {
@@ -6975,7 +7557,13 @@ public final class ClickhouseInternalProtos {
       columns_ = java.util.Collections.emptyList();
       primaryKey_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       partitions_ = java.util.Collections.emptyList();
-      isVirtual_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DescribeTableResult();
     }
 
     @java.lang.Override
@@ -6988,6 +7576,9 @@ public final class ClickhouseInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -6999,15 +7590,8 @@ public final class ClickhouseInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 columns_ = new java.util.ArrayList<tech.ydb.table.YdbTable.ColumnMeta>();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -7017,7 +7601,7 @@ public final class ClickhouseInternalProtos {
             }
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 primaryKey_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000002;
               }
@@ -7025,7 +7609,7 @@ public final class ClickhouseInternalProtos {
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
                 partitions_ = new java.util.ArrayList<tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo>();
                 mutable_bitField0_ |= 0x00000004;
               }
@@ -7038,6 +7622,13 @@ public final class ClickhouseInternalProtos {
               isVirtual_ = input.readBool();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -7046,13 +7637,13 @@ public final class ClickhouseInternalProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           columns_ = java.util.Collections.unmodifiableList(columns_);
         }
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           primaryKey_ = primaryKey_.getUnmodifiableView();
         }
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000004) != 0)) {
           partitions_ = java.util.Collections.unmodifiableList(partitions_);
         }
         this.unknownFields = unknownFields.build();
@@ -7064,6 +7655,7 @@ public final class ClickhouseInternalProtos {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableResult_fieldAccessorTable
@@ -7071,18 +7663,19 @@ public final class ClickhouseInternalProtos {
               tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult.class, tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult.Builder.class);
     }
 
-    private int bitField0_;
     public static final int COLUMNS_FIELD_NUMBER = 2;
     private java.util.List<tech.ydb.table.YdbTable.ColumnMeta> columns_;
     /**
      * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.table.YdbTable.ColumnMeta> getColumnsList() {
       return columns_;
     }
     /**
      * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.table.YdbTable.ColumnMetaOrBuilder> 
         getColumnsOrBuilderList() {
       return columns_;
@@ -7090,18 +7683,21 @@ public final class ClickhouseInternalProtos {
     /**
      * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
      */
+    @java.lang.Override
     public int getColumnsCount() {
       return columns_.size();
     }
     /**
      * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.table.YdbTable.ColumnMeta getColumns(int index) {
       return columns_.get(index);
     }
     /**
      * <code>repeated .Ydb.Table.ColumnMeta columns = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.table.YdbTable.ColumnMetaOrBuilder getColumnsOrBuilder(
         int index) {
       return columns_.get(index);
@@ -7111,6 +7707,7 @@ public final class ClickhouseInternalProtos {
     private com.google.protobuf.LazyStringList primaryKey_;
     /**
      * <code>repeated string primary_key = 3;</code>
+     * @return A list containing the primaryKey.
      */
     public com.google.protobuf.ProtocolStringList
         getPrimaryKeyList() {
@@ -7118,18 +7715,23 @@ public final class ClickhouseInternalProtos {
     }
     /**
      * <code>repeated string primary_key = 3;</code>
+     * @return The count of primaryKey.
      */
     public int getPrimaryKeyCount() {
       return primaryKey_.size();
     }
     /**
      * <code>repeated string primary_key = 3;</code>
+     * @param index The index of the element to return.
+     * @return The primaryKey at the given index.
      */
     public java.lang.String getPrimaryKey(int index) {
       return primaryKey_.get(index);
     }
     /**
      * <code>repeated string primary_key = 3;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the primaryKey at the given index.
      */
     public com.google.protobuf.ByteString
         getPrimaryKeyBytes(int index) {
@@ -7141,12 +7743,14 @@ public final class ClickhouseInternalProtos {
     /**
      * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo> getPartitionsList() {
       return partitions_;
     }
     /**
      * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfoOrBuilder> 
         getPartitionsOrBuilderList() {
       return partitions_;
@@ -7154,18 +7758,21 @@ public final class ClickhouseInternalProtos {
     /**
      * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
      */
+    @java.lang.Override
     public int getPartitionsCount() {
       return partitions_.size();
     }
     /**
      * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
      */
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo getPartitions(int index) {
       return partitions_.get(index);
     }
     /**
      * <code>repeated .Ydb.ClickhouseInternal.PartitionInfo partitions = 4;</code>
      */
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfoOrBuilder getPartitionsOrBuilder(
         int index) {
       return partitions_.get(index);
@@ -7175,12 +7782,15 @@ public final class ClickhouseInternalProtos {
     private boolean isVirtual_;
     /**
      * <code>bool is_virtual = 5;</code>
+     * @return The isVirtual.
      */
+    @java.lang.Override
     public boolean getIsVirtual() {
       return isVirtual_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -7190,6 +7800,7 @@ public final class ClickhouseInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < columns_.size(); i++) {
@@ -7207,6 +7818,7 @@ public final class ClickhouseInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -7247,17 +7859,16 @@ public final class ClickhouseInternalProtos {
       }
       tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult other = (tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult) obj;
 
-      boolean result = true;
-      result = result && getColumnsList()
-          .equals(other.getColumnsList());
-      result = result && getPrimaryKeyList()
-          .equals(other.getPrimaryKeyList());
-      result = result && getPartitionsList()
-          .equals(other.getPartitionsList());
-      result = result && (getIsVirtual()
-          == other.getIsVirtual());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getColumnsList()
+          .equals(other.getColumnsList())) return false;
+      if (!getPrimaryKeyList()
+          .equals(other.getPrimaryKeyList())) return false;
+      if (!getPartitionsList()
+          .equals(other.getPartitionsList())) return false;
+      if (getIsVirtual()
+          != other.getIsVirtual()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -7357,6 +7968,7 @@ public final class ClickhouseInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -7364,6 +7976,7 @@ public final class ClickhouseInternalProtos {
     public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -7387,6 +8000,7 @@ public final class ClickhouseInternalProtos {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableResult_fieldAccessorTable
@@ -7411,6 +8025,7 @@ public final class ClickhouseInternalProtos {
           getPartitionsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (columnsBuilder_ == null) {
@@ -7432,15 +8047,18 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult getDefaultInstanceForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult build() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -7449,12 +8067,12 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult buildPartial() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult result = new tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (columnsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             columns_ = java.util.Collections.unmodifiableList(columns_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -7462,13 +8080,13 @@ public final class ClickhouseInternalProtos {
         } else {
           result.columns_ = columnsBuilder_.build();
         }
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((bitField0_ & 0x00000002) != 0)) {
           primaryKey_ = primaryKey_.getUnmodifiableView();
           bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.primaryKey_ = primaryKey_;
         if (partitionsBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000004) != 0)) {
             partitions_ = java.util.Collections.unmodifiableList(partitions_);
             bitField0_ = (bitField0_ & ~0x00000004);
           }
@@ -7477,37 +8095,43 @@ public final class ClickhouseInternalProtos {
           result.partitions_ = partitionsBuilder_.build();
         }
         result.isVirtual_ = isVirtual_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult) {
           return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult)other);
@@ -7589,10 +8213,12 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -7615,7 +8241,7 @@ public final class ClickhouseInternalProtos {
       private java.util.List<tech.ydb.table.YdbTable.ColumnMeta> columns_ =
         java.util.Collections.emptyList();
       private void ensureColumnsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           columns_ = new java.util.ArrayList<tech.ydb.table.YdbTable.ColumnMeta>(columns_);
           bitField0_ |= 0x00000001;
          }
@@ -7844,7 +8470,7 @@ public final class ClickhouseInternalProtos {
           columnsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.table.YdbTable.ColumnMeta, tech.ydb.table.YdbTable.ColumnMeta.Builder, tech.ydb.table.YdbTable.ColumnMetaOrBuilder>(
                   columns_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           columns_ = null;
@@ -7854,13 +8480,14 @@ public final class ClickhouseInternalProtos {
 
       private com.google.protobuf.LazyStringList primaryKey_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensurePrimaryKeyIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           primaryKey_ = new com.google.protobuf.LazyStringArrayList(primaryKey_);
           bitField0_ |= 0x00000002;
          }
       }
       /**
        * <code>repeated string primary_key = 3;</code>
+       * @return A list containing the primaryKey.
        */
       public com.google.protobuf.ProtocolStringList
           getPrimaryKeyList() {
@@ -7868,18 +8495,23 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string primary_key = 3;</code>
+       * @return The count of primaryKey.
        */
       public int getPrimaryKeyCount() {
         return primaryKey_.size();
       }
       /**
        * <code>repeated string primary_key = 3;</code>
+       * @param index The index of the element to return.
+       * @return The primaryKey at the given index.
        */
       public java.lang.String getPrimaryKey(int index) {
         return primaryKey_.get(index);
       }
       /**
        * <code>repeated string primary_key = 3;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the primaryKey at the given index.
        */
       public com.google.protobuf.ByteString
           getPrimaryKeyBytes(int index) {
@@ -7887,6 +8519,9 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string primary_key = 3;</code>
+       * @param index The index to set the value at.
+       * @param value The primaryKey to set.
+       * @return This builder for chaining.
        */
       public Builder setPrimaryKey(
           int index, java.lang.String value) {
@@ -7900,6 +8535,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string primary_key = 3;</code>
+       * @param value The primaryKey to add.
+       * @return This builder for chaining.
        */
       public Builder addPrimaryKey(
           java.lang.String value) {
@@ -7913,6 +8550,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string primary_key = 3;</code>
+       * @param values The primaryKey to add.
+       * @return This builder for chaining.
        */
       public Builder addAllPrimaryKey(
           java.lang.Iterable<java.lang.String> values) {
@@ -7924,6 +8563,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string primary_key = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPrimaryKey() {
         primaryKey_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -7933,6 +8573,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string primary_key = 3;</code>
+       * @param value The bytes of the primaryKey to add.
+       * @return This builder for chaining.
        */
       public Builder addPrimaryKeyBytes(
           com.google.protobuf.ByteString value) {
@@ -7949,7 +8591,7 @@ public final class ClickhouseInternalProtos {
       private java.util.List<tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo> partitions_ =
         java.util.Collections.emptyList();
       private void ensurePartitionsIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000004) != 0)) {
           partitions_ = new java.util.ArrayList<tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo>(partitions_);
           bitField0_ |= 0x00000004;
          }
@@ -8178,7 +8820,7 @@ public final class ClickhouseInternalProtos {
           partitionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo, tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfo.Builder, tech.ydb.clickhouse.ClickhouseInternalProtos.PartitionInfoOrBuilder>(
                   partitions_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  ((bitField0_ & 0x00000004) != 0),
                   getParentForChildren(),
                   isClean());
           partitions_ = null;
@@ -8189,12 +8831,16 @@ public final class ClickhouseInternalProtos {
       private boolean isVirtual_ ;
       /**
        * <code>bool is_virtual = 5;</code>
+       * @return The isVirtual.
        */
+      @java.lang.Override
       public boolean getIsVirtual() {
         return isVirtual_;
       }
       /**
        * <code>bool is_virtual = 5;</code>
+       * @param value The isVirtual to set.
+       * @return This builder for chaining.
        */
       public Builder setIsVirtual(boolean value) {
         
@@ -8204,6 +8850,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>bool is_virtual = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIsVirtual() {
         
@@ -8211,11 +8858,13 @@ public final class ClickhouseInternalProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -8237,11 +8886,12 @@ public final class ClickhouseInternalProtos {
 
     private static final com.google.protobuf.Parser<DescribeTableResult>
         PARSER = new com.google.protobuf.AbstractParser<DescribeTableResult>() {
+      @java.lang.Override
       public DescribeTableResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DescribeTableResult(input, extensionRegistry);
+        return new DescribeTableResult(input, extensionRegistry);
       }
     };
 
@@ -8254,6 +8904,7 @@ public final class ClickhouseInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -8266,10 +8917,12 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -8280,7 +8933,7 @@ public final class ClickhouseInternalProtos {
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.DescribeTableResponse}
    */
-  public  static final class DescribeTableResponse extends
+  public static final class DescribeTableResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.DescribeTableResponse)
       DescribeTableResponseOrBuilder {
@@ -8293,6 +8946,13 @@ public final class ClickhouseInternalProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DescribeTableResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -8302,7 +8962,9 @@ public final class ClickhouseInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -8313,13 +8975,6 @@ public final class ClickhouseInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -8331,6 +8986,13 @@ public final class ClickhouseInternalProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -8350,6 +9012,7 @@ public final class ClickhouseInternalProtos {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableResponse_fieldAccessorTable
@@ -8361,24 +9024,30 @@ public final class ClickhouseInternalProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -8388,6 +9057,7 @@ public final class ClickhouseInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -8396,6 +9066,7 @@ public final class ClickhouseInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -8420,14 +9091,13 @@ public final class ClickhouseInternalProtos {
       }
       tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse other = (tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -8516,6 +9186,7 @@ public final class ClickhouseInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -8523,6 +9194,7 @@ public final class ClickhouseInternalProtos {
     public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -8546,6 +9218,7 @@ public final class ClickhouseInternalProtos {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableResponse_fieldAccessorTable
@@ -8568,6 +9241,7 @@ public final class ClickhouseInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -8579,15 +9253,18 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DescribeTableResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse getDefaultInstanceForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse build() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -8596,6 +9273,7 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse buildPartial() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse result = new tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse(this);
         if (operationBuilder_ == null) {
@@ -8607,32 +9285,39 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse) {
           return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse)other);
@@ -8652,10 +9337,12 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8674,17 +9361,19 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -8790,11 +9479,13 @@ public final class ClickhouseInternalProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -8816,11 +9507,12 @@ public final class ClickhouseInternalProtos {
 
     private static final com.google.protobuf.Parser<DescribeTableResponse>
         PARSER = new com.google.protobuf.AbstractParser<DescribeTableResponse>() {
+      @java.lang.Override
       public DescribeTableResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DescribeTableResponse(input, extensionRegistry);
+        return new DescribeTableResponse(input, extensionRegistry);
       }
     };
 
@@ -8833,6 +9525,7 @@ public final class ClickhouseInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.DescribeTableResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -8845,10 +9538,12 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -8858,32 +9553,39 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>repeated string path = 2;</code>
+     * @return A list containing the path.
      */
     java.util.List<java.lang.String>
         getPathList();
     /**
      * <code>repeated string path = 2;</code>
+     * @return The count of path.
      */
     int getPathCount();
     /**
      * <code>repeated string path = 2;</code>
+     * @param index The index of the element to return.
+     * @return The path at the given index.
      */
     java.lang.String getPath(int index);
     /**
      * <code>repeated string path = 2;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the path at the given index.
      */
     com.google.protobuf.ByteString
         getPathBytes(int index);
 
     /**
      * <code>bool ignore_system_views = 3;</code>
+     * @return The ignoreSystemViews.
      */
     boolean getIgnoreSystemViews();
   }
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.CreateSnapshotRequest}
    */
-  public  static final class CreateSnapshotRequest extends
+  public static final class CreateSnapshotRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.CreateSnapshotRequest)
       CreateSnapshotRequestOrBuilder {
@@ -8894,7 +9596,13 @@ public final class ClickhouseInternalProtos {
     }
     private CreateSnapshotRequest() {
       path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      ignoreSystemViews_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CreateSnapshotRequest();
     }
 
     @java.lang.Override
@@ -8907,6 +9615,9 @@ public final class ClickhouseInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -8918,13 +9629,6 @@ public final class ClickhouseInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -8940,9 +9644,9 @@ public final class ClickhouseInternalProtos {
             }
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 path_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               path_.add(s);
               break;
@@ -8950,6 +9654,13 @@ public final class ClickhouseInternalProtos {
             case 24: {
 
               ignoreSystemViews_ = input.readBool();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -8960,7 +9671,7 @@ public final class ClickhouseInternalProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           path_ = path_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -8972,6 +9683,7 @@ public final class ClickhouseInternalProtos {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotRequest_fieldAccessorTable
@@ -8979,24 +9691,28 @@ public final class ClickhouseInternalProtos {
               tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest.class, tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -9005,6 +9721,7 @@ public final class ClickhouseInternalProtos {
     private com.google.protobuf.LazyStringList path_;
     /**
      * <code>repeated string path = 2;</code>
+     * @return A list containing the path.
      */
     public com.google.protobuf.ProtocolStringList
         getPathList() {
@@ -9012,18 +9729,23 @@ public final class ClickhouseInternalProtos {
     }
     /**
      * <code>repeated string path = 2;</code>
+     * @return The count of path.
      */
     public int getPathCount() {
       return path_.size();
     }
     /**
      * <code>repeated string path = 2;</code>
+     * @param index The index of the element to return.
+     * @return The path at the given index.
      */
     public java.lang.String getPath(int index) {
       return path_.get(index);
     }
     /**
      * <code>repeated string path = 2;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the path at the given index.
      */
     public com.google.protobuf.ByteString
         getPathBytes(int index) {
@@ -9034,12 +9756,15 @@ public final class ClickhouseInternalProtos {
     private boolean ignoreSystemViews_;
     /**
      * <code>bool ignore_system_views = 3;</code>
+     * @return The ignoreSystemViews.
      */
+    @java.lang.Override
     public boolean getIgnoreSystemViews() {
       return ignoreSystemViews_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -9049,6 +9774,7 @@ public final class ClickhouseInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -9063,6 +9789,7 @@ public final class ClickhouseInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -9099,18 +9826,17 @@ public final class ClickhouseInternalProtos {
       }
       tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest other = (tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getPathList()
-          .equals(other.getPathList());
-      result = result && (getIgnoreSystemViews()
-          == other.getIgnoreSystemViews());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getPathList()
+          .equals(other.getPathList())) return false;
+      if (getIgnoreSystemViews()
+          != other.getIgnoreSystemViews()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -9206,6 +9932,7 @@ public final class ClickhouseInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -9213,6 +9940,7 @@ public final class ClickhouseInternalProtos {
     public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -9236,6 +9964,7 @@ public final class ClickhouseInternalProtos {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotRequest_fieldAccessorTable
@@ -9258,6 +9987,7 @@ public final class ClickhouseInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -9267,21 +9997,24 @@ public final class ClickhouseInternalProtos {
           operationParamsBuilder_ = null;
         }
         path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         ignoreSystemViews_ = false;
 
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest getDefaultInstanceForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest build() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -9290,52 +10023,58 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest buildPartial() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest result = new tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
         } else {
           result.operationParams_ = operationParamsBuilder_.build();
         }
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           path_ = path_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.path_ = path_;
         result.ignoreSystemViews_ = ignoreSystemViews_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest) {
           return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest)other);
@@ -9353,7 +10092,7 @@ public final class ClickhouseInternalProtos {
         if (!other.path_.isEmpty()) {
           if (path_.isEmpty()) {
             path_ = other.path_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensurePathIsMutable();
             path_.addAll(other.path_);
@@ -9368,10 +10107,12 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -9391,17 +10132,19 @@ public final class ClickhouseInternalProtos {
       }
       private int bitField0_;
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -9510,13 +10253,14 @@ public final class ClickhouseInternalProtos {
 
       private com.google.protobuf.LazyStringList path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensurePathIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           path_ = new com.google.protobuf.LazyStringArrayList(path_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @return A list containing the path.
        */
       public com.google.protobuf.ProtocolStringList
           getPathList() {
@@ -9524,18 +10268,23 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @return The count of path.
        */
       public int getPathCount() {
         return path_.size();
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @param index The index of the element to return.
+       * @return The path at the given index.
        */
       public java.lang.String getPath(int index) {
         return path_.get(index);
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the path at the given index.
        */
       public com.google.protobuf.ByteString
           getPathBytes(int index) {
@@ -9543,6 +10292,9 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @param index The index to set the value at.
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           int index, java.lang.String value) {
@@ -9556,6 +10308,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @param value The path to add.
+       * @return This builder for chaining.
        */
       public Builder addPath(
           java.lang.String value) {
@@ -9569,6 +10323,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @param values The path to add.
+       * @return This builder for chaining.
        */
       public Builder addAllPath(
           java.lang.Iterable<java.lang.String> values) {
@@ -9580,15 +10336,18 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @param value The bytes of the path to add.
+       * @return This builder for chaining.
        */
       public Builder addPathBytes(
           com.google.protobuf.ByteString value) {
@@ -9605,12 +10364,16 @@ public final class ClickhouseInternalProtos {
       private boolean ignoreSystemViews_ ;
       /**
        * <code>bool ignore_system_views = 3;</code>
+       * @return The ignoreSystemViews.
        */
+      @java.lang.Override
       public boolean getIgnoreSystemViews() {
         return ignoreSystemViews_;
       }
       /**
        * <code>bool ignore_system_views = 3;</code>
+       * @param value The ignoreSystemViews to set.
+       * @return This builder for chaining.
        */
       public Builder setIgnoreSystemViews(boolean value) {
         
@@ -9620,6 +10383,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>bool ignore_system_views = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIgnoreSystemViews() {
         
@@ -9627,11 +10391,13 @@ public final class ClickhouseInternalProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -9653,11 +10419,12 @@ public final class ClickhouseInternalProtos {
 
     private static final com.google.protobuf.Parser<CreateSnapshotRequest>
         PARSER = new com.google.protobuf.AbstractParser<CreateSnapshotRequest>() {
+      @java.lang.Override
       public CreateSnapshotRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CreateSnapshotRequest(input, extensionRegistry);
+        return new CreateSnapshotRequest(input, extensionRegistry);
       }
     };
 
@@ -9670,6 +10437,7 @@ public final class ClickhouseInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -9682,23 +10450,26 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>string snapshot_id = 1;</code>
+     * @return The snapshotId.
      */
     java.lang.String getSnapshotId();
     /**
      * <code>string snapshot_id = 1;</code>
+     * @return The bytes for snapshotId.
      */
     com.google.protobuf.ByteString
         getSnapshotIdBytes();
 
     /**
      * <code>uint64 timeout_ms = 2;</code>
+     * @return The timeoutMs.
      */
     long getTimeoutMs();
   }
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.CreateSnapshotResult}
    */
-  public  static final class CreateSnapshotResult extends
+  public static final class CreateSnapshotResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.CreateSnapshotResult)
       CreateSnapshotResultOrBuilder {
@@ -9709,7 +10480,13 @@ public final class ClickhouseInternalProtos {
     }
     private CreateSnapshotResult() {
       snapshotId_ = "";
-      timeoutMs_ = 0L;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CreateSnapshotResult();
     }
 
     @java.lang.Override
@@ -9722,7 +10499,9 @@ public final class ClickhouseInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -9733,13 +10512,6 @@ public final class ClickhouseInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -9749,6 +10521,13 @@ public final class ClickhouseInternalProtos {
             case 16: {
 
               timeoutMs_ = input.readUInt64();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -9768,6 +10547,7 @@ public final class ClickhouseInternalProtos {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotResult_fieldAccessorTable
@@ -9779,7 +10559,9 @@ public final class ClickhouseInternalProtos {
     private volatile java.lang.Object snapshotId_;
     /**
      * <code>string snapshot_id = 1;</code>
+     * @return The snapshotId.
      */
+    @java.lang.Override
     public java.lang.String getSnapshotId() {
       java.lang.Object ref = snapshotId_;
       if (ref instanceof java.lang.String) {
@@ -9794,7 +10576,9 @@ public final class ClickhouseInternalProtos {
     }
     /**
      * <code>string snapshot_id = 1;</code>
+     * @return The bytes for snapshotId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getSnapshotIdBytes() {
       java.lang.Object ref = snapshotId_;
@@ -9813,12 +10597,15 @@ public final class ClickhouseInternalProtos {
     private long timeoutMs_;
     /**
      * <code>uint64 timeout_ms = 2;</code>
+     * @return The timeoutMs.
      */
+    @java.lang.Override
     public long getTimeoutMs() {
       return timeoutMs_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -9828,6 +10615,7 @@ public final class ClickhouseInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getSnapshotIdBytes().isEmpty()) {
@@ -9839,6 +10627,7 @@ public final class ClickhouseInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -9866,13 +10655,12 @@ public final class ClickhouseInternalProtos {
       }
       tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult other = (tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult) obj;
 
-      boolean result = true;
-      result = result && getSnapshotId()
-          .equals(other.getSnapshotId());
-      result = result && (getTimeoutMs()
-          == other.getTimeoutMs());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getSnapshotId()
+          .equals(other.getSnapshotId())) return false;
+      if (getTimeoutMs()
+          != other.getTimeoutMs()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -9962,6 +10750,7 @@ public final class ClickhouseInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -9969,6 +10758,7 @@ public final class ClickhouseInternalProtos {
     public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -9992,6 +10782,7 @@ public final class ClickhouseInternalProtos {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotResult_fieldAccessorTable
@@ -10014,6 +10805,7 @@ public final class ClickhouseInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         snapshotId_ = "";
@@ -10023,15 +10815,18 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult getDefaultInstanceForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult build() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -10040,6 +10835,7 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult buildPartial() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult result = new tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult(this);
         result.snapshotId_ = snapshotId_;
@@ -10048,32 +10844,39 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult) {
           return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult)other);
@@ -10097,10 +10900,12 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -10122,6 +10927,7 @@ public final class ClickhouseInternalProtos {
       private java.lang.Object snapshotId_ = "";
       /**
        * <code>string snapshot_id = 1;</code>
+       * @return The snapshotId.
        */
       public java.lang.String getSnapshotId() {
         java.lang.Object ref = snapshotId_;
@@ -10137,6 +10943,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 1;</code>
+       * @return The bytes for snapshotId.
        */
       public com.google.protobuf.ByteString
           getSnapshotIdBytes() {
@@ -10153,6 +10960,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 1;</code>
+       * @param value The snapshotId to set.
+       * @return This builder for chaining.
        */
       public Builder setSnapshotId(
           java.lang.String value) {
@@ -10166,6 +10975,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSnapshotId() {
         
@@ -10175,6 +10985,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 1;</code>
+       * @param value The bytes for snapshotId to set.
+       * @return This builder for chaining.
        */
       public Builder setSnapshotIdBytes(
           com.google.protobuf.ByteString value) {
@@ -10191,12 +11003,16 @@ public final class ClickhouseInternalProtos {
       private long timeoutMs_ ;
       /**
        * <code>uint64 timeout_ms = 2;</code>
+       * @return The timeoutMs.
        */
+      @java.lang.Override
       public long getTimeoutMs() {
         return timeoutMs_;
       }
       /**
        * <code>uint64 timeout_ms = 2;</code>
+       * @param value The timeoutMs to set.
+       * @return This builder for chaining.
        */
       public Builder setTimeoutMs(long value) {
         
@@ -10206,6 +11022,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>uint64 timeout_ms = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTimeoutMs() {
         
@@ -10213,11 +11030,13 @@ public final class ClickhouseInternalProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -10239,11 +11058,12 @@ public final class ClickhouseInternalProtos {
 
     private static final com.google.protobuf.Parser<CreateSnapshotResult>
         PARSER = new com.google.protobuf.AbstractParser<CreateSnapshotResult>() {
+      @java.lang.Override
       public CreateSnapshotResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CreateSnapshotResult(input, extensionRegistry);
+        return new CreateSnapshotResult(input, extensionRegistry);
       }
     };
 
@@ -10256,6 +11076,7 @@ public final class ClickhouseInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -10268,10 +11089,12 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -10282,7 +11105,7 @@ public final class ClickhouseInternalProtos {
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.CreateSnapshotResponse}
    */
-  public  static final class CreateSnapshotResponse extends
+  public static final class CreateSnapshotResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.CreateSnapshotResponse)
       CreateSnapshotResponseOrBuilder {
@@ -10295,6 +11118,13 @@ public final class ClickhouseInternalProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CreateSnapshotResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -10304,7 +11134,9 @@ public final class ClickhouseInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -10315,13 +11147,6 @@ public final class ClickhouseInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -10333,6 +11158,13 @@ public final class ClickhouseInternalProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -10352,6 +11184,7 @@ public final class ClickhouseInternalProtos {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotResponse_fieldAccessorTable
@@ -10363,24 +11196,30 @@ public final class ClickhouseInternalProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -10390,6 +11229,7 @@ public final class ClickhouseInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -10398,6 +11238,7 @@ public final class ClickhouseInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -10422,14 +11263,13 @@ public final class ClickhouseInternalProtos {
       }
       tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse other = (tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -10518,6 +11358,7 @@ public final class ClickhouseInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -10525,6 +11366,7 @@ public final class ClickhouseInternalProtos {
     public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -10548,6 +11390,7 @@ public final class ClickhouseInternalProtos {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotResponse_fieldAccessorTable
@@ -10570,6 +11413,7 @@ public final class ClickhouseInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -10581,15 +11425,18 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_CreateSnapshotResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse getDefaultInstanceForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse build() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -10598,6 +11445,7 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse buildPartial() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse result = new tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse(this);
         if (operationBuilder_ == null) {
@@ -10609,32 +11457,39 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse) {
           return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse)other);
@@ -10654,10 +11509,12 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -10676,17 +11533,19 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -10792,11 +11651,13 @@ public final class ClickhouseInternalProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -10818,11 +11679,12 @@ public final class ClickhouseInternalProtos {
 
     private static final com.google.protobuf.Parser<CreateSnapshotResponse>
         PARSER = new com.google.protobuf.AbstractParser<CreateSnapshotResponse>() {
+      @java.lang.Override
       public CreateSnapshotResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CreateSnapshotResponse(input, extensionRegistry);
+        return new CreateSnapshotResponse(input, extensionRegistry);
       }
     };
 
@@ -10835,6 +11697,7 @@ public final class ClickhouseInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.CreateSnapshotResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -10847,10 +11710,12 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -10860,42 +11725,51 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>repeated string path = 2;</code>
+     * @return A list containing the path.
      */
     java.util.List<java.lang.String>
         getPathList();
     /**
      * <code>repeated string path = 2;</code>
+     * @return The count of path.
      */
     int getPathCount();
     /**
      * <code>repeated string path = 2;</code>
+     * @param index The index of the element to return.
+     * @return The path at the given index.
      */
     java.lang.String getPath(int index);
     /**
      * <code>repeated string path = 2;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the path at the given index.
      */
     com.google.protobuf.ByteString
         getPathBytes(int index);
 
     /**
      * <code>string snapshot_id = 3;</code>
+     * @return The snapshotId.
      */
     java.lang.String getSnapshotId();
     /**
      * <code>string snapshot_id = 3;</code>
+     * @return The bytes for snapshotId.
      */
     com.google.protobuf.ByteString
         getSnapshotIdBytes();
 
     /**
      * <code>bool ignore_system_views = 4;</code>
+     * @return The ignoreSystemViews.
      */
     boolean getIgnoreSystemViews();
   }
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.RefreshSnapshotRequest}
    */
-  public  static final class RefreshSnapshotRequest extends
+  public static final class RefreshSnapshotRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.RefreshSnapshotRequest)
       RefreshSnapshotRequestOrBuilder {
@@ -10907,7 +11781,13 @@ public final class ClickhouseInternalProtos {
     private RefreshSnapshotRequest() {
       path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       snapshotId_ = "";
-      ignoreSystemViews_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RefreshSnapshotRequest();
     }
 
     @java.lang.Override
@@ -10920,6 +11800,9 @@ public final class ClickhouseInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -10931,13 +11814,6 @@ public final class ClickhouseInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -10953,9 +11829,9 @@ public final class ClickhouseInternalProtos {
             }
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 path_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               path_.add(s);
               break;
@@ -10971,6 +11847,13 @@ public final class ClickhouseInternalProtos {
               ignoreSystemViews_ = input.readBool();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -10979,7 +11862,7 @@ public final class ClickhouseInternalProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           path_ = path_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -10991,6 +11874,7 @@ public final class ClickhouseInternalProtos {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotRequest_fieldAccessorTable
@@ -10998,24 +11882,28 @@ public final class ClickhouseInternalProtos {
               tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest.class, tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -11024,6 +11912,7 @@ public final class ClickhouseInternalProtos {
     private com.google.protobuf.LazyStringList path_;
     /**
      * <code>repeated string path = 2;</code>
+     * @return A list containing the path.
      */
     public com.google.protobuf.ProtocolStringList
         getPathList() {
@@ -11031,18 +11920,23 @@ public final class ClickhouseInternalProtos {
     }
     /**
      * <code>repeated string path = 2;</code>
+     * @return The count of path.
      */
     public int getPathCount() {
       return path_.size();
     }
     /**
      * <code>repeated string path = 2;</code>
+     * @param index The index of the element to return.
+     * @return The path at the given index.
      */
     public java.lang.String getPath(int index) {
       return path_.get(index);
     }
     /**
      * <code>repeated string path = 2;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the path at the given index.
      */
     public com.google.protobuf.ByteString
         getPathBytes(int index) {
@@ -11053,7 +11947,9 @@ public final class ClickhouseInternalProtos {
     private volatile java.lang.Object snapshotId_;
     /**
      * <code>string snapshot_id = 3;</code>
+     * @return The snapshotId.
      */
+    @java.lang.Override
     public java.lang.String getSnapshotId() {
       java.lang.Object ref = snapshotId_;
       if (ref instanceof java.lang.String) {
@@ -11068,7 +11964,9 @@ public final class ClickhouseInternalProtos {
     }
     /**
      * <code>string snapshot_id = 3;</code>
+     * @return The bytes for snapshotId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getSnapshotIdBytes() {
       java.lang.Object ref = snapshotId_;
@@ -11087,12 +11985,15 @@ public final class ClickhouseInternalProtos {
     private boolean ignoreSystemViews_;
     /**
      * <code>bool ignore_system_views = 4;</code>
+     * @return The ignoreSystemViews.
      */
+    @java.lang.Override
     public boolean getIgnoreSystemViews() {
       return ignoreSystemViews_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -11102,6 +12003,7 @@ public final class ClickhouseInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -11119,6 +12021,7 @@ public final class ClickhouseInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -11158,20 +12061,19 @@ public final class ClickhouseInternalProtos {
       }
       tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest other = (tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getPathList()
-          .equals(other.getPathList());
-      result = result && getSnapshotId()
-          .equals(other.getSnapshotId());
-      result = result && (getIgnoreSystemViews()
-          == other.getIgnoreSystemViews());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getPathList()
+          .equals(other.getPathList())) return false;
+      if (!getSnapshotId()
+          .equals(other.getSnapshotId())) return false;
+      if (getIgnoreSystemViews()
+          != other.getIgnoreSystemViews()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -11269,6 +12171,7 @@ public final class ClickhouseInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -11276,6 +12179,7 @@ public final class ClickhouseInternalProtos {
     public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -11299,6 +12203,7 @@ public final class ClickhouseInternalProtos {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotRequest_fieldAccessorTable
@@ -11321,6 +12226,7 @@ public final class ClickhouseInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -11330,7 +12236,7 @@ public final class ClickhouseInternalProtos {
           operationParamsBuilder_ = null;
         }
         path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         snapshotId_ = "";
 
         ignoreSystemViews_ = false;
@@ -11338,15 +12244,18 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest getDefaultInstanceForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest build() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -11355,53 +12264,59 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest buildPartial() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest result = new tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
         } else {
           result.operationParams_ = operationParamsBuilder_.build();
         }
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           path_ = path_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.path_ = path_;
         result.snapshotId_ = snapshotId_;
         result.ignoreSystemViews_ = ignoreSystemViews_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest) {
           return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest)other);
@@ -11419,7 +12334,7 @@ public final class ClickhouseInternalProtos {
         if (!other.path_.isEmpty()) {
           if (path_.isEmpty()) {
             path_ = other.path_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensurePathIsMutable();
             path_.addAll(other.path_);
@@ -11438,10 +12353,12 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -11461,17 +12378,19 @@ public final class ClickhouseInternalProtos {
       }
       private int bitField0_;
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -11580,13 +12499,14 @@ public final class ClickhouseInternalProtos {
 
       private com.google.protobuf.LazyStringList path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensurePathIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           path_ = new com.google.protobuf.LazyStringArrayList(path_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @return A list containing the path.
        */
       public com.google.protobuf.ProtocolStringList
           getPathList() {
@@ -11594,18 +12514,23 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @return The count of path.
        */
       public int getPathCount() {
         return path_.size();
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @param index The index of the element to return.
+       * @return The path at the given index.
        */
       public java.lang.String getPath(int index) {
         return path_.get(index);
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the path at the given index.
        */
       public com.google.protobuf.ByteString
           getPathBytes(int index) {
@@ -11613,6 +12538,9 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @param index The index to set the value at.
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           int index, java.lang.String value) {
@@ -11626,6 +12554,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @param value The path to add.
+       * @return This builder for chaining.
        */
       public Builder addPath(
           java.lang.String value) {
@@ -11639,6 +12569,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @param values The path to add.
+       * @return This builder for chaining.
        */
       public Builder addAllPath(
           java.lang.Iterable<java.lang.String> values) {
@@ -11650,15 +12582,18 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @param value The bytes of the path to add.
+       * @return This builder for chaining.
        */
       public Builder addPathBytes(
           com.google.protobuf.ByteString value) {
@@ -11675,6 +12610,7 @@ public final class ClickhouseInternalProtos {
       private java.lang.Object snapshotId_ = "";
       /**
        * <code>string snapshot_id = 3;</code>
+       * @return The snapshotId.
        */
       public java.lang.String getSnapshotId() {
         java.lang.Object ref = snapshotId_;
@@ -11690,6 +12626,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 3;</code>
+       * @return The bytes for snapshotId.
        */
       public com.google.protobuf.ByteString
           getSnapshotIdBytes() {
@@ -11706,6 +12643,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 3;</code>
+       * @param value The snapshotId to set.
+       * @return This builder for chaining.
        */
       public Builder setSnapshotId(
           java.lang.String value) {
@@ -11719,6 +12658,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSnapshotId() {
         
@@ -11728,6 +12668,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 3;</code>
+       * @param value The bytes for snapshotId to set.
+       * @return This builder for chaining.
        */
       public Builder setSnapshotIdBytes(
           com.google.protobuf.ByteString value) {
@@ -11744,12 +12686,16 @@ public final class ClickhouseInternalProtos {
       private boolean ignoreSystemViews_ ;
       /**
        * <code>bool ignore_system_views = 4;</code>
+       * @return The ignoreSystemViews.
        */
+      @java.lang.Override
       public boolean getIgnoreSystemViews() {
         return ignoreSystemViews_;
       }
       /**
        * <code>bool ignore_system_views = 4;</code>
+       * @param value The ignoreSystemViews to set.
+       * @return This builder for chaining.
        */
       public Builder setIgnoreSystemViews(boolean value) {
         
@@ -11759,6 +12705,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>bool ignore_system_views = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIgnoreSystemViews() {
         
@@ -11766,11 +12713,13 @@ public final class ClickhouseInternalProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -11792,11 +12741,12 @@ public final class ClickhouseInternalProtos {
 
     private static final com.google.protobuf.Parser<RefreshSnapshotRequest>
         PARSER = new com.google.protobuf.AbstractParser<RefreshSnapshotRequest>() {
+      @java.lang.Override
       public RefreshSnapshotRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new RefreshSnapshotRequest(input, extensionRegistry);
+        return new RefreshSnapshotRequest(input, extensionRegistry);
       }
     };
 
@@ -11809,6 +12759,7 @@ public final class ClickhouseInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -11821,10 +12772,12 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>string snapshot_id = 1;</code>
+     * @return The snapshotId.
      */
     java.lang.String getSnapshotId();
     /**
      * <code>string snapshot_id = 1;</code>
+     * @return The bytes for snapshotId.
      */
     com.google.protobuf.ByteString
         getSnapshotIdBytes();
@@ -11832,7 +12785,7 @@ public final class ClickhouseInternalProtos {
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.RefreshSnapshotResult}
    */
-  public  static final class RefreshSnapshotResult extends
+  public static final class RefreshSnapshotResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.RefreshSnapshotResult)
       RefreshSnapshotResultOrBuilder {
@@ -11846,6 +12799,13 @@ public final class ClickhouseInternalProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RefreshSnapshotResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -11855,7 +12815,9 @@ public final class ClickhouseInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -11866,17 +12828,17 @@ public final class ClickhouseInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
               snapshotId_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -11896,6 +12858,7 @@ public final class ClickhouseInternalProtos {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResult_fieldAccessorTable
@@ -11907,7 +12870,9 @@ public final class ClickhouseInternalProtos {
     private volatile java.lang.Object snapshotId_;
     /**
      * <code>string snapshot_id = 1;</code>
+     * @return The snapshotId.
      */
+    @java.lang.Override
     public java.lang.String getSnapshotId() {
       java.lang.Object ref = snapshotId_;
       if (ref instanceof java.lang.String) {
@@ -11922,7 +12887,9 @@ public final class ClickhouseInternalProtos {
     }
     /**
      * <code>string snapshot_id = 1;</code>
+     * @return The bytes for snapshotId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getSnapshotIdBytes() {
       java.lang.Object ref = snapshotId_;
@@ -11938,6 +12905,7 @@ public final class ClickhouseInternalProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -11947,6 +12915,7 @@ public final class ClickhouseInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getSnapshotIdBytes().isEmpty()) {
@@ -11955,6 +12924,7 @@ public final class ClickhouseInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -11978,11 +12948,10 @@ public final class ClickhouseInternalProtos {
       }
       tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult other = (tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult) obj;
 
-      boolean result = true;
-      result = result && getSnapshotId()
-          .equals(other.getSnapshotId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getSnapshotId()
+          .equals(other.getSnapshotId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -12069,6 +13038,7 @@ public final class ClickhouseInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -12076,6 +13046,7 @@ public final class ClickhouseInternalProtos {
     public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -12099,6 +13070,7 @@ public final class ClickhouseInternalProtos {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResult_fieldAccessorTable
@@ -12121,6 +13093,7 @@ public final class ClickhouseInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         snapshotId_ = "";
@@ -12128,15 +13101,18 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult getDefaultInstanceForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult build() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -12145,6 +13121,7 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult buildPartial() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult result = new tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult(this);
         result.snapshotId_ = snapshotId_;
@@ -12152,32 +13129,39 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult) {
           return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult)other);
@@ -12198,10 +13182,12 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -12223,6 +13209,7 @@ public final class ClickhouseInternalProtos {
       private java.lang.Object snapshotId_ = "";
       /**
        * <code>string snapshot_id = 1;</code>
+       * @return The snapshotId.
        */
       public java.lang.String getSnapshotId() {
         java.lang.Object ref = snapshotId_;
@@ -12238,6 +13225,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 1;</code>
+       * @return The bytes for snapshotId.
        */
       public com.google.protobuf.ByteString
           getSnapshotIdBytes() {
@@ -12254,6 +13242,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 1;</code>
+       * @param value The snapshotId to set.
+       * @return This builder for chaining.
        */
       public Builder setSnapshotId(
           java.lang.String value) {
@@ -12267,6 +13257,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSnapshotId() {
         
@@ -12276,6 +13267,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 1;</code>
+       * @param value The bytes for snapshotId to set.
+       * @return This builder for chaining.
        */
       public Builder setSnapshotIdBytes(
           com.google.protobuf.ByteString value) {
@@ -12288,11 +13281,13 @@ public final class ClickhouseInternalProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -12314,11 +13309,12 @@ public final class ClickhouseInternalProtos {
 
     private static final com.google.protobuf.Parser<RefreshSnapshotResult>
         PARSER = new com.google.protobuf.AbstractParser<RefreshSnapshotResult>() {
+      @java.lang.Override
       public RefreshSnapshotResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new RefreshSnapshotResult(input, extensionRegistry);
+        return new RefreshSnapshotResult(input, extensionRegistry);
       }
     };
 
@@ -12331,6 +13327,7 @@ public final class ClickhouseInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -12343,10 +13340,12 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -12357,7 +13356,7 @@ public final class ClickhouseInternalProtos {
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.RefreshSnapshotResponse}
    */
-  public  static final class RefreshSnapshotResponse extends
+  public static final class RefreshSnapshotResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.RefreshSnapshotResponse)
       RefreshSnapshotResponseOrBuilder {
@@ -12370,6 +13369,13 @@ public final class ClickhouseInternalProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RefreshSnapshotResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -12379,7 +13385,9 @@ public final class ClickhouseInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -12390,13 +13398,6 @@ public final class ClickhouseInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -12408,6 +13409,13 @@ public final class ClickhouseInternalProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -12427,6 +13435,7 @@ public final class ClickhouseInternalProtos {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResponse_fieldAccessorTable
@@ -12438,24 +13447,30 @@ public final class ClickhouseInternalProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -12465,6 +13480,7 @@ public final class ClickhouseInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -12473,6 +13489,7 @@ public final class ClickhouseInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -12497,14 +13514,13 @@ public final class ClickhouseInternalProtos {
       }
       tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse other = (tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -12593,6 +13609,7 @@ public final class ClickhouseInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -12600,6 +13617,7 @@ public final class ClickhouseInternalProtos {
     public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -12623,6 +13641,7 @@ public final class ClickhouseInternalProtos {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResponse_fieldAccessorTable
@@ -12645,6 +13664,7 @@ public final class ClickhouseInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -12656,15 +13676,18 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_RefreshSnapshotResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse getDefaultInstanceForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse build() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -12673,6 +13696,7 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse buildPartial() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse result = new tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse(this);
         if (operationBuilder_ == null) {
@@ -12684,32 +13708,39 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse) {
           return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse)other);
@@ -12729,10 +13760,12 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -12751,17 +13784,19 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -12867,11 +13902,13 @@ public final class ClickhouseInternalProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -12893,11 +13930,12 @@ public final class ClickhouseInternalProtos {
 
     private static final com.google.protobuf.Parser<RefreshSnapshotResponse>
         PARSER = new com.google.protobuf.AbstractParser<RefreshSnapshotResponse>() {
+      @java.lang.Override
       public RefreshSnapshotResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new RefreshSnapshotResponse(input, extensionRegistry);
+        return new RefreshSnapshotResponse(input, extensionRegistry);
       }
     };
 
@@ -12910,6 +13948,7 @@ public final class ClickhouseInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.RefreshSnapshotResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -12922,10 +13961,12 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -12935,42 +13976,51 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>repeated string path = 2;</code>
+     * @return A list containing the path.
      */
     java.util.List<java.lang.String>
         getPathList();
     /**
      * <code>repeated string path = 2;</code>
+     * @return The count of path.
      */
     int getPathCount();
     /**
      * <code>repeated string path = 2;</code>
+     * @param index The index of the element to return.
+     * @return The path at the given index.
      */
     java.lang.String getPath(int index);
     /**
      * <code>repeated string path = 2;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the path at the given index.
      */
     com.google.protobuf.ByteString
         getPathBytes(int index);
 
     /**
      * <code>string snapshot_id = 3;</code>
+     * @return The snapshotId.
      */
     java.lang.String getSnapshotId();
     /**
      * <code>string snapshot_id = 3;</code>
+     * @return The bytes for snapshotId.
      */
     com.google.protobuf.ByteString
         getSnapshotIdBytes();
 
     /**
      * <code>bool ignore_system_views = 4;</code>
+     * @return The ignoreSystemViews.
      */
     boolean getIgnoreSystemViews();
   }
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.DiscardSnapshotRequest}
    */
-  public  static final class DiscardSnapshotRequest extends
+  public static final class DiscardSnapshotRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.DiscardSnapshotRequest)
       DiscardSnapshotRequestOrBuilder {
@@ -12982,7 +14032,13 @@ public final class ClickhouseInternalProtos {
     private DiscardSnapshotRequest() {
       path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       snapshotId_ = "";
-      ignoreSystemViews_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DiscardSnapshotRequest();
     }
 
     @java.lang.Override
@@ -12995,6 +14051,9 @@ public final class ClickhouseInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -13006,13 +14065,6 @@ public final class ClickhouseInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -13028,9 +14080,9 @@ public final class ClickhouseInternalProtos {
             }
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 path_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               path_.add(s);
               break;
@@ -13046,6 +14098,13 @@ public final class ClickhouseInternalProtos {
               ignoreSystemViews_ = input.readBool();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -13054,7 +14113,7 @@ public final class ClickhouseInternalProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           path_ = path_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -13066,6 +14125,7 @@ public final class ClickhouseInternalProtos {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotRequest_fieldAccessorTable
@@ -13073,24 +14133,28 @@ public final class ClickhouseInternalProtos {
               tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest.class, tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -13099,6 +14163,7 @@ public final class ClickhouseInternalProtos {
     private com.google.protobuf.LazyStringList path_;
     /**
      * <code>repeated string path = 2;</code>
+     * @return A list containing the path.
      */
     public com.google.protobuf.ProtocolStringList
         getPathList() {
@@ -13106,18 +14171,23 @@ public final class ClickhouseInternalProtos {
     }
     /**
      * <code>repeated string path = 2;</code>
+     * @return The count of path.
      */
     public int getPathCount() {
       return path_.size();
     }
     /**
      * <code>repeated string path = 2;</code>
+     * @param index The index of the element to return.
+     * @return The path at the given index.
      */
     public java.lang.String getPath(int index) {
       return path_.get(index);
     }
     /**
      * <code>repeated string path = 2;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the path at the given index.
      */
     public com.google.protobuf.ByteString
         getPathBytes(int index) {
@@ -13128,7 +14198,9 @@ public final class ClickhouseInternalProtos {
     private volatile java.lang.Object snapshotId_;
     /**
      * <code>string snapshot_id = 3;</code>
+     * @return The snapshotId.
      */
+    @java.lang.Override
     public java.lang.String getSnapshotId() {
       java.lang.Object ref = snapshotId_;
       if (ref instanceof java.lang.String) {
@@ -13143,7 +14215,9 @@ public final class ClickhouseInternalProtos {
     }
     /**
      * <code>string snapshot_id = 3;</code>
+     * @return The bytes for snapshotId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getSnapshotIdBytes() {
       java.lang.Object ref = snapshotId_;
@@ -13162,12 +14236,15 @@ public final class ClickhouseInternalProtos {
     private boolean ignoreSystemViews_;
     /**
      * <code>bool ignore_system_views = 4;</code>
+     * @return The ignoreSystemViews.
      */
+    @java.lang.Override
     public boolean getIgnoreSystemViews() {
       return ignoreSystemViews_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -13177,6 +14254,7 @@ public final class ClickhouseInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -13194,6 +14272,7 @@ public final class ClickhouseInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -13233,20 +14312,19 @@ public final class ClickhouseInternalProtos {
       }
       tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest other = (tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getPathList()
-          .equals(other.getPathList());
-      result = result && getSnapshotId()
-          .equals(other.getSnapshotId());
-      result = result && (getIgnoreSystemViews()
-          == other.getIgnoreSystemViews());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getPathList()
+          .equals(other.getPathList())) return false;
+      if (!getSnapshotId()
+          .equals(other.getSnapshotId())) return false;
+      if (getIgnoreSystemViews()
+          != other.getIgnoreSystemViews()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -13344,6 +14422,7 @@ public final class ClickhouseInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -13351,6 +14430,7 @@ public final class ClickhouseInternalProtos {
     public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -13374,6 +14454,7 @@ public final class ClickhouseInternalProtos {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotRequest_fieldAccessorTable
@@ -13396,6 +14477,7 @@ public final class ClickhouseInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -13405,7 +14487,7 @@ public final class ClickhouseInternalProtos {
           operationParamsBuilder_ = null;
         }
         path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         snapshotId_ = "";
 
         ignoreSystemViews_ = false;
@@ -13413,15 +14495,18 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest getDefaultInstanceForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest build() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -13430,53 +14515,59 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest buildPartial() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest result = new tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
         } else {
           result.operationParams_ = operationParamsBuilder_.build();
         }
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           path_ = path_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.path_ = path_;
         result.snapshotId_ = snapshotId_;
         result.ignoreSystemViews_ = ignoreSystemViews_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest) {
           return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest)other);
@@ -13494,7 +14585,7 @@ public final class ClickhouseInternalProtos {
         if (!other.path_.isEmpty()) {
           if (path_.isEmpty()) {
             path_ = other.path_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensurePathIsMutable();
             path_.addAll(other.path_);
@@ -13513,10 +14604,12 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -13536,17 +14629,19 @@ public final class ClickhouseInternalProtos {
       }
       private int bitField0_;
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -13655,13 +14750,14 @@ public final class ClickhouseInternalProtos {
 
       private com.google.protobuf.LazyStringList path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensurePathIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           path_ = new com.google.protobuf.LazyStringArrayList(path_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @return A list containing the path.
        */
       public com.google.protobuf.ProtocolStringList
           getPathList() {
@@ -13669,18 +14765,23 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @return The count of path.
        */
       public int getPathCount() {
         return path_.size();
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @param index The index of the element to return.
+       * @return The path at the given index.
        */
       public java.lang.String getPath(int index) {
         return path_.get(index);
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the path at the given index.
        */
       public com.google.protobuf.ByteString
           getPathBytes(int index) {
@@ -13688,6 +14789,9 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @param index The index to set the value at.
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           int index, java.lang.String value) {
@@ -13701,6 +14805,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @param value The path to add.
+       * @return This builder for chaining.
        */
       public Builder addPath(
           java.lang.String value) {
@@ -13714,6 +14820,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @param values The path to add.
+       * @return This builder for chaining.
        */
       public Builder addAllPath(
           java.lang.Iterable<java.lang.String> values) {
@@ -13725,15 +14833,18 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         path_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
       /**
        * <code>repeated string path = 2;</code>
+       * @param value The bytes of the path to add.
+       * @return This builder for chaining.
        */
       public Builder addPathBytes(
           com.google.protobuf.ByteString value) {
@@ -13750,6 +14861,7 @@ public final class ClickhouseInternalProtos {
       private java.lang.Object snapshotId_ = "";
       /**
        * <code>string snapshot_id = 3;</code>
+       * @return The snapshotId.
        */
       public java.lang.String getSnapshotId() {
         java.lang.Object ref = snapshotId_;
@@ -13765,6 +14877,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 3;</code>
+       * @return The bytes for snapshotId.
        */
       public com.google.protobuf.ByteString
           getSnapshotIdBytes() {
@@ -13781,6 +14894,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 3;</code>
+       * @param value The snapshotId to set.
+       * @return This builder for chaining.
        */
       public Builder setSnapshotId(
           java.lang.String value) {
@@ -13794,6 +14909,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSnapshotId() {
         
@@ -13803,6 +14919,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 3;</code>
+       * @param value The bytes for snapshotId to set.
+       * @return This builder for chaining.
        */
       public Builder setSnapshotIdBytes(
           com.google.protobuf.ByteString value) {
@@ -13819,12 +14937,16 @@ public final class ClickhouseInternalProtos {
       private boolean ignoreSystemViews_ ;
       /**
        * <code>bool ignore_system_views = 4;</code>
+       * @return The ignoreSystemViews.
        */
+      @java.lang.Override
       public boolean getIgnoreSystemViews() {
         return ignoreSystemViews_;
       }
       /**
        * <code>bool ignore_system_views = 4;</code>
+       * @param value The ignoreSystemViews to set.
+       * @return This builder for chaining.
        */
       public Builder setIgnoreSystemViews(boolean value) {
         
@@ -13834,6 +14956,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>bool ignore_system_views = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIgnoreSystemViews() {
         
@@ -13841,11 +14964,13 @@ public final class ClickhouseInternalProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -13867,11 +14992,12 @@ public final class ClickhouseInternalProtos {
 
     private static final com.google.protobuf.Parser<DiscardSnapshotRequest>
         PARSER = new com.google.protobuf.AbstractParser<DiscardSnapshotRequest>() {
+      @java.lang.Override
       public DiscardSnapshotRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DiscardSnapshotRequest(input, extensionRegistry);
+        return new DiscardSnapshotRequest(input, extensionRegistry);
       }
     };
 
@@ -13884,6 +15010,7 @@ public final class ClickhouseInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -13896,10 +15023,12 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>string snapshot_id = 1;</code>
+     * @return The snapshotId.
      */
     java.lang.String getSnapshotId();
     /**
      * <code>string snapshot_id = 1;</code>
+     * @return The bytes for snapshotId.
      */
     com.google.protobuf.ByteString
         getSnapshotIdBytes();
@@ -13907,7 +15036,7 @@ public final class ClickhouseInternalProtos {
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.DiscardSnapshotResult}
    */
-  public  static final class DiscardSnapshotResult extends
+  public static final class DiscardSnapshotResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.DiscardSnapshotResult)
       DiscardSnapshotResultOrBuilder {
@@ -13921,6 +15050,13 @@ public final class ClickhouseInternalProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DiscardSnapshotResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -13930,7 +15066,9 @@ public final class ClickhouseInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -13941,17 +15079,17 @@ public final class ClickhouseInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
               snapshotId_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -13971,6 +15109,7 @@ public final class ClickhouseInternalProtos {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResult_fieldAccessorTable
@@ -13982,7 +15121,9 @@ public final class ClickhouseInternalProtos {
     private volatile java.lang.Object snapshotId_;
     /**
      * <code>string snapshot_id = 1;</code>
+     * @return The snapshotId.
      */
+    @java.lang.Override
     public java.lang.String getSnapshotId() {
       java.lang.Object ref = snapshotId_;
       if (ref instanceof java.lang.String) {
@@ -13997,7 +15138,9 @@ public final class ClickhouseInternalProtos {
     }
     /**
      * <code>string snapshot_id = 1;</code>
+     * @return The bytes for snapshotId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getSnapshotIdBytes() {
       java.lang.Object ref = snapshotId_;
@@ -14013,6 +15156,7 @@ public final class ClickhouseInternalProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -14022,6 +15166,7 @@ public final class ClickhouseInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getSnapshotIdBytes().isEmpty()) {
@@ -14030,6 +15175,7 @@ public final class ClickhouseInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -14053,11 +15199,10 @@ public final class ClickhouseInternalProtos {
       }
       tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult other = (tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult) obj;
 
-      boolean result = true;
-      result = result && getSnapshotId()
-          .equals(other.getSnapshotId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getSnapshotId()
+          .equals(other.getSnapshotId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -14144,6 +15289,7 @@ public final class ClickhouseInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -14151,6 +15297,7 @@ public final class ClickhouseInternalProtos {
     public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -14174,6 +15321,7 @@ public final class ClickhouseInternalProtos {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResult_fieldAccessorTable
@@ -14196,6 +15344,7 @@ public final class ClickhouseInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         snapshotId_ = "";
@@ -14203,15 +15352,18 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult getDefaultInstanceForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult build() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -14220,6 +15372,7 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult buildPartial() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult result = new tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult(this);
         result.snapshotId_ = snapshotId_;
@@ -14227,32 +15380,39 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult) {
           return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult)other);
@@ -14273,10 +15433,12 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -14298,6 +15460,7 @@ public final class ClickhouseInternalProtos {
       private java.lang.Object snapshotId_ = "";
       /**
        * <code>string snapshot_id = 1;</code>
+       * @return The snapshotId.
        */
       public java.lang.String getSnapshotId() {
         java.lang.Object ref = snapshotId_;
@@ -14313,6 +15476,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 1;</code>
+       * @return The bytes for snapshotId.
        */
       public com.google.protobuf.ByteString
           getSnapshotIdBytes() {
@@ -14329,6 +15493,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 1;</code>
+       * @param value The snapshotId to set.
+       * @return This builder for chaining.
        */
       public Builder setSnapshotId(
           java.lang.String value) {
@@ -14342,6 +15508,7 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSnapshotId() {
         
@@ -14351,6 +15518,8 @@ public final class ClickhouseInternalProtos {
       }
       /**
        * <code>string snapshot_id = 1;</code>
+       * @param value The bytes for snapshotId to set.
+       * @return This builder for chaining.
        */
       public Builder setSnapshotIdBytes(
           com.google.protobuf.ByteString value) {
@@ -14363,11 +15532,13 @@ public final class ClickhouseInternalProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -14389,11 +15560,12 @@ public final class ClickhouseInternalProtos {
 
     private static final com.google.protobuf.Parser<DiscardSnapshotResult>
         PARSER = new com.google.protobuf.AbstractParser<DiscardSnapshotResult>() {
+      @java.lang.Override
       public DiscardSnapshotResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DiscardSnapshotResult(input, extensionRegistry);
+        return new DiscardSnapshotResult(input, extensionRegistry);
       }
     };
 
@@ -14406,6 +15578,7 @@ public final class ClickhouseInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -14418,10 +15591,12 @@ public final class ClickhouseInternalProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -14432,7 +15607,7 @@ public final class ClickhouseInternalProtos {
   /**
    * Protobuf type {@code Ydb.ClickhouseInternal.DiscardSnapshotResponse}
    */
-  public  static final class DiscardSnapshotResponse extends
+  public static final class DiscardSnapshotResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ClickhouseInternal.DiscardSnapshotResponse)
       DiscardSnapshotResponseOrBuilder {
@@ -14445,6 +15620,13 @@ public final class ClickhouseInternalProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DiscardSnapshotResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -14454,7 +15636,9 @@ public final class ClickhouseInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -14465,13 +15649,6 @@ public final class ClickhouseInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -14483,6 +15660,13 @@ public final class ClickhouseInternalProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -14502,6 +15686,7 @@ public final class ClickhouseInternalProtos {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResponse_fieldAccessorTable
@@ -14513,24 +15698,30 @@ public final class ClickhouseInternalProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -14540,6 +15731,7 @@ public final class ClickhouseInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -14548,6 +15740,7 @@ public final class ClickhouseInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -14572,14 +15765,13 @@ public final class ClickhouseInternalProtos {
       }
       tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse other = (tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -14668,6 +15860,7 @@ public final class ClickhouseInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -14675,6 +15868,7 @@ public final class ClickhouseInternalProtos {
     public static Builder newBuilder(tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -14698,6 +15892,7 @@ public final class ClickhouseInternalProtos {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResponse_fieldAccessorTable
@@ -14720,6 +15915,7 @@ public final class ClickhouseInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -14731,15 +15927,18 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.internal_static_Ydb_ClickhouseInternal_DiscardSnapshotResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse getDefaultInstanceForType() {
         return tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse build() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -14748,6 +15947,7 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse buildPartial() {
         tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse result = new tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse(this);
         if (operationBuilder_ == null) {
@@ -14759,32 +15959,39 @@ public final class ClickhouseInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse) {
           return mergeFrom((tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse)other);
@@ -14804,10 +16011,12 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -14826,17 +16035,19 @@ public final class ClickhouseInternalProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -14942,11 +16153,13 @@ public final class ClickhouseInternalProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -14968,11 +16181,12 @@ public final class ClickhouseInternalProtos {
 
     private static final com.google.protobuf.Parser<DiscardSnapshotResponse>
         PARSER = new com.google.protobuf.AbstractParser<DiscardSnapshotResponse>() {
+      @java.lang.Override
       public DiscardSnapshotResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DiscardSnapshotResponse(input, extensionRegistry);
+        return new DiscardSnapshotResponse(input, extensionRegistry);
       }
     };
 
@@ -14985,6 +16199,7 @@ public final class ClickhouseInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.clickhouse.ClickhouseInternalProtos.DiscardSnapshotResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -15109,7 +16324,7 @@ public final class ClickhouseInternalProtos {
       "ams\022\r\n\005table\030\002 \001(\t\022\017\n\007columns\030\003 \003(\t\022\020\n\010f" +
       "rom_key\030\004 \001(\014\022\032\n\022from_key_inclusive\030\005 \001(" +
       "\010\022\016\n\006to_key\030\006 \001(\014\022\030\n\020to_key_inclusive\030\007 " +
-      "\001(\010\022\020\n\010max_rows\030\010 \001(\004\022\021\n\tmax_bytes\030\t \001(\004",
+      "\001(\010\022\020\n\010max_rows\030\010 \001(\004\022\021\n\tmax_bytes\030\t \001(\004" +
       "\022\023\n\013snapshot_id\030\n \001(\t\"<\n\014ScanResponse\022,\n" +
       "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
       "ion\"W\n\nScanResult\022\016\n\006blocks\030\001 \003(\014\022\013\n\003eos" +
@@ -15119,7 +16334,7 @@ public final class ClickhouseInternalProtos {
       "ons.OperationParams\022\022\n\ntablet_ids\030\002 \003(\004\"" +
       "I\n\031GetShardLocationsResponse\022,\n\toperatio" +
       "n\030\001 \001(\0132\031.Ydb.Operations.Operation\";\n\nTa" +
-      "bletInfo\022\021\n\ttablet_id\030\001 \001(\004\022\014\n\004host\030\002 \001(",
+      "bletInfo\022\021\n\ttablet_id\030\001 \001(\004\022\014\n\004host\030\002 \001(" +
       "\t\022\014\n\004port\030\003 \001(\r\"N\n\027GetShardLocationsResu" +
       "lt\0223\n\007tablets\030\001 \003(\0132\".Ydb.ClickhouseInte" +
       "rnal.TabletInfo\"\200\001\n\024DescribeTableRequest" +
@@ -15129,7 +16344,7 @@ public final class ClickhouseInternalProtos {
       "nfo\022\021\n\ttablet_id\030\001 \001(\004\022\017\n\007end_key\030\002 \001(\014\022" +
       "\031\n\021end_key_inclusive\030\003 \001(\010\"\241\001\n\023DescribeT" +
       "ableResult\022&\n\007columns\030\002 \003(\0132\025.Ydb.Table." +
-      "ColumnMeta\022\023\n\013primary_key\030\003 \003(\t\0229\n\nparti",
+      "ColumnMeta\022\023\n\013primary_key\030\003 \003(\t\0229\n\nparti" +
       "tions\030\004 \003(\0132%.Ydb.ClickhouseInternal.Par" +
       "titionInfo\022\022\n\nis_virtual\030\005 \001(\010\"E\n\025Descri" +
       "beTableResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
@@ -15139,7 +16354,7 @@ public final class ClickhouseInternalProtos {
       "\033\n\023ignore_system_views\030\003 \001(\010\"?\n\024CreateSn" +
       "apshotResult\022\023\n\013snapshot_id\030\001 \001(\t\022\022\n\ntim" +
       "eout_ms\030\002 \001(\004\"F\n\026CreateSnapshotResponse\022" +
-      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper",
+      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
       "ation\"\223\001\n\026RefreshSnapshotRequest\0229\n\020oper" +
       "ation_params\030\001 \001(\0132\037.Ydb.Operations.Oper" +
       "ationParams\022\014\n\004path\030\002 \003(\t\022\023\n\013snapshot_id" +
@@ -15149,7 +16364,7 @@ public final class ClickhouseInternalProtos {
       "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\223\001\n\026D" +
       "iscardSnapshotRequest\0229\n\020operation_param" +
       "s\030\001 \001(\0132\037.Ydb.Operations.OperationParams" +
-      "\022\014\n\004path\030\002 \003(\t\022\023\n\013snapshot_id\030\003 \001(\t\022\033\n\023i",
+      "\022\014\n\004path\030\002 \003(\t\022\023\n\013snapshot_id\030\003 \001(\t\022\033\n\023i" +
       "gnore_system_views\030\004 \001(\010\",\n\025DiscardSnaps" +
       "hotResult\022\023\n\013snapshot_id\030\001 \001(\t\"G\n\027Discar" +
       "dSnapshotResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
@@ -15157,20 +16372,12 @@ public final class ClickhouseInternalProtos {
       "b.clickhouseB\030ClickhouseInternalProtos\370\001" +
       "\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.OperationProtos.getDescriptor(),
           tech.ydb.table.YdbTable.getDescriptor(),
-        }, assigner);
+        });
     internal_static_Ydb_ClickhouseInternal_ScanRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_ClickhouseInternal_ScanRequest_fieldAccessorTable = new

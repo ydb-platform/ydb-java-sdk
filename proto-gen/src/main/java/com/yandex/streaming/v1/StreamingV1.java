@@ -32,24 +32,16 @@ public final class StreamingV1 {
       ".DeleteQueryRequest\032\036.Streaming.DeleteQu" +
       "eryResponse\022L\n\013ListQueries\022\035.Streaming.L" +
       "istQueriesRequest\032\036.Streaming.ListQuerie" +
-      "sResponse\022R\n\rDescribeQuery\022\037.Streaming.D",
+      "sResponse\022R\n\rDescribeQuery\022\037.Streaming.D" +
       "escribeQueryRequest\032 .Streaming.Describe" +
       "QueryResponseB\031\n\027com.yandex.streaming.v1" +
       "b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.yandex.Streaming.StreamingProtos.getDescriptor(),
-        }, assigner);
+        });
     com.yandex.Streaming.StreamingProtos.getDescriptor();
   }
 

@@ -20,45 +20,53 @@ public final class YqlMount {
 
     /**
      * <code>required string RootAlias = 1;</code>
+     * @return Whether the rootAlias field is set.
      */
     boolean hasRootAlias();
     /**
      * <code>required string RootAlias = 1;</code>
+     * @return The rootAlias.
      */
     java.lang.String getRootAlias();
     /**
      * <code>required string RootAlias = 1;</code>
+     * @return The bytes for rootAlias.
      */
     com.google.protobuf.ByteString
         getRootAliasBytes();
 
     /**
      * <code>required string MountPoint = 2;</code>
+     * @return Whether the mountPoint field is set.
      */
     boolean hasMountPoint();
     /**
      * <code>required string MountPoint = 2;</code>
+     * @return The mountPoint.
      */
     java.lang.String getMountPoint();
     /**
      * <code>required string MountPoint = 2;</code>
+     * @return The bytes for mountPoint.
      */
     com.google.protobuf.ByteString
         getMountPointBytes();
 
     /**
      * <code>optional bool Library = 3 [default = false];</code>
+     * @return Whether the library field is set.
      */
     boolean hasLibrary();
     /**
      * <code>optional bool Library = 3 [default = false];</code>
+     * @return The library.
      */
     boolean getLibrary();
   }
   /**
    * Protobuf type {@code NYqlMountConfig.TMountPoint}
    */
-  public  static final class TMountPoint extends
+  public static final class TMountPoint extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NYqlMountConfig.TMountPoint)
       TMountPointOrBuilder {
@@ -70,7 +78,13 @@ public final class YqlMount {
     private TMountPoint() {
       rootAlias_ = "";
       mountPoint_ = "";
-      library_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TMountPoint();
     }
 
     @java.lang.Override
@@ -83,6 +97,9 @@ public final class YqlMount {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -94,13 +111,6 @@ public final class YqlMount {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
@@ -116,6 +126,13 @@ public final class YqlMount {
             case 24: {
               bitField0_ |= 0x00000004;
               library_ = input.readBool();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -135,6 +152,7 @@ public final class YqlMount {
       return ru.yandex.kikimr.proto.YqlMount.internal_static_NYqlMountConfig_TMountPoint_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return ru.yandex.kikimr.proto.YqlMount.internal_static_NYqlMountConfig_TMountPoint_fieldAccessorTable
@@ -147,13 +165,17 @@ public final class YqlMount {
     private volatile java.lang.Object rootAlias_;
     /**
      * <code>required string RootAlias = 1;</code>
+     * @return Whether the rootAlias field is set.
      */
+    @java.lang.Override
     public boolean hasRootAlias() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>required string RootAlias = 1;</code>
+     * @return The rootAlias.
      */
+    @java.lang.Override
     public java.lang.String getRootAlias() {
       java.lang.Object ref = rootAlias_;
       if (ref instanceof java.lang.String) {
@@ -170,7 +192,9 @@ public final class YqlMount {
     }
     /**
      * <code>required string RootAlias = 1;</code>
+     * @return The bytes for rootAlias.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getRootAliasBytes() {
       java.lang.Object ref = rootAlias_;
@@ -189,13 +213,17 @@ public final class YqlMount {
     private volatile java.lang.Object mountPoint_;
     /**
      * <code>required string MountPoint = 2;</code>
+     * @return Whether the mountPoint field is set.
      */
+    @java.lang.Override
     public boolean hasMountPoint() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>required string MountPoint = 2;</code>
+     * @return The mountPoint.
      */
+    @java.lang.Override
     public java.lang.String getMountPoint() {
       java.lang.Object ref = mountPoint_;
       if (ref instanceof java.lang.String) {
@@ -212,7 +240,9 @@ public final class YqlMount {
     }
     /**
      * <code>required string MountPoint = 2;</code>
+     * @return The bytes for mountPoint.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getMountPointBytes() {
       java.lang.Object ref = mountPoint_;
@@ -231,18 +261,23 @@ public final class YqlMount {
     private boolean library_;
     /**
      * <code>optional bool Library = 3 [default = false];</code>
+     * @return Whether the library field is set.
      */
+    @java.lang.Override
     public boolean hasLibrary() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>optional bool Library = 3 [default = false];</code>
+     * @return The library.
      */
+    @java.lang.Override
     public boolean getLibrary() {
       return library_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -260,32 +295,34 @@ public final class YqlMount {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, rootAlias_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, mountPoint_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeBool(3, library_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, rootAlias_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, mountPoint_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(3, library_);
       }
@@ -304,24 +341,23 @@ public final class YqlMount {
       }
       ru.yandex.kikimr.proto.YqlMount.TMountPoint other = (ru.yandex.kikimr.proto.YqlMount.TMountPoint) obj;
 
-      boolean result = true;
-      result = result && (hasRootAlias() == other.hasRootAlias());
+      if (hasRootAlias() != other.hasRootAlias()) return false;
       if (hasRootAlias()) {
-        result = result && getRootAlias()
-            .equals(other.getRootAlias());
+        if (!getRootAlias()
+            .equals(other.getRootAlias())) return false;
       }
-      result = result && (hasMountPoint() == other.hasMountPoint());
+      if (hasMountPoint() != other.hasMountPoint()) return false;
       if (hasMountPoint()) {
-        result = result && getMountPoint()
-            .equals(other.getMountPoint());
+        if (!getMountPoint()
+            .equals(other.getMountPoint())) return false;
       }
-      result = result && (hasLibrary() == other.hasLibrary());
+      if (hasLibrary() != other.hasLibrary()) return false;
       if (hasLibrary()) {
-        result = result && (getLibrary()
-            == other.getLibrary());
+        if (getLibrary()
+            != other.getLibrary()) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -419,6 +455,7 @@ public final class YqlMount {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -426,6 +463,7 @@ public final class YqlMount {
     public static Builder newBuilder(ru.yandex.kikimr.proto.YqlMount.TMountPoint prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -449,6 +487,7 @@ public final class YqlMount {
         return ru.yandex.kikimr.proto.YqlMount.internal_static_NYqlMountConfig_TMountPoint_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return ru.yandex.kikimr.proto.YqlMount.internal_static_NYqlMountConfig_TMountPoint_fieldAccessorTable
@@ -471,6 +510,7 @@ public final class YqlMount {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         rootAlias_ = "";
@@ -482,15 +522,18 @@ public final class YqlMount {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return ru.yandex.kikimr.proto.YqlMount.internal_static_NYqlMountConfig_TMountPoint_descriptor;
       }
 
+      @java.lang.Override
       public ru.yandex.kikimr.proto.YqlMount.TMountPoint getDefaultInstanceForType() {
         return ru.yandex.kikimr.proto.YqlMount.TMountPoint.getDefaultInstance();
       }
 
+      @java.lang.Override
       public ru.yandex.kikimr.proto.YqlMount.TMountPoint build() {
         ru.yandex.kikimr.proto.YqlMount.TMountPoint result = buildPartial();
         if (!result.isInitialized()) {
@@ -499,53 +542,61 @@ public final class YqlMount {
         return result;
       }
 
+      @java.lang.Override
       public ru.yandex.kikimr.proto.YqlMount.TMountPoint buildPartial() {
         ru.yandex.kikimr.proto.YqlMount.TMountPoint result = new ru.yandex.kikimr.proto.YqlMount.TMountPoint(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.rootAlias_ = rootAlias_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
         result.mountPoint_ = mountPoint_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.library_ = library_;
           to_bitField0_ |= 0x00000004;
         }
-        result.library_ = library_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof ru.yandex.kikimr.proto.YqlMount.TMountPoint) {
           return mergeFrom((ru.yandex.kikimr.proto.YqlMount.TMountPoint)other);
@@ -575,6 +626,7 @@ public final class YqlMount {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasRootAlias()) {
           return false;
@@ -585,6 +637,7 @@ public final class YqlMount {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -607,12 +660,14 @@ public final class YqlMount {
       private java.lang.Object rootAlias_ = "";
       /**
        * <code>required string RootAlias = 1;</code>
+       * @return Whether the rootAlias field is set.
        */
       public boolean hasRootAlias() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>required string RootAlias = 1;</code>
+       * @return The rootAlias.
        */
       public java.lang.String getRootAlias() {
         java.lang.Object ref = rootAlias_;
@@ -630,6 +685,7 @@ public final class YqlMount {
       }
       /**
        * <code>required string RootAlias = 1;</code>
+       * @return The bytes for rootAlias.
        */
       public com.google.protobuf.ByteString
           getRootAliasBytes() {
@@ -646,6 +702,8 @@ public final class YqlMount {
       }
       /**
        * <code>required string RootAlias = 1;</code>
+       * @param value The rootAlias to set.
+       * @return This builder for chaining.
        */
       public Builder setRootAlias(
           java.lang.String value) {
@@ -659,6 +717,7 @@ public final class YqlMount {
       }
       /**
        * <code>required string RootAlias = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearRootAlias() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -668,6 +727,8 @@ public final class YqlMount {
       }
       /**
        * <code>required string RootAlias = 1;</code>
+       * @param value The bytes for rootAlias to set.
+       * @return This builder for chaining.
        */
       public Builder setRootAliasBytes(
           com.google.protobuf.ByteString value) {
@@ -683,12 +744,14 @@ public final class YqlMount {
       private java.lang.Object mountPoint_ = "";
       /**
        * <code>required string MountPoint = 2;</code>
+       * @return Whether the mountPoint field is set.
        */
       public boolean hasMountPoint() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>required string MountPoint = 2;</code>
+       * @return The mountPoint.
        */
       public java.lang.String getMountPoint() {
         java.lang.Object ref = mountPoint_;
@@ -706,6 +769,7 @@ public final class YqlMount {
       }
       /**
        * <code>required string MountPoint = 2;</code>
+       * @return The bytes for mountPoint.
        */
       public com.google.protobuf.ByteString
           getMountPointBytes() {
@@ -722,6 +786,8 @@ public final class YqlMount {
       }
       /**
        * <code>required string MountPoint = 2;</code>
+       * @param value The mountPoint to set.
+       * @return This builder for chaining.
        */
       public Builder setMountPoint(
           java.lang.String value) {
@@ -735,6 +801,7 @@ public final class YqlMount {
       }
       /**
        * <code>required string MountPoint = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMountPoint() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -744,6 +811,8 @@ public final class YqlMount {
       }
       /**
        * <code>required string MountPoint = 2;</code>
+       * @param value The bytes for mountPoint to set.
+       * @return This builder for chaining.
        */
       public Builder setMountPointBytes(
           com.google.protobuf.ByteString value) {
@@ -759,18 +828,24 @@ public final class YqlMount {
       private boolean library_ ;
       /**
        * <code>optional bool Library = 3 [default = false];</code>
+       * @return Whether the library field is set.
        */
+      @java.lang.Override
       public boolean hasLibrary() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>optional bool Library = 3 [default = false];</code>
+       * @return The library.
        */
+      @java.lang.Override
       public boolean getLibrary() {
         return library_;
       }
       /**
        * <code>optional bool Library = 3 [default = false];</code>
+       * @param value The library to set.
+       * @return This builder for chaining.
        */
       public Builder setLibrary(boolean value) {
         bitField0_ |= 0x00000004;
@@ -780,6 +855,7 @@ public final class YqlMount {
       }
       /**
        * <code>optional bool Library = 3 [default = false];</code>
+       * @return This builder for chaining.
        */
       public Builder clearLibrary() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -787,11 +863,13 @@ public final class YqlMount {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -813,11 +891,12 @@ public final class YqlMount {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<TMountPoint>
         PARSER = new com.google.protobuf.AbstractParser<TMountPoint>() {
+      @java.lang.Override
       public TMountPoint parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TMountPoint(input, extensionRegistry);
+        return new TMountPoint(input, extensionRegistry);
       }
     };
 
@@ -830,6 +909,7 @@ public final class YqlMount {
       return PARSER;
     }
 
+    @java.lang.Override
     public ru.yandex.kikimr.proto.YqlMount.TMountPoint getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -867,7 +947,7 @@ public final class YqlMount {
   /**
    * Protobuf type {@code NYqlMountConfig.TMountConfig}
    */
-  public  static final class TMountConfig extends
+  public static final class TMountConfig extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NYqlMountConfig.TMountConfig)
       TMountConfigOrBuilder {
@@ -881,6 +961,13 @@ public final class YqlMount {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TMountConfig();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -890,6 +977,9 @@ public final class YqlMount {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -901,20 +991,20 @@ public final class YqlMount {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 mountPoints_ = new java.util.ArrayList<ru.yandex.kikimr.proto.YqlMount.TMountPoint>();
                 mutable_bitField0_ |= 0x00000001;
               }
               mountPoints_.add(
                   input.readMessage(ru.yandex.kikimr.proto.YqlMount.TMountPoint.PARSER, extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -925,7 +1015,7 @@ public final class YqlMount {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           mountPoints_ = java.util.Collections.unmodifiableList(mountPoints_);
         }
         this.unknownFields = unknownFields.build();
@@ -937,6 +1027,7 @@ public final class YqlMount {
       return ru.yandex.kikimr.proto.YqlMount.internal_static_NYqlMountConfig_TMountConfig_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return ru.yandex.kikimr.proto.YqlMount.internal_static_NYqlMountConfig_TMountConfig_fieldAccessorTable
@@ -949,12 +1040,14 @@ public final class YqlMount {
     /**
      * <code>repeated .NYqlMountConfig.TMountPoint MountPoints = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<ru.yandex.kikimr.proto.YqlMount.TMountPoint> getMountPointsList() {
       return mountPoints_;
     }
     /**
      * <code>repeated .NYqlMountConfig.TMountPoint MountPoints = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends ru.yandex.kikimr.proto.YqlMount.TMountPointOrBuilder> 
         getMountPointsOrBuilderList() {
       return mountPoints_;
@@ -962,24 +1055,28 @@ public final class YqlMount {
     /**
      * <code>repeated .NYqlMountConfig.TMountPoint MountPoints = 1;</code>
      */
+    @java.lang.Override
     public int getMountPointsCount() {
       return mountPoints_.size();
     }
     /**
      * <code>repeated .NYqlMountConfig.TMountPoint MountPoints = 1;</code>
      */
+    @java.lang.Override
     public ru.yandex.kikimr.proto.YqlMount.TMountPoint getMountPoints(int index) {
       return mountPoints_.get(index);
     }
     /**
      * <code>repeated .NYqlMountConfig.TMountPoint MountPoints = 1;</code>
      */
+    @java.lang.Override
     public ru.yandex.kikimr.proto.YqlMount.TMountPointOrBuilder getMountPointsOrBuilder(
         int index) {
       return mountPoints_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -995,6 +1092,7 @@ public final class YqlMount {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < mountPoints_.size(); i++) {
@@ -1003,6 +1101,7 @@ public final class YqlMount {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1027,11 +1126,10 @@ public final class YqlMount {
       }
       ru.yandex.kikimr.proto.YqlMount.TMountConfig other = (ru.yandex.kikimr.proto.YqlMount.TMountConfig) obj;
 
-      boolean result = true;
-      result = result && getMountPointsList()
-          .equals(other.getMountPointsList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getMountPointsList()
+          .equals(other.getMountPointsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1120,6 +1218,7 @@ public final class YqlMount {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1127,6 +1226,7 @@ public final class YqlMount {
     public static Builder newBuilder(ru.yandex.kikimr.proto.YqlMount.TMountConfig prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1150,6 +1250,7 @@ public final class YqlMount {
         return ru.yandex.kikimr.proto.YqlMount.internal_static_NYqlMountConfig_TMountConfig_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return ru.yandex.kikimr.proto.YqlMount.internal_static_NYqlMountConfig_TMountConfig_fieldAccessorTable
@@ -1173,6 +1274,7 @@ public final class YqlMount {
           getMountPointsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (mountPointsBuilder_ == null) {
@@ -1184,15 +1286,18 @@ public final class YqlMount {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return ru.yandex.kikimr.proto.YqlMount.internal_static_NYqlMountConfig_TMountConfig_descriptor;
       }
 
+      @java.lang.Override
       public ru.yandex.kikimr.proto.YqlMount.TMountConfig getDefaultInstanceForType() {
         return ru.yandex.kikimr.proto.YqlMount.TMountConfig.getDefaultInstance();
       }
 
+      @java.lang.Override
       public ru.yandex.kikimr.proto.YqlMount.TMountConfig build() {
         ru.yandex.kikimr.proto.YqlMount.TMountConfig result = buildPartial();
         if (!result.isInitialized()) {
@@ -1201,11 +1306,12 @@ public final class YqlMount {
         return result;
       }
 
+      @java.lang.Override
       public ru.yandex.kikimr.proto.YqlMount.TMountConfig buildPartial() {
         ru.yandex.kikimr.proto.YqlMount.TMountConfig result = new ru.yandex.kikimr.proto.YqlMount.TMountConfig(this);
         int from_bitField0_ = bitField0_;
         if (mountPointsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             mountPoints_ = java.util.Collections.unmodifiableList(mountPoints_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -1217,32 +1323,39 @@ public final class YqlMount {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof ru.yandex.kikimr.proto.YqlMount.TMountConfig) {
           return mergeFrom((ru.yandex.kikimr.proto.YqlMount.TMountConfig)other);
@@ -1285,6 +1398,7 @@ public final class YqlMount {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         for (int i = 0; i < getMountPointsCount(); i++) {
           if (!getMountPoints(i).isInitialized()) {
@@ -1294,6 +1408,7 @@ public final class YqlMount {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1316,7 +1431,7 @@ public final class YqlMount {
       private java.util.List<ru.yandex.kikimr.proto.YqlMount.TMountPoint> mountPoints_ =
         java.util.Collections.emptyList();
       private void ensureMountPointsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           mountPoints_ = new java.util.ArrayList<ru.yandex.kikimr.proto.YqlMount.TMountPoint>(mountPoints_);
           bitField0_ |= 0x00000001;
          }
@@ -1545,18 +1660,20 @@ public final class YqlMount {
           mountPointsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               ru.yandex.kikimr.proto.YqlMount.TMountPoint, ru.yandex.kikimr.proto.YqlMount.TMountPoint.Builder, ru.yandex.kikimr.proto.YqlMount.TMountPointOrBuilder>(
                   mountPoints_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           mountPoints_ = null;
         }
         return mountPointsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1578,11 +1695,12 @@ public final class YqlMount {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<TMountConfig>
         PARSER = new com.google.protobuf.AbstractParser<TMountConfig>() {
+      @java.lang.Override
       public TMountConfig parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TMountConfig(input, extensionRegistry);
+        return new TMountConfig(input, extensionRegistry);
       }
     };
 
@@ -1595,6 +1713,7 @@ public final class YqlMount {
       return PARSER;
     }
 
+    @java.lang.Override
     public ru.yandex.kikimr.proto.YqlMount.TMountConfig getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1627,18 +1746,10 @@ public final class YqlMount {
       "2\034.NYqlMountConfig.TMountPointB\030\n\026ru.yan" +
       "dex.kikimr.proto"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+        });
     internal_static_NYqlMountConfig_TMountPoint_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_NYqlMountConfig_TMountPoint_fieldAccessorTable = new

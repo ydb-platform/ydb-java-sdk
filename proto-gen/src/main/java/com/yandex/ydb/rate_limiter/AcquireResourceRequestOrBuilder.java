@@ -9,10 +9,12 @@ public interface AcquireResourceRequestOrBuilder extends
 
   /**
    * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+   * @return Whether the operationParams field is set.
    */
   boolean hasOperationParams();
   /**
    * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+   * @return The operationParams.
    */
   tech.ydb.OperationProtos.OperationParams getOperationParams();
   /**
@@ -26,6 +28,7 @@ public interface AcquireResourceRequestOrBuilder extends
    * </pre>
    *
    * <code>string coordination_node_path = 2;</code>
+   * @return The coordinationNodePath.
    */
   java.lang.String getCoordinationNodePath();
   /**
@@ -34,6 +37,7 @@ public interface AcquireResourceRequestOrBuilder extends
    * </pre>
    *
    * <code>string coordination_node_path = 2;</code>
+   * @return The bytes for coordinationNodePath.
    */
   com.google.protobuf.ByteString
       getCoordinationNodePathBytes();
@@ -44,6 +48,7 @@ public interface AcquireResourceRequestOrBuilder extends
    * </pre>
    *
    * <code>string resource_path = 3;</code>
+   * @return The resourcePath.
    */
   java.lang.String getResourcePath();
   /**
@@ -52,6 +57,7 @@ public interface AcquireResourceRequestOrBuilder extends
    * </pre>
    *
    * <code>string resource_path = 3;</code>
+   * @return The bytes for resourcePath.
    */
   com.google.protobuf.ByteString
       getResourcePathBytes();
@@ -62,6 +68,16 @@ public interface AcquireResourceRequestOrBuilder extends
    * </pre>
    *
    * <code>uint64 required = 4;</code>
+   * @return Whether the required field is set.
+   */
+  boolean hasRequired();
+  /**
+   * <pre>
+   * Request resource's units for usage.
+   * </pre>
+   *
+   * <code>uint64 required = 4;</code>
+   * @return The required.
    */
   long getRequired();
 
@@ -71,6 +87,16 @@ public interface AcquireResourceRequestOrBuilder extends
    * </pre>
    *
    * <code>uint64 used = 5;</code>
+   * @return Whether the used field is set.
+   */
+  boolean hasUsed();
+  /**
+   * <pre>
+   * Actually used resource's units by client.
+   * </pre>
+   *
+   * <code>uint64 used = 5;</code>
+   * @return The used.
    */
   long getUsed();
 

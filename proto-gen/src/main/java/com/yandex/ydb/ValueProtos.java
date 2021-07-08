@@ -20,18 +20,20 @@ public final class ValueProtos {
 
     /**
      * <code>uint32 precision = 1;</code>
+     * @return The precision.
      */
     int getPrecision();
 
     /**
      * <code>uint32 scale = 2;</code>
+     * @return The scale.
      */
     int getScale();
   }
   /**
    * Protobuf type {@code Ydb.DecimalType}
    */
-  public  static final class DecimalType extends
+  public static final class DecimalType extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.DecimalType)
       DecimalTypeOrBuilder {
@@ -41,8 +43,13 @@ public final class ValueProtos {
       super(builder);
     }
     private DecimalType() {
-      precision_ = 0;
-      scale_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DecimalType();
     }
 
     @java.lang.Override
@@ -55,7 +62,9 @@ public final class ValueProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -66,13 +75,6 @@ public final class ValueProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               precision_ = input.readUInt32();
@@ -81,6 +83,13 @@ public final class ValueProtos {
             case 16: {
 
               scale_ = input.readUInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -100,6 +109,7 @@ public final class ValueProtos {
       return tech.ydb.ValueProtos.internal_static_Ydb_DecimalType_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.ValueProtos.internal_static_Ydb_DecimalType_fieldAccessorTable
@@ -111,7 +121,9 @@ public final class ValueProtos {
     private int precision_;
     /**
      * <code>uint32 precision = 1;</code>
+     * @return The precision.
      */
+    @java.lang.Override
     public int getPrecision() {
       return precision_;
     }
@@ -120,12 +132,15 @@ public final class ValueProtos {
     private int scale_;
     /**
      * <code>uint32 scale = 2;</code>
+     * @return The scale.
      */
+    @java.lang.Override
     public int getScale() {
       return scale_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -135,6 +150,7 @@ public final class ValueProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (precision_ != 0) {
@@ -146,6 +162,7 @@ public final class ValueProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -174,13 +191,12 @@ public final class ValueProtos {
       }
       tech.ydb.ValueProtos.DecimalType other = (tech.ydb.ValueProtos.DecimalType) obj;
 
-      boolean result = true;
-      result = result && (getPrecision()
-          == other.getPrecision());
-      result = result && (getScale()
-          == other.getScale());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getPrecision()
+          != other.getPrecision()) return false;
+      if (getScale()
+          != other.getScale()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -269,6 +285,7 @@ public final class ValueProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -276,6 +293,7 @@ public final class ValueProtos {
     public static Builder newBuilder(tech.ydb.ValueProtos.DecimalType prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -299,6 +317,7 @@ public final class ValueProtos {
         return tech.ydb.ValueProtos.internal_static_Ydb_DecimalType_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.ValueProtos.internal_static_Ydb_DecimalType_fieldAccessorTable
@@ -321,6 +340,7 @@ public final class ValueProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         precision_ = 0;
@@ -330,15 +350,18 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.ValueProtos.internal_static_Ydb_DecimalType_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.DecimalType getDefaultInstanceForType() {
         return tech.ydb.ValueProtos.DecimalType.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.DecimalType build() {
         tech.ydb.ValueProtos.DecimalType result = buildPartial();
         if (!result.isInitialized()) {
@@ -347,6 +370,7 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.DecimalType buildPartial() {
         tech.ydb.ValueProtos.DecimalType result = new tech.ydb.ValueProtos.DecimalType(this);
         result.precision_ = precision_;
@@ -355,32 +379,39 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.ValueProtos.DecimalType) {
           return mergeFrom((tech.ydb.ValueProtos.DecimalType)other);
@@ -403,10 +434,12 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -428,12 +461,16 @@ public final class ValueProtos {
       private int precision_ ;
       /**
        * <code>uint32 precision = 1;</code>
+       * @return The precision.
        */
+      @java.lang.Override
       public int getPrecision() {
         return precision_;
       }
       /**
        * <code>uint32 precision = 1;</code>
+       * @param value The precision to set.
+       * @return This builder for chaining.
        */
       public Builder setPrecision(int value) {
         
@@ -443,6 +480,7 @@ public final class ValueProtos {
       }
       /**
        * <code>uint32 precision = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPrecision() {
         
@@ -454,12 +492,16 @@ public final class ValueProtos {
       private int scale_ ;
       /**
        * <code>uint32 scale = 2;</code>
+       * @return The scale.
        */
+      @java.lang.Override
       public int getScale() {
         return scale_;
       }
       /**
        * <code>uint32 scale = 2;</code>
+       * @param value The scale to set.
+       * @return This builder for chaining.
        */
       public Builder setScale(int value) {
         
@@ -469,6 +511,7 @@ public final class ValueProtos {
       }
       /**
        * <code>uint32 scale = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearScale() {
         
@@ -476,11 +519,13 @@ public final class ValueProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -502,11 +547,12 @@ public final class ValueProtos {
 
     private static final com.google.protobuf.Parser<DecimalType>
         PARSER = new com.google.protobuf.AbstractParser<DecimalType>() {
+      @java.lang.Override
       public DecimalType parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DecimalType(input, extensionRegistry);
+        return new DecimalType(input, extensionRegistry);
       }
     };
 
@@ -519,6 +565,7 @@ public final class ValueProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.ValueProtos.DecimalType getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -531,10 +578,12 @@ public final class ValueProtos {
 
     /**
      * <code>.Ydb.Type item = 1;</code>
+     * @return Whether the item field is set.
      */
     boolean hasItem();
     /**
      * <code>.Ydb.Type item = 1;</code>
+     * @return The item.
      */
     tech.ydb.ValueProtos.Type getItem();
     /**
@@ -545,7 +594,7 @@ public final class ValueProtos {
   /**
    * Protobuf type {@code Ydb.OptionalType}
    */
-  public  static final class OptionalType extends
+  public static final class OptionalType extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.OptionalType)
       OptionalTypeOrBuilder {
@@ -558,6 +607,13 @@ public final class ValueProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new OptionalType();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -567,7 +623,9 @@ public final class ValueProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -578,13 +636,6 @@ public final class ValueProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.ValueProtos.Type.Builder subBuilder = null;
               if (item_ != null) {
@@ -596,6 +647,13 @@ public final class ValueProtos {
                 item_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -615,6 +673,7 @@ public final class ValueProtos {
       return tech.ydb.ValueProtos.internal_static_Ydb_OptionalType_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.ValueProtos.internal_static_Ydb_OptionalType_fieldAccessorTable
@@ -626,24 +685,30 @@ public final class ValueProtos {
     private tech.ydb.ValueProtos.Type item_;
     /**
      * <code>.Ydb.Type item = 1;</code>
+     * @return Whether the item field is set.
      */
+    @java.lang.Override
     public boolean hasItem() {
       return item_ != null;
     }
     /**
      * <code>.Ydb.Type item = 1;</code>
+     * @return The item.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.Type getItem() {
       return item_ == null ? tech.ydb.ValueProtos.Type.getDefaultInstance() : item_;
     }
     /**
      * <code>.Ydb.Type item = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.TypeOrBuilder getItemOrBuilder() {
       return getItem();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -653,6 +718,7 @@ public final class ValueProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (item_ != null) {
@@ -661,6 +727,7 @@ public final class ValueProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -685,14 +752,13 @@ public final class ValueProtos {
       }
       tech.ydb.ValueProtos.OptionalType other = (tech.ydb.ValueProtos.OptionalType) obj;
 
-      boolean result = true;
-      result = result && (hasItem() == other.hasItem());
+      if (hasItem() != other.hasItem()) return false;
       if (hasItem()) {
-        result = result && getItem()
-            .equals(other.getItem());
+        if (!getItem()
+            .equals(other.getItem())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -781,6 +847,7 @@ public final class ValueProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -788,6 +855,7 @@ public final class ValueProtos {
     public static Builder newBuilder(tech.ydb.ValueProtos.OptionalType prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -811,6 +879,7 @@ public final class ValueProtos {
         return tech.ydb.ValueProtos.internal_static_Ydb_OptionalType_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.ValueProtos.internal_static_Ydb_OptionalType_fieldAccessorTable
@@ -833,6 +902,7 @@ public final class ValueProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (itemBuilder_ == null) {
@@ -844,15 +914,18 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.ValueProtos.internal_static_Ydb_OptionalType_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.OptionalType getDefaultInstanceForType() {
         return tech.ydb.ValueProtos.OptionalType.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.OptionalType build() {
         tech.ydb.ValueProtos.OptionalType result = buildPartial();
         if (!result.isInitialized()) {
@@ -861,6 +934,7 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.OptionalType buildPartial() {
         tech.ydb.ValueProtos.OptionalType result = new tech.ydb.ValueProtos.OptionalType(this);
         if (itemBuilder_ == null) {
@@ -872,32 +946,39 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.ValueProtos.OptionalType) {
           return mergeFrom((tech.ydb.ValueProtos.OptionalType)other);
@@ -917,10 +998,12 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -939,17 +1022,19 @@ public final class ValueProtos {
         return this;
       }
 
-      private tech.ydb.ValueProtos.Type item_ = null;
+      private tech.ydb.ValueProtos.Type item_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.ValueProtos.Type, tech.ydb.ValueProtos.Type.Builder, tech.ydb.ValueProtos.TypeOrBuilder> itemBuilder_;
       /**
        * <code>.Ydb.Type item = 1;</code>
+       * @return Whether the item field is set.
        */
       public boolean hasItem() {
         return itemBuilder_ != null || item_ != null;
       }
       /**
        * <code>.Ydb.Type item = 1;</code>
+       * @return The item.
        */
       public tech.ydb.ValueProtos.Type getItem() {
         if (itemBuilder_ == null) {
@@ -1055,11 +1140,13 @@ public final class ValueProtos {
         }
         return itemBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1081,11 +1168,12 @@ public final class ValueProtos {
 
     private static final com.google.protobuf.Parser<OptionalType>
         PARSER = new com.google.protobuf.AbstractParser<OptionalType>() {
+      @java.lang.Override
       public OptionalType parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new OptionalType(input, extensionRegistry);
+        return new OptionalType(input, extensionRegistry);
       }
     };
 
@@ -1098,6 +1186,7 @@ public final class ValueProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.ValueProtos.OptionalType getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1110,10 +1199,12 @@ public final class ValueProtos {
 
     /**
      * <code>.Ydb.Type item = 1;</code>
+     * @return Whether the item field is set.
      */
     boolean hasItem();
     /**
      * <code>.Ydb.Type item = 1;</code>
+     * @return The item.
      */
     tech.ydb.ValueProtos.Type getItem();
     /**
@@ -1124,7 +1215,7 @@ public final class ValueProtos {
   /**
    * Protobuf type {@code Ydb.ListType}
    */
-  public  static final class ListType extends
+  public static final class ListType extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ListType)
       ListTypeOrBuilder {
@@ -1137,6 +1228,13 @@ public final class ValueProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ListType();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -1146,7 +1244,9 @@ public final class ValueProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1157,13 +1257,6 @@ public final class ValueProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.ValueProtos.Type.Builder subBuilder = null;
               if (item_ != null) {
@@ -1175,6 +1268,13 @@ public final class ValueProtos {
                 item_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -1194,6 +1294,7 @@ public final class ValueProtos {
       return tech.ydb.ValueProtos.internal_static_Ydb_ListType_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.ValueProtos.internal_static_Ydb_ListType_fieldAccessorTable
@@ -1205,24 +1306,30 @@ public final class ValueProtos {
     private tech.ydb.ValueProtos.Type item_;
     /**
      * <code>.Ydb.Type item = 1;</code>
+     * @return Whether the item field is set.
      */
+    @java.lang.Override
     public boolean hasItem() {
       return item_ != null;
     }
     /**
      * <code>.Ydb.Type item = 1;</code>
+     * @return The item.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.Type getItem() {
       return item_ == null ? tech.ydb.ValueProtos.Type.getDefaultInstance() : item_;
     }
     /**
      * <code>.Ydb.Type item = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.TypeOrBuilder getItemOrBuilder() {
       return getItem();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1232,6 +1339,7 @@ public final class ValueProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (item_ != null) {
@@ -1240,6 +1348,7 @@ public final class ValueProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1264,14 +1373,13 @@ public final class ValueProtos {
       }
       tech.ydb.ValueProtos.ListType other = (tech.ydb.ValueProtos.ListType) obj;
 
-      boolean result = true;
-      result = result && (hasItem() == other.hasItem());
+      if (hasItem() != other.hasItem()) return false;
       if (hasItem()) {
-        result = result && getItem()
-            .equals(other.getItem());
+        if (!getItem()
+            .equals(other.getItem())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1360,6 +1468,7 @@ public final class ValueProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1367,6 +1476,7 @@ public final class ValueProtos {
     public static Builder newBuilder(tech.ydb.ValueProtos.ListType prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1390,6 +1500,7 @@ public final class ValueProtos {
         return tech.ydb.ValueProtos.internal_static_Ydb_ListType_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.ValueProtos.internal_static_Ydb_ListType_fieldAccessorTable
@@ -1412,6 +1523,7 @@ public final class ValueProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (itemBuilder_ == null) {
@@ -1423,15 +1535,18 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.ValueProtos.internal_static_Ydb_ListType_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.ListType getDefaultInstanceForType() {
         return tech.ydb.ValueProtos.ListType.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.ListType build() {
         tech.ydb.ValueProtos.ListType result = buildPartial();
         if (!result.isInitialized()) {
@@ -1440,6 +1555,7 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.ListType buildPartial() {
         tech.ydb.ValueProtos.ListType result = new tech.ydb.ValueProtos.ListType(this);
         if (itemBuilder_ == null) {
@@ -1451,32 +1567,39 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.ValueProtos.ListType) {
           return mergeFrom((tech.ydb.ValueProtos.ListType)other);
@@ -1496,10 +1619,12 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1518,17 +1643,19 @@ public final class ValueProtos {
         return this;
       }
 
-      private tech.ydb.ValueProtos.Type item_ = null;
+      private tech.ydb.ValueProtos.Type item_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.ValueProtos.Type, tech.ydb.ValueProtos.Type.Builder, tech.ydb.ValueProtos.TypeOrBuilder> itemBuilder_;
       /**
        * <code>.Ydb.Type item = 1;</code>
+       * @return Whether the item field is set.
        */
       public boolean hasItem() {
         return itemBuilder_ != null || item_ != null;
       }
       /**
        * <code>.Ydb.Type item = 1;</code>
+       * @return The item.
        */
       public tech.ydb.ValueProtos.Type getItem() {
         if (itemBuilder_ == null) {
@@ -1634,11 +1761,13 @@ public final class ValueProtos {
         }
         return itemBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1660,11 +1789,12 @@ public final class ValueProtos {
 
     private static final com.google.protobuf.Parser<ListType>
         PARSER = new com.google.protobuf.AbstractParser<ListType>() {
+      @java.lang.Override
       public ListType parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ListType(input, extensionRegistry);
+        return new ListType(input, extensionRegistry);
       }
     };
 
@@ -1677,6 +1807,7 @@ public final class ValueProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.ValueProtos.ListType getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1689,10 +1820,12 @@ public final class ValueProtos {
 
     /**
      * <code>.Ydb.TupleType tuple_items = 1;</code>
+     * @return Whether the tupleItems field is set.
      */
     boolean hasTupleItems();
     /**
      * <code>.Ydb.TupleType tuple_items = 1;</code>
+     * @return The tupleItems.
      */
     tech.ydb.ValueProtos.TupleType getTupleItems();
     /**
@@ -1702,10 +1835,12 @@ public final class ValueProtos {
 
     /**
      * <code>.Ydb.StructType struct_items = 2;</code>
+     * @return Whether the structItems field is set.
      */
     boolean hasStructItems();
     /**
      * <code>.Ydb.StructType struct_items = 2;</code>
+     * @return The structItems.
      */
     tech.ydb.ValueProtos.StructType getStructItems();
     /**
@@ -1718,7 +1853,7 @@ public final class ValueProtos {
   /**
    * Protobuf type {@code Ydb.VariantType}
    */
-  public  static final class VariantType extends
+  public static final class VariantType extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.VariantType)
       VariantTypeOrBuilder {
@@ -1731,6 +1866,13 @@ public final class ValueProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new VariantType();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -1740,7 +1882,9 @@ public final class ValueProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1751,13 +1895,6 @@ public final class ValueProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.ValueProtos.TupleType.Builder subBuilder = null;
               if (typeCase_ == 1) {
@@ -1786,6 +1923,13 @@ public final class ValueProtos {
               typeCase_ = 2;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1803,6 +1947,7 @@ public final class ValueProtos {
       return tech.ydb.ValueProtos.internal_static_Ydb_VariantType_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.ValueProtos.internal_static_Ydb_VariantType_fieldAccessorTable
@@ -1813,7 +1958,8 @@ public final class ValueProtos {
     private int typeCase_ = 0;
     private java.lang.Object type_;
     public enum TypeCase
-        implements com.google.protobuf.Internal.EnumLite {
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       TUPLE_ITEMS(1),
       STRUCT_ITEMS(2),
       TYPE_NOT_SET(0);
@@ -1822,6 +1968,8 @@ public final class ValueProtos {
         this.value = value;
       }
       /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -1851,13 +1999,17 @@ public final class ValueProtos {
     public static final int TUPLE_ITEMS_FIELD_NUMBER = 1;
     /**
      * <code>.Ydb.TupleType tuple_items = 1;</code>
+     * @return Whether the tupleItems field is set.
      */
+    @java.lang.Override
     public boolean hasTupleItems() {
       return typeCase_ == 1;
     }
     /**
      * <code>.Ydb.TupleType tuple_items = 1;</code>
+     * @return The tupleItems.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.TupleType getTupleItems() {
       if (typeCase_ == 1) {
          return (tech.ydb.ValueProtos.TupleType) type_;
@@ -1867,6 +2019,7 @@ public final class ValueProtos {
     /**
      * <code>.Ydb.TupleType tuple_items = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.TupleTypeOrBuilder getTupleItemsOrBuilder() {
       if (typeCase_ == 1) {
          return (tech.ydb.ValueProtos.TupleType) type_;
@@ -1877,13 +2030,17 @@ public final class ValueProtos {
     public static final int STRUCT_ITEMS_FIELD_NUMBER = 2;
     /**
      * <code>.Ydb.StructType struct_items = 2;</code>
+     * @return Whether the structItems field is set.
      */
+    @java.lang.Override
     public boolean hasStructItems() {
       return typeCase_ == 2;
     }
     /**
      * <code>.Ydb.StructType struct_items = 2;</code>
+     * @return The structItems.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.StructType getStructItems() {
       if (typeCase_ == 2) {
          return (tech.ydb.ValueProtos.StructType) type_;
@@ -1893,6 +2050,7 @@ public final class ValueProtos {
     /**
      * <code>.Ydb.StructType struct_items = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.StructTypeOrBuilder getStructItemsOrBuilder() {
       if (typeCase_ == 2) {
          return (tech.ydb.ValueProtos.StructType) type_;
@@ -1901,6 +2059,7 @@ public final class ValueProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1910,6 +2069,7 @@ public final class ValueProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (typeCase_ == 1) {
@@ -1921,6 +2081,7 @@ public final class ValueProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1949,24 +2110,21 @@ public final class ValueProtos {
       }
       tech.ydb.ValueProtos.VariantType other = (tech.ydb.ValueProtos.VariantType) obj;
 
-      boolean result = true;
-      result = result && getTypeCase().equals(
-          other.getTypeCase());
-      if (!result) return false;
+      if (!getTypeCase().equals(other.getTypeCase())) return false;
       switch (typeCase_) {
         case 1:
-          result = result && getTupleItems()
-              .equals(other.getTupleItems());
+          if (!getTupleItems()
+              .equals(other.getTupleItems())) return false;
           break;
         case 2:
-          result = result && getStructItems()
-              .equals(other.getStructItems());
+          if (!getStructItems()
+              .equals(other.getStructItems())) return false;
           break;
         case 0:
         default:
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2063,6 +2221,7 @@ public final class ValueProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2070,6 +2229,7 @@ public final class ValueProtos {
     public static Builder newBuilder(tech.ydb.ValueProtos.VariantType prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2093,6 +2253,7 @@ public final class ValueProtos {
         return tech.ydb.ValueProtos.internal_static_Ydb_VariantType_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.ValueProtos.internal_static_Ydb_VariantType_fieldAccessorTable
@@ -2115,6 +2276,7 @@ public final class ValueProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         typeCase_ = 0;
@@ -2122,15 +2284,18 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.ValueProtos.internal_static_Ydb_VariantType_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.VariantType getDefaultInstanceForType() {
         return tech.ydb.ValueProtos.VariantType.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.VariantType build() {
         tech.ydb.ValueProtos.VariantType result = buildPartial();
         if (!result.isInitialized()) {
@@ -2139,6 +2304,7 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.VariantType buildPartial() {
         tech.ydb.ValueProtos.VariantType result = new tech.ydb.ValueProtos.VariantType(this);
         if (typeCase_ == 1) {
@@ -2160,32 +2326,39 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.ValueProtos.VariantType) {
           return mergeFrom((tech.ydb.ValueProtos.VariantType)other);
@@ -2215,10 +2388,12 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2256,13 +2431,17 @@ public final class ValueProtos {
           tech.ydb.ValueProtos.TupleType, tech.ydb.ValueProtos.TupleType.Builder, tech.ydb.ValueProtos.TupleTypeOrBuilder> tupleItemsBuilder_;
       /**
        * <code>.Ydb.TupleType tuple_items = 1;</code>
+       * @return Whether the tupleItems field is set.
        */
+      @java.lang.Override
       public boolean hasTupleItems() {
         return typeCase_ == 1;
       }
       /**
        * <code>.Ydb.TupleType tuple_items = 1;</code>
+       * @return The tupleItems.
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.TupleType getTupleItems() {
         if (tupleItemsBuilder_ == null) {
           if (typeCase_ == 1) {
@@ -2356,6 +2535,7 @@ public final class ValueProtos {
       /**
        * <code>.Ydb.TupleType tuple_items = 1;</code>
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.TupleTypeOrBuilder getTupleItemsOrBuilder() {
         if ((typeCase_ == 1) && (tupleItemsBuilder_ != null)) {
           return tupleItemsBuilder_.getMessageOrBuilder();
@@ -2392,13 +2572,17 @@ public final class ValueProtos {
           tech.ydb.ValueProtos.StructType, tech.ydb.ValueProtos.StructType.Builder, tech.ydb.ValueProtos.StructTypeOrBuilder> structItemsBuilder_;
       /**
        * <code>.Ydb.StructType struct_items = 2;</code>
+       * @return Whether the structItems field is set.
        */
+      @java.lang.Override
       public boolean hasStructItems() {
         return typeCase_ == 2;
       }
       /**
        * <code>.Ydb.StructType struct_items = 2;</code>
+       * @return The structItems.
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.StructType getStructItems() {
         if (structItemsBuilder_ == null) {
           if (typeCase_ == 2) {
@@ -2492,6 +2676,7 @@ public final class ValueProtos {
       /**
        * <code>.Ydb.StructType struct_items = 2;</code>
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.StructTypeOrBuilder getStructItemsOrBuilder() {
         if ((typeCase_ == 2) && (structItemsBuilder_ != null)) {
           return structItemsBuilder_.getMessageOrBuilder();
@@ -2523,11 +2708,13 @@ public final class ValueProtos {
         onChanged();;
         return structItemsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2549,11 +2736,12 @@ public final class ValueProtos {
 
     private static final com.google.protobuf.Parser<VariantType>
         PARSER = new com.google.protobuf.AbstractParser<VariantType>() {
+      @java.lang.Override
       public VariantType parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new VariantType(input, extensionRegistry);
+        return new VariantType(input, extensionRegistry);
       }
     };
 
@@ -2566,6 +2754,7 @@ public final class ValueProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.ValueProtos.VariantType getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2603,7 +2792,7 @@ public final class ValueProtos {
   /**
    * Protobuf type {@code Ydb.TupleType}
    */
-  public  static final class TupleType extends
+  public static final class TupleType extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.TupleType)
       TupleTypeOrBuilder {
@@ -2617,6 +2806,13 @@ public final class ValueProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TupleType();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2626,6 +2822,9 @@ public final class ValueProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -2637,20 +2836,20 @@ public final class ValueProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 elements_ = new java.util.ArrayList<tech.ydb.ValueProtos.Type>();
                 mutable_bitField0_ |= 0x00000001;
               }
               elements_.add(
                   input.readMessage(tech.ydb.ValueProtos.Type.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -2661,7 +2860,7 @@ public final class ValueProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           elements_ = java.util.Collections.unmodifiableList(elements_);
         }
         this.unknownFields = unknownFields.build();
@@ -2673,6 +2872,7 @@ public final class ValueProtos {
       return tech.ydb.ValueProtos.internal_static_Ydb_TupleType_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.ValueProtos.internal_static_Ydb_TupleType_fieldAccessorTable
@@ -2685,12 +2885,14 @@ public final class ValueProtos {
     /**
      * <code>repeated .Ydb.Type elements = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.ValueProtos.Type> getElementsList() {
       return elements_;
     }
     /**
      * <code>repeated .Ydb.Type elements = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.ValueProtos.TypeOrBuilder> 
         getElementsOrBuilderList() {
       return elements_;
@@ -2698,24 +2900,28 @@ public final class ValueProtos {
     /**
      * <code>repeated .Ydb.Type elements = 1;</code>
      */
+    @java.lang.Override
     public int getElementsCount() {
       return elements_.size();
     }
     /**
      * <code>repeated .Ydb.Type elements = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.Type getElements(int index) {
       return elements_.get(index);
     }
     /**
      * <code>repeated .Ydb.Type elements = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.TypeOrBuilder getElementsOrBuilder(
         int index) {
       return elements_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2725,6 +2931,7 @@ public final class ValueProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < elements_.size(); i++) {
@@ -2733,6 +2940,7 @@ public final class ValueProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2757,11 +2965,10 @@ public final class ValueProtos {
       }
       tech.ydb.ValueProtos.TupleType other = (tech.ydb.ValueProtos.TupleType) obj;
 
-      boolean result = true;
-      result = result && getElementsList()
-          .equals(other.getElementsList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getElementsList()
+          .equals(other.getElementsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2850,6 +3057,7 @@ public final class ValueProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2857,6 +3065,7 @@ public final class ValueProtos {
     public static Builder newBuilder(tech.ydb.ValueProtos.TupleType prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2880,6 +3089,7 @@ public final class ValueProtos {
         return tech.ydb.ValueProtos.internal_static_Ydb_TupleType_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.ValueProtos.internal_static_Ydb_TupleType_fieldAccessorTable
@@ -2903,6 +3113,7 @@ public final class ValueProtos {
           getElementsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (elementsBuilder_ == null) {
@@ -2914,15 +3125,18 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.ValueProtos.internal_static_Ydb_TupleType_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.TupleType getDefaultInstanceForType() {
         return tech.ydb.ValueProtos.TupleType.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.TupleType build() {
         tech.ydb.ValueProtos.TupleType result = buildPartial();
         if (!result.isInitialized()) {
@@ -2931,11 +3145,12 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.TupleType buildPartial() {
         tech.ydb.ValueProtos.TupleType result = new tech.ydb.ValueProtos.TupleType(this);
         int from_bitField0_ = bitField0_;
         if (elementsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             elements_ = java.util.Collections.unmodifiableList(elements_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -2947,32 +3162,39 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.ValueProtos.TupleType) {
           return mergeFrom((tech.ydb.ValueProtos.TupleType)other);
@@ -3015,10 +3237,12 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3041,7 +3265,7 @@ public final class ValueProtos {
       private java.util.List<tech.ydb.ValueProtos.Type> elements_ =
         java.util.Collections.emptyList();
       private void ensureElementsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           elements_ = new java.util.ArrayList<tech.ydb.ValueProtos.Type>(elements_);
           bitField0_ |= 0x00000001;
          }
@@ -3270,18 +3494,20 @@ public final class ValueProtos {
           elementsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.ValueProtos.Type, tech.ydb.ValueProtos.Type.Builder, tech.ydb.ValueProtos.TypeOrBuilder>(
                   elements_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           elements_ = null;
         }
         return elementsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3303,11 +3529,12 @@ public final class ValueProtos {
 
     private static final com.google.protobuf.Parser<TupleType>
         PARSER = new com.google.protobuf.AbstractParser<TupleType>() {
+      @java.lang.Override
       public TupleType parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TupleType(input, extensionRegistry);
+        return new TupleType(input, extensionRegistry);
       }
     };
 
@@ -3320,6 +3547,7 @@ public final class ValueProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.ValueProtos.TupleType getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3332,20 +3560,24 @@ public final class ValueProtos {
 
     /**
      * <code>string name = 1;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
      * <code>.Ydb.Type type = 2;</code>
+     * @return Whether the type field is set.
      */
     boolean hasType();
     /**
      * <code>.Ydb.Type type = 2;</code>
+     * @return The type.
      */
     tech.ydb.ValueProtos.Type getType();
     /**
@@ -3356,7 +3588,7 @@ public final class ValueProtos {
   /**
    * Protobuf type {@code Ydb.StructMember}
    */
-  public  static final class StructMember extends
+  public static final class StructMember extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.StructMember)
       StructMemberOrBuilder {
@@ -3370,6 +3602,13 @@ public final class ValueProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StructMember();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3379,7 +3618,9 @@ public final class ValueProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3390,13 +3631,6 @@ public final class ValueProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -3416,6 +3650,13 @@ public final class ValueProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3433,6 +3674,7 @@ public final class ValueProtos {
       return tech.ydb.ValueProtos.internal_static_Ydb_StructMember_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.ValueProtos.internal_static_Ydb_StructMember_fieldAccessorTable
@@ -3444,7 +3686,9 @@ public final class ValueProtos {
     private volatile java.lang.Object name_;
     /**
      * <code>string name = 1;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -3459,7 +3703,9 @@ public final class ValueProtos {
     }
     /**
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -3478,24 +3724,30 @@ public final class ValueProtos {
     private tech.ydb.ValueProtos.Type type_;
     /**
      * <code>.Ydb.Type type = 2;</code>
+     * @return Whether the type field is set.
      */
+    @java.lang.Override
     public boolean hasType() {
       return type_ != null;
     }
     /**
      * <code>.Ydb.Type type = 2;</code>
+     * @return The type.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.Type getType() {
       return type_ == null ? tech.ydb.ValueProtos.Type.getDefaultInstance() : type_;
     }
     /**
      * <code>.Ydb.Type type = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.TypeOrBuilder getTypeOrBuilder() {
       return getType();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3505,6 +3757,7 @@ public final class ValueProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getNameBytes().isEmpty()) {
@@ -3516,6 +3769,7 @@ public final class ValueProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3543,16 +3797,15 @@ public final class ValueProtos {
       }
       tech.ydb.ValueProtos.StructMember other = (tech.ydb.ValueProtos.StructMember) obj;
 
-      boolean result = true;
-      result = result && getName()
-          .equals(other.getName());
-      result = result && (hasType() == other.hasType());
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (hasType() != other.hasType()) return false;
       if (hasType()) {
-        result = result && getType()
-            .equals(other.getType());
+        if (!getType()
+            .equals(other.getType())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3643,6 +3896,7 @@ public final class ValueProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3650,6 +3904,7 @@ public final class ValueProtos {
     public static Builder newBuilder(tech.ydb.ValueProtos.StructMember prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3673,6 +3928,7 @@ public final class ValueProtos {
         return tech.ydb.ValueProtos.internal_static_Ydb_StructMember_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.ValueProtos.internal_static_Ydb_StructMember_fieldAccessorTable
@@ -3695,6 +3951,7 @@ public final class ValueProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         name_ = "";
@@ -3708,15 +3965,18 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.ValueProtos.internal_static_Ydb_StructMember_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.StructMember getDefaultInstanceForType() {
         return tech.ydb.ValueProtos.StructMember.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.StructMember build() {
         tech.ydb.ValueProtos.StructMember result = buildPartial();
         if (!result.isInitialized()) {
@@ -3725,6 +3985,7 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.StructMember buildPartial() {
         tech.ydb.ValueProtos.StructMember result = new tech.ydb.ValueProtos.StructMember(this);
         result.name_ = name_;
@@ -3737,32 +3998,39 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.ValueProtos.StructMember) {
           return mergeFrom((tech.ydb.ValueProtos.StructMember)other);
@@ -3786,10 +4054,12 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3811,6 +4081,7 @@ public final class ValueProtos {
       private java.lang.Object name_ = "";
       /**
        * <code>string name = 1;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -3826,6 +4097,7 @@ public final class ValueProtos {
       }
       /**
        * <code>string name = 1;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -3842,6 +4114,8 @@ public final class ValueProtos {
       }
       /**
        * <code>string name = 1;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -3855,6 +4129,7 @@ public final class ValueProtos {
       }
       /**
        * <code>string name = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -3864,6 +4139,8 @@ public final class ValueProtos {
       }
       /**
        * <code>string name = 1;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -3877,17 +4154,19 @@ public final class ValueProtos {
         return this;
       }
 
-      private tech.ydb.ValueProtos.Type type_ = null;
+      private tech.ydb.ValueProtos.Type type_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.ValueProtos.Type, tech.ydb.ValueProtos.Type.Builder, tech.ydb.ValueProtos.TypeOrBuilder> typeBuilder_;
       /**
        * <code>.Ydb.Type type = 2;</code>
+       * @return Whether the type field is set.
        */
       public boolean hasType() {
         return typeBuilder_ != null || type_ != null;
       }
       /**
        * <code>.Ydb.Type type = 2;</code>
+       * @return The type.
        */
       public tech.ydb.ValueProtos.Type getType() {
         if (typeBuilder_ == null) {
@@ -3993,11 +4272,13 @@ public final class ValueProtos {
         }
         return typeBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4019,11 +4300,12 @@ public final class ValueProtos {
 
     private static final com.google.protobuf.Parser<StructMember>
         PARSER = new com.google.protobuf.AbstractParser<StructMember>() {
+      @java.lang.Override
       public StructMember parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new StructMember(input, extensionRegistry);
+        return new StructMember(input, extensionRegistry);
       }
     };
 
@@ -4036,6 +4318,7 @@ public final class ValueProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.ValueProtos.StructMember getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4073,7 +4356,7 @@ public final class ValueProtos {
   /**
    * Protobuf type {@code Ydb.StructType}
    */
-  public  static final class StructType extends
+  public static final class StructType extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.StructType)
       StructTypeOrBuilder {
@@ -4087,6 +4370,13 @@ public final class ValueProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StructType();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -4096,6 +4386,9 @@ public final class ValueProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -4107,20 +4400,20 @@ public final class ValueProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 members_ = new java.util.ArrayList<tech.ydb.ValueProtos.StructMember>();
                 mutable_bitField0_ |= 0x00000001;
               }
               members_.add(
                   input.readMessage(tech.ydb.ValueProtos.StructMember.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -4131,7 +4424,7 @@ public final class ValueProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           members_ = java.util.Collections.unmodifiableList(members_);
         }
         this.unknownFields = unknownFields.build();
@@ -4143,6 +4436,7 @@ public final class ValueProtos {
       return tech.ydb.ValueProtos.internal_static_Ydb_StructType_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.ValueProtos.internal_static_Ydb_StructType_fieldAccessorTable
@@ -4155,12 +4449,14 @@ public final class ValueProtos {
     /**
      * <code>repeated .Ydb.StructMember members = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.ValueProtos.StructMember> getMembersList() {
       return members_;
     }
     /**
      * <code>repeated .Ydb.StructMember members = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.ValueProtos.StructMemberOrBuilder> 
         getMembersOrBuilderList() {
       return members_;
@@ -4168,24 +4464,28 @@ public final class ValueProtos {
     /**
      * <code>repeated .Ydb.StructMember members = 1;</code>
      */
+    @java.lang.Override
     public int getMembersCount() {
       return members_.size();
     }
     /**
      * <code>repeated .Ydb.StructMember members = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.StructMember getMembers(int index) {
       return members_.get(index);
     }
     /**
      * <code>repeated .Ydb.StructMember members = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.StructMemberOrBuilder getMembersOrBuilder(
         int index) {
       return members_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4195,6 +4495,7 @@ public final class ValueProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < members_.size(); i++) {
@@ -4203,6 +4504,7 @@ public final class ValueProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4227,11 +4529,10 @@ public final class ValueProtos {
       }
       tech.ydb.ValueProtos.StructType other = (tech.ydb.ValueProtos.StructType) obj;
 
-      boolean result = true;
-      result = result && getMembersList()
-          .equals(other.getMembersList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getMembersList()
+          .equals(other.getMembersList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4320,6 +4621,7 @@ public final class ValueProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4327,6 +4629,7 @@ public final class ValueProtos {
     public static Builder newBuilder(tech.ydb.ValueProtos.StructType prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4350,6 +4653,7 @@ public final class ValueProtos {
         return tech.ydb.ValueProtos.internal_static_Ydb_StructType_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.ValueProtos.internal_static_Ydb_StructType_fieldAccessorTable
@@ -4373,6 +4677,7 @@ public final class ValueProtos {
           getMembersFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (membersBuilder_ == null) {
@@ -4384,15 +4689,18 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.ValueProtos.internal_static_Ydb_StructType_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.StructType getDefaultInstanceForType() {
         return tech.ydb.ValueProtos.StructType.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.StructType build() {
         tech.ydb.ValueProtos.StructType result = buildPartial();
         if (!result.isInitialized()) {
@@ -4401,11 +4709,12 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.StructType buildPartial() {
         tech.ydb.ValueProtos.StructType result = new tech.ydb.ValueProtos.StructType(this);
         int from_bitField0_ = bitField0_;
         if (membersBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             members_ = java.util.Collections.unmodifiableList(members_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -4417,32 +4726,39 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.ValueProtos.StructType) {
           return mergeFrom((tech.ydb.ValueProtos.StructType)other);
@@ -4485,10 +4801,12 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4511,7 +4829,7 @@ public final class ValueProtos {
       private java.util.List<tech.ydb.ValueProtos.StructMember> members_ =
         java.util.Collections.emptyList();
       private void ensureMembersIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           members_ = new java.util.ArrayList<tech.ydb.ValueProtos.StructMember>(members_);
           bitField0_ |= 0x00000001;
          }
@@ -4740,18 +5058,20 @@ public final class ValueProtos {
           membersBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.ValueProtos.StructMember, tech.ydb.ValueProtos.StructMember.Builder, tech.ydb.ValueProtos.StructMemberOrBuilder>(
                   members_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           members_ = null;
         }
         return membersBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4773,11 +5093,12 @@ public final class ValueProtos {
 
     private static final com.google.protobuf.Parser<StructType>
         PARSER = new com.google.protobuf.AbstractParser<StructType>() {
+      @java.lang.Override
       public StructType parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new StructType(input, extensionRegistry);
+        return new StructType(input, extensionRegistry);
       }
     };
 
@@ -4790,6 +5111,7 @@ public final class ValueProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.ValueProtos.StructType getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4802,10 +5124,12 @@ public final class ValueProtos {
 
     /**
      * <code>.Ydb.Type key = 1;</code>
+     * @return Whether the key field is set.
      */
     boolean hasKey();
     /**
      * <code>.Ydb.Type key = 1;</code>
+     * @return The key.
      */
     tech.ydb.ValueProtos.Type getKey();
     /**
@@ -4815,10 +5139,12 @@ public final class ValueProtos {
 
     /**
      * <code>.Ydb.Type payload = 2;</code>
+     * @return Whether the payload field is set.
      */
     boolean hasPayload();
     /**
      * <code>.Ydb.Type payload = 2;</code>
+     * @return The payload.
      */
     tech.ydb.ValueProtos.Type getPayload();
     /**
@@ -4829,7 +5155,7 @@ public final class ValueProtos {
   /**
    * Protobuf type {@code Ydb.DictType}
    */
-  public  static final class DictType extends
+  public static final class DictType extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.DictType)
       DictTypeOrBuilder {
@@ -4842,6 +5168,13 @@ public final class ValueProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DictType();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -4851,7 +5184,9 @@ public final class ValueProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4862,13 +5197,6 @@ public final class ValueProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.ValueProtos.Type.Builder subBuilder = null;
               if (key_ != null) {
@@ -4895,6 +5223,13 @@ public final class ValueProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -4912,6 +5247,7 @@ public final class ValueProtos {
       return tech.ydb.ValueProtos.internal_static_Ydb_DictType_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.ValueProtos.internal_static_Ydb_DictType_fieldAccessorTable
@@ -4923,19 +5259,24 @@ public final class ValueProtos {
     private tech.ydb.ValueProtos.Type key_;
     /**
      * <code>.Ydb.Type key = 1;</code>
+     * @return Whether the key field is set.
      */
+    @java.lang.Override
     public boolean hasKey() {
       return key_ != null;
     }
     /**
      * <code>.Ydb.Type key = 1;</code>
+     * @return The key.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.Type getKey() {
       return key_ == null ? tech.ydb.ValueProtos.Type.getDefaultInstance() : key_;
     }
     /**
      * <code>.Ydb.Type key = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.TypeOrBuilder getKeyOrBuilder() {
       return getKey();
     }
@@ -4944,24 +5285,30 @@ public final class ValueProtos {
     private tech.ydb.ValueProtos.Type payload_;
     /**
      * <code>.Ydb.Type payload = 2;</code>
+     * @return Whether the payload field is set.
      */
+    @java.lang.Override
     public boolean hasPayload() {
       return payload_ != null;
     }
     /**
      * <code>.Ydb.Type payload = 2;</code>
+     * @return The payload.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.Type getPayload() {
       return payload_ == null ? tech.ydb.ValueProtos.Type.getDefaultInstance() : payload_;
     }
     /**
      * <code>.Ydb.Type payload = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.TypeOrBuilder getPayloadOrBuilder() {
       return getPayload();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4971,6 +5318,7 @@ public final class ValueProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (key_ != null) {
@@ -4982,6 +5330,7 @@ public final class ValueProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -5010,19 +5359,18 @@ public final class ValueProtos {
       }
       tech.ydb.ValueProtos.DictType other = (tech.ydb.ValueProtos.DictType) obj;
 
-      boolean result = true;
-      result = result && (hasKey() == other.hasKey());
+      if (hasKey() != other.hasKey()) return false;
       if (hasKey()) {
-        result = result && getKey()
-            .equals(other.getKey());
+        if (!getKey()
+            .equals(other.getKey())) return false;
       }
-      result = result && (hasPayload() == other.hasPayload());
+      if (hasPayload() != other.hasPayload()) return false;
       if (hasPayload()) {
-        result = result && getPayload()
-            .equals(other.getPayload());
+        if (!getPayload()
+            .equals(other.getPayload())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5115,6 +5463,7 @@ public final class ValueProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5122,6 +5471,7 @@ public final class ValueProtos {
     public static Builder newBuilder(tech.ydb.ValueProtos.DictType prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5145,6 +5495,7 @@ public final class ValueProtos {
         return tech.ydb.ValueProtos.internal_static_Ydb_DictType_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.ValueProtos.internal_static_Ydb_DictType_fieldAccessorTable
@@ -5167,6 +5518,7 @@ public final class ValueProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (keyBuilder_ == null) {
@@ -5184,15 +5536,18 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.ValueProtos.internal_static_Ydb_DictType_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.DictType getDefaultInstanceForType() {
         return tech.ydb.ValueProtos.DictType.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.DictType build() {
         tech.ydb.ValueProtos.DictType result = buildPartial();
         if (!result.isInitialized()) {
@@ -5201,6 +5556,7 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.DictType buildPartial() {
         tech.ydb.ValueProtos.DictType result = new tech.ydb.ValueProtos.DictType(this);
         if (keyBuilder_ == null) {
@@ -5217,32 +5573,39 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.ValueProtos.DictType) {
           return mergeFrom((tech.ydb.ValueProtos.DictType)other);
@@ -5265,10 +5628,12 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5287,17 +5652,19 @@ public final class ValueProtos {
         return this;
       }
 
-      private tech.ydb.ValueProtos.Type key_ = null;
+      private tech.ydb.ValueProtos.Type key_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.ValueProtos.Type, tech.ydb.ValueProtos.Type.Builder, tech.ydb.ValueProtos.TypeOrBuilder> keyBuilder_;
       /**
        * <code>.Ydb.Type key = 1;</code>
+       * @return Whether the key field is set.
        */
       public boolean hasKey() {
         return keyBuilder_ != null || key_ != null;
       }
       /**
        * <code>.Ydb.Type key = 1;</code>
+       * @return The key.
        */
       public tech.ydb.ValueProtos.Type getKey() {
         if (keyBuilder_ == null) {
@@ -5404,17 +5771,19 @@ public final class ValueProtos {
         return keyBuilder_;
       }
 
-      private tech.ydb.ValueProtos.Type payload_ = null;
+      private tech.ydb.ValueProtos.Type payload_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.ValueProtos.Type, tech.ydb.ValueProtos.Type.Builder, tech.ydb.ValueProtos.TypeOrBuilder> payloadBuilder_;
       /**
        * <code>.Ydb.Type payload = 2;</code>
+       * @return Whether the payload field is set.
        */
       public boolean hasPayload() {
         return payloadBuilder_ != null || payload_ != null;
       }
       /**
        * <code>.Ydb.Type payload = 2;</code>
+       * @return The payload.
        */
       public tech.ydb.ValueProtos.Type getPayload() {
         if (payloadBuilder_ == null) {
@@ -5520,11 +5889,13 @@ public final class ValueProtos {
         }
         return payloadBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5546,11 +5917,12 @@ public final class ValueProtos {
 
     private static final com.google.protobuf.Parser<DictType>
         PARSER = new com.google.protobuf.AbstractParser<DictType>() {
+      @java.lang.Override
       public DictType parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DictType(input, extensionRegistry);
+        return new DictType(input, extensionRegistry);
       }
     };
 
@@ -5563,6 +5935,7 @@ public final class ValueProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.ValueProtos.DictType getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5579,6 +5952,16 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.Ydb.Type.PrimitiveTypeId type_id = 1;</code>
+     * @return Whether the typeId field is set.
+     */
+    boolean hasTypeId();
+    /**
+     * <pre>
+     * Data types 
+     * </pre>
+     *
+     * <code>.Ydb.Type.PrimitiveTypeId type_id = 1;</code>
+     * @return The enum numeric value on the wire for typeId.
      */
     int getTypeIdValue();
     /**
@@ -5587,15 +5970,18 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.Ydb.Type.PrimitiveTypeId type_id = 1;</code>
+     * @return The typeId.
      */
     tech.ydb.ValueProtos.Type.PrimitiveTypeId getTypeId();
 
     /**
      * <code>.Ydb.DecimalType decimal_type = 2;</code>
+     * @return Whether the decimalType field is set.
      */
     boolean hasDecimalType();
     /**
      * <code>.Ydb.DecimalType decimal_type = 2;</code>
+     * @return The decimalType.
      */
     tech.ydb.ValueProtos.DecimalType getDecimalType();
     /**
@@ -5609,6 +5995,7 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.Ydb.OptionalType optional_type = 101;</code>
+     * @return Whether the optionalType field is set.
      */
     boolean hasOptionalType();
     /**
@@ -5617,6 +6004,7 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.Ydb.OptionalType optional_type = 101;</code>
+     * @return The optionalType.
      */
     tech.ydb.ValueProtos.OptionalType getOptionalType();
     /**
@@ -5630,10 +6018,12 @@ public final class ValueProtos {
 
     /**
      * <code>.Ydb.ListType list_type = 102;</code>
+     * @return Whether the listType field is set.
      */
     boolean hasListType();
     /**
      * <code>.Ydb.ListType list_type = 102;</code>
+     * @return The listType.
      */
     tech.ydb.ValueProtos.ListType getListType();
     /**
@@ -5643,10 +6033,12 @@ public final class ValueProtos {
 
     /**
      * <code>.Ydb.TupleType tuple_type = 103;</code>
+     * @return Whether the tupleType field is set.
      */
     boolean hasTupleType();
     /**
      * <code>.Ydb.TupleType tuple_type = 103;</code>
+     * @return The tupleType.
      */
     tech.ydb.ValueProtos.TupleType getTupleType();
     /**
@@ -5656,10 +6048,12 @@ public final class ValueProtos {
 
     /**
      * <code>.Ydb.StructType struct_type = 104;</code>
+     * @return Whether the structType field is set.
      */
     boolean hasStructType();
     /**
      * <code>.Ydb.StructType struct_type = 104;</code>
+     * @return The structType.
      */
     tech.ydb.ValueProtos.StructType getStructType();
     /**
@@ -5669,10 +6063,12 @@ public final class ValueProtos {
 
     /**
      * <code>.Ydb.DictType dict_type = 105;</code>
+     * @return Whether the dictType field is set.
      */
     boolean hasDictType();
     /**
      * <code>.Ydb.DictType dict_type = 105;</code>
+     * @return The dictType.
      */
     tech.ydb.ValueProtos.DictType getDictType();
     /**
@@ -5682,10 +6078,12 @@ public final class ValueProtos {
 
     /**
      * <code>.Ydb.VariantType variant_type = 106;</code>
+     * @return Whether the variantType field is set.
      */
     boolean hasVariantType();
     /**
      * <code>.Ydb.VariantType variant_type = 106;</code>
+     * @return The variantType.
      */
     tech.ydb.ValueProtos.VariantType getVariantType();
     /**
@@ -5699,6 +6097,16 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.google.protobuf.NullValue void_type = 201;</code>
+     * @return Whether the voidType field is set.
+     */
+    boolean hasVoidType();
+    /**
+     * <pre>
+     * Special types 
+     * </pre>
+     *
+     * <code>.google.protobuf.NullValue void_type = 201;</code>
+     * @return The enum numeric value on the wire for voidType.
      */
     int getVoidTypeValue();
     /**
@@ -5707,6 +6115,7 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.google.protobuf.NullValue void_type = 201;</code>
+     * @return The voidType.
      */
     com.google.protobuf.NullValue getVoidType();
 
@@ -5715,7 +6124,7 @@ public final class ValueProtos {
   /**
    * Protobuf type {@code Ydb.Type}
    */
-  public  static final class Type extends
+  public static final class Type extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Type)
       TypeOrBuilder {
@@ -5728,6 +6137,13 @@ public final class ValueProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Type();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -5737,7 +6153,9 @@ public final class ValueProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -5748,13 +6166,6 @@ public final class ValueProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               int rawValue = input.readEnum();
               typeCase_ = 1;
@@ -5865,6 +6276,13 @@ public final class ValueProtos {
               type_ = rawValue;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -5882,6 +6300,7 @@ public final class ValueProtos {
       return tech.ydb.ValueProtos.internal_static_Ydb_Type_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.ValueProtos.internal_static_Ydb_Type_fieldAccessorTable
@@ -6116,6 +6535,8 @@ public final class ValueProtos {
       }
 
       /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -6123,6 +6544,10 @@ public final class ValueProtos {
         return forNumber(value);
       }
 
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
       public static PrimitiveTypeId forNumber(int value) {
         switch (value) {
           case 0: return PRIMITIVE_TYPE_ID_UNSPECIFIED;
@@ -6169,6 +6594,10 @@ public final class ValueProtos {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -6206,7 +6635,8 @@ public final class ValueProtos {
     private int typeCase_ = 0;
     private java.lang.Object type_;
     public enum TypeCase
-        implements com.google.protobuf.Internal.EnumLite {
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       TYPE_ID(1),
       DECIMAL_TYPE(2),
       OPTIONAL_TYPE(101),
@@ -6222,6 +6652,8 @@ public final class ValueProtos {
         this.value = value;
       }
       /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -6262,6 +6694,18 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.Ydb.Type.PrimitiveTypeId type_id = 1;</code>
+     * @return Whether the typeId field is set.
+     */
+    public boolean hasTypeId() {
+      return typeCase_ == 1;
+    }
+    /**
+     * <pre>
+     * Data types 
+     * </pre>
+     *
+     * <code>.Ydb.Type.PrimitiveTypeId type_id = 1;</code>
+     * @return The enum numeric value on the wire for typeId.
      */
     public int getTypeIdValue() {
       if (typeCase_ == 1) {
@@ -6275,9 +6719,11 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.Ydb.Type.PrimitiveTypeId type_id = 1;</code>
+     * @return The typeId.
      */
     public tech.ydb.ValueProtos.Type.PrimitiveTypeId getTypeId() {
       if (typeCase_ == 1) {
+        @SuppressWarnings("deprecation")
         tech.ydb.ValueProtos.Type.PrimitiveTypeId result = tech.ydb.ValueProtos.Type.PrimitiveTypeId.valueOf(
             (java.lang.Integer) type_);
         return result == null ? tech.ydb.ValueProtos.Type.PrimitiveTypeId.UNRECOGNIZED : result;
@@ -6288,13 +6734,17 @@ public final class ValueProtos {
     public static final int DECIMAL_TYPE_FIELD_NUMBER = 2;
     /**
      * <code>.Ydb.DecimalType decimal_type = 2;</code>
+     * @return Whether the decimalType field is set.
      */
+    @java.lang.Override
     public boolean hasDecimalType() {
       return typeCase_ == 2;
     }
     /**
      * <code>.Ydb.DecimalType decimal_type = 2;</code>
+     * @return The decimalType.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.DecimalType getDecimalType() {
       if (typeCase_ == 2) {
          return (tech.ydb.ValueProtos.DecimalType) type_;
@@ -6304,6 +6754,7 @@ public final class ValueProtos {
     /**
      * <code>.Ydb.DecimalType decimal_type = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.DecimalTypeOrBuilder getDecimalTypeOrBuilder() {
       if (typeCase_ == 2) {
          return (tech.ydb.ValueProtos.DecimalType) type_;
@@ -6318,7 +6769,9 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.Ydb.OptionalType optional_type = 101;</code>
+     * @return Whether the optionalType field is set.
      */
+    @java.lang.Override
     public boolean hasOptionalType() {
       return typeCase_ == 101;
     }
@@ -6328,7 +6781,9 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.Ydb.OptionalType optional_type = 101;</code>
+     * @return The optionalType.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.OptionalType getOptionalType() {
       if (typeCase_ == 101) {
          return (tech.ydb.ValueProtos.OptionalType) type_;
@@ -6342,6 +6797,7 @@ public final class ValueProtos {
      *
      * <code>.Ydb.OptionalType optional_type = 101;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.OptionalTypeOrBuilder getOptionalTypeOrBuilder() {
       if (typeCase_ == 101) {
          return (tech.ydb.ValueProtos.OptionalType) type_;
@@ -6352,13 +6808,17 @@ public final class ValueProtos {
     public static final int LIST_TYPE_FIELD_NUMBER = 102;
     /**
      * <code>.Ydb.ListType list_type = 102;</code>
+     * @return Whether the listType field is set.
      */
+    @java.lang.Override
     public boolean hasListType() {
       return typeCase_ == 102;
     }
     /**
      * <code>.Ydb.ListType list_type = 102;</code>
+     * @return The listType.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ListType getListType() {
       if (typeCase_ == 102) {
          return (tech.ydb.ValueProtos.ListType) type_;
@@ -6368,6 +6828,7 @@ public final class ValueProtos {
     /**
      * <code>.Ydb.ListType list_type = 102;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ListTypeOrBuilder getListTypeOrBuilder() {
       if (typeCase_ == 102) {
          return (tech.ydb.ValueProtos.ListType) type_;
@@ -6378,13 +6839,17 @@ public final class ValueProtos {
     public static final int TUPLE_TYPE_FIELD_NUMBER = 103;
     /**
      * <code>.Ydb.TupleType tuple_type = 103;</code>
+     * @return Whether the tupleType field is set.
      */
+    @java.lang.Override
     public boolean hasTupleType() {
       return typeCase_ == 103;
     }
     /**
      * <code>.Ydb.TupleType tuple_type = 103;</code>
+     * @return The tupleType.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.TupleType getTupleType() {
       if (typeCase_ == 103) {
          return (tech.ydb.ValueProtos.TupleType) type_;
@@ -6394,6 +6859,7 @@ public final class ValueProtos {
     /**
      * <code>.Ydb.TupleType tuple_type = 103;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.TupleTypeOrBuilder getTupleTypeOrBuilder() {
       if (typeCase_ == 103) {
          return (tech.ydb.ValueProtos.TupleType) type_;
@@ -6404,13 +6870,17 @@ public final class ValueProtos {
     public static final int STRUCT_TYPE_FIELD_NUMBER = 104;
     /**
      * <code>.Ydb.StructType struct_type = 104;</code>
+     * @return Whether the structType field is set.
      */
+    @java.lang.Override
     public boolean hasStructType() {
       return typeCase_ == 104;
     }
     /**
      * <code>.Ydb.StructType struct_type = 104;</code>
+     * @return The structType.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.StructType getStructType() {
       if (typeCase_ == 104) {
          return (tech.ydb.ValueProtos.StructType) type_;
@@ -6420,6 +6890,7 @@ public final class ValueProtos {
     /**
      * <code>.Ydb.StructType struct_type = 104;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.StructTypeOrBuilder getStructTypeOrBuilder() {
       if (typeCase_ == 104) {
          return (tech.ydb.ValueProtos.StructType) type_;
@@ -6430,13 +6901,17 @@ public final class ValueProtos {
     public static final int DICT_TYPE_FIELD_NUMBER = 105;
     /**
      * <code>.Ydb.DictType dict_type = 105;</code>
+     * @return Whether the dictType field is set.
      */
+    @java.lang.Override
     public boolean hasDictType() {
       return typeCase_ == 105;
     }
     /**
      * <code>.Ydb.DictType dict_type = 105;</code>
+     * @return The dictType.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.DictType getDictType() {
       if (typeCase_ == 105) {
          return (tech.ydb.ValueProtos.DictType) type_;
@@ -6446,6 +6921,7 @@ public final class ValueProtos {
     /**
      * <code>.Ydb.DictType dict_type = 105;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.DictTypeOrBuilder getDictTypeOrBuilder() {
       if (typeCase_ == 105) {
          return (tech.ydb.ValueProtos.DictType) type_;
@@ -6456,13 +6932,17 @@ public final class ValueProtos {
     public static final int VARIANT_TYPE_FIELD_NUMBER = 106;
     /**
      * <code>.Ydb.VariantType variant_type = 106;</code>
+     * @return Whether the variantType field is set.
      */
+    @java.lang.Override
     public boolean hasVariantType() {
       return typeCase_ == 106;
     }
     /**
      * <code>.Ydb.VariantType variant_type = 106;</code>
+     * @return The variantType.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.VariantType getVariantType() {
       if (typeCase_ == 106) {
          return (tech.ydb.ValueProtos.VariantType) type_;
@@ -6472,6 +6952,7 @@ public final class ValueProtos {
     /**
      * <code>.Ydb.VariantType variant_type = 106;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.VariantTypeOrBuilder getVariantTypeOrBuilder() {
       if (typeCase_ == 106) {
          return (tech.ydb.ValueProtos.VariantType) type_;
@@ -6486,6 +6967,18 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.google.protobuf.NullValue void_type = 201;</code>
+     * @return Whether the voidType field is set.
+     */
+    public boolean hasVoidType() {
+      return typeCase_ == 201;
+    }
+    /**
+     * <pre>
+     * Special types 
+     * </pre>
+     *
+     * <code>.google.protobuf.NullValue void_type = 201;</code>
+     * @return The enum numeric value on the wire for voidType.
      */
     public int getVoidTypeValue() {
       if (typeCase_ == 201) {
@@ -6499,9 +6992,11 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.google.protobuf.NullValue void_type = 201;</code>
+     * @return The voidType.
      */
     public com.google.protobuf.NullValue getVoidType() {
       if (typeCase_ == 201) {
+        @SuppressWarnings("deprecation")
         com.google.protobuf.NullValue result = com.google.protobuf.NullValue.valueOf(
             (java.lang.Integer) type_);
         return result == null ? com.google.protobuf.NullValue.UNRECOGNIZED : result;
@@ -6510,6 +7005,7 @@ public final class ValueProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6519,6 +7015,7 @@ public final class ValueProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (typeCase_ == 1) {
@@ -6551,6 +7048,7 @@ public final class ValueProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -6607,52 +7105,49 @@ public final class ValueProtos {
       }
       tech.ydb.ValueProtos.Type other = (tech.ydb.ValueProtos.Type) obj;
 
-      boolean result = true;
-      result = result && getTypeCase().equals(
-          other.getTypeCase());
-      if (!result) return false;
+      if (!getTypeCase().equals(other.getTypeCase())) return false;
       switch (typeCase_) {
         case 1:
-          result = result && getTypeIdValue()
-              == other.getTypeIdValue();
+          if (getTypeIdValue()
+              != other.getTypeIdValue()) return false;
           break;
         case 2:
-          result = result && getDecimalType()
-              .equals(other.getDecimalType());
+          if (!getDecimalType()
+              .equals(other.getDecimalType())) return false;
           break;
         case 101:
-          result = result && getOptionalType()
-              .equals(other.getOptionalType());
+          if (!getOptionalType()
+              .equals(other.getOptionalType())) return false;
           break;
         case 102:
-          result = result && getListType()
-              .equals(other.getListType());
+          if (!getListType()
+              .equals(other.getListType())) return false;
           break;
         case 103:
-          result = result && getTupleType()
-              .equals(other.getTupleType());
+          if (!getTupleType()
+              .equals(other.getTupleType())) return false;
           break;
         case 104:
-          result = result && getStructType()
-              .equals(other.getStructType());
+          if (!getStructType()
+              .equals(other.getStructType())) return false;
           break;
         case 105:
-          result = result && getDictType()
-              .equals(other.getDictType());
+          if (!getDictType()
+              .equals(other.getDictType())) return false;
           break;
         case 106:
-          result = result && getVariantType()
-              .equals(other.getVariantType());
+          if (!getVariantType()
+              .equals(other.getVariantType())) return false;
           break;
         case 201:
-          result = result && getVoidTypeValue()
-              == other.getVoidTypeValue();
+          if (getVoidTypeValue()
+              != other.getVoidTypeValue()) return false;
           break;
         case 0:
         default:
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -6777,6 +7272,7 @@ public final class ValueProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -6784,6 +7280,7 @@ public final class ValueProtos {
     public static Builder newBuilder(tech.ydb.ValueProtos.Type prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -6807,6 +7304,7 @@ public final class ValueProtos {
         return tech.ydb.ValueProtos.internal_static_Ydb_Type_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.ValueProtos.internal_static_Ydb_Type_fieldAccessorTable
@@ -6829,6 +7327,7 @@ public final class ValueProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         typeCase_ = 0;
@@ -6836,15 +7335,18 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.ValueProtos.internal_static_Ydb_Type_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.Type getDefaultInstanceForType() {
         return tech.ydb.ValueProtos.Type.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.Type build() {
         tech.ydb.ValueProtos.Type result = buildPartial();
         if (!result.isInitialized()) {
@@ -6853,6 +7355,7 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.Type buildPartial() {
         tech.ydb.ValueProtos.Type result = new tech.ydb.ValueProtos.Type(this);
         if (typeCase_ == 1) {
@@ -6915,32 +7418,39 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.ValueProtos.Type) {
           return mergeFrom((tech.ydb.ValueProtos.Type)other);
@@ -6998,10 +7508,12 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -7041,7 +7553,21 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.Ydb.Type.PrimitiveTypeId type_id = 1;</code>
+       * @return Whether the typeId field is set.
        */
+      @java.lang.Override
+      public boolean hasTypeId() {
+        return typeCase_ == 1;
+      }
+      /**
+       * <pre>
+       * Data types 
+       * </pre>
+       *
+       * <code>.Ydb.Type.PrimitiveTypeId type_id = 1;</code>
+       * @return The enum numeric value on the wire for typeId.
+       */
+      @java.lang.Override
       public int getTypeIdValue() {
         if (typeCase_ == 1) {
           return ((java.lang.Integer) type_).intValue();
@@ -7054,6 +7580,8 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.Ydb.Type.PrimitiveTypeId type_id = 1;</code>
+       * @param value The enum numeric value on the wire for typeId to set.
+       * @return This builder for chaining.
        */
       public Builder setTypeIdValue(int value) {
         typeCase_ = 1;
@@ -7067,9 +7595,12 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.Ydb.Type.PrimitiveTypeId type_id = 1;</code>
+       * @return The typeId.
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.Type.PrimitiveTypeId getTypeId() {
         if (typeCase_ == 1) {
+          @SuppressWarnings("deprecation")
           tech.ydb.ValueProtos.Type.PrimitiveTypeId result = tech.ydb.ValueProtos.Type.PrimitiveTypeId.valueOf(
               (java.lang.Integer) type_);
           return result == null ? tech.ydb.ValueProtos.Type.PrimitiveTypeId.UNRECOGNIZED : result;
@@ -7082,6 +7613,8 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.Ydb.Type.PrimitiveTypeId type_id = 1;</code>
+       * @param value The typeId to set.
+       * @return This builder for chaining.
        */
       public Builder setTypeId(tech.ydb.ValueProtos.Type.PrimitiveTypeId value) {
         if (value == null) {
@@ -7098,6 +7631,7 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.Ydb.Type.PrimitiveTypeId type_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTypeId() {
         if (typeCase_ == 1) {
@@ -7112,13 +7646,17 @@ public final class ValueProtos {
           tech.ydb.ValueProtos.DecimalType, tech.ydb.ValueProtos.DecimalType.Builder, tech.ydb.ValueProtos.DecimalTypeOrBuilder> decimalTypeBuilder_;
       /**
        * <code>.Ydb.DecimalType decimal_type = 2;</code>
+       * @return Whether the decimalType field is set.
        */
+      @java.lang.Override
       public boolean hasDecimalType() {
         return typeCase_ == 2;
       }
       /**
        * <code>.Ydb.DecimalType decimal_type = 2;</code>
+       * @return The decimalType.
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.DecimalType getDecimalType() {
         if (decimalTypeBuilder_ == null) {
           if (typeCase_ == 2) {
@@ -7212,6 +7750,7 @@ public final class ValueProtos {
       /**
        * <code>.Ydb.DecimalType decimal_type = 2;</code>
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.DecimalTypeOrBuilder getDecimalTypeOrBuilder() {
         if ((typeCase_ == 2) && (decimalTypeBuilder_ != null)) {
           return decimalTypeBuilder_.getMessageOrBuilder();
@@ -7252,7 +7791,9 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.Ydb.OptionalType optional_type = 101;</code>
+       * @return Whether the optionalType field is set.
        */
+      @java.lang.Override
       public boolean hasOptionalType() {
         return typeCase_ == 101;
       }
@@ -7262,7 +7803,9 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.Ydb.OptionalType optional_type = 101;</code>
+       * @return The optionalType.
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.OptionalType getOptionalType() {
         if (optionalTypeBuilder_ == null) {
           if (typeCase_ == 101) {
@@ -7380,6 +7923,7 @@ public final class ValueProtos {
        *
        * <code>.Ydb.OptionalType optional_type = 101;</code>
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.OptionalTypeOrBuilder getOptionalTypeOrBuilder() {
         if ((typeCase_ == 101) && (optionalTypeBuilder_ != null)) {
           return optionalTypeBuilder_.getMessageOrBuilder();
@@ -7420,13 +7964,17 @@ public final class ValueProtos {
           tech.ydb.ValueProtos.ListType, tech.ydb.ValueProtos.ListType.Builder, tech.ydb.ValueProtos.ListTypeOrBuilder> listTypeBuilder_;
       /**
        * <code>.Ydb.ListType list_type = 102;</code>
+       * @return Whether the listType field is set.
        */
+      @java.lang.Override
       public boolean hasListType() {
         return typeCase_ == 102;
       }
       /**
        * <code>.Ydb.ListType list_type = 102;</code>
+       * @return The listType.
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.ListType getListType() {
         if (listTypeBuilder_ == null) {
           if (typeCase_ == 102) {
@@ -7520,6 +8068,7 @@ public final class ValueProtos {
       /**
        * <code>.Ydb.ListType list_type = 102;</code>
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.ListTypeOrBuilder getListTypeOrBuilder() {
         if ((typeCase_ == 102) && (listTypeBuilder_ != null)) {
           return listTypeBuilder_.getMessageOrBuilder();
@@ -7556,13 +8105,17 @@ public final class ValueProtos {
           tech.ydb.ValueProtos.TupleType, tech.ydb.ValueProtos.TupleType.Builder, tech.ydb.ValueProtos.TupleTypeOrBuilder> tupleTypeBuilder_;
       /**
        * <code>.Ydb.TupleType tuple_type = 103;</code>
+       * @return Whether the tupleType field is set.
        */
+      @java.lang.Override
       public boolean hasTupleType() {
         return typeCase_ == 103;
       }
       /**
        * <code>.Ydb.TupleType tuple_type = 103;</code>
+       * @return The tupleType.
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.TupleType getTupleType() {
         if (tupleTypeBuilder_ == null) {
           if (typeCase_ == 103) {
@@ -7656,6 +8209,7 @@ public final class ValueProtos {
       /**
        * <code>.Ydb.TupleType tuple_type = 103;</code>
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.TupleTypeOrBuilder getTupleTypeOrBuilder() {
         if ((typeCase_ == 103) && (tupleTypeBuilder_ != null)) {
           return tupleTypeBuilder_.getMessageOrBuilder();
@@ -7692,13 +8246,17 @@ public final class ValueProtos {
           tech.ydb.ValueProtos.StructType, tech.ydb.ValueProtos.StructType.Builder, tech.ydb.ValueProtos.StructTypeOrBuilder> structTypeBuilder_;
       /**
        * <code>.Ydb.StructType struct_type = 104;</code>
+       * @return Whether the structType field is set.
        */
+      @java.lang.Override
       public boolean hasStructType() {
         return typeCase_ == 104;
       }
       /**
        * <code>.Ydb.StructType struct_type = 104;</code>
+       * @return The structType.
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.StructType getStructType() {
         if (structTypeBuilder_ == null) {
           if (typeCase_ == 104) {
@@ -7792,6 +8350,7 @@ public final class ValueProtos {
       /**
        * <code>.Ydb.StructType struct_type = 104;</code>
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.StructTypeOrBuilder getStructTypeOrBuilder() {
         if ((typeCase_ == 104) && (structTypeBuilder_ != null)) {
           return structTypeBuilder_.getMessageOrBuilder();
@@ -7828,13 +8387,17 @@ public final class ValueProtos {
           tech.ydb.ValueProtos.DictType, tech.ydb.ValueProtos.DictType.Builder, tech.ydb.ValueProtos.DictTypeOrBuilder> dictTypeBuilder_;
       /**
        * <code>.Ydb.DictType dict_type = 105;</code>
+       * @return Whether the dictType field is set.
        */
+      @java.lang.Override
       public boolean hasDictType() {
         return typeCase_ == 105;
       }
       /**
        * <code>.Ydb.DictType dict_type = 105;</code>
+       * @return The dictType.
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.DictType getDictType() {
         if (dictTypeBuilder_ == null) {
           if (typeCase_ == 105) {
@@ -7928,6 +8491,7 @@ public final class ValueProtos {
       /**
        * <code>.Ydb.DictType dict_type = 105;</code>
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.DictTypeOrBuilder getDictTypeOrBuilder() {
         if ((typeCase_ == 105) && (dictTypeBuilder_ != null)) {
           return dictTypeBuilder_.getMessageOrBuilder();
@@ -7964,13 +8528,17 @@ public final class ValueProtos {
           tech.ydb.ValueProtos.VariantType, tech.ydb.ValueProtos.VariantType.Builder, tech.ydb.ValueProtos.VariantTypeOrBuilder> variantTypeBuilder_;
       /**
        * <code>.Ydb.VariantType variant_type = 106;</code>
+       * @return Whether the variantType field is set.
        */
+      @java.lang.Override
       public boolean hasVariantType() {
         return typeCase_ == 106;
       }
       /**
        * <code>.Ydb.VariantType variant_type = 106;</code>
+       * @return The variantType.
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.VariantType getVariantType() {
         if (variantTypeBuilder_ == null) {
           if (typeCase_ == 106) {
@@ -8064,6 +8632,7 @@ public final class ValueProtos {
       /**
        * <code>.Ydb.VariantType variant_type = 106;</code>
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.VariantTypeOrBuilder getVariantTypeOrBuilder() {
         if ((typeCase_ == 106) && (variantTypeBuilder_ != null)) {
           return variantTypeBuilder_.getMessageOrBuilder();
@@ -8102,7 +8671,21 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.google.protobuf.NullValue void_type = 201;</code>
+       * @return Whether the voidType field is set.
        */
+      @java.lang.Override
+      public boolean hasVoidType() {
+        return typeCase_ == 201;
+      }
+      /**
+       * <pre>
+       * Special types 
+       * </pre>
+       *
+       * <code>.google.protobuf.NullValue void_type = 201;</code>
+       * @return The enum numeric value on the wire for voidType.
+       */
+      @java.lang.Override
       public int getVoidTypeValue() {
         if (typeCase_ == 201) {
           return ((java.lang.Integer) type_).intValue();
@@ -8115,6 +8698,8 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.google.protobuf.NullValue void_type = 201;</code>
+       * @param value The enum numeric value on the wire for voidType to set.
+       * @return This builder for chaining.
        */
       public Builder setVoidTypeValue(int value) {
         typeCase_ = 201;
@@ -8128,9 +8713,12 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.google.protobuf.NullValue void_type = 201;</code>
+       * @return The voidType.
        */
+      @java.lang.Override
       public com.google.protobuf.NullValue getVoidType() {
         if (typeCase_ == 201) {
+          @SuppressWarnings("deprecation")
           com.google.protobuf.NullValue result = com.google.protobuf.NullValue.valueOf(
               (java.lang.Integer) type_);
           return result == null ? com.google.protobuf.NullValue.UNRECOGNIZED : result;
@@ -8143,6 +8731,8 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.google.protobuf.NullValue void_type = 201;</code>
+       * @param value The voidType to set.
+       * @return This builder for chaining.
        */
       public Builder setVoidType(com.google.protobuf.NullValue value) {
         if (value == null) {
@@ -8159,6 +8749,7 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.google.protobuf.NullValue void_type = 201;</code>
+       * @return This builder for chaining.
        */
       public Builder clearVoidType() {
         if (typeCase_ == 201) {
@@ -8168,11 +8759,13 @@ public final class ValueProtos {
         }
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -8194,11 +8787,12 @@ public final class ValueProtos {
 
     private static final com.google.protobuf.Parser<Type>
         PARSER = new com.google.protobuf.AbstractParser<Type>() {
+      @java.lang.Override
       public Type parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Type(input, extensionRegistry);
+        return new Type(input, extensionRegistry);
       }
     };
 
@@ -8211,6 +8805,7 @@ public final class ValueProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.ValueProtos.Type getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -8223,10 +8818,12 @@ public final class ValueProtos {
 
     /**
      * <code>.Ydb.Value key = 1;</code>
+     * @return Whether the key field is set.
      */
     boolean hasKey();
     /**
      * <code>.Ydb.Value key = 1;</code>
+     * @return The key.
      */
     tech.ydb.ValueProtos.Value getKey();
     /**
@@ -8236,10 +8833,12 @@ public final class ValueProtos {
 
     /**
      * <code>.Ydb.Value payload = 2;</code>
+     * @return Whether the payload field is set.
      */
     boolean hasPayload();
     /**
      * <code>.Ydb.Value payload = 2;</code>
+     * @return The payload.
      */
     tech.ydb.ValueProtos.Value getPayload();
     /**
@@ -8250,7 +8849,7 @@ public final class ValueProtos {
   /**
    * Protobuf type {@code Ydb.ValuePair}
    */
-  public  static final class ValuePair extends
+  public static final class ValuePair extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ValuePair)
       ValuePairOrBuilder {
@@ -8263,6 +8862,13 @@ public final class ValueProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ValuePair();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -8272,7 +8878,9 @@ public final class ValueProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -8283,13 +8891,6 @@ public final class ValueProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.ValueProtos.Value.Builder subBuilder = null;
               if (key_ != null) {
@@ -8316,6 +8917,13 @@ public final class ValueProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -8333,6 +8941,7 @@ public final class ValueProtos {
       return tech.ydb.ValueProtos.internal_static_Ydb_ValuePair_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.ValueProtos.internal_static_Ydb_ValuePair_fieldAccessorTable
@@ -8344,19 +8953,24 @@ public final class ValueProtos {
     private tech.ydb.ValueProtos.Value key_;
     /**
      * <code>.Ydb.Value key = 1;</code>
+     * @return Whether the key field is set.
      */
+    @java.lang.Override
     public boolean hasKey() {
       return key_ != null;
     }
     /**
      * <code>.Ydb.Value key = 1;</code>
+     * @return The key.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.Value getKey() {
       return key_ == null ? tech.ydb.ValueProtos.Value.getDefaultInstance() : key_;
     }
     /**
      * <code>.Ydb.Value key = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ValueOrBuilder getKeyOrBuilder() {
       return getKey();
     }
@@ -8365,24 +8979,30 @@ public final class ValueProtos {
     private tech.ydb.ValueProtos.Value payload_;
     /**
      * <code>.Ydb.Value payload = 2;</code>
+     * @return Whether the payload field is set.
      */
+    @java.lang.Override
     public boolean hasPayload() {
       return payload_ != null;
     }
     /**
      * <code>.Ydb.Value payload = 2;</code>
+     * @return The payload.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.Value getPayload() {
       return payload_ == null ? tech.ydb.ValueProtos.Value.getDefaultInstance() : payload_;
     }
     /**
      * <code>.Ydb.Value payload = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ValueOrBuilder getPayloadOrBuilder() {
       return getPayload();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -8392,6 +9012,7 @@ public final class ValueProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (key_ != null) {
@@ -8403,6 +9024,7 @@ public final class ValueProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -8431,19 +9053,18 @@ public final class ValueProtos {
       }
       tech.ydb.ValueProtos.ValuePair other = (tech.ydb.ValueProtos.ValuePair) obj;
 
-      boolean result = true;
-      result = result && (hasKey() == other.hasKey());
+      if (hasKey() != other.hasKey()) return false;
       if (hasKey()) {
-        result = result && getKey()
-            .equals(other.getKey());
+        if (!getKey()
+            .equals(other.getKey())) return false;
       }
-      result = result && (hasPayload() == other.hasPayload());
+      if (hasPayload() != other.hasPayload()) return false;
       if (hasPayload()) {
-        result = result && getPayload()
-            .equals(other.getPayload());
+        if (!getPayload()
+            .equals(other.getPayload())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -8536,6 +9157,7 @@ public final class ValueProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -8543,6 +9165,7 @@ public final class ValueProtos {
     public static Builder newBuilder(tech.ydb.ValueProtos.ValuePair prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -8566,6 +9189,7 @@ public final class ValueProtos {
         return tech.ydb.ValueProtos.internal_static_Ydb_ValuePair_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.ValueProtos.internal_static_Ydb_ValuePair_fieldAccessorTable
@@ -8588,6 +9212,7 @@ public final class ValueProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (keyBuilder_ == null) {
@@ -8605,15 +9230,18 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.ValueProtos.internal_static_Ydb_ValuePair_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.ValuePair getDefaultInstanceForType() {
         return tech.ydb.ValueProtos.ValuePair.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.ValuePair build() {
         tech.ydb.ValueProtos.ValuePair result = buildPartial();
         if (!result.isInitialized()) {
@@ -8622,6 +9250,7 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.ValuePair buildPartial() {
         tech.ydb.ValueProtos.ValuePair result = new tech.ydb.ValueProtos.ValuePair(this);
         if (keyBuilder_ == null) {
@@ -8638,32 +9267,39 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.ValueProtos.ValuePair) {
           return mergeFrom((tech.ydb.ValueProtos.ValuePair)other);
@@ -8686,10 +9322,12 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8708,17 +9346,19 @@ public final class ValueProtos {
         return this;
       }
 
-      private tech.ydb.ValueProtos.Value key_ = null;
+      private tech.ydb.ValueProtos.Value key_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.ValueProtos.Value, tech.ydb.ValueProtos.Value.Builder, tech.ydb.ValueProtos.ValueOrBuilder> keyBuilder_;
       /**
        * <code>.Ydb.Value key = 1;</code>
+       * @return Whether the key field is set.
        */
       public boolean hasKey() {
         return keyBuilder_ != null || key_ != null;
       }
       /**
        * <code>.Ydb.Value key = 1;</code>
+       * @return The key.
        */
       public tech.ydb.ValueProtos.Value getKey() {
         if (keyBuilder_ == null) {
@@ -8825,17 +9465,19 @@ public final class ValueProtos {
         return keyBuilder_;
       }
 
-      private tech.ydb.ValueProtos.Value payload_ = null;
+      private tech.ydb.ValueProtos.Value payload_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.ValueProtos.Value, tech.ydb.ValueProtos.Value.Builder, tech.ydb.ValueProtos.ValueOrBuilder> payloadBuilder_;
       /**
        * <code>.Ydb.Value payload = 2;</code>
+       * @return Whether the payload field is set.
        */
       public boolean hasPayload() {
         return payloadBuilder_ != null || payload_ != null;
       }
       /**
        * <code>.Ydb.Value payload = 2;</code>
+       * @return The payload.
        */
       public tech.ydb.ValueProtos.Value getPayload() {
         if (payloadBuilder_ == null) {
@@ -8941,11 +9583,13 @@ public final class ValueProtos {
         }
         return payloadBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -8967,11 +9611,12 @@ public final class ValueProtos {
 
     private static final com.google.protobuf.Parser<ValuePair>
         PARSER = new com.google.protobuf.AbstractParser<ValuePair>() {
+      @java.lang.Override
       public ValuePair parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ValuePair(input, extensionRegistry);
+        return new ValuePair(input, extensionRegistry);
       }
     };
 
@@ -8984,6 +9629,7 @@ public final class ValueProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.ValueProtos.ValuePair getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -8996,50 +9642,105 @@ public final class ValueProtos {
 
     /**
      * <code>bool bool_value = 1;</code>
+     * @return Whether the boolValue field is set.
+     */
+    boolean hasBoolValue();
+    /**
+     * <code>bool bool_value = 1;</code>
+     * @return The boolValue.
      */
     boolean getBoolValue();
 
     /**
      * <code>sfixed32 int32_value = 2;</code>
+     * @return Whether the int32Value field is set.
+     */
+    boolean hasInt32Value();
+    /**
+     * <code>sfixed32 int32_value = 2;</code>
+     * @return The int32Value.
      */
     int getInt32Value();
 
     /**
      * <code>fixed32 uint32_value = 3;</code>
+     * @return Whether the uint32Value field is set.
+     */
+    boolean hasUint32Value();
+    /**
+     * <code>fixed32 uint32_value = 3;</code>
+     * @return The uint32Value.
      */
     int getUint32Value();
 
     /**
      * <code>sfixed64 int64_value = 4;</code>
+     * @return Whether the int64Value field is set.
+     */
+    boolean hasInt64Value();
+    /**
+     * <code>sfixed64 int64_value = 4;</code>
+     * @return The int64Value.
      */
     long getInt64Value();
 
     /**
      * <code>fixed64 uint64_value = 5;</code>
+     * @return Whether the uint64Value field is set.
+     */
+    boolean hasUint64Value();
+    /**
+     * <code>fixed64 uint64_value = 5;</code>
+     * @return The uint64Value.
      */
     long getUint64Value();
 
     /**
      * <code>float float_value = 6;</code>
+     * @return Whether the floatValue field is set.
+     */
+    boolean hasFloatValue();
+    /**
+     * <code>float float_value = 6;</code>
+     * @return The floatValue.
      */
     float getFloatValue();
 
     /**
      * <code>double double_value = 7;</code>
+     * @return Whether the doubleValue field is set.
+     */
+    boolean hasDoubleValue();
+    /**
+     * <code>double double_value = 7;</code>
+     * @return The doubleValue.
      */
     double getDoubleValue();
 
     /**
      * <code>bytes bytes_value = 8;</code>
+     * @return Whether the bytesValue field is set.
+     */
+    boolean hasBytesValue();
+    /**
+     * <code>bytes bytes_value = 8;</code>
+     * @return The bytesValue.
      */
     com.google.protobuf.ByteString getBytesValue();
 
     /**
      * <code>string text_value = 9;</code>
+     * @return Whether the textValue field is set.
+     */
+    boolean hasTextValue();
+    /**
+     * <code>string text_value = 9;</code>
+     * @return The textValue.
      */
     java.lang.String getTextValue();
     /**
      * <code>string text_value = 9;</code>
+     * @return The bytes for textValue.
      */
     com.google.protobuf.ByteString
         getTextValueBytes();
@@ -9050,6 +9751,16 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.google.protobuf.NullValue null_flag_value = 10;</code>
+     * @return Whether the nullFlagValue field is set.
+     */
+    boolean hasNullFlagValue();
+    /**
+     * <pre>
+     * Set if current TValue is terminal Null
+     * </pre>
+     *
+     * <code>.google.protobuf.NullValue null_flag_value = 10;</code>
+     * @return The enum numeric value on the wire for nullFlagValue.
      */
     int getNullFlagValueValue();
     /**
@@ -9058,6 +9769,7 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.google.protobuf.NullValue null_flag_value = 10;</code>
+     * @return The nullFlagValue.
      */
     com.google.protobuf.NullValue getNullFlagValue();
 
@@ -9067,6 +9779,7 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.Ydb.Value nested_value = 11;</code>
+     * @return Whether the nestedValue field is set.
      */
     boolean hasNestedValue();
     /**
@@ -9075,6 +9788,7 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.Ydb.Value nested_value = 11;</code>
+     * @return The nestedValue.
      */
     tech.ydb.ValueProtos.Value getNestedValue();
     /**
@@ -9088,6 +9802,12 @@ public final class ValueProtos {
 
     /**
      * <code>fixed64 low_128 = 15;</code>
+     * @return Whether the low128 field is set.
+     */
+    boolean hasLow128();
+    /**
+     * <code>fixed64 low_128 = 15;</code>
+     * @return The low128.
      */
     long getLow128();
 
@@ -9185,11 +9905,13 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>uint32 variant_index = 14;</code>
+     * @return The variantIndex.
      */
     int getVariantIndex();
 
     /**
      * <code>fixed64 high_128 = 16;</code>
+     * @return The high128.
      */
     long getHigh128();
 
@@ -9198,7 +9920,7 @@ public final class ValueProtos {
   /**
    * Protobuf type {@code Ydb.Value}
    */
-  public  static final class Value extends
+  public static final class Value extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Value)
       ValueOrBuilder {
@@ -9210,8 +9932,13 @@ public final class ValueProtos {
     private Value() {
       items_ = java.util.Collections.emptyList();
       pairs_ = java.util.Collections.emptyList();
-      variantIndex_ = 0;
-      high128_ = 0L;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Value();
     }
 
     @java.lang.Override
@@ -9224,6 +9951,9 @@ public final class ValueProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -9235,13 +9965,6 @@ public final class ValueProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               valueCase_ = 1;
               value_ = input.readBool();
@@ -9309,18 +10032,18 @@ public final class ValueProtos {
               break;
             }
             case 98: {
-              if (!((mutable_bitField0_ & 0x00001000) == 0x00001000)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 items_ = new java.util.ArrayList<tech.ydb.ValueProtos.Value>();
-                mutable_bitField0_ |= 0x00001000;
+                mutable_bitField0_ |= 0x00000001;
               }
               items_.add(
                   input.readMessage(tech.ydb.ValueProtos.Value.parser(), extensionRegistry));
               break;
             }
             case 106: {
-              if (!((mutable_bitField0_ & 0x00002000) == 0x00002000)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 pairs_ = new java.util.ArrayList<tech.ydb.ValueProtos.ValuePair>();
-                mutable_bitField0_ |= 0x00002000;
+                mutable_bitField0_ |= 0x00000002;
               }
               pairs_.add(
                   input.readMessage(tech.ydb.ValueProtos.ValuePair.parser(), extensionRegistry));
@@ -9341,6 +10064,13 @@ public final class ValueProtos {
               high128_ = input.readFixed64();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -9349,10 +10079,10 @@ public final class ValueProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00001000) == 0x00001000)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           items_ = java.util.Collections.unmodifiableList(items_);
         }
-        if (((mutable_bitField0_ & 0x00002000) == 0x00002000)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           pairs_ = java.util.Collections.unmodifiableList(pairs_);
         }
         this.unknownFields = unknownFields.build();
@@ -9364,6 +10094,7 @@ public final class ValueProtos {
       return tech.ydb.ValueProtos.internal_static_Ydb_Value_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.ValueProtos.internal_static_Ydb_Value_fieldAccessorTable
@@ -9371,11 +10102,11 @@ public final class ValueProtos {
               tech.ydb.ValueProtos.Value.class, tech.ydb.ValueProtos.Value.Builder.class);
     }
 
-    private int bitField0_;
     private int valueCase_ = 0;
     private java.lang.Object value_;
     public enum ValueCase
-        implements com.google.protobuf.Internal.EnumLite {
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       BOOL_VALUE(1),
       INT32_VALUE(2),
       UINT32_VALUE(3),
@@ -9394,6 +10125,8 @@ public final class ValueProtos {
         this.value = value;
       }
       /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -9433,7 +10166,17 @@ public final class ValueProtos {
     public static final int BOOL_VALUE_FIELD_NUMBER = 1;
     /**
      * <code>bool bool_value = 1;</code>
+     * @return Whether the boolValue field is set.
      */
+    @java.lang.Override
+    public boolean hasBoolValue() {
+      return valueCase_ == 1;
+    }
+    /**
+     * <code>bool bool_value = 1;</code>
+     * @return The boolValue.
+     */
+    @java.lang.Override
     public boolean getBoolValue() {
       if (valueCase_ == 1) {
         return (java.lang.Boolean) value_;
@@ -9444,7 +10187,17 @@ public final class ValueProtos {
     public static final int INT32_VALUE_FIELD_NUMBER = 2;
     /**
      * <code>sfixed32 int32_value = 2;</code>
+     * @return Whether the int32Value field is set.
      */
+    @java.lang.Override
+    public boolean hasInt32Value() {
+      return valueCase_ == 2;
+    }
+    /**
+     * <code>sfixed32 int32_value = 2;</code>
+     * @return The int32Value.
+     */
+    @java.lang.Override
     public int getInt32Value() {
       if (valueCase_ == 2) {
         return (java.lang.Integer) value_;
@@ -9455,7 +10208,17 @@ public final class ValueProtos {
     public static final int UINT32_VALUE_FIELD_NUMBER = 3;
     /**
      * <code>fixed32 uint32_value = 3;</code>
+     * @return Whether the uint32Value field is set.
      */
+    @java.lang.Override
+    public boolean hasUint32Value() {
+      return valueCase_ == 3;
+    }
+    /**
+     * <code>fixed32 uint32_value = 3;</code>
+     * @return The uint32Value.
+     */
+    @java.lang.Override
     public int getUint32Value() {
       if (valueCase_ == 3) {
         return (java.lang.Integer) value_;
@@ -9466,7 +10229,17 @@ public final class ValueProtos {
     public static final int INT64_VALUE_FIELD_NUMBER = 4;
     /**
      * <code>sfixed64 int64_value = 4;</code>
+     * @return Whether the int64Value field is set.
      */
+    @java.lang.Override
+    public boolean hasInt64Value() {
+      return valueCase_ == 4;
+    }
+    /**
+     * <code>sfixed64 int64_value = 4;</code>
+     * @return The int64Value.
+     */
+    @java.lang.Override
     public long getInt64Value() {
       if (valueCase_ == 4) {
         return (java.lang.Long) value_;
@@ -9477,7 +10250,17 @@ public final class ValueProtos {
     public static final int UINT64_VALUE_FIELD_NUMBER = 5;
     /**
      * <code>fixed64 uint64_value = 5;</code>
+     * @return Whether the uint64Value field is set.
      */
+    @java.lang.Override
+    public boolean hasUint64Value() {
+      return valueCase_ == 5;
+    }
+    /**
+     * <code>fixed64 uint64_value = 5;</code>
+     * @return The uint64Value.
+     */
+    @java.lang.Override
     public long getUint64Value() {
       if (valueCase_ == 5) {
         return (java.lang.Long) value_;
@@ -9488,7 +10271,17 @@ public final class ValueProtos {
     public static final int FLOAT_VALUE_FIELD_NUMBER = 6;
     /**
      * <code>float float_value = 6;</code>
+     * @return Whether the floatValue field is set.
      */
+    @java.lang.Override
+    public boolean hasFloatValue() {
+      return valueCase_ == 6;
+    }
+    /**
+     * <code>float float_value = 6;</code>
+     * @return The floatValue.
+     */
+    @java.lang.Override
     public float getFloatValue() {
       if (valueCase_ == 6) {
         return (java.lang.Float) value_;
@@ -9499,7 +10292,17 @@ public final class ValueProtos {
     public static final int DOUBLE_VALUE_FIELD_NUMBER = 7;
     /**
      * <code>double double_value = 7;</code>
+     * @return Whether the doubleValue field is set.
      */
+    @java.lang.Override
+    public boolean hasDoubleValue() {
+      return valueCase_ == 7;
+    }
+    /**
+     * <code>double double_value = 7;</code>
+     * @return The doubleValue.
+     */
+    @java.lang.Override
     public double getDoubleValue() {
       if (valueCase_ == 7) {
         return (java.lang.Double) value_;
@@ -9510,7 +10313,17 @@ public final class ValueProtos {
     public static final int BYTES_VALUE_FIELD_NUMBER = 8;
     /**
      * <code>bytes bytes_value = 8;</code>
+     * @return Whether the bytesValue field is set.
      */
+    @java.lang.Override
+    public boolean hasBytesValue() {
+      return valueCase_ == 8;
+    }
+    /**
+     * <code>bytes bytes_value = 8;</code>
+     * @return The bytesValue.
+     */
+    @java.lang.Override
     public com.google.protobuf.ByteString getBytesValue() {
       if (valueCase_ == 8) {
         return (com.google.protobuf.ByteString) value_;
@@ -9521,6 +10334,14 @@ public final class ValueProtos {
     public static final int TEXT_VALUE_FIELD_NUMBER = 9;
     /**
      * <code>string text_value = 9;</code>
+     * @return Whether the textValue field is set.
+     */
+    public boolean hasTextValue() {
+      return valueCase_ == 9;
+    }
+    /**
+     * <code>string text_value = 9;</code>
+     * @return The textValue.
      */
     public java.lang.String getTextValue() {
       java.lang.Object ref = "";
@@ -9541,6 +10362,7 @@ public final class ValueProtos {
     }
     /**
      * <code>string text_value = 9;</code>
+     * @return The bytes for textValue.
      */
     public com.google.protobuf.ByteString
         getTextValueBytes() {
@@ -9568,6 +10390,18 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.google.protobuf.NullValue null_flag_value = 10;</code>
+     * @return Whether the nullFlagValue field is set.
+     */
+    public boolean hasNullFlagValue() {
+      return valueCase_ == 10;
+    }
+    /**
+     * <pre>
+     * Set if current TValue is terminal Null
+     * </pre>
+     *
+     * <code>.google.protobuf.NullValue null_flag_value = 10;</code>
+     * @return The enum numeric value on the wire for nullFlagValue.
      */
     public int getNullFlagValueValue() {
       if (valueCase_ == 10) {
@@ -9581,9 +10415,11 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.google.protobuf.NullValue null_flag_value = 10;</code>
+     * @return The nullFlagValue.
      */
     public com.google.protobuf.NullValue getNullFlagValue() {
       if (valueCase_ == 10) {
+        @SuppressWarnings("deprecation")
         com.google.protobuf.NullValue result = com.google.protobuf.NullValue.valueOf(
             (java.lang.Integer) value_);
         return result == null ? com.google.protobuf.NullValue.UNRECOGNIZED : result;
@@ -9598,7 +10434,9 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.Ydb.Value nested_value = 11;</code>
+     * @return Whether the nestedValue field is set.
      */
+    @java.lang.Override
     public boolean hasNestedValue() {
       return valueCase_ == 11;
     }
@@ -9608,7 +10446,9 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.Ydb.Value nested_value = 11;</code>
+     * @return The nestedValue.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.Value getNestedValue() {
       if (valueCase_ == 11) {
          return (tech.ydb.ValueProtos.Value) value_;
@@ -9622,6 +10462,7 @@ public final class ValueProtos {
      *
      * <code>.Ydb.Value nested_value = 11;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ValueOrBuilder getNestedValueOrBuilder() {
       if (valueCase_ == 11) {
          return (tech.ydb.ValueProtos.Value) value_;
@@ -9632,7 +10473,17 @@ public final class ValueProtos {
     public static final int LOW_128_FIELD_NUMBER = 15;
     /**
      * <code>fixed64 low_128 = 15;</code>
+     * @return Whether the low128 field is set.
      */
+    @java.lang.Override
+    public boolean hasLow128() {
+      return valueCase_ == 15;
+    }
+    /**
+     * <code>fixed64 low_128 = 15;</code>
+     * @return The low128.
+     */
+    @java.lang.Override
     public long getLow128() {
       if (valueCase_ == 15) {
         return (java.lang.Long) value_;
@@ -9649,6 +10500,7 @@ public final class ValueProtos {
      *
      * <code>repeated .Ydb.Value items = 12;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.ValueProtos.Value> getItemsList() {
       return items_;
     }
@@ -9659,6 +10511,7 @@ public final class ValueProtos {
      *
      * <code>repeated .Ydb.Value items = 12;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.ValueProtos.ValueOrBuilder> 
         getItemsOrBuilderList() {
       return items_;
@@ -9670,6 +10523,7 @@ public final class ValueProtos {
      *
      * <code>repeated .Ydb.Value items = 12;</code>
      */
+    @java.lang.Override
     public int getItemsCount() {
       return items_.size();
     }
@@ -9680,6 +10534,7 @@ public final class ValueProtos {
      *
      * <code>repeated .Ydb.Value items = 12;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.Value getItems(int index) {
       return items_.get(index);
     }
@@ -9690,6 +10545,7 @@ public final class ValueProtos {
      *
      * <code>repeated .Ydb.Value items = 12;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ValueOrBuilder getItemsOrBuilder(
         int index) {
       return items_.get(index);
@@ -9704,6 +10560,7 @@ public final class ValueProtos {
      *
      * <code>repeated .Ydb.ValuePair pairs = 13;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.ValueProtos.ValuePair> getPairsList() {
       return pairs_;
     }
@@ -9714,6 +10571,7 @@ public final class ValueProtos {
      *
      * <code>repeated .Ydb.ValuePair pairs = 13;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.ValueProtos.ValuePairOrBuilder> 
         getPairsOrBuilderList() {
       return pairs_;
@@ -9725,6 +10583,7 @@ public final class ValueProtos {
      *
      * <code>repeated .Ydb.ValuePair pairs = 13;</code>
      */
+    @java.lang.Override
     public int getPairsCount() {
       return pairs_.size();
     }
@@ -9735,6 +10594,7 @@ public final class ValueProtos {
      *
      * <code>repeated .Ydb.ValuePair pairs = 13;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ValuePair getPairs(int index) {
       return pairs_.get(index);
     }
@@ -9745,6 +10605,7 @@ public final class ValueProtos {
      *
      * <code>repeated .Ydb.ValuePair pairs = 13;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ValuePairOrBuilder getPairsOrBuilder(
         int index) {
       return pairs_.get(index);
@@ -9758,7 +10619,9 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>uint32 variant_index = 14;</code>
+     * @return The variantIndex.
      */
+    @java.lang.Override
     public int getVariantIndex() {
       return variantIndex_;
     }
@@ -9767,12 +10630,15 @@ public final class ValueProtos {
     private long high128_;
     /**
      * <code>fixed64 high_128 = 16;</code>
+     * @return The high128.
      */
+    @java.lang.Override
     public long getHigh128() {
       return high128_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -9782,6 +10648,7 @@ public final class ValueProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (valueCase_ == 1) {
@@ -9844,6 +10711,7 @@ public final class ValueProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -9936,76 +10804,71 @@ public final class ValueProtos {
       }
       tech.ydb.ValueProtos.Value other = (tech.ydb.ValueProtos.Value) obj;
 
-      boolean result = true;
-      result = result && getItemsList()
-          .equals(other.getItemsList());
-      result = result && getPairsList()
-          .equals(other.getPairsList());
-      result = result && (getVariantIndex()
-          == other.getVariantIndex());
-      result = result && (getHigh128()
-          == other.getHigh128());
-      result = result && getValueCase().equals(
-          other.getValueCase());
-      if (!result) return false;
+      if (!getItemsList()
+          .equals(other.getItemsList())) return false;
+      if (!getPairsList()
+          .equals(other.getPairsList())) return false;
+      if (getVariantIndex()
+          != other.getVariantIndex()) return false;
+      if (getHigh128()
+          != other.getHigh128()) return false;
+      if (!getValueCase().equals(other.getValueCase())) return false;
       switch (valueCase_) {
         case 1:
-          result = result && (getBoolValue()
-              == other.getBoolValue());
+          if (getBoolValue()
+              != other.getBoolValue()) return false;
           break;
         case 2:
-          result = result && (getInt32Value()
-              == other.getInt32Value());
+          if (getInt32Value()
+              != other.getInt32Value()) return false;
           break;
         case 3:
-          result = result && (getUint32Value()
-              == other.getUint32Value());
+          if (getUint32Value()
+              != other.getUint32Value()) return false;
           break;
         case 4:
-          result = result && (getInt64Value()
-              == other.getInt64Value());
+          if (getInt64Value()
+              != other.getInt64Value()) return false;
           break;
         case 5:
-          result = result && (getUint64Value()
-              == other.getUint64Value());
+          if (getUint64Value()
+              != other.getUint64Value()) return false;
           break;
         case 6:
-          result = result && (
-              java.lang.Float.floatToIntBits(getFloatValue())
-              == java.lang.Float.floatToIntBits(
-                  other.getFloatValue()));
+          if (java.lang.Float.floatToIntBits(getFloatValue())
+              != java.lang.Float.floatToIntBits(
+                  other.getFloatValue())) return false;
           break;
         case 7:
-          result = result && (
-              java.lang.Double.doubleToLongBits(getDoubleValue())
-              == java.lang.Double.doubleToLongBits(
-                  other.getDoubleValue()));
+          if (java.lang.Double.doubleToLongBits(getDoubleValue())
+              != java.lang.Double.doubleToLongBits(
+                  other.getDoubleValue())) return false;
           break;
         case 8:
-          result = result && getBytesValue()
-              .equals(other.getBytesValue());
+          if (!getBytesValue()
+              .equals(other.getBytesValue())) return false;
           break;
         case 9:
-          result = result && getTextValue()
-              .equals(other.getTextValue());
+          if (!getTextValue()
+              .equals(other.getTextValue())) return false;
           break;
         case 10:
-          result = result && getNullFlagValueValue()
-              == other.getNullFlagValueValue();
+          if (getNullFlagValueValue()
+              != other.getNullFlagValueValue()) return false;
           break;
         case 11:
-          result = result && getNestedValue()
-              .equals(other.getNestedValue());
+          if (!getNestedValue()
+              .equals(other.getNestedValue())) return false;
           break;
         case 15:
-          result = result && (getLow128()
-              == other.getLow128());
+          if (getLow128()
+              != other.getLow128()) return false;
           break;
         case 0:
         default:
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -10161,6 +11024,7 @@ public final class ValueProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -10168,6 +11032,7 @@ public final class ValueProtos {
     public static Builder newBuilder(tech.ydb.ValueProtos.Value prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -10191,6 +11056,7 @@ public final class ValueProtos {
         return tech.ydb.ValueProtos.internal_static_Ydb_Value_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.ValueProtos.internal_static_Ydb_Value_fieldAccessorTable
@@ -10215,17 +11081,18 @@ public final class ValueProtos {
           getPairsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (itemsBuilder_ == null) {
           items_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00001000);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           itemsBuilder_.clear();
         }
         if (pairsBuilder_ == null) {
           pairs_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00002000);
+          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
           pairsBuilder_.clear();
         }
@@ -10238,15 +11105,18 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.ValueProtos.internal_static_Ydb_Value_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.Value getDefaultInstanceForType() {
         return tech.ydb.ValueProtos.Value.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.Value build() {
         tech.ydb.ValueProtos.Value result = buildPartial();
         if (!result.isInitialized()) {
@@ -10255,10 +11125,10 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.Value buildPartial() {
         tech.ydb.ValueProtos.Value result = new tech.ydb.ValueProtos.Value(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (valueCase_ == 1) {
           result.value_ = value_;
         }
@@ -10300,18 +11170,18 @@ public final class ValueProtos {
           result.value_ = value_;
         }
         if (itemsBuilder_ == null) {
-          if (((bitField0_ & 0x00001000) == 0x00001000)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             items_ = java.util.Collections.unmodifiableList(items_);
-            bitField0_ = (bitField0_ & ~0x00001000);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.items_ = items_;
         } else {
           result.items_ = itemsBuilder_.build();
         }
         if (pairsBuilder_ == null) {
-          if (((bitField0_ & 0x00002000) == 0x00002000)) {
+          if (((bitField0_ & 0x00000002) != 0)) {
             pairs_ = java.util.Collections.unmodifiableList(pairs_);
-            bitField0_ = (bitField0_ & ~0x00002000);
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
           result.pairs_ = pairs_;
         } else {
@@ -10319,38 +11189,44 @@ public final class ValueProtos {
         }
         result.variantIndex_ = variantIndex_;
         result.high128_ = high128_;
-        result.bitField0_ = to_bitField0_;
         result.valueCase_ = valueCase_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.ValueProtos.Value) {
           return mergeFrom((tech.ydb.ValueProtos.Value)other);
@@ -10366,7 +11242,7 @@ public final class ValueProtos {
           if (!other.items_.isEmpty()) {
             if (items_.isEmpty()) {
               items_ = other.items_;
-              bitField0_ = (bitField0_ & ~0x00001000);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureItemsIsMutable();
               items_.addAll(other.items_);
@@ -10379,7 +11255,7 @@ public final class ValueProtos {
               itemsBuilder_.dispose();
               itemsBuilder_ = null;
               items_ = other.items_;
-              bitField0_ = (bitField0_ & ~0x00001000);
+              bitField0_ = (bitField0_ & ~0x00000001);
               itemsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getItemsFieldBuilder() : null;
@@ -10392,7 +11268,7 @@ public final class ValueProtos {
           if (!other.pairs_.isEmpty()) {
             if (pairs_.isEmpty()) {
               pairs_ = other.pairs_;
-              bitField0_ = (bitField0_ & ~0x00002000);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensurePairsIsMutable();
               pairs_.addAll(other.pairs_);
@@ -10405,7 +11281,7 @@ public final class ValueProtos {
               pairsBuilder_.dispose();
               pairsBuilder_ = null;
               pairs_ = other.pairs_;
-              bitField0_ = (bitField0_ & ~0x00002000);
+              bitField0_ = (bitField0_ & ~0x00000002);
               pairsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getPairsFieldBuilder() : null;
@@ -10480,10 +11356,12 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -10520,6 +11398,14 @@ public final class ValueProtos {
 
       /**
        * <code>bool bool_value = 1;</code>
+       * @return Whether the boolValue field is set.
+       */
+      public boolean hasBoolValue() {
+        return valueCase_ == 1;
+      }
+      /**
+       * <code>bool bool_value = 1;</code>
+       * @return The boolValue.
        */
       public boolean getBoolValue() {
         if (valueCase_ == 1) {
@@ -10529,6 +11415,8 @@ public final class ValueProtos {
       }
       /**
        * <code>bool bool_value = 1;</code>
+       * @param value The boolValue to set.
+       * @return This builder for chaining.
        */
       public Builder setBoolValue(boolean value) {
         valueCase_ = 1;
@@ -10538,6 +11426,7 @@ public final class ValueProtos {
       }
       /**
        * <code>bool bool_value = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearBoolValue() {
         if (valueCase_ == 1) {
@@ -10550,6 +11439,14 @@ public final class ValueProtos {
 
       /**
        * <code>sfixed32 int32_value = 2;</code>
+       * @return Whether the int32Value field is set.
+       */
+      public boolean hasInt32Value() {
+        return valueCase_ == 2;
+      }
+      /**
+       * <code>sfixed32 int32_value = 2;</code>
+       * @return The int32Value.
        */
       public int getInt32Value() {
         if (valueCase_ == 2) {
@@ -10559,6 +11456,8 @@ public final class ValueProtos {
       }
       /**
        * <code>sfixed32 int32_value = 2;</code>
+       * @param value The int32Value to set.
+       * @return This builder for chaining.
        */
       public Builder setInt32Value(int value) {
         valueCase_ = 2;
@@ -10568,6 +11467,7 @@ public final class ValueProtos {
       }
       /**
        * <code>sfixed32 int32_value = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearInt32Value() {
         if (valueCase_ == 2) {
@@ -10580,6 +11480,14 @@ public final class ValueProtos {
 
       /**
        * <code>fixed32 uint32_value = 3;</code>
+       * @return Whether the uint32Value field is set.
+       */
+      public boolean hasUint32Value() {
+        return valueCase_ == 3;
+      }
+      /**
+       * <code>fixed32 uint32_value = 3;</code>
+       * @return The uint32Value.
        */
       public int getUint32Value() {
         if (valueCase_ == 3) {
@@ -10589,6 +11497,8 @@ public final class ValueProtos {
       }
       /**
        * <code>fixed32 uint32_value = 3;</code>
+       * @param value The uint32Value to set.
+       * @return This builder for chaining.
        */
       public Builder setUint32Value(int value) {
         valueCase_ = 3;
@@ -10598,6 +11508,7 @@ public final class ValueProtos {
       }
       /**
        * <code>fixed32 uint32_value = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUint32Value() {
         if (valueCase_ == 3) {
@@ -10610,6 +11521,14 @@ public final class ValueProtos {
 
       /**
        * <code>sfixed64 int64_value = 4;</code>
+       * @return Whether the int64Value field is set.
+       */
+      public boolean hasInt64Value() {
+        return valueCase_ == 4;
+      }
+      /**
+       * <code>sfixed64 int64_value = 4;</code>
+       * @return The int64Value.
        */
       public long getInt64Value() {
         if (valueCase_ == 4) {
@@ -10619,6 +11538,8 @@ public final class ValueProtos {
       }
       /**
        * <code>sfixed64 int64_value = 4;</code>
+       * @param value The int64Value to set.
+       * @return This builder for chaining.
        */
       public Builder setInt64Value(long value) {
         valueCase_ = 4;
@@ -10628,6 +11549,7 @@ public final class ValueProtos {
       }
       /**
        * <code>sfixed64 int64_value = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearInt64Value() {
         if (valueCase_ == 4) {
@@ -10640,6 +11562,14 @@ public final class ValueProtos {
 
       /**
        * <code>fixed64 uint64_value = 5;</code>
+       * @return Whether the uint64Value field is set.
+       */
+      public boolean hasUint64Value() {
+        return valueCase_ == 5;
+      }
+      /**
+       * <code>fixed64 uint64_value = 5;</code>
+       * @return The uint64Value.
        */
       public long getUint64Value() {
         if (valueCase_ == 5) {
@@ -10649,6 +11579,8 @@ public final class ValueProtos {
       }
       /**
        * <code>fixed64 uint64_value = 5;</code>
+       * @param value The uint64Value to set.
+       * @return This builder for chaining.
        */
       public Builder setUint64Value(long value) {
         valueCase_ = 5;
@@ -10658,6 +11590,7 @@ public final class ValueProtos {
       }
       /**
        * <code>fixed64 uint64_value = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUint64Value() {
         if (valueCase_ == 5) {
@@ -10670,6 +11603,14 @@ public final class ValueProtos {
 
       /**
        * <code>float float_value = 6;</code>
+       * @return Whether the floatValue field is set.
+       */
+      public boolean hasFloatValue() {
+        return valueCase_ == 6;
+      }
+      /**
+       * <code>float float_value = 6;</code>
+       * @return The floatValue.
        */
       public float getFloatValue() {
         if (valueCase_ == 6) {
@@ -10679,6 +11620,8 @@ public final class ValueProtos {
       }
       /**
        * <code>float float_value = 6;</code>
+       * @param value The floatValue to set.
+       * @return This builder for chaining.
        */
       public Builder setFloatValue(float value) {
         valueCase_ = 6;
@@ -10688,6 +11631,7 @@ public final class ValueProtos {
       }
       /**
        * <code>float float_value = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFloatValue() {
         if (valueCase_ == 6) {
@@ -10700,6 +11644,14 @@ public final class ValueProtos {
 
       /**
        * <code>double double_value = 7;</code>
+       * @return Whether the doubleValue field is set.
+       */
+      public boolean hasDoubleValue() {
+        return valueCase_ == 7;
+      }
+      /**
+       * <code>double double_value = 7;</code>
+       * @return The doubleValue.
        */
       public double getDoubleValue() {
         if (valueCase_ == 7) {
@@ -10709,6 +11661,8 @@ public final class ValueProtos {
       }
       /**
        * <code>double double_value = 7;</code>
+       * @param value The doubleValue to set.
+       * @return This builder for chaining.
        */
       public Builder setDoubleValue(double value) {
         valueCase_ = 7;
@@ -10718,6 +11672,7 @@ public final class ValueProtos {
       }
       /**
        * <code>double double_value = 7;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDoubleValue() {
         if (valueCase_ == 7) {
@@ -10730,6 +11685,14 @@ public final class ValueProtos {
 
       /**
        * <code>bytes bytes_value = 8;</code>
+       * @return Whether the bytesValue field is set.
+       */
+      public boolean hasBytesValue() {
+        return valueCase_ == 8;
+      }
+      /**
+       * <code>bytes bytes_value = 8;</code>
+       * @return The bytesValue.
        */
       public com.google.protobuf.ByteString getBytesValue() {
         if (valueCase_ == 8) {
@@ -10739,6 +11702,8 @@ public final class ValueProtos {
       }
       /**
        * <code>bytes bytes_value = 8;</code>
+       * @param value The bytesValue to set.
+       * @return This builder for chaining.
        */
       public Builder setBytesValue(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -10751,6 +11716,7 @@ public final class ValueProtos {
       }
       /**
        * <code>bytes bytes_value = 8;</code>
+       * @return This builder for chaining.
        */
       public Builder clearBytesValue() {
         if (valueCase_ == 8) {
@@ -10763,7 +11729,17 @@ public final class ValueProtos {
 
       /**
        * <code>string text_value = 9;</code>
+       * @return Whether the textValue field is set.
        */
+      @java.lang.Override
+      public boolean hasTextValue() {
+        return valueCase_ == 9;
+      }
+      /**
+       * <code>string text_value = 9;</code>
+       * @return The textValue.
+       */
+      @java.lang.Override
       public java.lang.String getTextValue() {
         java.lang.Object ref = "";
         if (valueCase_ == 9) {
@@ -10783,7 +11759,9 @@ public final class ValueProtos {
       }
       /**
        * <code>string text_value = 9;</code>
+       * @return The bytes for textValue.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getTextValueBytes() {
         java.lang.Object ref = "";
@@ -10804,6 +11782,8 @@ public final class ValueProtos {
       }
       /**
        * <code>string text_value = 9;</code>
+       * @param value The textValue to set.
+       * @return This builder for chaining.
        */
       public Builder setTextValue(
           java.lang.String value) {
@@ -10817,6 +11797,7 @@ public final class ValueProtos {
       }
       /**
        * <code>string text_value = 9;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTextValue() {
         if (valueCase_ == 9) {
@@ -10828,6 +11809,8 @@ public final class ValueProtos {
       }
       /**
        * <code>string text_value = 9;</code>
+       * @param value The bytes for textValue to set.
+       * @return This builder for chaining.
        */
       public Builder setTextValueBytes(
           com.google.protobuf.ByteString value) {
@@ -10847,7 +11830,21 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.google.protobuf.NullValue null_flag_value = 10;</code>
+       * @return Whether the nullFlagValue field is set.
        */
+      @java.lang.Override
+      public boolean hasNullFlagValue() {
+        return valueCase_ == 10;
+      }
+      /**
+       * <pre>
+       * Set if current TValue is terminal Null
+       * </pre>
+       *
+       * <code>.google.protobuf.NullValue null_flag_value = 10;</code>
+       * @return The enum numeric value on the wire for nullFlagValue.
+       */
+      @java.lang.Override
       public int getNullFlagValueValue() {
         if (valueCase_ == 10) {
           return ((java.lang.Integer) value_).intValue();
@@ -10860,6 +11857,8 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.google.protobuf.NullValue null_flag_value = 10;</code>
+       * @param value The enum numeric value on the wire for nullFlagValue to set.
+       * @return This builder for chaining.
        */
       public Builder setNullFlagValueValue(int value) {
         valueCase_ = 10;
@@ -10873,9 +11872,12 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.google.protobuf.NullValue null_flag_value = 10;</code>
+       * @return The nullFlagValue.
        */
+      @java.lang.Override
       public com.google.protobuf.NullValue getNullFlagValue() {
         if (valueCase_ == 10) {
+          @SuppressWarnings("deprecation")
           com.google.protobuf.NullValue result = com.google.protobuf.NullValue.valueOf(
               (java.lang.Integer) value_);
           return result == null ? com.google.protobuf.NullValue.UNRECOGNIZED : result;
@@ -10888,6 +11890,8 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.google.protobuf.NullValue null_flag_value = 10;</code>
+       * @param value The nullFlagValue to set.
+       * @return This builder for chaining.
        */
       public Builder setNullFlagValue(com.google.protobuf.NullValue value) {
         if (value == null) {
@@ -10904,6 +11908,7 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.google.protobuf.NullValue null_flag_value = 10;</code>
+       * @return This builder for chaining.
        */
       public Builder clearNullFlagValue() {
         if (valueCase_ == 10) {
@@ -10922,7 +11927,9 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.Ydb.Value nested_value = 11;</code>
+       * @return Whether the nestedValue field is set.
        */
+      @java.lang.Override
       public boolean hasNestedValue() {
         return valueCase_ == 11;
       }
@@ -10932,7 +11939,9 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.Ydb.Value nested_value = 11;</code>
+       * @return The nestedValue.
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.Value getNestedValue() {
         if (nestedValueBuilder_ == null) {
           if (valueCase_ == 11) {
@@ -11050,6 +12059,7 @@ public final class ValueProtos {
        *
        * <code>.Ydb.Value nested_value = 11;</code>
        */
+      @java.lang.Override
       public tech.ydb.ValueProtos.ValueOrBuilder getNestedValueOrBuilder() {
         if ((valueCase_ == 11) && (nestedValueBuilder_ != null)) {
           return nestedValueBuilder_.getMessageOrBuilder();
@@ -11088,6 +12098,14 @@ public final class ValueProtos {
 
       /**
        * <code>fixed64 low_128 = 15;</code>
+       * @return Whether the low128 field is set.
+       */
+      public boolean hasLow128() {
+        return valueCase_ == 15;
+      }
+      /**
+       * <code>fixed64 low_128 = 15;</code>
+       * @return The low128.
        */
       public long getLow128() {
         if (valueCase_ == 15) {
@@ -11097,6 +12115,8 @@ public final class ValueProtos {
       }
       /**
        * <code>fixed64 low_128 = 15;</code>
+       * @param value The low128 to set.
+       * @return This builder for chaining.
        */
       public Builder setLow128(long value) {
         valueCase_ = 15;
@@ -11106,6 +12126,7 @@ public final class ValueProtos {
       }
       /**
        * <code>fixed64 low_128 = 15;</code>
+       * @return This builder for chaining.
        */
       public Builder clearLow128() {
         if (valueCase_ == 15) {
@@ -11119,9 +12140,9 @@ public final class ValueProtos {
       private java.util.List<tech.ydb.ValueProtos.Value> items_ =
         java.util.Collections.emptyList();
       private void ensureItemsIsMutable() {
-        if (!((bitField0_ & 0x00001000) == 0x00001000)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           items_ = new java.util.ArrayList<tech.ydb.ValueProtos.Value>(items_);
-          bitField0_ |= 0x00001000;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -11315,7 +12336,7 @@ public final class ValueProtos {
       public Builder clearItems() {
         if (itemsBuilder_ == null) {
           items_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00001000);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           itemsBuilder_.clear();
@@ -11420,7 +12441,7 @@ public final class ValueProtos {
           itemsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.ValueProtos.Value, tech.ydb.ValueProtos.Value.Builder, tech.ydb.ValueProtos.ValueOrBuilder>(
                   items_,
-                  ((bitField0_ & 0x00001000) == 0x00001000),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           items_ = null;
@@ -11431,9 +12452,9 @@ public final class ValueProtos {
       private java.util.List<tech.ydb.ValueProtos.ValuePair> pairs_ =
         java.util.Collections.emptyList();
       private void ensurePairsIsMutable() {
-        if (!((bitField0_ & 0x00002000) == 0x00002000)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           pairs_ = new java.util.ArrayList<tech.ydb.ValueProtos.ValuePair>(pairs_);
-          bitField0_ |= 0x00002000;
+          bitField0_ |= 0x00000002;
          }
       }
 
@@ -11627,7 +12648,7 @@ public final class ValueProtos {
       public Builder clearPairs() {
         if (pairsBuilder_ == null) {
           pairs_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00002000);
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
           pairsBuilder_.clear();
@@ -11732,7 +12753,7 @@ public final class ValueProtos {
           pairsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.ValueProtos.ValuePair, tech.ydb.ValueProtos.ValuePair.Builder, tech.ydb.ValueProtos.ValuePairOrBuilder>(
                   pairs_,
-                  ((bitField0_ & 0x00002000) == 0x00002000),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           pairs_ = null;
@@ -11747,7 +12768,9 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>uint32 variant_index = 14;</code>
+       * @return The variantIndex.
        */
+      @java.lang.Override
       public int getVariantIndex() {
         return variantIndex_;
       }
@@ -11757,6 +12780,8 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>uint32 variant_index = 14;</code>
+       * @param value The variantIndex to set.
+       * @return This builder for chaining.
        */
       public Builder setVariantIndex(int value) {
         
@@ -11770,6 +12795,7 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>uint32 variant_index = 14;</code>
+       * @return This builder for chaining.
        */
       public Builder clearVariantIndex() {
         
@@ -11781,12 +12807,16 @@ public final class ValueProtos {
       private long high128_ ;
       /**
        * <code>fixed64 high_128 = 16;</code>
+       * @return The high128.
        */
+      @java.lang.Override
       public long getHigh128() {
         return high128_;
       }
       /**
        * <code>fixed64 high_128 = 16;</code>
+       * @param value The high128 to set.
+       * @return This builder for chaining.
        */
       public Builder setHigh128(long value) {
         
@@ -11796,6 +12826,7 @@ public final class ValueProtos {
       }
       /**
        * <code>fixed64 high_128 = 16;</code>
+       * @return This builder for chaining.
        */
       public Builder clearHigh128() {
         
@@ -11803,11 +12834,13 @@ public final class ValueProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -11829,11 +12862,12 @@ public final class ValueProtos {
 
     private static final com.google.protobuf.Parser<Value>
         PARSER = new com.google.protobuf.AbstractParser<Value>() {
+      @java.lang.Override
       public Value parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Value(input, extensionRegistry);
+        return new Value(input, extensionRegistry);
       }
     };
 
@@ -11846,6 +12880,7 @@ public final class ValueProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.ValueProtos.Value getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -11858,10 +12893,12 @@ public final class ValueProtos {
 
     /**
      * <code>.Ydb.Type type = 1;</code>
+     * @return Whether the type field is set.
      */
     boolean hasType();
     /**
      * <code>.Ydb.Type type = 1;</code>
+     * @return The type.
      */
     tech.ydb.ValueProtos.Type getType();
     /**
@@ -11871,10 +12908,12 @@ public final class ValueProtos {
 
     /**
      * <code>.Ydb.Value value = 2;</code>
+     * @return Whether the value field is set.
      */
     boolean hasValue();
     /**
      * <code>.Ydb.Value value = 2;</code>
+     * @return The value.
      */
     tech.ydb.ValueProtos.Value getValue();
     /**
@@ -11885,7 +12924,7 @@ public final class ValueProtos {
   /**
    * Protobuf type {@code Ydb.TypedValue}
    */
-  public  static final class TypedValue extends
+  public static final class TypedValue extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.TypedValue)
       TypedValueOrBuilder {
@@ -11898,6 +12937,13 @@ public final class ValueProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TypedValue();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -11907,7 +12953,9 @@ public final class ValueProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -11918,13 +12966,6 @@ public final class ValueProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.ValueProtos.Type.Builder subBuilder = null;
               if (type_ != null) {
@@ -11951,6 +12992,13 @@ public final class ValueProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -11968,6 +13016,7 @@ public final class ValueProtos {
       return tech.ydb.ValueProtos.internal_static_Ydb_TypedValue_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.ValueProtos.internal_static_Ydb_TypedValue_fieldAccessorTable
@@ -11979,19 +13028,24 @@ public final class ValueProtos {
     private tech.ydb.ValueProtos.Type type_;
     /**
      * <code>.Ydb.Type type = 1;</code>
+     * @return Whether the type field is set.
      */
+    @java.lang.Override
     public boolean hasType() {
       return type_ != null;
     }
     /**
      * <code>.Ydb.Type type = 1;</code>
+     * @return The type.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.Type getType() {
       return type_ == null ? tech.ydb.ValueProtos.Type.getDefaultInstance() : type_;
     }
     /**
      * <code>.Ydb.Type type = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.TypeOrBuilder getTypeOrBuilder() {
       return getType();
     }
@@ -12000,24 +13054,30 @@ public final class ValueProtos {
     private tech.ydb.ValueProtos.Value value_;
     /**
      * <code>.Ydb.Value value = 2;</code>
+     * @return Whether the value field is set.
      */
+    @java.lang.Override
     public boolean hasValue() {
       return value_ != null;
     }
     /**
      * <code>.Ydb.Value value = 2;</code>
+     * @return The value.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.Value getValue() {
       return value_ == null ? tech.ydb.ValueProtos.Value.getDefaultInstance() : value_;
     }
     /**
      * <code>.Ydb.Value value = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ValueOrBuilder getValueOrBuilder() {
       return getValue();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -12027,6 +13087,7 @@ public final class ValueProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (type_ != null) {
@@ -12038,6 +13099,7 @@ public final class ValueProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -12066,19 +13128,18 @@ public final class ValueProtos {
       }
       tech.ydb.ValueProtos.TypedValue other = (tech.ydb.ValueProtos.TypedValue) obj;
 
-      boolean result = true;
-      result = result && (hasType() == other.hasType());
+      if (hasType() != other.hasType()) return false;
       if (hasType()) {
-        result = result && getType()
-            .equals(other.getType());
+        if (!getType()
+            .equals(other.getType())) return false;
       }
-      result = result && (hasValue() == other.hasValue());
+      if (hasValue() != other.hasValue()) return false;
       if (hasValue()) {
-        result = result && getValue()
-            .equals(other.getValue());
+        if (!getValue()
+            .equals(other.getValue())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -12171,6 +13232,7 @@ public final class ValueProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -12178,6 +13240,7 @@ public final class ValueProtos {
     public static Builder newBuilder(tech.ydb.ValueProtos.TypedValue prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -12201,6 +13264,7 @@ public final class ValueProtos {
         return tech.ydb.ValueProtos.internal_static_Ydb_TypedValue_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.ValueProtos.internal_static_Ydb_TypedValue_fieldAccessorTable
@@ -12223,6 +13287,7 @@ public final class ValueProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (typeBuilder_ == null) {
@@ -12240,15 +13305,18 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.ValueProtos.internal_static_Ydb_TypedValue_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.TypedValue getDefaultInstanceForType() {
         return tech.ydb.ValueProtos.TypedValue.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.TypedValue build() {
         tech.ydb.ValueProtos.TypedValue result = buildPartial();
         if (!result.isInitialized()) {
@@ -12257,6 +13325,7 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.TypedValue buildPartial() {
         tech.ydb.ValueProtos.TypedValue result = new tech.ydb.ValueProtos.TypedValue(this);
         if (typeBuilder_ == null) {
@@ -12273,32 +13342,39 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.ValueProtos.TypedValue) {
           return mergeFrom((tech.ydb.ValueProtos.TypedValue)other);
@@ -12321,10 +13397,12 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -12343,17 +13421,19 @@ public final class ValueProtos {
         return this;
       }
 
-      private tech.ydb.ValueProtos.Type type_ = null;
+      private tech.ydb.ValueProtos.Type type_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.ValueProtos.Type, tech.ydb.ValueProtos.Type.Builder, tech.ydb.ValueProtos.TypeOrBuilder> typeBuilder_;
       /**
        * <code>.Ydb.Type type = 1;</code>
+       * @return Whether the type field is set.
        */
       public boolean hasType() {
         return typeBuilder_ != null || type_ != null;
       }
       /**
        * <code>.Ydb.Type type = 1;</code>
+       * @return The type.
        */
       public tech.ydb.ValueProtos.Type getType() {
         if (typeBuilder_ == null) {
@@ -12460,17 +13540,19 @@ public final class ValueProtos {
         return typeBuilder_;
       }
 
-      private tech.ydb.ValueProtos.Value value_ = null;
+      private tech.ydb.ValueProtos.Value value_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.ValueProtos.Value, tech.ydb.ValueProtos.Value.Builder, tech.ydb.ValueProtos.ValueOrBuilder> valueBuilder_;
       /**
        * <code>.Ydb.Value value = 2;</code>
+       * @return Whether the value field is set.
        */
       public boolean hasValue() {
         return valueBuilder_ != null || value_ != null;
       }
       /**
        * <code>.Ydb.Value value = 2;</code>
+       * @return The value.
        */
       public tech.ydb.ValueProtos.Value getValue() {
         if (valueBuilder_ == null) {
@@ -12576,11 +13658,13 @@ public final class ValueProtos {
         }
         return valueBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -12602,11 +13686,12 @@ public final class ValueProtos {
 
     private static final com.google.protobuf.Parser<TypedValue>
         PARSER = new com.google.protobuf.AbstractParser<TypedValue>() {
+      @java.lang.Override
       public TypedValue parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TypedValue(input, extensionRegistry);
+        return new TypedValue(input, extensionRegistry);
       }
     };
 
@@ -12619,6 +13704,7 @@ public final class ValueProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.ValueProtos.TypedValue getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -12635,6 +13721,7 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>string name = 1;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
@@ -12643,6 +13730,7 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -12653,6 +13741,7 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.Ydb.Type type = 2;</code>
+     * @return Whether the type field is set.
      */
     boolean hasType();
     /**
@@ -12661,6 +13750,7 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.Ydb.Type type = 2;</code>
+     * @return The type.
      */
     tech.ydb.ValueProtos.Type getType();
     /**
@@ -12675,7 +13765,7 @@ public final class ValueProtos {
   /**
    * Protobuf type {@code Ydb.Column}
    */
-  public  static final class Column extends
+  public static final class Column extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Column)
       ColumnOrBuilder {
@@ -12689,6 +13779,13 @@ public final class ValueProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Column();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -12698,7 +13795,9 @@ public final class ValueProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -12709,13 +13808,6 @@ public final class ValueProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -12735,6 +13827,13 @@ public final class ValueProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -12752,6 +13851,7 @@ public final class ValueProtos {
       return tech.ydb.ValueProtos.internal_static_Ydb_Column_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.ValueProtos.internal_static_Ydb_Column_fieldAccessorTable
@@ -12767,7 +13867,9 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>string name = 1;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -12786,7 +13888,9 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -12809,7 +13913,9 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.Ydb.Type type = 2;</code>
+     * @return Whether the type field is set.
      */
+    @java.lang.Override
     public boolean hasType() {
       return type_ != null;
     }
@@ -12819,7 +13925,9 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>.Ydb.Type type = 2;</code>
+     * @return The type.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.Type getType() {
       return type_ == null ? tech.ydb.ValueProtos.Type.getDefaultInstance() : type_;
     }
@@ -12830,11 +13938,13 @@ public final class ValueProtos {
      *
      * <code>.Ydb.Type type = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.TypeOrBuilder getTypeOrBuilder() {
       return getType();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -12844,6 +13954,7 @@ public final class ValueProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getNameBytes().isEmpty()) {
@@ -12855,6 +13966,7 @@ public final class ValueProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -12882,16 +13994,15 @@ public final class ValueProtos {
       }
       tech.ydb.ValueProtos.Column other = (tech.ydb.ValueProtos.Column) obj;
 
-      boolean result = true;
-      result = result && getName()
-          .equals(other.getName());
-      result = result && (hasType() == other.hasType());
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (hasType() != other.hasType()) return false;
       if (hasType()) {
-        result = result && getType()
-            .equals(other.getType());
+        if (!getType()
+            .equals(other.getType())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -12982,6 +14093,7 @@ public final class ValueProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -12989,6 +14101,7 @@ public final class ValueProtos {
     public static Builder newBuilder(tech.ydb.ValueProtos.Column prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -13012,6 +14125,7 @@ public final class ValueProtos {
         return tech.ydb.ValueProtos.internal_static_Ydb_Column_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.ValueProtos.internal_static_Ydb_Column_fieldAccessorTable
@@ -13034,6 +14148,7 @@ public final class ValueProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         name_ = "";
@@ -13047,15 +14162,18 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.ValueProtos.internal_static_Ydb_Column_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.Column getDefaultInstanceForType() {
         return tech.ydb.ValueProtos.Column.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.Column build() {
         tech.ydb.ValueProtos.Column result = buildPartial();
         if (!result.isInitialized()) {
@@ -13064,6 +14182,7 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.Column buildPartial() {
         tech.ydb.ValueProtos.Column result = new tech.ydb.ValueProtos.Column(this);
         result.name_ = name_;
@@ -13076,32 +14195,39 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.ValueProtos.Column) {
           return mergeFrom((tech.ydb.ValueProtos.Column)other);
@@ -13125,10 +14251,12 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -13154,6 +14282,7 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>string name = 1;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -13173,6 +14302,7 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>string name = 1;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -13193,6 +14323,8 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>string name = 1;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -13210,6 +14342,7 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>string name = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -13223,6 +14356,8 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>string name = 1;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -13236,7 +14371,7 @@ public final class ValueProtos {
         return this;
       }
 
-      private tech.ydb.ValueProtos.Type type_ = null;
+      private tech.ydb.ValueProtos.Type type_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.ValueProtos.Type, tech.ydb.ValueProtos.Type.Builder, tech.ydb.ValueProtos.TypeOrBuilder> typeBuilder_;
       /**
@@ -13245,6 +14380,7 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.Ydb.Type type = 2;</code>
+       * @return Whether the type field is set.
        */
       public boolean hasType() {
         return typeBuilder_ != null || type_ != null;
@@ -13255,6 +14391,7 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>.Ydb.Type type = 2;</code>
+       * @return The type.
        */
       public tech.ydb.ValueProtos.Type getType() {
         if (typeBuilder_ == null) {
@@ -13388,11 +14525,13 @@ public final class ValueProtos {
         }
         return typeBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -13414,11 +14553,12 @@ public final class ValueProtos {
 
     private static final com.google.protobuf.Parser<Column>
         PARSER = new com.google.protobuf.AbstractParser<Column>() {
+      @java.lang.Override
       public Column parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Column(input, extensionRegistry);
+        return new Column(input, extensionRegistry);
       }
     };
 
@@ -13431,6 +14571,7 @@ public final class ValueProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.ValueProtos.Column getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -13535,6 +14676,7 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>bool truncated = 3;</code>
+     * @return The truncated.
      */
     boolean getTruncated();
   }
@@ -13545,7 +14687,7 @@ public final class ValueProtos {
    *
    * Protobuf type {@code Ydb.ResultSet}
    */
-  public  static final class ResultSet extends
+  public static final class ResultSet extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.ResultSet)
       ResultSetOrBuilder {
@@ -13557,7 +14699,13 @@ public final class ValueProtos {
     private ResultSet() {
       columns_ = java.util.Collections.emptyList();
       rows_ = java.util.Collections.emptyList();
-      truncated_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ResultSet();
     }
 
     @java.lang.Override
@@ -13570,6 +14718,9 @@ public final class ValueProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -13581,15 +14732,8 @@ public final class ValueProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 columns_ = new java.util.ArrayList<tech.ydb.ValueProtos.Column>();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -13598,7 +14742,7 @@ public final class ValueProtos {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 rows_ = new java.util.ArrayList<tech.ydb.ValueProtos.Value>();
                 mutable_bitField0_ |= 0x00000002;
               }
@@ -13611,6 +14755,13 @@ public final class ValueProtos {
               truncated_ = input.readBool();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -13619,10 +14770,10 @@ public final class ValueProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           columns_ = java.util.Collections.unmodifiableList(columns_);
         }
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           rows_ = java.util.Collections.unmodifiableList(rows_);
         }
         this.unknownFields = unknownFields.build();
@@ -13634,6 +14785,7 @@ public final class ValueProtos {
       return tech.ydb.ValueProtos.internal_static_Ydb_ResultSet_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.ValueProtos.internal_static_Ydb_ResultSet_fieldAccessorTable
@@ -13641,7 +14793,6 @@ public final class ValueProtos {
               tech.ydb.ValueProtos.ResultSet.class, tech.ydb.ValueProtos.ResultSet.Builder.class);
     }
 
-    private int bitField0_;
     public static final int COLUMNS_FIELD_NUMBER = 1;
     private java.util.List<tech.ydb.ValueProtos.Column> columns_;
     /**
@@ -13651,6 +14802,7 @@ public final class ValueProtos {
      *
      * <code>repeated .Ydb.Column columns = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.ValueProtos.Column> getColumnsList() {
       return columns_;
     }
@@ -13661,6 +14813,7 @@ public final class ValueProtos {
      *
      * <code>repeated .Ydb.Column columns = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.ValueProtos.ColumnOrBuilder> 
         getColumnsOrBuilderList() {
       return columns_;
@@ -13672,6 +14825,7 @@ public final class ValueProtos {
      *
      * <code>repeated .Ydb.Column columns = 1;</code>
      */
+    @java.lang.Override
     public int getColumnsCount() {
       return columns_.size();
     }
@@ -13682,6 +14836,7 @@ public final class ValueProtos {
      *
      * <code>repeated .Ydb.Column columns = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.Column getColumns(int index) {
       return columns_.get(index);
     }
@@ -13692,6 +14847,7 @@ public final class ValueProtos {
      *
      * <code>repeated .Ydb.Column columns = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ColumnOrBuilder getColumnsOrBuilder(
         int index) {
       return columns_.get(index);
@@ -13706,6 +14862,7 @@ public final class ValueProtos {
      *
      * <code>repeated .Ydb.Value rows = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.ValueProtos.Value> getRowsList() {
       return rows_;
     }
@@ -13716,6 +14873,7 @@ public final class ValueProtos {
      *
      * <code>repeated .Ydb.Value rows = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.ValueProtos.ValueOrBuilder> 
         getRowsOrBuilderList() {
       return rows_;
@@ -13727,6 +14885,7 @@ public final class ValueProtos {
      *
      * <code>repeated .Ydb.Value rows = 2;</code>
      */
+    @java.lang.Override
     public int getRowsCount() {
       return rows_.size();
     }
@@ -13737,6 +14896,7 @@ public final class ValueProtos {
      *
      * <code>repeated .Ydb.Value rows = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.Value getRows(int index) {
       return rows_.get(index);
     }
@@ -13747,6 +14907,7 @@ public final class ValueProtos {
      *
      * <code>repeated .Ydb.Value rows = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ValueOrBuilder getRowsOrBuilder(
         int index) {
       return rows_.get(index);
@@ -13760,12 +14921,15 @@ public final class ValueProtos {
      * </pre>
      *
      * <code>bool truncated = 3;</code>
+     * @return The truncated.
      */
+    @java.lang.Override
     public boolean getTruncated() {
       return truncated_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -13775,6 +14939,7 @@ public final class ValueProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < columns_.size(); i++) {
@@ -13789,6 +14954,7 @@ public final class ValueProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -13821,15 +14987,14 @@ public final class ValueProtos {
       }
       tech.ydb.ValueProtos.ResultSet other = (tech.ydb.ValueProtos.ResultSet) obj;
 
-      boolean result = true;
-      result = result && getColumnsList()
-          .equals(other.getColumnsList());
-      result = result && getRowsList()
-          .equals(other.getRowsList());
-      result = result && (getTruncated()
-          == other.getTruncated());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getColumnsList()
+          .equals(other.getColumnsList())) return false;
+      if (!getRowsList()
+          .equals(other.getRowsList())) return false;
+      if (getTruncated()
+          != other.getTruncated()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -13925,6 +15090,7 @@ public final class ValueProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -13932,6 +15098,7 @@ public final class ValueProtos {
     public static Builder newBuilder(tech.ydb.ValueProtos.ResultSet prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -13959,6 +15126,7 @@ public final class ValueProtos {
         return tech.ydb.ValueProtos.internal_static_Ydb_ResultSet_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.ValueProtos.internal_static_Ydb_ResultSet_fieldAccessorTable
@@ -13983,6 +15151,7 @@ public final class ValueProtos {
           getRowsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (columnsBuilder_ == null) {
@@ -14002,15 +15171,18 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.ValueProtos.internal_static_Ydb_ResultSet_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.ResultSet getDefaultInstanceForType() {
         return tech.ydb.ValueProtos.ResultSet.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.ResultSet build() {
         tech.ydb.ValueProtos.ResultSet result = buildPartial();
         if (!result.isInitialized()) {
@@ -14019,12 +15191,12 @@ public final class ValueProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.ValueProtos.ResultSet buildPartial() {
         tech.ydb.ValueProtos.ResultSet result = new tech.ydb.ValueProtos.ResultSet(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (columnsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             columns_ = java.util.Collections.unmodifiableList(columns_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -14033,7 +15205,7 @@ public final class ValueProtos {
           result.columns_ = columnsBuilder_.build();
         }
         if (rowsBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000002) != 0)) {
             rows_ = java.util.Collections.unmodifiableList(rows_);
             bitField0_ = (bitField0_ & ~0x00000002);
           }
@@ -14042,37 +15214,43 @@ public final class ValueProtos {
           result.rows_ = rowsBuilder_.build();
         }
         result.truncated_ = truncated_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.ValueProtos.ResultSet) {
           return mergeFrom((tech.ydb.ValueProtos.ResultSet)other);
@@ -14144,10 +15322,12 @@ public final class ValueProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -14170,7 +15350,7 @@ public final class ValueProtos {
       private java.util.List<tech.ydb.ValueProtos.Column> columns_ =
         java.util.Collections.emptyList();
       private void ensureColumnsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           columns_ = new java.util.ArrayList<tech.ydb.ValueProtos.Column>(columns_);
           bitField0_ |= 0x00000001;
          }
@@ -14471,7 +15651,7 @@ public final class ValueProtos {
           columnsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.ValueProtos.Column, tech.ydb.ValueProtos.Column.Builder, tech.ydb.ValueProtos.ColumnOrBuilder>(
                   columns_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           columns_ = null;
@@ -14482,7 +15662,7 @@ public final class ValueProtos {
       private java.util.List<tech.ydb.ValueProtos.Value> rows_ =
         java.util.Collections.emptyList();
       private void ensureRowsIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           rows_ = new java.util.ArrayList<tech.ydb.ValueProtos.Value>(rows_);
           bitField0_ |= 0x00000002;
          }
@@ -14783,7 +15963,7 @@ public final class ValueProtos {
           rowsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.ValueProtos.Value, tech.ydb.ValueProtos.Value.Builder, tech.ydb.ValueProtos.ValueOrBuilder>(
                   rows_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           rows_ = null;
@@ -14798,7 +15978,9 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>bool truncated = 3;</code>
+       * @return The truncated.
        */
+      @java.lang.Override
       public boolean getTruncated() {
         return truncated_;
       }
@@ -14808,6 +15990,8 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>bool truncated = 3;</code>
+       * @param value The truncated to set.
+       * @return This builder for chaining.
        */
       public Builder setTruncated(boolean value) {
         
@@ -14821,6 +16005,7 @@ public final class ValueProtos {
        * </pre>
        *
        * <code>bool truncated = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTruncated() {
         
@@ -14828,11 +16013,13 @@ public final class ValueProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -14854,11 +16041,12 @@ public final class ValueProtos {
 
     private static final com.google.protobuf.Parser<ResultSet>
         PARSER = new com.google.protobuf.AbstractParser<ResultSet>() {
+      @java.lang.Override
       public ResultSet parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ResultSet(input, extensionRegistry);
+        return new ResultSet(input, extensionRegistry);
       }
     };
 
@@ -14871,6 +16059,7 @@ public final class ValueProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.ValueProtos.ResultSet getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -14965,7 +16154,7 @@ public final class ValueProtos {
       "2\016.Ydb.TupleTypeH\000\022\'\n\014struct_items\030\002 \001(\013" +
       "2\017.Ydb.StructTypeH\000B\006\n\004type\"(\n\tTupleType" +
       "\022\033\n\010elements\030\001 \003(\0132\t.Ydb.Type\"5\n\014StructM" +
-      "ember\022\014\n\004name\030\001 \001(\t\022\027\n\004type\030\002 \001(\0132\t.Ydb.",
+      "ember\022\014\n\004name\030\001 \001(\t\022\027\n\004type\030\002 \001(\0132\t.Ydb." +
       "Type\"0\n\nStructType\022\"\n\007members\030\001 \003(\0132\021.Yd" +
       "b.StructMember\">\n\010DictType\022\026\n\003key\030\001 \001(\0132" +
       "\t.Ydb.Type\022\032\n\007payload\030\002 \001(\0132\t.Ydb.Type\"\367" +
@@ -14975,7 +16164,7 @@ public final class ValueProtos {
       ".Ydb.OptionalTypeH\000\022\"\n\tlist_type\030f \001(\0132\r" +
       ".Ydb.ListTypeH\000\022$\n\ntuple_type\030g \001(\0132\016.Yd" +
       "b.TupleTypeH\000\022&\n\013struct_type\030h \001(\0132\017.Ydb" +
-      ".StructTypeH\000\022\"\n\tdict_type\030i \001(\0132\r.Ydb.D",
+      ".StructTypeH\000\022\"\n\tdict_type\030i \001(\0132\r.Ydb.D" +
       "ictTypeH\000\022(\n\014variant_type\030j \001(\0132\020.Ydb.Va" +
       "riantTypeH\000\0220\n\tvoid_type\030\311\001 \001(\0162\032.google" +
       ".protobuf.NullValueH\000\"\360\002\n\017PrimitiveTypeI" +
@@ -14985,7 +16174,7 @@ public final class ValueProtos {
       "64\020\003\022\n\n\006UINT64\020\004\022\t\n\005FLOAT\020!\022\n\n\006DOUBLE\020 \022" +
       "\010\n\004DATE\0200\022\014\n\010DATETIME\0201\022\r\n\tTIMESTAMP\0202\022\014" +
       "\n\010INTERVAL\0203\022\013\n\007TZ_DATE\0204\022\017\n\013TZ_DATETIME" +
-      "\0205\022\020\n\014TZ_TIMESTAMP\0206\022\013\n\006STRING\020\201 \022\t\n\004UTF",
+      "\0205\022\020\n\014TZ_TIMESTAMP\0206\022\013\n\006STRING\020\201 \022\t\n\004UTF" +
       "8\020\200$\022\t\n\004YSON\020\201$\022\t\n\004JSON\020\202$\022\t\n\004UUID\020\203$\022\022\n" +
       "\rJSON_DOCUMENT\020\204$\022\r\n\010DYNUMBER\020\202&B\006\n\004type" +
       "\"A\n\tValuePair\022\027\n\003key\030\001 \001(\0132\n.Ydb.Value\022\033" +
@@ -14995,7 +16184,7 @@ public final class ValueProtos {
       "e\030\004 \001(\020H\000\022\026\n\014uint64_value\030\005 \001(\006H\000\022\025\n\013flo" +
       "at_value\030\006 \001(\002H\000\022\026\n\014double_value\030\007 \001(\001H\000" +
       "\022\025\n\013bytes_value\030\010 \001(\014H\000\022\024\n\ntext_value\030\t " +
-      "\001(\tH\000\0225\n\017null_flag_value\030\n \001(\0162\032.google.",
+      "\001(\tH\000\0225\n\017null_flag_value\030\n \001(\0162\032.google." +
       "protobuf.NullValueH\000\022\"\n\014nested_value\030\013 \001" +
       "(\0132\n.Ydb.ValueH\000\022\021\n\007low_128\030\017 \001(\006H\000\022\031\n\005i" +
       "tems\030\014 \003(\0132\n.Ydb.Value\022\035\n\005pairs\030\r \003(\0132\016." +
@@ -15005,22 +16194,14 @@ public final class ValueProtos {
       "Ydb.Value\"/\n\006Column\022\014\n\004name\030\001 \001(\t\022\027\n\004typ" +
       "e\030\002 \001(\0132\t.Ydb.Type\"V\n\tResultSet\022\034\n\007colum" +
       "ns\030\001 \003(\0132\013.Ydb.Column\022\030\n\004rows\030\002 \003(\0132\n.Yd" +
-      "b.Value\022\021\n\ttruncated\030\003 \001(\010B \n\016com.yandex",
+      "b.Value\022\021\n\ttruncated\030\003 \001(\010B \n\016com.yandex" +
       ".ydbB\013ValueProtos\370\001\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.google.protobuf.StructProto.getDescriptor(),
-        }, assigner);
+        });
     internal_static_Ydb_DecimalType_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_DecimalType_fieldAccessorTable = new

@@ -32,7 +32,7 @@ public final class YqV1 {
       "\032\035.YandexQuery.ListJobsResponse\022P\n\013Descr" +
       "ibeJob\022\037.YandexQuery.DescribeJobRequest\032" +
       " .YandexQuery.DescribeJobResponse\022J\n\tMod" +
-      "ifyJob\022\035.YandexQuery.ModifyJobRequest\032\036.",
+      "ifyJob\022\035.YandexQuery.ModifyJobRequest\032\036." +
       "YandexQuery.ModifyJobResponse\022J\n\tDeleteJ" +
       "ob\022\035.YandexQuery.DeleteJobRequest\032\036.Yand" +
       "exQuery.DeleteJobResponse\022M\n\nControlJob\022" +
@@ -42,7 +42,7 @@ public final class YqV1 {
       "andexQuery.GetResultDataResponse\022_\n\020Crea" +
       "teConnection\022$.YandexQuery.CreateConnect" +
       "ionRequest\032%.YandexQuery.CreateConnectio" +
-      "nResponse\022\\\n\017ListConnections\022#.YandexQue",
+      "nResponse\022\\\n\017ListConnections\022#.YandexQue" +
       "ry.ListConnectionsRequest\032$.YandexQuery." +
       "ListConnectionsResponse\022e\n\022DescribeConne" +
       "ction\022&.YandexQuery.DescribeConnectionRe" +
@@ -52,7 +52,7 @@ public final class YqV1 {
       "odifyConnectionResponse\022_\n\020DeleteConnect" +
       "ion\022$.YandexQuery.DeleteConnectionReques" +
       "t\032%.YandexQuery.DeleteConnectionResponse" +
-      "\022V\n\rCreateBinding\022!.YandexQuery.CreateBi",
+      "\022V\n\rCreateBinding\022!.YandexQuery.CreateBi" +
       "ndingRequest\032\".YandexQuery.CreateBinding" +
       "Response\022S\n\014ListBindings\022 .YandexQuery.L" +
       "istBindingsRequest\032!.YandexQuery.ListBin" +
@@ -62,22 +62,14 @@ public final class YqV1 {
       "ding\022!.YandexQuery.ModifyBindingRequest\032" +
       "\".YandexQuery.ModifyBindingResponse\022V\n\rD" +
       "eleteBinding\022!.YandexQuery.DeleteBinding" +
-      "Request\032\".YandexQuery.DeleteBindingRespo",
+      "Request\032\".YandexQuery.DeleteBindingRespo" +
       "nseB\025\n\023com.yandex.query.v1b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.yandex.query.YandexQueryProtos.getDescriptor(),
-        }, assigner);
+        });
     com.yandex.query.YandexQueryProtos.getDescriptor();
   }
 

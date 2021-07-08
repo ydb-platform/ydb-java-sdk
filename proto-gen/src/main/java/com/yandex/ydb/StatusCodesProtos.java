@@ -21,7 +21,7 @@ public final class StatusCodesProtos {
   /**
    * Protobuf type {@code Ydb.StatusIds}
    */
-  public  static final class StatusIds extends
+  public static final class StatusIds extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.StatusIds)
       StatusIdsOrBuilder {
@@ -34,6 +34,13 @@ public final class StatusCodesProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StatusIds();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -43,6 +50,9 @@ public final class StatusCodesProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -54,7 +64,7 @@ public final class StatusCodesProtos {
               done = true;
               break;
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -77,6 +87,7 @@ public final class StatusCodesProtos {
       return tech.ydb.StatusCodesProtos.internal_static_Ydb_StatusIds_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.StatusCodesProtos.internal_static_Ydb_StatusIds_fieldAccessorTable
@@ -267,6 +278,8 @@ public final class StatusCodesProtos {
       }
 
       /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -274,6 +287,10 @@ public final class StatusCodesProtos {
         return forNumber(value);
       }
 
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
       public static StatusCode forNumber(int value) {
         switch (value) {
           case 0: return STATUS_CODE_UNSPECIFIED;
@@ -314,6 +331,10 @@ public final class StatusCodesProtos {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -349,6 +370,7 @@ public final class StatusCodesProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -358,11 +380,13 @@ public final class StatusCodesProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -383,9 +407,8 @@ public final class StatusCodesProtos {
       }
       tech.ydb.StatusCodesProtos.StatusIds other = (tech.ydb.StatusCodesProtos.StatusIds) obj;
 
-      boolean result = true;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -470,6 +493,7 @@ public final class StatusCodesProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -477,6 +501,7 @@ public final class StatusCodesProtos {
     public static Builder newBuilder(tech.ydb.StatusCodesProtos.StatusIds prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -500,6 +525,7 @@ public final class StatusCodesProtos {
         return tech.ydb.StatusCodesProtos.internal_static_Ydb_StatusIds_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.StatusCodesProtos.internal_static_Ydb_StatusIds_fieldAccessorTable
@@ -522,20 +548,24 @@ public final class StatusCodesProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.StatusCodesProtos.internal_static_Ydb_StatusIds_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.StatusCodesProtos.StatusIds getDefaultInstanceForType() {
         return tech.ydb.StatusCodesProtos.StatusIds.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.StatusCodesProtos.StatusIds build() {
         tech.ydb.StatusCodesProtos.StatusIds result = buildPartial();
         if (!result.isInitialized()) {
@@ -544,38 +574,46 @@ public final class StatusCodesProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.StatusCodesProtos.StatusIds buildPartial() {
         tech.ydb.StatusCodesProtos.StatusIds result = new tech.ydb.StatusCodesProtos.StatusIds(this);
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.StatusCodesProtos.StatusIds) {
           return mergeFrom((tech.ydb.StatusCodesProtos.StatusIds)other);
@@ -592,10 +630,12 @@ public final class StatusCodesProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -613,11 +653,13 @@ public final class StatusCodesProtos {
         }
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -639,11 +681,12 @@ public final class StatusCodesProtos {
 
     private static final com.google.protobuf.Parser<StatusIds>
         PARSER = new com.google.protobuf.AbstractParser<StatusIds>() {
+      @java.lang.Override
       public StatusIds parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new StatusIds(input, extensionRegistry);
+        return new StatusIds(input, extensionRegistry);
       }
     };
 
@@ -656,6 +699,7 @@ public final class StatusCodesProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.StatusCodesProtos.StatusIds getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -685,24 +729,16 @@ public final class StatusCodesProtos {
       "\022\022\n\014SCHEME_ERROR\020\306\265\030\022\023\n\rGENERIC_ERROR\020\320\265" +
       "\030\022\r\n\007TIMEOUT\020\332\265\030\022\021\n\013BAD_SESSION\020\344\265\030\022\031\n\023P" +
       "RECONDITION_FAILED\020\370\265\030\022\024\n\016ALREADY_EXISTS" +
-      "\020\202\266\030\022\017\n\tNOT_FOUND\020\214\266\030\022\025\n\017SESSION_EXPIRED",
+      "\020\202\266\030\022\017\n\tNOT_FOUND\020\214\266\030\022\025\n\017SESSION_EXPIRED" +
       "\020\226\266\030\022\017\n\tCANCELLED\020\240\266\030\022\022\n\014UNDETERMINED\020\252\266" +
       "\030\022\021\n\013UNSUPPORTED\020\264\266\030\022\022\n\014SESSION_BUSY\020\276\266\030" +
       "B#\n\016tech.ydbB\021StatusCodesProtosb\006p" +
       "roto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+        });
     internal_static_Ydb_StatusIds_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_StatusIds_fieldAccessorTable = new

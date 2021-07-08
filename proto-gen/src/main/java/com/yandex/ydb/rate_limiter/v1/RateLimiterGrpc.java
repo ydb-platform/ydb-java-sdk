@@ -32,7 +32,7 @@ public final class RateLimiterGrpc {
       "e\022^\n\rAlterResource\022%.Ydb.RateLimiter.Alt" +
       "erResourceRequest\032&.Ydb.RateLimiter.Alte" +
       "rResourceResponse\022[\n\014DropResource\022$.Ydb." +
-      "RateLimiter.DropResourceRequest\032%.Ydb.Ra",
+      "RateLimiter.DropResourceRequest\032%.Ydb.Ra" +
       "teLimiter.DropResourceResponse\022^\n\rListRe" +
       "sources\022%.Ydb.RateLimiter.ListResourcesR" +
       "equest\032&.Ydb.RateLimiter.ListResourcesRe" +
@@ -44,19 +44,11 @@ public final class RateLimiterGrpc {
       "ourceResponseB3\n\036tech.ydb.rate_lim" +
       "iter.v1B\017RateLimiterGrpcP\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.rate_limiter.RateLimiterProtos.getDescriptor(),
-        }, assigner);
+        });
     tech.ydb.rate_limiter.RateLimiterProtos.getDescriptor();
   }
 

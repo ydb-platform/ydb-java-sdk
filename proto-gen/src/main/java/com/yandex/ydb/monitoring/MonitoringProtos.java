@@ -21,7 +21,7 @@ public final class MonitoringProtos {
   /**
    * Protobuf type {@code Ydb.Monitoring.StatusFlag}
    */
-  public  static final class StatusFlag extends
+  public static final class StatusFlag extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.StatusFlag)
       StatusFlagOrBuilder {
@@ -34,6 +34,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StatusFlag();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -43,6 +50,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -54,7 +64,7 @@ public final class MonitoringProtos {
               done = true;
               break;
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -77,6 +87,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StatusFlag_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StatusFlag_fieldAccessorTable
@@ -165,6 +176,8 @@ public final class MonitoringProtos {
       }
 
       /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -172,6 +185,10 @@ public final class MonitoringProtos {
         return forNumber(value);
       }
 
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
       public static Status forNumber(int value) {
         switch (value) {
           case 0: return UNSPECIFIED;
@@ -199,6 +216,10 @@ public final class MonitoringProtos {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -234,6 +255,7 @@ public final class MonitoringProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -243,11 +265,13 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -268,9 +292,8 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.StatusFlag other = (tech.ydb.monitoring.MonitoringProtos.StatusFlag) obj;
 
-      boolean result = true;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -355,6 +378,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -362,6 +386,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.StatusFlag prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -385,6 +410,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StatusFlag_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StatusFlag_fieldAccessorTable
@@ -407,20 +433,24 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StatusFlag_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StatusFlag getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.StatusFlag.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StatusFlag build() {
         tech.ydb.monitoring.MonitoringProtos.StatusFlag result = buildPartial();
         if (!result.isInitialized()) {
@@ -429,38 +459,46 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StatusFlag buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.StatusFlag result = new tech.ydb.monitoring.MonitoringProtos.StatusFlag(this);
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.StatusFlag) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.StatusFlag)other);
@@ -477,10 +515,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -498,11 +538,13 @@ public final class MonitoringProtos {
         }
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -524,11 +566,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<StatusFlag>
         PARSER = new com.google.protobuf.AbstractParser<StatusFlag>() {
+      @java.lang.Override
       public StatusFlag parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new StatusFlag(input, extensionRegistry);
+        return new StatusFlag(input, extensionRegistry);
       }
     };
 
@@ -541,6 +584,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.StatusFlag getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -553,10 +597,12 @@ public final class MonitoringProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -566,27 +612,31 @@ public final class MonitoringProtos {
 
     /**
      * <code>bool return_verbose_status = 2;</code>
+     * @return The returnVerboseStatus.
      */
     boolean getReturnVerboseStatus();
 
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status minimum_status = 3;</code>
+     * @return The enum numeric value on the wire for minimumStatus.
      */
     int getMinimumStatusValue();
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status minimum_status = 3;</code>
+     * @return The minimumStatus.
      */
     tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getMinimumStatus();
 
     /**
      * <code>uint32 maximum_level = 4;</code>
+     * @return The maximumLevel.
      */
     int getMaximumLevel();
   }
   /**
    * Protobuf type {@code Ydb.Monitoring.SelfCheckRequest}
    */
-  public  static final class SelfCheckRequest extends
+  public static final class SelfCheckRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.SelfCheckRequest)
       SelfCheckRequestOrBuilder {
@@ -596,9 +646,14 @@ public final class MonitoringProtos {
       super(builder);
     }
     private SelfCheckRequest() {
-      returnVerboseStatus_ = false;
       minimumStatus_ = 0;
-      maximumLevel_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SelfCheckRequest();
     }
 
     @java.lang.Override
@@ -611,7 +666,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -622,13 +679,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -658,6 +708,13 @@ public final class MonitoringProtos {
               maximumLevel_ = input.readUInt32();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -675,6 +732,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_SelfCheckRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_SelfCheckRequest_fieldAccessorTable
@@ -686,19 +744,24 @@ public final class MonitoringProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -707,7 +770,9 @@ public final class MonitoringProtos {
     private boolean returnVerboseStatus_;
     /**
      * <code>bool return_verbose_status = 2;</code>
+     * @return The returnVerboseStatus.
      */
+    @java.lang.Override
     public boolean getReturnVerboseStatus() {
       return returnVerboseStatus_;
     }
@@ -716,14 +781,17 @@ public final class MonitoringProtos {
     private int minimumStatus_;
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status minimum_status = 3;</code>
+     * @return The enum numeric value on the wire for minimumStatus.
      */
-    public int getMinimumStatusValue() {
+    @java.lang.Override public int getMinimumStatusValue() {
       return minimumStatus_;
     }
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status minimum_status = 3;</code>
+     * @return The minimumStatus.
      */
-    public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getMinimumStatus() {
+    @java.lang.Override public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getMinimumStatus() {
+      @SuppressWarnings("deprecation")
       tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(minimumStatus_);
       return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
     }
@@ -732,12 +800,15 @@ public final class MonitoringProtos {
     private int maximumLevel_;
     /**
      * <code>uint32 maximum_level = 4;</code>
+     * @return The maximumLevel.
      */
+    @java.lang.Override
     public int getMaximumLevel() {
       return maximumLevel_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -747,6 +818,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -764,6 +836,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -800,19 +873,18 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.SelfCheckRequest other = (tech.ydb.monitoring.MonitoringProtos.SelfCheckRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && (getReturnVerboseStatus()
-          == other.getReturnVerboseStatus());
-      result = result && minimumStatus_ == other.minimumStatus_;
-      result = result && (getMaximumLevel()
-          == other.getMaximumLevel());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getReturnVerboseStatus()
+          != other.getReturnVerboseStatus()) return false;
+      if (minimumStatus_ != other.minimumStatus_) return false;
+      if (getMaximumLevel()
+          != other.getMaximumLevel()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -908,6 +980,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -915,6 +988,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.SelfCheckRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -938,6 +1012,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_SelfCheckRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_SelfCheckRequest_fieldAccessorTable
@@ -960,6 +1035,7 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -977,15 +1053,18 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_SelfCheckRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.SelfCheckRequest getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.SelfCheckRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.SelfCheckRequest build() {
         tech.ydb.monitoring.MonitoringProtos.SelfCheckRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -994,6 +1073,7 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.SelfCheckRequest buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.SelfCheckRequest result = new tech.ydb.monitoring.MonitoringProtos.SelfCheckRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -1008,32 +1088,39 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.SelfCheckRequest) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.SelfCheckRequest)other);
@@ -1062,10 +1149,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1084,17 +1173,19 @@ public final class MonitoringProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -1204,12 +1295,16 @@ public final class MonitoringProtos {
       private boolean returnVerboseStatus_ ;
       /**
        * <code>bool return_verbose_status = 2;</code>
+       * @return The returnVerboseStatus.
        */
+      @java.lang.Override
       public boolean getReturnVerboseStatus() {
         return returnVerboseStatus_;
       }
       /**
        * <code>bool return_verbose_status = 2;</code>
+       * @param value The returnVerboseStatus to set.
+       * @return This builder for chaining.
        */
       public Builder setReturnVerboseStatus(boolean value) {
         
@@ -1219,6 +1314,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>bool return_verbose_status = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearReturnVerboseStatus() {
         
@@ -1230,27 +1326,36 @@ public final class MonitoringProtos {
       private int minimumStatus_ = 0;
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status minimum_status = 3;</code>
+       * @return The enum numeric value on the wire for minimumStatus.
        */
-      public int getMinimumStatusValue() {
+      @java.lang.Override public int getMinimumStatusValue() {
         return minimumStatus_;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status minimum_status = 3;</code>
+       * @param value The enum numeric value on the wire for minimumStatus to set.
+       * @return This builder for chaining.
        */
       public Builder setMinimumStatusValue(int value) {
+        
         minimumStatus_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status minimum_status = 3;</code>
+       * @return The minimumStatus.
        */
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getMinimumStatus() {
+        @SuppressWarnings("deprecation")
         tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(minimumStatus_);
         return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status minimum_status = 3;</code>
+       * @param value The minimumStatus to set.
+       * @return This builder for chaining.
        */
       public Builder setMinimumStatus(tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status value) {
         if (value == null) {
@@ -1263,6 +1368,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status minimum_status = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMinimumStatus() {
         
@@ -1274,12 +1380,16 @@ public final class MonitoringProtos {
       private int maximumLevel_ ;
       /**
        * <code>uint32 maximum_level = 4;</code>
+       * @return The maximumLevel.
        */
+      @java.lang.Override
       public int getMaximumLevel() {
         return maximumLevel_;
       }
       /**
        * <code>uint32 maximum_level = 4;</code>
+       * @param value The maximumLevel to set.
+       * @return This builder for chaining.
        */
       public Builder setMaximumLevel(int value) {
         
@@ -1289,6 +1399,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>uint32 maximum_level = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMaximumLevel() {
         
@@ -1296,11 +1407,13 @@ public final class MonitoringProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1322,11 +1435,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<SelfCheckRequest>
         PARSER = new com.google.protobuf.AbstractParser<SelfCheckRequest>() {
+      @java.lang.Override
       public SelfCheckRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new SelfCheckRequest(input, extensionRegistry);
+        return new SelfCheckRequest(input, extensionRegistry);
       }
     };
 
@@ -1339,6 +1453,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.SelfCheckRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1355,6 +1470,7 @@ public final class MonitoringProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
@@ -1363,6 +1479,7 @@ public final class MonitoringProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -1377,7 +1494,7 @@ public final class MonitoringProtos {
   /**
    * Protobuf type {@code Ydb.Monitoring.SelfCheckResponse}
    */
-  public  static final class SelfCheckResponse extends
+  public static final class SelfCheckResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.SelfCheckResponse)
       SelfCheckResponseOrBuilder {
@@ -1390,6 +1507,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SelfCheckResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -1399,7 +1523,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1410,13 +1536,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -1428,6 +1547,13 @@ public final class MonitoringProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -1447,6 +1573,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_SelfCheckResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_SelfCheckResponse_fieldAccessorTable
@@ -1462,7 +1589,9 @@ public final class MonitoringProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
@@ -1472,7 +1601,9 @@ public final class MonitoringProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
@@ -1483,11 +1614,13 @@ public final class MonitoringProtos {
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1497,6 +1630,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -1505,6 +1639,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1529,14 +1664,13 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.SelfCheckResponse other = (tech.ydb.monitoring.MonitoringProtos.SelfCheckResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1625,6 +1759,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1632,6 +1767,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.SelfCheckResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1655,6 +1791,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_SelfCheckResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_SelfCheckResponse_fieldAccessorTable
@@ -1677,6 +1814,7 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -1688,15 +1826,18 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_SelfCheckResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.SelfCheckResponse getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.SelfCheckResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.SelfCheckResponse build() {
         tech.ydb.monitoring.MonitoringProtos.SelfCheckResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -1705,6 +1846,7 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.SelfCheckResponse buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.SelfCheckResponse result = new tech.ydb.monitoring.MonitoringProtos.SelfCheckResponse(this);
         if (operationBuilder_ == null) {
@@ -1716,32 +1858,39 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.SelfCheckResponse) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.SelfCheckResponse)other);
@@ -1761,10 +1910,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1783,7 +1934,7 @@ public final class MonitoringProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
@@ -1792,6 +1943,7 @@ public final class MonitoringProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
@@ -1802,6 +1954,7 @@ public final class MonitoringProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -1935,11 +2088,13 @@ public final class MonitoringProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1961,11 +2116,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<SelfCheckResponse>
         PARSER = new com.google.protobuf.AbstractParser<SelfCheckResponse>() {
+      @java.lang.Override
       public SelfCheckResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new SelfCheckResponse(input, extensionRegistry);
+        return new SelfCheckResponse(input, extensionRegistry);
       }
     };
 
@@ -1978,6 +2134,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.SelfCheckResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1991,7 +2148,7 @@ public final class MonitoringProtos {
   /**
    * Protobuf type {@code Ydb.Monitoring.SelfCheck}
    */
-  public  static final class SelfCheck extends
+  public static final class SelfCheck extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.SelfCheck)
       SelfCheckOrBuilder {
@@ -2004,6 +2161,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SelfCheck();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2013,6 +2177,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2024,7 +2191,7 @@ public final class MonitoringProtos {
               done = true;
               break;
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -2047,6 +2214,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_SelfCheck_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_SelfCheck_fieldAccessorTable
@@ -2117,6 +2285,8 @@ public final class MonitoringProtos {
       }
 
       /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -2124,6 +2294,10 @@ public final class MonitoringProtos {
         return forNumber(value);
       }
 
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
       public static Result forNumber(int value) {
         switch (value) {
           case 0: return UNSPECIFIED;
@@ -2149,6 +2323,10 @@ public final class MonitoringProtos {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -2184,6 +2362,7 @@ public final class MonitoringProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2193,11 +2372,13 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2218,9 +2399,8 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.SelfCheck other = (tech.ydb.monitoring.MonitoringProtos.SelfCheck) obj;
 
-      boolean result = true;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2305,6 +2485,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2312,6 +2493,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.SelfCheck prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2335,6 +2517,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_SelfCheck_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_SelfCheck_fieldAccessorTable
@@ -2357,20 +2540,24 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_SelfCheck_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.SelfCheck getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.SelfCheck.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.SelfCheck build() {
         tech.ydb.monitoring.MonitoringProtos.SelfCheck result = buildPartial();
         if (!result.isInitialized()) {
@@ -2379,38 +2566,46 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.SelfCheck buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.SelfCheck result = new tech.ydb.monitoring.MonitoringProtos.SelfCheck(this);
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.SelfCheck) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.SelfCheck)other);
@@ -2427,10 +2622,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2448,11 +2645,13 @@ public final class MonitoringProtos {
         }
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2474,11 +2673,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<SelfCheck>
         PARSER = new com.google.protobuf.AbstractParser<SelfCheck>() {
+      @java.lang.Override
       public SelfCheck parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new SelfCheck(input, extensionRegistry);
+        return new SelfCheck(input, extensionRegistry);
       }
     };
 
@@ -2491,6 +2691,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.SelfCheck getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2503,27 +2704,31 @@ public final class MonitoringProtos {
 
     /**
      * <code>string id = 1;</code>
+     * @return The id.
      */
     java.lang.String getId();
     /**
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
 
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The enum numeric value on the wire for overall.
      */
     int getOverallValue();
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The overall.
      */
     tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall();
   }
   /**
    * Protobuf type {@code Ydb.Monitoring.StoragePDiskStatus}
    */
-  public  static final class StoragePDiskStatus extends
+  public static final class StoragePDiskStatus extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.StoragePDiskStatus)
       StoragePDiskStatusOrBuilder {
@@ -2538,6 +2743,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StoragePDiskStatus();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2547,7 +2759,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2558,13 +2772,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -2575,6 +2782,13 @@ public final class MonitoringProtos {
               int rawValue = input.readEnum();
 
               overall_ = rawValue;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -2594,6 +2808,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StoragePDiskStatus_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StoragePDiskStatus_fieldAccessorTable
@@ -2605,7 +2820,9 @@ public final class MonitoringProtos {
     private volatile java.lang.Object id_;
     /**
      * <code>string id = 1;</code>
+     * @return The id.
      */
+    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -2620,7 +2837,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -2639,19 +2858,23 @@ public final class MonitoringProtos {
     private int overall_;
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The enum numeric value on the wire for overall.
      */
-    public int getOverallValue() {
+    @java.lang.Override public int getOverallValue() {
       return overall_;
     }
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The overall.
      */
-    public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+    @java.lang.Override public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+      @SuppressWarnings("deprecation")
       tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
       return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2661,6 +2884,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getIdBytes().isEmpty()) {
@@ -2672,6 +2896,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2699,12 +2924,11 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus other = (tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus) obj;
 
-      boolean result = true;
-      result = result && getId()
-          .equals(other.getId());
-      result = result && overall_ == other.overall_;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getId()
+          .equals(other.getId())) return false;
+      if (overall_ != other.overall_) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2793,6 +3017,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2800,6 +3025,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2823,6 +3049,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StoragePDiskStatus_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StoragePDiskStatus_fieldAccessorTable
@@ -2845,6 +3072,7 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         id_ = "";
@@ -2854,15 +3082,18 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StoragePDiskStatus_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus build() {
         tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus result = buildPartial();
         if (!result.isInitialized()) {
@@ -2871,6 +3102,7 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus result = new tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus(this);
         result.id_ = id_;
@@ -2879,32 +3111,39 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus)other);
@@ -2928,10 +3167,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2953,6 +3194,7 @@ public final class MonitoringProtos {
       private java.lang.Object id_ = "";
       /**
        * <code>string id = 1;</code>
+       * @return The id.
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -2968,6 +3210,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -2984,6 +3227,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -2997,6 +3242,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -3006,6 +3252,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @param value The bytes for id to set.
+       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -3022,27 +3270,36 @@ public final class MonitoringProtos {
       private int overall_ = 0;
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @return The enum numeric value on the wire for overall.
        */
-      public int getOverallValue() {
+      @java.lang.Override public int getOverallValue() {
         return overall_;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @param value The enum numeric value on the wire for overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverallValue(int value) {
+        
         overall_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @return The overall.
        */
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+        @SuppressWarnings("deprecation")
         tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
         return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @param value The overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverall(tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status value) {
         if (value == null) {
@@ -3055,6 +3312,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearOverall() {
         
@@ -3062,11 +3320,13 @@ public final class MonitoringProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3088,11 +3348,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<StoragePDiskStatus>
         PARSER = new com.google.protobuf.AbstractParser<StoragePDiskStatus>() {
+      @java.lang.Override
       public StoragePDiskStatus parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new StoragePDiskStatus(input, extensionRegistry);
+        return new StoragePDiskStatus(input, extensionRegistry);
       }
     };
 
@@ -3105,6 +3366,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3117,38 +3379,46 @@ public final class MonitoringProtos {
 
     /**
      * <code>string id = 1;</code>
+     * @return The id.
      */
     java.lang.String getId();
     /**
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
 
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The enum numeric value on the wire for overall.
      */
     int getOverallValue();
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The overall.
      */
     tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall();
 
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status vdisk_status = 3;</code>
+     * @return The enum numeric value on the wire for vdiskStatus.
      */
     int getVdiskStatusValue();
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status vdisk_status = 3;</code>
+     * @return The vdiskStatus.
      */
     tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getVdiskStatus();
 
     /**
      * <code>.Ydb.Monitoring.StoragePDiskStatus pdisk = 4;</code>
+     * @return Whether the pdisk field is set.
      */
     boolean hasPdisk();
     /**
      * <code>.Ydb.Monitoring.StoragePDiskStatus pdisk = 4;</code>
+     * @return The pdisk.
      */
     tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus getPdisk();
     /**
@@ -3159,7 +3429,7 @@ public final class MonitoringProtos {
   /**
    * Protobuf type {@code Ydb.Monitoring.StorageVDiskStatus}
    */
-  public  static final class StorageVDiskStatus extends
+  public static final class StorageVDiskStatus extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.StorageVDiskStatus)
       StorageVDiskStatusOrBuilder {
@@ -3175,6 +3445,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StorageVDiskStatus();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3184,7 +3461,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3195,13 +3474,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -3233,6 +3505,13 @@ public final class MonitoringProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3250,6 +3529,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StorageVDiskStatus_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StorageVDiskStatus_fieldAccessorTable
@@ -3261,7 +3541,9 @@ public final class MonitoringProtos {
     private volatile java.lang.Object id_;
     /**
      * <code>string id = 1;</code>
+     * @return The id.
      */
+    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -3276,7 +3558,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -3295,14 +3579,17 @@ public final class MonitoringProtos {
     private int overall_;
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The enum numeric value on the wire for overall.
      */
-    public int getOverallValue() {
+    @java.lang.Override public int getOverallValue() {
       return overall_;
     }
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The overall.
      */
-    public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+    @java.lang.Override public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+      @SuppressWarnings("deprecation")
       tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
       return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
     }
@@ -3311,14 +3598,17 @@ public final class MonitoringProtos {
     private int vdiskStatus_;
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status vdisk_status = 3;</code>
+     * @return The enum numeric value on the wire for vdiskStatus.
      */
-    public int getVdiskStatusValue() {
+    @java.lang.Override public int getVdiskStatusValue() {
       return vdiskStatus_;
     }
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status vdisk_status = 3;</code>
+     * @return The vdiskStatus.
      */
-    public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getVdiskStatus() {
+    @java.lang.Override public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getVdiskStatus() {
+      @SuppressWarnings("deprecation")
       tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(vdiskStatus_);
       return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
     }
@@ -3327,24 +3617,30 @@ public final class MonitoringProtos {
     private tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus pdisk_;
     /**
      * <code>.Ydb.Monitoring.StoragePDiskStatus pdisk = 4;</code>
+     * @return Whether the pdisk field is set.
      */
+    @java.lang.Override
     public boolean hasPdisk() {
       return pdisk_ != null;
     }
     /**
      * <code>.Ydb.Monitoring.StoragePDiskStatus pdisk = 4;</code>
+     * @return The pdisk.
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus getPdisk() {
       return pdisk_ == null ? tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus.getDefaultInstance() : pdisk_;
     }
     /**
      * <code>.Ydb.Monitoring.StoragePDiskStatus pdisk = 4;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatusOrBuilder getPdiskOrBuilder() {
       return getPdisk();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3354,6 +3650,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getIdBytes().isEmpty()) {
@@ -3371,6 +3668,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3406,18 +3704,17 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus other = (tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus) obj;
 
-      boolean result = true;
-      result = result && getId()
-          .equals(other.getId());
-      result = result && overall_ == other.overall_;
-      result = result && vdiskStatus_ == other.vdiskStatus_;
-      result = result && (hasPdisk() == other.hasPdisk());
+      if (!getId()
+          .equals(other.getId())) return false;
+      if (overall_ != other.overall_) return false;
+      if (vdiskStatus_ != other.vdiskStatus_) return false;
+      if (hasPdisk() != other.hasPdisk()) return false;
       if (hasPdisk()) {
-        result = result && getPdisk()
-            .equals(other.getPdisk());
+        if (!getPdisk()
+            .equals(other.getPdisk())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3512,6 +3809,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3519,6 +3817,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3542,6 +3841,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StorageVDiskStatus_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StorageVDiskStatus_fieldAccessorTable
@@ -3564,6 +3864,7 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         id_ = "";
@@ -3581,15 +3882,18 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StorageVDiskStatus_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus build() {
         tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus result = buildPartial();
         if (!result.isInitialized()) {
@@ -3598,6 +3902,7 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus result = new tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus(this);
         result.id_ = id_;
@@ -3612,32 +3917,39 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus)other);
@@ -3667,10 +3979,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3692,6 +4006,7 @@ public final class MonitoringProtos {
       private java.lang.Object id_ = "";
       /**
        * <code>string id = 1;</code>
+       * @return The id.
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -3707,6 +4022,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -3723,6 +4039,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -3736,6 +4054,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -3745,6 +4064,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @param value The bytes for id to set.
+       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -3761,27 +4082,36 @@ public final class MonitoringProtos {
       private int overall_ = 0;
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @return The enum numeric value on the wire for overall.
        */
-      public int getOverallValue() {
+      @java.lang.Override public int getOverallValue() {
         return overall_;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @param value The enum numeric value on the wire for overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverallValue(int value) {
+        
         overall_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @return The overall.
        */
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+        @SuppressWarnings("deprecation")
         tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
         return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @param value The overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverall(tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status value) {
         if (value == null) {
@@ -3794,6 +4124,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearOverall() {
         
@@ -3805,27 +4136,36 @@ public final class MonitoringProtos {
       private int vdiskStatus_ = 0;
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status vdisk_status = 3;</code>
+       * @return The enum numeric value on the wire for vdiskStatus.
        */
-      public int getVdiskStatusValue() {
+      @java.lang.Override public int getVdiskStatusValue() {
         return vdiskStatus_;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status vdisk_status = 3;</code>
+       * @param value The enum numeric value on the wire for vdiskStatus to set.
+       * @return This builder for chaining.
        */
       public Builder setVdiskStatusValue(int value) {
+        
         vdiskStatus_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status vdisk_status = 3;</code>
+       * @return The vdiskStatus.
        */
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getVdiskStatus() {
+        @SuppressWarnings("deprecation")
         tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(vdiskStatus_);
         return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status vdisk_status = 3;</code>
+       * @param value The vdiskStatus to set.
+       * @return This builder for chaining.
        */
       public Builder setVdiskStatus(tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status value) {
         if (value == null) {
@@ -3838,6 +4178,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status vdisk_status = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearVdiskStatus() {
         
@@ -3846,17 +4187,19 @@ public final class MonitoringProtos {
         return this;
       }
 
-      private tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus pdisk_ = null;
+      private tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus pdisk_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus, tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus.Builder, tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatusOrBuilder> pdiskBuilder_;
       /**
        * <code>.Ydb.Monitoring.StoragePDiskStatus pdisk = 4;</code>
+       * @return Whether the pdisk field is set.
        */
       public boolean hasPdisk() {
         return pdiskBuilder_ != null || pdisk_ != null;
       }
       /**
        * <code>.Ydb.Monitoring.StoragePDiskStatus pdisk = 4;</code>
+       * @return The pdisk.
        */
       public tech.ydb.monitoring.MonitoringProtos.StoragePDiskStatus getPdisk() {
         if (pdiskBuilder_ == null) {
@@ -3962,11 +4305,13 @@ public final class MonitoringProtos {
         }
         return pdiskBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3988,11 +4333,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<StorageVDiskStatus>
         PARSER = new com.google.protobuf.AbstractParser<StorageVDiskStatus>() {
+      @java.lang.Override
       public StorageVDiskStatus parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new StorageVDiskStatus(input, extensionRegistry);
+        return new StorageVDiskStatus(input, extensionRegistry);
       }
     };
 
@@ -4005,6 +4351,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4017,20 +4364,24 @@ public final class MonitoringProtos {
 
     /**
      * <code>string id = 1;</code>
+     * @return The id.
      */
     java.lang.String getId();
     /**
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
 
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The enum numeric value on the wire for overall.
      */
     int getOverallValue();
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The overall.
      */
     tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall();
 
@@ -4061,7 +4412,7 @@ public final class MonitoringProtos {
   /**
    * Protobuf type {@code Ydb.Monitoring.StorageGroupStatus}
    */
-  public  static final class StorageGroupStatus extends
+  public static final class StorageGroupStatus extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.StorageGroupStatus)
       StorageGroupStatusOrBuilder {
@@ -4077,6 +4428,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StorageGroupStatus();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -4086,6 +4444,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -4097,13 +4458,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -4117,12 +4471,19 @@ public final class MonitoringProtos {
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 vdisks_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus>();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000001;
               }
               vdisks_.add(
                   input.readMessage(tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -4133,7 +4494,7 @@ public final class MonitoringProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           vdisks_ = java.util.Collections.unmodifiableList(vdisks_);
         }
         this.unknownFields = unknownFields.build();
@@ -4145,6 +4506,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StorageGroupStatus_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StorageGroupStatus_fieldAccessorTable
@@ -4152,12 +4514,13 @@ public final class MonitoringProtos {
               tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus.class, tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus.Builder.class);
     }
 
-    private int bitField0_;
     public static final int ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object id_;
     /**
      * <code>string id = 1;</code>
+     * @return The id.
      */
+    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -4172,7 +4535,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -4191,14 +4556,17 @@ public final class MonitoringProtos {
     private int overall_;
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The enum numeric value on the wire for overall.
      */
-    public int getOverallValue() {
+    @java.lang.Override public int getOverallValue() {
       return overall_;
     }
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The overall.
      */
-    public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+    @java.lang.Override public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+      @SuppressWarnings("deprecation")
       tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
       return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
     }
@@ -4208,12 +4576,14 @@ public final class MonitoringProtos {
     /**
      * <code>repeated .Ydb.Monitoring.StorageVDiskStatus vdisks = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus> getVdisksList() {
       return vdisks_;
     }
     /**
      * <code>repeated .Ydb.Monitoring.StorageVDiskStatus vdisks = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatusOrBuilder> 
         getVdisksOrBuilderList() {
       return vdisks_;
@@ -4221,24 +4591,28 @@ public final class MonitoringProtos {
     /**
      * <code>repeated .Ydb.Monitoring.StorageVDiskStatus vdisks = 3;</code>
      */
+    @java.lang.Override
     public int getVdisksCount() {
       return vdisks_.size();
     }
     /**
      * <code>repeated .Ydb.Monitoring.StorageVDiskStatus vdisks = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus getVdisks(int index) {
       return vdisks_.get(index);
     }
     /**
      * <code>repeated .Ydb.Monitoring.StorageVDiskStatus vdisks = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatusOrBuilder getVdisksOrBuilder(
         int index) {
       return vdisks_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4248,6 +4622,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getIdBytes().isEmpty()) {
@@ -4262,6 +4637,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4293,14 +4669,13 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus other = (tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus) obj;
 
-      boolean result = true;
-      result = result && getId()
-          .equals(other.getId());
-      result = result && overall_ == other.overall_;
-      result = result && getVdisksList()
-          .equals(other.getVdisksList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getId()
+          .equals(other.getId())) return false;
+      if (overall_ != other.overall_) return false;
+      if (!getVdisksList()
+          .equals(other.getVdisksList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4393,6 +4768,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4400,6 +4776,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4423,6 +4800,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StorageGroupStatus_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StorageGroupStatus_fieldAccessorTable
@@ -4446,6 +4824,7 @@ public final class MonitoringProtos {
           getVdisksFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         id_ = "";
@@ -4454,22 +4833,25 @@ public final class MonitoringProtos {
 
         if (vdisksBuilder_ == null) {
           vdisks_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           vdisksBuilder_.clear();
         }
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StorageGroupStatus_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus build() {
         tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus result = buildPartial();
         if (!result.isInitialized()) {
@@ -4478,52 +4860,58 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus result = new tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.id_ = id_;
         result.overall_ = overall_;
         if (vdisksBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             vdisks_ = java.util.Collections.unmodifiableList(vdisks_);
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.vdisks_ = vdisks_;
         } else {
           result.vdisks_ = vdisksBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus)other);
@@ -4546,7 +4934,7 @@ public final class MonitoringProtos {
           if (!other.vdisks_.isEmpty()) {
             if (vdisks_.isEmpty()) {
               vdisks_ = other.vdisks_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureVdisksIsMutable();
               vdisks_.addAll(other.vdisks_);
@@ -4559,7 +4947,7 @@ public final class MonitoringProtos {
               vdisksBuilder_.dispose();
               vdisksBuilder_ = null;
               vdisks_ = other.vdisks_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000001);
               vdisksBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getVdisksFieldBuilder() : null;
@@ -4573,10 +4961,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4599,6 +4989,7 @@ public final class MonitoringProtos {
       private java.lang.Object id_ = "";
       /**
        * <code>string id = 1;</code>
+       * @return The id.
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -4614,6 +5005,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -4630,6 +5022,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -4643,6 +5037,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -4652,6 +5047,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @param value The bytes for id to set.
+       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -4668,27 +5065,36 @@ public final class MonitoringProtos {
       private int overall_ = 0;
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @return The enum numeric value on the wire for overall.
        */
-      public int getOverallValue() {
+      @java.lang.Override public int getOverallValue() {
         return overall_;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @param value The enum numeric value on the wire for overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverallValue(int value) {
+        
         overall_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @return The overall.
        */
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+        @SuppressWarnings("deprecation")
         tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
         return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @param value The overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverall(tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status value) {
         if (value == null) {
@@ -4701,6 +5107,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearOverall() {
         
@@ -4712,9 +5119,9 @@ public final class MonitoringProtos {
       private java.util.List<tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus> vdisks_ =
         java.util.Collections.emptyList();
       private void ensureVdisksIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           vdisks_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus>(vdisks_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -4864,7 +5271,7 @@ public final class MonitoringProtos {
       public Builder clearVdisks() {
         if (vdisksBuilder_ == null) {
           vdisks_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           vdisksBuilder_.clear();
@@ -4941,18 +5348,20 @@ public final class MonitoringProtos {
           vdisksBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus, tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatus.Builder, tech.ydb.monitoring.MonitoringProtos.StorageVDiskStatusOrBuilder>(
                   vdisks_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           vdisks_ = null;
         }
         return vdisksBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4974,11 +5383,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<StorageGroupStatus>
         PARSER = new com.google.protobuf.AbstractParser<StorageGroupStatus>() {
+      @java.lang.Override
       public StorageGroupStatus parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new StorageGroupStatus(input, extensionRegistry);
+        return new StorageGroupStatus(input, extensionRegistry);
       }
     };
 
@@ -4991,6 +5401,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5003,20 +5414,24 @@ public final class MonitoringProtos {
 
     /**
      * <code>string id = 1;</code>
+     * @return The id.
      */
     java.lang.String getId();
     /**
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
 
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The enum numeric value on the wire for overall.
      */
     int getOverallValue();
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The overall.
      */
     tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall();
 
@@ -5047,7 +5462,7 @@ public final class MonitoringProtos {
   /**
    * Protobuf type {@code Ydb.Monitoring.StoragePoolStatus}
    */
-  public  static final class StoragePoolStatus extends
+  public static final class StoragePoolStatus extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.StoragePoolStatus)
       StoragePoolStatusOrBuilder {
@@ -5063,6 +5478,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StoragePoolStatus();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -5072,6 +5494,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -5083,13 +5508,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -5103,12 +5521,19 @@ public final class MonitoringProtos {
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 groups_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus>();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000001;
               }
               groups_.add(
                   input.readMessage(tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -5119,7 +5544,7 @@ public final class MonitoringProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           groups_ = java.util.Collections.unmodifiableList(groups_);
         }
         this.unknownFields = unknownFields.build();
@@ -5131,6 +5556,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StoragePoolStatus_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StoragePoolStatus_fieldAccessorTable
@@ -5138,12 +5564,13 @@ public final class MonitoringProtos {
               tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus.class, tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus.Builder.class);
     }
 
-    private int bitField0_;
     public static final int ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object id_;
     /**
      * <code>string id = 1;</code>
+     * @return The id.
      */
+    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -5158,7 +5585,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -5177,14 +5606,17 @@ public final class MonitoringProtos {
     private int overall_;
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The enum numeric value on the wire for overall.
      */
-    public int getOverallValue() {
+    @java.lang.Override public int getOverallValue() {
       return overall_;
     }
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The overall.
      */
-    public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+    @java.lang.Override public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+      @SuppressWarnings("deprecation")
       tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
       return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
     }
@@ -5194,12 +5626,14 @@ public final class MonitoringProtos {
     /**
      * <code>repeated .Ydb.Monitoring.StorageGroupStatus groups = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus> getGroupsList() {
       return groups_;
     }
     /**
      * <code>repeated .Ydb.Monitoring.StorageGroupStatus groups = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.monitoring.MonitoringProtos.StorageGroupStatusOrBuilder> 
         getGroupsOrBuilderList() {
       return groups_;
@@ -5207,24 +5641,28 @@ public final class MonitoringProtos {
     /**
      * <code>repeated .Ydb.Monitoring.StorageGroupStatus groups = 3;</code>
      */
+    @java.lang.Override
     public int getGroupsCount() {
       return groups_.size();
     }
     /**
      * <code>repeated .Ydb.Monitoring.StorageGroupStatus groups = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus getGroups(int index) {
       return groups_.get(index);
     }
     /**
      * <code>repeated .Ydb.Monitoring.StorageGroupStatus groups = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.StorageGroupStatusOrBuilder getGroupsOrBuilder(
         int index) {
       return groups_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -5234,6 +5672,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getIdBytes().isEmpty()) {
@@ -5248,6 +5687,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -5279,14 +5719,13 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus other = (tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus) obj;
 
-      boolean result = true;
-      result = result && getId()
-          .equals(other.getId());
-      result = result && overall_ == other.overall_;
-      result = result && getGroupsList()
-          .equals(other.getGroupsList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getId()
+          .equals(other.getId())) return false;
+      if (overall_ != other.overall_) return false;
+      if (!getGroupsList()
+          .equals(other.getGroupsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5379,6 +5818,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5386,6 +5826,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5409,6 +5850,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StoragePoolStatus_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StoragePoolStatus_fieldAccessorTable
@@ -5432,6 +5874,7 @@ public final class MonitoringProtos {
           getGroupsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         id_ = "";
@@ -5440,22 +5883,25 @@ public final class MonitoringProtos {
 
         if (groupsBuilder_ == null) {
           groups_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           groupsBuilder_.clear();
         }
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StoragePoolStatus_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus build() {
         tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus result = buildPartial();
         if (!result.isInitialized()) {
@@ -5464,52 +5910,58 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus result = new tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.id_ = id_;
         result.overall_ = overall_;
         if (groupsBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             groups_ = java.util.Collections.unmodifiableList(groups_);
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.groups_ = groups_;
         } else {
           result.groups_ = groupsBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus)other);
@@ -5532,7 +5984,7 @@ public final class MonitoringProtos {
           if (!other.groups_.isEmpty()) {
             if (groups_.isEmpty()) {
               groups_ = other.groups_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureGroupsIsMutable();
               groups_.addAll(other.groups_);
@@ -5545,7 +5997,7 @@ public final class MonitoringProtos {
               groupsBuilder_.dispose();
               groupsBuilder_ = null;
               groups_ = other.groups_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000001);
               groupsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getGroupsFieldBuilder() : null;
@@ -5559,10 +6011,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5585,6 +6039,7 @@ public final class MonitoringProtos {
       private java.lang.Object id_ = "";
       /**
        * <code>string id = 1;</code>
+       * @return The id.
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -5600,6 +6055,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -5616,6 +6072,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -5629,6 +6087,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -5638,6 +6097,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @param value The bytes for id to set.
+       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -5654,27 +6115,36 @@ public final class MonitoringProtos {
       private int overall_ = 0;
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @return The enum numeric value on the wire for overall.
        */
-      public int getOverallValue() {
+      @java.lang.Override public int getOverallValue() {
         return overall_;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @param value The enum numeric value on the wire for overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverallValue(int value) {
+        
         overall_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @return The overall.
        */
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+        @SuppressWarnings("deprecation")
         tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
         return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @param value The overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverall(tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status value) {
         if (value == null) {
@@ -5687,6 +6157,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearOverall() {
         
@@ -5698,9 +6169,9 @@ public final class MonitoringProtos {
       private java.util.List<tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus> groups_ =
         java.util.Collections.emptyList();
       private void ensureGroupsIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           groups_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus>(groups_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -5850,7 +6321,7 @@ public final class MonitoringProtos {
       public Builder clearGroups() {
         if (groupsBuilder_ == null) {
           groups_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           groupsBuilder_.clear();
@@ -5927,18 +6398,20 @@ public final class MonitoringProtos {
           groupsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus, tech.ydb.monitoring.MonitoringProtos.StorageGroupStatus.Builder, tech.ydb.monitoring.MonitoringProtos.StorageGroupStatusOrBuilder>(
                   groups_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           groups_ = null;
         }
         return groupsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5960,11 +6433,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<StoragePoolStatus>
         PARSER = new com.google.protobuf.AbstractParser<StoragePoolStatus>() {
+      @java.lang.Override
       public StoragePoolStatus parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new StoragePoolStatus(input, extensionRegistry);
+        return new StoragePoolStatus(input, extensionRegistry);
       }
     };
 
@@ -5977,6 +6451,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5989,10 +6464,12 @@ public final class MonitoringProtos {
 
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * @return The enum numeric value on the wire for overall.
      */
     int getOverallValue();
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * @return The overall.
      */
     tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall();
 
@@ -6023,7 +6500,7 @@ public final class MonitoringProtos {
   /**
    * Protobuf type {@code Ydb.Monitoring.StorageStatus}
    */
-  public  static final class StorageStatus extends
+  public static final class StorageStatus extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.StorageStatus)
       StorageStatusOrBuilder {
@@ -6038,6 +6515,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StorageStatus();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -6047,6 +6531,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -6058,13 +6545,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               int rawValue = input.readEnum();
 
@@ -6072,12 +6552,19 @@ public final class MonitoringProtos {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 pools_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               pools_.add(
                   input.readMessage(tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -6088,7 +6575,7 @@ public final class MonitoringProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           pools_ = java.util.Collections.unmodifiableList(pools_);
         }
         this.unknownFields = unknownFields.build();
@@ -6100,6 +6587,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StorageStatus_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StorageStatus_fieldAccessorTable
@@ -6107,19 +6595,21 @@ public final class MonitoringProtos {
               tech.ydb.monitoring.MonitoringProtos.StorageStatus.class, tech.ydb.monitoring.MonitoringProtos.StorageStatus.Builder.class);
     }
 
-    private int bitField0_;
     public static final int OVERALL_FIELD_NUMBER = 1;
     private int overall_;
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * @return The enum numeric value on the wire for overall.
      */
-    public int getOverallValue() {
+    @java.lang.Override public int getOverallValue() {
       return overall_;
     }
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * @return The overall.
      */
-    public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+    @java.lang.Override public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+      @SuppressWarnings("deprecation")
       tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
       return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
     }
@@ -6129,12 +6619,14 @@ public final class MonitoringProtos {
     /**
      * <code>repeated .Ydb.Monitoring.StoragePoolStatus pools = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus> getPoolsList() {
       return pools_;
     }
     /**
      * <code>repeated .Ydb.Monitoring.StoragePoolStatus pools = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.monitoring.MonitoringProtos.StoragePoolStatusOrBuilder> 
         getPoolsOrBuilderList() {
       return pools_;
@@ -6142,24 +6634,28 @@ public final class MonitoringProtos {
     /**
      * <code>repeated .Ydb.Monitoring.StoragePoolStatus pools = 2;</code>
      */
+    @java.lang.Override
     public int getPoolsCount() {
       return pools_.size();
     }
     /**
      * <code>repeated .Ydb.Monitoring.StoragePoolStatus pools = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus getPools(int index) {
       return pools_.get(index);
     }
     /**
      * <code>repeated .Ydb.Monitoring.StoragePoolStatus pools = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.StoragePoolStatusOrBuilder getPoolsOrBuilder(
         int index) {
       return pools_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6169,6 +6665,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (overall_ != tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNSPECIFIED.getNumber()) {
@@ -6180,6 +6677,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -6208,12 +6706,11 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.StorageStatus other = (tech.ydb.monitoring.MonitoringProtos.StorageStatus) obj;
 
-      boolean result = true;
-      result = result && overall_ == other.overall_;
-      result = result && getPoolsList()
-          .equals(other.getPoolsList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (overall_ != other.overall_) return false;
+      if (!getPoolsList()
+          .equals(other.getPoolsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -6304,6 +6801,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -6311,6 +6809,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.StorageStatus prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -6334,6 +6833,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StorageStatus_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StorageStatus_fieldAccessorTable
@@ -6357,28 +6857,32 @@ public final class MonitoringProtos {
           getPoolsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         overall_ = 0;
 
         if (poolsBuilder_ == null) {
           pools_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           poolsBuilder_.clear();
         }
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_StorageStatus_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StorageStatus getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.StorageStatus.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StorageStatus build() {
         tech.ydb.monitoring.MonitoringProtos.StorageStatus result = buildPartial();
         if (!result.isInitialized()) {
@@ -6387,51 +6891,57 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StorageStatus buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.StorageStatus result = new tech.ydb.monitoring.MonitoringProtos.StorageStatus(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.overall_ = overall_;
         if (poolsBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             pools_ = java.util.Collections.unmodifiableList(pools_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.pools_ = pools_;
         } else {
           result.pools_ = poolsBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.StorageStatus) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.StorageStatus)other);
@@ -6450,7 +6960,7 @@ public final class MonitoringProtos {
           if (!other.pools_.isEmpty()) {
             if (pools_.isEmpty()) {
               pools_ = other.pools_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensurePoolsIsMutable();
               pools_.addAll(other.pools_);
@@ -6463,7 +6973,7 @@ public final class MonitoringProtos {
               poolsBuilder_.dispose();
               poolsBuilder_ = null;
               pools_ = other.pools_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               poolsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getPoolsFieldBuilder() : null;
@@ -6477,10 +6987,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6503,27 +7015,36 @@ public final class MonitoringProtos {
       private int overall_ = 0;
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @return The enum numeric value on the wire for overall.
        */
-      public int getOverallValue() {
+      @java.lang.Override public int getOverallValue() {
         return overall_;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @param value The enum numeric value on the wire for overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverallValue(int value) {
+        
         overall_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @return The overall.
        */
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+        @SuppressWarnings("deprecation")
         tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
         return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @param value The overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverall(tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status value) {
         if (value == null) {
@@ -6536,6 +7057,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearOverall() {
         
@@ -6547,9 +7069,9 @@ public final class MonitoringProtos {
       private java.util.List<tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus> pools_ =
         java.util.Collections.emptyList();
       private void ensurePoolsIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           pools_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus>(pools_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -6699,7 +7221,7 @@ public final class MonitoringProtos {
       public Builder clearPools() {
         if (poolsBuilder_ == null) {
           pools_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           poolsBuilder_.clear();
@@ -6776,18 +7298,20 @@ public final class MonitoringProtos {
           poolsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus, tech.ydb.monitoring.MonitoringProtos.StoragePoolStatus.Builder, tech.ydb.monitoring.MonitoringProtos.StoragePoolStatusOrBuilder>(
                   pools_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           pools_ = null;
         }
         return poolsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -6809,11 +7333,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<StorageStatus>
         PARSER = new com.google.protobuf.AbstractParser<StorageStatus>() {
+      @java.lang.Override
       public StorageStatus parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new StorageStatus(input, extensionRegistry);
+        return new StorageStatus(input, extensionRegistry);
       }
     };
 
@@ -6826,6 +7351,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.StorageStatus getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -6838,35 +7364,42 @@ public final class MonitoringProtos {
 
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * @return The enum numeric value on the wire for overall.
      */
     int getOverallValue();
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * @return The overall.
      */
     tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall();
 
     /**
      * <code>string type = 2;</code>
+     * @return The type.
      */
     java.lang.String getType();
     /**
      * <code>string type = 2;</code>
+     * @return The bytes for type.
      */
     com.google.protobuf.ByteString
         getTypeBytes();
 
     /**
      * <code>string state = 3;</code>
+     * @return The state.
      */
     java.lang.String getState();
     /**
      * <code>string state = 3;</code>
+     * @return The bytes for state.
      */
     com.google.protobuf.ByteString
         getStateBytes();
 
     /**
      * <code>uint32 count = 4;</code>
+     * @return The count.
      */
     int getCount();
   }
@@ -6877,7 +7410,7 @@ public final class MonitoringProtos {
    *
    * Protobuf type {@code Ydb.Monitoring.ComputeTabletStatus}
    */
-  public  static final class ComputeTabletStatus extends
+  public static final class ComputeTabletStatus extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.ComputeTabletStatus)
       ComputeTabletStatusOrBuilder {
@@ -6890,7 +7423,13 @@ public final class MonitoringProtos {
       overall_ = 0;
       type_ = "";
       state_ = "";
-      count_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ComputeTabletStatus();
     }
 
     @java.lang.Override
@@ -6903,7 +7442,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -6914,13 +7455,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               int rawValue = input.readEnum();
 
@@ -6944,6 +7478,13 @@ public final class MonitoringProtos {
               count_ = input.readUInt32();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -6961,6 +7502,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_ComputeTabletStatus_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_ComputeTabletStatus_fieldAccessorTable
@@ -6972,14 +7514,17 @@ public final class MonitoringProtos {
     private int overall_;
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * @return The enum numeric value on the wire for overall.
      */
-    public int getOverallValue() {
+    @java.lang.Override public int getOverallValue() {
       return overall_;
     }
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * @return The overall.
      */
-    public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+    @java.lang.Override public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+      @SuppressWarnings("deprecation")
       tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
       return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
     }
@@ -6988,7 +7533,9 @@ public final class MonitoringProtos {
     private volatile java.lang.Object type_;
     /**
      * <code>string type = 2;</code>
+     * @return The type.
      */
+    @java.lang.Override
     public java.lang.String getType() {
       java.lang.Object ref = type_;
       if (ref instanceof java.lang.String) {
@@ -7003,7 +7550,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string type = 2;</code>
+     * @return The bytes for type.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTypeBytes() {
       java.lang.Object ref = type_;
@@ -7022,7 +7571,9 @@ public final class MonitoringProtos {
     private volatile java.lang.Object state_;
     /**
      * <code>string state = 3;</code>
+     * @return The state.
      */
+    @java.lang.Override
     public java.lang.String getState() {
       java.lang.Object ref = state_;
       if (ref instanceof java.lang.String) {
@@ -7037,7 +7588,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string state = 3;</code>
+     * @return The bytes for state.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getStateBytes() {
       java.lang.Object ref = state_;
@@ -7056,12 +7609,15 @@ public final class MonitoringProtos {
     private int count_;
     /**
      * <code>uint32 count = 4;</code>
+     * @return The count.
      */
+    @java.lang.Override
     public int getCount() {
       return count_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -7071,6 +7627,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (overall_ != tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNSPECIFIED.getNumber()) {
@@ -7088,6 +7645,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -7122,16 +7680,15 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus other = (tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus) obj;
 
-      boolean result = true;
-      result = result && overall_ == other.overall_;
-      result = result && getType()
-          .equals(other.getType());
-      result = result && getState()
-          .equals(other.getState());
-      result = result && (getCount()
-          == other.getCount());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (overall_ != other.overall_) return false;
+      if (!getType()
+          .equals(other.getType())) return false;
+      if (!getState()
+          .equals(other.getState())) return false;
+      if (getCount()
+          != other.getCount()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -7224,6 +7781,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -7231,6 +7789,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -7258,6 +7817,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_ComputeTabletStatus_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_ComputeTabletStatus_fieldAccessorTable
@@ -7280,6 +7840,7 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         overall_ = 0;
@@ -7293,15 +7854,18 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_ComputeTabletStatus_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus build() {
         tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus result = buildPartial();
         if (!result.isInitialized()) {
@@ -7310,6 +7874,7 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus result = new tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus(this);
         result.overall_ = overall_;
@@ -7320,32 +7885,39 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus)other);
@@ -7376,10 +7948,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -7401,27 +7975,36 @@ public final class MonitoringProtos {
       private int overall_ = 0;
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @return The enum numeric value on the wire for overall.
        */
-      public int getOverallValue() {
+      @java.lang.Override public int getOverallValue() {
         return overall_;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @param value The enum numeric value on the wire for overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverallValue(int value) {
+        
         overall_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @return The overall.
        */
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+        @SuppressWarnings("deprecation")
         tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
         return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @param value The overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverall(tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status value) {
         if (value == null) {
@@ -7434,6 +8017,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearOverall() {
         
@@ -7445,6 +8029,7 @@ public final class MonitoringProtos {
       private java.lang.Object type_ = "";
       /**
        * <code>string type = 2;</code>
+       * @return The type.
        */
       public java.lang.String getType() {
         java.lang.Object ref = type_;
@@ -7460,6 +8045,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string type = 2;</code>
+       * @return The bytes for type.
        */
       public com.google.protobuf.ByteString
           getTypeBytes() {
@@ -7476,6 +8062,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string type = 2;</code>
+       * @param value The type to set.
+       * @return This builder for chaining.
        */
       public Builder setType(
           java.lang.String value) {
@@ -7489,6 +8077,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string type = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearType() {
         
@@ -7498,6 +8087,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string type = 2;</code>
+       * @param value The bytes for type to set.
+       * @return This builder for chaining.
        */
       public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -7514,6 +8105,7 @@ public final class MonitoringProtos {
       private java.lang.Object state_ = "";
       /**
        * <code>string state = 3;</code>
+       * @return The state.
        */
       public java.lang.String getState() {
         java.lang.Object ref = state_;
@@ -7529,6 +8121,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string state = 3;</code>
+       * @return The bytes for state.
        */
       public com.google.protobuf.ByteString
           getStateBytes() {
@@ -7545,6 +8138,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string state = 3;</code>
+       * @param value The state to set.
+       * @return This builder for chaining.
        */
       public Builder setState(
           java.lang.String value) {
@@ -7558,6 +8153,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string state = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearState() {
         
@@ -7567,6 +8163,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string state = 3;</code>
+       * @param value The bytes for state to set.
+       * @return This builder for chaining.
        */
       public Builder setStateBytes(
           com.google.protobuf.ByteString value) {
@@ -7583,12 +8181,16 @@ public final class MonitoringProtos {
       private int count_ ;
       /**
        * <code>uint32 count = 4;</code>
+       * @return The count.
        */
+      @java.lang.Override
       public int getCount() {
         return count_;
       }
       /**
        * <code>uint32 count = 4;</code>
+       * @param value The count to set.
+       * @return This builder for chaining.
        */
       public Builder setCount(int value) {
         
@@ -7598,6 +8200,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>uint32 count = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCount() {
         
@@ -7605,11 +8208,13 @@ public final class MonitoringProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -7631,11 +8236,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<ComputeTabletStatus>
         PARSER = new com.google.protobuf.AbstractParser<ComputeTabletStatus>() {
+      @java.lang.Override
       public ComputeTabletStatus parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ComputeTabletStatus(input, extensionRegistry);
+        return new ComputeTabletStatus(input, extensionRegistry);
       }
     };
 
@@ -7648,6 +8254,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -7660,32 +8267,37 @@ public final class MonitoringProtos {
 
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * @return The enum numeric value on the wire for overall.
      */
     int getOverallValue();
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * @return The overall.
      */
     tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall();
 
     /**
      * <code>string name = 2;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
      * <code>string name = 2;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
      * <code>float usage = 3;</code>
+     * @return The usage.
      */
     float getUsage();
   }
   /**
    * Protobuf type {@code Ydb.Monitoring.ThreadPoolStatus}
    */
-  public  static final class ThreadPoolStatus extends
+  public static final class ThreadPoolStatus extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.ThreadPoolStatus)
       ThreadPoolStatusOrBuilder {
@@ -7697,7 +8309,13 @@ public final class MonitoringProtos {
     private ThreadPoolStatus() {
       overall_ = 0;
       name_ = "";
-      usage_ = 0F;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ThreadPoolStatus();
     }
 
     @java.lang.Override
@@ -7710,7 +8328,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -7721,13 +8341,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               int rawValue = input.readEnum();
 
@@ -7743,6 +8356,13 @@ public final class MonitoringProtos {
             case 29: {
 
               usage_ = input.readFloat();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -7762,6 +8382,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_ThreadPoolStatus_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_ThreadPoolStatus_fieldAccessorTable
@@ -7773,14 +8394,17 @@ public final class MonitoringProtos {
     private int overall_;
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * @return The enum numeric value on the wire for overall.
      */
-    public int getOverallValue() {
+    @java.lang.Override public int getOverallValue() {
       return overall_;
     }
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * @return The overall.
      */
-    public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+    @java.lang.Override public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+      @SuppressWarnings("deprecation")
       tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
       return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
     }
@@ -7789,7 +8413,9 @@ public final class MonitoringProtos {
     private volatile java.lang.Object name_;
     /**
      * <code>string name = 2;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -7804,7 +8430,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string name = 2;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -7823,12 +8451,15 @@ public final class MonitoringProtos {
     private float usage_;
     /**
      * <code>float usage = 3;</code>
+     * @return The usage.
      */
+    @java.lang.Override
     public float getUsage() {
       return usage_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -7838,6 +8469,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (overall_ != tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNSPECIFIED.getNumber()) {
@@ -7852,6 +8484,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -7883,16 +8516,14 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus other = (tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus) obj;
 
-      boolean result = true;
-      result = result && overall_ == other.overall_;
-      result = result && getName()
-          .equals(other.getName());
-      result = result && (
-          java.lang.Float.floatToIntBits(getUsage())
-          == java.lang.Float.floatToIntBits(
-              other.getUsage()));
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (overall_ != other.overall_) return false;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (java.lang.Float.floatToIntBits(getUsage())
+          != java.lang.Float.floatToIntBits(
+              other.getUsage())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -7984,6 +8615,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -7991,6 +8623,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -8014,6 +8647,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_ThreadPoolStatus_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_ThreadPoolStatus_fieldAccessorTable
@@ -8036,6 +8670,7 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         overall_ = 0;
@@ -8047,15 +8682,18 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_ThreadPoolStatus_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus build() {
         tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus result = buildPartial();
         if (!result.isInitialized()) {
@@ -8064,6 +8702,7 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus result = new tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus(this);
         result.overall_ = overall_;
@@ -8073,32 +8712,39 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus)other);
@@ -8125,10 +8771,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8150,27 +8798,36 @@ public final class MonitoringProtos {
       private int overall_ = 0;
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @return The enum numeric value on the wire for overall.
        */
-      public int getOverallValue() {
+      @java.lang.Override public int getOverallValue() {
         return overall_;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @param value The enum numeric value on the wire for overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverallValue(int value) {
+        
         overall_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @return The overall.
        */
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+        @SuppressWarnings("deprecation")
         tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
         return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @param value The overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverall(tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status value) {
         if (value == null) {
@@ -8183,6 +8840,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearOverall() {
         
@@ -8194,6 +8852,7 @@ public final class MonitoringProtos {
       private java.lang.Object name_ = "";
       /**
        * <code>string name = 2;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -8209,6 +8868,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string name = 2;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -8225,6 +8885,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string name = 2;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -8238,6 +8900,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string name = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -8247,6 +8910,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string name = 2;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -8263,12 +8928,16 @@ public final class MonitoringProtos {
       private float usage_ ;
       /**
        * <code>float usage = 3;</code>
+       * @return The usage.
        */
+      @java.lang.Override
       public float getUsage() {
         return usage_;
       }
       /**
        * <code>float usage = 3;</code>
+       * @param value The usage to set.
+       * @return This builder for chaining.
        */
       public Builder setUsage(float value) {
         
@@ -8278,6 +8947,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>float usage = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUsage() {
         
@@ -8285,11 +8955,13 @@ public final class MonitoringProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -8311,11 +8983,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<ThreadPoolStatus>
         PARSER = new com.google.protobuf.AbstractParser<ThreadPoolStatus>() {
+      @java.lang.Override
       public ThreadPoolStatus parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ThreadPoolStatus(input, extensionRegistry);
+        return new ThreadPoolStatus(input, extensionRegistry);
       }
     };
 
@@ -8328,6 +9001,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -8340,27 +9014,31 @@ public final class MonitoringProtos {
 
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * @return The enum numeric value on the wire for overall.
      */
     int getOverallValue();
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * @return The overall.
      */
     tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall();
 
     /**
      * <code>float load = 2;</code>
+     * @return The load.
      */
     float getLoad();
 
     /**
      * <code>uint32 cores = 3;</code>
+     * @return The cores.
      */
     int getCores();
   }
   /**
    * Protobuf type {@code Ydb.Monitoring.LoadAverageStatus}
    */
-  public  static final class LoadAverageStatus extends
+  public static final class LoadAverageStatus extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.LoadAverageStatus)
       LoadAverageStatusOrBuilder {
@@ -8371,8 +9049,13 @@ public final class MonitoringProtos {
     }
     private LoadAverageStatus() {
       overall_ = 0;
-      load_ = 0F;
-      cores_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new LoadAverageStatus();
     }
 
     @java.lang.Override
@@ -8385,7 +9068,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -8396,13 +9081,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               int rawValue = input.readEnum();
 
@@ -8417,6 +9095,13 @@ public final class MonitoringProtos {
             case 24: {
 
               cores_ = input.readUInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -8436,6 +9121,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LoadAverageStatus_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LoadAverageStatus_fieldAccessorTable
@@ -8447,14 +9133,17 @@ public final class MonitoringProtos {
     private int overall_;
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * @return The enum numeric value on the wire for overall.
      */
-    public int getOverallValue() {
+    @java.lang.Override public int getOverallValue() {
       return overall_;
     }
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * @return The overall.
      */
-    public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+    @java.lang.Override public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+      @SuppressWarnings("deprecation")
       tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
       return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
     }
@@ -8463,7 +9152,9 @@ public final class MonitoringProtos {
     private float load_;
     /**
      * <code>float load = 2;</code>
+     * @return The load.
      */
+    @java.lang.Override
     public float getLoad() {
       return load_;
     }
@@ -8472,12 +9163,15 @@ public final class MonitoringProtos {
     private int cores_;
     /**
      * <code>uint32 cores = 3;</code>
+     * @return The cores.
      */
+    @java.lang.Override
     public int getCores() {
       return cores_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -8487,6 +9181,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (overall_ != tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNSPECIFIED.getNumber()) {
@@ -8501,6 +9196,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -8533,16 +9229,14 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus other = (tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus) obj;
 
-      boolean result = true;
-      result = result && overall_ == other.overall_;
-      result = result && (
-          java.lang.Float.floatToIntBits(getLoad())
-          == java.lang.Float.floatToIntBits(
-              other.getLoad()));
-      result = result && (getCores()
-          == other.getCores());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (overall_ != other.overall_) return false;
+      if (java.lang.Float.floatToIntBits(getLoad())
+          != java.lang.Float.floatToIntBits(
+              other.getLoad())) return false;
+      if (getCores()
+          != other.getCores()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -8634,6 +9328,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -8641,6 +9336,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -8664,6 +9360,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LoadAverageStatus_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LoadAverageStatus_fieldAccessorTable
@@ -8686,6 +9383,7 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         overall_ = 0;
@@ -8697,15 +9395,18 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LoadAverageStatus_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus build() {
         tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus result = buildPartial();
         if (!result.isInitialized()) {
@@ -8714,6 +9415,7 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus result = new tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus(this);
         result.overall_ = overall_;
@@ -8723,32 +9425,39 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus)other);
@@ -8774,10 +9483,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8799,27 +9510,36 @@ public final class MonitoringProtos {
       private int overall_ = 0;
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @return The enum numeric value on the wire for overall.
        */
-      public int getOverallValue() {
+      @java.lang.Override public int getOverallValue() {
         return overall_;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @param value The enum numeric value on the wire for overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverallValue(int value) {
+        
         overall_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @return The overall.
        */
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+        @SuppressWarnings("deprecation")
         tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
         return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @param value The overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverall(tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status value) {
         if (value == null) {
@@ -8832,6 +9552,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearOverall() {
         
@@ -8843,12 +9564,16 @@ public final class MonitoringProtos {
       private float load_ ;
       /**
        * <code>float load = 2;</code>
+       * @return The load.
        */
+      @java.lang.Override
       public float getLoad() {
         return load_;
       }
       /**
        * <code>float load = 2;</code>
+       * @param value The load to set.
+       * @return This builder for chaining.
        */
       public Builder setLoad(float value) {
         
@@ -8858,6 +9583,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>float load = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearLoad() {
         
@@ -8869,12 +9595,16 @@ public final class MonitoringProtos {
       private int cores_ ;
       /**
        * <code>uint32 cores = 3;</code>
+       * @return The cores.
        */
+      @java.lang.Override
       public int getCores() {
         return cores_;
       }
       /**
        * <code>uint32 cores = 3;</code>
+       * @param value The cores to set.
+       * @return This builder for chaining.
        */
       public Builder setCores(int value) {
         
@@ -8884,6 +9614,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>uint32 cores = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCores() {
         
@@ -8891,11 +9622,13 @@ public final class MonitoringProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -8917,11 +9650,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<LoadAverageStatus>
         PARSER = new com.google.protobuf.AbstractParser<LoadAverageStatus>() {
+      @java.lang.Override
       public LoadAverageStatus parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new LoadAverageStatus(input, extensionRegistry);
+        return new LoadAverageStatus(input, extensionRegistry);
       }
     };
 
@@ -8934,6 +9668,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -8946,20 +9681,24 @@ public final class MonitoringProtos {
 
     /**
      * <code>string id = 1;</code>
+     * @return The id.
      */
     java.lang.String getId();
     /**
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
 
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The enum numeric value on the wire for overall.
      */
     int getOverallValue();
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The overall.
      */
     tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall();
 
@@ -9013,10 +9752,12 @@ public final class MonitoringProtos {
 
     /**
      * <code>.Ydb.Monitoring.LoadAverageStatus load = 5;</code>
+     * @return Whether the load field is set.
      */
     boolean hasLoad();
     /**
      * <code>.Ydb.Monitoring.LoadAverageStatus load = 5;</code>
+     * @return The load.
      */
     tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus getLoad();
     /**
@@ -9027,7 +9768,7 @@ public final class MonitoringProtos {
   /**
    * Protobuf type {@code Ydb.Monitoring.ComputeNodeStatus}
    */
-  public  static final class ComputeNodeStatus extends
+  public static final class ComputeNodeStatus extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.ComputeNodeStatus)
       ComputeNodeStatusOrBuilder {
@@ -9044,6 +9785,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ComputeNodeStatus();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -9053,6 +9801,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -9064,13 +9815,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -9084,18 +9828,18 @@ public final class MonitoringProtos {
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 tablets_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus>();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000001;
               }
               tablets_.add(
                   input.readMessage(tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus.parser(), extensionRegistry));
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 pools_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus>();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000002;
               }
               pools_.add(
                   input.readMessage(tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus.parser(), extensionRegistry));
@@ -9114,6 +9858,13 @@ public final class MonitoringProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -9122,10 +9873,10 @@ public final class MonitoringProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           tablets_ = java.util.Collections.unmodifiableList(tablets_);
         }
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           pools_ = java.util.Collections.unmodifiableList(pools_);
         }
         this.unknownFields = unknownFields.build();
@@ -9137,6 +9888,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_ComputeNodeStatus_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_ComputeNodeStatus_fieldAccessorTable
@@ -9144,12 +9896,13 @@ public final class MonitoringProtos {
               tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus.class, tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus.Builder.class);
     }
 
-    private int bitField0_;
     public static final int ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object id_;
     /**
      * <code>string id = 1;</code>
+     * @return The id.
      */
+    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -9164,7 +9917,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -9183,14 +9938,17 @@ public final class MonitoringProtos {
     private int overall_;
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The enum numeric value on the wire for overall.
      */
-    public int getOverallValue() {
+    @java.lang.Override public int getOverallValue() {
       return overall_;
     }
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The overall.
      */
-    public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+    @java.lang.Override public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+      @SuppressWarnings("deprecation")
       tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
       return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
     }
@@ -9200,12 +9958,14 @@ public final class MonitoringProtos {
     /**
      * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus> getTabletsList() {
       return tablets_;
     }
     /**
      * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatusOrBuilder> 
         getTabletsOrBuilderList() {
       return tablets_;
@@ -9213,18 +9973,21 @@ public final class MonitoringProtos {
     /**
      * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
      */
+    @java.lang.Override
     public int getTabletsCount() {
       return tablets_.size();
     }
     /**
      * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus getTablets(int index) {
       return tablets_.get(index);
     }
     /**
      * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatusOrBuilder getTabletsOrBuilder(
         int index) {
       return tablets_.get(index);
@@ -9235,12 +9998,14 @@ public final class MonitoringProtos {
     /**
      * <code>repeated .Ydb.Monitoring.ThreadPoolStatus pools = 4;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus> getPoolsList() {
       return pools_;
     }
     /**
      * <code>repeated .Ydb.Monitoring.ThreadPoolStatus pools = 4;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatusOrBuilder> 
         getPoolsOrBuilderList() {
       return pools_;
@@ -9248,18 +10013,21 @@ public final class MonitoringProtos {
     /**
      * <code>repeated .Ydb.Monitoring.ThreadPoolStatus pools = 4;</code>
      */
+    @java.lang.Override
     public int getPoolsCount() {
       return pools_.size();
     }
     /**
      * <code>repeated .Ydb.Monitoring.ThreadPoolStatus pools = 4;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus getPools(int index) {
       return pools_.get(index);
     }
     /**
      * <code>repeated .Ydb.Monitoring.ThreadPoolStatus pools = 4;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatusOrBuilder getPoolsOrBuilder(
         int index) {
       return pools_.get(index);
@@ -9269,24 +10037,30 @@ public final class MonitoringProtos {
     private tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus load_;
     /**
      * <code>.Ydb.Monitoring.LoadAverageStatus load = 5;</code>
+     * @return Whether the load field is set.
      */
+    @java.lang.Override
     public boolean hasLoad() {
       return load_ != null;
     }
     /**
      * <code>.Ydb.Monitoring.LoadAverageStatus load = 5;</code>
+     * @return The load.
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus getLoad() {
       return load_ == null ? tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus.getDefaultInstance() : load_;
     }
     /**
      * <code>.Ydb.Monitoring.LoadAverageStatus load = 5;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LoadAverageStatusOrBuilder getLoadOrBuilder() {
       return getLoad();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -9296,6 +10070,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getIdBytes().isEmpty()) {
@@ -9316,6 +10091,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -9355,21 +10131,20 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus other = (tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus) obj;
 
-      boolean result = true;
-      result = result && getId()
-          .equals(other.getId());
-      result = result && overall_ == other.overall_;
-      result = result && getTabletsList()
-          .equals(other.getTabletsList());
-      result = result && getPoolsList()
-          .equals(other.getPoolsList());
-      result = result && (hasLoad() == other.hasLoad());
+      if (!getId()
+          .equals(other.getId())) return false;
+      if (overall_ != other.overall_) return false;
+      if (!getTabletsList()
+          .equals(other.getTabletsList())) return false;
+      if (!getPoolsList()
+          .equals(other.getPoolsList())) return false;
+      if (hasLoad() != other.hasLoad()) return false;
       if (hasLoad()) {
-        result = result && getLoad()
-            .equals(other.getLoad());
+        if (!getLoad()
+            .equals(other.getLoad())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -9470,6 +10245,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -9477,6 +10253,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -9500,6 +10277,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_ComputeNodeStatus_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_ComputeNodeStatus_fieldAccessorTable
@@ -9524,6 +10302,7 @@ public final class MonitoringProtos {
           getPoolsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         id_ = "";
@@ -9532,13 +10311,13 @@ public final class MonitoringProtos {
 
         if (tabletsBuilder_ == null) {
           tablets_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           tabletsBuilder_.clear();
         }
         if (poolsBuilder_ == null) {
           pools_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
           poolsBuilder_.clear();
         }
@@ -9551,15 +10330,18 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_ComputeNodeStatus_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus build() {
         tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus result = buildPartial();
         if (!result.isInitialized()) {
@@ -9568,25 +10350,25 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus result = new tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.id_ = id_;
         result.overall_ = overall_;
         if (tabletsBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             tablets_ = java.util.Collections.unmodifiableList(tablets_);
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.tablets_ = tablets_;
         } else {
           result.tablets_ = tabletsBuilder_.build();
         }
         if (poolsBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          if (((bitField0_ & 0x00000002) != 0)) {
             pools_ = java.util.Collections.unmodifiableList(pools_);
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
           result.pools_ = pools_;
         } else {
@@ -9597,37 +10379,43 @@ public final class MonitoringProtos {
         } else {
           result.load_ = loadBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus)other);
@@ -9650,7 +10438,7 @@ public final class MonitoringProtos {
           if (!other.tablets_.isEmpty()) {
             if (tablets_.isEmpty()) {
               tablets_ = other.tablets_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureTabletsIsMutable();
               tablets_.addAll(other.tablets_);
@@ -9663,7 +10451,7 @@ public final class MonitoringProtos {
               tabletsBuilder_.dispose();
               tabletsBuilder_ = null;
               tablets_ = other.tablets_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000001);
               tabletsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getTabletsFieldBuilder() : null;
@@ -9676,7 +10464,7 @@ public final class MonitoringProtos {
           if (!other.pools_.isEmpty()) {
             if (pools_.isEmpty()) {
               pools_ = other.pools_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensurePoolsIsMutable();
               pools_.addAll(other.pools_);
@@ -9689,7 +10477,7 @@ public final class MonitoringProtos {
               poolsBuilder_.dispose();
               poolsBuilder_ = null;
               pools_ = other.pools_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000002);
               poolsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getPoolsFieldBuilder() : null;
@@ -9706,10 +10494,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -9732,6 +10522,7 @@ public final class MonitoringProtos {
       private java.lang.Object id_ = "";
       /**
        * <code>string id = 1;</code>
+       * @return The id.
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -9747,6 +10538,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -9763,6 +10555,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -9776,6 +10570,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -9785,6 +10580,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @param value The bytes for id to set.
+       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -9801,27 +10598,36 @@ public final class MonitoringProtos {
       private int overall_ = 0;
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @return The enum numeric value on the wire for overall.
        */
-      public int getOverallValue() {
+      @java.lang.Override public int getOverallValue() {
         return overall_;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @param value The enum numeric value on the wire for overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverallValue(int value) {
+        
         overall_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @return The overall.
        */
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+        @SuppressWarnings("deprecation")
         tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
         return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @param value The overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverall(tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status value) {
         if (value == null) {
@@ -9834,6 +10640,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearOverall() {
         
@@ -9845,9 +10652,9 @@ public final class MonitoringProtos {
       private java.util.List<tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus> tablets_ =
         java.util.Collections.emptyList();
       private void ensureTabletsIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           tablets_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus>(tablets_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -9997,7 +10804,7 @@ public final class MonitoringProtos {
       public Builder clearTablets() {
         if (tabletsBuilder_ == null) {
           tablets_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           tabletsBuilder_.clear();
@@ -10074,7 +10881,7 @@ public final class MonitoringProtos {
           tabletsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus, tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus.Builder, tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatusOrBuilder>(
                   tablets_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           tablets_ = null;
@@ -10085,9 +10892,9 @@ public final class MonitoringProtos {
       private java.util.List<tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus> pools_ =
         java.util.Collections.emptyList();
       private void ensurePoolsIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           pools_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus>(pools_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000002;
          }
       }
 
@@ -10237,7 +11044,7 @@ public final class MonitoringProtos {
       public Builder clearPools() {
         if (poolsBuilder_ == null) {
           pools_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
           poolsBuilder_.clear();
@@ -10314,7 +11121,7 @@ public final class MonitoringProtos {
           poolsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus, tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatus.Builder, tech.ydb.monitoring.MonitoringProtos.ThreadPoolStatusOrBuilder>(
                   pools_,
-                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           pools_ = null;
@@ -10322,17 +11129,19 @@ public final class MonitoringProtos {
         return poolsBuilder_;
       }
 
-      private tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus load_ = null;
+      private tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus load_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus, tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus.Builder, tech.ydb.monitoring.MonitoringProtos.LoadAverageStatusOrBuilder> loadBuilder_;
       /**
        * <code>.Ydb.Monitoring.LoadAverageStatus load = 5;</code>
+       * @return Whether the load field is set.
        */
       public boolean hasLoad() {
         return loadBuilder_ != null || load_ != null;
       }
       /**
        * <code>.Ydb.Monitoring.LoadAverageStatus load = 5;</code>
+       * @return The load.
        */
       public tech.ydb.monitoring.MonitoringProtos.LoadAverageStatus getLoad() {
         if (loadBuilder_ == null) {
@@ -10438,11 +11247,13 @@ public final class MonitoringProtos {
         }
         return loadBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -10464,11 +11275,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<ComputeNodeStatus>
         PARSER = new com.google.protobuf.AbstractParser<ComputeNodeStatus>() {
+      @java.lang.Override
       public ComputeNodeStatus parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ComputeNodeStatus(input, extensionRegistry);
+        return new ComputeNodeStatus(input, extensionRegistry);
       }
     };
 
@@ -10481,6 +11293,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -10493,10 +11306,12 @@ public final class MonitoringProtos {
 
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * @return The enum numeric value on the wire for overall.
      */
     int getOverallValue();
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * @return The overall.
      */
     tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall();
 
@@ -10551,7 +11366,7 @@ public final class MonitoringProtos {
   /**
    * Protobuf type {@code Ydb.Monitoring.ComputeStatus}
    */
-  public  static final class ComputeStatus extends
+  public static final class ComputeStatus extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.ComputeStatus)
       ComputeStatusOrBuilder {
@@ -10567,6 +11382,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ComputeStatus();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -10576,6 +11398,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -10587,13 +11412,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               int rawValue = input.readEnum();
 
@@ -10601,21 +11419,28 @@ public final class MonitoringProtos {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 nodes_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               nodes_.add(
                   input.readMessage(tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus.parser(), extensionRegistry));
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 tablets_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus>();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000002;
               }
               tablets_.add(
                   input.readMessage(tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -10626,10 +11451,10 @@ public final class MonitoringProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           nodes_ = java.util.Collections.unmodifiableList(nodes_);
         }
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           tablets_ = java.util.Collections.unmodifiableList(tablets_);
         }
         this.unknownFields = unknownFields.build();
@@ -10641,6 +11466,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_ComputeStatus_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_ComputeStatus_fieldAccessorTable
@@ -10648,19 +11474,21 @@ public final class MonitoringProtos {
               tech.ydb.monitoring.MonitoringProtos.ComputeStatus.class, tech.ydb.monitoring.MonitoringProtos.ComputeStatus.Builder.class);
     }
 
-    private int bitField0_;
     public static final int OVERALL_FIELD_NUMBER = 1;
     private int overall_;
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * @return The enum numeric value on the wire for overall.
      */
-    public int getOverallValue() {
+    @java.lang.Override public int getOverallValue() {
       return overall_;
     }
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+     * @return The overall.
      */
-    public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+    @java.lang.Override public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+      @SuppressWarnings("deprecation")
       tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
       return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
     }
@@ -10670,12 +11498,14 @@ public final class MonitoringProtos {
     /**
      * <code>repeated .Ydb.Monitoring.ComputeNodeStatus nodes = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus> getNodesList() {
       return nodes_;
     }
     /**
      * <code>repeated .Ydb.Monitoring.ComputeNodeStatus nodes = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatusOrBuilder> 
         getNodesOrBuilderList() {
       return nodes_;
@@ -10683,18 +11513,21 @@ public final class MonitoringProtos {
     /**
      * <code>repeated .Ydb.Monitoring.ComputeNodeStatus nodes = 2;</code>
      */
+    @java.lang.Override
     public int getNodesCount() {
       return nodes_.size();
     }
     /**
      * <code>repeated .Ydb.Monitoring.ComputeNodeStatus nodes = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus getNodes(int index) {
       return nodes_.get(index);
     }
     /**
      * <code>repeated .Ydb.Monitoring.ComputeNodeStatus nodes = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatusOrBuilder getNodesOrBuilder(
         int index) {
       return nodes_.get(index);
@@ -10705,12 +11538,14 @@ public final class MonitoringProtos {
     /**
      * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus> getTabletsList() {
       return tablets_;
     }
     /**
      * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatusOrBuilder> 
         getTabletsOrBuilderList() {
       return tablets_;
@@ -10718,24 +11553,28 @@ public final class MonitoringProtos {
     /**
      * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
      */
+    @java.lang.Override
     public int getTabletsCount() {
       return tablets_.size();
     }
     /**
      * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus getTablets(int index) {
       return tablets_.get(index);
     }
     /**
      * <code>repeated .Ydb.Monitoring.ComputeTabletStatus tablets = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatusOrBuilder getTabletsOrBuilder(
         int index) {
       return tablets_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -10745,6 +11584,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (overall_ != tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNSPECIFIED.getNumber()) {
@@ -10759,6 +11599,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -10791,14 +11632,13 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.ComputeStatus other = (tech.ydb.monitoring.MonitoringProtos.ComputeStatus) obj;
 
-      boolean result = true;
-      result = result && overall_ == other.overall_;
-      result = result && getNodesList()
-          .equals(other.getNodesList());
-      result = result && getTabletsList()
-          .equals(other.getTabletsList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (overall_ != other.overall_) return false;
+      if (!getNodesList()
+          .equals(other.getNodesList())) return false;
+      if (!getTabletsList()
+          .equals(other.getTabletsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -10893,6 +11733,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -10900,6 +11741,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.ComputeStatus prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -10923,6 +11765,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_ComputeStatus_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_ComputeStatus_fieldAccessorTable
@@ -10947,34 +11790,38 @@ public final class MonitoringProtos {
           getTabletsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         overall_ = 0;
 
         if (nodesBuilder_ == null) {
           nodes_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           nodesBuilder_.clear();
         }
         if (tabletsBuilder_ == null) {
           tablets_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
           tabletsBuilder_.clear();
         }
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_ComputeStatus_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.ComputeStatus getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.ComputeStatus.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.ComputeStatus build() {
         tech.ydb.monitoring.MonitoringProtos.ComputeStatus result = buildPartial();
         if (!result.isInitialized()) {
@@ -10983,60 +11830,66 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.ComputeStatus buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.ComputeStatus result = new tech.ydb.monitoring.MonitoringProtos.ComputeStatus(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.overall_ = overall_;
         if (nodesBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             nodes_ = java.util.Collections.unmodifiableList(nodes_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.nodes_ = nodes_;
         } else {
           result.nodes_ = nodesBuilder_.build();
         }
         if (tabletsBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000002) != 0)) {
             tablets_ = java.util.Collections.unmodifiableList(tablets_);
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
           result.tablets_ = tablets_;
         } else {
           result.tablets_ = tabletsBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.ComputeStatus) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.ComputeStatus)other);
@@ -11055,7 +11908,7 @@ public final class MonitoringProtos {
           if (!other.nodes_.isEmpty()) {
             if (nodes_.isEmpty()) {
               nodes_ = other.nodes_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureNodesIsMutable();
               nodes_.addAll(other.nodes_);
@@ -11068,7 +11921,7 @@ public final class MonitoringProtos {
               nodesBuilder_.dispose();
               nodesBuilder_ = null;
               nodes_ = other.nodes_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               nodesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getNodesFieldBuilder() : null;
@@ -11081,7 +11934,7 @@ public final class MonitoringProtos {
           if (!other.tablets_.isEmpty()) {
             if (tablets_.isEmpty()) {
               tablets_ = other.tablets_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensureTabletsIsMutable();
               tablets_.addAll(other.tablets_);
@@ -11094,7 +11947,7 @@ public final class MonitoringProtos {
               tabletsBuilder_.dispose();
               tabletsBuilder_ = null;
               tablets_ = other.tablets_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000002);
               tabletsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getTabletsFieldBuilder() : null;
@@ -11108,10 +11961,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -11134,27 +11989,36 @@ public final class MonitoringProtos {
       private int overall_ = 0;
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @return The enum numeric value on the wire for overall.
        */
-      public int getOverallValue() {
+      @java.lang.Override public int getOverallValue() {
         return overall_;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @param value The enum numeric value on the wire for overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverallValue(int value) {
+        
         overall_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @return The overall.
        */
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+        @SuppressWarnings("deprecation")
         tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
         return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @param value The overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverall(tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status value) {
         if (value == null) {
@@ -11167,6 +12031,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearOverall() {
         
@@ -11178,9 +12043,9 @@ public final class MonitoringProtos {
       private java.util.List<tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus> nodes_ =
         java.util.Collections.emptyList();
       private void ensureNodesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           nodes_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus>(nodes_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -11330,7 +12195,7 @@ public final class MonitoringProtos {
       public Builder clearNodes() {
         if (nodesBuilder_ == null) {
           nodes_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           nodesBuilder_.clear();
@@ -11407,7 +12272,7 @@ public final class MonitoringProtos {
           nodesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus, tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatus.Builder, tech.ydb.monitoring.MonitoringProtos.ComputeNodeStatusOrBuilder>(
                   nodes_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           nodes_ = null;
@@ -11418,9 +12283,9 @@ public final class MonitoringProtos {
       private java.util.List<tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus> tablets_ =
         java.util.Collections.emptyList();
       private void ensureTabletsIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           tablets_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus>(tablets_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000002;
          }
       }
 
@@ -11570,7 +12435,7 @@ public final class MonitoringProtos {
       public Builder clearTablets() {
         if (tabletsBuilder_ == null) {
           tablets_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
           tabletsBuilder_.clear();
@@ -11647,18 +12512,20 @@ public final class MonitoringProtos {
           tabletsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus, tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatus.Builder, tech.ydb.monitoring.MonitoringProtos.ComputeTabletStatusOrBuilder>(
                   tablets_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           tablets_ = null;
         }
         return tabletsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -11680,11 +12547,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<ComputeStatus>
         PARSER = new com.google.protobuf.AbstractParser<ComputeStatus>() {
+      @java.lang.Override
       public ComputeStatus parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ComputeStatus(input, extensionRegistry);
+        return new ComputeStatus(input, extensionRegistry);
       }
     };
 
@@ -11697,6 +12565,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.ComputeStatus getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -11709,28 +12578,32 @@ public final class MonitoringProtos {
 
     /**
      * <code>uint32 id = 1;</code>
+     * @return The id.
      */
     int getId();
 
     /**
      * <code>string host = 2;</code>
+     * @return The host.
      */
     java.lang.String getHost();
     /**
      * <code>string host = 2;</code>
+     * @return The bytes for host.
      */
     com.google.protobuf.ByteString
         getHostBytes();
 
     /**
      * <code>uint32 port = 3;</code>
+     * @return The port.
      */
     int getPort();
   }
   /**
    * Protobuf type {@code Ydb.Monitoring.LocationNode}
    */
-  public  static final class LocationNode extends
+  public static final class LocationNode extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.LocationNode)
       LocationNodeOrBuilder {
@@ -11740,9 +12613,14 @@ public final class MonitoringProtos {
       super(builder);
     }
     private LocationNode() {
-      id_ = 0;
       host_ = "";
-      port_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new LocationNode();
     }
 
     @java.lang.Override
@@ -11755,7 +12633,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -11766,13 +12646,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               id_ = input.readUInt32();
@@ -11787,6 +12660,13 @@ public final class MonitoringProtos {
             case 24: {
 
               port_ = input.readUInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -11806,6 +12686,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationNode_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationNode_fieldAccessorTable
@@ -11817,7 +12698,9 @@ public final class MonitoringProtos {
     private int id_;
     /**
      * <code>uint32 id = 1;</code>
+     * @return The id.
      */
+    @java.lang.Override
     public int getId() {
       return id_;
     }
@@ -11826,7 +12709,9 @@ public final class MonitoringProtos {
     private volatile java.lang.Object host_;
     /**
      * <code>string host = 2;</code>
+     * @return The host.
      */
+    @java.lang.Override
     public java.lang.String getHost() {
       java.lang.Object ref = host_;
       if (ref instanceof java.lang.String) {
@@ -11841,7 +12726,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string host = 2;</code>
+     * @return The bytes for host.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getHostBytes() {
       java.lang.Object ref = host_;
@@ -11860,12 +12747,15 @@ public final class MonitoringProtos {
     private int port_;
     /**
      * <code>uint32 port = 3;</code>
+     * @return The port.
      */
+    @java.lang.Override
     public int getPort() {
       return port_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -11875,6 +12765,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (id_ != 0) {
@@ -11889,6 +12780,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -11920,15 +12812,14 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.LocationNode other = (tech.ydb.monitoring.MonitoringProtos.LocationNode) obj;
 
-      boolean result = true;
-      result = result && (getId()
-          == other.getId());
-      result = result && getHost()
-          .equals(other.getHost());
-      result = result && (getPort()
-          == other.getPort());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getId()
+          != other.getId()) return false;
+      if (!getHost()
+          .equals(other.getHost())) return false;
+      if (getPort()
+          != other.getPort()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -12019,6 +12910,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -12026,6 +12918,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.LocationNode prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -12049,6 +12942,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationNode_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationNode_fieldAccessorTable
@@ -12071,6 +12965,7 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         id_ = 0;
@@ -12082,15 +12977,18 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationNode_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationNode getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.LocationNode.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationNode build() {
         tech.ydb.monitoring.MonitoringProtos.LocationNode result = buildPartial();
         if (!result.isInitialized()) {
@@ -12099,6 +12997,7 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationNode buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.LocationNode result = new tech.ydb.monitoring.MonitoringProtos.LocationNode(this);
         result.id_ = id_;
@@ -12108,32 +13007,39 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.LocationNode) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.LocationNode)other);
@@ -12160,10 +13066,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -12185,12 +13093,16 @@ public final class MonitoringProtos {
       private int id_ ;
       /**
        * <code>uint32 id = 1;</code>
+       * @return The id.
        */
+      @java.lang.Override
       public int getId() {
         return id_;
       }
       /**
        * <code>uint32 id = 1;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
        */
       public Builder setId(int value) {
         
@@ -12200,6 +13112,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>uint32 id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -12211,6 +13124,7 @@ public final class MonitoringProtos {
       private java.lang.Object host_ = "";
       /**
        * <code>string host = 2;</code>
+       * @return The host.
        */
       public java.lang.String getHost() {
         java.lang.Object ref = host_;
@@ -12226,6 +13140,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string host = 2;</code>
+       * @return The bytes for host.
        */
       public com.google.protobuf.ByteString
           getHostBytes() {
@@ -12242,6 +13157,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string host = 2;</code>
+       * @param value The host to set.
+       * @return This builder for chaining.
        */
       public Builder setHost(
           java.lang.String value) {
@@ -12255,6 +13172,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string host = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearHost() {
         
@@ -12264,6 +13182,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string host = 2;</code>
+       * @param value The bytes for host to set.
+       * @return This builder for chaining.
        */
       public Builder setHostBytes(
           com.google.protobuf.ByteString value) {
@@ -12280,12 +13200,16 @@ public final class MonitoringProtos {
       private int port_ ;
       /**
        * <code>uint32 port = 3;</code>
+       * @return The port.
        */
+      @java.lang.Override
       public int getPort() {
         return port_;
       }
       /**
        * <code>uint32 port = 3;</code>
+       * @param value The port to set.
+       * @return This builder for chaining.
        */
       public Builder setPort(int value) {
         
@@ -12295,6 +13219,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>uint32 port = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPort() {
         
@@ -12302,11 +13227,13 @@ public final class MonitoringProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -12328,11 +13255,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<LocationNode>
         PARSER = new com.google.protobuf.AbstractParser<LocationNode>() {
+      @java.lang.Override
       public LocationNode parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new LocationNode(input, extensionRegistry);
+        return new LocationNode(input, extensionRegistry);
       }
     };
 
@@ -12345,6 +13273,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationNode getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -12357,20 +13286,24 @@ public final class MonitoringProtos {
 
     /**
      * <code>string id = 1;</code>
+     * @return The id.
      */
     java.lang.String getId();
     /**
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
 
     /**
      * <code>string path = 2;</code>
+     * @return The path.
      */
     java.lang.String getPath();
     /**
      * <code>string path = 2;</code>
+     * @return The bytes for path.
      */
     com.google.protobuf.ByteString
         getPathBytes();
@@ -12378,7 +13311,7 @@ public final class MonitoringProtos {
   /**
    * Protobuf type {@code Ydb.Monitoring.LocationStoragePDisk}
    */
-  public  static final class LocationStoragePDisk extends
+  public static final class LocationStoragePDisk extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.LocationStoragePDisk)
       LocationStoragePDiskOrBuilder {
@@ -12393,6 +13326,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new LocationStoragePDisk();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -12402,7 +13342,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -12413,13 +13355,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -12430,6 +13365,13 @@ public final class MonitoringProtos {
               java.lang.String s = input.readStringRequireUtf8();
 
               path_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -12449,6 +13391,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStoragePDisk_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStoragePDisk_fieldAccessorTable
@@ -12460,7 +13403,9 @@ public final class MonitoringProtos {
     private volatile java.lang.Object id_;
     /**
      * <code>string id = 1;</code>
+     * @return The id.
      */
+    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -12475,7 +13420,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -12494,7 +13441,9 @@ public final class MonitoringProtos {
     private volatile java.lang.Object path_;
     /**
      * <code>string path = 2;</code>
+     * @return The path.
      */
+    @java.lang.Override
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
@@ -12509,7 +13458,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string path = 2;</code>
+     * @return The bytes for path.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathBytes() {
       java.lang.Object ref = path_;
@@ -12525,6 +13476,7 @@ public final class MonitoringProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -12534,6 +13486,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getIdBytes().isEmpty()) {
@@ -12545,6 +13498,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -12571,13 +13525,12 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk other = (tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk) obj;
 
-      boolean result = true;
-      result = result && getId()
-          .equals(other.getId());
-      result = result && getPath()
-          .equals(other.getPath());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getId()
+          .equals(other.getId())) return false;
+      if (!getPath()
+          .equals(other.getPath())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -12666,6 +13619,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -12673,6 +13627,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -12696,6 +13651,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStoragePDisk_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStoragePDisk_fieldAccessorTable
@@ -12718,6 +13674,7 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         id_ = "";
@@ -12727,15 +13684,18 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStoragePDisk_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk build() {
         tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk result = buildPartial();
         if (!result.isInitialized()) {
@@ -12744,6 +13704,7 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk result = new tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk(this);
         result.id_ = id_;
@@ -12752,32 +13713,39 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk)other);
@@ -12802,10 +13770,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -12827,6 +13797,7 @@ public final class MonitoringProtos {
       private java.lang.Object id_ = "";
       /**
        * <code>string id = 1;</code>
+       * @return The id.
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -12842,6 +13813,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -12858,6 +13830,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -12871,6 +13845,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -12880,6 +13855,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @param value The bytes for id to set.
+       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -12896,6 +13873,7 @@ public final class MonitoringProtos {
       private java.lang.Object path_ = "";
       /**
        * <code>string path = 2;</code>
+       * @return The path.
        */
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
@@ -12911,6 +13889,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @return The bytes for path.
        */
       public com.google.protobuf.ByteString
           getPathBytes() {
@@ -12927,6 +13906,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           java.lang.String value) {
@@ -12940,6 +13921,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         
@@ -12949,6 +13931,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string path = 2;</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
        */
       public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
@@ -12961,11 +13945,13 @@ public final class MonitoringProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -12987,11 +13973,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<LocationStoragePDisk>
         PARSER = new com.google.protobuf.AbstractParser<LocationStoragePDisk>() {
+      @java.lang.Override
       public LocationStoragePDisk parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new LocationStoragePDisk(input, extensionRegistry);
+        return new LocationStoragePDisk(input, extensionRegistry);
       }
     };
 
@@ -13004,6 +13991,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -13016,20 +14004,24 @@ public final class MonitoringProtos {
 
     /**
      * <code>string id = 1;</code>
+     * @return The id.
      */
     java.lang.String getId();
     /**
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
 
     /**
      * <code>.Ydb.Monitoring.LocationStoragePDisk pdisk = 2;</code>
+     * @return Whether the pdisk field is set.
      */
     boolean hasPdisk();
     /**
      * <code>.Ydb.Monitoring.LocationStoragePDisk pdisk = 2;</code>
+     * @return The pdisk.
      */
     tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk getPdisk();
     /**
@@ -13040,7 +14032,7 @@ public final class MonitoringProtos {
   /**
    * Protobuf type {@code Ydb.Monitoring.LocationStorageVDisk}
    */
-  public  static final class LocationStorageVDisk extends
+  public static final class LocationStorageVDisk extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.LocationStorageVDisk)
       LocationStorageVDiskOrBuilder {
@@ -13054,6 +14046,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new LocationStorageVDisk();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -13063,7 +14062,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -13074,13 +14075,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -13100,6 +14094,13 @@ public final class MonitoringProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -13117,6 +14118,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStorageVDisk_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStorageVDisk_fieldAccessorTable
@@ -13128,7 +14130,9 @@ public final class MonitoringProtos {
     private volatile java.lang.Object id_;
     /**
      * <code>string id = 1;</code>
+     * @return The id.
      */
+    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -13143,7 +14147,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -13162,24 +14168,30 @@ public final class MonitoringProtos {
     private tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk pdisk_;
     /**
      * <code>.Ydb.Monitoring.LocationStoragePDisk pdisk = 2;</code>
+     * @return Whether the pdisk field is set.
      */
+    @java.lang.Override
     public boolean hasPdisk() {
       return pdisk_ != null;
     }
     /**
      * <code>.Ydb.Monitoring.LocationStoragePDisk pdisk = 2;</code>
+     * @return The pdisk.
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk getPdisk() {
       return pdisk_ == null ? tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk.getDefaultInstance() : pdisk_;
     }
     /**
      * <code>.Ydb.Monitoring.LocationStoragePDisk pdisk = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationStoragePDiskOrBuilder getPdiskOrBuilder() {
       return getPdisk();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -13189,6 +14201,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getIdBytes().isEmpty()) {
@@ -13200,6 +14213,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -13227,16 +14241,15 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk other = (tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk) obj;
 
-      boolean result = true;
-      result = result && getId()
-          .equals(other.getId());
-      result = result && (hasPdisk() == other.hasPdisk());
+      if (!getId()
+          .equals(other.getId())) return false;
+      if (hasPdisk() != other.hasPdisk()) return false;
       if (hasPdisk()) {
-        result = result && getPdisk()
-            .equals(other.getPdisk());
+        if (!getPdisk()
+            .equals(other.getPdisk())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -13327,6 +14340,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -13334,6 +14348,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -13357,6 +14372,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStorageVDisk_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStorageVDisk_fieldAccessorTable
@@ -13379,6 +14395,7 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         id_ = "";
@@ -13392,15 +14409,18 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStorageVDisk_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk build() {
         tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk result = buildPartial();
         if (!result.isInitialized()) {
@@ -13409,6 +14429,7 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk result = new tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk(this);
         result.id_ = id_;
@@ -13421,32 +14442,39 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk)other);
@@ -13470,10 +14498,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -13495,6 +14525,7 @@ public final class MonitoringProtos {
       private java.lang.Object id_ = "";
       /**
        * <code>string id = 1;</code>
+       * @return The id.
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -13510,6 +14541,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -13526,6 +14558,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -13539,6 +14573,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -13548,6 +14583,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @param value The bytes for id to set.
+       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -13561,17 +14598,19 @@ public final class MonitoringProtos {
         return this;
       }
 
-      private tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk pdisk_ = null;
+      private tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk pdisk_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk, tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk.Builder, tech.ydb.monitoring.MonitoringProtos.LocationStoragePDiskOrBuilder> pdiskBuilder_;
       /**
        * <code>.Ydb.Monitoring.LocationStoragePDisk pdisk = 2;</code>
+       * @return Whether the pdisk field is set.
        */
       public boolean hasPdisk() {
         return pdiskBuilder_ != null || pdisk_ != null;
       }
       /**
        * <code>.Ydb.Monitoring.LocationStoragePDisk pdisk = 2;</code>
+       * @return The pdisk.
        */
       public tech.ydb.monitoring.MonitoringProtos.LocationStoragePDisk getPdisk() {
         if (pdiskBuilder_ == null) {
@@ -13677,11 +14716,13 @@ public final class MonitoringProtos {
         }
         return pdiskBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -13703,11 +14744,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<LocationStorageVDisk>
         PARSER = new com.google.protobuf.AbstractParser<LocationStorageVDisk>() {
+      @java.lang.Override
       public LocationStorageVDisk parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new LocationStorageVDisk(input, extensionRegistry);
+        return new LocationStorageVDisk(input, extensionRegistry);
       }
     };
 
@@ -13720,6 +14762,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -13732,20 +14775,24 @@ public final class MonitoringProtos {
 
     /**
      * <code>string id = 1;</code>
+     * @return The id.
      */
     java.lang.String getId();
     /**
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
 
     /**
      * <code>.Ydb.Monitoring.LocationStorageVDisk vdisk = 2;</code>
+     * @return Whether the vdisk field is set.
      */
     boolean hasVdisk();
     /**
      * <code>.Ydb.Monitoring.LocationStorageVDisk vdisk = 2;</code>
+     * @return The vdisk.
      */
     tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk getVdisk();
     /**
@@ -13756,7 +14803,7 @@ public final class MonitoringProtos {
   /**
    * Protobuf type {@code Ydb.Monitoring.LocationStorageGroup}
    */
-  public  static final class LocationStorageGroup extends
+  public static final class LocationStorageGroup extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.LocationStorageGroup)
       LocationStorageGroupOrBuilder {
@@ -13770,6 +14817,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new LocationStorageGroup();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -13779,7 +14833,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -13790,13 +14846,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -13816,6 +14865,13 @@ public final class MonitoringProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -13833,6 +14889,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStorageGroup_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStorageGroup_fieldAccessorTable
@@ -13844,7 +14901,9 @@ public final class MonitoringProtos {
     private volatile java.lang.Object id_;
     /**
      * <code>string id = 1;</code>
+     * @return The id.
      */
+    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -13859,7 +14918,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -13878,24 +14939,30 @@ public final class MonitoringProtos {
     private tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk vdisk_;
     /**
      * <code>.Ydb.Monitoring.LocationStorageVDisk vdisk = 2;</code>
+     * @return Whether the vdisk field is set.
      */
+    @java.lang.Override
     public boolean hasVdisk() {
       return vdisk_ != null;
     }
     /**
      * <code>.Ydb.Monitoring.LocationStorageVDisk vdisk = 2;</code>
+     * @return The vdisk.
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk getVdisk() {
       return vdisk_ == null ? tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk.getDefaultInstance() : vdisk_;
     }
     /**
      * <code>.Ydb.Monitoring.LocationStorageVDisk vdisk = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationStorageVDiskOrBuilder getVdiskOrBuilder() {
       return getVdisk();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -13905,6 +14972,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getIdBytes().isEmpty()) {
@@ -13916,6 +14984,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -13943,16 +15012,15 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup other = (tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup) obj;
 
-      boolean result = true;
-      result = result && getId()
-          .equals(other.getId());
-      result = result && (hasVdisk() == other.hasVdisk());
+      if (!getId()
+          .equals(other.getId())) return false;
+      if (hasVdisk() != other.hasVdisk()) return false;
       if (hasVdisk()) {
-        result = result && getVdisk()
-            .equals(other.getVdisk());
+        if (!getVdisk()
+            .equals(other.getVdisk())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -14043,6 +15111,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -14050,6 +15119,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -14073,6 +15143,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStorageGroup_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStorageGroup_fieldAccessorTable
@@ -14095,6 +15166,7 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         id_ = "";
@@ -14108,15 +15180,18 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStorageGroup_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup build() {
         tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup result = buildPartial();
         if (!result.isInitialized()) {
@@ -14125,6 +15200,7 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup result = new tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup(this);
         result.id_ = id_;
@@ -14137,32 +15213,39 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup)other);
@@ -14186,10 +15269,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -14211,6 +15296,7 @@ public final class MonitoringProtos {
       private java.lang.Object id_ = "";
       /**
        * <code>string id = 1;</code>
+       * @return The id.
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -14226,6 +15312,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -14242,6 +15329,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -14255,6 +15344,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -14264,6 +15354,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @param value The bytes for id to set.
+       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -14277,17 +15369,19 @@ public final class MonitoringProtos {
         return this;
       }
 
-      private tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk vdisk_ = null;
+      private tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk vdisk_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk, tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk.Builder, tech.ydb.monitoring.MonitoringProtos.LocationStorageVDiskOrBuilder> vdiskBuilder_;
       /**
        * <code>.Ydb.Monitoring.LocationStorageVDisk vdisk = 2;</code>
+       * @return Whether the vdisk field is set.
        */
       public boolean hasVdisk() {
         return vdiskBuilder_ != null || vdisk_ != null;
       }
       /**
        * <code>.Ydb.Monitoring.LocationStorageVDisk vdisk = 2;</code>
+       * @return The vdisk.
        */
       public tech.ydb.monitoring.MonitoringProtos.LocationStorageVDisk getVdisk() {
         if (vdiskBuilder_ == null) {
@@ -14393,11 +15487,13 @@ public final class MonitoringProtos {
         }
         return vdiskBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -14419,11 +15515,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<LocationStorageGroup>
         PARSER = new com.google.protobuf.AbstractParser<LocationStorageGroup>() {
+      @java.lang.Override
       public LocationStorageGroup parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new LocationStorageGroup(input, extensionRegistry);
+        return new LocationStorageGroup(input, extensionRegistry);
       }
     };
 
@@ -14436,6 +15533,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -14448,20 +15546,24 @@ public final class MonitoringProtos {
 
     /**
      * <code>string name = 1;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
      * <code>.Ydb.Monitoring.LocationStorageGroup group = 2;</code>
+     * @return Whether the group field is set.
      */
     boolean hasGroup();
     /**
      * <code>.Ydb.Monitoring.LocationStorageGroup group = 2;</code>
+     * @return The group.
      */
     tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup getGroup();
     /**
@@ -14472,7 +15574,7 @@ public final class MonitoringProtos {
   /**
    * Protobuf type {@code Ydb.Monitoring.LocationStoragePool}
    */
-  public  static final class LocationStoragePool extends
+  public static final class LocationStoragePool extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.LocationStoragePool)
       LocationStoragePoolOrBuilder {
@@ -14486,6 +15588,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new LocationStoragePool();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -14495,7 +15604,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -14506,13 +15617,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -14532,6 +15636,13 @@ public final class MonitoringProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -14549,6 +15660,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStoragePool_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStoragePool_fieldAccessorTable
@@ -14560,7 +15672,9 @@ public final class MonitoringProtos {
     private volatile java.lang.Object name_;
     /**
      * <code>string name = 1;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -14575,7 +15689,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -14594,24 +15710,30 @@ public final class MonitoringProtos {
     private tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup group_;
     /**
      * <code>.Ydb.Monitoring.LocationStorageGroup group = 2;</code>
+     * @return Whether the group field is set.
      */
+    @java.lang.Override
     public boolean hasGroup() {
       return group_ != null;
     }
     /**
      * <code>.Ydb.Monitoring.LocationStorageGroup group = 2;</code>
+     * @return The group.
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup getGroup() {
       return group_ == null ? tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup.getDefaultInstance() : group_;
     }
     /**
      * <code>.Ydb.Monitoring.LocationStorageGroup group = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationStorageGroupOrBuilder getGroupOrBuilder() {
       return getGroup();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -14621,6 +15743,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getNameBytes().isEmpty()) {
@@ -14632,6 +15755,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -14659,16 +15783,15 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.LocationStoragePool other = (tech.ydb.monitoring.MonitoringProtos.LocationStoragePool) obj;
 
-      boolean result = true;
-      result = result && getName()
-          .equals(other.getName());
-      result = result && (hasGroup() == other.hasGroup());
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (hasGroup() != other.hasGroup()) return false;
       if (hasGroup()) {
-        result = result && getGroup()
-            .equals(other.getGroup());
+        if (!getGroup()
+            .equals(other.getGroup())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -14759,6 +15882,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -14766,6 +15890,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.LocationStoragePool prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -14789,6 +15914,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStoragePool_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStoragePool_fieldAccessorTable
@@ -14811,6 +15937,7 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         name_ = "";
@@ -14824,15 +15951,18 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStoragePool_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationStoragePool getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.LocationStoragePool.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationStoragePool build() {
         tech.ydb.monitoring.MonitoringProtos.LocationStoragePool result = buildPartial();
         if (!result.isInitialized()) {
@@ -14841,6 +15971,7 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationStoragePool buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.LocationStoragePool result = new tech.ydb.monitoring.MonitoringProtos.LocationStoragePool(this);
         result.name_ = name_;
@@ -14853,32 +15984,39 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.LocationStoragePool) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.LocationStoragePool)other);
@@ -14902,10 +16040,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -14927,6 +16067,7 @@ public final class MonitoringProtos {
       private java.lang.Object name_ = "";
       /**
        * <code>string name = 1;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -14942,6 +16083,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string name = 1;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -14958,6 +16100,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string name = 1;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -14971,6 +16115,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string name = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -14980,6 +16125,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string name = 1;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -14993,17 +16140,19 @@ public final class MonitoringProtos {
         return this;
       }
 
-      private tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup group_ = null;
+      private tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup group_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup, tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup.Builder, tech.ydb.monitoring.MonitoringProtos.LocationStorageGroupOrBuilder> groupBuilder_;
       /**
        * <code>.Ydb.Monitoring.LocationStorageGroup group = 2;</code>
+       * @return Whether the group field is set.
        */
       public boolean hasGroup() {
         return groupBuilder_ != null || group_ != null;
       }
       /**
        * <code>.Ydb.Monitoring.LocationStorageGroup group = 2;</code>
+       * @return The group.
        */
       public tech.ydb.monitoring.MonitoringProtos.LocationStorageGroup getGroup() {
         if (groupBuilder_ == null) {
@@ -15109,11 +16258,13 @@ public final class MonitoringProtos {
         }
         return groupBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -15135,11 +16286,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<LocationStoragePool>
         PARSER = new com.google.protobuf.AbstractParser<LocationStoragePool>() {
+      @java.lang.Override
       public LocationStoragePool parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new LocationStoragePool(input, extensionRegistry);
+        return new LocationStoragePool(input, extensionRegistry);
       }
     };
 
@@ -15152,6 +16304,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationStoragePool getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -15164,10 +16317,12 @@ public final class MonitoringProtos {
 
     /**
      * <code>.Ydb.Monitoring.LocationNode node = 1;</code>
+     * @return Whether the node field is set.
      */
     boolean hasNode();
     /**
      * <code>.Ydb.Monitoring.LocationNode node = 1;</code>
+     * @return The node.
      */
     tech.ydb.monitoring.MonitoringProtos.LocationNode getNode();
     /**
@@ -15177,10 +16332,12 @@ public final class MonitoringProtos {
 
     /**
      * <code>.Ydb.Monitoring.LocationStoragePool pool = 2;</code>
+     * @return Whether the pool field is set.
      */
     boolean hasPool();
     /**
      * <code>.Ydb.Monitoring.LocationStoragePool pool = 2;</code>
+     * @return The pool.
      */
     tech.ydb.monitoring.MonitoringProtos.LocationStoragePool getPool();
     /**
@@ -15191,7 +16348,7 @@ public final class MonitoringProtos {
   /**
    * Protobuf type {@code Ydb.Monitoring.LocationStorage}
    */
-  public  static final class LocationStorage extends
+  public static final class LocationStorage extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.LocationStorage)
       LocationStorageOrBuilder {
@@ -15204,6 +16361,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new LocationStorage();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -15213,7 +16377,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -15224,13 +16390,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.monitoring.MonitoringProtos.LocationNode.Builder subBuilder = null;
               if (node_ != null) {
@@ -15257,6 +16416,13 @@ public final class MonitoringProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -15274,6 +16440,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStorage_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStorage_fieldAccessorTable
@@ -15285,19 +16452,24 @@ public final class MonitoringProtos {
     private tech.ydb.monitoring.MonitoringProtos.LocationNode node_;
     /**
      * <code>.Ydb.Monitoring.LocationNode node = 1;</code>
+     * @return Whether the node field is set.
      */
+    @java.lang.Override
     public boolean hasNode() {
       return node_ != null;
     }
     /**
      * <code>.Ydb.Monitoring.LocationNode node = 1;</code>
+     * @return The node.
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationNode getNode() {
       return node_ == null ? tech.ydb.monitoring.MonitoringProtos.LocationNode.getDefaultInstance() : node_;
     }
     /**
      * <code>.Ydb.Monitoring.LocationNode node = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationNodeOrBuilder getNodeOrBuilder() {
       return getNode();
     }
@@ -15306,24 +16478,30 @@ public final class MonitoringProtos {
     private tech.ydb.monitoring.MonitoringProtos.LocationStoragePool pool_;
     /**
      * <code>.Ydb.Monitoring.LocationStoragePool pool = 2;</code>
+     * @return Whether the pool field is set.
      */
+    @java.lang.Override
     public boolean hasPool() {
       return pool_ != null;
     }
     /**
      * <code>.Ydb.Monitoring.LocationStoragePool pool = 2;</code>
+     * @return The pool.
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationStoragePool getPool() {
       return pool_ == null ? tech.ydb.monitoring.MonitoringProtos.LocationStoragePool.getDefaultInstance() : pool_;
     }
     /**
      * <code>.Ydb.Monitoring.LocationStoragePool pool = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationStoragePoolOrBuilder getPoolOrBuilder() {
       return getPool();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -15333,6 +16511,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (node_ != null) {
@@ -15344,6 +16523,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -15372,19 +16552,18 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.LocationStorage other = (tech.ydb.monitoring.MonitoringProtos.LocationStorage) obj;
 
-      boolean result = true;
-      result = result && (hasNode() == other.hasNode());
+      if (hasNode() != other.hasNode()) return false;
       if (hasNode()) {
-        result = result && getNode()
-            .equals(other.getNode());
+        if (!getNode()
+            .equals(other.getNode())) return false;
       }
-      result = result && (hasPool() == other.hasPool());
+      if (hasPool() != other.hasPool()) return false;
       if (hasPool()) {
-        result = result && getPool()
-            .equals(other.getPool());
+        if (!getPool()
+            .equals(other.getPool())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -15477,6 +16656,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -15484,6 +16664,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.LocationStorage prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -15507,6 +16688,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStorage_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStorage_fieldAccessorTable
@@ -15529,6 +16711,7 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (nodeBuilder_ == null) {
@@ -15546,15 +16729,18 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationStorage_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationStorage getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.LocationStorage.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationStorage build() {
         tech.ydb.monitoring.MonitoringProtos.LocationStorage result = buildPartial();
         if (!result.isInitialized()) {
@@ -15563,6 +16749,7 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationStorage buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.LocationStorage result = new tech.ydb.monitoring.MonitoringProtos.LocationStorage(this);
         if (nodeBuilder_ == null) {
@@ -15579,32 +16766,39 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.LocationStorage) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.LocationStorage)other);
@@ -15627,10 +16821,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -15649,17 +16845,19 @@ public final class MonitoringProtos {
         return this;
       }
 
-      private tech.ydb.monitoring.MonitoringProtos.LocationNode node_ = null;
+      private tech.ydb.monitoring.MonitoringProtos.LocationNode node_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.LocationNode, tech.ydb.monitoring.MonitoringProtos.LocationNode.Builder, tech.ydb.monitoring.MonitoringProtos.LocationNodeOrBuilder> nodeBuilder_;
       /**
        * <code>.Ydb.Monitoring.LocationNode node = 1;</code>
+       * @return Whether the node field is set.
        */
       public boolean hasNode() {
         return nodeBuilder_ != null || node_ != null;
       }
       /**
        * <code>.Ydb.Monitoring.LocationNode node = 1;</code>
+       * @return The node.
        */
       public tech.ydb.monitoring.MonitoringProtos.LocationNode getNode() {
         if (nodeBuilder_ == null) {
@@ -15766,17 +16964,19 @@ public final class MonitoringProtos {
         return nodeBuilder_;
       }
 
-      private tech.ydb.monitoring.MonitoringProtos.LocationStoragePool pool_ = null;
+      private tech.ydb.monitoring.MonitoringProtos.LocationStoragePool pool_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.LocationStoragePool, tech.ydb.monitoring.MonitoringProtos.LocationStoragePool.Builder, tech.ydb.monitoring.MonitoringProtos.LocationStoragePoolOrBuilder> poolBuilder_;
       /**
        * <code>.Ydb.Monitoring.LocationStoragePool pool = 2;</code>
+       * @return Whether the pool field is set.
        */
       public boolean hasPool() {
         return poolBuilder_ != null || pool_ != null;
       }
       /**
        * <code>.Ydb.Monitoring.LocationStoragePool pool = 2;</code>
+       * @return The pool.
        */
       public tech.ydb.monitoring.MonitoringProtos.LocationStoragePool getPool() {
         if (poolBuilder_ == null) {
@@ -15882,11 +17082,13 @@ public final class MonitoringProtos {
         }
         return poolBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -15908,11 +17110,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<LocationStorage>
         PARSER = new com.google.protobuf.AbstractParser<LocationStorage>() {
+      @java.lang.Override
       public LocationStorage parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new LocationStorage(input, extensionRegistry);
+        return new LocationStorage(input, extensionRegistry);
       }
     };
 
@@ -15925,6 +17128,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationStorage getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -15937,10 +17141,12 @@ public final class MonitoringProtos {
 
     /**
      * <code>string name = 1;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -15948,7 +17154,7 @@ public final class MonitoringProtos {
   /**
    * Protobuf type {@code Ydb.Monitoring.LocationComputePool}
    */
-  public  static final class LocationComputePool extends
+  public static final class LocationComputePool extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.LocationComputePool)
       LocationComputePoolOrBuilder {
@@ -15962,6 +17168,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new LocationComputePool();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -15971,7 +17184,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -15982,17 +17197,17 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
               name_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -16012,6 +17227,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationComputePool_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationComputePool_fieldAccessorTable
@@ -16023,7 +17239,9 @@ public final class MonitoringProtos {
     private volatile java.lang.Object name_;
     /**
      * <code>string name = 1;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -16038,7 +17256,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -16054,6 +17274,7 @@ public final class MonitoringProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -16063,6 +17284,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getNameBytes().isEmpty()) {
@@ -16071,6 +17293,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -16094,11 +17317,10 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.LocationComputePool other = (tech.ydb.monitoring.MonitoringProtos.LocationComputePool) obj;
 
-      boolean result = true;
-      result = result && getName()
-          .equals(other.getName());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -16185,6 +17407,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -16192,6 +17415,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.LocationComputePool prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -16215,6 +17439,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationComputePool_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationComputePool_fieldAccessorTable
@@ -16237,6 +17462,7 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         name_ = "";
@@ -16244,15 +17470,18 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationComputePool_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationComputePool getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.LocationComputePool.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationComputePool build() {
         tech.ydb.monitoring.MonitoringProtos.LocationComputePool result = buildPartial();
         if (!result.isInitialized()) {
@@ -16261,6 +17490,7 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationComputePool buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.LocationComputePool result = new tech.ydb.monitoring.MonitoringProtos.LocationComputePool(this);
         result.name_ = name_;
@@ -16268,32 +17498,39 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.LocationComputePool) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.LocationComputePool)other);
@@ -16314,10 +17551,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -16339,6 +17578,7 @@ public final class MonitoringProtos {
       private java.lang.Object name_ = "";
       /**
        * <code>string name = 1;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -16354,6 +17594,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string name = 1;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -16370,6 +17611,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string name = 1;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -16383,6 +17626,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string name = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -16392,6 +17636,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string name = 1;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -16404,11 +17650,13 @@ public final class MonitoringProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -16430,11 +17678,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<LocationComputePool>
         PARSER = new com.google.protobuf.AbstractParser<LocationComputePool>() {
+      @java.lang.Override
       public LocationComputePool parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new LocationComputePool(input, extensionRegistry);
+        return new LocationComputePool(input, extensionRegistry);
       }
     };
 
@@ -16447,6 +17696,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationComputePool getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -16459,42 +17709,51 @@ public final class MonitoringProtos {
 
     /**
      * <code>string type = 1;</code>
+     * @return The type.
      */
     java.lang.String getType();
     /**
      * <code>string type = 1;</code>
+     * @return The bytes for type.
      */
     com.google.protobuf.ByteString
         getTypeBytes();
 
     /**
      * <code>repeated string id = 2;</code>
+     * @return A list containing the id.
      */
     java.util.List<java.lang.String>
         getIdList();
     /**
      * <code>repeated string id = 2;</code>
+     * @return The count of id.
      */
     int getIdCount();
     /**
      * <code>repeated string id = 2;</code>
+     * @param index The index of the element to return.
+     * @return The id at the given index.
      */
     java.lang.String getId(int index);
     /**
      * <code>repeated string id = 2;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the id at the given index.
      */
     com.google.protobuf.ByteString
         getIdBytes(int index);
 
     /**
      * <code>uint32 count = 3;</code>
+     * @return The count.
      */
     int getCount();
   }
   /**
    * Protobuf type {@code Ydb.Monitoring.LocationComputeTablet}
    */
-  public  static final class LocationComputeTablet extends
+  public static final class LocationComputeTablet extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.LocationComputeTablet)
       LocationComputeTabletOrBuilder {
@@ -16506,7 +17765,13 @@ public final class MonitoringProtos {
     private LocationComputeTablet() {
       type_ = "";
       id_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      count_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new LocationComputeTablet();
     }
 
     @java.lang.Override
@@ -16519,6 +17784,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -16530,13 +17798,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -16545,9 +17806,9 @@ public final class MonitoringProtos {
             }
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 id_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               id_.add(s);
               break;
@@ -16555,6 +17816,13 @@ public final class MonitoringProtos {
             case 24: {
 
               count_ = input.readUInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -16565,7 +17833,7 @@ public final class MonitoringProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           id_ = id_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -16577,6 +17845,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationComputeTablet_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationComputeTablet_fieldAccessorTable
@@ -16584,12 +17853,13 @@ public final class MonitoringProtos {
               tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet.class, tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet.Builder.class);
     }
 
-    private int bitField0_;
     public static final int TYPE_FIELD_NUMBER = 1;
     private volatile java.lang.Object type_;
     /**
      * <code>string type = 1;</code>
+     * @return The type.
      */
+    @java.lang.Override
     public java.lang.String getType() {
       java.lang.Object ref = type_;
       if (ref instanceof java.lang.String) {
@@ -16604,7 +17874,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string type = 1;</code>
+     * @return The bytes for type.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTypeBytes() {
       java.lang.Object ref = type_;
@@ -16623,6 +17895,7 @@ public final class MonitoringProtos {
     private com.google.protobuf.LazyStringList id_;
     /**
      * <code>repeated string id = 2;</code>
+     * @return A list containing the id.
      */
     public com.google.protobuf.ProtocolStringList
         getIdList() {
@@ -16630,18 +17903,23 @@ public final class MonitoringProtos {
     }
     /**
      * <code>repeated string id = 2;</code>
+     * @return The count of id.
      */
     public int getIdCount() {
       return id_.size();
     }
     /**
      * <code>repeated string id = 2;</code>
+     * @param index The index of the element to return.
+     * @return The id at the given index.
      */
     public java.lang.String getId(int index) {
       return id_.get(index);
     }
     /**
      * <code>repeated string id = 2;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the id at the given index.
      */
     public com.google.protobuf.ByteString
         getIdBytes(int index) {
@@ -16652,12 +17930,15 @@ public final class MonitoringProtos {
     private int count_;
     /**
      * <code>uint32 count = 3;</code>
+     * @return The count.
      */
+    @java.lang.Override
     public int getCount() {
       return count_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -16667,6 +17948,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getTypeBytes().isEmpty()) {
@@ -16681,6 +17963,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -16716,15 +17999,14 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet other = (tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet) obj;
 
-      boolean result = true;
-      result = result && getType()
-          .equals(other.getType());
-      result = result && getIdList()
-          .equals(other.getIdList());
-      result = result && (getCount()
-          == other.getCount());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getType()
+          .equals(other.getType())) return false;
+      if (!getIdList()
+          .equals(other.getIdList())) return false;
+      if (getCount()
+          != other.getCount()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -16817,6 +18099,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -16824,6 +18107,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -16847,6 +18131,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationComputeTablet_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationComputeTablet_fieldAccessorTable
@@ -16869,26 +18154,30 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         type_ = "";
 
         id_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         count_ = 0;
 
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationComputeTablet_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet build() {
         tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet result = buildPartial();
         if (!result.isInitialized()) {
@@ -16897,48 +18186,54 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet result = new tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.type_ = type_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           id_ = id_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.id_ = id_;
         result.count_ = count_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet)other);
@@ -16957,7 +18252,7 @@ public final class MonitoringProtos {
         if (!other.id_.isEmpty()) {
           if (id_.isEmpty()) {
             id_ = other.id_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensureIdIsMutable();
             id_.addAll(other.id_);
@@ -16972,10 +18267,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -16998,6 +18295,7 @@ public final class MonitoringProtos {
       private java.lang.Object type_ = "";
       /**
        * <code>string type = 1;</code>
+       * @return The type.
        */
       public java.lang.String getType() {
         java.lang.Object ref = type_;
@@ -17013,6 +18311,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string type = 1;</code>
+       * @return The bytes for type.
        */
       public com.google.protobuf.ByteString
           getTypeBytes() {
@@ -17029,6 +18328,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string type = 1;</code>
+       * @param value The type to set.
+       * @return This builder for chaining.
        */
       public Builder setType(
           java.lang.String value) {
@@ -17042,6 +18343,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string type = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearType() {
         
@@ -17051,6 +18353,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string type = 1;</code>
+       * @param value The bytes for type to set.
+       * @return This builder for chaining.
        */
       public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -17066,13 +18370,14 @@ public final class MonitoringProtos {
 
       private com.google.protobuf.LazyStringList id_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureIdIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           id_ = new com.google.protobuf.LazyStringArrayList(id_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
       /**
        * <code>repeated string id = 2;</code>
+       * @return A list containing the id.
        */
       public com.google.protobuf.ProtocolStringList
           getIdList() {
@@ -17080,18 +18385,23 @@ public final class MonitoringProtos {
       }
       /**
        * <code>repeated string id = 2;</code>
+       * @return The count of id.
        */
       public int getIdCount() {
         return id_.size();
       }
       /**
        * <code>repeated string id = 2;</code>
+       * @param index The index of the element to return.
+       * @return The id at the given index.
        */
       public java.lang.String getId(int index) {
         return id_.get(index);
       }
       /**
        * <code>repeated string id = 2;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the id at the given index.
        */
       public com.google.protobuf.ByteString
           getIdBytes(int index) {
@@ -17099,6 +18409,9 @@ public final class MonitoringProtos {
       }
       /**
        * <code>repeated string id = 2;</code>
+       * @param index The index to set the value at.
+       * @param value The id to set.
+       * @return This builder for chaining.
        */
       public Builder setId(
           int index, java.lang.String value) {
@@ -17112,6 +18425,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>repeated string id = 2;</code>
+       * @param value The id to add.
+       * @return This builder for chaining.
        */
       public Builder addId(
           java.lang.String value) {
@@ -17125,6 +18440,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>repeated string id = 2;</code>
+       * @param values The id to add.
+       * @return This builder for chaining.
        */
       public Builder addAllId(
           java.lang.Iterable<java.lang.String> values) {
@@ -17136,15 +18453,18 @@ public final class MonitoringProtos {
       }
       /**
        * <code>repeated string id = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearId() {
         id_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
       /**
        * <code>repeated string id = 2;</code>
+       * @param value The bytes of the id to add.
+       * @return This builder for chaining.
        */
       public Builder addIdBytes(
           com.google.protobuf.ByteString value) {
@@ -17161,12 +18481,16 @@ public final class MonitoringProtos {
       private int count_ ;
       /**
        * <code>uint32 count = 3;</code>
+       * @return The count.
        */
+      @java.lang.Override
       public int getCount() {
         return count_;
       }
       /**
        * <code>uint32 count = 3;</code>
+       * @param value The count to set.
+       * @return This builder for chaining.
        */
       public Builder setCount(int value) {
         
@@ -17176,6 +18500,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>uint32 count = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCount() {
         
@@ -17183,11 +18508,13 @@ public final class MonitoringProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -17209,11 +18536,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<LocationComputeTablet>
         PARSER = new com.google.protobuf.AbstractParser<LocationComputeTablet>() {
+      @java.lang.Override
       public LocationComputeTablet parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new LocationComputeTablet(input, extensionRegistry);
+        return new LocationComputeTablet(input, extensionRegistry);
       }
     };
 
@@ -17226,6 +18554,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -17238,10 +18567,12 @@ public final class MonitoringProtos {
 
     /**
      * <code>.Ydb.Monitoring.LocationNode node = 1;</code>
+     * @return Whether the node field is set.
      */
     boolean hasNode();
     /**
      * <code>.Ydb.Monitoring.LocationNode node = 1;</code>
+     * @return The node.
      */
     tech.ydb.monitoring.MonitoringProtos.LocationNode getNode();
     /**
@@ -17251,10 +18582,12 @@ public final class MonitoringProtos {
 
     /**
      * <code>.Ydb.Monitoring.LocationComputePool pool = 2;</code>
+     * @return Whether the pool field is set.
      */
     boolean hasPool();
     /**
      * <code>.Ydb.Monitoring.LocationComputePool pool = 2;</code>
+     * @return The pool.
      */
     tech.ydb.monitoring.MonitoringProtos.LocationComputePool getPool();
     /**
@@ -17264,10 +18597,12 @@ public final class MonitoringProtos {
 
     /**
      * <code>.Ydb.Monitoring.LocationComputeTablet tablet = 3;</code>
+     * @return Whether the tablet field is set.
      */
     boolean hasTablet();
     /**
      * <code>.Ydb.Monitoring.LocationComputeTablet tablet = 3;</code>
+     * @return The tablet.
      */
     tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet getTablet();
     /**
@@ -17278,7 +18613,7 @@ public final class MonitoringProtos {
   /**
    * Protobuf type {@code Ydb.Monitoring.LocationCompute}
    */
-  public  static final class LocationCompute extends
+  public static final class LocationCompute extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.LocationCompute)
       LocationComputeOrBuilder {
@@ -17291,6 +18626,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new LocationCompute();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -17300,7 +18642,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -17311,13 +18655,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.monitoring.MonitoringProtos.LocationNode.Builder subBuilder = null;
               if (node_ != null) {
@@ -17357,6 +18694,13 @@ public final class MonitoringProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -17374,6 +18718,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationCompute_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationCompute_fieldAccessorTable
@@ -17385,19 +18730,24 @@ public final class MonitoringProtos {
     private tech.ydb.monitoring.MonitoringProtos.LocationNode node_;
     /**
      * <code>.Ydb.Monitoring.LocationNode node = 1;</code>
+     * @return Whether the node field is set.
      */
+    @java.lang.Override
     public boolean hasNode() {
       return node_ != null;
     }
     /**
      * <code>.Ydb.Monitoring.LocationNode node = 1;</code>
+     * @return The node.
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationNode getNode() {
       return node_ == null ? tech.ydb.monitoring.MonitoringProtos.LocationNode.getDefaultInstance() : node_;
     }
     /**
      * <code>.Ydb.Monitoring.LocationNode node = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationNodeOrBuilder getNodeOrBuilder() {
       return getNode();
     }
@@ -17406,19 +18756,24 @@ public final class MonitoringProtos {
     private tech.ydb.monitoring.MonitoringProtos.LocationComputePool pool_;
     /**
      * <code>.Ydb.Monitoring.LocationComputePool pool = 2;</code>
+     * @return Whether the pool field is set.
      */
+    @java.lang.Override
     public boolean hasPool() {
       return pool_ != null;
     }
     /**
      * <code>.Ydb.Monitoring.LocationComputePool pool = 2;</code>
+     * @return The pool.
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationComputePool getPool() {
       return pool_ == null ? tech.ydb.monitoring.MonitoringProtos.LocationComputePool.getDefaultInstance() : pool_;
     }
     /**
      * <code>.Ydb.Monitoring.LocationComputePool pool = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationComputePoolOrBuilder getPoolOrBuilder() {
       return getPool();
     }
@@ -17427,24 +18782,30 @@ public final class MonitoringProtos {
     private tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet tablet_;
     /**
      * <code>.Ydb.Monitoring.LocationComputeTablet tablet = 3;</code>
+     * @return Whether the tablet field is set.
      */
+    @java.lang.Override
     public boolean hasTablet() {
       return tablet_ != null;
     }
     /**
      * <code>.Ydb.Monitoring.LocationComputeTablet tablet = 3;</code>
+     * @return The tablet.
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet getTablet() {
       return tablet_ == null ? tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet.getDefaultInstance() : tablet_;
     }
     /**
      * <code>.Ydb.Monitoring.LocationComputeTablet tablet = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationComputeTabletOrBuilder getTabletOrBuilder() {
       return getTablet();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -17454,6 +18815,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (node_ != null) {
@@ -17468,6 +18830,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -17500,24 +18863,23 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.LocationCompute other = (tech.ydb.monitoring.MonitoringProtos.LocationCompute) obj;
 
-      boolean result = true;
-      result = result && (hasNode() == other.hasNode());
+      if (hasNode() != other.hasNode()) return false;
       if (hasNode()) {
-        result = result && getNode()
-            .equals(other.getNode());
+        if (!getNode()
+            .equals(other.getNode())) return false;
       }
-      result = result && (hasPool() == other.hasPool());
+      if (hasPool() != other.hasPool()) return false;
       if (hasPool()) {
-        result = result && getPool()
-            .equals(other.getPool());
+        if (!getPool()
+            .equals(other.getPool())) return false;
       }
-      result = result && (hasTablet() == other.hasTablet());
+      if (hasTablet() != other.hasTablet()) return false;
       if (hasTablet()) {
-        result = result && getTablet()
-            .equals(other.getTablet());
+        if (!getTablet()
+            .equals(other.getTablet())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -17614,6 +18976,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -17621,6 +18984,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.LocationCompute prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -17644,6 +19008,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationCompute_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationCompute_fieldAccessorTable
@@ -17666,6 +19031,7 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (nodeBuilder_ == null) {
@@ -17689,15 +19055,18 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationCompute_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationCompute getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.LocationCompute.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationCompute build() {
         tech.ydb.monitoring.MonitoringProtos.LocationCompute result = buildPartial();
         if (!result.isInitialized()) {
@@ -17706,6 +19075,7 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationCompute buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.LocationCompute result = new tech.ydb.monitoring.MonitoringProtos.LocationCompute(this);
         if (nodeBuilder_ == null) {
@@ -17727,32 +19097,39 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.LocationCompute) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.LocationCompute)other);
@@ -17778,10 +19155,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -17800,17 +19179,19 @@ public final class MonitoringProtos {
         return this;
       }
 
-      private tech.ydb.monitoring.MonitoringProtos.LocationNode node_ = null;
+      private tech.ydb.monitoring.MonitoringProtos.LocationNode node_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.LocationNode, tech.ydb.monitoring.MonitoringProtos.LocationNode.Builder, tech.ydb.monitoring.MonitoringProtos.LocationNodeOrBuilder> nodeBuilder_;
       /**
        * <code>.Ydb.Monitoring.LocationNode node = 1;</code>
+       * @return Whether the node field is set.
        */
       public boolean hasNode() {
         return nodeBuilder_ != null || node_ != null;
       }
       /**
        * <code>.Ydb.Monitoring.LocationNode node = 1;</code>
+       * @return The node.
        */
       public tech.ydb.monitoring.MonitoringProtos.LocationNode getNode() {
         if (nodeBuilder_ == null) {
@@ -17917,17 +19298,19 @@ public final class MonitoringProtos {
         return nodeBuilder_;
       }
 
-      private tech.ydb.monitoring.MonitoringProtos.LocationComputePool pool_ = null;
+      private tech.ydb.monitoring.MonitoringProtos.LocationComputePool pool_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.LocationComputePool, tech.ydb.monitoring.MonitoringProtos.LocationComputePool.Builder, tech.ydb.monitoring.MonitoringProtos.LocationComputePoolOrBuilder> poolBuilder_;
       /**
        * <code>.Ydb.Monitoring.LocationComputePool pool = 2;</code>
+       * @return Whether the pool field is set.
        */
       public boolean hasPool() {
         return poolBuilder_ != null || pool_ != null;
       }
       /**
        * <code>.Ydb.Monitoring.LocationComputePool pool = 2;</code>
+       * @return The pool.
        */
       public tech.ydb.monitoring.MonitoringProtos.LocationComputePool getPool() {
         if (poolBuilder_ == null) {
@@ -18034,17 +19417,19 @@ public final class MonitoringProtos {
         return poolBuilder_;
       }
 
-      private tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet tablet_ = null;
+      private tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet tablet_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet, tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet.Builder, tech.ydb.monitoring.MonitoringProtos.LocationComputeTabletOrBuilder> tabletBuilder_;
       /**
        * <code>.Ydb.Monitoring.LocationComputeTablet tablet = 3;</code>
+       * @return Whether the tablet field is set.
        */
       public boolean hasTablet() {
         return tabletBuilder_ != null || tablet_ != null;
       }
       /**
        * <code>.Ydb.Monitoring.LocationComputeTablet tablet = 3;</code>
+       * @return The tablet.
        */
       public tech.ydb.monitoring.MonitoringProtos.LocationComputeTablet getTablet() {
         if (tabletBuilder_ == null) {
@@ -18150,11 +19535,13 @@ public final class MonitoringProtos {
         }
         return tabletBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -18176,11 +19563,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<LocationCompute>
         PARSER = new com.google.protobuf.AbstractParser<LocationCompute>() {
+      @java.lang.Override
       public LocationCompute parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new LocationCompute(input, extensionRegistry);
+        return new LocationCompute(input, extensionRegistry);
       }
     };
 
@@ -18193,6 +19581,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationCompute getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -18205,10 +19594,12 @@ public final class MonitoringProtos {
 
     /**
      * <code>string name = 1;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -18216,7 +19607,7 @@ public final class MonitoringProtos {
   /**
    * Protobuf type {@code Ydb.Monitoring.LocationDatabase}
    */
-  public  static final class LocationDatabase extends
+  public static final class LocationDatabase extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.LocationDatabase)
       LocationDatabaseOrBuilder {
@@ -18230,6 +19621,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new LocationDatabase();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -18239,7 +19637,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -18250,17 +19650,17 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
               name_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -18280,6 +19680,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationDatabase_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationDatabase_fieldAccessorTable
@@ -18291,7 +19692,9 @@ public final class MonitoringProtos {
     private volatile java.lang.Object name_;
     /**
      * <code>string name = 1;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -18306,7 +19709,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -18322,6 +19727,7 @@ public final class MonitoringProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -18331,6 +19737,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getNameBytes().isEmpty()) {
@@ -18339,6 +19746,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -18362,11 +19770,10 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.LocationDatabase other = (tech.ydb.monitoring.MonitoringProtos.LocationDatabase) obj;
 
-      boolean result = true;
-      result = result && getName()
-          .equals(other.getName());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -18453,6 +19860,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -18460,6 +19868,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.LocationDatabase prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -18483,6 +19892,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationDatabase_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationDatabase_fieldAccessorTable
@@ -18505,6 +19915,7 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         name_ = "";
@@ -18512,15 +19923,18 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_LocationDatabase_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationDatabase getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.LocationDatabase.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationDatabase build() {
         tech.ydb.monitoring.MonitoringProtos.LocationDatabase result = buildPartial();
         if (!result.isInitialized()) {
@@ -18529,6 +19943,7 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.LocationDatabase buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.LocationDatabase result = new tech.ydb.monitoring.MonitoringProtos.LocationDatabase(this);
         result.name_ = name_;
@@ -18536,32 +19951,39 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.LocationDatabase) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.LocationDatabase)other);
@@ -18582,10 +20004,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -18607,6 +20031,7 @@ public final class MonitoringProtos {
       private java.lang.Object name_ = "";
       /**
        * <code>string name = 1;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -18622,6 +20047,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string name = 1;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -18638,6 +20064,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string name = 1;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -18651,6 +20079,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string name = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -18660,6 +20089,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string name = 1;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -18672,11 +20103,13 @@ public final class MonitoringProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -18698,11 +20131,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<LocationDatabase>
         PARSER = new com.google.protobuf.AbstractParser<LocationDatabase>() {
+      @java.lang.Override
       public LocationDatabase parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new LocationDatabase(input, extensionRegistry);
+        return new LocationDatabase(input, extensionRegistry);
       }
     };
 
@@ -18715,6 +20149,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationDatabase getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -18727,10 +20162,12 @@ public final class MonitoringProtos {
 
     /**
      * <code>.Ydb.Monitoring.LocationStorage storage = 1;</code>
+     * @return Whether the storage field is set.
      */
     boolean hasStorage();
     /**
      * <code>.Ydb.Monitoring.LocationStorage storage = 1;</code>
+     * @return The storage.
      */
     tech.ydb.monitoring.MonitoringProtos.LocationStorage getStorage();
     /**
@@ -18740,10 +20177,12 @@ public final class MonitoringProtos {
 
     /**
      * <code>.Ydb.Monitoring.LocationCompute compute = 2;</code>
+     * @return Whether the compute field is set.
      */
     boolean hasCompute();
     /**
      * <code>.Ydb.Monitoring.LocationCompute compute = 2;</code>
+     * @return The compute.
      */
     tech.ydb.monitoring.MonitoringProtos.LocationCompute getCompute();
     /**
@@ -18753,10 +20192,12 @@ public final class MonitoringProtos {
 
     /**
      * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+     * @return Whether the database field is set.
      */
     boolean hasDatabase();
     /**
      * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+     * @return The database.
      */
     tech.ydb.monitoring.MonitoringProtos.LocationDatabase getDatabase();
     /**
@@ -18767,7 +20208,7 @@ public final class MonitoringProtos {
   /**
    * Protobuf type {@code Ydb.Monitoring.Location}
    */
-  public  static final class Location extends
+  public static final class Location extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.Location)
       LocationOrBuilder {
@@ -18780,6 +20221,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Location();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -18789,7 +20237,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -18800,13 +20250,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.monitoring.MonitoringProtos.LocationStorage.Builder subBuilder = null;
               if (storage_ != null) {
@@ -18846,6 +20289,13 @@ public final class MonitoringProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -18863,6 +20313,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_Location_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_Location_fieldAccessorTable
@@ -18874,19 +20325,24 @@ public final class MonitoringProtos {
     private tech.ydb.monitoring.MonitoringProtos.LocationStorage storage_;
     /**
      * <code>.Ydb.Monitoring.LocationStorage storage = 1;</code>
+     * @return Whether the storage field is set.
      */
+    @java.lang.Override
     public boolean hasStorage() {
       return storage_ != null;
     }
     /**
      * <code>.Ydb.Monitoring.LocationStorage storage = 1;</code>
+     * @return The storage.
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationStorage getStorage() {
       return storage_ == null ? tech.ydb.monitoring.MonitoringProtos.LocationStorage.getDefaultInstance() : storage_;
     }
     /**
      * <code>.Ydb.Monitoring.LocationStorage storage = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationStorageOrBuilder getStorageOrBuilder() {
       return getStorage();
     }
@@ -18895,19 +20351,24 @@ public final class MonitoringProtos {
     private tech.ydb.monitoring.MonitoringProtos.LocationCompute compute_;
     /**
      * <code>.Ydb.Monitoring.LocationCompute compute = 2;</code>
+     * @return Whether the compute field is set.
      */
+    @java.lang.Override
     public boolean hasCompute() {
       return compute_ != null;
     }
     /**
      * <code>.Ydb.Monitoring.LocationCompute compute = 2;</code>
+     * @return The compute.
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationCompute getCompute() {
       return compute_ == null ? tech.ydb.monitoring.MonitoringProtos.LocationCompute.getDefaultInstance() : compute_;
     }
     /**
      * <code>.Ydb.Monitoring.LocationCompute compute = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationComputeOrBuilder getComputeOrBuilder() {
       return getCompute();
     }
@@ -18916,24 +20377,30 @@ public final class MonitoringProtos {
     private tech.ydb.monitoring.MonitoringProtos.LocationDatabase database_;
     /**
      * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+     * @return Whether the database field is set.
      */
+    @java.lang.Override
     public boolean hasDatabase() {
       return database_ != null;
     }
     /**
      * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+     * @return The database.
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationDatabase getDatabase() {
       return database_ == null ? tech.ydb.monitoring.MonitoringProtos.LocationDatabase.getDefaultInstance() : database_;
     }
     /**
      * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationDatabaseOrBuilder getDatabaseOrBuilder() {
       return getDatabase();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -18943,6 +20410,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (storage_ != null) {
@@ -18957,6 +20425,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -18989,24 +20458,23 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.Location other = (tech.ydb.monitoring.MonitoringProtos.Location) obj;
 
-      boolean result = true;
-      result = result && (hasStorage() == other.hasStorage());
+      if (hasStorage() != other.hasStorage()) return false;
       if (hasStorage()) {
-        result = result && getStorage()
-            .equals(other.getStorage());
+        if (!getStorage()
+            .equals(other.getStorage())) return false;
       }
-      result = result && (hasCompute() == other.hasCompute());
+      if (hasCompute() != other.hasCompute()) return false;
       if (hasCompute()) {
-        result = result && getCompute()
-            .equals(other.getCompute());
+        if (!getCompute()
+            .equals(other.getCompute())) return false;
       }
-      result = result && (hasDatabase() == other.hasDatabase());
+      if (hasDatabase() != other.hasDatabase()) return false;
       if (hasDatabase()) {
-        result = result && getDatabase()
-            .equals(other.getDatabase());
+        if (!getDatabase()
+            .equals(other.getDatabase())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -19103,6 +20571,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -19110,6 +20579,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.Location prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -19133,6 +20603,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_Location_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_Location_fieldAccessorTable
@@ -19155,6 +20626,7 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (storageBuilder_ == null) {
@@ -19178,15 +20650,18 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_Location_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.Location getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.Location.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.Location build() {
         tech.ydb.monitoring.MonitoringProtos.Location result = buildPartial();
         if (!result.isInitialized()) {
@@ -19195,6 +20670,7 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.Location buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.Location result = new tech.ydb.monitoring.MonitoringProtos.Location(this);
         if (storageBuilder_ == null) {
@@ -19216,32 +20692,39 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.Location) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.Location)other);
@@ -19267,10 +20750,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -19289,17 +20774,19 @@ public final class MonitoringProtos {
         return this;
       }
 
-      private tech.ydb.monitoring.MonitoringProtos.LocationStorage storage_ = null;
+      private tech.ydb.monitoring.MonitoringProtos.LocationStorage storage_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.LocationStorage, tech.ydb.monitoring.MonitoringProtos.LocationStorage.Builder, tech.ydb.monitoring.MonitoringProtos.LocationStorageOrBuilder> storageBuilder_;
       /**
        * <code>.Ydb.Monitoring.LocationStorage storage = 1;</code>
+       * @return Whether the storage field is set.
        */
       public boolean hasStorage() {
         return storageBuilder_ != null || storage_ != null;
       }
       /**
        * <code>.Ydb.Monitoring.LocationStorage storage = 1;</code>
+       * @return The storage.
        */
       public tech.ydb.monitoring.MonitoringProtos.LocationStorage getStorage() {
         if (storageBuilder_ == null) {
@@ -19406,17 +20893,19 @@ public final class MonitoringProtos {
         return storageBuilder_;
       }
 
-      private tech.ydb.monitoring.MonitoringProtos.LocationCompute compute_ = null;
+      private tech.ydb.monitoring.MonitoringProtos.LocationCompute compute_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.LocationCompute, tech.ydb.monitoring.MonitoringProtos.LocationCompute.Builder, tech.ydb.monitoring.MonitoringProtos.LocationComputeOrBuilder> computeBuilder_;
       /**
        * <code>.Ydb.Monitoring.LocationCompute compute = 2;</code>
+       * @return Whether the compute field is set.
        */
       public boolean hasCompute() {
         return computeBuilder_ != null || compute_ != null;
       }
       /**
        * <code>.Ydb.Monitoring.LocationCompute compute = 2;</code>
+       * @return The compute.
        */
       public tech.ydb.monitoring.MonitoringProtos.LocationCompute getCompute() {
         if (computeBuilder_ == null) {
@@ -19523,17 +21012,19 @@ public final class MonitoringProtos {
         return computeBuilder_;
       }
 
-      private tech.ydb.monitoring.MonitoringProtos.LocationDatabase database_ = null;
+      private tech.ydb.monitoring.MonitoringProtos.LocationDatabase database_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.LocationDatabase, tech.ydb.monitoring.MonitoringProtos.LocationDatabase.Builder, tech.ydb.monitoring.MonitoringProtos.LocationDatabaseOrBuilder> databaseBuilder_;
       /**
        * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+       * @return Whether the database field is set.
        */
       public boolean hasDatabase() {
         return databaseBuilder_ != null || database_ != null;
       }
       /**
        * <code>.Ydb.Monitoring.LocationDatabase database = 3;</code>
+       * @return The database.
        */
       public tech.ydb.monitoring.MonitoringProtos.LocationDatabase getDatabase() {
         if (databaseBuilder_ == null) {
@@ -19639,11 +21130,13 @@ public final class MonitoringProtos {
         }
         return databaseBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -19665,11 +21158,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<Location>
         PARSER = new com.google.protobuf.AbstractParser<Location>() {
+      @java.lang.Override
       public Location parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Location(input, extensionRegistry);
+        return new Location(input, extensionRegistry);
       }
     };
 
@@ -19682,6 +21176,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.Location getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -19694,39 +21189,47 @@ public final class MonitoringProtos {
 
     /**
      * <code>string id = 1;</code>
+     * @return The id.
      */
     java.lang.String getId();
     /**
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
 
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status status = 2;</code>
+     * @return The enum numeric value on the wire for status.
      */
     int getStatusValue();
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status status = 2;</code>
+     * @return The status.
      */
     tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getStatus();
 
     /**
      * <code>string message = 3;</code>
+     * @return The message.
      */
     java.lang.String getMessage();
     /**
      * <code>string message = 3;</code>
+     * @return The bytes for message.
      */
     com.google.protobuf.ByteString
         getMessageBytes();
 
     /**
      * <code>.Ydb.Monitoring.Location location = 4;</code>
+     * @return Whether the location field is set.
      */
     boolean hasLocation();
     /**
      * <code>.Ydb.Monitoring.Location location = 4;</code>
+     * @return The location.
      */
     tech.ydb.monitoring.MonitoringProtos.Location getLocation();
     /**
@@ -19736,42 +21239,51 @@ public final class MonitoringProtos {
 
     /**
      * <code>repeated string reason = 5;</code>
+     * @return A list containing the reason.
      */
     java.util.List<java.lang.String>
         getReasonList();
     /**
      * <code>repeated string reason = 5;</code>
+     * @return The count of reason.
      */
     int getReasonCount();
     /**
      * <code>repeated string reason = 5;</code>
+     * @param index The index of the element to return.
+     * @return The reason at the given index.
      */
     java.lang.String getReason(int index);
     /**
      * <code>repeated string reason = 5;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the reason at the given index.
      */
     com.google.protobuf.ByteString
         getReasonBytes(int index);
 
     /**
      * <code>string type = 6;</code>
+     * @return The type.
      */
     java.lang.String getType();
     /**
      * <code>string type = 6;</code>
+     * @return The bytes for type.
      */
     com.google.protobuf.ByteString
         getTypeBytes();
 
     /**
      * <code>uint32 level = 7;</code>
+     * @return The level.
      */
     int getLevel();
   }
   /**
    * Protobuf type {@code Ydb.Monitoring.IssueLog}
    */
-  public  static final class IssueLog extends
+  public static final class IssueLog extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.IssueLog)
       IssueLogOrBuilder {
@@ -19786,7 +21298,13 @@ public final class MonitoringProtos {
       message_ = "";
       reason_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       type_ = "";
-      level_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new IssueLog();
     }
 
     @java.lang.Override
@@ -19799,6 +21317,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -19810,13 +21331,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -19850,9 +21364,9 @@ public final class MonitoringProtos {
             }
             case 42: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 reason_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000010;
+                mutable_bitField0_ |= 0x00000001;
               }
               reason_.add(s);
               break;
@@ -19868,6 +21382,13 @@ public final class MonitoringProtos {
               level_ = input.readUInt32();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -19876,7 +21397,7 @@ public final class MonitoringProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           reason_ = reason_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -19888,6 +21409,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_IssueLog_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_IssueLog_fieldAccessorTable
@@ -19895,12 +21417,13 @@ public final class MonitoringProtos {
               tech.ydb.monitoring.MonitoringProtos.IssueLog.class, tech.ydb.monitoring.MonitoringProtos.IssueLog.Builder.class);
     }
 
-    private int bitField0_;
     public static final int ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object id_;
     /**
      * <code>string id = 1;</code>
+     * @return The id.
      */
+    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -19915,7 +21438,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -19934,14 +21459,17 @@ public final class MonitoringProtos {
     private int status_;
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status status = 2;</code>
+     * @return The enum numeric value on the wire for status.
      */
-    public int getStatusValue() {
+    @java.lang.Override public int getStatusValue() {
       return status_;
     }
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status status = 2;</code>
+     * @return The status.
      */
-    public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getStatus() {
+    @java.lang.Override public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getStatus() {
+      @SuppressWarnings("deprecation")
       tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(status_);
       return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
     }
@@ -19950,7 +21478,9 @@ public final class MonitoringProtos {
     private volatile java.lang.Object message_;
     /**
      * <code>string message = 3;</code>
+     * @return The message.
      */
+    @java.lang.Override
     public java.lang.String getMessage() {
       java.lang.Object ref = message_;
       if (ref instanceof java.lang.String) {
@@ -19965,7 +21495,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string message = 3;</code>
+     * @return The bytes for message.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getMessageBytes() {
       java.lang.Object ref = message_;
@@ -19984,19 +21516,24 @@ public final class MonitoringProtos {
     private tech.ydb.monitoring.MonitoringProtos.Location location_;
     /**
      * <code>.Ydb.Monitoring.Location location = 4;</code>
+     * @return Whether the location field is set.
      */
+    @java.lang.Override
     public boolean hasLocation() {
       return location_ != null;
     }
     /**
      * <code>.Ydb.Monitoring.Location location = 4;</code>
+     * @return The location.
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.Location getLocation() {
       return location_ == null ? tech.ydb.monitoring.MonitoringProtos.Location.getDefaultInstance() : location_;
     }
     /**
      * <code>.Ydb.Monitoring.Location location = 4;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.LocationOrBuilder getLocationOrBuilder() {
       return getLocation();
     }
@@ -20005,6 +21542,7 @@ public final class MonitoringProtos {
     private com.google.protobuf.LazyStringList reason_;
     /**
      * <code>repeated string reason = 5;</code>
+     * @return A list containing the reason.
      */
     public com.google.protobuf.ProtocolStringList
         getReasonList() {
@@ -20012,18 +21550,23 @@ public final class MonitoringProtos {
     }
     /**
      * <code>repeated string reason = 5;</code>
+     * @return The count of reason.
      */
     public int getReasonCount() {
       return reason_.size();
     }
     /**
      * <code>repeated string reason = 5;</code>
+     * @param index The index of the element to return.
+     * @return The reason at the given index.
      */
     public java.lang.String getReason(int index) {
       return reason_.get(index);
     }
     /**
      * <code>repeated string reason = 5;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the reason at the given index.
      */
     public com.google.protobuf.ByteString
         getReasonBytes(int index) {
@@ -20034,7 +21577,9 @@ public final class MonitoringProtos {
     private volatile java.lang.Object type_;
     /**
      * <code>string type = 6;</code>
+     * @return The type.
      */
+    @java.lang.Override
     public java.lang.String getType() {
       java.lang.Object ref = type_;
       if (ref instanceof java.lang.String) {
@@ -20049,7 +21594,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string type = 6;</code>
+     * @return The bytes for type.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTypeBytes() {
       java.lang.Object ref = type_;
@@ -20068,12 +21615,15 @@ public final class MonitoringProtos {
     private int level_;
     /**
      * <code>uint32 level = 7;</code>
+     * @return The level.
      */
+    @java.lang.Override
     public int getLevel() {
       return level_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -20083,6 +21633,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getIdBytes().isEmpty()) {
@@ -20109,6 +21660,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -20158,25 +21710,24 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.IssueLog other = (tech.ydb.monitoring.MonitoringProtos.IssueLog) obj;
 
-      boolean result = true;
-      result = result && getId()
-          .equals(other.getId());
-      result = result && status_ == other.status_;
-      result = result && getMessage()
-          .equals(other.getMessage());
-      result = result && (hasLocation() == other.hasLocation());
+      if (!getId()
+          .equals(other.getId())) return false;
+      if (status_ != other.status_) return false;
+      if (!getMessage()
+          .equals(other.getMessage())) return false;
+      if (hasLocation() != other.hasLocation()) return false;
       if (hasLocation()) {
-        result = result && getLocation()
-            .equals(other.getLocation());
+        if (!getLocation()
+            .equals(other.getLocation())) return false;
       }
-      result = result && getReasonList()
-          .equals(other.getReasonList());
-      result = result && getType()
-          .equals(other.getType());
-      result = result && (getLevel()
-          == other.getLevel());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getReasonList()
+          .equals(other.getReasonList())) return false;
+      if (!getType()
+          .equals(other.getType())) return false;
+      if (getLevel()
+          != other.getLevel()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -20279,6 +21830,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -20286,6 +21838,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.IssueLog prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -20309,6 +21862,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_IssueLog_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_IssueLog_fieldAccessorTable
@@ -20331,6 +21885,7 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         id_ = "";
@@ -20346,7 +21901,7 @@ public final class MonitoringProtos {
           locationBuilder_ = null;
         }
         reason_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000001);
         type_ = "";
 
         level_ = 0;
@@ -20354,15 +21909,18 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_IssueLog_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.IssueLog getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.IssueLog.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.IssueLog build() {
         tech.ydb.monitoring.MonitoringProtos.IssueLog result = buildPartial();
         if (!result.isInitialized()) {
@@ -20371,10 +21929,10 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.IssueLog buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.IssueLog result = new tech.ydb.monitoring.MonitoringProtos.IssueLog(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.id_ = id_;
         result.status_ = status_;
         result.message_ = message_;
@@ -20383,44 +21941,50 @@ public final class MonitoringProtos {
         } else {
           result.location_ = locationBuilder_.build();
         }
-        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           reason_ = reason_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000010);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.reason_ = reason_;
         result.type_ = type_;
         result.level_ = level_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.IssueLog) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.IssueLog)other);
@@ -20449,7 +22013,7 @@ public final class MonitoringProtos {
         if (!other.reason_.isEmpty()) {
           if (reason_.isEmpty()) {
             reason_ = other.reason_;
-            bitField0_ = (bitField0_ & ~0x00000010);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensureReasonIsMutable();
             reason_.addAll(other.reason_);
@@ -20468,10 +22032,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -20494,6 +22060,7 @@ public final class MonitoringProtos {
       private java.lang.Object id_ = "";
       /**
        * <code>string id = 1;</code>
+       * @return The id.
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -20509,6 +22076,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -20525,6 +22093,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -20538,6 +22108,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -20547,6 +22118,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @param value The bytes for id to set.
+       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -20563,27 +22136,36 @@ public final class MonitoringProtos {
       private int status_ = 0;
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status status = 2;</code>
+       * @return The enum numeric value on the wire for status.
        */
-      public int getStatusValue() {
+      @java.lang.Override public int getStatusValue() {
         return status_;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status status = 2;</code>
+       * @param value The enum numeric value on the wire for status to set.
+       * @return This builder for chaining.
        */
       public Builder setStatusValue(int value) {
+        
         status_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status status = 2;</code>
+       * @return The status.
        */
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getStatus() {
+        @SuppressWarnings("deprecation")
         tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(status_);
         return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status status = 2;</code>
+       * @param value The status to set.
+       * @return This builder for chaining.
        */
       public Builder setStatus(tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status value) {
         if (value == null) {
@@ -20596,6 +22178,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status status = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearStatus() {
         
@@ -20607,6 +22190,7 @@ public final class MonitoringProtos {
       private java.lang.Object message_ = "";
       /**
        * <code>string message = 3;</code>
+       * @return The message.
        */
       public java.lang.String getMessage() {
         java.lang.Object ref = message_;
@@ -20622,6 +22206,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string message = 3;</code>
+       * @return The bytes for message.
        */
       public com.google.protobuf.ByteString
           getMessageBytes() {
@@ -20638,6 +22223,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string message = 3;</code>
+       * @param value The message to set.
+       * @return This builder for chaining.
        */
       public Builder setMessage(
           java.lang.String value) {
@@ -20651,6 +22238,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string message = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMessage() {
         
@@ -20660,6 +22248,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string message = 3;</code>
+       * @param value The bytes for message to set.
+       * @return This builder for chaining.
        */
       public Builder setMessageBytes(
           com.google.protobuf.ByteString value) {
@@ -20673,17 +22263,19 @@ public final class MonitoringProtos {
         return this;
       }
 
-      private tech.ydb.monitoring.MonitoringProtos.Location location_ = null;
+      private tech.ydb.monitoring.MonitoringProtos.Location location_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.Location, tech.ydb.monitoring.MonitoringProtos.Location.Builder, tech.ydb.monitoring.MonitoringProtos.LocationOrBuilder> locationBuilder_;
       /**
        * <code>.Ydb.Monitoring.Location location = 4;</code>
+       * @return Whether the location field is set.
        */
       public boolean hasLocation() {
         return locationBuilder_ != null || location_ != null;
       }
       /**
        * <code>.Ydb.Monitoring.Location location = 4;</code>
+       * @return The location.
        */
       public tech.ydb.monitoring.MonitoringProtos.Location getLocation() {
         if (locationBuilder_ == null) {
@@ -20792,13 +22384,14 @@ public final class MonitoringProtos {
 
       private com.google.protobuf.LazyStringList reason_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureReasonIsMutable() {
-        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           reason_ = new com.google.protobuf.LazyStringArrayList(reason_);
-          bitField0_ |= 0x00000010;
+          bitField0_ |= 0x00000001;
          }
       }
       /**
        * <code>repeated string reason = 5;</code>
+       * @return A list containing the reason.
        */
       public com.google.protobuf.ProtocolStringList
           getReasonList() {
@@ -20806,18 +22399,23 @@ public final class MonitoringProtos {
       }
       /**
        * <code>repeated string reason = 5;</code>
+       * @return The count of reason.
        */
       public int getReasonCount() {
         return reason_.size();
       }
       /**
        * <code>repeated string reason = 5;</code>
+       * @param index The index of the element to return.
+       * @return The reason at the given index.
        */
       public java.lang.String getReason(int index) {
         return reason_.get(index);
       }
       /**
        * <code>repeated string reason = 5;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the reason at the given index.
        */
       public com.google.protobuf.ByteString
           getReasonBytes(int index) {
@@ -20825,6 +22423,9 @@ public final class MonitoringProtos {
       }
       /**
        * <code>repeated string reason = 5;</code>
+       * @param index The index to set the value at.
+       * @param value The reason to set.
+       * @return This builder for chaining.
        */
       public Builder setReason(
           int index, java.lang.String value) {
@@ -20838,6 +22439,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>repeated string reason = 5;</code>
+       * @param value The reason to add.
+       * @return This builder for chaining.
        */
       public Builder addReason(
           java.lang.String value) {
@@ -20851,6 +22454,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>repeated string reason = 5;</code>
+       * @param values The reason to add.
+       * @return This builder for chaining.
        */
       public Builder addAllReason(
           java.lang.Iterable<java.lang.String> values) {
@@ -20862,15 +22467,18 @@ public final class MonitoringProtos {
       }
       /**
        * <code>repeated string reason = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearReason() {
         reason_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
       /**
        * <code>repeated string reason = 5;</code>
+       * @param value The bytes of the reason to add.
+       * @return This builder for chaining.
        */
       public Builder addReasonBytes(
           com.google.protobuf.ByteString value) {
@@ -20887,6 +22495,7 @@ public final class MonitoringProtos {
       private java.lang.Object type_ = "";
       /**
        * <code>string type = 6;</code>
+       * @return The type.
        */
       public java.lang.String getType() {
         java.lang.Object ref = type_;
@@ -20902,6 +22511,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string type = 6;</code>
+       * @return The bytes for type.
        */
       public com.google.protobuf.ByteString
           getTypeBytes() {
@@ -20918,6 +22528,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string type = 6;</code>
+       * @param value The type to set.
+       * @return This builder for chaining.
        */
       public Builder setType(
           java.lang.String value) {
@@ -20931,6 +22543,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string type = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearType() {
         
@@ -20940,6 +22553,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string type = 6;</code>
+       * @param value The bytes for type to set.
+       * @return This builder for chaining.
        */
       public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -20956,12 +22571,16 @@ public final class MonitoringProtos {
       private int level_ ;
       /**
        * <code>uint32 level = 7;</code>
+       * @return The level.
        */
+      @java.lang.Override
       public int getLevel() {
         return level_;
       }
       /**
        * <code>uint32 level = 7;</code>
+       * @param value The level to set.
+       * @return This builder for chaining.
        */
       public Builder setLevel(int value) {
         
@@ -20971,6 +22590,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>uint32 level = 7;</code>
+       * @return This builder for chaining.
        */
       public Builder clearLevel() {
         
@@ -20978,11 +22598,13 @@ public final class MonitoringProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -21004,11 +22626,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<IssueLog>
         PARSER = new com.google.protobuf.AbstractParser<IssueLog>() {
+      @java.lang.Override
       public IssueLog parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new IssueLog(input, extensionRegistry);
+        return new IssueLog(input, extensionRegistry);
       }
     };
 
@@ -21021,6 +22644,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.IssueLog getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -21033,29 +22657,35 @@ public final class MonitoringProtos {
 
     /**
      * <code>string name = 1;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The enum numeric value on the wire for overall.
      */
     int getOverallValue();
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The overall.
      */
     tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall();
 
     /**
      * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
+     * @return Whether the storage field is set.
      */
     boolean hasStorage();
     /**
      * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
+     * @return The storage.
      */
     tech.ydb.monitoring.MonitoringProtos.StorageStatus getStorage();
     /**
@@ -21065,10 +22695,12 @@ public final class MonitoringProtos {
 
     /**
      * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
+     * @return Whether the compute field is set.
      */
     boolean hasCompute();
     /**
      * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
+     * @return The compute.
      */
     tech.ydb.monitoring.MonitoringProtos.ComputeStatus getCompute();
     /**
@@ -21079,7 +22711,7 @@ public final class MonitoringProtos {
   /**
    * Protobuf type {@code Ydb.Monitoring.DatabaseStatus}
    */
-  public  static final class DatabaseStatus extends
+  public static final class DatabaseStatus extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.DatabaseStatus)
       DatabaseStatusOrBuilder {
@@ -21094,6 +22726,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DatabaseStatus();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -21103,7 +22742,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -21114,13 +22755,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -21159,6 +22793,13 @@ public final class MonitoringProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -21176,6 +22817,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_DatabaseStatus_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_DatabaseStatus_fieldAccessorTable
@@ -21187,7 +22829,9 @@ public final class MonitoringProtos {
     private volatile java.lang.Object name_;
     /**
      * <code>string name = 1;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -21202,7 +22846,9 @@ public final class MonitoringProtos {
     }
     /**
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -21221,14 +22867,17 @@ public final class MonitoringProtos {
     private int overall_;
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The enum numeric value on the wire for overall.
      */
-    public int getOverallValue() {
+    @java.lang.Override public int getOverallValue() {
       return overall_;
     }
     /**
      * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+     * @return The overall.
      */
-    public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+    @java.lang.Override public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+      @SuppressWarnings("deprecation")
       tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
       return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
     }
@@ -21237,19 +22886,24 @@ public final class MonitoringProtos {
     private tech.ydb.monitoring.MonitoringProtos.StorageStatus storage_;
     /**
      * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
+     * @return Whether the storage field is set.
      */
+    @java.lang.Override
     public boolean hasStorage() {
       return storage_ != null;
     }
     /**
      * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
+     * @return The storage.
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.StorageStatus getStorage() {
       return storage_ == null ? tech.ydb.monitoring.MonitoringProtos.StorageStatus.getDefaultInstance() : storage_;
     }
     /**
      * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.StorageStatusOrBuilder getStorageOrBuilder() {
       return getStorage();
     }
@@ -21258,24 +22912,30 @@ public final class MonitoringProtos {
     private tech.ydb.monitoring.MonitoringProtos.ComputeStatus compute_;
     /**
      * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
+     * @return Whether the compute field is set.
      */
+    @java.lang.Override
     public boolean hasCompute() {
       return compute_ != null;
     }
     /**
      * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
+     * @return The compute.
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.ComputeStatus getCompute() {
       return compute_ == null ? tech.ydb.monitoring.MonitoringProtos.ComputeStatus.getDefaultInstance() : compute_;
     }
     /**
      * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.ComputeStatusOrBuilder getComputeOrBuilder() {
       return getCompute();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -21285,6 +22945,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getNameBytes().isEmpty()) {
@@ -21302,6 +22963,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -21337,22 +22999,21 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.DatabaseStatus other = (tech.ydb.monitoring.MonitoringProtos.DatabaseStatus) obj;
 
-      boolean result = true;
-      result = result && getName()
-          .equals(other.getName());
-      result = result && overall_ == other.overall_;
-      result = result && (hasStorage() == other.hasStorage());
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (overall_ != other.overall_) return false;
+      if (hasStorage() != other.hasStorage()) return false;
       if (hasStorage()) {
-        result = result && getStorage()
-            .equals(other.getStorage());
+        if (!getStorage()
+            .equals(other.getStorage())) return false;
       }
-      result = result && (hasCompute() == other.hasCompute());
+      if (hasCompute() != other.hasCompute()) return false;
       if (hasCompute()) {
-        result = result && getCompute()
-            .equals(other.getCompute());
+        if (!getCompute()
+            .equals(other.getCompute())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -21449,6 +23110,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -21456,6 +23118,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.DatabaseStatus prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -21479,6 +23142,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_DatabaseStatus_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_DatabaseStatus_fieldAccessorTable
@@ -21501,6 +23165,7 @@ public final class MonitoringProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         name_ = "";
@@ -21522,15 +23187,18 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_DatabaseStatus_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.DatabaseStatus getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.DatabaseStatus build() {
         tech.ydb.monitoring.MonitoringProtos.DatabaseStatus result = buildPartial();
         if (!result.isInitialized()) {
@@ -21539,6 +23207,7 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.DatabaseStatus buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.DatabaseStatus result = new tech.ydb.monitoring.MonitoringProtos.DatabaseStatus(this);
         result.name_ = name_;
@@ -21557,32 +23226,39 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.DatabaseStatus) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.DatabaseStatus)other);
@@ -21612,10 +23288,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -21637,6 +23315,7 @@ public final class MonitoringProtos {
       private java.lang.Object name_ = "";
       /**
        * <code>string name = 1;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -21652,6 +23331,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string name = 1;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -21668,6 +23348,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string name = 1;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -21681,6 +23363,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string name = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -21690,6 +23373,8 @@ public final class MonitoringProtos {
       }
       /**
        * <code>string name = 1;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -21706,27 +23391,36 @@ public final class MonitoringProtos {
       private int overall_ = 0;
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @return The enum numeric value on the wire for overall.
        */
-      public int getOverallValue() {
+      @java.lang.Override public int getOverallValue() {
         return overall_;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @param value The enum numeric value on the wire for overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverallValue(int value) {
+        
         overall_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @return The overall.
        */
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status getOverall() {
+        @SuppressWarnings("deprecation")
         tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status result = tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.valueOf(overall_);
         return result == null ? tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @param value The overall to set.
+       * @return This builder for chaining.
        */
       public Builder setOverall(tech.ydb.monitoring.MonitoringProtos.StatusFlag.Status value) {
         if (value == null) {
@@ -21739,6 +23433,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>.Ydb.Monitoring.StatusFlag.Status overall = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearOverall() {
         
@@ -21747,17 +23442,19 @@ public final class MonitoringProtos {
         return this;
       }
 
-      private tech.ydb.monitoring.MonitoringProtos.StorageStatus storage_ = null;
+      private tech.ydb.monitoring.MonitoringProtos.StorageStatus storage_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.StorageStatus, tech.ydb.monitoring.MonitoringProtos.StorageStatus.Builder, tech.ydb.monitoring.MonitoringProtos.StorageStatusOrBuilder> storageBuilder_;
       /**
        * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
+       * @return Whether the storage field is set.
        */
       public boolean hasStorage() {
         return storageBuilder_ != null || storage_ != null;
       }
       /**
        * <code>.Ydb.Monitoring.StorageStatus storage = 3;</code>
+       * @return The storage.
        */
       public tech.ydb.monitoring.MonitoringProtos.StorageStatus getStorage() {
         if (storageBuilder_ == null) {
@@ -21864,17 +23561,19 @@ public final class MonitoringProtos {
         return storageBuilder_;
       }
 
-      private tech.ydb.monitoring.MonitoringProtos.ComputeStatus compute_ = null;
+      private tech.ydb.monitoring.MonitoringProtos.ComputeStatus compute_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.monitoring.MonitoringProtos.ComputeStatus, tech.ydb.monitoring.MonitoringProtos.ComputeStatus.Builder, tech.ydb.monitoring.MonitoringProtos.ComputeStatusOrBuilder> computeBuilder_;
       /**
        * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
+       * @return Whether the compute field is set.
        */
       public boolean hasCompute() {
         return computeBuilder_ != null || compute_ != null;
       }
       /**
        * <code>.Ydb.Monitoring.ComputeStatus compute = 4;</code>
+       * @return The compute.
        */
       public tech.ydb.monitoring.MonitoringProtos.ComputeStatus getCompute() {
         if (computeBuilder_ == null) {
@@ -21980,11 +23679,13 @@ public final class MonitoringProtos {
         }
         return computeBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -22006,11 +23707,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<DatabaseStatus>
         PARSER = new com.google.protobuf.AbstractParser<DatabaseStatus>() {
+      @java.lang.Override
       public DatabaseStatus parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DatabaseStatus(input, extensionRegistry);
+        return new DatabaseStatus(input, extensionRegistry);
       }
     };
 
@@ -22023,6 +23725,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.DatabaseStatus getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -22035,10 +23738,12 @@ public final class MonitoringProtos {
 
     /**
      * <code>.Ydb.Monitoring.SelfCheck.Result self_check_result = 1;</code>
+     * @return The enum numeric value on the wire for selfCheckResult.
      */
     int getSelfCheckResultValue();
     /**
      * <code>.Ydb.Monitoring.SelfCheck.Result self_check_result = 1;</code>
+     * @return The selfCheckResult.
      */
     tech.ydb.monitoring.MonitoringProtos.SelfCheck.Result getSelfCheckResult();
 
@@ -22093,7 +23798,7 @@ public final class MonitoringProtos {
   /**
    * Protobuf type {@code Ydb.Monitoring.SelfCheckResult}
    */
-  public  static final class SelfCheckResult extends
+  public static final class SelfCheckResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Monitoring.SelfCheckResult)
       SelfCheckResultOrBuilder {
@@ -22109,6 +23814,13 @@ public final class MonitoringProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SelfCheckResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -22118,6 +23830,9 @@ public final class MonitoringProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -22129,13 +23844,6 @@ public final class MonitoringProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               int rawValue = input.readEnum();
 
@@ -22143,21 +23851,28 @@ public final class MonitoringProtos {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 issueLog_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.IssueLog>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               issueLog_.add(
                   input.readMessage(tech.ydb.monitoring.MonitoringProtos.IssueLog.parser(), extensionRegistry));
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 databaseStatus_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.DatabaseStatus>();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000002;
               }
               databaseStatus_.add(
                   input.readMessage(tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -22168,10 +23883,10 @@ public final class MonitoringProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           issueLog_ = java.util.Collections.unmodifiableList(issueLog_);
         }
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           databaseStatus_ = java.util.Collections.unmodifiableList(databaseStatus_);
         }
         this.unknownFields = unknownFields.build();
@@ -22183,6 +23898,7 @@ public final class MonitoringProtos {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_SelfCheckResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_SelfCheckResult_fieldAccessorTable
@@ -22190,19 +23906,21 @@ public final class MonitoringProtos {
               tech.ydb.monitoring.MonitoringProtos.SelfCheckResult.class, tech.ydb.monitoring.MonitoringProtos.SelfCheckResult.Builder.class);
     }
 
-    private int bitField0_;
     public static final int SELF_CHECK_RESULT_FIELD_NUMBER = 1;
     private int selfCheckResult_;
     /**
      * <code>.Ydb.Monitoring.SelfCheck.Result self_check_result = 1;</code>
+     * @return The enum numeric value on the wire for selfCheckResult.
      */
-    public int getSelfCheckResultValue() {
+    @java.lang.Override public int getSelfCheckResultValue() {
       return selfCheckResult_;
     }
     /**
      * <code>.Ydb.Monitoring.SelfCheck.Result self_check_result = 1;</code>
+     * @return The selfCheckResult.
      */
-    public tech.ydb.monitoring.MonitoringProtos.SelfCheck.Result getSelfCheckResult() {
+    @java.lang.Override public tech.ydb.monitoring.MonitoringProtos.SelfCheck.Result getSelfCheckResult() {
+      @SuppressWarnings("deprecation")
       tech.ydb.monitoring.MonitoringProtos.SelfCheck.Result result = tech.ydb.monitoring.MonitoringProtos.SelfCheck.Result.valueOf(selfCheckResult_);
       return result == null ? tech.ydb.monitoring.MonitoringProtos.SelfCheck.Result.UNRECOGNIZED : result;
     }
@@ -22212,12 +23930,14 @@ public final class MonitoringProtos {
     /**
      * <code>repeated .Ydb.Monitoring.IssueLog issue_log = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.monitoring.MonitoringProtos.IssueLog> getIssueLogList() {
       return issueLog_;
     }
     /**
      * <code>repeated .Ydb.Monitoring.IssueLog issue_log = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.monitoring.MonitoringProtos.IssueLogOrBuilder> 
         getIssueLogOrBuilderList() {
       return issueLog_;
@@ -22225,18 +23945,21 @@ public final class MonitoringProtos {
     /**
      * <code>repeated .Ydb.Monitoring.IssueLog issue_log = 2;</code>
      */
+    @java.lang.Override
     public int getIssueLogCount() {
       return issueLog_.size();
     }
     /**
      * <code>repeated .Ydb.Monitoring.IssueLog issue_log = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.IssueLog getIssueLog(int index) {
       return issueLog_.get(index);
     }
     /**
      * <code>repeated .Ydb.Monitoring.IssueLog issue_log = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.IssueLogOrBuilder getIssueLogOrBuilder(
         int index) {
       return issueLog_.get(index);
@@ -22247,12 +23970,14 @@ public final class MonitoringProtos {
     /**
      * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.monitoring.MonitoringProtos.DatabaseStatus> getDatabaseStatusList() {
       return databaseStatus_;
     }
     /**
      * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.monitoring.MonitoringProtos.DatabaseStatusOrBuilder> 
         getDatabaseStatusOrBuilderList() {
       return databaseStatus_;
@@ -22260,24 +23985,28 @@ public final class MonitoringProtos {
     /**
      * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
      */
+    @java.lang.Override
     public int getDatabaseStatusCount() {
       return databaseStatus_.size();
     }
     /**
      * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.DatabaseStatus getDatabaseStatus(int index) {
       return databaseStatus_.get(index);
     }
     /**
      * <code>repeated .Ydb.Monitoring.DatabaseStatus database_status = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.DatabaseStatusOrBuilder getDatabaseStatusOrBuilder(
         int index) {
       return databaseStatus_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -22287,6 +24016,7 @@ public final class MonitoringProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (selfCheckResult_ != tech.ydb.monitoring.MonitoringProtos.SelfCheck.Result.UNSPECIFIED.getNumber()) {
@@ -22301,6 +24031,7 @@ public final class MonitoringProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -22333,14 +24064,13 @@ public final class MonitoringProtos {
       }
       tech.ydb.monitoring.MonitoringProtos.SelfCheckResult other = (tech.ydb.monitoring.MonitoringProtos.SelfCheckResult) obj;
 
-      boolean result = true;
-      result = result && selfCheckResult_ == other.selfCheckResult_;
-      result = result && getIssueLogList()
-          .equals(other.getIssueLogList());
-      result = result && getDatabaseStatusList()
-          .equals(other.getDatabaseStatusList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (selfCheckResult_ != other.selfCheckResult_) return false;
+      if (!getIssueLogList()
+          .equals(other.getIssueLogList())) return false;
+      if (!getDatabaseStatusList()
+          .equals(other.getDatabaseStatusList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -22435,6 +24165,7 @@ public final class MonitoringProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -22442,6 +24173,7 @@ public final class MonitoringProtos {
     public static Builder newBuilder(tech.ydb.monitoring.MonitoringProtos.SelfCheckResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -22465,6 +24197,7 @@ public final class MonitoringProtos {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_SelfCheckResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_SelfCheckResult_fieldAccessorTable
@@ -22489,34 +24222,38 @@ public final class MonitoringProtos {
           getDatabaseStatusFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         selfCheckResult_ = 0;
 
         if (issueLogBuilder_ == null) {
           issueLog_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           issueLogBuilder_.clear();
         }
         if (databaseStatusBuilder_ == null) {
           databaseStatus_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
           databaseStatusBuilder_.clear();
         }
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.monitoring.MonitoringProtos.internal_static_Ydb_Monitoring_SelfCheckResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.SelfCheckResult getDefaultInstanceForType() {
         return tech.ydb.monitoring.MonitoringProtos.SelfCheckResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.SelfCheckResult build() {
         tech.ydb.monitoring.MonitoringProtos.SelfCheckResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -22525,60 +24262,66 @@ public final class MonitoringProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.SelfCheckResult buildPartial() {
         tech.ydb.monitoring.MonitoringProtos.SelfCheckResult result = new tech.ydb.monitoring.MonitoringProtos.SelfCheckResult(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.selfCheckResult_ = selfCheckResult_;
         if (issueLogBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             issueLog_ = java.util.Collections.unmodifiableList(issueLog_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.issueLog_ = issueLog_;
         } else {
           result.issueLog_ = issueLogBuilder_.build();
         }
         if (databaseStatusBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000002) != 0)) {
             databaseStatus_ = java.util.Collections.unmodifiableList(databaseStatus_);
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
           result.databaseStatus_ = databaseStatus_;
         } else {
           result.databaseStatus_ = databaseStatusBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.monitoring.MonitoringProtos.SelfCheckResult) {
           return mergeFrom((tech.ydb.monitoring.MonitoringProtos.SelfCheckResult)other);
@@ -22597,7 +24340,7 @@ public final class MonitoringProtos {
           if (!other.issueLog_.isEmpty()) {
             if (issueLog_.isEmpty()) {
               issueLog_ = other.issueLog_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureIssueLogIsMutable();
               issueLog_.addAll(other.issueLog_);
@@ -22610,7 +24353,7 @@ public final class MonitoringProtos {
               issueLogBuilder_.dispose();
               issueLogBuilder_ = null;
               issueLog_ = other.issueLog_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               issueLogBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getIssueLogFieldBuilder() : null;
@@ -22623,7 +24366,7 @@ public final class MonitoringProtos {
           if (!other.databaseStatus_.isEmpty()) {
             if (databaseStatus_.isEmpty()) {
               databaseStatus_ = other.databaseStatus_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensureDatabaseStatusIsMutable();
               databaseStatus_.addAll(other.databaseStatus_);
@@ -22636,7 +24379,7 @@ public final class MonitoringProtos {
               databaseStatusBuilder_.dispose();
               databaseStatusBuilder_ = null;
               databaseStatus_ = other.databaseStatus_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000002);
               databaseStatusBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getDatabaseStatusFieldBuilder() : null;
@@ -22650,10 +24393,12 @@ public final class MonitoringProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -22676,27 +24421,36 @@ public final class MonitoringProtos {
       private int selfCheckResult_ = 0;
       /**
        * <code>.Ydb.Monitoring.SelfCheck.Result self_check_result = 1;</code>
+       * @return The enum numeric value on the wire for selfCheckResult.
        */
-      public int getSelfCheckResultValue() {
+      @java.lang.Override public int getSelfCheckResultValue() {
         return selfCheckResult_;
       }
       /**
        * <code>.Ydb.Monitoring.SelfCheck.Result self_check_result = 1;</code>
+       * @param value The enum numeric value on the wire for selfCheckResult to set.
+       * @return This builder for chaining.
        */
       public Builder setSelfCheckResultValue(int value) {
+        
         selfCheckResult_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Monitoring.SelfCheck.Result self_check_result = 1;</code>
+       * @return The selfCheckResult.
        */
+      @java.lang.Override
       public tech.ydb.monitoring.MonitoringProtos.SelfCheck.Result getSelfCheckResult() {
+        @SuppressWarnings("deprecation")
         tech.ydb.monitoring.MonitoringProtos.SelfCheck.Result result = tech.ydb.monitoring.MonitoringProtos.SelfCheck.Result.valueOf(selfCheckResult_);
         return result == null ? tech.ydb.monitoring.MonitoringProtos.SelfCheck.Result.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Monitoring.SelfCheck.Result self_check_result = 1;</code>
+       * @param value The selfCheckResult to set.
+       * @return This builder for chaining.
        */
       public Builder setSelfCheckResult(tech.ydb.monitoring.MonitoringProtos.SelfCheck.Result value) {
         if (value == null) {
@@ -22709,6 +24463,7 @@ public final class MonitoringProtos {
       }
       /**
        * <code>.Ydb.Monitoring.SelfCheck.Result self_check_result = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSelfCheckResult() {
         
@@ -22720,9 +24475,9 @@ public final class MonitoringProtos {
       private java.util.List<tech.ydb.monitoring.MonitoringProtos.IssueLog> issueLog_ =
         java.util.Collections.emptyList();
       private void ensureIssueLogIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           issueLog_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.IssueLog>(issueLog_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -22872,7 +24627,7 @@ public final class MonitoringProtos {
       public Builder clearIssueLog() {
         if (issueLogBuilder_ == null) {
           issueLog_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           issueLogBuilder_.clear();
@@ -22949,7 +24704,7 @@ public final class MonitoringProtos {
           issueLogBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.monitoring.MonitoringProtos.IssueLog, tech.ydb.monitoring.MonitoringProtos.IssueLog.Builder, tech.ydb.monitoring.MonitoringProtos.IssueLogOrBuilder>(
                   issueLog_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           issueLog_ = null;
@@ -22960,9 +24715,9 @@ public final class MonitoringProtos {
       private java.util.List<tech.ydb.monitoring.MonitoringProtos.DatabaseStatus> databaseStatus_ =
         java.util.Collections.emptyList();
       private void ensureDatabaseStatusIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           databaseStatus_ = new java.util.ArrayList<tech.ydb.monitoring.MonitoringProtos.DatabaseStatus>(databaseStatus_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000002;
          }
       }
 
@@ -23112,7 +24867,7 @@ public final class MonitoringProtos {
       public Builder clearDatabaseStatus() {
         if (databaseStatusBuilder_ == null) {
           databaseStatus_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
           databaseStatusBuilder_.clear();
@@ -23189,18 +24944,20 @@ public final class MonitoringProtos {
           databaseStatusBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.monitoring.MonitoringProtos.DatabaseStatus, tech.ydb.monitoring.MonitoringProtos.DatabaseStatus.Builder, tech.ydb.monitoring.MonitoringProtos.DatabaseStatusOrBuilder>(
                   databaseStatus_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           databaseStatus_ = null;
         }
         return databaseStatusBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -23222,11 +24979,12 @@ public final class MonitoringProtos {
 
     private static final com.google.protobuf.Parser<SelfCheckResult>
         PARSER = new com.google.protobuf.AbstractParser<SelfCheckResult>() {
+      @java.lang.Override
       public SelfCheckResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new SelfCheckResult(input, extensionRegistry);
+        return new SelfCheckResult(input, extensionRegistry);
       }
     };
 
@@ -23239,6 +24997,7 @@ public final class MonitoringProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.monitoring.MonitoringProtos.SelfCheckResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -23403,7 +25162,7 @@ public final class MonitoringProtos {
       "peration_params\030\001 \001(\0132\037.Ydb.Operations.O" +
       "perationParams\022\035\n\025return_verbose_status\030" +
       "\002 \001(\010\0229\n\016minimum_status\030\003 \001(\0162!.Ydb.Moni" +
-      "toring.StatusFlag.Status\022\025\n\rmaximum_leve",
+      "toring.StatusFlag.Status\022\025\n\rmaximum_leve" +
       "l\030\004 \001(\r\"A\n\021SelfCheckResponse\022,\n\toperatio" +
       "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"g\n\tSe" +
       "lfCheck\"Z\n\006Result\022\017\n\013UNSPECIFIED\020\000\022\010\n\004GO" +
@@ -23413,7 +25172,7 @@ public final class MonitoringProtos {
       "itoring.StatusFlag.Status\"\300\001\n\022StorageVDi" +
       "skStatus\022\n\n\002id\030\001 \001(\t\0222\n\007overall\030\002 \001(\0162!." +
       "Ydb.Monitoring.StatusFlag.Status\0227\n\014vdis" +
-      "k_status\030\003 \001(\0162!.Ydb.Monitoring.StatusFl",
+      "k_status\030\003 \001(\0162!.Ydb.Monitoring.StatusFl" +
       "ag.Status\0221\n\005pdisk\030\004 \001(\0132\".Ydb.Monitorin" +
       "g.StoragePDiskStatus\"\210\001\n\022StorageGroupSta" +
       "tus\022\n\n\002id\030\001 \001(\t\0222\n\007overall\030\002 \001(\0162!.Ydb.M" +
@@ -23423,7 +25182,7 @@ public final class MonitoringProtos {
       "rall\030\002 \001(\0162!.Ydb.Monitoring.StatusFlag.S" +
       "tatus\0222\n\006groups\030\003 \003(\0132\".Ydb.Monitoring.S" +
       "torageGroupStatus\"u\n\rStorageStatus\0222\n\007ov" +
-      "erall\030\001 \001(\0162!.Ydb.Monitoring.StatusFlag.",
+      "erall\030\001 \001(\0162!.Ydb.Monitoring.StatusFlag." +
       "Status\0220\n\005pools\030\002 \003(\0132!.Ydb.Monitoring.S" +
       "toragePoolStatus\"u\n\023ComputeTabletStatus\022" +
       "2\n\007overall\030\001 \001(\0162!.Ydb.Monitoring.Status" +
@@ -23433,7 +25192,7 @@ public final class MonitoringProtos {
       ".Status\022\014\n\004name\030\002 \001(\t\022\r\n\005usage\030\003 \001(\002\"d\n\021" +
       "LoadAverageStatus\0222\n\007overall\030\001 \001(\0162!.Ydb" +
       ".Monitoring.StatusFlag.Status\022\014\n\004load\030\002 " +
-      "\001(\002\022\r\n\005cores\030\003 \001(\r\"\353\001\n\021ComputeNodeStatus",
+      "\001(\002\022\r\n\005cores\030\003 \001(\r\"\353\001\n\021ComputeNodeStatus" +
       "\022\n\n\002id\030\001 \001(\t\0222\n\007overall\030\002 \001(\0162!.Ydb.Moni" +
       "toring.StatusFlag.Status\0224\n\007tablets\030\003 \003(" +
       "\0132#.Ydb.Monitoring.ComputeTabletStatus\022/" +
@@ -23443,7 +25202,7 @@ public final class MonitoringProtos {
       "erall\030\001 \001(\0162!.Ydb.Monitoring.StatusFlag." +
       "Status\0220\n\005nodes\030\002 \003(\0132!.Ydb.Monitoring.C" +
       "omputeNodeStatus\0224\n\007tablets\030\003 \003(\0132#.Ydb." +
-      "Monitoring.ComputeTabletStatus\"6\n\014Locati",
+      "Monitoring.ComputeTabletStatus\"6\n\014Locati" +
       "onNode\022\n\n\002id\030\001 \001(\r\022\014\n\004host\030\002 \001(\t\022\014\n\004port" +
       "\030\003 \001(\r\"0\n\024LocationStoragePDisk\022\n\n\002id\030\001 \001" +
       "(\t\022\014\n\004path\030\002 \001(\t\"W\n\024LocationStorageVDisk" +
@@ -23453,7 +25212,7 @@ public final class MonitoringProtos {
       "db.Monitoring.LocationStorageVDisk\"X\n\023Lo" +
       "cationStoragePool\022\014\n\004name\030\001 \001(\t\0223\n\005group" +
       "\030\002 \001(\0132$.Ydb.Monitoring.LocationStorageG" +
-      "roup\"p\n\017LocationStorage\022*\n\004node\030\001 \001(\0132\034.",
+      "roup\"p\n\017LocationStorage\022*\n\004node\030\001 \001(\0132\034." +
       "Ydb.Monitoring.LocationNode\0221\n\004pool\030\002 \001(" +
       "\0132#.Ydb.Monitoring.LocationStoragePool\"#" +
       "\n\023LocationComputePool\022\014\n\004name\030\001 \001(\t\"@\n\025L" +
@@ -23463,7 +25222,7 @@ public final class MonitoringProtos {
       "nNode\0221\n\004pool\030\002 \001(\0132#.Ydb.Monitoring.Loc" +
       "ationComputePool\0225\n\006tablet\030\003 \001(\0132%.Ydb.M" +
       "onitoring.LocationComputeTablet\" \n\020Locat" +
-      "ionDatabase\022\014\n\004name\030\001 \001(\t\"\242\001\n\010Location\0220",
+      "ionDatabase\022\014\n\004name\030\001 \001(\t\"\242\001\n\010Location\0220" +
       "\n\007storage\030\001 \001(\0132\037.Ydb.Monitoring.Locatio" +
       "nStorage\0220\n\007compute\030\002 \001(\0132\037.Ydb.Monitori" +
       "ng.LocationCompute\0222\n\010database\030\003 \001(\0132 .Y" +
@@ -23473,7 +25232,7 @@ public final class MonitoringProtos {
       "\001(\t\022*\n\010location\030\004 \001(\0132\030.Ydb.Monitoring.L" +
       "ocation\022\016\n\006reason\030\005 \003(\t\022\014\n\004type\030\006 \001(\t\022\r\n" +
       "\005level\030\007 \001(\r\"\262\001\n\016DatabaseStatus\022\014\n\004name\030" +
-      "\001 \001(\t\0222\n\007overall\030\002 \001(\0162!.Ydb.Monitoring.",
+      "\001 \001(\t\0222\n\007overall\030\002 \001(\0162!.Ydb.Monitoring." +
       "StatusFlag.Status\022.\n\007storage\030\003 \001(\0132\035.Ydb" +
       ".Monitoring.StorageStatus\022.\n\007compute\030\004 \001" +
       "(\0132\035.Ydb.Monitoring.ComputeStatus\"\264\001\n\017Se" +
@@ -23484,19 +25243,11 @@ public final class MonitoringProtos {
       "g.DatabaseStatusB0\n\031tech.ydb.monit" +
       "oringB\020MonitoringProtos\370\001\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.OperationProtos.getDescriptor(),
-        }, assigner);
+        });
     internal_static_Ydb_Monitoring_StatusFlag_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_Monitoring_StatusFlag_fieldAccessorTable = new

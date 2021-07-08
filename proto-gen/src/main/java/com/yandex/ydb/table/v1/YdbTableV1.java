@@ -32,7 +32,7 @@ public final class YdbTableV1 {
       "ionRequest\032 .Ydb.Table.DeleteSessionResp" +
       "onse\022F\n\tKeepAlive\022\033.Ydb.Table.KeepAliveR" +
       "equest\032\034.Ydb.Table.KeepAliveResponse\022L\n\013" +
-      "CreateTable\022\035.Ydb.Table.CreateTableReque",
+      "CreateTable\022\035.Ydb.Table.CreateTableReque" +
       "st\032\036.Ydb.Table.CreateTableResponse\022F\n\tDr" +
       "opTable\022\033.Ydb.Table.DropTableRequest\032\034.Y" +
       "db.Table.DropTableResponse\022I\n\nAlterTable" +
@@ -42,7 +42,7 @@ public final class YdbTableV1 {
       "TableResponse\022I\n\nCopyTables\022\034.Ydb.Table." +
       "CopyTablesRequest\032\035.Ydb.Table.CopyTables" +
       "Response\022R\n\rDescribeTable\022\037.Ydb.Table.De" +
-      "scribeTableRequest\032 .Ydb.Table.DescribeT",
+      "scribeTableRequest\032 .Ydb.Table.DescribeT" +
       "ableResponse\022[\n\020ExplainDataQuery\022\".Ydb.T" +
       "able.ExplainDataQueryRequest\032#.Ydb.Table" +
       ".ExplainDataQueryResponse\022[\n\020PrepareData" +
@@ -52,7 +52,7 @@ public final class YdbTableV1 {
       "taQueryRequest\032#.Ydb.Table.ExecuteDataQu" +
       "eryResponse\022a\n\022ExecuteSchemeQuery\022$.Ydb." +
       "Table.ExecuteSchemeQueryRequest\032%.Ydb.Ta" +
-      "ble.ExecuteSchemeQueryResponse\022[\n\020BeginT",
+      "ble.ExecuteSchemeQueryResponse\022[\n\020BeginT" +
       "ransaction\022\".Ydb.Table.BeginTransactionR" +
       "equest\032#.Ydb.Table.BeginTransactionRespo" +
       "nse\022^\n\021CommitTransaction\022#.Ydb.Table.Com" +
@@ -62,7 +62,7 @@ public final class YdbTableV1 {
       "t\032&.Ydb.Table.RollbackTransactionRespons" +
       "e\022g\n\024DescribeTableOptions\022&.Ydb.Table.De" +
       "scribeTableOptionsRequest\032\'.Ydb.Table.De" +
-      "scribeTableOptionsResponse\022N\n\017StreamRead",
+      "scribeTableOptionsResponse\022N\n\017StreamRead" +
       "Table\022\033.Ydb.Table.ReadTableRequest\032\034.Ydb" +
       ".Table.ReadTableResponse0\001\022I\n\nBulkUpsert" +
       "\022\034.Ydb.Table.BulkUpsertRequest\032\035.Ydb.Tab" +
@@ -72,19 +72,11 @@ public final class YdbTableV1 {
       "esponse0\001B\031\n\027tech.ydb.table.v1b\006pr" +
       "oto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.table.YdbTable.getDescriptor(),
-        }, assigner);
+        });
     tech.ydb.table.YdbTable.getDescriptor();
   }
 

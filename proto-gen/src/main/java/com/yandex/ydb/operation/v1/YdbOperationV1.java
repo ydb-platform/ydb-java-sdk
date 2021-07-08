@@ -32,25 +32,17 @@ public final class YdbOperationV1 {
       "on\022&.Ydb.Operations.CancelOperationReque" +
       "st\032\'.Ydb.Operations.CancelOperationRespo" +
       "nse\022b\n\017ForgetOperation\022&.Ydb.Operations." +
-      "ForgetOperationRequest\032\'.Ydb.Operations.",
+      "ForgetOperationRequest\032\'.Ydb.Operations." +
       "ForgetOperationResponse\022_\n\016ListOperation" +
       "s\022%.Ydb.Operations.ListOperationsRequest" +
       "\032&.Ydb.Operations.ListOperationsResponse" +
       "B\035\n\033tech.ydb.operation.v1b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.OperationProtos.getDescriptor(),
-        }, assigner);
+        });
     tech.ydb.OperationProtos.getDescriptor();
   }
 

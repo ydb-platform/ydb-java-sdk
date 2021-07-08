@@ -25,7 +25,7 @@ public final class YdbExport {
    *
    * Protobuf type {@code Ydb.Export.ExportProgress}
    */
-  public  static final class ExportProgress extends
+  public static final class ExportProgress extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Export.ExportProgress)
       ExportProgressOrBuilder {
@@ -38,6 +38,13 @@ public final class YdbExport {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExportProgress();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -47,6 +54,9 @@ public final class YdbExport {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -58,7 +68,7 @@ public final class YdbExport {
               done = true;
               break;
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -81,6 +91,7 @@ public final class YdbExport {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportProgress_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportProgress_fieldAccessorTable
@@ -155,6 +166,8 @@ public final class YdbExport {
       }
 
       /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -162,6 +175,10 @@ public final class YdbExport {
         return forNumber(value);
       }
 
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
       public static Progress forNumber(int value) {
         switch (value) {
           case 0: return PROGRESS_UNSPECIFIED;
@@ -188,6 +205,10 @@ public final class YdbExport {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -223,6 +244,7 @@ public final class YdbExport {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -232,11 +254,13 @@ public final class YdbExport {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -257,9 +281,8 @@ public final class YdbExport {
       }
       tech.ydb.export.YdbExport.ExportProgress other = (tech.ydb.export.YdbExport.ExportProgress) obj;
 
-      boolean result = true;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -344,6 +367,7 @@ public final class YdbExport {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -351,6 +375,7 @@ public final class YdbExport {
     public static Builder newBuilder(tech.ydb.export.YdbExport.ExportProgress prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -378,6 +403,7 @@ public final class YdbExport {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportProgress_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportProgress_fieldAccessorTable
@@ -400,20 +426,24 @@ public final class YdbExport {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportProgress_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportProgress getDefaultInstanceForType() {
         return tech.ydb.export.YdbExport.ExportProgress.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportProgress build() {
         tech.ydb.export.YdbExport.ExportProgress result = buildPartial();
         if (!result.isInitialized()) {
@@ -422,38 +452,46 @@ public final class YdbExport {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportProgress buildPartial() {
         tech.ydb.export.YdbExport.ExportProgress result = new tech.ydb.export.YdbExport.ExportProgress(this);
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.export.YdbExport.ExportProgress) {
           return mergeFrom((tech.ydb.export.YdbExport.ExportProgress)other);
@@ -470,10 +508,12 @@ public final class YdbExport {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -491,11 +531,13 @@ public final class YdbExport {
         }
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -517,11 +559,12 @@ public final class YdbExport {
 
     private static final com.google.protobuf.Parser<ExportProgress>
         PARSER = new com.google.protobuf.AbstractParser<ExportProgress>() {
+      @java.lang.Override
       public ExportProgress parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExportProgress(input, extensionRegistry);
+        return new ExportProgress(input, extensionRegistry);
       }
     };
 
@@ -534,6 +577,7 @@ public final class YdbExport {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportProgress getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -546,20 +590,24 @@ public final class YdbExport {
 
     /**
      * <code>uint32 parts_total = 1;</code>
+     * @return The partsTotal.
      */
     int getPartsTotal();
 
     /**
      * <code>uint32 parts_completed = 2;</code>
+     * @return The partsCompleted.
      */
     int getPartsCompleted();
 
     /**
      * <code>.google.protobuf.Timestamp start_time = 3;</code>
+     * @return Whether the startTime field is set.
      */
     boolean hasStartTime();
     /**
      * <code>.google.protobuf.Timestamp start_time = 3;</code>
+     * @return The startTime.
      */
     com.google.protobuf.Timestamp getStartTime();
     /**
@@ -569,10 +617,12 @@ public final class YdbExport {
 
     /**
      * <code>.google.protobuf.Timestamp end_time = 4;</code>
+     * @return Whether the endTime field is set.
      */
     boolean hasEndTime();
     /**
      * <code>.google.protobuf.Timestamp end_time = 4;</code>
+     * @return The endTime.
      */
     com.google.protobuf.Timestamp getEndTime();
     /**
@@ -583,7 +633,7 @@ public final class YdbExport {
   /**
    * Protobuf type {@code Ydb.Export.ExportItemProgress}
    */
-  public  static final class ExportItemProgress extends
+  public static final class ExportItemProgress extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Export.ExportItemProgress)
       ExportItemProgressOrBuilder {
@@ -593,8 +643,13 @@ public final class YdbExport {
       super(builder);
     }
     private ExportItemProgress() {
-      partsTotal_ = 0;
-      partsCompleted_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExportItemProgress();
     }
 
     @java.lang.Override
@@ -607,7 +662,9 @@ public final class YdbExport {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -618,13 +675,6 @@ public final class YdbExport {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               partsTotal_ = input.readUInt32();
@@ -661,6 +711,13 @@ public final class YdbExport {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -678,6 +735,7 @@ public final class YdbExport {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportItemProgress_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportItemProgress_fieldAccessorTable
@@ -689,7 +747,9 @@ public final class YdbExport {
     private int partsTotal_;
     /**
      * <code>uint32 parts_total = 1;</code>
+     * @return The partsTotal.
      */
+    @java.lang.Override
     public int getPartsTotal() {
       return partsTotal_;
     }
@@ -698,7 +758,9 @@ public final class YdbExport {
     private int partsCompleted_;
     /**
      * <code>uint32 parts_completed = 2;</code>
+     * @return The partsCompleted.
      */
+    @java.lang.Override
     public int getPartsCompleted() {
       return partsCompleted_;
     }
@@ -707,19 +769,24 @@ public final class YdbExport {
     private com.google.protobuf.Timestamp startTime_;
     /**
      * <code>.google.protobuf.Timestamp start_time = 3;</code>
+     * @return Whether the startTime field is set.
      */
+    @java.lang.Override
     public boolean hasStartTime() {
       return startTime_ != null;
     }
     /**
      * <code>.google.protobuf.Timestamp start_time = 3;</code>
+     * @return The startTime.
      */
+    @java.lang.Override
     public com.google.protobuf.Timestamp getStartTime() {
       return startTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : startTime_;
     }
     /**
      * <code>.google.protobuf.Timestamp start_time = 3;</code>
      */
+    @java.lang.Override
     public com.google.protobuf.TimestampOrBuilder getStartTimeOrBuilder() {
       return getStartTime();
     }
@@ -728,24 +795,30 @@ public final class YdbExport {
     private com.google.protobuf.Timestamp endTime_;
     /**
      * <code>.google.protobuf.Timestamp end_time = 4;</code>
+     * @return Whether the endTime field is set.
      */
+    @java.lang.Override
     public boolean hasEndTime() {
       return endTime_ != null;
     }
     /**
      * <code>.google.protobuf.Timestamp end_time = 4;</code>
+     * @return The endTime.
      */
+    @java.lang.Override
     public com.google.protobuf.Timestamp getEndTime() {
       return endTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : endTime_;
     }
     /**
      * <code>.google.protobuf.Timestamp end_time = 4;</code>
      */
+    @java.lang.Override
     public com.google.protobuf.TimestampOrBuilder getEndTimeOrBuilder() {
       return getEndTime();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -755,6 +828,7 @@ public final class YdbExport {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (partsTotal_ != 0) {
@@ -772,6 +846,7 @@ public final class YdbExport {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -808,23 +883,22 @@ public final class YdbExport {
       }
       tech.ydb.export.YdbExport.ExportItemProgress other = (tech.ydb.export.YdbExport.ExportItemProgress) obj;
 
-      boolean result = true;
-      result = result && (getPartsTotal()
-          == other.getPartsTotal());
-      result = result && (getPartsCompleted()
-          == other.getPartsCompleted());
-      result = result && (hasStartTime() == other.hasStartTime());
+      if (getPartsTotal()
+          != other.getPartsTotal()) return false;
+      if (getPartsCompleted()
+          != other.getPartsCompleted()) return false;
+      if (hasStartTime() != other.hasStartTime()) return false;
       if (hasStartTime()) {
-        result = result && getStartTime()
-            .equals(other.getStartTime());
+        if (!getStartTime()
+            .equals(other.getStartTime())) return false;
       }
-      result = result && (hasEndTime() == other.hasEndTime());
+      if (hasEndTime() != other.hasEndTime()) return false;
       if (hasEndTime()) {
-        result = result && getEndTime()
-            .equals(other.getEndTime());
+        if (!getEndTime()
+            .equals(other.getEndTime())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -921,6 +995,7 @@ public final class YdbExport {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -928,6 +1003,7 @@ public final class YdbExport {
     public static Builder newBuilder(tech.ydb.export.YdbExport.ExportItemProgress prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -951,6 +1027,7 @@ public final class YdbExport {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportItemProgress_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportItemProgress_fieldAccessorTable
@@ -973,6 +1050,7 @@ public final class YdbExport {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         partsTotal_ = 0;
@@ -994,15 +1072,18 @@ public final class YdbExport {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportItemProgress_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportItemProgress getDefaultInstanceForType() {
         return tech.ydb.export.YdbExport.ExportItemProgress.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportItemProgress build() {
         tech.ydb.export.YdbExport.ExportItemProgress result = buildPartial();
         if (!result.isInitialized()) {
@@ -1011,6 +1092,7 @@ public final class YdbExport {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportItemProgress buildPartial() {
         tech.ydb.export.YdbExport.ExportItemProgress result = new tech.ydb.export.YdbExport.ExportItemProgress(this);
         result.partsTotal_ = partsTotal_;
@@ -1029,32 +1111,39 @@ public final class YdbExport {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.export.YdbExport.ExportItemProgress) {
           return mergeFrom((tech.ydb.export.YdbExport.ExportItemProgress)other);
@@ -1083,10 +1172,12 @@ public final class YdbExport {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1108,12 +1199,16 @@ public final class YdbExport {
       private int partsTotal_ ;
       /**
        * <code>uint32 parts_total = 1;</code>
+       * @return The partsTotal.
        */
+      @java.lang.Override
       public int getPartsTotal() {
         return partsTotal_;
       }
       /**
        * <code>uint32 parts_total = 1;</code>
+       * @param value The partsTotal to set.
+       * @return This builder for chaining.
        */
       public Builder setPartsTotal(int value) {
         
@@ -1123,6 +1218,7 @@ public final class YdbExport {
       }
       /**
        * <code>uint32 parts_total = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPartsTotal() {
         
@@ -1134,12 +1230,16 @@ public final class YdbExport {
       private int partsCompleted_ ;
       /**
        * <code>uint32 parts_completed = 2;</code>
+       * @return The partsCompleted.
        */
+      @java.lang.Override
       public int getPartsCompleted() {
         return partsCompleted_;
       }
       /**
        * <code>uint32 parts_completed = 2;</code>
+       * @param value The partsCompleted to set.
+       * @return This builder for chaining.
        */
       public Builder setPartsCompleted(int value) {
         
@@ -1149,6 +1249,7 @@ public final class YdbExport {
       }
       /**
        * <code>uint32 parts_completed = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPartsCompleted() {
         
@@ -1157,17 +1258,19 @@ public final class YdbExport {
         return this;
       }
 
-      private com.google.protobuf.Timestamp startTime_ = null;
+      private com.google.protobuf.Timestamp startTime_;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> startTimeBuilder_;
       /**
        * <code>.google.protobuf.Timestamp start_time = 3;</code>
+       * @return Whether the startTime field is set.
        */
       public boolean hasStartTime() {
         return startTimeBuilder_ != null || startTime_ != null;
       }
       /**
        * <code>.google.protobuf.Timestamp start_time = 3;</code>
+       * @return The startTime.
        */
       public com.google.protobuf.Timestamp getStartTime() {
         if (startTimeBuilder_ == null) {
@@ -1274,17 +1377,19 @@ public final class YdbExport {
         return startTimeBuilder_;
       }
 
-      private com.google.protobuf.Timestamp endTime_ = null;
+      private com.google.protobuf.Timestamp endTime_;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> endTimeBuilder_;
       /**
        * <code>.google.protobuf.Timestamp end_time = 4;</code>
+       * @return Whether the endTime field is set.
        */
       public boolean hasEndTime() {
         return endTimeBuilder_ != null || endTime_ != null;
       }
       /**
        * <code>.google.protobuf.Timestamp end_time = 4;</code>
+       * @return The endTime.
        */
       public com.google.protobuf.Timestamp getEndTime() {
         if (endTimeBuilder_ == null) {
@@ -1390,11 +1495,13 @@ public final class YdbExport {
         }
         return endTimeBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1416,11 +1523,12 @@ public final class YdbExport {
 
     private static final com.google.protobuf.Parser<ExportItemProgress>
         PARSER = new com.google.protobuf.AbstractParser<ExportItemProgress>() {
+      @java.lang.Override
       public ExportItemProgress parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExportItemProgress(input, extensionRegistry);
+        return new ExportItemProgress(input, extensionRegistry);
       }
     };
 
@@ -1433,6 +1541,7 @@ public final class YdbExport {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportItemProgress getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1445,25 +1554,30 @@ public final class YdbExport {
 
     /**
      * <code>string host = 1 [(.Ydb.required) = true];</code>
+     * @return The host.
      */
     java.lang.String getHost();
     /**
      * <code>string host = 1 [(.Ydb.required) = true];</code>
+     * @return The bytes for host.
      */
     com.google.protobuf.ByteString
         getHostBytes();
 
     /**
      * <code>uint32 port = 2;</code>
+     * @return The port.
      */
     int getPort();
 
     /**
      * <code>string token = 3 [(.Ydb.required) = true];</code>
+     * @return The token.
      */
     java.lang.String getToken();
     /**
      * <code>string token = 3 [(.Ydb.required) = true];</code>
+     * @return The bytes for token.
      */
     com.google.protobuf.ByteString
         getTokenBytes();
@@ -1494,21 +1608,25 @@ public final class YdbExport {
 
     /**
      * <code>string description = 5 [(.Ydb.length) = { ... }</code>
+     * @return The description.
      */
     java.lang.String getDescription();
     /**
      * <code>string description = 5 [(.Ydb.length) = { ... }</code>
+     * @return The bytes for description.
      */
     com.google.protobuf.ByteString
         getDescriptionBytes();
 
     /**
      * <code>uint32 number_of_retries = 6;</code>
+     * @return The numberOfRetries.
      */
     int getNumberOfRetries();
 
     /**
      * <code>bool use_type_v3 = 7;</code>
+     * @return The useTypeV3.
      */
     boolean getUseTypeV3();
   }
@@ -1519,7 +1637,7 @@ public final class YdbExport {
    *
    * Protobuf type {@code Ydb.Export.ExportToYtSettings}
    */
-  public  static final class ExportToYtSettings extends
+  public static final class ExportToYtSettings extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Export.ExportToYtSettings)
       ExportToYtSettingsOrBuilder {
@@ -1530,12 +1648,16 @@ public final class YdbExport {
     }
     private ExportToYtSettings() {
       host_ = "";
-      port_ = 0;
       token_ = "";
       items_ = java.util.Collections.emptyList();
       description_ = "";
-      numberOfRetries_ = 0;
-      useTypeV3_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExportToYtSettings();
     }
 
     @java.lang.Override
@@ -1548,6 +1670,9 @@ public final class YdbExport {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -1559,13 +1684,6 @@ public final class YdbExport {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -1584,9 +1702,9 @@ public final class YdbExport {
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 items_ = new java.util.ArrayList<tech.ydb.export.YdbExport.ExportToYtSettings.Item>();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000001;
               }
               items_.add(
                   input.readMessage(tech.ydb.export.YdbExport.ExportToYtSettings.Item.parser(), extensionRegistry));
@@ -1608,6 +1726,13 @@ public final class YdbExport {
               useTypeV3_ = input.readBool();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1616,7 +1741,7 @@ public final class YdbExport {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           items_ = java.util.Collections.unmodifiableList(items_);
         }
         this.unknownFields = unknownFields.build();
@@ -1628,6 +1753,7 @@ public final class YdbExport {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtSettings_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtSettings_fieldAccessorTable
@@ -1645,6 +1771,7 @@ public final class YdbExport {
        * </pre>
        *
        * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+       * @return The sourcePath.
        */
       java.lang.String getSourcePath();
       /**
@@ -1653,16 +1780,19 @@ public final class YdbExport {
        * </pre>
        *
        * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+       * @return The bytes for sourcePath.
        */
       com.google.protobuf.ByteString
           getSourcePathBytes();
 
       /**
        * <code>string destination_path = 2 [(.Ydb.required) = true];</code>
+       * @return The destinationPath.
        */
       java.lang.String getDestinationPath();
       /**
        * <code>string destination_path = 2 [(.Ydb.required) = true];</code>
+       * @return The bytes for destinationPath.
        */
       com.google.protobuf.ByteString
           getDestinationPathBytes();
@@ -1670,7 +1800,7 @@ public final class YdbExport {
     /**
      * Protobuf type {@code Ydb.Export.ExportToYtSettings.Item}
      */
-    public  static final class Item extends
+    public static final class Item extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:Ydb.Export.ExportToYtSettings.Item)
         ItemOrBuilder {
@@ -1685,6 +1815,13 @@ public final class YdbExport {
       }
 
       @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Item();
+      }
+
+      @java.lang.Override
       public final com.google.protobuf.UnknownFieldSet
       getUnknownFields() {
         return this.unknownFields;
@@ -1694,7 +1831,9 @@ public final class YdbExport {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -1705,13 +1844,6 @@ public final class YdbExport {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 10: {
                 java.lang.String s = input.readStringRequireUtf8();
 
@@ -1722,6 +1854,13 @@ public final class YdbExport {
                 java.lang.String s = input.readStringRequireUtf8();
 
                 destinationPath_ = s;
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
                 break;
               }
             }
@@ -1741,6 +1880,7 @@ public final class YdbExport {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtSettings_Item_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtSettings_Item_fieldAccessorTable
@@ -1756,7 +1896,9 @@ public final class YdbExport {
        * </pre>
        *
        * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+       * @return The sourcePath.
        */
+      @java.lang.Override
       public java.lang.String getSourcePath() {
         java.lang.Object ref = sourcePath_;
         if (ref instanceof java.lang.String) {
@@ -1775,7 +1917,9 @@ public final class YdbExport {
        * </pre>
        *
        * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+       * @return The bytes for sourcePath.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getSourcePathBytes() {
         java.lang.Object ref = sourcePath_;
@@ -1794,7 +1938,9 @@ public final class YdbExport {
       private volatile java.lang.Object destinationPath_;
       /**
        * <code>string destination_path = 2 [(.Ydb.required) = true];</code>
+       * @return The destinationPath.
        */
+      @java.lang.Override
       public java.lang.String getDestinationPath() {
         java.lang.Object ref = destinationPath_;
         if (ref instanceof java.lang.String) {
@@ -1809,7 +1955,9 @@ public final class YdbExport {
       }
       /**
        * <code>string destination_path = 2 [(.Ydb.required) = true];</code>
+       * @return The bytes for destinationPath.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getDestinationPathBytes() {
         java.lang.Object ref = destinationPath_;
@@ -1825,6 +1973,7 @@ public final class YdbExport {
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -1834,6 +1983,7 @@ public final class YdbExport {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (!getSourcePathBytes().isEmpty()) {
@@ -1845,6 +1995,7 @@ public final class YdbExport {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -1871,13 +2022,12 @@ public final class YdbExport {
         }
         tech.ydb.export.YdbExport.ExportToYtSettings.Item other = (tech.ydb.export.YdbExport.ExportToYtSettings.Item) obj;
 
-        boolean result = true;
-        result = result && getSourcePath()
-            .equals(other.getSourcePath());
-        result = result && getDestinationPath()
-            .equals(other.getDestinationPath());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!getSourcePath()
+            .equals(other.getSourcePath())) return false;
+        if (!getDestinationPath()
+            .equals(other.getDestinationPath())) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -1966,6 +2116,7 @@ public final class YdbExport {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -1973,6 +2124,7 @@ public final class YdbExport {
       public static Builder newBuilder(tech.ydb.export.YdbExport.ExportToYtSettings.Item prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -1996,6 +2148,7 @@ public final class YdbExport {
           return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtSettings_Item_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtSettings_Item_fieldAccessorTable
@@ -2018,6 +2171,7 @@ public final class YdbExport {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           sourcePath_ = "";
@@ -2027,15 +2181,18 @@ public final class YdbExport {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtSettings_Item_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.export.YdbExport.ExportToYtSettings.Item getDefaultInstanceForType() {
           return tech.ydb.export.YdbExport.ExportToYtSettings.Item.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.export.YdbExport.ExportToYtSettings.Item build() {
           tech.ydb.export.YdbExport.ExportToYtSettings.Item result = buildPartial();
           if (!result.isInitialized()) {
@@ -2044,6 +2201,7 @@ public final class YdbExport {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.export.YdbExport.ExportToYtSettings.Item buildPartial() {
           tech.ydb.export.YdbExport.ExportToYtSettings.Item result = new tech.ydb.export.YdbExport.ExportToYtSettings.Item(this);
           result.sourcePath_ = sourcePath_;
@@ -2052,32 +2210,39 @@ public final class YdbExport {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.export.YdbExport.ExportToYtSettings.Item) {
             return mergeFrom((tech.ydb.export.YdbExport.ExportToYtSettings.Item)other);
@@ -2102,10 +2267,12 @@ public final class YdbExport {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2131,6 +2298,7 @@ public final class YdbExport {
          * </pre>
          *
          * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+         * @return The sourcePath.
          */
         public java.lang.String getSourcePath() {
           java.lang.Object ref = sourcePath_;
@@ -2150,6 +2318,7 @@ public final class YdbExport {
          * </pre>
          *
          * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+         * @return The bytes for sourcePath.
          */
         public com.google.protobuf.ByteString
             getSourcePathBytes() {
@@ -2170,6 +2339,8 @@ public final class YdbExport {
          * </pre>
          *
          * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+         * @param value The sourcePath to set.
+         * @return This builder for chaining.
          */
         public Builder setSourcePath(
             java.lang.String value) {
@@ -2187,6 +2358,7 @@ public final class YdbExport {
          * </pre>
          *
          * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+         * @return This builder for chaining.
          */
         public Builder clearSourcePath() {
           
@@ -2200,6 +2372,8 @@ public final class YdbExport {
          * </pre>
          *
          * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+         * @param value The bytes for sourcePath to set.
+         * @return This builder for chaining.
          */
         public Builder setSourcePathBytes(
             com.google.protobuf.ByteString value) {
@@ -2216,6 +2390,7 @@ public final class YdbExport {
         private java.lang.Object destinationPath_ = "";
         /**
          * <code>string destination_path = 2 [(.Ydb.required) = true];</code>
+         * @return The destinationPath.
          */
         public java.lang.String getDestinationPath() {
           java.lang.Object ref = destinationPath_;
@@ -2231,6 +2406,7 @@ public final class YdbExport {
         }
         /**
          * <code>string destination_path = 2 [(.Ydb.required) = true];</code>
+         * @return The bytes for destinationPath.
          */
         public com.google.protobuf.ByteString
             getDestinationPathBytes() {
@@ -2247,6 +2423,8 @@ public final class YdbExport {
         }
         /**
          * <code>string destination_path = 2 [(.Ydb.required) = true];</code>
+         * @param value The destinationPath to set.
+         * @return This builder for chaining.
          */
         public Builder setDestinationPath(
             java.lang.String value) {
@@ -2260,6 +2438,7 @@ public final class YdbExport {
         }
         /**
          * <code>string destination_path = 2 [(.Ydb.required) = true];</code>
+         * @return This builder for chaining.
          */
         public Builder clearDestinationPath() {
           
@@ -2269,6 +2448,8 @@ public final class YdbExport {
         }
         /**
          * <code>string destination_path = 2 [(.Ydb.required) = true];</code>
+         * @param value The bytes for destinationPath to set.
+         * @return This builder for chaining.
          */
         public Builder setDestinationPathBytes(
             com.google.protobuf.ByteString value) {
@@ -2281,11 +2462,13 @@ public final class YdbExport {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -2307,11 +2490,12 @@ public final class YdbExport {
 
       private static final com.google.protobuf.Parser<Item>
           PARSER = new com.google.protobuf.AbstractParser<Item>() {
+        @java.lang.Override
         public Item parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Item(input, extensionRegistry);
+          return new Item(input, extensionRegistry);
         }
       };
 
@@ -2324,18 +2508,20 @@ public final class YdbExport {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToYtSettings.Item getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
     }
 
-    private int bitField0_;
     public static final int HOST_FIELD_NUMBER = 1;
     private volatile java.lang.Object host_;
     /**
      * <code>string host = 1 [(.Ydb.required) = true];</code>
+     * @return The host.
      */
+    @java.lang.Override
     public java.lang.String getHost() {
       java.lang.Object ref = host_;
       if (ref instanceof java.lang.String) {
@@ -2350,7 +2536,9 @@ public final class YdbExport {
     }
     /**
      * <code>string host = 1 [(.Ydb.required) = true];</code>
+     * @return The bytes for host.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getHostBytes() {
       java.lang.Object ref = host_;
@@ -2369,7 +2557,9 @@ public final class YdbExport {
     private int port_;
     /**
      * <code>uint32 port = 2;</code>
+     * @return The port.
      */
+    @java.lang.Override
     public int getPort() {
       return port_;
     }
@@ -2378,7 +2568,9 @@ public final class YdbExport {
     private volatile java.lang.Object token_;
     /**
      * <code>string token = 3 [(.Ydb.required) = true];</code>
+     * @return The token.
      */
+    @java.lang.Override
     public java.lang.String getToken() {
       java.lang.Object ref = token_;
       if (ref instanceof java.lang.String) {
@@ -2393,7 +2585,9 @@ public final class YdbExport {
     }
     /**
      * <code>string token = 3 [(.Ydb.required) = true];</code>
+     * @return The bytes for token.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTokenBytes() {
       java.lang.Object ref = token_;
@@ -2413,12 +2607,14 @@ public final class YdbExport {
     /**
      * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.export.YdbExport.ExportToYtSettings.Item> getItemsList() {
       return items_;
     }
     /**
      * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.export.YdbExport.ExportToYtSettings.ItemOrBuilder> 
         getItemsOrBuilderList() {
       return items_;
@@ -2426,18 +2622,21 @@ public final class YdbExport {
     /**
      * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
      */
+    @java.lang.Override
     public int getItemsCount() {
       return items_.size();
     }
     /**
      * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
      */
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToYtSettings.Item getItems(int index) {
       return items_.get(index);
     }
     /**
      * <code>repeated .Ydb.Export.ExportToYtSettings.Item items = 4 [(.Ydb.size) = { ... }</code>
      */
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToYtSettings.ItemOrBuilder getItemsOrBuilder(
         int index) {
       return items_.get(index);
@@ -2447,7 +2646,9 @@ public final class YdbExport {
     private volatile java.lang.Object description_;
     /**
      * <code>string description = 5 [(.Ydb.length) = { ... }</code>
+     * @return The description.
      */
+    @java.lang.Override
     public java.lang.String getDescription() {
       java.lang.Object ref = description_;
       if (ref instanceof java.lang.String) {
@@ -2462,7 +2663,9 @@ public final class YdbExport {
     }
     /**
      * <code>string description = 5 [(.Ydb.length) = { ... }</code>
+     * @return The bytes for description.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getDescriptionBytes() {
       java.lang.Object ref = description_;
@@ -2481,7 +2684,9 @@ public final class YdbExport {
     private int numberOfRetries_;
     /**
      * <code>uint32 number_of_retries = 6;</code>
+     * @return The numberOfRetries.
      */
+    @java.lang.Override
     public int getNumberOfRetries() {
       return numberOfRetries_;
     }
@@ -2490,12 +2695,15 @@ public final class YdbExport {
     private boolean useTypeV3_;
     /**
      * <code>bool use_type_v3 = 7;</code>
+     * @return The useTypeV3.
      */
+    @java.lang.Override
     public boolean getUseTypeV3() {
       return useTypeV3_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2505,6 +2713,7 @@ public final class YdbExport {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getHostBytes().isEmpty()) {
@@ -2531,6 +2740,7 @@ public final class YdbExport {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2576,23 +2786,22 @@ public final class YdbExport {
       }
       tech.ydb.export.YdbExport.ExportToYtSettings other = (tech.ydb.export.YdbExport.ExportToYtSettings) obj;
 
-      boolean result = true;
-      result = result && getHost()
-          .equals(other.getHost());
-      result = result && (getPort()
-          == other.getPort());
-      result = result && getToken()
-          .equals(other.getToken());
-      result = result && getItemsList()
-          .equals(other.getItemsList());
-      result = result && getDescription()
-          .equals(other.getDescription());
-      result = result && (getNumberOfRetries()
-          == other.getNumberOfRetries());
-      result = result && (getUseTypeV3()
-          == other.getUseTypeV3());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getHost()
+          .equals(other.getHost())) return false;
+      if (getPort()
+          != other.getPort()) return false;
+      if (!getToken()
+          .equals(other.getToken())) return false;
+      if (!getItemsList()
+          .equals(other.getItemsList())) return false;
+      if (!getDescription()
+          .equals(other.getDescription())) return false;
+      if (getNumberOfRetries()
+          != other.getNumberOfRetries()) return false;
+      if (getUseTypeV3()
+          != other.getUseTypeV3()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2694,6 +2903,7 @@ public final class YdbExport {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2701,6 +2911,7 @@ public final class YdbExport {
     public static Builder newBuilder(tech.ydb.export.YdbExport.ExportToYtSettings prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2728,6 +2939,7 @@ public final class YdbExport {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtSettings_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtSettings_fieldAccessorTable
@@ -2751,6 +2963,7 @@ public final class YdbExport {
           getItemsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         host_ = "";
@@ -2761,7 +2974,7 @@ public final class YdbExport {
 
         if (itemsBuilder_ == null) {
           items_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           itemsBuilder_.clear();
         }
@@ -2774,15 +2987,18 @@ public final class YdbExport {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtSettings_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToYtSettings getDefaultInstanceForType() {
         return tech.ydb.export.YdbExport.ExportToYtSettings.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToYtSettings build() {
         tech.ydb.export.YdbExport.ExportToYtSettings result = buildPartial();
         if (!result.isInitialized()) {
@@ -2791,17 +3007,17 @@ public final class YdbExport {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToYtSettings buildPartial() {
         tech.ydb.export.YdbExport.ExportToYtSettings result = new tech.ydb.export.YdbExport.ExportToYtSettings(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.host_ = host_;
         result.port_ = port_;
         result.token_ = token_;
         if (itemsBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             items_ = java.util.Collections.unmodifiableList(items_);
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.items_ = items_;
         } else {
@@ -2810,37 +3026,43 @@ public final class YdbExport {
         result.description_ = description_;
         result.numberOfRetries_ = numberOfRetries_;
         result.useTypeV3_ = useTypeV3_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.export.YdbExport.ExportToYtSettings) {
           return mergeFrom((tech.ydb.export.YdbExport.ExportToYtSettings)other);
@@ -2867,7 +3089,7 @@ public final class YdbExport {
           if (!other.items_.isEmpty()) {
             if (items_.isEmpty()) {
               items_ = other.items_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureItemsIsMutable();
               items_.addAll(other.items_);
@@ -2880,7 +3102,7 @@ public final class YdbExport {
               itemsBuilder_.dispose();
               itemsBuilder_ = null;
               items_ = other.items_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000001);
               itemsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getItemsFieldBuilder() : null;
@@ -2904,10 +3126,12 @@ public final class YdbExport {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2930,6 +3154,7 @@ public final class YdbExport {
       private java.lang.Object host_ = "";
       /**
        * <code>string host = 1 [(.Ydb.required) = true];</code>
+       * @return The host.
        */
       public java.lang.String getHost() {
         java.lang.Object ref = host_;
@@ -2945,6 +3170,7 @@ public final class YdbExport {
       }
       /**
        * <code>string host = 1 [(.Ydb.required) = true];</code>
+       * @return The bytes for host.
        */
       public com.google.protobuf.ByteString
           getHostBytes() {
@@ -2961,6 +3187,8 @@ public final class YdbExport {
       }
       /**
        * <code>string host = 1 [(.Ydb.required) = true];</code>
+       * @param value The host to set.
+       * @return This builder for chaining.
        */
       public Builder setHost(
           java.lang.String value) {
@@ -2974,6 +3202,7 @@ public final class YdbExport {
       }
       /**
        * <code>string host = 1 [(.Ydb.required) = true];</code>
+       * @return This builder for chaining.
        */
       public Builder clearHost() {
         
@@ -2983,6 +3212,8 @@ public final class YdbExport {
       }
       /**
        * <code>string host = 1 [(.Ydb.required) = true];</code>
+       * @param value The bytes for host to set.
+       * @return This builder for chaining.
        */
       public Builder setHostBytes(
           com.google.protobuf.ByteString value) {
@@ -2999,12 +3230,16 @@ public final class YdbExport {
       private int port_ ;
       /**
        * <code>uint32 port = 2;</code>
+       * @return The port.
        */
+      @java.lang.Override
       public int getPort() {
         return port_;
       }
       /**
        * <code>uint32 port = 2;</code>
+       * @param value The port to set.
+       * @return This builder for chaining.
        */
       public Builder setPort(int value) {
         
@@ -3014,6 +3249,7 @@ public final class YdbExport {
       }
       /**
        * <code>uint32 port = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPort() {
         
@@ -3025,6 +3261,7 @@ public final class YdbExport {
       private java.lang.Object token_ = "";
       /**
        * <code>string token = 3 [(.Ydb.required) = true];</code>
+       * @return The token.
        */
       public java.lang.String getToken() {
         java.lang.Object ref = token_;
@@ -3040,6 +3277,7 @@ public final class YdbExport {
       }
       /**
        * <code>string token = 3 [(.Ydb.required) = true];</code>
+       * @return The bytes for token.
        */
       public com.google.protobuf.ByteString
           getTokenBytes() {
@@ -3056,6 +3294,8 @@ public final class YdbExport {
       }
       /**
        * <code>string token = 3 [(.Ydb.required) = true];</code>
+       * @param value The token to set.
+       * @return This builder for chaining.
        */
       public Builder setToken(
           java.lang.String value) {
@@ -3069,6 +3309,7 @@ public final class YdbExport {
       }
       /**
        * <code>string token = 3 [(.Ydb.required) = true];</code>
+       * @return This builder for chaining.
        */
       public Builder clearToken() {
         
@@ -3078,6 +3319,8 @@ public final class YdbExport {
       }
       /**
        * <code>string token = 3 [(.Ydb.required) = true];</code>
+       * @param value The bytes for token to set.
+       * @return This builder for chaining.
        */
       public Builder setTokenBytes(
           com.google.protobuf.ByteString value) {
@@ -3094,9 +3337,9 @@ public final class YdbExport {
       private java.util.List<tech.ydb.export.YdbExport.ExportToYtSettings.Item> items_ =
         java.util.Collections.emptyList();
       private void ensureItemsIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           items_ = new java.util.ArrayList<tech.ydb.export.YdbExport.ExportToYtSettings.Item>(items_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -3246,7 +3489,7 @@ public final class YdbExport {
       public Builder clearItems() {
         if (itemsBuilder_ == null) {
           items_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           itemsBuilder_.clear();
@@ -3323,7 +3566,7 @@ public final class YdbExport {
           itemsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.export.YdbExport.ExportToYtSettings.Item, tech.ydb.export.YdbExport.ExportToYtSettings.Item.Builder, tech.ydb.export.YdbExport.ExportToYtSettings.ItemOrBuilder>(
                   items_,
-                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           items_ = null;
@@ -3334,6 +3577,7 @@ public final class YdbExport {
       private java.lang.Object description_ = "";
       /**
        * <code>string description = 5 [(.Ydb.length) = { ... }</code>
+       * @return The description.
        */
       public java.lang.String getDescription() {
         java.lang.Object ref = description_;
@@ -3349,6 +3593,7 @@ public final class YdbExport {
       }
       /**
        * <code>string description = 5 [(.Ydb.length) = { ... }</code>
+       * @return The bytes for description.
        */
       public com.google.protobuf.ByteString
           getDescriptionBytes() {
@@ -3365,6 +3610,8 @@ public final class YdbExport {
       }
       /**
        * <code>string description = 5 [(.Ydb.length) = { ... }</code>
+       * @param value The description to set.
+       * @return This builder for chaining.
        */
       public Builder setDescription(
           java.lang.String value) {
@@ -3378,6 +3625,7 @@ public final class YdbExport {
       }
       /**
        * <code>string description = 5 [(.Ydb.length) = { ... }</code>
+       * @return This builder for chaining.
        */
       public Builder clearDescription() {
         
@@ -3387,6 +3635,8 @@ public final class YdbExport {
       }
       /**
        * <code>string description = 5 [(.Ydb.length) = { ... }</code>
+       * @param value The bytes for description to set.
+       * @return This builder for chaining.
        */
       public Builder setDescriptionBytes(
           com.google.protobuf.ByteString value) {
@@ -3403,12 +3653,16 @@ public final class YdbExport {
       private int numberOfRetries_ ;
       /**
        * <code>uint32 number_of_retries = 6;</code>
+       * @return The numberOfRetries.
        */
+      @java.lang.Override
       public int getNumberOfRetries() {
         return numberOfRetries_;
       }
       /**
        * <code>uint32 number_of_retries = 6;</code>
+       * @param value The numberOfRetries to set.
+       * @return This builder for chaining.
        */
       public Builder setNumberOfRetries(int value) {
         
@@ -3418,6 +3672,7 @@ public final class YdbExport {
       }
       /**
        * <code>uint32 number_of_retries = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearNumberOfRetries() {
         
@@ -3429,12 +3684,16 @@ public final class YdbExport {
       private boolean useTypeV3_ ;
       /**
        * <code>bool use_type_v3 = 7;</code>
+       * @return The useTypeV3.
        */
+      @java.lang.Override
       public boolean getUseTypeV3() {
         return useTypeV3_;
       }
       /**
        * <code>bool use_type_v3 = 7;</code>
+       * @param value The useTypeV3 to set.
+       * @return This builder for chaining.
        */
       public Builder setUseTypeV3(boolean value) {
         
@@ -3444,6 +3703,7 @@ public final class YdbExport {
       }
       /**
        * <code>bool use_type_v3 = 7;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUseTypeV3() {
         
@@ -3451,11 +3711,13 @@ public final class YdbExport {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3477,11 +3739,12 @@ public final class YdbExport {
 
     private static final com.google.protobuf.Parser<ExportToYtSettings>
         PARSER = new com.google.protobuf.AbstractParser<ExportToYtSettings>() {
+      @java.lang.Override
       public ExportToYtSettings parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExportToYtSettings(input, extensionRegistry);
+        return new ExportToYtSettings(input, extensionRegistry);
       }
     };
 
@@ -3494,6 +3757,7 @@ public final class YdbExport {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToYtSettings getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3507,7 +3771,7 @@ public final class YdbExport {
   /**
    * Protobuf type {@code Ydb.Export.ExportToYtResult}
    */
-  public  static final class ExportToYtResult extends
+  public static final class ExportToYtResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Export.ExportToYtResult)
       ExportToYtResultOrBuilder {
@@ -3520,6 +3784,13 @@ public final class YdbExport {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExportToYtResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3529,6 +3800,9 @@ public final class YdbExport {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3540,7 +3814,7 @@ public final class YdbExport {
               done = true;
               break;
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -3563,6 +3837,7 @@ public final class YdbExport {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtResult_fieldAccessorTable
@@ -3571,6 +3846,7 @@ public final class YdbExport {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3580,11 +3856,13 @@ public final class YdbExport {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3605,9 +3883,8 @@ public final class YdbExport {
       }
       tech.ydb.export.YdbExport.ExportToYtResult other = (tech.ydb.export.YdbExport.ExportToYtResult) obj;
 
-      boolean result = true;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3692,6 +3969,7 @@ public final class YdbExport {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3699,6 +3977,7 @@ public final class YdbExport {
     public static Builder newBuilder(tech.ydb.export.YdbExport.ExportToYtResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3722,6 +4001,7 @@ public final class YdbExport {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtResult_fieldAccessorTable
@@ -3744,20 +4024,24 @@ public final class YdbExport {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToYtResult getDefaultInstanceForType() {
         return tech.ydb.export.YdbExport.ExportToYtResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToYtResult build() {
         tech.ydb.export.YdbExport.ExportToYtResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -3766,38 +4050,46 @@ public final class YdbExport {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToYtResult buildPartial() {
         tech.ydb.export.YdbExport.ExportToYtResult result = new tech.ydb.export.YdbExport.ExportToYtResult(this);
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.export.YdbExport.ExportToYtResult) {
           return mergeFrom((tech.ydb.export.YdbExport.ExportToYtResult)other);
@@ -3814,10 +4106,12 @@ public final class YdbExport {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3835,11 +4129,13 @@ public final class YdbExport {
         }
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3861,11 +4157,12 @@ public final class YdbExport {
 
     private static final com.google.protobuf.Parser<ExportToYtResult>
         PARSER = new com.google.protobuf.AbstractParser<ExportToYtResult>() {
+      @java.lang.Override
       public ExportToYtResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExportToYtResult(input, extensionRegistry);
+        return new ExportToYtResult(input, extensionRegistry);
       }
     };
 
@@ -3878,6 +4175,7 @@ public final class YdbExport {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToYtResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3890,10 +4188,12 @@ public final class YdbExport {
 
     /**
      * <code>.Ydb.Export.ExportToYtSettings settings = 1;</code>
+     * @return Whether the settings field is set.
      */
     boolean hasSettings();
     /**
      * <code>.Ydb.Export.ExportToYtSettings settings = 1;</code>
+     * @return The settings.
      */
     tech.ydb.export.YdbExport.ExportToYtSettings getSettings();
     /**
@@ -3903,10 +4203,12 @@ public final class YdbExport {
 
     /**
      * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+     * @return The enum numeric value on the wire for progress.
      */
     int getProgressValue();
     /**
      * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+     * @return The progress.
      */
     tech.ydb.export.YdbExport.ExportProgress.Progress getProgress();
 
@@ -3937,7 +4239,7 @@ public final class YdbExport {
   /**
    * Protobuf type {@code Ydb.Export.ExportToYtMetadata}
    */
-  public  static final class ExportToYtMetadata extends
+  public static final class ExportToYtMetadata extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Export.ExportToYtMetadata)
       ExportToYtMetadataOrBuilder {
@@ -3952,6 +4254,13 @@ public final class YdbExport {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExportToYtMetadata();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3961,6 +4270,9 @@ public final class YdbExport {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -3972,13 +4284,6 @@ public final class YdbExport {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.export.YdbExport.ExportToYtSettings.Builder subBuilder = null;
               if (settings_ != null) {
@@ -3999,12 +4304,19 @@ public final class YdbExport {
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 itemsProgress_ = new java.util.ArrayList<tech.ydb.export.YdbExport.ExportItemProgress>();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000001;
               }
               itemsProgress_.add(
                   input.readMessage(tech.ydb.export.YdbExport.ExportItemProgress.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -4015,7 +4327,7 @@ public final class YdbExport {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           itemsProgress_ = java.util.Collections.unmodifiableList(itemsProgress_);
         }
         this.unknownFields = unknownFields.build();
@@ -4027,6 +4339,7 @@ public final class YdbExport {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtMetadata_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtMetadata_fieldAccessorTable
@@ -4034,24 +4347,28 @@ public final class YdbExport {
               tech.ydb.export.YdbExport.ExportToYtMetadata.class, tech.ydb.export.YdbExport.ExportToYtMetadata.Builder.class);
     }
 
-    private int bitField0_;
     public static final int SETTINGS_FIELD_NUMBER = 1;
     private tech.ydb.export.YdbExport.ExportToYtSettings settings_;
     /**
      * <code>.Ydb.Export.ExportToYtSettings settings = 1;</code>
+     * @return Whether the settings field is set.
      */
+    @java.lang.Override
     public boolean hasSettings() {
       return settings_ != null;
     }
     /**
      * <code>.Ydb.Export.ExportToYtSettings settings = 1;</code>
+     * @return The settings.
      */
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToYtSettings getSettings() {
       return settings_ == null ? tech.ydb.export.YdbExport.ExportToYtSettings.getDefaultInstance() : settings_;
     }
     /**
      * <code>.Ydb.Export.ExportToYtSettings settings = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToYtSettingsOrBuilder getSettingsOrBuilder() {
       return getSettings();
     }
@@ -4060,14 +4377,17 @@ public final class YdbExport {
     private int progress_;
     /**
      * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+     * @return The enum numeric value on the wire for progress.
      */
-    public int getProgressValue() {
+    @java.lang.Override public int getProgressValue() {
       return progress_;
     }
     /**
      * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+     * @return The progress.
      */
-    public tech.ydb.export.YdbExport.ExportProgress.Progress getProgress() {
+    @java.lang.Override public tech.ydb.export.YdbExport.ExportProgress.Progress getProgress() {
+      @SuppressWarnings("deprecation")
       tech.ydb.export.YdbExport.ExportProgress.Progress result = tech.ydb.export.YdbExport.ExportProgress.Progress.valueOf(progress_);
       return result == null ? tech.ydb.export.YdbExport.ExportProgress.Progress.UNRECOGNIZED : result;
     }
@@ -4077,12 +4397,14 @@ public final class YdbExport {
     /**
      * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.export.YdbExport.ExportItemProgress> getItemsProgressList() {
       return itemsProgress_;
     }
     /**
      * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.export.YdbExport.ExportItemProgressOrBuilder> 
         getItemsProgressOrBuilderList() {
       return itemsProgress_;
@@ -4090,24 +4412,28 @@ public final class YdbExport {
     /**
      * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
      */
+    @java.lang.Override
     public int getItemsProgressCount() {
       return itemsProgress_.size();
     }
     /**
      * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportItemProgress getItemsProgress(int index) {
       return itemsProgress_.get(index);
     }
     /**
      * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportItemProgressOrBuilder getItemsProgressOrBuilder(
         int index) {
       return itemsProgress_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4117,6 +4443,7 @@ public final class YdbExport {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (settings_ != null) {
@@ -4131,6 +4458,7 @@ public final class YdbExport {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4163,17 +4491,16 @@ public final class YdbExport {
       }
       tech.ydb.export.YdbExport.ExportToYtMetadata other = (tech.ydb.export.YdbExport.ExportToYtMetadata) obj;
 
-      boolean result = true;
-      result = result && (hasSettings() == other.hasSettings());
+      if (hasSettings() != other.hasSettings()) return false;
       if (hasSettings()) {
-        result = result && getSettings()
-            .equals(other.getSettings());
+        if (!getSettings()
+            .equals(other.getSettings())) return false;
       }
-      result = result && progress_ == other.progress_;
-      result = result && getItemsProgressList()
-          .equals(other.getItemsProgressList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (progress_ != other.progress_) return false;
+      if (!getItemsProgressList()
+          .equals(other.getItemsProgressList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4268,6 +4595,7 @@ public final class YdbExport {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4275,6 +4603,7 @@ public final class YdbExport {
     public static Builder newBuilder(tech.ydb.export.YdbExport.ExportToYtMetadata prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4298,6 +4627,7 @@ public final class YdbExport {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtMetadata_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtMetadata_fieldAccessorTable
@@ -4321,6 +4651,7 @@ public final class YdbExport {
           getItemsProgressFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (settingsBuilder_ == null) {
@@ -4333,22 +4664,25 @@ public final class YdbExport {
 
         if (itemsProgressBuilder_ == null) {
           itemsProgress_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           itemsProgressBuilder_.clear();
         }
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtMetadata_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToYtMetadata getDefaultInstanceForType() {
         return tech.ydb.export.YdbExport.ExportToYtMetadata.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToYtMetadata build() {
         tech.ydb.export.YdbExport.ExportToYtMetadata result = buildPartial();
         if (!result.isInitialized()) {
@@ -4357,10 +4691,10 @@ public final class YdbExport {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToYtMetadata buildPartial() {
         tech.ydb.export.YdbExport.ExportToYtMetadata result = new tech.ydb.export.YdbExport.ExportToYtMetadata(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (settingsBuilder_ == null) {
           result.settings_ = settings_;
         } else {
@@ -4368,45 +4702,51 @@ public final class YdbExport {
         }
         result.progress_ = progress_;
         if (itemsProgressBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             itemsProgress_ = java.util.Collections.unmodifiableList(itemsProgress_);
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.itemsProgress_ = itemsProgress_;
         } else {
           result.itemsProgress_ = itemsProgressBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.export.YdbExport.ExportToYtMetadata) {
           return mergeFrom((tech.ydb.export.YdbExport.ExportToYtMetadata)other);
@@ -4428,7 +4768,7 @@ public final class YdbExport {
           if (!other.itemsProgress_.isEmpty()) {
             if (itemsProgress_.isEmpty()) {
               itemsProgress_ = other.itemsProgress_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureItemsProgressIsMutable();
               itemsProgress_.addAll(other.itemsProgress_);
@@ -4441,7 +4781,7 @@ public final class YdbExport {
               itemsProgressBuilder_.dispose();
               itemsProgressBuilder_ = null;
               itemsProgress_ = other.itemsProgress_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000001);
               itemsProgressBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getItemsProgressFieldBuilder() : null;
@@ -4455,10 +4795,12 @@ public final class YdbExport {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4478,17 +4820,19 @@ public final class YdbExport {
       }
       private int bitField0_;
 
-      private tech.ydb.export.YdbExport.ExportToYtSettings settings_ = null;
+      private tech.ydb.export.YdbExport.ExportToYtSettings settings_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.export.YdbExport.ExportToYtSettings, tech.ydb.export.YdbExport.ExportToYtSettings.Builder, tech.ydb.export.YdbExport.ExportToYtSettingsOrBuilder> settingsBuilder_;
       /**
        * <code>.Ydb.Export.ExportToYtSettings settings = 1;</code>
+       * @return Whether the settings field is set.
        */
       public boolean hasSettings() {
         return settingsBuilder_ != null || settings_ != null;
       }
       /**
        * <code>.Ydb.Export.ExportToYtSettings settings = 1;</code>
+       * @return The settings.
        */
       public tech.ydb.export.YdbExport.ExportToYtSettings getSettings() {
         if (settingsBuilder_ == null) {
@@ -4598,27 +4942,36 @@ public final class YdbExport {
       private int progress_ = 0;
       /**
        * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+       * @return The enum numeric value on the wire for progress.
        */
-      public int getProgressValue() {
+      @java.lang.Override public int getProgressValue() {
         return progress_;
       }
       /**
        * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+       * @param value The enum numeric value on the wire for progress to set.
+       * @return This builder for chaining.
        */
       public Builder setProgressValue(int value) {
+        
         progress_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+       * @return The progress.
        */
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportProgress.Progress getProgress() {
+        @SuppressWarnings("deprecation")
         tech.ydb.export.YdbExport.ExportProgress.Progress result = tech.ydb.export.YdbExport.ExportProgress.Progress.valueOf(progress_);
         return result == null ? tech.ydb.export.YdbExport.ExportProgress.Progress.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+       * @param value The progress to set.
+       * @return This builder for chaining.
        */
       public Builder setProgress(tech.ydb.export.YdbExport.ExportProgress.Progress value) {
         if (value == null) {
@@ -4631,6 +4984,7 @@ public final class YdbExport {
       }
       /**
        * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearProgress() {
         
@@ -4642,9 +4996,9 @@ public final class YdbExport {
       private java.util.List<tech.ydb.export.YdbExport.ExportItemProgress> itemsProgress_ =
         java.util.Collections.emptyList();
       private void ensureItemsProgressIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           itemsProgress_ = new java.util.ArrayList<tech.ydb.export.YdbExport.ExportItemProgress>(itemsProgress_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -4794,7 +5148,7 @@ public final class YdbExport {
       public Builder clearItemsProgress() {
         if (itemsProgressBuilder_ == null) {
           itemsProgress_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           itemsProgressBuilder_.clear();
@@ -4871,18 +5225,20 @@ public final class YdbExport {
           itemsProgressBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.export.YdbExport.ExportItemProgress, tech.ydb.export.YdbExport.ExportItemProgress.Builder, tech.ydb.export.YdbExport.ExportItemProgressOrBuilder>(
                   itemsProgress_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           itemsProgress_ = null;
         }
         return itemsProgressBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4904,11 +5260,12 @@ public final class YdbExport {
 
     private static final com.google.protobuf.Parser<ExportToYtMetadata>
         PARSER = new com.google.protobuf.AbstractParser<ExportToYtMetadata>() {
+      @java.lang.Override
       public ExportToYtMetadata parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExportToYtMetadata(input, extensionRegistry);
+        return new ExportToYtMetadata(input, extensionRegistry);
       }
     };
 
@@ -4921,6 +5278,7 @@ public final class YdbExport {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToYtMetadata getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4933,10 +5291,12 @@ public final class YdbExport {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -4946,10 +5306,12 @@ public final class YdbExport {
 
     /**
      * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
+     * @return Whether the settings field is set.
      */
     boolean hasSettings();
     /**
      * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
+     * @return The settings.
      */
     tech.ydb.export.YdbExport.ExportToYtSettings getSettings();
     /**
@@ -4960,7 +5322,7 @@ public final class YdbExport {
   /**
    * Protobuf type {@code Ydb.Export.ExportToYtRequest}
    */
-  public  static final class ExportToYtRequest extends
+  public static final class ExportToYtRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Export.ExportToYtRequest)
       ExportToYtRequestOrBuilder {
@@ -4973,6 +5335,13 @@ public final class YdbExport {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExportToYtRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -4982,7 +5351,9 @@ public final class YdbExport {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4993,13 +5364,6 @@ public final class YdbExport {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -5026,6 +5390,13 @@ public final class YdbExport {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -5043,6 +5414,7 @@ public final class YdbExport {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtRequest_fieldAccessorTable
@@ -5054,19 +5426,24 @@ public final class YdbExport {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -5075,24 +5452,30 @@ public final class YdbExport {
     private tech.ydb.export.YdbExport.ExportToYtSettings settings_;
     /**
      * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
+     * @return Whether the settings field is set.
      */
+    @java.lang.Override
     public boolean hasSettings() {
       return settings_ != null;
     }
     /**
      * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
+     * @return The settings.
      */
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToYtSettings getSettings() {
       return settings_ == null ? tech.ydb.export.YdbExport.ExportToYtSettings.getDefaultInstance() : settings_;
     }
     /**
      * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
      */
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToYtSettingsOrBuilder getSettingsOrBuilder() {
       return getSettings();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -5102,6 +5485,7 @@ public final class YdbExport {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -5113,6 +5497,7 @@ public final class YdbExport {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -5141,19 +5526,18 @@ public final class YdbExport {
       }
       tech.ydb.export.YdbExport.ExportToYtRequest other = (tech.ydb.export.YdbExport.ExportToYtRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && (hasSettings() == other.hasSettings());
+      if (hasSettings() != other.hasSettings()) return false;
       if (hasSettings()) {
-        result = result && getSettings()
-            .equals(other.getSettings());
+        if (!getSettings()
+            .equals(other.getSettings())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5246,6 +5630,7 @@ public final class YdbExport {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5253,6 +5638,7 @@ public final class YdbExport {
     public static Builder newBuilder(tech.ydb.export.YdbExport.ExportToYtRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5276,6 +5662,7 @@ public final class YdbExport {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtRequest_fieldAccessorTable
@@ -5298,6 +5685,7 @@ public final class YdbExport {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -5315,15 +5703,18 @@ public final class YdbExport {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToYtRequest getDefaultInstanceForType() {
         return tech.ydb.export.YdbExport.ExportToYtRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToYtRequest build() {
         tech.ydb.export.YdbExport.ExportToYtRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -5332,6 +5723,7 @@ public final class YdbExport {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToYtRequest buildPartial() {
         tech.ydb.export.YdbExport.ExportToYtRequest result = new tech.ydb.export.YdbExport.ExportToYtRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -5348,32 +5740,39 @@ public final class YdbExport {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.export.YdbExport.ExportToYtRequest) {
           return mergeFrom((tech.ydb.export.YdbExport.ExportToYtRequest)other);
@@ -5396,10 +5795,12 @@ public final class YdbExport {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5418,17 +5819,19 @@ public final class YdbExport {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -5535,17 +5938,19 @@ public final class YdbExport {
         return operationParamsBuilder_;
       }
 
-      private tech.ydb.export.YdbExport.ExportToYtSettings settings_ = null;
+      private tech.ydb.export.YdbExport.ExportToYtSettings settings_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.export.YdbExport.ExportToYtSettings, tech.ydb.export.YdbExport.ExportToYtSettings.Builder, tech.ydb.export.YdbExport.ExportToYtSettingsOrBuilder> settingsBuilder_;
       /**
        * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
+       * @return Whether the settings field is set.
        */
       public boolean hasSettings() {
         return settingsBuilder_ != null || settings_ != null;
       }
       /**
        * <code>.Ydb.Export.ExportToYtSettings settings = 2 [(.Ydb.required) = true];</code>
+       * @return The settings.
        */
       public tech.ydb.export.YdbExport.ExportToYtSettings getSettings() {
         if (settingsBuilder_ == null) {
@@ -5651,11 +6056,13 @@ public final class YdbExport {
         }
         return settingsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5677,11 +6084,12 @@ public final class YdbExport {
 
     private static final com.google.protobuf.Parser<ExportToYtRequest>
         PARSER = new com.google.protobuf.AbstractParser<ExportToYtRequest>() {
+      @java.lang.Override
       public ExportToYtRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExportToYtRequest(input, extensionRegistry);
+        return new ExportToYtRequest(input, extensionRegistry);
       }
     };
 
@@ -5694,6 +6102,7 @@ public final class YdbExport {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToYtRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5711,6 +6120,7 @@ public final class YdbExport {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
@@ -5720,6 +6130,7 @@ public final class YdbExport {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -5735,7 +6146,7 @@ public final class YdbExport {
   /**
    * Protobuf type {@code Ydb.Export.ExportToYtResponse}
    */
-  public  static final class ExportToYtResponse extends
+  public static final class ExportToYtResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Export.ExportToYtResponse)
       ExportToYtResponseOrBuilder {
@@ -5748,6 +6159,13 @@ public final class YdbExport {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExportToYtResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -5757,7 +6175,9 @@ public final class YdbExport {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -5768,13 +6188,6 @@ public final class YdbExport {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -5786,6 +6199,13 @@ public final class YdbExport {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -5805,6 +6225,7 @@ public final class YdbExport {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtResponse_fieldAccessorTable
@@ -5821,7 +6242,9 @@ public final class YdbExport {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
@@ -5832,7 +6255,9 @@ public final class YdbExport {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
@@ -5844,11 +6269,13 @@ public final class YdbExport {
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -5858,6 +6285,7 @@ public final class YdbExport {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -5866,6 +6294,7 @@ public final class YdbExport {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -5890,14 +6319,13 @@ public final class YdbExport {
       }
       tech.ydb.export.YdbExport.ExportToYtResponse other = (tech.ydb.export.YdbExport.ExportToYtResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5986,6 +6414,7 @@ public final class YdbExport {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5993,6 +6422,7 @@ public final class YdbExport {
     public static Builder newBuilder(tech.ydb.export.YdbExport.ExportToYtResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -6016,6 +6446,7 @@ public final class YdbExport {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtResponse_fieldAccessorTable
@@ -6038,6 +6469,7 @@ public final class YdbExport {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -6049,15 +6481,18 @@ public final class YdbExport {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToYtResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToYtResponse getDefaultInstanceForType() {
         return tech.ydb.export.YdbExport.ExportToYtResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToYtResponse build() {
         tech.ydb.export.YdbExport.ExportToYtResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -6066,6 +6501,7 @@ public final class YdbExport {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToYtResponse buildPartial() {
         tech.ydb.export.YdbExport.ExportToYtResponse result = new tech.ydb.export.YdbExport.ExportToYtResponse(this);
         if (operationBuilder_ == null) {
@@ -6077,32 +6513,39 @@ public final class YdbExport {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.export.YdbExport.ExportToYtResponse) {
           return mergeFrom((tech.ydb.export.YdbExport.ExportToYtResponse)other);
@@ -6122,10 +6565,12 @@ public final class YdbExport {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6144,7 +6589,7 @@ public final class YdbExport {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
@@ -6154,6 +6599,7 @@ public final class YdbExport {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
@@ -6165,6 +6611,7 @@ public final class YdbExport {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -6305,11 +6752,13 @@ public final class YdbExport {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -6331,11 +6780,12 @@ public final class YdbExport {
 
     private static final com.google.protobuf.Parser<ExportToYtResponse>
         PARSER = new com.google.protobuf.AbstractParser<ExportToYtResponse>() {
+      @java.lang.Override
       public ExportToYtResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExportToYtResponse(input, extensionRegistry);
+        return new ExportToYtResponse(input, extensionRegistry);
       }
     };
 
@@ -6348,6 +6798,7 @@ public final class YdbExport {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToYtResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -6360,10 +6811,12 @@ public final class YdbExport {
 
     /**
      * <code>string endpoint = 1 [(.Ydb.required) = true];</code>
+     * @return The endpoint.
      */
     java.lang.String getEndpoint();
     /**
      * <code>string endpoint = 1 [(.Ydb.required) = true];</code>
+     * @return The bytes for endpoint.
      */
     com.google.protobuf.ByteString
         getEndpointBytes();
@@ -6374,6 +6827,7 @@ public final class YdbExport {
      * </pre>
      *
      * <code>.Ydb.Export.ExportToS3Settings.Scheme scheme = 2;</code>
+     * @return The enum numeric value on the wire for scheme.
      */
     int getSchemeValue();
     /**
@@ -6382,35 +6836,42 @@ public final class YdbExport {
      * </pre>
      *
      * <code>.Ydb.Export.ExportToS3Settings.Scheme scheme = 2;</code>
+     * @return The scheme.
      */
     tech.ydb.export.YdbExport.ExportToS3Settings.Scheme getScheme();
 
     /**
      * <code>string bucket = 3 [(.Ydb.required) = true];</code>
+     * @return The bucket.
      */
     java.lang.String getBucket();
     /**
      * <code>string bucket = 3 [(.Ydb.required) = true];</code>
+     * @return The bytes for bucket.
      */
     com.google.protobuf.ByteString
         getBucketBytes();
 
     /**
      * <code>string access_key = 4 [(.Ydb.required) = true];</code>
+     * @return The accessKey.
      */
     java.lang.String getAccessKey();
     /**
      * <code>string access_key = 4 [(.Ydb.required) = true];</code>
+     * @return The bytes for accessKey.
      */
     com.google.protobuf.ByteString
         getAccessKeyBytes();
 
     /**
      * <code>string secret_key = 5 [(.Ydb.required) = true];</code>
+     * @return The secretKey.
      */
     java.lang.String getSecretKey();
     /**
      * <code>string secret_key = 5 [(.Ydb.required) = true];</code>
+     * @return The bytes for secretKey.
      */
     com.google.protobuf.ByteString
         getSecretKeyBytes();
@@ -6441,25 +6902,30 @@ public final class YdbExport {
 
     /**
      * <code>string description = 7 [(.Ydb.length) = { ... }</code>
+     * @return The description.
      */
     java.lang.String getDescription();
     /**
      * <code>string description = 7 [(.Ydb.length) = { ... }</code>
+     * @return The bytes for description.
      */
     com.google.protobuf.ByteString
         getDescriptionBytes();
 
     /**
      * <code>uint32 number_of_retries = 8;</code>
+     * @return The numberOfRetries.
      */
     int getNumberOfRetries();
 
     /**
      * <code>.Ydb.Export.ExportToS3Settings.StorageClass storage_class = 9;</code>
+     * @return The enum numeric value on the wire for storageClass.
      */
     int getStorageClassValue();
     /**
      * <code>.Ydb.Export.ExportToS3Settings.StorageClass storage_class = 9;</code>
+     * @return The storageClass.
      */
     tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass getStorageClass();
   }
@@ -6470,7 +6936,7 @@ public final class YdbExport {
    *
    * Protobuf type {@code Ydb.Export.ExportToS3Settings}
    */
-  public  static final class ExportToS3Settings extends
+  public static final class ExportToS3Settings extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Export.ExportToS3Settings)
       ExportToS3SettingsOrBuilder {
@@ -6487,8 +6953,14 @@ public final class YdbExport {
       secretKey_ = "";
       items_ = java.util.Collections.emptyList();
       description_ = "";
-      numberOfRetries_ = 0;
       storageClass_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExportToS3Settings();
     }
 
     @java.lang.Override
@@ -6501,6 +6973,9 @@ public final class YdbExport {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -6512,13 +6987,6 @@ public final class YdbExport {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -6550,9 +7018,9 @@ public final class YdbExport {
               break;
             }
             case 50: {
-              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 items_ = new java.util.ArrayList<tech.ydb.export.YdbExport.ExportToS3Settings.Item>();
-                mutable_bitField0_ |= 0x00000020;
+                mutable_bitField0_ |= 0x00000001;
               }
               items_.add(
                   input.readMessage(tech.ydb.export.YdbExport.ExportToS3Settings.Item.parser(), extensionRegistry));
@@ -6575,6 +7043,13 @@ public final class YdbExport {
               storageClass_ = rawValue;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -6583,7 +7058,7 @@ public final class YdbExport {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           items_ = java.util.Collections.unmodifiableList(items_);
         }
         this.unknownFields = unknownFields.build();
@@ -6595,6 +7070,7 @@ public final class YdbExport {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Settings_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Settings_fieldAccessorTable
@@ -6645,6 +7121,8 @@ public final class YdbExport {
       }
 
       /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -6652,6 +7130,10 @@ public final class YdbExport {
         return forNumber(value);
       }
 
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
       public static Scheme forNumber(int value) {
         switch (value) {
           case 0: return UNSPECIFIED;
@@ -6675,6 +7157,10 @@ public final class YdbExport {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -6800,6 +7286,8 @@ public final class YdbExport {
       }
 
       /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -6807,6 +7295,10 @@ public final class YdbExport {
         return forNumber(value);
       }
 
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
       public static StorageClass forNumber(int value) {
         switch (value) {
           case 0: return STORAGE_CLASS_UNSPECIFIED;
@@ -6836,6 +7328,10 @@ public final class YdbExport {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -6880,6 +7376,7 @@ public final class YdbExport {
        * </pre>
        *
        * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+       * @return The sourcePath.
        */
       java.lang.String getSourcePath();
       /**
@@ -6888,6 +7385,7 @@ public final class YdbExport {
        * </pre>
        *
        * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+       * @return The bytes for sourcePath.
        */
       com.google.protobuf.ByteString
           getSourcePathBytes();
@@ -6901,6 +7399,7 @@ public final class YdbExport {
        * </pre>
        *
        * <code>string destination_prefix = 2 [(.Ydb.required) = true];</code>
+       * @return The destinationPrefix.
        */
       java.lang.String getDestinationPrefix();
       /**
@@ -6912,6 +7411,7 @@ public final class YdbExport {
        * </pre>
        *
        * <code>string destination_prefix = 2 [(.Ydb.required) = true];</code>
+       * @return The bytes for destinationPrefix.
        */
       com.google.protobuf.ByteString
           getDestinationPrefixBytes();
@@ -6919,7 +7419,7 @@ public final class YdbExport {
     /**
      * Protobuf type {@code Ydb.Export.ExportToS3Settings.Item}
      */
-    public  static final class Item extends
+    public static final class Item extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:Ydb.Export.ExportToS3Settings.Item)
         ItemOrBuilder {
@@ -6934,6 +7434,13 @@ public final class YdbExport {
       }
 
       @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Item();
+      }
+
+      @java.lang.Override
       public final com.google.protobuf.UnknownFieldSet
       getUnknownFields() {
         return this.unknownFields;
@@ -6943,7 +7450,9 @@ public final class YdbExport {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -6954,13 +7463,6 @@ public final class YdbExport {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 10: {
                 java.lang.String s = input.readStringRequireUtf8();
 
@@ -6971,6 +7473,13 @@ public final class YdbExport {
                 java.lang.String s = input.readStringRequireUtf8();
 
                 destinationPrefix_ = s;
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
                 break;
               }
             }
@@ -6990,6 +7499,7 @@ public final class YdbExport {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Settings_Item_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Settings_Item_fieldAccessorTable
@@ -7005,7 +7515,9 @@ public final class YdbExport {
        * </pre>
        *
        * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+       * @return The sourcePath.
        */
+      @java.lang.Override
       public java.lang.String getSourcePath() {
         java.lang.Object ref = sourcePath_;
         if (ref instanceof java.lang.String) {
@@ -7024,7 +7536,9 @@ public final class YdbExport {
        * </pre>
        *
        * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+       * @return The bytes for sourcePath.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getSourcePathBytes() {
         java.lang.Object ref = sourcePath_;
@@ -7050,7 +7564,9 @@ public final class YdbExport {
        * </pre>
        *
        * <code>string destination_prefix = 2 [(.Ydb.required) = true];</code>
+       * @return The destinationPrefix.
        */
+      @java.lang.Override
       public java.lang.String getDestinationPrefix() {
         java.lang.Object ref = destinationPrefix_;
         if (ref instanceof java.lang.String) {
@@ -7072,7 +7588,9 @@ public final class YdbExport {
        * </pre>
        *
        * <code>string destination_prefix = 2 [(.Ydb.required) = true];</code>
+       * @return The bytes for destinationPrefix.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getDestinationPrefixBytes() {
         java.lang.Object ref = destinationPrefix_;
@@ -7088,6 +7606,7 @@ public final class YdbExport {
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -7097,6 +7616,7 @@ public final class YdbExport {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (!getSourcePathBytes().isEmpty()) {
@@ -7108,6 +7628,7 @@ public final class YdbExport {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -7134,13 +7655,12 @@ public final class YdbExport {
         }
         tech.ydb.export.YdbExport.ExportToS3Settings.Item other = (tech.ydb.export.YdbExport.ExportToS3Settings.Item) obj;
 
-        boolean result = true;
-        result = result && getSourcePath()
-            .equals(other.getSourcePath());
-        result = result && getDestinationPrefix()
-            .equals(other.getDestinationPrefix());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!getSourcePath()
+            .equals(other.getSourcePath())) return false;
+        if (!getDestinationPrefix()
+            .equals(other.getDestinationPrefix())) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -7229,6 +7749,7 @@ public final class YdbExport {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -7236,6 +7757,7 @@ public final class YdbExport {
       public static Builder newBuilder(tech.ydb.export.YdbExport.ExportToS3Settings.Item prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -7259,6 +7781,7 @@ public final class YdbExport {
           return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Settings_Item_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Settings_Item_fieldAccessorTable
@@ -7281,6 +7804,7 @@ public final class YdbExport {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           sourcePath_ = "";
@@ -7290,15 +7814,18 @@ public final class YdbExport {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Settings_Item_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.export.YdbExport.ExportToS3Settings.Item getDefaultInstanceForType() {
           return tech.ydb.export.YdbExport.ExportToS3Settings.Item.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.export.YdbExport.ExportToS3Settings.Item build() {
           tech.ydb.export.YdbExport.ExportToS3Settings.Item result = buildPartial();
           if (!result.isInitialized()) {
@@ -7307,6 +7834,7 @@ public final class YdbExport {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.export.YdbExport.ExportToS3Settings.Item buildPartial() {
           tech.ydb.export.YdbExport.ExportToS3Settings.Item result = new tech.ydb.export.YdbExport.ExportToS3Settings.Item(this);
           result.sourcePath_ = sourcePath_;
@@ -7315,32 +7843,39 @@ public final class YdbExport {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.export.YdbExport.ExportToS3Settings.Item) {
             return mergeFrom((tech.ydb.export.YdbExport.ExportToS3Settings.Item)other);
@@ -7365,10 +7900,12 @@ public final class YdbExport {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -7394,6 +7931,7 @@ public final class YdbExport {
          * </pre>
          *
          * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+         * @return The sourcePath.
          */
         public java.lang.String getSourcePath() {
           java.lang.Object ref = sourcePath_;
@@ -7413,6 +7951,7 @@ public final class YdbExport {
          * </pre>
          *
          * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+         * @return The bytes for sourcePath.
          */
         public com.google.protobuf.ByteString
             getSourcePathBytes() {
@@ -7433,6 +7972,8 @@ public final class YdbExport {
          * </pre>
          *
          * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+         * @param value The sourcePath to set.
+         * @return This builder for chaining.
          */
         public Builder setSourcePath(
             java.lang.String value) {
@@ -7450,6 +7991,7 @@ public final class YdbExport {
          * </pre>
          *
          * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+         * @return This builder for chaining.
          */
         public Builder clearSourcePath() {
           
@@ -7463,6 +8005,8 @@ public final class YdbExport {
          * </pre>
          *
          * <code>string source_path = 1 [(.Ydb.required) = true];</code>
+         * @param value The bytes for sourcePath to set.
+         * @return This builder for chaining.
          */
         public Builder setSourcePathBytes(
             com.google.protobuf.ByteString value) {
@@ -7486,6 +8030,7 @@ public final class YdbExport {
          * </pre>
          *
          * <code>string destination_prefix = 2 [(.Ydb.required) = true];</code>
+         * @return The destinationPrefix.
          */
         public java.lang.String getDestinationPrefix() {
           java.lang.Object ref = destinationPrefix_;
@@ -7508,6 +8053,7 @@ public final class YdbExport {
          * </pre>
          *
          * <code>string destination_prefix = 2 [(.Ydb.required) = true];</code>
+         * @return The bytes for destinationPrefix.
          */
         public com.google.protobuf.ByteString
             getDestinationPrefixBytes() {
@@ -7531,6 +8077,8 @@ public final class YdbExport {
          * </pre>
          *
          * <code>string destination_prefix = 2 [(.Ydb.required) = true];</code>
+         * @param value The destinationPrefix to set.
+         * @return This builder for chaining.
          */
         public Builder setDestinationPrefix(
             java.lang.String value) {
@@ -7551,6 +8099,7 @@ public final class YdbExport {
          * </pre>
          *
          * <code>string destination_prefix = 2 [(.Ydb.required) = true];</code>
+         * @return This builder for chaining.
          */
         public Builder clearDestinationPrefix() {
           
@@ -7567,6 +8116,8 @@ public final class YdbExport {
          * </pre>
          *
          * <code>string destination_prefix = 2 [(.Ydb.required) = true];</code>
+         * @param value The bytes for destinationPrefix to set.
+         * @return This builder for chaining.
          */
         public Builder setDestinationPrefixBytes(
             com.google.protobuf.ByteString value) {
@@ -7579,11 +8130,13 @@ public final class YdbExport {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -7605,11 +8158,12 @@ public final class YdbExport {
 
       private static final com.google.protobuf.Parser<Item>
           PARSER = new com.google.protobuf.AbstractParser<Item>() {
+        @java.lang.Override
         public Item parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Item(input, extensionRegistry);
+          return new Item(input, extensionRegistry);
         }
       };
 
@@ -7622,18 +8176,20 @@ public final class YdbExport {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToS3Settings.Item getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
     }
 
-    private int bitField0_;
     public static final int ENDPOINT_FIELD_NUMBER = 1;
     private volatile java.lang.Object endpoint_;
     /**
      * <code>string endpoint = 1 [(.Ydb.required) = true];</code>
+     * @return The endpoint.
      */
+    @java.lang.Override
     public java.lang.String getEndpoint() {
       java.lang.Object ref = endpoint_;
       if (ref instanceof java.lang.String) {
@@ -7648,7 +8204,9 @@ public final class YdbExport {
     }
     /**
      * <code>string endpoint = 1 [(.Ydb.required) = true];</code>
+     * @return The bytes for endpoint.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getEndpointBytes() {
       java.lang.Object ref = endpoint_;
@@ -7671,8 +8229,9 @@ public final class YdbExport {
      * </pre>
      *
      * <code>.Ydb.Export.ExportToS3Settings.Scheme scheme = 2;</code>
+     * @return The enum numeric value on the wire for scheme.
      */
-    public int getSchemeValue() {
+    @java.lang.Override public int getSchemeValue() {
       return scheme_;
     }
     /**
@@ -7681,8 +8240,10 @@ public final class YdbExport {
      * </pre>
      *
      * <code>.Ydb.Export.ExportToS3Settings.Scheme scheme = 2;</code>
+     * @return The scheme.
      */
-    public tech.ydb.export.YdbExport.ExportToS3Settings.Scheme getScheme() {
+    @java.lang.Override public tech.ydb.export.YdbExport.ExportToS3Settings.Scheme getScheme() {
+      @SuppressWarnings("deprecation")
       tech.ydb.export.YdbExport.ExportToS3Settings.Scheme result = tech.ydb.export.YdbExport.ExportToS3Settings.Scheme.valueOf(scheme_);
       return result == null ? tech.ydb.export.YdbExport.ExportToS3Settings.Scheme.UNRECOGNIZED : result;
     }
@@ -7691,7 +8252,9 @@ public final class YdbExport {
     private volatile java.lang.Object bucket_;
     /**
      * <code>string bucket = 3 [(.Ydb.required) = true];</code>
+     * @return The bucket.
      */
+    @java.lang.Override
     public java.lang.String getBucket() {
       java.lang.Object ref = bucket_;
       if (ref instanceof java.lang.String) {
@@ -7706,7 +8269,9 @@ public final class YdbExport {
     }
     /**
      * <code>string bucket = 3 [(.Ydb.required) = true];</code>
+     * @return The bytes for bucket.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getBucketBytes() {
       java.lang.Object ref = bucket_;
@@ -7725,7 +8290,9 @@ public final class YdbExport {
     private volatile java.lang.Object accessKey_;
     /**
      * <code>string access_key = 4 [(.Ydb.required) = true];</code>
+     * @return The accessKey.
      */
+    @java.lang.Override
     public java.lang.String getAccessKey() {
       java.lang.Object ref = accessKey_;
       if (ref instanceof java.lang.String) {
@@ -7740,7 +8307,9 @@ public final class YdbExport {
     }
     /**
      * <code>string access_key = 4 [(.Ydb.required) = true];</code>
+     * @return The bytes for accessKey.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getAccessKeyBytes() {
       java.lang.Object ref = accessKey_;
@@ -7759,7 +8328,9 @@ public final class YdbExport {
     private volatile java.lang.Object secretKey_;
     /**
      * <code>string secret_key = 5 [(.Ydb.required) = true];</code>
+     * @return The secretKey.
      */
+    @java.lang.Override
     public java.lang.String getSecretKey() {
       java.lang.Object ref = secretKey_;
       if (ref instanceof java.lang.String) {
@@ -7774,7 +8345,9 @@ public final class YdbExport {
     }
     /**
      * <code>string secret_key = 5 [(.Ydb.required) = true];</code>
+     * @return The bytes for secretKey.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getSecretKeyBytes() {
       java.lang.Object ref = secretKey_;
@@ -7794,12 +8367,14 @@ public final class YdbExport {
     /**
      * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.export.YdbExport.ExportToS3Settings.Item> getItemsList() {
       return items_;
     }
     /**
      * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.export.YdbExport.ExportToS3Settings.ItemOrBuilder> 
         getItemsOrBuilderList() {
       return items_;
@@ -7807,18 +8382,21 @@ public final class YdbExport {
     /**
      * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
      */
+    @java.lang.Override
     public int getItemsCount() {
       return items_.size();
     }
     /**
      * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
      */
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToS3Settings.Item getItems(int index) {
       return items_.get(index);
     }
     /**
      * <code>repeated .Ydb.Export.ExportToS3Settings.Item items = 6 [(.Ydb.size) = { ... }</code>
      */
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToS3Settings.ItemOrBuilder getItemsOrBuilder(
         int index) {
       return items_.get(index);
@@ -7828,7 +8406,9 @@ public final class YdbExport {
     private volatile java.lang.Object description_;
     /**
      * <code>string description = 7 [(.Ydb.length) = { ... }</code>
+     * @return The description.
      */
+    @java.lang.Override
     public java.lang.String getDescription() {
       java.lang.Object ref = description_;
       if (ref instanceof java.lang.String) {
@@ -7843,7 +8423,9 @@ public final class YdbExport {
     }
     /**
      * <code>string description = 7 [(.Ydb.length) = { ... }</code>
+     * @return The bytes for description.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getDescriptionBytes() {
       java.lang.Object ref = description_;
@@ -7862,7 +8444,9 @@ public final class YdbExport {
     private int numberOfRetries_;
     /**
      * <code>uint32 number_of_retries = 8;</code>
+     * @return The numberOfRetries.
      */
+    @java.lang.Override
     public int getNumberOfRetries() {
       return numberOfRetries_;
     }
@@ -7871,19 +8455,23 @@ public final class YdbExport {
     private int storageClass_;
     /**
      * <code>.Ydb.Export.ExportToS3Settings.StorageClass storage_class = 9;</code>
+     * @return The enum numeric value on the wire for storageClass.
      */
-    public int getStorageClassValue() {
+    @java.lang.Override public int getStorageClassValue() {
       return storageClass_;
     }
     /**
      * <code>.Ydb.Export.ExportToS3Settings.StorageClass storage_class = 9;</code>
+     * @return The storageClass.
      */
-    public tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass getStorageClass() {
+    @java.lang.Override public tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass getStorageClass() {
+      @SuppressWarnings("deprecation")
       tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass result = tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass.valueOf(storageClass_);
       return result == null ? tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -7893,6 +8481,7 @@ public final class YdbExport {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getEndpointBytes().isEmpty()) {
@@ -7925,6 +8514,7 @@ public final class YdbExport {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -7976,25 +8566,24 @@ public final class YdbExport {
       }
       tech.ydb.export.YdbExport.ExportToS3Settings other = (tech.ydb.export.YdbExport.ExportToS3Settings) obj;
 
-      boolean result = true;
-      result = result && getEndpoint()
-          .equals(other.getEndpoint());
-      result = result && scheme_ == other.scheme_;
-      result = result && getBucket()
-          .equals(other.getBucket());
-      result = result && getAccessKey()
-          .equals(other.getAccessKey());
-      result = result && getSecretKey()
-          .equals(other.getSecretKey());
-      result = result && getItemsList()
-          .equals(other.getItemsList());
-      result = result && getDescription()
-          .equals(other.getDescription());
-      result = result && (getNumberOfRetries()
-          == other.getNumberOfRetries());
-      result = result && storageClass_ == other.storageClass_;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getEndpoint()
+          .equals(other.getEndpoint())) return false;
+      if (scheme_ != other.scheme_) return false;
+      if (!getBucket()
+          .equals(other.getBucket())) return false;
+      if (!getAccessKey()
+          .equals(other.getAccessKey())) return false;
+      if (!getSecretKey()
+          .equals(other.getSecretKey())) return false;
+      if (!getItemsList()
+          .equals(other.getItemsList())) return false;
+      if (!getDescription()
+          .equals(other.getDescription())) return false;
+      if (getNumberOfRetries()
+          != other.getNumberOfRetries()) return false;
+      if (storageClass_ != other.storageClass_) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -8099,6 +8688,7 @@ public final class YdbExport {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -8106,6 +8696,7 @@ public final class YdbExport {
     public static Builder newBuilder(tech.ydb.export.YdbExport.ExportToS3Settings prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -8133,6 +8724,7 @@ public final class YdbExport {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Settings_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Settings_fieldAccessorTable
@@ -8156,6 +8748,7 @@ public final class YdbExport {
           getItemsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         endpoint_ = "";
@@ -8170,7 +8763,7 @@ public final class YdbExport {
 
         if (itemsBuilder_ == null) {
           items_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           itemsBuilder_.clear();
         }
@@ -8183,15 +8776,18 @@ public final class YdbExport {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Settings_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToS3Settings getDefaultInstanceForType() {
         return tech.ydb.export.YdbExport.ExportToS3Settings.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToS3Settings build() {
         tech.ydb.export.YdbExport.ExportToS3Settings result = buildPartial();
         if (!result.isInitialized()) {
@@ -8200,19 +8796,19 @@ public final class YdbExport {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToS3Settings buildPartial() {
         tech.ydb.export.YdbExport.ExportToS3Settings result = new tech.ydb.export.YdbExport.ExportToS3Settings(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.endpoint_ = endpoint_;
         result.scheme_ = scheme_;
         result.bucket_ = bucket_;
         result.accessKey_ = accessKey_;
         result.secretKey_ = secretKey_;
         if (itemsBuilder_ == null) {
-          if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             items_ = java.util.Collections.unmodifiableList(items_);
-            bitField0_ = (bitField0_ & ~0x00000020);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.items_ = items_;
         } else {
@@ -8221,37 +8817,43 @@ public final class YdbExport {
         result.description_ = description_;
         result.numberOfRetries_ = numberOfRetries_;
         result.storageClass_ = storageClass_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.export.YdbExport.ExportToS3Settings) {
           return mergeFrom((tech.ydb.export.YdbExport.ExportToS3Settings)other);
@@ -8286,7 +8888,7 @@ public final class YdbExport {
           if (!other.items_.isEmpty()) {
             if (items_.isEmpty()) {
               items_ = other.items_;
-              bitField0_ = (bitField0_ & ~0x00000020);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureItemsIsMutable();
               items_.addAll(other.items_);
@@ -8299,7 +8901,7 @@ public final class YdbExport {
               itemsBuilder_.dispose();
               itemsBuilder_ = null;
               items_ = other.items_;
-              bitField0_ = (bitField0_ & ~0x00000020);
+              bitField0_ = (bitField0_ & ~0x00000001);
               itemsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getItemsFieldBuilder() : null;
@@ -8323,10 +8925,12 @@ public final class YdbExport {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8349,6 +8953,7 @@ public final class YdbExport {
       private java.lang.Object endpoint_ = "";
       /**
        * <code>string endpoint = 1 [(.Ydb.required) = true];</code>
+       * @return The endpoint.
        */
       public java.lang.String getEndpoint() {
         java.lang.Object ref = endpoint_;
@@ -8364,6 +8969,7 @@ public final class YdbExport {
       }
       /**
        * <code>string endpoint = 1 [(.Ydb.required) = true];</code>
+       * @return The bytes for endpoint.
        */
       public com.google.protobuf.ByteString
           getEndpointBytes() {
@@ -8380,6 +8986,8 @@ public final class YdbExport {
       }
       /**
        * <code>string endpoint = 1 [(.Ydb.required) = true];</code>
+       * @param value The endpoint to set.
+       * @return This builder for chaining.
        */
       public Builder setEndpoint(
           java.lang.String value) {
@@ -8393,6 +9001,7 @@ public final class YdbExport {
       }
       /**
        * <code>string endpoint = 1 [(.Ydb.required) = true];</code>
+       * @return This builder for chaining.
        */
       public Builder clearEndpoint() {
         
@@ -8402,6 +9011,8 @@ public final class YdbExport {
       }
       /**
        * <code>string endpoint = 1 [(.Ydb.required) = true];</code>
+       * @param value The bytes for endpoint to set.
+       * @return This builder for chaining.
        */
       public Builder setEndpointBytes(
           com.google.protobuf.ByteString value) {
@@ -8422,8 +9033,9 @@ public final class YdbExport {
        * </pre>
        *
        * <code>.Ydb.Export.ExportToS3Settings.Scheme scheme = 2;</code>
+       * @return The enum numeric value on the wire for scheme.
        */
-      public int getSchemeValue() {
+      @java.lang.Override public int getSchemeValue() {
         return scheme_;
       }
       /**
@@ -8432,8 +9044,11 @@ public final class YdbExport {
        * </pre>
        *
        * <code>.Ydb.Export.ExportToS3Settings.Scheme scheme = 2;</code>
+       * @param value The enum numeric value on the wire for scheme to set.
+       * @return This builder for chaining.
        */
       public Builder setSchemeValue(int value) {
+        
         scheme_ = value;
         onChanged();
         return this;
@@ -8444,8 +9059,11 @@ public final class YdbExport {
        * </pre>
        *
        * <code>.Ydb.Export.ExportToS3Settings.Scheme scheme = 2;</code>
+       * @return The scheme.
        */
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToS3Settings.Scheme getScheme() {
+        @SuppressWarnings("deprecation")
         tech.ydb.export.YdbExport.ExportToS3Settings.Scheme result = tech.ydb.export.YdbExport.ExportToS3Settings.Scheme.valueOf(scheme_);
         return result == null ? tech.ydb.export.YdbExport.ExportToS3Settings.Scheme.UNRECOGNIZED : result;
       }
@@ -8455,6 +9073,8 @@ public final class YdbExport {
        * </pre>
        *
        * <code>.Ydb.Export.ExportToS3Settings.Scheme scheme = 2;</code>
+       * @param value The scheme to set.
+       * @return This builder for chaining.
        */
       public Builder setScheme(tech.ydb.export.YdbExport.ExportToS3Settings.Scheme value) {
         if (value == null) {
@@ -8471,6 +9091,7 @@ public final class YdbExport {
        * </pre>
        *
        * <code>.Ydb.Export.ExportToS3Settings.Scheme scheme = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearScheme() {
         
@@ -8482,6 +9103,7 @@ public final class YdbExport {
       private java.lang.Object bucket_ = "";
       /**
        * <code>string bucket = 3 [(.Ydb.required) = true];</code>
+       * @return The bucket.
        */
       public java.lang.String getBucket() {
         java.lang.Object ref = bucket_;
@@ -8497,6 +9119,7 @@ public final class YdbExport {
       }
       /**
        * <code>string bucket = 3 [(.Ydb.required) = true];</code>
+       * @return The bytes for bucket.
        */
       public com.google.protobuf.ByteString
           getBucketBytes() {
@@ -8513,6 +9136,8 @@ public final class YdbExport {
       }
       /**
        * <code>string bucket = 3 [(.Ydb.required) = true];</code>
+       * @param value The bucket to set.
+       * @return This builder for chaining.
        */
       public Builder setBucket(
           java.lang.String value) {
@@ -8526,6 +9151,7 @@ public final class YdbExport {
       }
       /**
        * <code>string bucket = 3 [(.Ydb.required) = true];</code>
+       * @return This builder for chaining.
        */
       public Builder clearBucket() {
         
@@ -8535,6 +9161,8 @@ public final class YdbExport {
       }
       /**
        * <code>string bucket = 3 [(.Ydb.required) = true];</code>
+       * @param value The bytes for bucket to set.
+       * @return This builder for chaining.
        */
       public Builder setBucketBytes(
           com.google.protobuf.ByteString value) {
@@ -8551,6 +9179,7 @@ public final class YdbExport {
       private java.lang.Object accessKey_ = "";
       /**
        * <code>string access_key = 4 [(.Ydb.required) = true];</code>
+       * @return The accessKey.
        */
       public java.lang.String getAccessKey() {
         java.lang.Object ref = accessKey_;
@@ -8566,6 +9195,7 @@ public final class YdbExport {
       }
       /**
        * <code>string access_key = 4 [(.Ydb.required) = true];</code>
+       * @return The bytes for accessKey.
        */
       public com.google.protobuf.ByteString
           getAccessKeyBytes() {
@@ -8582,6 +9212,8 @@ public final class YdbExport {
       }
       /**
        * <code>string access_key = 4 [(.Ydb.required) = true];</code>
+       * @param value The accessKey to set.
+       * @return This builder for chaining.
        */
       public Builder setAccessKey(
           java.lang.String value) {
@@ -8595,6 +9227,7 @@ public final class YdbExport {
       }
       /**
        * <code>string access_key = 4 [(.Ydb.required) = true];</code>
+       * @return This builder for chaining.
        */
       public Builder clearAccessKey() {
         
@@ -8604,6 +9237,8 @@ public final class YdbExport {
       }
       /**
        * <code>string access_key = 4 [(.Ydb.required) = true];</code>
+       * @param value The bytes for accessKey to set.
+       * @return This builder for chaining.
        */
       public Builder setAccessKeyBytes(
           com.google.protobuf.ByteString value) {
@@ -8620,6 +9255,7 @@ public final class YdbExport {
       private java.lang.Object secretKey_ = "";
       /**
        * <code>string secret_key = 5 [(.Ydb.required) = true];</code>
+       * @return The secretKey.
        */
       public java.lang.String getSecretKey() {
         java.lang.Object ref = secretKey_;
@@ -8635,6 +9271,7 @@ public final class YdbExport {
       }
       /**
        * <code>string secret_key = 5 [(.Ydb.required) = true];</code>
+       * @return The bytes for secretKey.
        */
       public com.google.protobuf.ByteString
           getSecretKeyBytes() {
@@ -8651,6 +9288,8 @@ public final class YdbExport {
       }
       /**
        * <code>string secret_key = 5 [(.Ydb.required) = true];</code>
+       * @param value The secretKey to set.
+       * @return This builder for chaining.
        */
       public Builder setSecretKey(
           java.lang.String value) {
@@ -8664,6 +9303,7 @@ public final class YdbExport {
       }
       /**
        * <code>string secret_key = 5 [(.Ydb.required) = true];</code>
+       * @return This builder for chaining.
        */
       public Builder clearSecretKey() {
         
@@ -8673,6 +9313,8 @@ public final class YdbExport {
       }
       /**
        * <code>string secret_key = 5 [(.Ydb.required) = true];</code>
+       * @param value The bytes for secretKey to set.
+       * @return This builder for chaining.
        */
       public Builder setSecretKeyBytes(
           com.google.protobuf.ByteString value) {
@@ -8689,9 +9331,9 @@ public final class YdbExport {
       private java.util.List<tech.ydb.export.YdbExport.ExportToS3Settings.Item> items_ =
         java.util.Collections.emptyList();
       private void ensureItemsIsMutable() {
-        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           items_ = new java.util.ArrayList<tech.ydb.export.YdbExport.ExportToS3Settings.Item>(items_);
-          bitField0_ |= 0x00000020;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -8841,7 +9483,7 @@ public final class YdbExport {
       public Builder clearItems() {
         if (itemsBuilder_ == null) {
           items_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           itemsBuilder_.clear();
@@ -8918,7 +9560,7 @@ public final class YdbExport {
           itemsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.export.YdbExport.ExportToS3Settings.Item, tech.ydb.export.YdbExport.ExportToS3Settings.Item.Builder, tech.ydb.export.YdbExport.ExportToS3Settings.ItemOrBuilder>(
                   items_,
-                  ((bitField0_ & 0x00000020) == 0x00000020),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           items_ = null;
@@ -8929,6 +9571,7 @@ public final class YdbExport {
       private java.lang.Object description_ = "";
       /**
        * <code>string description = 7 [(.Ydb.length) = { ... }</code>
+       * @return The description.
        */
       public java.lang.String getDescription() {
         java.lang.Object ref = description_;
@@ -8944,6 +9587,7 @@ public final class YdbExport {
       }
       /**
        * <code>string description = 7 [(.Ydb.length) = { ... }</code>
+       * @return The bytes for description.
        */
       public com.google.protobuf.ByteString
           getDescriptionBytes() {
@@ -8960,6 +9604,8 @@ public final class YdbExport {
       }
       /**
        * <code>string description = 7 [(.Ydb.length) = { ... }</code>
+       * @param value The description to set.
+       * @return This builder for chaining.
        */
       public Builder setDescription(
           java.lang.String value) {
@@ -8973,6 +9619,7 @@ public final class YdbExport {
       }
       /**
        * <code>string description = 7 [(.Ydb.length) = { ... }</code>
+       * @return This builder for chaining.
        */
       public Builder clearDescription() {
         
@@ -8982,6 +9629,8 @@ public final class YdbExport {
       }
       /**
        * <code>string description = 7 [(.Ydb.length) = { ... }</code>
+       * @param value The bytes for description to set.
+       * @return This builder for chaining.
        */
       public Builder setDescriptionBytes(
           com.google.protobuf.ByteString value) {
@@ -8998,12 +9647,16 @@ public final class YdbExport {
       private int numberOfRetries_ ;
       /**
        * <code>uint32 number_of_retries = 8;</code>
+       * @return The numberOfRetries.
        */
+      @java.lang.Override
       public int getNumberOfRetries() {
         return numberOfRetries_;
       }
       /**
        * <code>uint32 number_of_retries = 8;</code>
+       * @param value The numberOfRetries to set.
+       * @return This builder for chaining.
        */
       public Builder setNumberOfRetries(int value) {
         
@@ -9013,6 +9666,7 @@ public final class YdbExport {
       }
       /**
        * <code>uint32 number_of_retries = 8;</code>
+       * @return This builder for chaining.
        */
       public Builder clearNumberOfRetries() {
         
@@ -9024,27 +9678,36 @@ public final class YdbExport {
       private int storageClass_ = 0;
       /**
        * <code>.Ydb.Export.ExportToS3Settings.StorageClass storage_class = 9;</code>
+       * @return The enum numeric value on the wire for storageClass.
        */
-      public int getStorageClassValue() {
+      @java.lang.Override public int getStorageClassValue() {
         return storageClass_;
       }
       /**
        * <code>.Ydb.Export.ExportToS3Settings.StorageClass storage_class = 9;</code>
+       * @param value The enum numeric value on the wire for storageClass to set.
+       * @return This builder for chaining.
        */
       public Builder setStorageClassValue(int value) {
+        
         storageClass_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Export.ExportToS3Settings.StorageClass storage_class = 9;</code>
+       * @return The storageClass.
        */
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass getStorageClass() {
+        @SuppressWarnings("deprecation")
         tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass result = tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass.valueOf(storageClass_);
         return result == null ? tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Export.ExportToS3Settings.StorageClass storage_class = 9;</code>
+       * @param value The storageClass to set.
+       * @return This builder for chaining.
        */
       public Builder setStorageClass(tech.ydb.export.YdbExport.ExportToS3Settings.StorageClass value) {
         if (value == null) {
@@ -9057,6 +9720,7 @@ public final class YdbExport {
       }
       /**
        * <code>.Ydb.Export.ExportToS3Settings.StorageClass storage_class = 9;</code>
+       * @return This builder for chaining.
        */
       public Builder clearStorageClass() {
         
@@ -9064,11 +9728,13 @@ public final class YdbExport {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -9090,11 +9756,12 @@ public final class YdbExport {
 
     private static final com.google.protobuf.Parser<ExportToS3Settings>
         PARSER = new com.google.protobuf.AbstractParser<ExportToS3Settings>() {
+      @java.lang.Override
       public ExportToS3Settings parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExportToS3Settings(input, extensionRegistry);
+        return new ExportToS3Settings(input, extensionRegistry);
       }
     };
 
@@ -9107,6 +9774,7 @@ public final class YdbExport {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToS3Settings getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -9120,7 +9788,7 @@ public final class YdbExport {
   /**
    * Protobuf type {@code Ydb.Export.ExportToS3Result}
    */
-  public  static final class ExportToS3Result extends
+  public static final class ExportToS3Result extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Export.ExportToS3Result)
       ExportToS3ResultOrBuilder {
@@ -9133,6 +9801,13 @@ public final class YdbExport {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExportToS3Result();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -9142,6 +9817,9 @@ public final class YdbExport {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -9153,7 +9831,7 @@ public final class YdbExport {
               done = true;
               break;
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -9176,6 +9854,7 @@ public final class YdbExport {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Result_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Result_fieldAccessorTable
@@ -9184,6 +9863,7 @@ public final class YdbExport {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -9193,11 +9873,13 @@ public final class YdbExport {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -9218,9 +9900,8 @@ public final class YdbExport {
       }
       tech.ydb.export.YdbExport.ExportToS3Result other = (tech.ydb.export.YdbExport.ExportToS3Result) obj;
 
-      boolean result = true;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -9305,6 +9986,7 @@ public final class YdbExport {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -9312,6 +9994,7 @@ public final class YdbExport {
     public static Builder newBuilder(tech.ydb.export.YdbExport.ExportToS3Result prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -9335,6 +10018,7 @@ public final class YdbExport {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Result_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Result_fieldAccessorTable
@@ -9357,20 +10041,24 @@ public final class YdbExport {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Result_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToS3Result getDefaultInstanceForType() {
         return tech.ydb.export.YdbExport.ExportToS3Result.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToS3Result build() {
         tech.ydb.export.YdbExport.ExportToS3Result result = buildPartial();
         if (!result.isInitialized()) {
@@ -9379,38 +10067,46 @@ public final class YdbExport {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToS3Result buildPartial() {
         tech.ydb.export.YdbExport.ExportToS3Result result = new tech.ydb.export.YdbExport.ExportToS3Result(this);
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.export.YdbExport.ExportToS3Result) {
           return mergeFrom((tech.ydb.export.YdbExport.ExportToS3Result)other);
@@ -9427,10 +10123,12 @@ public final class YdbExport {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -9448,11 +10146,13 @@ public final class YdbExport {
         }
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -9474,11 +10174,12 @@ public final class YdbExport {
 
     private static final com.google.protobuf.Parser<ExportToS3Result>
         PARSER = new com.google.protobuf.AbstractParser<ExportToS3Result>() {
+      @java.lang.Override
       public ExportToS3Result parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExportToS3Result(input, extensionRegistry);
+        return new ExportToS3Result(input, extensionRegistry);
       }
     };
 
@@ -9491,6 +10192,7 @@ public final class YdbExport {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToS3Result getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -9503,10 +10205,12 @@ public final class YdbExport {
 
     /**
      * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+     * @return Whether the settings field is set.
      */
     boolean hasSettings();
     /**
      * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+     * @return The settings.
      */
     tech.ydb.export.YdbExport.ExportToS3Settings getSettings();
     /**
@@ -9516,10 +10220,12 @@ public final class YdbExport {
 
     /**
      * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+     * @return The enum numeric value on the wire for progress.
      */
     int getProgressValue();
     /**
      * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+     * @return The progress.
      */
     tech.ydb.export.YdbExport.ExportProgress.Progress getProgress();
 
@@ -9550,7 +10256,7 @@ public final class YdbExport {
   /**
    * Protobuf type {@code Ydb.Export.ExportToS3Metadata}
    */
-  public  static final class ExportToS3Metadata extends
+  public static final class ExportToS3Metadata extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Export.ExportToS3Metadata)
       ExportToS3MetadataOrBuilder {
@@ -9565,6 +10271,13 @@ public final class YdbExport {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExportToS3Metadata();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -9574,6 +10287,9 @@ public final class YdbExport {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -9585,13 +10301,6 @@ public final class YdbExport {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.export.YdbExport.ExportToS3Settings.Builder subBuilder = null;
               if (settings_ != null) {
@@ -9612,12 +10321,19 @@ public final class YdbExport {
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 itemsProgress_ = new java.util.ArrayList<tech.ydb.export.YdbExport.ExportItemProgress>();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000001;
               }
               itemsProgress_.add(
                   input.readMessage(tech.ydb.export.YdbExport.ExportItemProgress.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -9628,7 +10344,7 @@ public final class YdbExport {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           itemsProgress_ = java.util.Collections.unmodifiableList(itemsProgress_);
         }
         this.unknownFields = unknownFields.build();
@@ -9640,6 +10356,7 @@ public final class YdbExport {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Metadata_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Metadata_fieldAccessorTable
@@ -9647,24 +10364,28 @@ public final class YdbExport {
               tech.ydb.export.YdbExport.ExportToS3Metadata.class, tech.ydb.export.YdbExport.ExportToS3Metadata.Builder.class);
     }
 
-    private int bitField0_;
     public static final int SETTINGS_FIELD_NUMBER = 1;
     private tech.ydb.export.YdbExport.ExportToS3Settings settings_;
     /**
      * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+     * @return Whether the settings field is set.
      */
+    @java.lang.Override
     public boolean hasSettings() {
       return settings_ != null;
     }
     /**
      * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+     * @return The settings.
      */
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToS3Settings getSettings() {
       return settings_ == null ? tech.ydb.export.YdbExport.ExportToS3Settings.getDefaultInstance() : settings_;
     }
     /**
      * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToS3SettingsOrBuilder getSettingsOrBuilder() {
       return getSettings();
     }
@@ -9673,14 +10394,17 @@ public final class YdbExport {
     private int progress_;
     /**
      * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+     * @return The enum numeric value on the wire for progress.
      */
-    public int getProgressValue() {
+    @java.lang.Override public int getProgressValue() {
       return progress_;
     }
     /**
      * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+     * @return The progress.
      */
-    public tech.ydb.export.YdbExport.ExportProgress.Progress getProgress() {
+    @java.lang.Override public tech.ydb.export.YdbExport.ExportProgress.Progress getProgress() {
+      @SuppressWarnings("deprecation")
       tech.ydb.export.YdbExport.ExportProgress.Progress result = tech.ydb.export.YdbExport.ExportProgress.Progress.valueOf(progress_);
       return result == null ? tech.ydb.export.YdbExport.ExportProgress.Progress.UNRECOGNIZED : result;
     }
@@ -9690,12 +10414,14 @@ public final class YdbExport {
     /**
      * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.export.YdbExport.ExportItemProgress> getItemsProgressList() {
       return itemsProgress_;
     }
     /**
      * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.export.YdbExport.ExportItemProgressOrBuilder> 
         getItemsProgressOrBuilderList() {
       return itemsProgress_;
@@ -9703,24 +10429,28 @@ public final class YdbExport {
     /**
      * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
      */
+    @java.lang.Override
     public int getItemsProgressCount() {
       return itemsProgress_.size();
     }
     /**
      * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportItemProgress getItemsProgress(int index) {
       return itemsProgress_.get(index);
     }
     /**
      * <code>repeated .Ydb.Export.ExportItemProgress items_progress = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportItemProgressOrBuilder getItemsProgressOrBuilder(
         int index) {
       return itemsProgress_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -9730,6 +10460,7 @@ public final class YdbExport {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (settings_ != null) {
@@ -9744,6 +10475,7 @@ public final class YdbExport {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -9776,17 +10508,16 @@ public final class YdbExport {
       }
       tech.ydb.export.YdbExport.ExportToS3Metadata other = (tech.ydb.export.YdbExport.ExportToS3Metadata) obj;
 
-      boolean result = true;
-      result = result && (hasSettings() == other.hasSettings());
+      if (hasSettings() != other.hasSettings()) return false;
       if (hasSettings()) {
-        result = result && getSettings()
-            .equals(other.getSettings());
+        if (!getSettings()
+            .equals(other.getSettings())) return false;
       }
-      result = result && progress_ == other.progress_;
-      result = result && getItemsProgressList()
-          .equals(other.getItemsProgressList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (progress_ != other.progress_) return false;
+      if (!getItemsProgressList()
+          .equals(other.getItemsProgressList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -9881,6 +10612,7 @@ public final class YdbExport {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -9888,6 +10620,7 @@ public final class YdbExport {
     public static Builder newBuilder(tech.ydb.export.YdbExport.ExportToS3Metadata prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -9911,6 +10644,7 @@ public final class YdbExport {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Metadata_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Metadata_fieldAccessorTable
@@ -9934,6 +10668,7 @@ public final class YdbExport {
           getItemsProgressFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (settingsBuilder_ == null) {
@@ -9946,22 +10681,25 @@ public final class YdbExport {
 
         if (itemsProgressBuilder_ == null) {
           itemsProgress_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           itemsProgressBuilder_.clear();
         }
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Metadata_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToS3Metadata getDefaultInstanceForType() {
         return tech.ydb.export.YdbExport.ExportToS3Metadata.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToS3Metadata build() {
         tech.ydb.export.YdbExport.ExportToS3Metadata result = buildPartial();
         if (!result.isInitialized()) {
@@ -9970,10 +10708,10 @@ public final class YdbExport {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToS3Metadata buildPartial() {
         tech.ydb.export.YdbExport.ExportToS3Metadata result = new tech.ydb.export.YdbExport.ExportToS3Metadata(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (settingsBuilder_ == null) {
           result.settings_ = settings_;
         } else {
@@ -9981,45 +10719,51 @@ public final class YdbExport {
         }
         result.progress_ = progress_;
         if (itemsProgressBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             itemsProgress_ = java.util.Collections.unmodifiableList(itemsProgress_);
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.itemsProgress_ = itemsProgress_;
         } else {
           result.itemsProgress_ = itemsProgressBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.export.YdbExport.ExportToS3Metadata) {
           return mergeFrom((tech.ydb.export.YdbExport.ExportToS3Metadata)other);
@@ -10041,7 +10785,7 @@ public final class YdbExport {
           if (!other.itemsProgress_.isEmpty()) {
             if (itemsProgress_.isEmpty()) {
               itemsProgress_ = other.itemsProgress_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureItemsProgressIsMutable();
               itemsProgress_.addAll(other.itemsProgress_);
@@ -10054,7 +10798,7 @@ public final class YdbExport {
               itemsProgressBuilder_.dispose();
               itemsProgressBuilder_ = null;
               itemsProgress_ = other.itemsProgress_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000001);
               itemsProgressBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getItemsProgressFieldBuilder() : null;
@@ -10068,10 +10812,12 @@ public final class YdbExport {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -10091,17 +10837,19 @@ public final class YdbExport {
       }
       private int bitField0_;
 
-      private tech.ydb.export.YdbExport.ExportToS3Settings settings_ = null;
+      private tech.ydb.export.YdbExport.ExportToS3Settings settings_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.export.YdbExport.ExportToS3Settings, tech.ydb.export.YdbExport.ExportToS3Settings.Builder, tech.ydb.export.YdbExport.ExportToS3SettingsOrBuilder> settingsBuilder_;
       /**
        * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+       * @return Whether the settings field is set.
        */
       public boolean hasSettings() {
         return settingsBuilder_ != null || settings_ != null;
       }
       /**
        * <code>.Ydb.Export.ExportToS3Settings settings = 1;</code>
+       * @return The settings.
        */
       public tech.ydb.export.YdbExport.ExportToS3Settings getSettings() {
         if (settingsBuilder_ == null) {
@@ -10211,27 +10959,36 @@ public final class YdbExport {
       private int progress_ = 0;
       /**
        * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+       * @return The enum numeric value on the wire for progress.
        */
-      public int getProgressValue() {
+      @java.lang.Override public int getProgressValue() {
         return progress_;
       }
       /**
        * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+       * @param value The enum numeric value on the wire for progress to set.
+       * @return This builder for chaining.
        */
       public Builder setProgressValue(int value) {
+        
         progress_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+       * @return The progress.
        */
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportProgress.Progress getProgress() {
+        @SuppressWarnings("deprecation")
         tech.ydb.export.YdbExport.ExportProgress.Progress result = tech.ydb.export.YdbExport.ExportProgress.Progress.valueOf(progress_);
         return result == null ? tech.ydb.export.YdbExport.ExportProgress.Progress.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+       * @param value The progress to set.
+       * @return This builder for chaining.
        */
       public Builder setProgress(tech.ydb.export.YdbExport.ExportProgress.Progress value) {
         if (value == null) {
@@ -10244,6 +11001,7 @@ public final class YdbExport {
       }
       /**
        * <code>.Ydb.Export.ExportProgress.Progress progress = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearProgress() {
         
@@ -10255,9 +11013,9 @@ public final class YdbExport {
       private java.util.List<tech.ydb.export.YdbExport.ExportItemProgress> itemsProgress_ =
         java.util.Collections.emptyList();
       private void ensureItemsProgressIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           itemsProgress_ = new java.util.ArrayList<tech.ydb.export.YdbExport.ExportItemProgress>(itemsProgress_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -10407,7 +11165,7 @@ public final class YdbExport {
       public Builder clearItemsProgress() {
         if (itemsProgressBuilder_ == null) {
           itemsProgress_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           itemsProgressBuilder_.clear();
@@ -10484,18 +11242,20 @@ public final class YdbExport {
           itemsProgressBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.export.YdbExport.ExportItemProgress, tech.ydb.export.YdbExport.ExportItemProgress.Builder, tech.ydb.export.YdbExport.ExportItemProgressOrBuilder>(
                   itemsProgress_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           itemsProgress_ = null;
         }
         return itemsProgressBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -10517,11 +11277,12 @@ public final class YdbExport {
 
     private static final com.google.protobuf.Parser<ExportToS3Metadata>
         PARSER = new com.google.protobuf.AbstractParser<ExportToS3Metadata>() {
+      @java.lang.Override
       public ExportToS3Metadata parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExportToS3Metadata(input, extensionRegistry);
+        return new ExportToS3Metadata(input, extensionRegistry);
       }
     };
 
@@ -10534,6 +11295,7 @@ public final class YdbExport {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToS3Metadata getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -10546,10 +11308,12 @@ public final class YdbExport {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -10559,10 +11323,12 @@ public final class YdbExport {
 
     /**
      * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+     * @return Whether the settings field is set.
      */
     boolean hasSettings();
     /**
      * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+     * @return The settings.
      */
     tech.ydb.export.YdbExport.ExportToS3Settings getSettings();
     /**
@@ -10573,7 +11339,7 @@ public final class YdbExport {
   /**
    * Protobuf type {@code Ydb.Export.ExportToS3Request}
    */
-  public  static final class ExportToS3Request extends
+  public static final class ExportToS3Request extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Export.ExportToS3Request)
       ExportToS3RequestOrBuilder {
@@ -10586,6 +11352,13 @@ public final class YdbExport {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExportToS3Request();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -10595,7 +11368,9 @@ public final class YdbExport {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -10606,13 +11381,6 @@ public final class YdbExport {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -10639,6 +11407,13 @@ public final class YdbExport {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -10656,6 +11431,7 @@ public final class YdbExport {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Request_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Request_fieldAccessorTable
@@ -10667,19 +11443,24 @@ public final class YdbExport {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -10688,24 +11469,30 @@ public final class YdbExport {
     private tech.ydb.export.YdbExport.ExportToS3Settings settings_;
     /**
      * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+     * @return Whether the settings field is set.
      */
+    @java.lang.Override
     public boolean hasSettings() {
       return settings_ != null;
     }
     /**
      * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+     * @return The settings.
      */
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToS3Settings getSettings() {
       return settings_ == null ? tech.ydb.export.YdbExport.ExportToS3Settings.getDefaultInstance() : settings_;
     }
     /**
      * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
      */
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToS3SettingsOrBuilder getSettingsOrBuilder() {
       return getSettings();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -10715,6 +11502,7 @@ public final class YdbExport {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -10726,6 +11514,7 @@ public final class YdbExport {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -10754,19 +11543,18 @@ public final class YdbExport {
       }
       tech.ydb.export.YdbExport.ExportToS3Request other = (tech.ydb.export.YdbExport.ExportToS3Request) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && (hasSettings() == other.hasSettings());
+      if (hasSettings() != other.hasSettings()) return false;
       if (hasSettings()) {
-        result = result && getSettings()
-            .equals(other.getSettings());
+        if (!getSettings()
+            .equals(other.getSettings())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -10859,6 +11647,7 @@ public final class YdbExport {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -10866,6 +11655,7 @@ public final class YdbExport {
     public static Builder newBuilder(tech.ydb.export.YdbExport.ExportToS3Request prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -10889,6 +11679,7 @@ public final class YdbExport {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Request_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Request_fieldAccessorTable
@@ -10911,6 +11702,7 @@ public final class YdbExport {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -10928,15 +11720,18 @@ public final class YdbExport {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Request_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToS3Request getDefaultInstanceForType() {
         return tech.ydb.export.YdbExport.ExportToS3Request.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToS3Request build() {
         tech.ydb.export.YdbExport.ExportToS3Request result = buildPartial();
         if (!result.isInitialized()) {
@@ -10945,6 +11740,7 @@ public final class YdbExport {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToS3Request buildPartial() {
         tech.ydb.export.YdbExport.ExportToS3Request result = new tech.ydb.export.YdbExport.ExportToS3Request(this);
         if (operationParamsBuilder_ == null) {
@@ -10961,32 +11757,39 @@ public final class YdbExport {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.export.YdbExport.ExportToS3Request) {
           return mergeFrom((tech.ydb.export.YdbExport.ExportToS3Request)other);
@@ -11009,10 +11812,12 @@ public final class YdbExport {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -11031,17 +11836,19 @@ public final class YdbExport {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -11148,17 +11955,19 @@ public final class YdbExport {
         return operationParamsBuilder_;
       }
 
-      private tech.ydb.export.YdbExport.ExportToS3Settings settings_ = null;
+      private tech.ydb.export.YdbExport.ExportToS3Settings settings_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.export.YdbExport.ExportToS3Settings, tech.ydb.export.YdbExport.ExportToS3Settings.Builder, tech.ydb.export.YdbExport.ExportToS3SettingsOrBuilder> settingsBuilder_;
       /**
        * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+       * @return Whether the settings field is set.
        */
       public boolean hasSettings() {
         return settingsBuilder_ != null || settings_ != null;
       }
       /**
        * <code>.Ydb.Export.ExportToS3Settings settings = 2 [(.Ydb.required) = true];</code>
+       * @return The settings.
        */
       public tech.ydb.export.YdbExport.ExportToS3Settings getSettings() {
         if (settingsBuilder_ == null) {
@@ -11264,11 +12073,13 @@ public final class YdbExport {
         }
         return settingsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -11290,11 +12101,12 @@ public final class YdbExport {
 
     private static final com.google.protobuf.Parser<ExportToS3Request>
         PARSER = new com.google.protobuf.AbstractParser<ExportToS3Request>() {
+      @java.lang.Override
       public ExportToS3Request parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExportToS3Request(input, extensionRegistry);
+        return new ExportToS3Request(input, extensionRegistry);
       }
     };
 
@@ -11307,6 +12119,7 @@ public final class YdbExport {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToS3Request getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -11324,6 +12137,7 @@ public final class YdbExport {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
@@ -11333,6 +12147,7 @@ public final class YdbExport {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -11348,7 +12163,7 @@ public final class YdbExport {
   /**
    * Protobuf type {@code Ydb.Export.ExportToS3Response}
    */
-  public  static final class ExportToS3Response extends
+  public static final class ExportToS3Response extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Export.ExportToS3Response)
       ExportToS3ResponseOrBuilder {
@@ -11361,6 +12176,13 @@ public final class YdbExport {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExportToS3Response();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -11370,7 +12192,9 @@ public final class YdbExport {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -11381,13 +12205,6 @@ public final class YdbExport {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -11399,6 +12216,13 @@ public final class YdbExport {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -11418,6 +12242,7 @@ public final class YdbExport {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Response_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Response_fieldAccessorTable
@@ -11434,7 +12259,9 @@ public final class YdbExport {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
@@ -11445,7 +12272,9 @@ public final class YdbExport {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
@@ -11457,11 +12286,13 @@ public final class YdbExport {
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -11471,6 +12302,7 @@ public final class YdbExport {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -11479,6 +12311,7 @@ public final class YdbExport {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -11503,14 +12336,13 @@ public final class YdbExport {
       }
       tech.ydb.export.YdbExport.ExportToS3Response other = (tech.ydb.export.YdbExport.ExportToS3Response) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -11599,6 +12431,7 @@ public final class YdbExport {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -11606,6 +12439,7 @@ public final class YdbExport {
     public static Builder newBuilder(tech.ydb.export.YdbExport.ExportToS3Response prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -11629,6 +12463,7 @@ public final class YdbExport {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Response_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Response_fieldAccessorTable
@@ -11651,6 +12486,7 @@ public final class YdbExport {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -11662,15 +12498,18 @@ public final class YdbExport {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.export.YdbExport.internal_static_Ydb_Export_ExportToS3Response_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToS3Response getDefaultInstanceForType() {
         return tech.ydb.export.YdbExport.ExportToS3Response.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToS3Response build() {
         tech.ydb.export.YdbExport.ExportToS3Response result = buildPartial();
         if (!result.isInitialized()) {
@@ -11679,6 +12518,7 @@ public final class YdbExport {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.export.YdbExport.ExportToS3Response buildPartial() {
         tech.ydb.export.YdbExport.ExportToS3Response result = new tech.ydb.export.YdbExport.ExportToS3Response(this);
         if (operationBuilder_ == null) {
@@ -11690,32 +12530,39 @@ public final class YdbExport {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.export.YdbExport.ExportToS3Response) {
           return mergeFrom((tech.ydb.export.YdbExport.ExportToS3Response)other);
@@ -11735,10 +12582,12 @@ public final class YdbExport {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -11757,7 +12606,7 @@ public final class YdbExport {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
@@ -11767,6 +12616,7 @@ public final class YdbExport {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
@@ -11778,6 +12628,7 @@ public final class YdbExport {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -11918,11 +12769,13 @@ public final class YdbExport {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -11944,11 +12797,12 @@ public final class YdbExport {
 
     private static final com.google.protobuf.Parser<ExportToS3Response>
         PARSER = new com.google.protobuf.AbstractParser<ExportToS3Response>() {
+      @java.lang.Override
       public ExportToS3Response parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExportToS3Response(input, extensionRegistry);
+        return new ExportToS3Response(input, extensionRegistry);
       }
     };
 
@@ -11961,6 +12815,7 @@ public final class YdbExport {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.export.YdbExport.ExportToS3Response getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -12055,7 +12910,7 @@ public final class YdbExport {
       "FIED\020\000\022\026\n\022PROGRESS_PREPARING\020\001\022\032\n\026PROGRE" +
       "SS_TRANSFER_DATA\020\002\022\021\n\rPROGRESS_DONE\020\003\022\031\n" +
       "\025PROGRESS_CANCELLATION\020\004\022\026\n\022PROGRESS_CAN" +
-      "CELLED\020\005\"\240\001\n\022ExportItemProgress\022\023\n\013parts",
+      "CELLED\020\005\"\240\001\n\022ExportItemProgress\022\023\n\013parts" +
       "_total\030\001 \001(\r\022\027\n\017parts_completed\030\002 \001(\r\022.\n" +
       "\nstart_time\030\003 \001(\0132\032.google.protobuf.Time" +
       "stamp\022,\n\010end_time\030\004 \001(\0132\032.google.protobu" +
@@ -12065,7 +12920,7 @@ public final class YdbExport {
       "portToYtSettings.ItemB\006\232\346*\002(\001\022\034\n\013descrip" +
       "tion\030\005 \001(\tB\007\242\346*\003\030\200\001\022\031\n\021number_of_retries" +
       "\030\006 \001(\r\022\023\n\013use_type_v3\030\007 \001(\010\032A\n\004Item\022\031\n\013s" +
-      "ource_path\030\001 \001(\tB\004\220\346*\001\022\036\n\020destination_pa",
+      "ource_path\030\001 \001(\tB\004\220\346*\001\022\036\n\020destination_pa" +
       "th\030\002 \001(\tB\004\220\346*\001\"\022\n\020ExportToYtResult\"\265\001\n\022E" +
       "xportToYtMetadata\0220\n\010settings\030\001 \001(\0132\036.Yd" +
       "b.Export.ExportToYtSettings\0225\n\010progress\030" +
@@ -12075,7 +12930,7 @@ public final class YdbExport {
       "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
       "ons.OperationParams\0226\n\010settings\030\002 \001(\0132\036." +
       "Ydb.Export.ExportToYtSettingsB\004\220\346*\001\"B\n\022E" +
-      "xportToYtResponse\022,\n\toperation\030\001 \001(\0132\031.Y",
+      "xportToYtResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
       "db.Operations.Operation\"\230\005\n\022ExportToS3Se" +
       "ttings\022\026\n\010endpoint\030\001 \001(\tB\004\220\346*\001\0225\n\006scheme" +
       "\030\002 \001(\0162%.Ydb.Export.ExportToS3Settings.S" +
@@ -12085,7 +12940,7 @@ public final class YdbExport {
       "ttings.ItemB\006\232\346*\002(\001\022\034\n\013description\030\007 \001(\t" +
       "B\007\242\346*\003\030\200\001\022\031\n\021number_of_retries\030\010 \001(\r\022B\n\r" +
       "storage_class\030\t \001(\0162+.Ydb.Export.ExportT" +
-      "oS3Settings.StorageClass\032C\n\004Item\022\031\n\013sour",
+      "oS3Settings.StorageClass\032C\n\004Item\022\031\n\013sour" +
       "ce_path\030\001 \001(\tB\004\220\346*\001\022 \n\022destination_prefi" +
       "x\030\002 \001(\tB\004\220\346*\001\".\n\006Scheme\022\017\n\013UNSPECIFIED\020\000" +
       "\022\010\n\004HTTP\020\001\022\t\n\005HTTPS\020\002\"\272\001\n\014StorageClass\022\035" +
@@ -12095,7 +12950,7 @@ public final class YdbExport {
       "ING\020\005\022\013\n\007GLACIER\020\006\022\020\n\014DEEP_ARCHIVE\020\007\022\014\n\010" +
       "OUTPOSTS\020\010\"\022\n\020ExportToS3Result\"\265\001\n\022Expor" +
       "tToS3Metadata\0220\n\010settings\030\001 \001(\0132\036.Ydb.Ex" +
-      "port.ExportToS3Settings\0225\n\010progress\030\002 \001(",
+      "port.ExportToS3Settings\0225\n\010progress\030\002 \001(" +
       "\0162#.Ydb.Export.ExportProgress.Progress\0226" +
       "\n\016items_progress\030\003 \003(\0132\036.Ydb.Export.Expo" +
       "rtItemProgress\"\206\001\n\021ExportToS3Request\0229\n\020" +
@@ -12106,21 +12961,13 @@ public final class YdbExport {
       "perations.OperationB\032\n\025tech.ydb.ex" +
       "port\370\001\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.Validation.getDescriptor(),
           tech.ydb.OperationProtos.getDescriptor(),
           com.google.protobuf.TimestampProto.getDescriptor(),
-        }, assigner);
+        });
     internal_static_Ydb_Export_ExportProgress_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_Export_ExportProgress_fieldAccessorTable = new

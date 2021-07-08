@@ -45,7 +45,7 @@ public final class IssueId {
   /**
    * Protobuf type {@code NStreams.NProto.TIssuesIds}
    */
-  public  static final class TIssuesIds extends
+  public static final class TIssuesIds extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NStreams.NProto.TIssuesIds)
       TIssuesIdsOrBuilder {
@@ -59,6 +59,13 @@ public final class IssueId {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TIssuesIds();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -68,6 +75,9 @@ public final class IssueId {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -79,20 +89,20 @@ public final class IssueId {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 ids_ = new java.util.ArrayList<NStreams.NProto.IssueId.TIssuesIds.TIssueId>();
                 mutable_bitField0_ |= 0x00000001;
               }
               ids_.add(
                   input.readMessage(NStreams.NProto.IssueId.TIssuesIds.TIssueId.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -103,7 +113,7 @@ public final class IssueId {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           ids_ = java.util.Collections.unmodifiableList(ids_);
         }
         this.unknownFields = unknownFields.build();
@@ -115,6 +125,7 @@ public final class IssueId {
       return NStreams.NProto.IssueId.internal_static_NStreams_NProto_TIssuesIds_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return NStreams.NProto.IssueId.internal_static_NStreams_NProto_TIssuesIds_fieldAccessorTable
@@ -181,6 +192,8 @@ public final class IssueId {
       }
 
       /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -188,6 +201,10 @@ public final class IssueId {
         return forNumber(value);
       }
 
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
       public static EIssueCode forNumber(int value) {
         switch (value) {
           case 0: return DEFAULT_ERROR;
@@ -213,6 +230,10 @@ public final class IssueId {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -253,28 +274,34 @@ public final class IssueId {
 
       /**
        * <code>.NStreams.NProto.TIssuesIds.EIssueCode code = 2;</code>
+       * @return The enum numeric value on the wire for code.
        */
       int getCodeValue();
       /**
        * <code>.NStreams.NProto.TIssuesIds.EIssueCode code = 2;</code>
+       * @return The code.
        */
       NStreams.NProto.IssueId.TIssuesIds.EIssueCode getCode();
 
       /**
        * <code>.NYql.TSeverityIds.ESeverityId severity = 1;</code>
+       * @return The enum numeric value on the wire for severity.
        */
       int getSeverityValue();
       /**
        * <code>.NYql.TSeverityIds.ESeverityId severity = 1;</code>
+       * @return The severity.
        */
       com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId getSeverity();
 
       /**
        * <code>string format = 3;</code>
+       * @return The format.
        */
       java.lang.String getFormat();
       /**
        * <code>string format = 3;</code>
+       * @return The bytes for format.
        */
       com.google.protobuf.ByteString
           getFormatBytes();
@@ -282,7 +309,7 @@ public final class IssueId {
     /**
      * Protobuf type {@code NStreams.NProto.TIssuesIds.TIssueId}
      */
-    public  static final class TIssueId extends
+    public static final class TIssueId extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NStreams.NProto.TIssuesIds.TIssueId)
         TIssueIdOrBuilder {
@@ -298,6 +325,13 @@ public final class IssueId {
       }
 
       @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new TIssueId();
+      }
+
+      @java.lang.Override
       public final com.google.protobuf.UnknownFieldSet
       getUnknownFields() {
         return this.unknownFields;
@@ -307,7 +341,9 @@ public final class IssueId {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -318,13 +354,6 @@ public final class IssueId {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 8: {
                 int rawValue = input.readEnum();
 
@@ -341,6 +370,13 @@ public final class IssueId {
                 java.lang.String s = input.readStringRequireUtf8();
 
                 format_ = s;
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
                 break;
               }
             }
@@ -360,6 +396,7 @@ public final class IssueId {
         return NStreams.NProto.IssueId.internal_static_NStreams_NProto_TIssuesIds_TIssueId_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NStreams.NProto.IssueId.internal_static_NStreams_NProto_TIssuesIds_TIssueId_fieldAccessorTable
@@ -371,14 +408,17 @@ public final class IssueId {
       private int code_;
       /**
        * <code>.NStreams.NProto.TIssuesIds.EIssueCode code = 2;</code>
+       * @return The enum numeric value on the wire for code.
        */
-      public int getCodeValue() {
+      @java.lang.Override public int getCodeValue() {
         return code_;
       }
       /**
        * <code>.NStreams.NProto.TIssuesIds.EIssueCode code = 2;</code>
+       * @return The code.
        */
-      public NStreams.NProto.IssueId.TIssuesIds.EIssueCode getCode() {
+      @java.lang.Override public NStreams.NProto.IssueId.TIssuesIds.EIssueCode getCode() {
+        @SuppressWarnings("deprecation")
         NStreams.NProto.IssueId.TIssuesIds.EIssueCode result = NStreams.NProto.IssueId.TIssuesIds.EIssueCode.valueOf(code_);
         return result == null ? NStreams.NProto.IssueId.TIssuesIds.EIssueCode.UNRECOGNIZED : result;
       }
@@ -387,14 +427,17 @@ public final class IssueId {
       private int severity_;
       /**
        * <code>.NYql.TSeverityIds.ESeverityId severity = 1;</code>
+       * @return The enum numeric value on the wire for severity.
        */
-      public int getSeverityValue() {
+      @java.lang.Override public int getSeverityValue() {
         return severity_;
       }
       /**
        * <code>.NYql.TSeverityIds.ESeverityId severity = 1;</code>
+       * @return The severity.
        */
-      public com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId getSeverity() {
+      @java.lang.Override public com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId getSeverity() {
+        @SuppressWarnings("deprecation")
         com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId result = com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId.valueOf(severity_);
         return result == null ? com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId.UNRECOGNIZED : result;
       }
@@ -403,7 +446,9 @@ public final class IssueId {
       private volatile java.lang.Object format_;
       /**
        * <code>string format = 3;</code>
+       * @return The format.
        */
+      @java.lang.Override
       public java.lang.String getFormat() {
         java.lang.Object ref = format_;
         if (ref instanceof java.lang.String) {
@@ -418,7 +463,9 @@ public final class IssueId {
       }
       /**
        * <code>string format = 3;</code>
+       * @return The bytes for format.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getFormatBytes() {
         java.lang.Object ref = format_;
@@ -434,6 +481,7 @@ public final class IssueId {
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -443,6 +491,7 @@ public final class IssueId {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (severity_ != com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId.S_FATAL.getNumber()) {
@@ -457,6 +506,7 @@ public final class IssueId {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -488,13 +538,12 @@ public final class IssueId {
         }
         NStreams.NProto.IssueId.TIssuesIds.TIssueId other = (NStreams.NProto.IssueId.TIssuesIds.TIssueId) obj;
 
-        boolean result = true;
-        result = result && code_ == other.code_;
-        result = result && severity_ == other.severity_;
-        result = result && getFormat()
-            .equals(other.getFormat());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (code_ != other.code_) return false;
+        if (severity_ != other.severity_) return false;
+        if (!getFormat()
+            .equals(other.getFormat())) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -585,6 +634,7 @@ public final class IssueId {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -592,6 +642,7 @@ public final class IssueId {
       public static Builder newBuilder(NStreams.NProto.IssueId.TIssuesIds.TIssueId prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -615,6 +666,7 @@ public final class IssueId {
           return NStreams.NProto.IssueId.internal_static_NStreams_NProto_TIssuesIds_TIssueId_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return NStreams.NProto.IssueId.internal_static_NStreams_NProto_TIssuesIds_TIssueId_fieldAccessorTable
@@ -637,6 +689,7 @@ public final class IssueId {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           code_ = 0;
@@ -648,15 +701,18 @@ public final class IssueId {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return NStreams.NProto.IssueId.internal_static_NStreams_NProto_TIssuesIds_TIssueId_descriptor;
         }
 
+        @java.lang.Override
         public NStreams.NProto.IssueId.TIssuesIds.TIssueId getDefaultInstanceForType() {
           return NStreams.NProto.IssueId.TIssuesIds.TIssueId.getDefaultInstance();
         }
 
+        @java.lang.Override
         public NStreams.NProto.IssueId.TIssuesIds.TIssueId build() {
           NStreams.NProto.IssueId.TIssuesIds.TIssueId result = buildPartial();
           if (!result.isInitialized()) {
@@ -665,6 +721,7 @@ public final class IssueId {
           return result;
         }
 
+        @java.lang.Override
         public NStreams.NProto.IssueId.TIssuesIds.TIssueId buildPartial() {
           NStreams.NProto.IssueId.TIssuesIds.TIssueId result = new NStreams.NProto.IssueId.TIssuesIds.TIssueId(this);
           result.code_ = code_;
@@ -674,32 +731,39 @@ public final class IssueId {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof NStreams.NProto.IssueId.TIssuesIds.TIssueId) {
             return mergeFrom((NStreams.NProto.IssueId.TIssuesIds.TIssueId)other);
@@ -726,10 +790,12 @@ public final class IssueId {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -751,27 +817,36 @@ public final class IssueId {
         private int code_ = 0;
         /**
          * <code>.NStreams.NProto.TIssuesIds.EIssueCode code = 2;</code>
+         * @return The enum numeric value on the wire for code.
          */
-        public int getCodeValue() {
+        @java.lang.Override public int getCodeValue() {
           return code_;
         }
         /**
          * <code>.NStreams.NProto.TIssuesIds.EIssueCode code = 2;</code>
+         * @param value The enum numeric value on the wire for code to set.
+         * @return This builder for chaining.
          */
         public Builder setCodeValue(int value) {
+          
           code_ = value;
           onChanged();
           return this;
         }
         /**
          * <code>.NStreams.NProto.TIssuesIds.EIssueCode code = 2;</code>
+         * @return The code.
          */
+        @java.lang.Override
         public NStreams.NProto.IssueId.TIssuesIds.EIssueCode getCode() {
+          @SuppressWarnings("deprecation")
           NStreams.NProto.IssueId.TIssuesIds.EIssueCode result = NStreams.NProto.IssueId.TIssuesIds.EIssueCode.valueOf(code_);
           return result == null ? NStreams.NProto.IssueId.TIssuesIds.EIssueCode.UNRECOGNIZED : result;
         }
         /**
          * <code>.NStreams.NProto.TIssuesIds.EIssueCode code = 2;</code>
+         * @param value The code to set.
+         * @return This builder for chaining.
          */
         public Builder setCode(NStreams.NProto.IssueId.TIssuesIds.EIssueCode value) {
           if (value == null) {
@@ -784,6 +859,7 @@ public final class IssueId {
         }
         /**
          * <code>.NStreams.NProto.TIssuesIds.EIssueCode code = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearCode() {
           
@@ -795,27 +871,36 @@ public final class IssueId {
         private int severity_ = 0;
         /**
          * <code>.NYql.TSeverityIds.ESeverityId severity = 1;</code>
+         * @return The enum numeric value on the wire for severity.
          */
-        public int getSeverityValue() {
+        @java.lang.Override public int getSeverityValue() {
           return severity_;
         }
         /**
          * <code>.NYql.TSeverityIds.ESeverityId severity = 1;</code>
+         * @param value The enum numeric value on the wire for severity to set.
+         * @return This builder for chaining.
          */
         public Builder setSeverityValue(int value) {
+          
           severity_ = value;
           onChanged();
           return this;
         }
         /**
          * <code>.NYql.TSeverityIds.ESeverityId severity = 1;</code>
+         * @return The severity.
          */
+        @java.lang.Override
         public com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId getSeverity() {
+          @SuppressWarnings("deprecation")
           com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId result = com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId.valueOf(severity_);
           return result == null ? com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId.UNRECOGNIZED : result;
         }
         /**
          * <code>.NYql.TSeverityIds.ESeverityId severity = 1;</code>
+         * @param value The severity to set.
+         * @return This builder for chaining.
          */
         public Builder setSeverity(com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId value) {
           if (value == null) {
@@ -828,6 +913,7 @@ public final class IssueId {
         }
         /**
          * <code>.NYql.TSeverityIds.ESeverityId severity = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearSeverity() {
           
@@ -839,6 +925,7 @@ public final class IssueId {
         private java.lang.Object format_ = "";
         /**
          * <code>string format = 3;</code>
+         * @return The format.
          */
         public java.lang.String getFormat() {
           java.lang.Object ref = format_;
@@ -854,6 +941,7 @@ public final class IssueId {
         }
         /**
          * <code>string format = 3;</code>
+         * @return The bytes for format.
          */
         public com.google.protobuf.ByteString
             getFormatBytes() {
@@ -870,6 +958,8 @@ public final class IssueId {
         }
         /**
          * <code>string format = 3;</code>
+         * @param value The format to set.
+         * @return This builder for chaining.
          */
         public Builder setFormat(
             java.lang.String value) {
@@ -883,6 +973,7 @@ public final class IssueId {
         }
         /**
          * <code>string format = 3;</code>
+         * @return This builder for chaining.
          */
         public Builder clearFormat() {
           
@@ -892,6 +983,8 @@ public final class IssueId {
         }
         /**
          * <code>string format = 3;</code>
+         * @param value The bytes for format to set.
+         * @return This builder for chaining.
          */
         public Builder setFormatBytes(
             com.google.protobuf.ByteString value) {
@@ -904,11 +997,13 @@ public final class IssueId {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -930,11 +1025,12 @@ public final class IssueId {
 
       private static final com.google.protobuf.Parser<TIssueId>
           PARSER = new com.google.protobuf.AbstractParser<TIssueId>() {
+        @java.lang.Override
         public TIssueId parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new TIssueId(input, extensionRegistry);
+          return new TIssueId(input, extensionRegistry);
         }
       };
 
@@ -947,6 +1043,7 @@ public final class IssueId {
         return PARSER;
       }
 
+      @java.lang.Override
       public NStreams.NProto.IssueId.TIssuesIds.TIssueId getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -958,12 +1055,14 @@ public final class IssueId {
     /**
      * <code>repeated .NStreams.NProto.TIssuesIds.TIssueId ids = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<NStreams.NProto.IssueId.TIssuesIds.TIssueId> getIdsList() {
       return ids_;
     }
     /**
      * <code>repeated .NStreams.NProto.TIssuesIds.TIssueId ids = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends NStreams.NProto.IssueId.TIssuesIds.TIssueIdOrBuilder> 
         getIdsOrBuilderList() {
       return ids_;
@@ -971,24 +1070,28 @@ public final class IssueId {
     /**
      * <code>repeated .NStreams.NProto.TIssuesIds.TIssueId ids = 1;</code>
      */
+    @java.lang.Override
     public int getIdsCount() {
       return ids_.size();
     }
     /**
      * <code>repeated .NStreams.NProto.TIssuesIds.TIssueId ids = 1;</code>
      */
+    @java.lang.Override
     public NStreams.NProto.IssueId.TIssuesIds.TIssueId getIds(int index) {
       return ids_.get(index);
     }
     /**
      * <code>repeated .NStreams.NProto.TIssuesIds.TIssueId ids = 1;</code>
      */
+    @java.lang.Override
     public NStreams.NProto.IssueId.TIssuesIds.TIssueIdOrBuilder getIdsOrBuilder(
         int index) {
       return ids_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -998,6 +1101,7 @@ public final class IssueId {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < ids_.size(); i++) {
@@ -1006,6 +1110,7 @@ public final class IssueId {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1030,11 +1135,10 @@ public final class IssueId {
       }
       NStreams.NProto.IssueId.TIssuesIds other = (NStreams.NProto.IssueId.TIssuesIds) obj;
 
-      boolean result = true;
-      result = result && getIdsList()
-          .equals(other.getIdsList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getIdsList()
+          .equals(other.getIdsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1123,6 +1227,7 @@ public final class IssueId {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1130,6 +1235,7 @@ public final class IssueId {
     public static Builder newBuilder(NStreams.NProto.IssueId.TIssuesIds prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1153,6 +1259,7 @@ public final class IssueId {
         return NStreams.NProto.IssueId.internal_static_NStreams_NProto_TIssuesIds_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NStreams.NProto.IssueId.internal_static_NStreams_NProto_TIssuesIds_fieldAccessorTable
@@ -1176,6 +1283,7 @@ public final class IssueId {
           getIdsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (idsBuilder_ == null) {
@@ -1187,15 +1295,18 @@ public final class IssueId {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return NStreams.NProto.IssueId.internal_static_NStreams_NProto_TIssuesIds_descriptor;
       }
 
+      @java.lang.Override
       public NStreams.NProto.IssueId.TIssuesIds getDefaultInstanceForType() {
         return NStreams.NProto.IssueId.TIssuesIds.getDefaultInstance();
       }
 
+      @java.lang.Override
       public NStreams.NProto.IssueId.TIssuesIds build() {
         NStreams.NProto.IssueId.TIssuesIds result = buildPartial();
         if (!result.isInitialized()) {
@@ -1204,11 +1315,12 @@ public final class IssueId {
         return result;
       }
 
+      @java.lang.Override
       public NStreams.NProto.IssueId.TIssuesIds buildPartial() {
         NStreams.NProto.IssueId.TIssuesIds result = new NStreams.NProto.IssueId.TIssuesIds(this);
         int from_bitField0_ = bitField0_;
         if (idsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             ids_ = java.util.Collections.unmodifiableList(ids_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -1220,32 +1332,39 @@ public final class IssueId {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof NStreams.NProto.IssueId.TIssuesIds) {
           return mergeFrom((NStreams.NProto.IssueId.TIssuesIds)other);
@@ -1288,10 +1407,12 @@ public final class IssueId {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1314,7 +1435,7 @@ public final class IssueId {
       private java.util.List<NStreams.NProto.IssueId.TIssuesIds.TIssueId> ids_ =
         java.util.Collections.emptyList();
       private void ensureIdsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           ids_ = new java.util.ArrayList<NStreams.NProto.IssueId.TIssuesIds.TIssueId>(ids_);
           bitField0_ |= 0x00000001;
          }
@@ -1543,18 +1664,20 @@ public final class IssueId {
           idsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               NStreams.NProto.IssueId.TIssuesIds.TIssueId, NStreams.NProto.IssueId.TIssuesIds.TIssueId.Builder, NStreams.NProto.IssueId.TIssuesIds.TIssueIdOrBuilder>(
                   ids_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           ids_ = null;
         }
         return idsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1576,11 +1699,12 @@ public final class IssueId {
 
     private static final com.google.protobuf.Parser<TIssuesIds>
         PARSER = new com.google.protobuf.AbstractParser<TIssuesIds>() {
+      @java.lang.Override
       public TIssuesIds parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TIssuesIds(input, extensionRegistry);
+        return new TIssuesIds(input, extensionRegistry);
       }
     };
 
@@ -1593,6 +1717,7 @@ public final class IssueId {
       return PARSER;
     }
 
+    @java.lang.Override
     public NStreams.NProto.IssueId.TIssuesIds getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1627,22 +1752,14 @@ public final class IssueId {
       "sueCode\0220\n\010severity\030\001 \001(\0162\036.NYql.TSeveri" +
       "tyIds.ESeverityId\022\016\n\006format\030\003 \001(\t\"S\n\nEIs" +
       "sueCode\022\021\n\rDEFAULT_ERROR\020\000\022\016\n\nUNEXPECTED" +
-      "\020\001\022\010\n\004INFO\020\002\022\013\n\007WARNING\020\003\022\013\n\007SUCCESS\020\004b\006",
+      "\020\001\022\010\n\004INFO\020\002\022\013\n\007WARNING\020\003\022\013\n\007SUCCESS\020\004b\006" +
       "proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.yandex.yql.proto.IssueSeverity.getDescriptor(),
-        }, assigner);
+        });
     internal_static_NStreams_NProto_TIssuesIds_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_NStreams_NProto_TIssuesIds_fieldAccessorTable = new

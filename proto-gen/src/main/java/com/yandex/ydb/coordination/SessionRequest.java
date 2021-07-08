@@ -11,7 +11,7 @@ package tech.ydb.coordination;
  *
  * Protobuf type {@code Ydb.Coordination.SessionRequest}
  */
-public  final class SessionRequest extends
+public final class SessionRequest extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:Ydb.Coordination.SessionRequest)
     SessionRequestOrBuilder {
@@ -24,6 +24,13 @@ private static final long serialVersionUID = 0L;
   }
 
   @java.lang.Override
+  @SuppressWarnings({"unused"})
+  protected java.lang.Object newInstance(
+      UnusedPrivateParameter unused) {
+    return new SessionRequest();
+  }
+
+  @java.lang.Override
   public final com.google.protobuf.UnknownFieldSet
   getUnknownFields() {
     return this.unknownFields;
@@ -33,7 +40,9 @@ private static final long serialVersionUID = 0L;
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     this();
-    int mutable_bitField0_ = 0;
+    if (extensionRegistry == null) {
+      throw new java.lang.NullPointerException();
+    }
     com.google.protobuf.UnknownFieldSet.Builder unknownFields =
         com.google.protobuf.UnknownFieldSet.newBuilder();
     try {
@@ -44,13 +53,6 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          default: {
-            if (!parseUnknownFieldProto3(
-                input, unknownFields, extensionRegistry, tag)) {
-              done = true;
-            }
-            break;
-          }
           case 10: {
             tech.ydb.coordination.SessionRequest.PingPong.Builder subBuilder = null;
             if (requestCase_ == 1) {
@@ -261,6 +263,13 @@ private static final long serialVersionUID = 0L;
             requestCase_ = 15;
             break;
           }
+          default: {
+            if (!parseUnknownField(
+                input, unknownFields, extensionRegistry, tag)) {
+              done = true;
+            }
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -278,6 +287,7 @@ private static final long serialVersionUID = 0L;
     return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_descriptor;
   }
 
+  @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_fieldAccessorTable
@@ -295,6 +305,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 opaque = 1;</code>
+     * @return The opaque.
      */
     long getOpaque();
   }
@@ -306,7 +317,7 @@ private static final long serialVersionUID = 0L;
    *
    * Protobuf type {@code Ydb.Coordination.SessionRequest.PingPong}
    */
-  public  static final class PingPong extends
+  public static final class PingPong extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Coordination.SessionRequest.PingPong)
       PingPongOrBuilder {
@@ -316,7 +327,13 @@ private static final long serialVersionUID = 0L;
       super(builder);
     }
     private PingPong() {
-      opaque_ = 0L;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new PingPong();
     }
 
     @java.lang.Override
@@ -329,7 +346,9 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -340,16 +359,16 @@ private static final long serialVersionUID = 0L;
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               opaque_ = input.readUInt64();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -369,6 +388,7 @@ private static final long serialVersionUID = 0L;
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_PingPong_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_PingPong_fieldAccessorTable
@@ -384,12 +404,15 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 opaque = 1;</code>
+     * @return The opaque.
      */
+    @java.lang.Override
     public long getOpaque() {
       return opaque_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -399,6 +422,7 @@ private static final long serialVersionUID = 0L;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (opaque_ != 0L) {
@@ -407,6 +431,7 @@ private static final long serialVersionUID = 0L;
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -431,11 +456,10 @@ private static final long serialVersionUID = 0L;
       }
       tech.ydb.coordination.SessionRequest.PingPong other = (tech.ydb.coordination.SessionRequest.PingPong) obj;
 
-      boolean result = true;
-      result = result && (getOpaque()
-          == other.getOpaque());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getOpaque()
+          != other.getOpaque()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -523,6 +547,7 @@ private static final long serialVersionUID = 0L;
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -530,6 +555,7 @@ private static final long serialVersionUID = 0L;
     public static Builder newBuilder(tech.ydb.coordination.SessionRequest.PingPong prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -558,6 +584,7 @@ private static final long serialVersionUID = 0L;
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_PingPong_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_PingPong_fieldAccessorTable
@@ -580,6 +607,7 @@ private static final long serialVersionUID = 0L;
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         opaque_ = 0L;
@@ -587,15 +615,18 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_PingPong_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.PingPong getDefaultInstanceForType() {
         return tech.ydb.coordination.SessionRequest.PingPong.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.PingPong build() {
         tech.ydb.coordination.SessionRequest.PingPong result = buildPartial();
         if (!result.isInitialized()) {
@@ -604,6 +635,7 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.PingPong buildPartial() {
         tech.ydb.coordination.SessionRequest.PingPong result = new tech.ydb.coordination.SessionRequest.PingPong(this);
         result.opaque_ = opaque_;
@@ -611,32 +643,39 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.coordination.SessionRequest.PingPong) {
           return mergeFrom((tech.ydb.coordination.SessionRequest.PingPong)other);
@@ -656,10 +695,12 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -685,7 +726,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 opaque = 1;</code>
+       * @return The opaque.
        */
+      @java.lang.Override
       public long getOpaque() {
         return opaque_;
       }
@@ -695,6 +738,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 opaque = 1;</code>
+       * @param value The opaque to set.
+       * @return This builder for chaining.
        */
       public Builder setOpaque(long value) {
         
@@ -708,6 +753,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 opaque = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearOpaque() {
         
@@ -715,11 +761,13 @@ private static final long serialVersionUID = 0L;
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -741,11 +789,12 @@ private static final long serialVersionUID = 0L;
 
     private static final com.google.protobuf.Parser<PingPong>
         PARSER = new com.google.protobuf.AbstractParser<PingPong>() {
+      @java.lang.Override
       public PingPong parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new PingPong(input, extensionRegistry);
+        return new PingPong(input, extensionRegistry);
       }
     };
 
@@ -758,6 +807,7 @@ private static final long serialVersionUID = 0L;
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.PingPong getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -774,6 +824,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The path.
      */
     java.lang.String getPath();
     /**
@@ -782,6 +833,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The bytes for path.
      */
     com.google.protobuf.ByteString
         getPathBytes();
@@ -792,6 +844,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 session_id = 2;</code>
+     * @return The sessionId.
      */
     long getSessionId();
 
@@ -801,6 +854,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 timeout_millis = 3;</code>
+     * @return The timeoutMillis.
      */
     long getTimeoutMillis();
 
@@ -810,6 +864,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string description = 4;</code>
+     * @return The description.
      */
     java.lang.String getDescription();
     /**
@@ -818,6 +873,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string description = 4;</code>
+     * @return The bytes for description.
      */
     com.google.protobuf.ByteString
         getDescriptionBytes();
@@ -830,6 +886,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 seq_no = 5;</code>
+     * @return The seqNo.
      */
     long getSeqNo();
 
@@ -839,6 +896,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bytes protection_key = 6;</code>
+     * @return The protectionKey.
      */
     com.google.protobuf.ByteString getProtectionKey();
   }
@@ -850,7 +908,7 @@ private static final long serialVersionUID = 0L;
    *
    * Protobuf type {@code Ydb.Coordination.SessionRequest.SessionStart}
    */
-  public  static final class SessionStart extends
+  public static final class SessionStart extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Coordination.SessionRequest.SessionStart)
       SessionStartOrBuilder {
@@ -861,11 +919,15 @@ private static final long serialVersionUID = 0L;
     }
     private SessionStart() {
       path_ = "";
-      sessionId_ = 0L;
-      timeoutMillis_ = 0L;
       description_ = "";
-      seqNo_ = 0L;
       protectionKey_ = com.google.protobuf.ByteString.EMPTY;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SessionStart();
     }
 
     @java.lang.Override
@@ -878,7 +940,9 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -889,13 +953,6 @@ private static final long serialVersionUID = 0L;
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -928,6 +985,13 @@ private static final long serialVersionUID = 0L;
               protectionKey_ = input.readBytes();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -945,6 +1009,7 @@ private static final long serialVersionUID = 0L;
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_SessionStart_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_SessionStart_fieldAccessorTable
@@ -960,7 +1025,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The path.
      */
+    @java.lang.Override
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
@@ -979,7 +1046,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The bytes for path.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathBytes() {
       java.lang.Object ref = path_;
@@ -1002,7 +1071,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 session_id = 2;</code>
+     * @return The sessionId.
      */
+    @java.lang.Override
     public long getSessionId() {
       return sessionId_;
     }
@@ -1015,7 +1086,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 timeout_millis = 3;</code>
+     * @return The timeoutMillis.
      */
+    @java.lang.Override
     public long getTimeoutMillis() {
       return timeoutMillis_;
     }
@@ -1028,7 +1101,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string description = 4;</code>
+     * @return The description.
      */
+    @java.lang.Override
     public java.lang.String getDescription() {
       java.lang.Object ref = description_;
       if (ref instanceof java.lang.String) {
@@ -1047,7 +1122,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string description = 4;</code>
+     * @return The bytes for description.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getDescriptionBytes() {
       java.lang.Object ref = description_;
@@ -1072,7 +1149,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 seq_no = 5;</code>
+     * @return The seqNo.
      */
+    @java.lang.Override
     public long getSeqNo() {
       return seqNo_;
     }
@@ -1085,12 +1164,15 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bytes protection_key = 6;</code>
+     * @return The protectionKey.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getProtectionKey() {
       return protectionKey_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1100,6 +1182,7 @@ private static final long serialVersionUID = 0L;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getPathBytes().isEmpty()) {
@@ -1123,6 +1206,7 @@ private static final long serialVersionUID = 0L;
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1165,21 +1249,20 @@ private static final long serialVersionUID = 0L;
       }
       tech.ydb.coordination.SessionRequest.SessionStart other = (tech.ydb.coordination.SessionRequest.SessionStart) obj;
 
-      boolean result = true;
-      result = result && getPath()
-          .equals(other.getPath());
-      result = result && (getSessionId()
-          == other.getSessionId());
-      result = result && (getTimeoutMillis()
-          == other.getTimeoutMillis());
-      result = result && getDescription()
-          .equals(other.getDescription());
-      result = result && (getSeqNo()
-          == other.getSeqNo());
-      result = result && getProtectionKey()
-          .equals(other.getProtectionKey());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getPath()
+          .equals(other.getPath())) return false;
+      if (getSessionId()
+          != other.getSessionId()) return false;
+      if (getTimeoutMillis()
+          != other.getTimeoutMillis()) return false;
+      if (!getDescription()
+          .equals(other.getDescription())) return false;
+      if (getSeqNo()
+          != other.getSeqNo()) return false;
+      if (!getProtectionKey()
+          .equals(other.getProtectionKey())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1279,6 +1362,7 @@ private static final long serialVersionUID = 0L;
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1286,6 +1370,7 @@ private static final long serialVersionUID = 0L;
     public static Builder newBuilder(tech.ydb.coordination.SessionRequest.SessionStart prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1314,6 +1399,7 @@ private static final long serialVersionUID = 0L;
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_SessionStart_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_SessionStart_fieldAccessorTable
@@ -1336,6 +1422,7 @@ private static final long serialVersionUID = 0L;
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         path_ = "";
@@ -1353,15 +1440,18 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_SessionStart_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.SessionStart getDefaultInstanceForType() {
         return tech.ydb.coordination.SessionRequest.SessionStart.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.SessionStart build() {
         tech.ydb.coordination.SessionRequest.SessionStart result = buildPartial();
         if (!result.isInitialized()) {
@@ -1370,6 +1460,7 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.SessionStart buildPartial() {
         tech.ydb.coordination.SessionRequest.SessionStart result = new tech.ydb.coordination.SessionRequest.SessionStart(this);
         result.path_ = path_;
@@ -1382,32 +1473,39 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.coordination.SessionRequest.SessionStart) {
           return mergeFrom((tech.ydb.coordination.SessionRequest.SessionStart)other);
@@ -1444,10 +1542,12 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1473,6 +1573,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @return The path.
        */
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
@@ -1492,6 +1593,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @return The bytes for path.
        */
       public com.google.protobuf.ByteString
           getPathBytes() {
@@ -1512,6 +1614,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           java.lang.String value) {
@@ -1529,6 +1633,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         
@@ -1542,6 +1647,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
        */
       public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
@@ -1562,7 +1669,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 session_id = 2;</code>
+       * @return The sessionId.
        */
+      @java.lang.Override
       public long getSessionId() {
         return sessionId_;
       }
@@ -1572,6 +1681,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 session_id = 2;</code>
+       * @param value The sessionId to set.
+       * @return This builder for chaining.
        */
       public Builder setSessionId(long value) {
         
@@ -1585,6 +1696,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 session_id = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSessionId() {
         
@@ -1600,7 +1712,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 timeout_millis = 3;</code>
+       * @return The timeoutMillis.
        */
+      @java.lang.Override
       public long getTimeoutMillis() {
         return timeoutMillis_;
       }
@@ -1610,6 +1724,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 timeout_millis = 3;</code>
+       * @param value The timeoutMillis to set.
+       * @return This builder for chaining.
        */
       public Builder setTimeoutMillis(long value) {
         
@@ -1623,6 +1739,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 timeout_millis = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTimeoutMillis() {
         
@@ -1638,6 +1755,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string description = 4;</code>
+       * @return The description.
        */
       public java.lang.String getDescription() {
         java.lang.Object ref = description_;
@@ -1657,6 +1775,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string description = 4;</code>
+       * @return The bytes for description.
        */
       public com.google.protobuf.ByteString
           getDescriptionBytes() {
@@ -1677,6 +1796,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string description = 4;</code>
+       * @param value The description to set.
+       * @return This builder for chaining.
        */
       public Builder setDescription(
           java.lang.String value) {
@@ -1694,6 +1815,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string description = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDescription() {
         
@@ -1707,6 +1829,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string description = 4;</code>
+       * @param value The bytes for description to set.
+       * @return This builder for chaining.
        */
       public Builder setDescriptionBytes(
           com.google.protobuf.ByteString value) {
@@ -1729,7 +1853,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 seq_no = 5;</code>
+       * @return The seqNo.
        */
+      @java.lang.Override
       public long getSeqNo() {
         return seqNo_;
       }
@@ -1741,6 +1867,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 seq_no = 5;</code>
+       * @param value The seqNo to set.
+       * @return This builder for chaining.
        */
       public Builder setSeqNo(long value) {
         
@@ -1756,6 +1884,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 seq_no = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSeqNo() {
         
@@ -1771,7 +1900,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bytes protection_key = 6;</code>
+       * @return The protectionKey.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getProtectionKey() {
         return protectionKey_;
       }
@@ -1781,6 +1912,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bytes protection_key = 6;</code>
+       * @param value The protectionKey to set.
+       * @return This builder for chaining.
        */
       public Builder setProtectionKey(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -1797,6 +1930,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bytes protection_key = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearProtectionKey() {
         
@@ -1804,11 +1938,13 @@ private static final long serialVersionUID = 0L;
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1830,11 +1966,12 @@ private static final long serialVersionUID = 0L;
 
     private static final com.google.protobuf.Parser<SessionStart>
         PARSER = new com.google.protobuf.AbstractParser<SessionStart>() {
+      @java.lang.Override
       public SessionStart parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new SessionStart(input, extensionRegistry);
+        return new SessionStart(input, extensionRegistry);
       }
     };
 
@@ -1847,6 +1984,7 @@ private static final long serialVersionUID = 0L;
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.SessionStart getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1865,7 +2003,7 @@ private static final long serialVersionUID = 0L;
    *
    * Protobuf type {@code Ydb.Coordination.SessionRequest.SessionStop}
    */
-  public  static final class SessionStop extends
+  public static final class SessionStop extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Coordination.SessionRequest.SessionStop)
       SessionStopOrBuilder {
@@ -1878,6 +2016,13 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SessionStop();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -1887,6 +2032,9 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1898,7 +2046,7 @@ private static final long serialVersionUID = 0L;
               done = true;
               break;
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -1921,6 +2069,7 @@ private static final long serialVersionUID = 0L;
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_SessionStop_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_SessionStop_fieldAccessorTable
@@ -1929,6 +2078,7 @@ private static final long serialVersionUID = 0L;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1938,11 +2088,13 @@ private static final long serialVersionUID = 0L;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1963,9 +2115,8 @@ private static final long serialVersionUID = 0L;
       }
       tech.ydb.coordination.SessionRequest.SessionStop other = (tech.ydb.coordination.SessionRequest.SessionStop) obj;
 
-      boolean result = true;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2050,6 +2201,7 @@ private static final long serialVersionUID = 0L;
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2057,6 +2209,7 @@ private static final long serialVersionUID = 0L;
     public static Builder newBuilder(tech.ydb.coordination.SessionRequest.SessionStop prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2085,6 +2238,7 @@ private static final long serialVersionUID = 0L;
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_SessionStop_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_SessionStop_fieldAccessorTable
@@ -2107,20 +2261,24 @@ private static final long serialVersionUID = 0L;
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_SessionStop_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.SessionStop getDefaultInstanceForType() {
         return tech.ydb.coordination.SessionRequest.SessionStop.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.SessionStop build() {
         tech.ydb.coordination.SessionRequest.SessionStop result = buildPartial();
         if (!result.isInitialized()) {
@@ -2129,38 +2287,46 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.SessionStop buildPartial() {
         tech.ydb.coordination.SessionRequest.SessionStop result = new tech.ydb.coordination.SessionRequest.SessionStop(this);
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.coordination.SessionRequest.SessionStop) {
           return mergeFrom((tech.ydb.coordination.SessionRequest.SessionStop)other);
@@ -2177,10 +2343,12 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2198,11 +2366,13 @@ private static final long serialVersionUID = 0L;
         }
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2224,11 +2394,12 @@ private static final long serialVersionUID = 0L;
 
     private static final com.google.protobuf.Parser<SessionStop>
         PARSER = new com.google.protobuf.AbstractParser<SessionStop>() {
+      @java.lang.Override
       public SessionStop parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new SessionStop(input, extensionRegistry);
+        return new SessionStop(input, extensionRegistry);
       }
     };
 
@@ -2241,6 +2412,7 @@ private static final long serialVersionUID = 0L;
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.SessionStop getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2257,6 +2429,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 req_id = 1;</code>
+     * @return The reqId.
      */
     long getReqId();
 
@@ -2266,6 +2439,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
@@ -2274,6 +2448,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -2285,6 +2460,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 timeout_millis = 3;</code>
+     * @return The timeoutMillis.
      */
     long getTimeoutMillis();
 
@@ -2294,6 +2470,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 count = 4;</code>
+     * @return The count.
      */
     long getCount();
 
@@ -2303,6 +2480,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bytes data = 5;</code>
+     * @return The data.
      */
     com.google.protobuf.ByteString getData();
 
@@ -2313,6 +2491,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bool ephemeral = 6;</code>
+     * @return The ephemeral.
      */
     boolean getEphemeral();
   }
@@ -2327,7 +2506,7 @@ private static final long serialVersionUID = 0L;
    *
    * Protobuf type {@code Ydb.Coordination.SessionRequest.AcquireSemaphore}
    */
-  public  static final class AcquireSemaphore extends
+  public static final class AcquireSemaphore extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Coordination.SessionRequest.AcquireSemaphore)
       AcquireSemaphoreOrBuilder {
@@ -2337,12 +2516,15 @@ private static final long serialVersionUID = 0L;
       super(builder);
     }
     private AcquireSemaphore() {
-      reqId_ = 0L;
       name_ = "";
-      timeoutMillis_ = 0L;
-      count_ = 0L;
       data_ = com.google.protobuf.ByteString.EMPTY;
-      ephemeral_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new AcquireSemaphore();
     }
 
     @java.lang.Override
@@ -2355,7 +2537,9 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2366,13 +2550,6 @@ private static final long serialVersionUID = 0L;
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               reqId_ = input.readUInt64();
@@ -2404,6 +2581,13 @@ private static final long serialVersionUID = 0L;
               ephemeral_ = input.readBool();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2421,6 +2605,7 @@ private static final long serialVersionUID = 0L;
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_AcquireSemaphore_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_AcquireSemaphore_fieldAccessorTable
@@ -2436,7 +2621,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 req_id = 1;</code>
+     * @return The reqId.
      */
+    @java.lang.Override
     public long getReqId() {
       return reqId_;
     }
@@ -2449,7 +2636,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -2468,7 +2657,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -2492,7 +2683,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 timeout_millis = 3;</code>
+     * @return The timeoutMillis.
      */
+    @java.lang.Override
     public long getTimeoutMillis() {
       return timeoutMillis_;
     }
@@ -2505,7 +2698,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 count = 4;</code>
+     * @return The count.
      */
+    @java.lang.Override
     public long getCount() {
       return count_;
     }
@@ -2518,7 +2713,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bytes data = 5;</code>
+     * @return The data.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getData() {
       return data_;
     }
@@ -2532,12 +2729,15 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bool ephemeral = 6;</code>
+     * @return The ephemeral.
      */
+    @java.lang.Override
     public boolean getEphemeral() {
       return ephemeral_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2547,6 +2747,7 @@ private static final long serialVersionUID = 0L;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (reqId_ != 0L) {
@@ -2570,6 +2771,7 @@ private static final long serialVersionUID = 0L;
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2613,21 +2815,20 @@ private static final long serialVersionUID = 0L;
       }
       tech.ydb.coordination.SessionRequest.AcquireSemaphore other = (tech.ydb.coordination.SessionRequest.AcquireSemaphore) obj;
 
-      boolean result = true;
-      result = result && (getReqId()
-          == other.getReqId());
-      result = result && getName()
-          .equals(other.getName());
-      result = result && (getTimeoutMillis()
-          == other.getTimeoutMillis());
-      result = result && (getCount()
-          == other.getCount());
-      result = result && getData()
-          .equals(other.getData());
-      result = result && (getEphemeral()
-          == other.getEphemeral());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getReqId()
+          != other.getReqId()) return false;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (getTimeoutMillis()
+          != other.getTimeoutMillis()) return false;
+      if (getCount()
+          != other.getCount()) return false;
+      if (!getData()
+          .equals(other.getData())) return false;
+      if (getEphemeral()
+          != other.getEphemeral()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2728,6 +2929,7 @@ private static final long serialVersionUID = 0L;
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2735,6 +2937,7 @@ private static final long serialVersionUID = 0L;
     public static Builder newBuilder(tech.ydb.coordination.SessionRequest.AcquireSemaphore prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2766,6 +2969,7 @@ private static final long serialVersionUID = 0L;
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_AcquireSemaphore_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_AcquireSemaphore_fieldAccessorTable
@@ -2788,6 +2992,7 @@ private static final long serialVersionUID = 0L;
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         reqId_ = 0L;
@@ -2805,15 +3010,18 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_AcquireSemaphore_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.AcquireSemaphore getDefaultInstanceForType() {
         return tech.ydb.coordination.SessionRequest.AcquireSemaphore.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.AcquireSemaphore build() {
         tech.ydb.coordination.SessionRequest.AcquireSemaphore result = buildPartial();
         if (!result.isInitialized()) {
@@ -2822,6 +3030,7 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.AcquireSemaphore buildPartial() {
         tech.ydb.coordination.SessionRequest.AcquireSemaphore result = new tech.ydb.coordination.SessionRequest.AcquireSemaphore(this);
         result.reqId_ = reqId_;
@@ -2834,32 +3043,39 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.coordination.SessionRequest.AcquireSemaphore) {
           return mergeFrom((tech.ydb.coordination.SessionRequest.AcquireSemaphore)other);
@@ -2895,10 +3111,12 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2924,7 +3142,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 req_id = 1;</code>
+       * @return The reqId.
        */
+      @java.lang.Override
       public long getReqId() {
         return reqId_;
       }
@@ -2934,6 +3154,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 req_id = 1;</code>
+       * @param value The reqId to set.
+       * @return This builder for chaining.
        */
       public Builder setReqId(long value) {
         
@@ -2947,6 +3169,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 req_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearReqId() {
         
@@ -2962,6 +3185,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -2981,6 +3205,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -3001,6 +3226,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -3018,6 +3245,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -3031,6 +3259,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -3052,7 +3282,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 timeout_millis = 3;</code>
+       * @return The timeoutMillis.
        */
+      @java.lang.Override
       public long getTimeoutMillis() {
         return timeoutMillis_;
       }
@@ -3063,6 +3295,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 timeout_millis = 3;</code>
+       * @param value The timeoutMillis to set.
+       * @return This builder for chaining.
        */
       public Builder setTimeoutMillis(long value) {
         
@@ -3077,6 +3311,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 timeout_millis = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTimeoutMillis() {
         
@@ -3092,7 +3327,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 count = 4;</code>
+       * @return The count.
        */
+      @java.lang.Override
       public long getCount() {
         return count_;
       }
@@ -3102,6 +3339,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 count = 4;</code>
+       * @param value The count to set.
+       * @return This builder for chaining.
        */
       public Builder setCount(long value) {
         
@@ -3115,6 +3354,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 count = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCount() {
         
@@ -3130,7 +3370,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bytes data = 5;</code>
+       * @return The data.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getData() {
         return data_;
       }
@@ -3140,6 +3382,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bytes data = 5;</code>
+       * @param value The data to set.
+       * @return This builder for chaining.
        */
       public Builder setData(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -3156,6 +3400,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bytes data = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearData() {
         
@@ -3172,7 +3417,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bool ephemeral = 6;</code>
+       * @return The ephemeral.
        */
+      @java.lang.Override
       public boolean getEphemeral() {
         return ephemeral_;
       }
@@ -3183,6 +3430,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bool ephemeral = 6;</code>
+       * @param value The ephemeral to set.
+       * @return This builder for chaining.
        */
       public Builder setEphemeral(boolean value) {
         
@@ -3197,6 +3446,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bool ephemeral = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearEphemeral() {
         
@@ -3204,11 +3454,13 @@ private static final long serialVersionUID = 0L;
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3230,11 +3482,12 @@ private static final long serialVersionUID = 0L;
 
     private static final com.google.protobuf.Parser<AcquireSemaphore>
         PARSER = new com.google.protobuf.AbstractParser<AcquireSemaphore>() {
+      @java.lang.Override
       public AcquireSemaphore parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new AcquireSemaphore(input, extensionRegistry);
+        return new AcquireSemaphore(input, extensionRegistry);
       }
     };
 
@@ -3247,6 +3500,7 @@ private static final long serialVersionUID = 0L;
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.AcquireSemaphore getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3263,6 +3517,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 req_id = 1;</code>
+     * @return The reqId.
      */
     long getReqId();
 
@@ -3272,6 +3527,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
@@ -3280,6 +3536,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -3295,7 +3552,7 @@ private static final long serialVersionUID = 0L;
    *
    * Protobuf type {@code Ydb.Coordination.SessionRequest.ReleaseSemaphore}
    */
-  public  static final class ReleaseSemaphore extends
+  public static final class ReleaseSemaphore extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Coordination.SessionRequest.ReleaseSemaphore)
       ReleaseSemaphoreOrBuilder {
@@ -3305,8 +3562,14 @@ private static final long serialVersionUID = 0L;
       super(builder);
     }
     private ReleaseSemaphore() {
-      reqId_ = 0L;
       name_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ReleaseSemaphore();
     }
 
     @java.lang.Override
@@ -3319,7 +3582,9 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3330,13 +3595,6 @@ private static final long serialVersionUID = 0L;
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               reqId_ = input.readUInt64();
@@ -3346,6 +3604,13 @@ private static final long serialVersionUID = 0L;
               java.lang.String s = input.readStringRequireUtf8();
 
               name_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -3365,6 +3630,7 @@ private static final long serialVersionUID = 0L;
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_ReleaseSemaphore_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_ReleaseSemaphore_fieldAccessorTable
@@ -3380,7 +3646,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 req_id = 1;</code>
+     * @return The reqId.
      */
+    @java.lang.Override
     public long getReqId() {
       return reqId_;
     }
@@ -3393,7 +3661,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -3412,7 +3682,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -3428,6 +3700,7 @@ private static final long serialVersionUID = 0L;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3437,6 +3710,7 @@ private static final long serialVersionUID = 0L;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (reqId_ != 0L) {
@@ -3448,6 +3722,7 @@ private static final long serialVersionUID = 0L;
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3475,13 +3750,12 @@ private static final long serialVersionUID = 0L;
       }
       tech.ydb.coordination.SessionRequest.ReleaseSemaphore other = (tech.ydb.coordination.SessionRequest.ReleaseSemaphore) obj;
 
-      boolean result = true;
-      result = result && (getReqId()
-          == other.getReqId());
-      result = result && getName()
-          .equals(other.getName());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getReqId()
+          != other.getReqId()) return false;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3571,6 +3845,7 @@ private static final long serialVersionUID = 0L;
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3578,6 +3853,7 @@ private static final long serialVersionUID = 0L;
     public static Builder newBuilder(tech.ydb.coordination.SessionRequest.ReleaseSemaphore prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3609,6 +3885,7 @@ private static final long serialVersionUID = 0L;
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_ReleaseSemaphore_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_ReleaseSemaphore_fieldAccessorTable
@@ -3631,6 +3908,7 @@ private static final long serialVersionUID = 0L;
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         reqId_ = 0L;
@@ -3640,15 +3918,18 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_ReleaseSemaphore_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.ReleaseSemaphore getDefaultInstanceForType() {
         return tech.ydb.coordination.SessionRequest.ReleaseSemaphore.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.ReleaseSemaphore build() {
         tech.ydb.coordination.SessionRequest.ReleaseSemaphore result = buildPartial();
         if (!result.isInitialized()) {
@@ -3657,6 +3938,7 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.ReleaseSemaphore buildPartial() {
         tech.ydb.coordination.SessionRequest.ReleaseSemaphore result = new tech.ydb.coordination.SessionRequest.ReleaseSemaphore(this);
         result.reqId_ = reqId_;
@@ -3665,32 +3947,39 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.coordination.SessionRequest.ReleaseSemaphore) {
           return mergeFrom((tech.ydb.coordination.SessionRequest.ReleaseSemaphore)other);
@@ -3714,10 +4003,12 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3743,7 +4034,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 req_id = 1;</code>
+       * @return The reqId.
        */
+      @java.lang.Override
       public long getReqId() {
         return reqId_;
       }
@@ -3753,6 +4046,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 req_id = 1;</code>
+       * @param value The reqId to set.
+       * @return This builder for chaining.
        */
       public Builder setReqId(long value) {
         
@@ -3766,6 +4061,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 req_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearReqId() {
         
@@ -3781,6 +4077,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -3800,6 +4097,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -3820,6 +4118,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -3837,6 +4137,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -3850,6 +4151,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -3862,11 +4165,13 @@ private static final long serialVersionUID = 0L;
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3888,11 +4193,12 @@ private static final long serialVersionUID = 0L;
 
     private static final com.google.protobuf.Parser<ReleaseSemaphore>
         PARSER = new com.google.protobuf.AbstractParser<ReleaseSemaphore>() {
+      @java.lang.Override
       public ReleaseSemaphore parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ReleaseSemaphore(input, extensionRegistry);
+        return new ReleaseSemaphore(input, extensionRegistry);
       }
     };
 
@@ -3905,6 +4211,7 @@ private static final long serialVersionUID = 0L;
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.ReleaseSemaphore getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3921,6 +4228,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 req_id = 1;</code>
+     * @return The reqId.
      */
     long getReqId();
 
@@ -3930,6 +4238,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
@@ -3938,6 +4247,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -3948,6 +4258,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bool include_owners = 3;</code>
+     * @return The includeOwners.
      */
     boolean getIncludeOwners();
 
@@ -3957,6 +4268,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bool include_waiters = 4;</code>
+     * @return The includeWaiters.
      */
     boolean getIncludeWaiters();
 
@@ -3966,6 +4278,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bool watch_data = 5;</code>
+     * @return The watchData.
      */
     boolean getWatchData();
 
@@ -3975,6 +4288,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bool watch_owners = 6;</code>
+     * @return The watchOwners.
      */
     boolean getWatchOwners();
   }
@@ -3987,7 +4301,7 @@ private static final long serialVersionUID = 0L;
    *
    * Protobuf type {@code Ydb.Coordination.SessionRequest.DescribeSemaphore}
    */
-  public  static final class DescribeSemaphore extends
+  public static final class DescribeSemaphore extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Coordination.SessionRequest.DescribeSemaphore)
       DescribeSemaphoreOrBuilder {
@@ -3997,12 +4311,14 @@ private static final long serialVersionUID = 0L;
       super(builder);
     }
     private DescribeSemaphore() {
-      reqId_ = 0L;
       name_ = "";
-      includeOwners_ = false;
-      includeWaiters_ = false;
-      watchData_ = false;
-      watchOwners_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DescribeSemaphore();
     }
 
     @java.lang.Override
@@ -4015,7 +4331,9 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4026,13 +4344,6 @@ private static final long serialVersionUID = 0L;
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               reqId_ = input.readUInt64();
@@ -4064,6 +4375,13 @@ private static final long serialVersionUID = 0L;
               watchOwners_ = input.readBool();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -4081,6 +4399,7 @@ private static final long serialVersionUID = 0L;
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_DescribeSemaphore_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_DescribeSemaphore_fieldAccessorTable
@@ -4096,7 +4415,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 req_id = 1;</code>
+     * @return The reqId.
      */
+    @java.lang.Override
     public long getReqId() {
       return reqId_;
     }
@@ -4109,7 +4430,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -4128,7 +4451,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -4151,7 +4476,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bool include_owners = 3;</code>
+     * @return The includeOwners.
      */
+    @java.lang.Override
     public boolean getIncludeOwners() {
       return includeOwners_;
     }
@@ -4164,7 +4491,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bool include_waiters = 4;</code>
+     * @return The includeWaiters.
      */
+    @java.lang.Override
     public boolean getIncludeWaiters() {
       return includeWaiters_;
     }
@@ -4177,7 +4506,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bool watch_data = 5;</code>
+     * @return The watchData.
      */
+    @java.lang.Override
     public boolean getWatchData() {
       return watchData_;
     }
@@ -4190,12 +4521,15 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bool watch_owners = 6;</code>
+     * @return The watchOwners.
      */
+    @java.lang.Override
     public boolean getWatchOwners() {
       return watchOwners_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4205,6 +4539,7 @@ private static final long serialVersionUID = 0L;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (reqId_ != 0L) {
@@ -4228,6 +4563,7 @@ private static final long serialVersionUID = 0L;
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4271,21 +4607,20 @@ private static final long serialVersionUID = 0L;
       }
       tech.ydb.coordination.SessionRequest.DescribeSemaphore other = (tech.ydb.coordination.SessionRequest.DescribeSemaphore) obj;
 
-      boolean result = true;
-      result = result && (getReqId()
-          == other.getReqId());
-      result = result && getName()
-          .equals(other.getName());
-      result = result && (getIncludeOwners()
-          == other.getIncludeOwners());
-      result = result && (getIncludeWaiters()
-          == other.getIncludeWaiters());
-      result = result && (getWatchData()
-          == other.getWatchData());
-      result = result && (getWatchOwners()
-          == other.getWatchOwners());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getReqId()
+          != other.getReqId()) return false;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (getIncludeOwners()
+          != other.getIncludeOwners()) return false;
+      if (getIncludeWaiters()
+          != other.getIncludeWaiters()) return false;
+      if (getWatchData()
+          != other.getWatchData()) return false;
+      if (getWatchOwners()
+          != other.getWatchOwners()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4387,6 +4722,7 @@ private static final long serialVersionUID = 0L;
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4394,6 +4730,7 @@ private static final long serialVersionUID = 0L;
     public static Builder newBuilder(tech.ydb.coordination.SessionRequest.DescribeSemaphore prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4423,6 +4760,7 @@ private static final long serialVersionUID = 0L;
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_DescribeSemaphore_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_DescribeSemaphore_fieldAccessorTable
@@ -4445,6 +4783,7 @@ private static final long serialVersionUID = 0L;
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         reqId_ = 0L;
@@ -4462,15 +4801,18 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_DescribeSemaphore_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.DescribeSemaphore getDefaultInstanceForType() {
         return tech.ydb.coordination.SessionRequest.DescribeSemaphore.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.DescribeSemaphore build() {
         tech.ydb.coordination.SessionRequest.DescribeSemaphore result = buildPartial();
         if (!result.isInitialized()) {
@@ -4479,6 +4821,7 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.DescribeSemaphore buildPartial() {
         tech.ydb.coordination.SessionRequest.DescribeSemaphore result = new tech.ydb.coordination.SessionRequest.DescribeSemaphore(this);
         result.reqId_ = reqId_;
@@ -4491,32 +4834,39 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.coordination.SessionRequest.DescribeSemaphore) {
           return mergeFrom((tech.ydb.coordination.SessionRequest.DescribeSemaphore)other);
@@ -4552,10 +4902,12 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4581,7 +4933,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 req_id = 1;</code>
+       * @return The reqId.
        */
+      @java.lang.Override
       public long getReqId() {
         return reqId_;
       }
@@ -4591,6 +4945,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 req_id = 1;</code>
+       * @param value The reqId to set.
+       * @return This builder for chaining.
        */
       public Builder setReqId(long value) {
         
@@ -4604,6 +4960,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 req_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearReqId() {
         
@@ -4619,6 +4976,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -4638,6 +4996,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -4658,6 +5017,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -4675,6 +5036,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -4688,6 +5050,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -4708,7 +5072,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bool include_owners = 3;</code>
+       * @return The includeOwners.
        */
+      @java.lang.Override
       public boolean getIncludeOwners() {
         return includeOwners_;
       }
@@ -4718,6 +5084,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bool include_owners = 3;</code>
+       * @param value The includeOwners to set.
+       * @return This builder for chaining.
        */
       public Builder setIncludeOwners(boolean value) {
         
@@ -4731,6 +5099,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bool include_owners = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIncludeOwners() {
         
@@ -4746,7 +5115,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bool include_waiters = 4;</code>
+       * @return The includeWaiters.
        */
+      @java.lang.Override
       public boolean getIncludeWaiters() {
         return includeWaiters_;
       }
@@ -4756,6 +5127,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bool include_waiters = 4;</code>
+       * @param value The includeWaiters to set.
+       * @return This builder for chaining.
        */
       public Builder setIncludeWaiters(boolean value) {
         
@@ -4769,6 +5142,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bool include_waiters = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIncludeWaiters() {
         
@@ -4784,7 +5158,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bool watch_data = 5;</code>
+       * @return The watchData.
        */
+      @java.lang.Override
       public boolean getWatchData() {
         return watchData_;
       }
@@ -4794,6 +5170,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bool watch_data = 5;</code>
+       * @param value The watchData to set.
+       * @return This builder for chaining.
        */
       public Builder setWatchData(boolean value) {
         
@@ -4807,6 +5185,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bool watch_data = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearWatchData() {
         
@@ -4822,7 +5201,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bool watch_owners = 6;</code>
+       * @return The watchOwners.
        */
+      @java.lang.Override
       public boolean getWatchOwners() {
         return watchOwners_;
       }
@@ -4832,6 +5213,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bool watch_owners = 6;</code>
+       * @param value The watchOwners to set.
+       * @return This builder for chaining.
        */
       public Builder setWatchOwners(boolean value) {
         
@@ -4845,6 +5228,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bool watch_owners = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearWatchOwners() {
         
@@ -4852,11 +5236,13 @@ private static final long serialVersionUID = 0L;
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4878,11 +5264,12 @@ private static final long serialVersionUID = 0L;
 
     private static final com.google.protobuf.Parser<DescribeSemaphore>
         PARSER = new com.google.protobuf.AbstractParser<DescribeSemaphore>() {
+      @java.lang.Override
       public DescribeSemaphore parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DescribeSemaphore(input, extensionRegistry);
+        return new DescribeSemaphore(input, extensionRegistry);
       }
     };
 
@@ -4895,6 +5282,7 @@ private static final long serialVersionUID = 0L;
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.DescribeSemaphore getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4911,6 +5299,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 req_id = 1;</code>
+     * @return The reqId.
      */
     long getReqId();
 
@@ -4920,6 +5309,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
@@ -4928,6 +5318,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -4938,6 +5329,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 limit = 3;</code>
+     * @return The limit.
      */
     long getLimit();
 
@@ -4947,6 +5339,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bytes data = 4;</code>
+     * @return The data.
      */
     com.google.protobuf.ByteString getData();
   }
@@ -4958,7 +5351,7 @@ private static final long serialVersionUID = 0L;
    *
    * Protobuf type {@code Ydb.Coordination.SessionRequest.CreateSemaphore}
    */
-  public  static final class CreateSemaphore extends
+  public static final class CreateSemaphore extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Coordination.SessionRequest.CreateSemaphore)
       CreateSemaphoreOrBuilder {
@@ -4968,10 +5361,15 @@ private static final long serialVersionUID = 0L;
       super(builder);
     }
     private CreateSemaphore() {
-      reqId_ = 0L;
       name_ = "";
-      limit_ = 0L;
       data_ = com.google.protobuf.ByteString.EMPTY;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CreateSemaphore();
     }
 
     @java.lang.Override
@@ -4984,7 +5382,9 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4995,13 +5395,6 @@ private static final long serialVersionUID = 0L;
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               reqId_ = input.readUInt64();
@@ -5023,6 +5416,13 @@ private static final long serialVersionUID = 0L;
               data_ = input.readBytes();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -5040,6 +5440,7 @@ private static final long serialVersionUID = 0L;
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_CreateSemaphore_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_CreateSemaphore_fieldAccessorTable
@@ -5055,7 +5456,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 req_id = 1;</code>
+     * @return The reqId.
      */
+    @java.lang.Override
     public long getReqId() {
       return reqId_;
     }
@@ -5068,7 +5471,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -5087,7 +5492,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -5110,7 +5517,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 limit = 3;</code>
+     * @return The limit.
      */
+    @java.lang.Override
     public long getLimit() {
       return limit_;
     }
@@ -5123,12 +5532,15 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bytes data = 4;</code>
+     * @return The data.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getData() {
       return data_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -5138,6 +5550,7 @@ private static final long serialVersionUID = 0L;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (reqId_ != 0L) {
@@ -5155,6 +5568,7 @@ private static final long serialVersionUID = 0L;
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -5190,17 +5604,16 @@ private static final long serialVersionUID = 0L;
       }
       tech.ydb.coordination.SessionRequest.CreateSemaphore other = (tech.ydb.coordination.SessionRequest.CreateSemaphore) obj;
 
-      boolean result = true;
-      result = result && (getReqId()
-          == other.getReqId());
-      result = result && getName()
-          .equals(other.getName());
-      result = result && (getLimit()
-          == other.getLimit());
-      result = result && getData()
-          .equals(other.getData());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getReqId()
+          != other.getReqId()) return false;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (getLimit()
+          != other.getLimit()) return false;
+      if (!getData()
+          .equals(other.getData())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5295,6 +5708,7 @@ private static final long serialVersionUID = 0L;
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5302,6 +5716,7 @@ private static final long serialVersionUID = 0L;
     public static Builder newBuilder(tech.ydb.coordination.SessionRequest.CreateSemaphore prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5330,6 +5745,7 @@ private static final long serialVersionUID = 0L;
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_CreateSemaphore_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_CreateSemaphore_fieldAccessorTable
@@ -5352,6 +5768,7 @@ private static final long serialVersionUID = 0L;
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         reqId_ = 0L;
@@ -5365,15 +5782,18 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_CreateSemaphore_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.CreateSemaphore getDefaultInstanceForType() {
         return tech.ydb.coordination.SessionRequest.CreateSemaphore.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.CreateSemaphore build() {
         tech.ydb.coordination.SessionRequest.CreateSemaphore result = buildPartial();
         if (!result.isInitialized()) {
@@ -5382,6 +5802,7 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.CreateSemaphore buildPartial() {
         tech.ydb.coordination.SessionRequest.CreateSemaphore result = new tech.ydb.coordination.SessionRequest.CreateSemaphore(this);
         result.reqId_ = reqId_;
@@ -5392,32 +5813,39 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.coordination.SessionRequest.CreateSemaphore) {
           return mergeFrom((tech.ydb.coordination.SessionRequest.CreateSemaphore)other);
@@ -5447,10 +5875,12 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5476,7 +5906,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 req_id = 1;</code>
+       * @return The reqId.
        */
+      @java.lang.Override
       public long getReqId() {
         return reqId_;
       }
@@ -5486,6 +5918,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 req_id = 1;</code>
+       * @param value The reqId to set.
+       * @return This builder for chaining.
        */
       public Builder setReqId(long value) {
         
@@ -5499,6 +5933,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 req_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearReqId() {
         
@@ -5514,6 +5949,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -5533,6 +5969,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -5553,6 +5990,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -5570,6 +6009,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -5583,6 +6023,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -5603,7 +6045,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 limit = 3;</code>
+       * @return The limit.
        */
+      @java.lang.Override
       public long getLimit() {
         return limit_;
       }
@@ -5613,6 +6057,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 limit = 3;</code>
+       * @param value The limit to set.
+       * @return This builder for chaining.
        */
       public Builder setLimit(long value) {
         
@@ -5626,6 +6072,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 limit = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearLimit() {
         
@@ -5641,7 +6088,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bytes data = 4;</code>
+       * @return The data.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getData() {
         return data_;
       }
@@ -5651,6 +6100,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bytes data = 4;</code>
+       * @param value The data to set.
+       * @return This builder for chaining.
        */
       public Builder setData(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -5667,6 +6118,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bytes data = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearData() {
         
@@ -5674,11 +6126,13 @@ private static final long serialVersionUID = 0L;
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5700,11 +6154,12 @@ private static final long serialVersionUID = 0L;
 
     private static final com.google.protobuf.Parser<CreateSemaphore>
         PARSER = new com.google.protobuf.AbstractParser<CreateSemaphore>() {
+      @java.lang.Override
       public CreateSemaphore parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CreateSemaphore(input, extensionRegistry);
+        return new CreateSemaphore(input, extensionRegistry);
       }
     };
 
@@ -5717,6 +6172,7 @@ private static final long serialVersionUID = 0L;
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.CreateSemaphore getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5733,6 +6189,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 req_id = 1;</code>
+     * @return The reqId.
      */
     long getReqId();
 
@@ -5742,6 +6199,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
@@ -5750,6 +6208,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -5760,6 +6219,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bytes data = 3;</code>
+     * @return The data.
      */
     com.google.protobuf.ByteString getData();
   }
@@ -5771,7 +6231,7 @@ private static final long serialVersionUID = 0L;
    *
    * Protobuf type {@code Ydb.Coordination.SessionRequest.UpdateSemaphore}
    */
-  public  static final class UpdateSemaphore extends
+  public static final class UpdateSemaphore extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Coordination.SessionRequest.UpdateSemaphore)
       UpdateSemaphoreOrBuilder {
@@ -5781,9 +6241,15 @@ private static final long serialVersionUID = 0L;
       super(builder);
     }
     private UpdateSemaphore() {
-      reqId_ = 0L;
       name_ = "";
       data_ = com.google.protobuf.ByteString.EMPTY;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new UpdateSemaphore();
     }
 
     @java.lang.Override
@@ -5796,7 +6262,9 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -5807,13 +6275,6 @@ private static final long serialVersionUID = 0L;
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               reqId_ = input.readUInt64();
@@ -5828,6 +6289,13 @@ private static final long serialVersionUID = 0L;
             case 26: {
 
               data_ = input.readBytes();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -5847,6 +6315,7 @@ private static final long serialVersionUID = 0L;
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_UpdateSemaphore_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_UpdateSemaphore_fieldAccessorTable
@@ -5862,7 +6331,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 req_id = 1;</code>
+     * @return The reqId.
      */
+    @java.lang.Override
     public long getReqId() {
       return reqId_;
     }
@@ -5875,7 +6346,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -5894,7 +6367,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -5917,12 +6392,15 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bytes data = 3;</code>
+     * @return The data.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getData() {
       return data_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -5932,6 +6410,7 @@ private static final long serialVersionUID = 0L;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (reqId_ != 0L) {
@@ -5946,6 +6425,7 @@ private static final long serialVersionUID = 0L;
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -5977,15 +6457,14 @@ private static final long serialVersionUID = 0L;
       }
       tech.ydb.coordination.SessionRequest.UpdateSemaphore other = (tech.ydb.coordination.SessionRequest.UpdateSemaphore) obj;
 
-      boolean result = true;
-      result = result && (getReqId()
-          == other.getReqId());
-      result = result && getName()
-          .equals(other.getName());
-      result = result && getData()
-          .equals(other.getData());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getReqId()
+          != other.getReqId()) return false;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (!getData()
+          .equals(other.getData())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -6077,6 +6556,7 @@ private static final long serialVersionUID = 0L;
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -6084,6 +6564,7 @@ private static final long serialVersionUID = 0L;
     public static Builder newBuilder(tech.ydb.coordination.SessionRequest.UpdateSemaphore prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -6112,6 +6593,7 @@ private static final long serialVersionUID = 0L;
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_UpdateSemaphore_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_UpdateSemaphore_fieldAccessorTable
@@ -6134,6 +6616,7 @@ private static final long serialVersionUID = 0L;
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         reqId_ = 0L;
@@ -6145,15 +6628,18 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_UpdateSemaphore_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.UpdateSemaphore getDefaultInstanceForType() {
         return tech.ydb.coordination.SessionRequest.UpdateSemaphore.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.UpdateSemaphore build() {
         tech.ydb.coordination.SessionRequest.UpdateSemaphore result = buildPartial();
         if (!result.isInitialized()) {
@@ -6162,6 +6648,7 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.UpdateSemaphore buildPartial() {
         tech.ydb.coordination.SessionRequest.UpdateSemaphore result = new tech.ydb.coordination.SessionRequest.UpdateSemaphore(this);
         result.reqId_ = reqId_;
@@ -6171,32 +6658,39 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.coordination.SessionRequest.UpdateSemaphore) {
           return mergeFrom((tech.ydb.coordination.SessionRequest.UpdateSemaphore)other);
@@ -6223,10 +6717,12 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6252,7 +6748,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 req_id = 1;</code>
+       * @return The reqId.
        */
+      @java.lang.Override
       public long getReqId() {
         return reqId_;
       }
@@ -6262,6 +6760,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 req_id = 1;</code>
+       * @param value The reqId to set.
+       * @return This builder for chaining.
        */
       public Builder setReqId(long value) {
         
@@ -6275,6 +6775,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 req_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearReqId() {
         
@@ -6290,6 +6791,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -6309,6 +6811,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -6329,6 +6832,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -6346,6 +6851,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -6359,6 +6865,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -6379,7 +6887,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bytes data = 3;</code>
+       * @return The data.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getData() {
         return data_;
       }
@@ -6389,6 +6899,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bytes data = 3;</code>
+       * @param value The data to set.
+       * @return This builder for chaining.
        */
       public Builder setData(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -6405,6 +6917,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bytes data = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearData() {
         
@@ -6412,11 +6925,13 @@ private static final long serialVersionUID = 0L;
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -6438,11 +6953,12 @@ private static final long serialVersionUID = 0L;
 
     private static final com.google.protobuf.Parser<UpdateSemaphore>
         PARSER = new com.google.protobuf.AbstractParser<UpdateSemaphore>() {
+      @java.lang.Override
       public UpdateSemaphore parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new UpdateSemaphore(input, extensionRegistry);
+        return new UpdateSemaphore(input, extensionRegistry);
       }
     };
 
@@ -6455,6 +6971,7 @@ private static final long serialVersionUID = 0L;
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.UpdateSemaphore getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -6471,6 +6988,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 req_id = 1;</code>
+     * @return The reqId.
      */
     long getReqId();
 
@@ -6480,6 +6998,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
@@ -6488,6 +7007,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -6498,6 +7018,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bool force = 3;</code>
+     * @return The force.
      */
     boolean getForce();
   }
@@ -6509,7 +7030,7 @@ private static final long serialVersionUID = 0L;
    *
    * Protobuf type {@code Ydb.Coordination.SessionRequest.DeleteSemaphore}
    */
-  public  static final class DeleteSemaphore extends
+  public static final class DeleteSemaphore extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Coordination.SessionRequest.DeleteSemaphore)
       DeleteSemaphoreOrBuilder {
@@ -6519,9 +7040,14 @@ private static final long serialVersionUID = 0L;
       super(builder);
     }
     private DeleteSemaphore() {
-      reqId_ = 0L;
       name_ = "";
-      force_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DeleteSemaphore();
     }
 
     @java.lang.Override
@@ -6534,7 +7060,9 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -6545,13 +7073,6 @@ private static final long serialVersionUID = 0L;
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               reqId_ = input.readUInt64();
@@ -6566,6 +7087,13 @@ private static final long serialVersionUID = 0L;
             case 24: {
 
               force_ = input.readBool();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -6585,6 +7113,7 @@ private static final long serialVersionUID = 0L;
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_DeleteSemaphore_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_DeleteSemaphore_fieldAccessorTable
@@ -6600,7 +7129,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 req_id = 1;</code>
+     * @return The reqId.
      */
+    @java.lang.Override
     public long getReqId() {
       return reqId_;
     }
@@ -6613,7 +7144,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -6632,7 +7165,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 2;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -6655,12 +7190,15 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bool force = 3;</code>
+     * @return The force.
      */
+    @java.lang.Override
     public boolean getForce() {
       return force_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6670,6 +7208,7 @@ private static final long serialVersionUID = 0L;
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (reqId_ != 0L) {
@@ -6684,6 +7223,7 @@ private static final long serialVersionUID = 0L;
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -6715,15 +7255,14 @@ private static final long serialVersionUID = 0L;
       }
       tech.ydb.coordination.SessionRequest.DeleteSemaphore other = (tech.ydb.coordination.SessionRequest.DeleteSemaphore) obj;
 
-      boolean result = true;
-      result = result && (getReqId()
-          == other.getReqId());
-      result = result && getName()
-          .equals(other.getName());
-      result = result && (getForce()
-          == other.getForce());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getReqId()
+          != other.getReqId()) return false;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (getForce()
+          != other.getForce()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -6816,6 +7355,7 @@ private static final long serialVersionUID = 0L;
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -6823,6 +7363,7 @@ private static final long serialVersionUID = 0L;
     public static Builder newBuilder(tech.ydb.coordination.SessionRequest.DeleteSemaphore prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -6851,6 +7392,7 @@ private static final long serialVersionUID = 0L;
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_DeleteSemaphore_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_DeleteSemaphore_fieldAccessorTable
@@ -6873,6 +7415,7 @@ private static final long serialVersionUID = 0L;
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         reqId_ = 0L;
@@ -6884,15 +7427,18 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_DeleteSemaphore_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.DeleteSemaphore getDefaultInstanceForType() {
         return tech.ydb.coordination.SessionRequest.DeleteSemaphore.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.DeleteSemaphore build() {
         tech.ydb.coordination.SessionRequest.DeleteSemaphore result = buildPartial();
         if (!result.isInitialized()) {
@@ -6901,6 +7447,7 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.coordination.SessionRequest.DeleteSemaphore buildPartial() {
         tech.ydb.coordination.SessionRequest.DeleteSemaphore result = new tech.ydb.coordination.SessionRequest.DeleteSemaphore(this);
         result.reqId_ = reqId_;
@@ -6910,32 +7457,39 @@ private static final long serialVersionUID = 0L;
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.coordination.SessionRequest.DeleteSemaphore) {
           return mergeFrom((tech.ydb.coordination.SessionRequest.DeleteSemaphore)other);
@@ -6962,10 +7516,12 @@ private static final long serialVersionUID = 0L;
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6991,7 +7547,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 req_id = 1;</code>
+       * @return The reqId.
        */
+      @java.lang.Override
       public long getReqId() {
         return reqId_;
       }
@@ -7001,6 +7559,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 req_id = 1;</code>
+       * @param value The reqId to set.
+       * @return This builder for chaining.
        */
       public Builder setReqId(long value) {
         
@@ -7014,6 +7574,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>uint64 req_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearReqId() {
         
@@ -7029,6 +7590,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -7048,6 +7610,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -7068,6 +7631,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -7085,6 +7650,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -7098,6 +7664,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>string name = 2;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -7118,7 +7686,9 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bool force = 3;</code>
+       * @return The force.
        */
+      @java.lang.Override
       public boolean getForce() {
         return force_;
       }
@@ -7128,6 +7698,8 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bool force = 3;</code>
+       * @param value The force to set.
+       * @return This builder for chaining.
        */
       public Builder setForce(boolean value) {
         
@@ -7141,6 +7713,7 @@ private static final long serialVersionUID = 0L;
        * </pre>
        *
        * <code>bool force = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearForce() {
         
@@ -7148,11 +7721,13 @@ private static final long serialVersionUID = 0L;
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -7174,11 +7749,12 @@ private static final long serialVersionUID = 0L;
 
     private static final com.google.protobuf.Parser<DeleteSemaphore>
         PARSER = new com.google.protobuf.AbstractParser<DeleteSemaphore>() {
+      @java.lang.Override
       public DeleteSemaphore parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DeleteSemaphore(input, extensionRegistry);
+        return new DeleteSemaphore(input, extensionRegistry);
       }
     };
 
@@ -7191,6 +7767,7 @@ private static final long serialVersionUID = 0L;
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.DeleteSemaphore getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -7200,7 +7777,8 @@ private static final long serialVersionUID = 0L;
   private int requestCase_ = 0;
   private java.lang.Object request_;
   public enum RequestCase
-      implements com.google.protobuf.Internal.EnumLite {
+      implements com.google.protobuf.Internal.EnumLite,
+          com.google.protobuf.AbstractMessage.InternalOneOfEnum {
     PING(1),
     PONG(2),
     SESSION_START(3),
@@ -7222,6 +7800,8 @@ private static final long serialVersionUID = 0L;
       this.value = value;
     }
     /**
+     * @param value The number of the enum to look for.
+     * @return The enum associated with the given number.
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
@@ -7264,13 +7844,17 @@ private static final long serialVersionUID = 0L;
   public static final int PING_FIELD_NUMBER = 1;
   /**
    * <code>.Ydb.Coordination.SessionRequest.PingPong ping = 1;</code>
+   * @return Whether the ping field is set.
    */
+  @java.lang.Override
   public boolean hasPing() {
     return requestCase_ == 1;
   }
   /**
    * <code>.Ydb.Coordination.SessionRequest.PingPong ping = 1;</code>
+   * @return The ping.
    */
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest.PingPong getPing() {
     if (requestCase_ == 1) {
        return (tech.ydb.coordination.SessionRequest.PingPong) request_;
@@ -7280,6 +7864,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>.Ydb.Coordination.SessionRequest.PingPong ping = 1;</code>
    */
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest.PingPongOrBuilder getPingOrBuilder() {
     if (requestCase_ == 1) {
        return (tech.ydb.coordination.SessionRequest.PingPong) request_;
@@ -7290,13 +7875,17 @@ private static final long serialVersionUID = 0L;
   public static final int PONG_FIELD_NUMBER = 2;
   /**
    * <code>.Ydb.Coordination.SessionRequest.PingPong pong = 2;</code>
+   * @return Whether the pong field is set.
    */
+  @java.lang.Override
   public boolean hasPong() {
     return requestCase_ == 2;
   }
   /**
    * <code>.Ydb.Coordination.SessionRequest.PingPong pong = 2;</code>
+   * @return The pong.
    */
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest.PingPong getPong() {
     if (requestCase_ == 2) {
        return (tech.ydb.coordination.SessionRequest.PingPong) request_;
@@ -7306,6 +7895,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>.Ydb.Coordination.SessionRequest.PingPong pong = 2;</code>
    */
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest.PingPongOrBuilder getPongOrBuilder() {
     if (requestCase_ == 2) {
        return (tech.ydb.coordination.SessionRequest.PingPong) request_;
@@ -7316,13 +7906,17 @@ private static final long serialVersionUID = 0L;
   public static final int SESSION_START_FIELD_NUMBER = 3;
   /**
    * <code>.Ydb.Coordination.SessionRequest.SessionStart session_start = 3;</code>
+   * @return Whether the sessionStart field is set.
    */
+  @java.lang.Override
   public boolean hasSessionStart() {
     return requestCase_ == 3;
   }
   /**
    * <code>.Ydb.Coordination.SessionRequest.SessionStart session_start = 3;</code>
+   * @return The sessionStart.
    */
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest.SessionStart getSessionStart() {
     if (requestCase_ == 3) {
        return (tech.ydb.coordination.SessionRequest.SessionStart) request_;
@@ -7332,6 +7926,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>.Ydb.Coordination.SessionRequest.SessionStart session_start = 3;</code>
    */
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest.SessionStartOrBuilder getSessionStartOrBuilder() {
     if (requestCase_ == 3) {
        return (tech.ydb.coordination.SessionRequest.SessionStart) request_;
@@ -7342,13 +7937,17 @@ private static final long serialVersionUID = 0L;
   public static final int SESSION_STOP_FIELD_NUMBER = 4;
   /**
    * <code>.Ydb.Coordination.SessionRequest.SessionStop session_stop = 4;</code>
+   * @return Whether the sessionStop field is set.
    */
+  @java.lang.Override
   public boolean hasSessionStop() {
     return requestCase_ == 4;
   }
   /**
    * <code>.Ydb.Coordination.SessionRequest.SessionStop session_stop = 4;</code>
+   * @return The sessionStop.
    */
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest.SessionStop getSessionStop() {
     if (requestCase_ == 4) {
        return (tech.ydb.coordination.SessionRequest.SessionStop) request_;
@@ -7358,6 +7957,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>.Ydb.Coordination.SessionRequest.SessionStop session_stop = 4;</code>
    */
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest.SessionStopOrBuilder getSessionStopOrBuilder() {
     if (requestCase_ == 4) {
        return (tech.ydb.coordination.SessionRequest.SessionStop) request_;
@@ -7368,13 +7968,17 @@ private static final long serialVersionUID = 0L;
   public static final int UNSUPPORTED_5_FIELD_NUMBER = 5;
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_5 = 5;</code>
+   * @return Whether the unsupported5 field is set.
    */
+  @java.lang.Override
   public boolean hasUnsupported5() {
     return requestCase_ == 5;
   }
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_5 = 5;</code>
+   * @return The unsupported5.
    */
+  @java.lang.Override
   public tech.ydb.coordination.Unsupported getUnsupported5() {
     if (requestCase_ == 5) {
        return (tech.ydb.coordination.Unsupported) request_;
@@ -7384,6 +7988,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_5 = 5;</code>
    */
+  @java.lang.Override
   public tech.ydb.coordination.UnsupportedOrBuilder getUnsupported5OrBuilder() {
     if (requestCase_ == 5) {
        return (tech.ydb.coordination.Unsupported) request_;
@@ -7394,13 +7999,17 @@ private static final long serialVersionUID = 0L;
   public static final int UNSUPPORTED_6_FIELD_NUMBER = 6;
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_6 = 6;</code>
+   * @return Whether the unsupported6 field is set.
    */
+  @java.lang.Override
   public boolean hasUnsupported6() {
     return requestCase_ == 6;
   }
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_6 = 6;</code>
+   * @return The unsupported6.
    */
+  @java.lang.Override
   public tech.ydb.coordination.Unsupported getUnsupported6() {
     if (requestCase_ == 6) {
        return (tech.ydb.coordination.Unsupported) request_;
@@ -7410,6 +8019,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_6 = 6;</code>
    */
+  @java.lang.Override
   public tech.ydb.coordination.UnsupportedOrBuilder getUnsupported6OrBuilder() {
     if (requestCase_ == 6) {
        return (tech.ydb.coordination.Unsupported) request_;
@@ -7420,13 +8030,17 @@ private static final long serialVersionUID = 0L;
   public static final int ACQUIRE_SEMAPHORE_FIELD_NUMBER = 7;
   /**
    * <code>.Ydb.Coordination.SessionRequest.AcquireSemaphore acquire_semaphore = 7;</code>
+   * @return Whether the acquireSemaphore field is set.
    */
+  @java.lang.Override
   public boolean hasAcquireSemaphore() {
     return requestCase_ == 7;
   }
   /**
    * <code>.Ydb.Coordination.SessionRequest.AcquireSemaphore acquire_semaphore = 7;</code>
+   * @return The acquireSemaphore.
    */
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest.AcquireSemaphore getAcquireSemaphore() {
     if (requestCase_ == 7) {
        return (tech.ydb.coordination.SessionRequest.AcquireSemaphore) request_;
@@ -7436,6 +8050,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>.Ydb.Coordination.SessionRequest.AcquireSemaphore acquire_semaphore = 7;</code>
    */
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest.AcquireSemaphoreOrBuilder getAcquireSemaphoreOrBuilder() {
     if (requestCase_ == 7) {
        return (tech.ydb.coordination.SessionRequest.AcquireSemaphore) request_;
@@ -7446,13 +8061,17 @@ private static final long serialVersionUID = 0L;
   public static final int RELEASE_SEMAPHORE_FIELD_NUMBER = 8;
   /**
    * <code>.Ydb.Coordination.SessionRequest.ReleaseSemaphore release_semaphore = 8;</code>
+   * @return Whether the releaseSemaphore field is set.
    */
+  @java.lang.Override
   public boolean hasReleaseSemaphore() {
     return requestCase_ == 8;
   }
   /**
    * <code>.Ydb.Coordination.SessionRequest.ReleaseSemaphore release_semaphore = 8;</code>
+   * @return The releaseSemaphore.
    */
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest.ReleaseSemaphore getReleaseSemaphore() {
     if (requestCase_ == 8) {
        return (tech.ydb.coordination.SessionRequest.ReleaseSemaphore) request_;
@@ -7462,6 +8081,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>.Ydb.Coordination.SessionRequest.ReleaseSemaphore release_semaphore = 8;</code>
    */
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest.ReleaseSemaphoreOrBuilder getReleaseSemaphoreOrBuilder() {
     if (requestCase_ == 8) {
        return (tech.ydb.coordination.SessionRequest.ReleaseSemaphore) request_;
@@ -7472,13 +8092,17 @@ private static final long serialVersionUID = 0L;
   public static final int DESCRIBE_SEMAPHORE_FIELD_NUMBER = 9;
   /**
    * <code>.Ydb.Coordination.SessionRequest.DescribeSemaphore describe_semaphore = 9;</code>
+   * @return Whether the describeSemaphore field is set.
    */
+  @java.lang.Override
   public boolean hasDescribeSemaphore() {
     return requestCase_ == 9;
   }
   /**
    * <code>.Ydb.Coordination.SessionRequest.DescribeSemaphore describe_semaphore = 9;</code>
+   * @return The describeSemaphore.
    */
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest.DescribeSemaphore getDescribeSemaphore() {
     if (requestCase_ == 9) {
        return (tech.ydb.coordination.SessionRequest.DescribeSemaphore) request_;
@@ -7488,6 +8112,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>.Ydb.Coordination.SessionRequest.DescribeSemaphore describe_semaphore = 9;</code>
    */
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest.DescribeSemaphoreOrBuilder getDescribeSemaphoreOrBuilder() {
     if (requestCase_ == 9) {
        return (tech.ydb.coordination.SessionRequest.DescribeSemaphore) request_;
@@ -7498,13 +8123,17 @@ private static final long serialVersionUID = 0L;
   public static final int CREATE_SEMAPHORE_FIELD_NUMBER = 10;
   /**
    * <code>.Ydb.Coordination.SessionRequest.CreateSemaphore create_semaphore = 10;</code>
+   * @return Whether the createSemaphore field is set.
    */
+  @java.lang.Override
   public boolean hasCreateSemaphore() {
     return requestCase_ == 10;
   }
   /**
    * <code>.Ydb.Coordination.SessionRequest.CreateSemaphore create_semaphore = 10;</code>
+   * @return The createSemaphore.
    */
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest.CreateSemaphore getCreateSemaphore() {
     if (requestCase_ == 10) {
        return (tech.ydb.coordination.SessionRequest.CreateSemaphore) request_;
@@ -7514,6 +8143,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>.Ydb.Coordination.SessionRequest.CreateSemaphore create_semaphore = 10;</code>
    */
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest.CreateSemaphoreOrBuilder getCreateSemaphoreOrBuilder() {
     if (requestCase_ == 10) {
        return (tech.ydb.coordination.SessionRequest.CreateSemaphore) request_;
@@ -7524,13 +8154,17 @@ private static final long serialVersionUID = 0L;
   public static final int UPDATE_SEMAPHORE_FIELD_NUMBER = 11;
   /**
    * <code>.Ydb.Coordination.SessionRequest.UpdateSemaphore update_semaphore = 11;</code>
+   * @return Whether the updateSemaphore field is set.
    */
+  @java.lang.Override
   public boolean hasUpdateSemaphore() {
     return requestCase_ == 11;
   }
   /**
    * <code>.Ydb.Coordination.SessionRequest.UpdateSemaphore update_semaphore = 11;</code>
+   * @return The updateSemaphore.
    */
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest.UpdateSemaphore getUpdateSemaphore() {
     if (requestCase_ == 11) {
        return (tech.ydb.coordination.SessionRequest.UpdateSemaphore) request_;
@@ -7540,6 +8174,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>.Ydb.Coordination.SessionRequest.UpdateSemaphore update_semaphore = 11;</code>
    */
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest.UpdateSemaphoreOrBuilder getUpdateSemaphoreOrBuilder() {
     if (requestCase_ == 11) {
        return (tech.ydb.coordination.SessionRequest.UpdateSemaphore) request_;
@@ -7550,13 +8185,17 @@ private static final long serialVersionUID = 0L;
   public static final int DELETE_SEMAPHORE_FIELD_NUMBER = 12;
   /**
    * <code>.Ydb.Coordination.SessionRequest.DeleteSemaphore delete_semaphore = 12;</code>
+   * @return Whether the deleteSemaphore field is set.
    */
+  @java.lang.Override
   public boolean hasDeleteSemaphore() {
     return requestCase_ == 12;
   }
   /**
    * <code>.Ydb.Coordination.SessionRequest.DeleteSemaphore delete_semaphore = 12;</code>
+   * @return The deleteSemaphore.
    */
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest.DeleteSemaphore getDeleteSemaphore() {
     if (requestCase_ == 12) {
        return (tech.ydb.coordination.SessionRequest.DeleteSemaphore) request_;
@@ -7566,6 +8205,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>.Ydb.Coordination.SessionRequest.DeleteSemaphore delete_semaphore = 12;</code>
    */
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest.DeleteSemaphoreOrBuilder getDeleteSemaphoreOrBuilder() {
     if (requestCase_ == 12) {
        return (tech.ydb.coordination.SessionRequest.DeleteSemaphore) request_;
@@ -7576,13 +8216,17 @@ private static final long serialVersionUID = 0L;
   public static final int UNSUPPORTED_13_FIELD_NUMBER = 13;
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_13 = 13;</code>
+   * @return Whether the unsupported13 field is set.
    */
+  @java.lang.Override
   public boolean hasUnsupported13() {
     return requestCase_ == 13;
   }
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_13 = 13;</code>
+   * @return The unsupported13.
    */
+  @java.lang.Override
   public tech.ydb.coordination.Unsupported getUnsupported13() {
     if (requestCase_ == 13) {
        return (tech.ydb.coordination.Unsupported) request_;
@@ -7592,6 +8236,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_13 = 13;</code>
    */
+  @java.lang.Override
   public tech.ydb.coordination.UnsupportedOrBuilder getUnsupported13OrBuilder() {
     if (requestCase_ == 13) {
        return (tech.ydb.coordination.Unsupported) request_;
@@ -7602,13 +8247,17 @@ private static final long serialVersionUID = 0L;
   public static final int UNSUPPORTED_14_FIELD_NUMBER = 14;
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_14 = 14;</code>
+   * @return Whether the unsupported14 field is set.
    */
+  @java.lang.Override
   public boolean hasUnsupported14() {
     return requestCase_ == 14;
   }
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_14 = 14;</code>
+   * @return The unsupported14.
    */
+  @java.lang.Override
   public tech.ydb.coordination.Unsupported getUnsupported14() {
     if (requestCase_ == 14) {
        return (tech.ydb.coordination.Unsupported) request_;
@@ -7618,6 +8267,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_14 = 14;</code>
    */
+  @java.lang.Override
   public tech.ydb.coordination.UnsupportedOrBuilder getUnsupported14OrBuilder() {
     if (requestCase_ == 14) {
        return (tech.ydb.coordination.Unsupported) request_;
@@ -7628,13 +8278,17 @@ private static final long serialVersionUID = 0L;
   public static final int UNSUPPORTED_15_FIELD_NUMBER = 15;
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_15 = 15;</code>
+   * @return Whether the unsupported15 field is set.
    */
+  @java.lang.Override
   public boolean hasUnsupported15() {
     return requestCase_ == 15;
   }
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_15 = 15;</code>
+   * @return The unsupported15.
    */
+  @java.lang.Override
   public tech.ydb.coordination.Unsupported getUnsupported15() {
     if (requestCase_ == 15) {
        return (tech.ydb.coordination.Unsupported) request_;
@@ -7644,6 +8298,7 @@ private static final long serialVersionUID = 0L;
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_15 = 15;</code>
    */
+  @java.lang.Override
   public tech.ydb.coordination.UnsupportedOrBuilder getUnsupported15OrBuilder() {
     if (requestCase_ == 15) {
        return (tech.ydb.coordination.Unsupported) request_;
@@ -7652,6 +8307,7 @@ private static final long serialVersionUID = 0L;
   }
 
   private byte memoizedIsInitialized = -1;
+  @java.lang.Override
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
     if (isInitialized == 1) return true;
@@ -7661,6 +8317,7 @@ private static final long serialVersionUID = 0L;
     return true;
   }
 
+  @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     if (requestCase_ == 1) {
@@ -7711,6 +8368,7 @@ private static final long serialVersionUID = 0L;
     unknownFields.writeTo(output);
   }
 
+  @java.lang.Override
   public int getSerializedSize() {
     int size = memoizedSize;
     if (size != -1) return size;
@@ -7791,76 +8449,73 @@ private static final long serialVersionUID = 0L;
     }
     tech.ydb.coordination.SessionRequest other = (tech.ydb.coordination.SessionRequest) obj;
 
-    boolean result = true;
-    result = result && getRequestCase().equals(
-        other.getRequestCase());
-    if (!result) return false;
+    if (!getRequestCase().equals(other.getRequestCase())) return false;
     switch (requestCase_) {
       case 1:
-        result = result && getPing()
-            .equals(other.getPing());
+        if (!getPing()
+            .equals(other.getPing())) return false;
         break;
       case 2:
-        result = result && getPong()
-            .equals(other.getPong());
+        if (!getPong()
+            .equals(other.getPong())) return false;
         break;
       case 3:
-        result = result && getSessionStart()
-            .equals(other.getSessionStart());
+        if (!getSessionStart()
+            .equals(other.getSessionStart())) return false;
         break;
       case 4:
-        result = result && getSessionStop()
-            .equals(other.getSessionStop());
+        if (!getSessionStop()
+            .equals(other.getSessionStop())) return false;
         break;
       case 5:
-        result = result && getUnsupported5()
-            .equals(other.getUnsupported5());
+        if (!getUnsupported5()
+            .equals(other.getUnsupported5())) return false;
         break;
       case 6:
-        result = result && getUnsupported6()
-            .equals(other.getUnsupported6());
+        if (!getUnsupported6()
+            .equals(other.getUnsupported6())) return false;
         break;
       case 7:
-        result = result && getAcquireSemaphore()
-            .equals(other.getAcquireSemaphore());
+        if (!getAcquireSemaphore()
+            .equals(other.getAcquireSemaphore())) return false;
         break;
       case 8:
-        result = result && getReleaseSemaphore()
-            .equals(other.getReleaseSemaphore());
+        if (!getReleaseSemaphore()
+            .equals(other.getReleaseSemaphore())) return false;
         break;
       case 9:
-        result = result && getDescribeSemaphore()
-            .equals(other.getDescribeSemaphore());
+        if (!getDescribeSemaphore()
+            .equals(other.getDescribeSemaphore())) return false;
         break;
       case 10:
-        result = result && getCreateSemaphore()
-            .equals(other.getCreateSemaphore());
+        if (!getCreateSemaphore()
+            .equals(other.getCreateSemaphore())) return false;
         break;
       case 11:
-        result = result && getUpdateSemaphore()
-            .equals(other.getUpdateSemaphore());
+        if (!getUpdateSemaphore()
+            .equals(other.getUpdateSemaphore())) return false;
         break;
       case 12:
-        result = result && getDeleteSemaphore()
-            .equals(other.getDeleteSemaphore());
+        if (!getDeleteSemaphore()
+            .equals(other.getDeleteSemaphore())) return false;
         break;
       case 13:
-        result = result && getUnsupported13()
-            .equals(other.getUnsupported13());
+        if (!getUnsupported13()
+            .equals(other.getUnsupported13())) return false;
         break;
       case 14:
-        result = result && getUnsupported14()
-            .equals(other.getUnsupported14());
+        if (!getUnsupported14()
+            .equals(other.getUnsupported14())) return false;
         break;
       case 15:
-        result = result && getUnsupported15()
-            .equals(other.getUnsupported15());
+        if (!getUnsupported15()
+            .equals(other.getUnsupported15())) return false;
         break;
       case 0:
       default:
     }
-    result = result && unknownFields.equals(other.unknownFields);
-    return result;
+    if (!unknownFields.equals(other.unknownFields)) return false;
+    return true;
   }
 
   @java.lang.Override
@@ -8009,6 +8664,7 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
+  @java.lang.Override
   public Builder newBuilderForType() { return newBuilder(); }
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
@@ -8016,6 +8672,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder(tech.ydb.coordination.SessionRequest prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
+  @java.lang.Override
   public Builder toBuilder() {
     return this == DEFAULT_INSTANCE
         ? new Builder() : new Builder().mergeFrom(this);
@@ -8044,6 +8701,7 @@ private static final long serialVersionUID = 0L;
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_fieldAccessorTable
@@ -8066,6 +8724,7 @@ private static final long serialVersionUID = 0L;
               .alwaysUseFieldBuilders) {
       }
     }
+    @java.lang.Override
     public Builder clear() {
       super.clear();
       requestCase_ = 0;
@@ -8073,15 +8732,18 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
+    @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SessionRequest_descriptor;
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest getDefaultInstanceForType() {
       return tech.ydb.coordination.SessionRequest.getDefaultInstance();
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest build() {
       tech.ydb.coordination.SessionRequest result = buildPartial();
       if (!result.isInitialized()) {
@@ -8090,6 +8752,7 @@ private static final long serialVersionUID = 0L;
       return result;
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest buildPartial() {
       tech.ydb.coordination.SessionRequest result = new tech.ydb.coordination.SessionRequest(this);
       if (requestCase_ == 1) {
@@ -8202,32 +8865,39 @@ private static final long serialVersionUID = 0L;
       return result;
     }
 
+    @java.lang.Override
     public Builder clone() {
-      return (Builder) super.clone();
+      return super.clone();
     }
+    @java.lang.Override
     public Builder setField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         java.lang.Object value) {
-      return (Builder) super.setField(field, value);
+      return super.setField(field, value);
     }
+    @java.lang.Override
     public Builder clearField(
         com.google.protobuf.Descriptors.FieldDescriptor field) {
-      return (Builder) super.clearField(field);
+      return super.clearField(field);
     }
+    @java.lang.Override
     public Builder clearOneof(
         com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-      return (Builder) super.clearOneof(oneof);
+      return super.clearOneof(oneof);
     }
+    @java.lang.Override
     public Builder setRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         int index, java.lang.Object value) {
-      return (Builder) super.setRepeatedField(field, index, value);
+      return super.setRepeatedField(field, index, value);
     }
+    @java.lang.Override
     public Builder addRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         java.lang.Object value) {
-      return (Builder) super.addRepeatedField(field, value);
+      return super.addRepeatedField(field, value);
     }
+    @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof tech.ydb.coordination.SessionRequest) {
         return mergeFrom((tech.ydb.coordination.SessionRequest)other);
@@ -8309,10 +8979,12 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
+    @java.lang.Override
     public final boolean isInitialized() {
       return true;
     }
 
+    @java.lang.Override
     public Builder mergeFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8350,13 +9022,17 @@ private static final long serialVersionUID = 0L;
         tech.ydb.coordination.SessionRequest.PingPong, tech.ydb.coordination.SessionRequest.PingPong.Builder, tech.ydb.coordination.SessionRequest.PingPongOrBuilder> pingBuilder_;
     /**
      * <code>.Ydb.Coordination.SessionRequest.PingPong ping = 1;</code>
+     * @return Whether the ping field is set.
      */
+    @java.lang.Override
     public boolean hasPing() {
       return requestCase_ == 1;
     }
     /**
      * <code>.Ydb.Coordination.SessionRequest.PingPong ping = 1;</code>
+     * @return The ping.
      */
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.PingPong getPing() {
       if (pingBuilder_ == null) {
         if (requestCase_ == 1) {
@@ -8450,6 +9126,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>.Ydb.Coordination.SessionRequest.PingPong ping = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.PingPongOrBuilder getPingOrBuilder() {
       if ((requestCase_ == 1) && (pingBuilder_ != null)) {
         return pingBuilder_.getMessageOrBuilder();
@@ -8486,13 +9163,17 @@ private static final long serialVersionUID = 0L;
         tech.ydb.coordination.SessionRequest.PingPong, tech.ydb.coordination.SessionRequest.PingPong.Builder, tech.ydb.coordination.SessionRequest.PingPongOrBuilder> pongBuilder_;
     /**
      * <code>.Ydb.Coordination.SessionRequest.PingPong pong = 2;</code>
+     * @return Whether the pong field is set.
      */
+    @java.lang.Override
     public boolean hasPong() {
       return requestCase_ == 2;
     }
     /**
      * <code>.Ydb.Coordination.SessionRequest.PingPong pong = 2;</code>
+     * @return The pong.
      */
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.PingPong getPong() {
       if (pongBuilder_ == null) {
         if (requestCase_ == 2) {
@@ -8586,6 +9267,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>.Ydb.Coordination.SessionRequest.PingPong pong = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.PingPongOrBuilder getPongOrBuilder() {
       if ((requestCase_ == 2) && (pongBuilder_ != null)) {
         return pongBuilder_.getMessageOrBuilder();
@@ -8622,13 +9304,17 @@ private static final long serialVersionUID = 0L;
         tech.ydb.coordination.SessionRequest.SessionStart, tech.ydb.coordination.SessionRequest.SessionStart.Builder, tech.ydb.coordination.SessionRequest.SessionStartOrBuilder> sessionStartBuilder_;
     /**
      * <code>.Ydb.Coordination.SessionRequest.SessionStart session_start = 3;</code>
+     * @return Whether the sessionStart field is set.
      */
+    @java.lang.Override
     public boolean hasSessionStart() {
       return requestCase_ == 3;
     }
     /**
      * <code>.Ydb.Coordination.SessionRequest.SessionStart session_start = 3;</code>
+     * @return The sessionStart.
      */
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.SessionStart getSessionStart() {
       if (sessionStartBuilder_ == null) {
         if (requestCase_ == 3) {
@@ -8722,6 +9408,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>.Ydb.Coordination.SessionRequest.SessionStart session_start = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.SessionStartOrBuilder getSessionStartOrBuilder() {
       if ((requestCase_ == 3) && (sessionStartBuilder_ != null)) {
         return sessionStartBuilder_.getMessageOrBuilder();
@@ -8758,13 +9445,17 @@ private static final long serialVersionUID = 0L;
         tech.ydb.coordination.SessionRequest.SessionStop, tech.ydb.coordination.SessionRequest.SessionStop.Builder, tech.ydb.coordination.SessionRequest.SessionStopOrBuilder> sessionStopBuilder_;
     /**
      * <code>.Ydb.Coordination.SessionRequest.SessionStop session_stop = 4;</code>
+     * @return Whether the sessionStop field is set.
      */
+    @java.lang.Override
     public boolean hasSessionStop() {
       return requestCase_ == 4;
     }
     /**
      * <code>.Ydb.Coordination.SessionRequest.SessionStop session_stop = 4;</code>
+     * @return The sessionStop.
      */
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.SessionStop getSessionStop() {
       if (sessionStopBuilder_ == null) {
         if (requestCase_ == 4) {
@@ -8858,6 +9549,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>.Ydb.Coordination.SessionRequest.SessionStop session_stop = 4;</code>
      */
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.SessionStopOrBuilder getSessionStopOrBuilder() {
       if ((requestCase_ == 4) && (sessionStopBuilder_ != null)) {
         return sessionStopBuilder_.getMessageOrBuilder();
@@ -8894,13 +9586,17 @@ private static final long serialVersionUID = 0L;
         tech.ydb.coordination.Unsupported, tech.ydb.coordination.Unsupported.Builder, tech.ydb.coordination.UnsupportedOrBuilder> unsupported5Builder_;
     /**
      * <code>.Ydb.Coordination.Unsupported unsupported_5 = 5;</code>
+     * @return Whether the unsupported5 field is set.
      */
+    @java.lang.Override
     public boolean hasUnsupported5() {
       return requestCase_ == 5;
     }
     /**
      * <code>.Ydb.Coordination.Unsupported unsupported_5 = 5;</code>
+     * @return The unsupported5.
      */
+    @java.lang.Override
     public tech.ydb.coordination.Unsupported getUnsupported5() {
       if (unsupported5Builder_ == null) {
         if (requestCase_ == 5) {
@@ -8994,6 +9690,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>.Ydb.Coordination.Unsupported unsupported_5 = 5;</code>
      */
+    @java.lang.Override
     public tech.ydb.coordination.UnsupportedOrBuilder getUnsupported5OrBuilder() {
       if ((requestCase_ == 5) && (unsupported5Builder_ != null)) {
         return unsupported5Builder_.getMessageOrBuilder();
@@ -9030,13 +9727,17 @@ private static final long serialVersionUID = 0L;
         tech.ydb.coordination.Unsupported, tech.ydb.coordination.Unsupported.Builder, tech.ydb.coordination.UnsupportedOrBuilder> unsupported6Builder_;
     /**
      * <code>.Ydb.Coordination.Unsupported unsupported_6 = 6;</code>
+     * @return Whether the unsupported6 field is set.
      */
+    @java.lang.Override
     public boolean hasUnsupported6() {
       return requestCase_ == 6;
     }
     /**
      * <code>.Ydb.Coordination.Unsupported unsupported_6 = 6;</code>
+     * @return The unsupported6.
      */
+    @java.lang.Override
     public tech.ydb.coordination.Unsupported getUnsupported6() {
       if (unsupported6Builder_ == null) {
         if (requestCase_ == 6) {
@@ -9130,6 +9831,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>.Ydb.Coordination.Unsupported unsupported_6 = 6;</code>
      */
+    @java.lang.Override
     public tech.ydb.coordination.UnsupportedOrBuilder getUnsupported6OrBuilder() {
       if ((requestCase_ == 6) && (unsupported6Builder_ != null)) {
         return unsupported6Builder_.getMessageOrBuilder();
@@ -9166,13 +9868,17 @@ private static final long serialVersionUID = 0L;
         tech.ydb.coordination.SessionRequest.AcquireSemaphore, tech.ydb.coordination.SessionRequest.AcquireSemaphore.Builder, tech.ydb.coordination.SessionRequest.AcquireSemaphoreOrBuilder> acquireSemaphoreBuilder_;
     /**
      * <code>.Ydb.Coordination.SessionRequest.AcquireSemaphore acquire_semaphore = 7;</code>
+     * @return Whether the acquireSemaphore field is set.
      */
+    @java.lang.Override
     public boolean hasAcquireSemaphore() {
       return requestCase_ == 7;
     }
     /**
      * <code>.Ydb.Coordination.SessionRequest.AcquireSemaphore acquire_semaphore = 7;</code>
+     * @return The acquireSemaphore.
      */
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.AcquireSemaphore getAcquireSemaphore() {
       if (acquireSemaphoreBuilder_ == null) {
         if (requestCase_ == 7) {
@@ -9266,6 +9972,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>.Ydb.Coordination.SessionRequest.AcquireSemaphore acquire_semaphore = 7;</code>
      */
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.AcquireSemaphoreOrBuilder getAcquireSemaphoreOrBuilder() {
       if ((requestCase_ == 7) && (acquireSemaphoreBuilder_ != null)) {
         return acquireSemaphoreBuilder_.getMessageOrBuilder();
@@ -9302,13 +10009,17 @@ private static final long serialVersionUID = 0L;
         tech.ydb.coordination.SessionRequest.ReleaseSemaphore, tech.ydb.coordination.SessionRequest.ReleaseSemaphore.Builder, tech.ydb.coordination.SessionRequest.ReleaseSemaphoreOrBuilder> releaseSemaphoreBuilder_;
     /**
      * <code>.Ydb.Coordination.SessionRequest.ReleaseSemaphore release_semaphore = 8;</code>
+     * @return Whether the releaseSemaphore field is set.
      */
+    @java.lang.Override
     public boolean hasReleaseSemaphore() {
       return requestCase_ == 8;
     }
     /**
      * <code>.Ydb.Coordination.SessionRequest.ReleaseSemaphore release_semaphore = 8;</code>
+     * @return The releaseSemaphore.
      */
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.ReleaseSemaphore getReleaseSemaphore() {
       if (releaseSemaphoreBuilder_ == null) {
         if (requestCase_ == 8) {
@@ -9402,6 +10113,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>.Ydb.Coordination.SessionRequest.ReleaseSemaphore release_semaphore = 8;</code>
      */
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.ReleaseSemaphoreOrBuilder getReleaseSemaphoreOrBuilder() {
       if ((requestCase_ == 8) && (releaseSemaphoreBuilder_ != null)) {
         return releaseSemaphoreBuilder_.getMessageOrBuilder();
@@ -9438,13 +10150,17 @@ private static final long serialVersionUID = 0L;
         tech.ydb.coordination.SessionRequest.DescribeSemaphore, tech.ydb.coordination.SessionRequest.DescribeSemaphore.Builder, tech.ydb.coordination.SessionRequest.DescribeSemaphoreOrBuilder> describeSemaphoreBuilder_;
     /**
      * <code>.Ydb.Coordination.SessionRequest.DescribeSemaphore describe_semaphore = 9;</code>
+     * @return Whether the describeSemaphore field is set.
      */
+    @java.lang.Override
     public boolean hasDescribeSemaphore() {
       return requestCase_ == 9;
     }
     /**
      * <code>.Ydb.Coordination.SessionRequest.DescribeSemaphore describe_semaphore = 9;</code>
+     * @return The describeSemaphore.
      */
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.DescribeSemaphore getDescribeSemaphore() {
       if (describeSemaphoreBuilder_ == null) {
         if (requestCase_ == 9) {
@@ -9538,6 +10254,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>.Ydb.Coordination.SessionRequest.DescribeSemaphore describe_semaphore = 9;</code>
      */
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.DescribeSemaphoreOrBuilder getDescribeSemaphoreOrBuilder() {
       if ((requestCase_ == 9) && (describeSemaphoreBuilder_ != null)) {
         return describeSemaphoreBuilder_.getMessageOrBuilder();
@@ -9574,13 +10291,17 @@ private static final long serialVersionUID = 0L;
         tech.ydb.coordination.SessionRequest.CreateSemaphore, tech.ydb.coordination.SessionRequest.CreateSemaphore.Builder, tech.ydb.coordination.SessionRequest.CreateSemaphoreOrBuilder> createSemaphoreBuilder_;
     /**
      * <code>.Ydb.Coordination.SessionRequest.CreateSemaphore create_semaphore = 10;</code>
+     * @return Whether the createSemaphore field is set.
      */
+    @java.lang.Override
     public boolean hasCreateSemaphore() {
       return requestCase_ == 10;
     }
     /**
      * <code>.Ydb.Coordination.SessionRequest.CreateSemaphore create_semaphore = 10;</code>
+     * @return The createSemaphore.
      */
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.CreateSemaphore getCreateSemaphore() {
       if (createSemaphoreBuilder_ == null) {
         if (requestCase_ == 10) {
@@ -9674,6 +10395,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>.Ydb.Coordination.SessionRequest.CreateSemaphore create_semaphore = 10;</code>
      */
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.CreateSemaphoreOrBuilder getCreateSemaphoreOrBuilder() {
       if ((requestCase_ == 10) && (createSemaphoreBuilder_ != null)) {
         return createSemaphoreBuilder_.getMessageOrBuilder();
@@ -9710,13 +10432,17 @@ private static final long serialVersionUID = 0L;
         tech.ydb.coordination.SessionRequest.UpdateSemaphore, tech.ydb.coordination.SessionRequest.UpdateSemaphore.Builder, tech.ydb.coordination.SessionRequest.UpdateSemaphoreOrBuilder> updateSemaphoreBuilder_;
     /**
      * <code>.Ydb.Coordination.SessionRequest.UpdateSemaphore update_semaphore = 11;</code>
+     * @return Whether the updateSemaphore field is set.
      */
+    @java.lang.Override
     public boolean hasUpdateSemaphore() {
       return requestCase_ == 11;
     }
     /**
      * <code>.Ydb.Coordination.SessionRequest.UpdateSemaphore update_semaphore = 11;</code>
+     * @return The updateSemaphore.
      */
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.UpdateSemaphore getUpdateSemaphore() {
       if (updateSemaphoreBuilder_ == null) {
         if (requestCase_ == 11) {
@@ -9810,6 +10536,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>.Ydb.Coordination.SessionRequest.UpdateSemaphore update_semaphore = 11;</code>
      */
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.UpdateSemaphoreOrBuilder getUpdateSemaphoreOrBuilder() {
       if ((requestCase_ == 11) && (updateSemaphoreBuilder_ != null)) {
         return updateSemaphoreBuilder_.getMessageOrBuilder();
@@ -9846,13 +10573,17 @@ private static final long serialVersionUID = 0L;
         tech.ydb.coordination.SessionRequest.DeleteSemaphore, tech.ydb.coordination.SessionRequest.DeleteSemaphore.Builder, tech.ydb.coordination.SessionRequest.DeleteSemaphoreOrBuilder> deleteSemaphoreBuilder_;
     /**
      * <code>.Ydb.Coordination.SessionRequest.DeleteSemaphore delete_semaphore = 12;</code>
+     * @return Whether the deleteSemaphore field is set.
      */
+    @java.lang.Override
     public boolean hasDeleteSemaphore() {
       return requestCase_ == 12;
     }
     /**
      * <code>.Ydb.Coordination.SessionRequest.DeleteSemaphore delete_semaphore = 12;</code>
+     * @return The deleteSemaphore.
      */
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.DeleteSemaphore getDeleteSemaphore() {
       if (deleteSemaphoreBuilder_ == null) {
         if (requestCase_ == 12) {
@@ -9946,6 +10677,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>.Ydb.Coordination.SessionRequest.DeleteSemaphore delete_semaphore = 12;</code>
      */
+    @java.lang.Override
     public tech.ydb.coordination.SessionRequest.DeleteSemaphoreOrBuilder getDeleteSemaphoreOrBuilder() {
       if ((requestCase_ == 12) && (deleteSemaphoreBuilder_ != null)) {
         return deleteSemaphoreBuilder_.getMessageOrBuilder();
@@ -9982,13 +10714,17 @@ private static final long serialVersionUID = 0L;
         tech.ydb.coordination.Unsupported, tech.ydb.coordination.Unsupported.Builder, tech.ydb.coordination.UnsupportedOrBuilder> unsupported13Builder_;
     /**
      * <code>.Ydb.Coordination.Unsupported unsupported_13 = 13;</code>
+     * @return Whether the unsupported13 field is set.
      */
+    @java.lang.Override
     public boolean hasUnsupported13() {
       return requestCase_ == 13;
     }
     /**
      * <code>.Ydb.Coordination.Unsupported unsupported_13 = 13;</code>
+     * @return The unsupported13.
      */
+    @java.lang.Override
     public tech.ydb.coordination.Unsupported getUnsupported13() {
       if (unsupported13Builder_ == null) {
         if (requestCase_ == 13) {
@@ -10082,6 +10818,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>.Ydb.Coordination.Unsupported unsupported_13 = 13;</code>
      */
+    @java.lang.Override
     public tech.ydb.coordination.UnsupportedOrBuilder getUnsupported13OrBuilder() {
       if ((requestCase_ == 13) && (unsupported13Builder_ != null)) {
         return unsupported13Builder_.getMessageOrBuilder();
@@ -10118,13 +10855,17 @@ private static final long serialVersionUID = 0L;
         tech.ydb.coordination.Unsupported, tech.ydb.coordination.Unsupported.Builder, tech.ydb.coordination.UnsupportedOrBuilder> unsupported14Builder_;
     /**
      * <code>.Ydb.Coordination.Unsupported unsupported_14 = 14;</code>
+     * @return Whether the unsupported14 field is set.
      */
+    @java.lang.Override
     public boolean hasUnsupported14() {
       return requestCase_ == 14;
     }
     /**
      * <code>.Ydb.Coordination.Unsupported unsupported_14 = 14;</code>
+     * @return The unsupported14.
      */
+    @java.lang.Override
     public tech.ydb.coordination.Unsupported getUnsupported14() {
       if (unsupported14Builder_ == null) {
         if (requestCase_ == 14) {
@@ -10218,6 +10959,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>.Ydb.Coordination.Unsupported unsupported_14 = 14;</code>
      */
+    @java.lang.Override
     public tech.ydb.coordination.UnsupportedOrBuilder getUnsupported14OrBuilder() {
       if ((requestCase_ == 14) && (unsupported14Builder_ != null)) {
         return unsupported14Builder_.getMessageOrBuilder();
@@ -10254,13 +10996,17 @@ private static final long serialVersionUID = 0L;
         tech.ydb.coordination.Unsupported, tech.ydb.coordination.Unsupported.Builder, tech.ydb.coordination.UnsupportedOrBuilder> unsupported15Builder_;
     /**
      * <code>.Ydb.Coordination.Unsupported unsupported_15 = 15;</code>
+     * @return Whether the unsupported15 field is set.
      */
+    @java.lang.Override
     public boolean hasUnsupported15() {
       return requestCase_ == 15;
     }
     /**
      * <code>.Ydb.Coordination.Unsupported unsupported_15 = 15;</code>
+     * @return The unsupported15.
      */
+    @java.lang.Override
     public tech.ydb.coordination.Unsupported getUnsupported15() {
       if (unsupported15Builder_ == null) {
         if (requestCase_ == 15) {
@@ -10354,6 +11100,7 @@ private static final long serialVersionUID = 0L;
     /**
      * <code>.Ydb.Coordination.Unsupported unsupported_15 = 15;</code>
      */
+    @java.lang.Override
     public tech.ydb.coordination.UnsupportedOrBuilder getUnsupported15OrBuilder() {
       if ((requestCase_ == 15) && (unsupported15Builder_ != null)) {
         return unsupported15Builder_.getMessageOrBuilder();
@@ -10385,11 +11132,13 @@ private static final long serialVersionUID = 0L;
       onChanged();;
       return unsupported15Builder_;
     }
+    @java.lang.Override
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return super.setUnknownFieldsProto3(unknownFields);
+      return super.setUnknownFields(unknownFields);
     }
 
+    @java.lang.Override
     public final Builder mergeUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
       return super.mergeUnknownFields(unknownFields);
@@ -10411,11 +11160,12 @@ private static final long serialVersionUID = 0L;
 
   private static final com.google.protobuf.Parser<SessionRequest>
       PARSER = new com.google.protobuf.AbstractParser<SessionRequest>() {
+    @java.lang.Override
     public SessionRequest parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new SessionRequest(input, extensionRegistry);
+      return new SessionRequest(input, extensionRegistry);
     }
   };
 
@@ -10428,6 +11178,7 @@ private static final long serialVersionUID = 0L;
     return PARSER;
   }
 
+  @java.lang.Override
   public tech.ydb.coordination.SessionRequest getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }

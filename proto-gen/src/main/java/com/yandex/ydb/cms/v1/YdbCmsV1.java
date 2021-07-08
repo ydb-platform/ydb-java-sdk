@@ -32,7 +32,7 @@ public final class YdbCmsV1 {
       "Request\032\".Ydb.Cms.GetDatabaseStatusRespo" +
       "nse\022N\n\rAlterDatabase\022\035.Ydb.Cms.AlterData" +
       "baseRequest\032\036.Ydb.Cms.AlterDatabaseRespo" +
-      "nse\022N\n\rListDatabases\022\035.Ydb.Cms.ListDatab",
+      "nse\022N\n\rListDatabases\022\035.Ydb.Cms.ListDatab" +
       "asesRequest\032\036.Ydb.Cms.ListDatabasesRespo" +
       "nse\022Q\n\016RemoveDatabase\022\036.Ydb.Cms.RemoveDa" +
       "tabaseRequest\032\037.Ydb.Cms.RemoveDatabaseRe" +
@@ -41,19 +41,11 @@ public final class YdbCmsV1 {
       ".Cms.DescribeDatabaseOptionsResponseB\027\n\025" +
       "tech.ydb.cms.v1b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.cms.YdbCms.getDescriptor(),
-        }, assigner);
+        });
     tech.ydb.cms.YdbCms.getDescriptor();
   }
 

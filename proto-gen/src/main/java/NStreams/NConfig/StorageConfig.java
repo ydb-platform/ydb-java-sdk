@@ -20,110 +20,166 @@ public final class StorageConfig {
 
     /**
      * <code>optional string Endpoint = 1;</code>
+     * @return Whether the endpoint field is set.
      */
     boolean hasEndpoint();
     /**
      * <code>optional string Endpoint = 1;</code>
+     * @return The endpoint.
      */
     java.lang.String getEndpoint();
     /**
      * <code>optional string Endpoint = 1;</code>
+     * @return The bytes for endpoint.
      */
     com.google.protobuf.ByteString
         getEndpointBytes();
 
     /**
      * <code>optional string Database = 2;</code>
+     * @return Whether the database field is set.
      */
     boolean hasDatabase();
     /**
      * <code>optional string Database = 2;</code>
+     * @return The database.
      */
     java.lang.String getDatabase();
     /**
      * <code>optional string Database = 2;</code>
+     * @return The bytes for database.
      */
     com.google.protobuf.ByteString
         getDatabaseBytes();
 
     /**
      * <code>optional string OAuthFile = 3;</code>
+     * @return Whether the oAuthFile field is set.
      */
     boolean hasOAuthFile();
     /**
      * <code>optional string OAuthFile = 3;</code>
+     * @return The oAuthFile.
      */
     java.lang.String getOAuthFile();
     /**
      * <code>optional string OAuthFile = 3;</code>
+     * @return The bytes for oAuthFile.
      */
     com.google.protobuf.ByteString
         getOAuthFileBytes();
 
     /**
      * <code>optional string TablePrefix = 4;</code>
+     * @return Whether the tablePrefix field is set.
      */
     boolean hasTablePrefix();
     /**
      * <code>optional string TablePrefix = 4;</code>
+     * @return The tablePrefix.
      */
     java.lang.String getTablePrefix();
     /**
      * <code>optional string TablePrefix = 4;</code>
+     * @return The bytes for tablePrefix.
      */
     com.google.protobuf.ByteString
         getTablePrefixBytes();
 
     /**
      * <code>optional string CertificateFile = 6;</code>
+     * @return Whether the certificateFile field is set.
      */
     boolean hasCertificateFile();
     /**
      * <code>optional string CertificateFile = 6;</code>
+     * @return The certificateFile.
      */
     java.lang.String getCertificateFile();
     /**
      * <code>optional string CertificateFile = 6;</code>
+     * @return The bytes for certificateFile.
      */
     com.google.protobuf.ByteString
         getCertificateFileBytes();
 
     /**
      * <code>optional string IamEndpoint = 7;</code>
+     * @return Whether the iamEndpoint field is set.
      */
     boolean hasIamEndpoint();
     /**
      * <code>optional string IamEndpoint = 7;</code>
+     * @return The iamEndpoint.
      */
     java.lang.String getIamEndpoint();
     /**
      * <code>optional string IamEndpoint = 7;</code>
+     * @return The bytes for iamEndpoint.
      */
     com.google.protobuf.ByteString
         getIamEndpointBytes();
 
     /**
      * <code>optional string SaKeyFile = 8;</code>
+     * @return Whether the saKeyFile field is set.
      */
     boolean hasSaKeyFile();
     /**
      * <code>optional string SaKeyFile = 8;</code>
+     * @return The saKeyFile.
      */
     java.lang.String getSaKeyFile();
     /**
      * <code>optional string SaKeyFile = 8;</code>
+     * @return The bytes for saKeyFile.
      */
     com.google.protobuf.ByteString
         getSaKeyFileBytes();
 
     /**
      * <code>optional bool UseLocalMetadataService = 9;</code>
+     * @return Whether the useLocalMetadataService field is set.
      */
     boolean hasUseLocalMetadataService();
     /**
      * <code>optional bool UseLocalMetadataService = 9;</code>
+     * @return The useLocalMetadataService.
      */
     boolean getUseLocalMetadataService();
+
+    /**
+     * <code>optional uint32 ClientTimeoutSec = 10 [default = 30];</code>
+     * @return Whether the clientTimeoutSec field is set.
+     */
+    boolean hasClientTimeoutSec();
+    /**
+     * <code>optional uint32 ClientTimeoutSec = 10 [default = 30];</code>
+     * @return The clientTimeoutSec.
+     */
+    int getClientTimeoutSec();
+
+    /**
+     * <code>optional uint32 OperationTimeoutSec = 11 [default = 30];</code>
+     * @return Whether the operationTimeoutSec field is set.
+     */
+    boolean hasOperationTimeoutSec();
+    /**
+     * <code>optional uint32 OperationTimeoutSec = 11 [default = 30];</code>
+     * @return The operationTimeoutSec.
+     */
+    int getOperationTimeoutSec();
+
+    /**
+     * <code>optional uint32 CancelAfterSec = 12 [default = 30];</code>
+     * @return Whether the cancelAfterSec field is set.
+     */
+    boolean hasCancelAfterSec();
+    /**
+     * <code>optional uint32 CancelAfterSec = 12 [default = 30];</code>
+     * @return The cancelAfterSec.
+     */
+    int getCancelAfterSec();
 
     /**
      * <pre>
@@ -131,6 +187,7 @@ public final class StorageConfig {
      * </pre>
      *
      * <code>optional string Token = 5;</code>
+     * @return Whether the token field is set.
      */
     boolean hasToken();
     /**
@@ -139,6 +196,7 @@ public final class StorageConfig {
      * </pre>
      *
      * <code>optional string Token = 5;</code>
+     * @return The token.
      */
     java.lang.String getToken();
     /**
@@ -147,6 +205,7 @@ public final class StorageConfig {
      * </pre>
      *
      * <code>optional string Token = 5;</code>
+     * @return The bytes for token.
      */
     com.google.protobuf.ByteString
         getTokenBytes();
@@ -154,7 +213,7 @@ public final class StorageConfig {
   /**
    * Protobuf type {@code NStreams.NConfig.TYdbStorageConfig}
    */
-  public  static final class TYdbStorageConfig extends
+  public static final class TYdbStorageConfig extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NStreams.NConfig.TYdbStorageConfig)
       TYdbStorageConfigOrBuilder {
@@ -171,8 +230,17 @@ public final class StorageConfig {
       certificateFile_ = "";
       iamEndpoint_ = "";
       saKeyFile_ = "";
-      useLocalMetadataService_ = false;
+      clientTimeoutSec_ = 30;
+      operationTimeoutSec_ = 30;
+      cancelAfterSec_ = 30;
       token_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TYdbStorageConfig();
     }
 
     @java.lang.Override
@@ -185,6 +253,9 @@ public final class StorageConfig {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -196,13 +267,6 @@ public final class StorageConfig {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
@@ -229,7 +293,7 @@ public final class StorageConfig {
             }
             case 42: {
               com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000100;
+              bitField0_ |= 0x00000800;
               token_ = bs;
               break;
             }
@@ -256,6 +320,28 @@ public final class StorageConfig {
               useLocalMetadataService_ = input.readBool();
               break;
             }
+            case 80: {
+              bitField0_ |= 0x00000100;
+              clientTimeoutSec_ = input.readUInt32();
+              break;
+            }
+            case 88: {
+              bitField0_ |= 0x00000200;
+              operationTimeoutSec_ = input.readUInt32();
+              break;
+            }
+            case 96: {
+              bitField0_ |= 0x00000400;
+              cancelAfterSec_ = input.readUInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -273,6 +359,7 @@ public final class StorageConfig {
       return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TYdbStorageConfig_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TYdbStorageConfig_fieldAccessorTable
@@ -285,13 +372,17 @@ public final class StorageConfig {
     private volatile java.lang.Object endpoint_;
     /**
      * <code>optional string Endpoint = 1;</code>
+     * @return Whether the endpoint field is set.
      */
+    @java.lang.Override
     public boolean hasEndpoint() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional string Endpoint = 1;</code>
+     * @return The endpoint.
      */
+    @java.lang.Override
     public java.lang.String getEndpoint() {
       java.lang.Object ref = endpoint_;
       if (ref instanceof java.lang.String) {
@@ -308,7 +399,9 @@ public final class StorageConfig {
     }
     /**
      * <code>optional string Endpoint = 1;</code>
+     * @return The bytes for endpoint.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getEndpointBytes() {
       java.lang.Object ref = endpoint_;
@@ -327,13 +420,17 @@ public final class StorageConfig {
     private volatile java.lang.Object database_;
     /**
      * <code>optional string Database = 2;</code>
+     * @return Whether the database field is set.
      */
+    @java.lang.Override
     public boolean hasDatabase() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional string Database = 2;</code>
+     * @return The database.
      */
+    @java.lang.Override
     public java.lang.String getDatabase() {
       java.lang.Object ref = database_;
       if (ref instanceof java.lang.String) {
@@ -350,7 +447,9 @@ public final class StorageConfig {
     }
     /**
      * <code>optional string Database = 2;</code>
+     * @return The bytes for database.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getDatabaseBytes() {
       java.lang.Object ref = database_;
@@ -369,13 +468,17 @@ public final class StorageConfig {
     private volatile java.lang.Object oAuthFile_;
     /**
      * <code>optional string OAuthFile = 3;</code>
+     * @return Whether the oAuthFile field is set.
      */
+    @java.lang.Override
     public boolean hasOAuthFile() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>optional string OAuthFile = 3;</code>
+     * @return The oAuthFile.
      */
+    @java.lang.Override
     public java.lang.String getOAuthFile() {
       java.lang.Object ref = oAuthFile_;
       if (ref instanceof java.lang.String) {
@@ -392,7 +495,9 @@ public final class StorageConfig {
     }
     /**
      * <code>optional string OAuthFile = 3;</code>
+     * @return The bytes for oAuthFile.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getOAuthFileBytes() {
       java.lang.Object ref = oAuthFile_;
@@ -411,13 +516,17 @@ public final class StorageConfig {
     private volatile java.lang.Object tablePrefix_;
     /**
      * <code>optional string TablePrefix = 4;</code>
+     * @return Whether the tablePrefix field is set.
      */
+    @java.lang.Override
     public boolean hasTablePrefix() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
      * <code>optional string TablePrefix = 4;</code>
+     * @return The tablePrefix.
      */
+    @java.lang.Override
     public java.lang.String getTablePrefix() {
       java.lang.Object ref = tablePrefix_;
       if (ref instanceof java.lang.String) {
@@ -434,7 +543,9 @@ public final class StorageConfig {
     }
     /**
      * <code>optional string TablePrefix = 4;</code>
+     * @return The bytes for tablePrefix.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTablePrefixBytes() {
       java.lang.Object ref = tablePrefix_;
@@ -453,13 +564,17 @@ public final class StorageConfig {
     private volatile java.lang.Object certificateFile_;
     /**
      * <code>optional string CertificateFile = 6;</code>
+     * @return Whether the certificateFile field is set.
      */
+    @java.lang.Override
     public boolean hasCertificateFile() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000010) != 0);
     }
     /**
      * <code>optional string CertificateFile = 6;</code>
+     * @return The certificateFile.
      */
+    @java.lang.Override
     public java.lang.String getCertificateFile() {
       java.lang.Object ref = certificateFile_;
       if (ref instanceof java.lang.String) {
@@ -476,7 +591,9 @@ public final class StorageConfig {
     }
     /**
      * <code>optional string CertificateFile = 6;</code>
+     * @return The bytes for certificateFile.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getCertificateFileBytes() {
       java.lang.Object ref = certificateFile_;
@@ -495,13 +612,17 @@ public final class StorageConfig {
     private volatile java.lang.Object iamEndpoint_;
     /**
      * <code>optional string IamEndpoint = 7;</code>
+     * @return Whether the iamEndpoint field is set.
      */
+    @java.lang.Override
     public boolean hasIamEndpoint() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000020) != 0);
     }
     /**
      * <code>optional string IamEndpoint = 7;</code>
+     * @return The iamEndpoint.
      */
+    @java.lang.Override
     public java.lang.String getIamEndpoint() {
       java.lang.Object ref = iamEndpoint_;
       if (ref instanceof java.lang.String) {
@@ -518,7 +639,9 @@ public final class StorageConfig {
     }
     /**
      * <code>optional string IamEndpoint = 7;</code>
+     * @return The bytes for iamEndpoint.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIamEndpointBytes() {
       java.lang.Object ref = iamEndpoint_;
@@ -537,13 +660,17 @@ public final class StorageConfig {
     private volatile java.lang.Object saKeyFile_;
     /**
      * <code>optional string SaKeyFile = 8;</code>
+     * @return Whether the saKeyFile field is set.
      */
+    @java.lang.Override
     public boolean hasSaKeyFile() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000040) != 0);
     }
     /**
      * <code>optional string SaKeyFile = 8;</code>
+     * @return The saKeyFile.
      */
+    @java.lang.Override
     public java.lang.String getSaKeyFile() {
       java.lang.Object ref = saKeyFile_;
       if (ref instanceof java.lang.String) {
@@ -560,7 +687,9 @@ public final class StorageConfig {
     }
     /**
      * <code>optional string SaKeyFile = 8;</code>
+     * @return The bytes for saKeyFile.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getSaKeyFileBytes() {
       java.lang.Object ref = saKeyFile_;
@@ -579,15 +708,76 @@ public final class StorageConfig {
     private boolean useLocalMetadataService_;
     /**
      * <code>optional bool UseLocalMetadataService = 9;</code>
+     * @return Whether the useLocalMetadataService field is set.
      */
+    @java.lang.Override
     public boolean hasUseLocalMetadataService() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
+      return ((bitField0_ & 0x00000080) != 0);
     }
     /**
      * <code>optional bool UseLocalMetadataService = 9;</code>
+     * @return The useLocalMetadataService.
      */
+    @java.lang.Override
     public boolean getUseLocalMetadataService() {
       return useLocalMetadataService_;
+    }
+
+    public static final int CLIENTTIMEOUTSEC_FIELD_NUMBER = 10;
+    private int clientTimeoutSec_;
+    /**
+     * <code>optional uint32 ClientTimeoutSec = 10 [default = 30];</code>
+     * @return Whether the clientTimeoutSec field is set.
+     */
+    @java.lang.Override
+    public boolean hasClientTimeoutSec() {
+      return ((bitField0_ & 0x00000100) != 0);
+    }
+    /**
+     * <code>optional uint32 ClientTimeoutSec = 10 [default = 30];</code>
+     * @return The clientTimeoutSec.
+     */
+    @java.lang.Override
+    public int getClientTimeoutSec() {
+      return clientTimeoutSec_;
+    }
+
+    public static final int OPERATIONTIMEOUTSEC_FIELD_NUMBER = 11;
+    private int operationTimeoutSec_;
+    /**
+     * <code>optional uint32 OperationTimeoutSec = 11 [default = 30];</code>
+     * @return Whether the operationTimeoutSec field is set.
+     */
+    @java.lang.Override
+    public boolean hasOperationTimeoutSec() {
+      return ((bitField0_ & 0x00000200) != 0);
+    }
+    /**
+     * <code>optional uint32 OperationTimeoutSec = 11 [default = 30];</code>
+     * @return The operationTimeoutSec.
+     */
+    @java.lang.Override
+    public int getOperationTimeoutSec() {
+      return operationTimeoutSec_;
+    }
+
+    public static final int CANCELAFTERSEC_FIELD_NUMBER = 12;
+    private int cancelAfterSec_;
+    /**
+     * <code>optional uint32 CancelAfterSec = 12 [default = 30];</code>
+     * @return Whether the cancelAfterSec field is set.
+     */
+    @java.lang.Override
+    public boolean hasCancelAfterSec() {
+      return ((bitField0_ & 0x00000400) != 0);
+    }
+    /**
+     * <code>optional uint32 CancelAfterSec = 12 [default = 30];</code>
+     * @return The cancelAfterSec.
+     */
+    @java.lang.Override
+    public int getCancelAfterSec() {
+      return cancelAfterSec_;
     }
 
     public static final int TOKEN_FIELD_NUMBER = 5;
@@ -598,9 +788,11 @@ public final class StorageConfig {
      * </pre>
      *
      * <code>optional string Token = 5;</code>
+     * @return Whether the token field is set.
      */
+    @java.lang.Override
     public boolean hasToken() {
-      return ((bitField0_ & 0x00000100) == 0x00000100);
+      return ((bitField0_ & 0x00000800) != 0);
     }
     /**
      * <pre>
@@ -608,7 +800,9 @@ public final class StorageConfig {
      * </pre>
      *
      * <code>optional string Token = 5;</code>
+     * @return The token.
      */
+    @java.lang.Override
     public java.lang.String getToken() {
       java.lang.Object ref = token_;
       if (ref instanceof java.lang.String) {
@@ -629,7 +823,9 @@ public final class StorageConfig {
      * </pre>
      *
      * <code>optional string Token = 5;</code>
+     * @return The bytes for token.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTokenBytes() {
       java.lang.Object ref = token_;
@@ -645,6 +841,7 @@ public final class StorageConfig {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -654,70 +851,93 @@ public final class StorageConfig {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, endpoint_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, database_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, oAuthFile_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, tablePrefix_);
       }
-      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      if (((bitField0_ & 0x00000800) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 5, token_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, certificateFile_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 7, iamEndpoint_);
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((bitField0_ & 0x00000040) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 8, saKeyFile_);
       }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      if (((bitField0_ & 0x00000080) != 0)) {
         output.writeBool(9, useLocalMetadataService_);
+      }
+      if (((bitField0_ & 0x00000100) != 0)) {
+        output.writeUInt32(10, clientTimeoutSec_);
+      }
+      if (((bitField0_ & 0x00000200) != 0)) {
+        output.writeUInt32(11, operationTimeoutSec_);
+      }
+      if (((bitField0_ & 0x00000400) != 0)) {
+        output.writeUInt32(12, cancelAfterSec_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, endpoint_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, database_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, oAuthFile_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, tablePrefix_);
       }
-      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      if (((bitField0_ & 0x00000800) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, token_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, certificateFile_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, iamEndpoint_);
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((bitField0_ & 0x00000040) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, saKeyFile_);
       }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      if (((bitField0_ & 0x00000080) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(9, useLocalMetadataService_);
+      }
+      if (((bitField0_ & 0x00000100) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(10, clientTimeoutSec_);
+      }
+      if (((bitField0_ & 0x00000200) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(11, operationTimeoutSec_);
+      }
+      if (((bitField0_ & 0x00000400) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(12, cancelAfterSec_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -734,54 +954,68 @@ public final class StorageConfig {
       }
       NStreams.NConfig.StorageConfig.TYdbStorageConfig other = (NStreams.NConfig.StorageConfig.TYdbStorageConfig) obj;
 
-      boolean result = true;
-      result = result && (hasEndpoint() == other.hasEndpoint());
+      if (hasEndpoint() != other.hasEndpoint()) return false;
       if (hasEndpoint()) {
-        result = result && getEndpoint()
-            .equals(other.getEndpoint());
+        if (!getEndpoint()
+            .equals(other.getEndpoint())) return false;
       }
-      result = result && (hasDatabase() == other.hasDatabase());
+      if (hasDatabase() != other.hasDatabase()) return false;
       if (hasDatabase()) {
-        result = result && getDatabase()
-            .equals(other.getDatabase());
+        if (!getDatabase()
+            .equals(other.getDatabase())) return false;
       }
-      result = result && (hasOAuthFile() == other.hasOAuthFile());
+      if (hasOAuthFile() != other.hasOAuthFile()) return false;
       if (hasOAuthFile()) {
-        result = result && getOAuthFile()
-            .equals(other.getOAuthFile());
+        if (!getOAuthFile()
+            .equals(other.getOAuthFile())) return false;
       }
-      result = result && (hasTablePrefix() == other.hasTablePrefix());
+      if (hasTablePrefix() != other.hasTablePrefix()) return false;
       if (hasTablePrefix()) {
-        result = result && getTablePrefix()
-            .equals(other.getTablePrefix());
+        if (!getTablePrefix()
+            .equals(other.getTablePrefix())) return false;
       }
-      result = result && (hasCertificateFile() == other.hasCertificateFile());
+      if (hasCertificateFile() != other.hasCertificateFile()) return false;
       if (hasCertificateFile()) {
-        result = result && getCertificateFile()
-            .equals(other.getCertificateFile());
+        if (!getCertificateFile()
+            .equals(other.getCertificateFile())) return false;
       }
-      result = result && (hasIamEndpoint() == other.hasIamEndpoint());
+      if (hasIamEndpoint() != other.hasIamEndpoint()) return false;
       if (hasIamEndpoint()) {
-        result = result && getIamEndpoint()
-            .equals(other.getIamEndpoint());
+        if (!getIamEndpoint()
+            .equals(other.getIamEndpoint())) return false;
       }
-      result = result && (hasSaKeyFile() == other.hasSaKeyFile());
+      if (hasSaKeyFile() != other.hasSaKeyFile()) return false;
       if (hasSaKeyFile()) {
-        result = result && getSaKeyFile()
-            .equals(other.getSaKeyFile());
+        if (!getSaKeyFile()
+            .equals(other.getSaKeyFile())) return false;
       }
-      result = result && (hasUseLocalMetadataService() == other.hasUseLocalMetadataService());
+      if (hasUseLocalMetadataService() != other.hasUseLocalMetadataService()) return false;
       if (hasUseLocalMetadataService()) {
-        result = result && (getUseLocalMetadataService()
-            == other.getUseLocalMetadataService());
+        if (getUseLocalMetadataService()
+            != other.getUseLocalMetadataService()) return false;
       }
-      result = result && (hasToken() == other.hasToken());
+      if (hasClientTimeoutSec() != other.hasClientTimeoutSec()) return false;
+      if (hasClientTimeoutSec()) {
+        if (getClientTimeoutSec()
+            != other.getClientTimeoutSec()) return false;
+      }
+      if (hasOperationTimeoutSec() != other.hasOperationTimeoutSec()) return false;
+      if (hasOperationTimeoutSec()) {
+        if (getOperationTimeoutSec()
+            != other.getOperationTimeoutSec()) return false;
+      }
+      if (hasCancelAfterSec() != other.hasCancelAfterSec()) return false;
+      if (hasCancelAfterSec()) {
+        if (getCancelAfterSec()
+            != other.getCancelAfterSec()) return false;
+      }
+      if (hasToken() != other.hasToken()) return false;
       if (hasToken()) {
-        result = result && getToken()
-            .equals(other.getToken());
+        if (!getToken()
+            .equals(other.getToken())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -823,6 +1057,18 @@ public final class StorageConfig {
         hash = (37 * hash) + USELOCALMETADATASERVICE_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
             getUseLocalMetadataService());
+      }
+      if (hasClientTimeoutSec()) {
+        hash = (37 * hash) + CLIENTTIMEOUTSEC_FIELD_NUMBER;
+        hash = (53 * hash) + getClientTimeoutSec();
+      }
+      if (hasOperationTimeoutSec()) {
+        hash = (37 * hash) + OPERATIONTIMEOUTSEC_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationTimeoutSec();
+      }
+      if (hasCancelAfterSec()) {
+        hash = (37 * hash) + CANCELAFTERSEC_FIELD_NUMBER;
+        hash = (53 * hash) + getCancelAfterSec();
       }
       if (hasToken()) {
         hash = (37 * hash) + TOKEN_FIELD_NUMBER;
@@ -903,6 +1149,7 @@ public final class StorageConfig {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -910,6 +1157,7 @@ public final class StorageConfig {
     public static Builder newBuilder(NStreams.NConfig.StorageConfig.TYdbStorageConfig prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -933,6 +1181,7 @@ public final class StorageConfig {
         return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TYdbStorageConfig_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TYdbStorageConfig_fieldAccessorTable
@@ -955,6 +1204,7 @@ public final class StorageConfig {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         endpoint_ = "";
@@ -973,20 +1223,29 @@ public final class StorageConfig {
         bitField0_ = (bitField0_ & ~0x00000040);
         useLocalMetadataService_ = false;
         bitField0_ = (bitField0_ & ~0x00000080);
-        token_ = "";
+        clientTimeoutSec_ = 30;
         bitField0_ = (bitField0_ & ~0x00000100);
+        operationTimeoutSec_ = 30;
+        bitField0_ = (bitField0_ & ~0x00000200);
+        cancelAfterSec_ = 30;
+        bitField0_ = (bitField0_ & ~0x00000400);
+        token_ = "";
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TYdbStorageConfig_descriptor;
       }
 
+      @java.lang.Override
       public NStreams.NConfig.StorageConfig.TYdbStorageConfig getDefaultInstanceForType() {
         return NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance();
       }
 
+      @java.lang.Override
       public NStreams.NConfig.StorageConfig.TYdbStorageConfig build() {
         NStreams.NConfig.StorageConfig.TYdbStorageConfig result = buildPartial();
         if (!result.isInitialized()) {
@@ -995,44 +1254,57 @@ public final class StorageConfig {
         return result;
       }
 
+      @java.lang.Override
       public NStreams.NConfig.StorageConfig.TYdbStorageConfig buildPartial() {
         NStreams.NConfig.StorageConfig.TYdbStorageConfig result = new NStreams.NConfig.StorageConfig.TYdbStorageConfig(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.endpoint_ = endpoint_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
         result.database_ = database_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
           to_bitField0_ |= 0x00000004;
         }
         result.oAuthFile_ = oAuthFile_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((from_bitField0_ & 0x00000008) != 0)) {
           to_bitField0_ |= 0x00000008;
         }
         result.tablePrefix_ = tablePrefix_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((from_bitField0_ & 0x00000010) != 0)) {
           to_bitField0_ |= 0x00000010;
         }
         result.certificateFile_ = certificateFile_;
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((from_bitField0_ & 0x00000020) != 0)) {
           to_bitField0_ |= 0x00000020;
         }
         result.iamEndpoint_ = iamEndpoint_;
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((from_bitField0_ & 0x00000040) != 0)) {
           to_bitField0_ |= 0x00000040;
         }
         result.saKeyFile_ = saKeyFile_;
-        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+        if (((from_bitField0_ & 0x00000080) != 0)) {
+          result.useLocalMetadataService_ = useLocalMetadataService_;
           to_bitField0_ |= 0x00000080;
         }
-        result.useLocalMetadataService_ = useLocalMetadataService_;
-        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+        if (((from_bitField0_ & 0x00000100) != 0)) {
           to_bitField0_ |= 0x00000100;
+        }
+        result.clientTimeoutSec_ = clientTimeoutSec_;
+        if (((from_bitField0_ & 0x00000200) != 0)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.operationTimeoutSec_ = operationTimeoutSec_;
+        if (((from_bitField0_ & 0x00000400) != 0)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.cancelAfterSec_ = cancelAfterSec_;
+        if (((from_bitField0_ & 0x00000800) != 0)) {
+          to_bitField0_ |= 0x00000800;
         }
         result.token_ = token_;
         result.bitField0_ = to_bitField0_;
@@ -1040,32 +1312,39 @@ public final class StorageConfig {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof NStreams.NConfig.StorageConfig.TYdbStorageConfig) {
           return mergeFrom((NStreams.NConfig.StorageConfig.TYdbStorageConfig)other);
@@ -1115,8 +1394,17 @@ public final class StorageConfig {
         if (other.hasUseLocalMetadataService()) {
           setUseLocalMetadataService(other.getUseLocalMetadataService());
         }
+        if (other.hasClientTimeoutSec()) {
+          setClientTimeoutSec(other.getClientTimeoutSec());
+        }
+        if (other.hasOperationTimeoutSec()) {
+          setOperationTimeoutSec(other.getOperationTimeoutSec());
+        }
+        if (other.hasCancelAfterSec()) {
+          setCancelAfterSec(other.getCancelAfterSec());
+        }
         if (other.hasToken()) {
-          bitField0_ |= 0x00000100;
+          bitField0_ |= 0x00000800;
           token_ = other.token_;
           onChanged();
         }
@@ -1125,10 +1413,12 @@ public final class StorageConfig {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1151,12 +1441,14 @@ public final class StorageConfig {
       private java.lang.Object endpoint_ = "";
       /**
        * <code>optional string Endpoint = 1;</code>
+       * @return Whether the endpoint field is set.
        */
       public boolean hasEndpoint() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional string Endpoint = 1;</code>
+       * @return The endpoint.
        */
       public java.lang.String getEndpoint() {
         java.lang.Object ref = endpoint_;
@@ -1174,6 +1466,7 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string Endpoint = 1;</code>
+       * @return The bytes for endpoint.
        */
       public com.google.protobuf.ByteString
           getEndpointBytes() {
@@ -1190,6 +1483,8 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string Endpoint = 1;</code>
+       * @param value The endpoint to set.
+       * @return This builder for chaining.
        */
       public Builder setEndpoint(
           java.lang.String value) {
@@ -1203,6 +1498,7 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string Endpoint = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearEndpoint() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -1212,6 +1508,8 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string Endpoint = 1;</code>
+       * @param value The bytes for endpoint to set.
+       * @return This builder for chaining.
        */
       public Builder setEndpointBytes(
           com.google.protobuf.ByteString value) {
@@ -1227,12 +1525,14 @@ public final class StorageConfig {
       private java.lang.Object database_ = "";
       /**
        * <code>optional string Database = 2;</code>
+       * @return Whether the database field is set.
        */
       public boolean hasDatabase() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional string Database = 2;</code>
+       * @return The database.
        */
       public java.lang.String getDatabase() {
         java.lang.Object ref = database_;
@@ -1250,6 +1550,7 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string Database = 2;</code>
+       * @return The bytes for database.
        */
       public com.google.protobuf.ByteString
           getDatabaseBytes() {
@@ -1266,6 +1567,8 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string Database = 2;</code>
+       * @param value The database to set.
+       * @return This builder for chaining.
        */
       public Builder setDatabase(
           java.lang.String value) {
@@ -1279,6 +1582,7 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string Database = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDatabase() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -1288,6 +1592,8 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string Database = 2;</code>
+       * @param value The bytes for database to set.
+       * @return This builder for chaining.
        */
       public Builder setDatabaseBytes(
           com.google.protobuf.ByteString value) {
@@ -1303,12 +1609,14 @@ public final class StorageConfig {
       private java.lang.Object oAuthFile_ = "";
       /**
        * <code>optional string OAuthFile = 3;</code>
+       * @return Whether the oAuthFile field is set.
        */
       public boolean hasOAuthFile() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>optional string OAuthFile = 3;</code>
+       * @return The oAuthFile.
        */
       public java.lang.String getOAuthFile() {
         java.lang.Object ref = oAuthFile_;
@@ -1326,6 +1634,7 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string OAuthFile = 3;</code>
+       * @return The bytes for oAuthFile.
        */
       public com.google.protobuf.ByteString
           getOAuthFileBytes() {
@@ -1342,6 +1651,8 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string OAuthFile = 3;</code>
+       * @param value The oAuthFile to set.
+       * @return This builder for chaining.
        */
       public Builder setOAuthFile(
           java.lang.String value) {
@@ -1355,6 +1666,7 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string OAuthFile = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearOAuthFile() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -1364,6 +1676,8 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string OAuthFile = 3;</code>
+       * @param value The bytes for oAuthFile to set.
+       * @return This builder for chaining.
        */
       public Builder setOAuthFileBytes(
           com.google.protobuf.ByteString value) {
@@ -1379,12 +1693,14 @@ public final class StorageConfig {
       private java.lang.Object tablePrefix_ = "";
       /**
        * <code>optional string TablePrefix = 4;</code>
+       * @return Whether the tablePrefix field is set.
        */
       public boolean hasTablePrefix() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <code>optional string TablePrefix = 4;</code>
+       * @return The tablePrefix.
        */
       public java.lang.String getTablePrefix() {
         java.lang.Object ref = tablePrefix_;
@@ -1402,6 +1718,7 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string TablePrefix = 4;</code>
+       * @return The bytes for tablePrefix.
        */
       public com.google.protobuf.ByteString
           getTablePrefixBytes() {
@@ -1418,6 +1735,8 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string TablePrefix = 4;</code>
+       * @param value The tablePrefix to set.
+       * @return This builder for chaining.
        */
       public Builder setTablePrefix(
           java.lang.String value) {
@@ -1431,6 +1750,7 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string TablePrefix = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTablePrefix() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -1440,6 +1760,8 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string TablePrefix = 4;</code>
+       * @param value The bytes for tablePrefix to set.
+       * @return This builder for chaining.
        */
       public Builder setTablePrefixBytes(
           com.google.protobuf.ByteString value) {
@@ -1455,12 +1777,14 @@ public final class StorageConfig {
       private java.lang.Object certificateFile_ = "";
       /**
        * <code>optional string CertificateFile = 6;</code>
+       * @return Whether the certificateFile field is set.
        */
       public boolean hasCertificateFile() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
        * <code>optional string CertificateFile = 6;</code>
+       * @return The certificateFile.
        */
       public java.lang.String getCertificateFile() {
         java.lang.Object ref = certificateFile_;
@@ -1478,6 +1802,7 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string CertificateFile = 6;</code>
+       * @return The bytes for certificateFile.
        */
       public com.google.protobuf.ByteString
           getCertificateFileBytes() {
@@ -1494,6 +1819,8 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string CertificateFile = 6;</code>
+       * @param value The certificateFile to set.
+       * @return This builder for chaining.
        */
       public Builder setCertificateFile(
           java.lang.String value) {
@@ -1507,6 +1834,7 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string CertificateFile = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCertificateFile() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -1516,6 +1844,8 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string CertificateFile = 6;</code>
+       * @param value The bytes for certificateFile to set.
+       * @return This builder for chaining.
        */
       public Builder setCertificateFileBytes(
           com.google.protobuf.ByteString value) {
@@ -1531,12 +1861,14 @@ public final class StorageConfig {
       private java.lang.Object iamEndpoint_ = "";
       /**
        * <code>optional string IamEndpoint = 7;</code>
+       * @return Whether the iamEndpoint field is set.
        */
       public boolean hasIamEndpoint() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000020) != 0);
       }
       /**
        * <code>optional string IamEndpoint = 7;</code>
+       * @return The iamEndpoint.
        */
       public java.lang.String getIamEndpoint() {
         java.lang.Object ref = iamEndpoint_;
@@ -1554,6 +1886,7 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string IamEndpoint = 7;</code>
+       * @return The bytes for iamEndpoint.
        */
       public com.google.protobuf.ByteString
           getIamEndpointBytes() {
@@ -1570,6 +1903,8 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string IamEndpoint = 7;</code>
+       * @param value The iamEndpoint to set.
+       * @return This builder for chaining.
        */
       public Builder setIamEndpoint(
           java.lang.String value) {
@@ -1583,6 +1918,7 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string IamEndpoint = 7;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIamEndpoint() {
         bitField0_ = (bitField0_ & ~0x00000020);
@@ -1592,6 +1928,8 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string IamEndpoint = 7;</code>
+       * @param value The bytes for iamEndpoint to set.
+       * @return This builder for chaining.
        */
       public Builder setIamEndpointBytes(
           com.google.protobuf.ByteString value) {
@@ -1607,12 +1945,14 @@ public final class StorageConfig {
       private java.lang.Object saKeyFile_ = "";
       /**
        * <code>optional string SaKeyFile = 8;</code>
+       * @return Whether the saKeyFile field is set.
        */
       public boolean hasSaKeyFile() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000040) != 0);
       }
       /**
        * <code>optional string SaKeyFile = 8;</code>
+       * @return The saKeyFile.
        */
       public java.lang.String getSaKeyFile() {
         java.lang.Object ref = saKeyFile_;
@@ -1630,6 +1970,7 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string SaKeyFile = 8;</code>
+       * @return The bytes for saKeyFile.
        */
       public com.google.protobuf.ByteString
           getSaKeyFileBytes() {
@@ -1646,6 +1987,8 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string SaKeyFile = 8;</code>
+       * @param value The saKeyFile to set.
+       * @return This builder for chaining.
        */
       public Builder setSaKeyFile(
           java.lang.String value) {
@@ -1659,6 +2002,7 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string SaKeyFile = 8;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSaKeyFile() {
         bitField0_ = (bitField0_ & ~0x00000040);
@@ -1668,6 +2012,8 @@ public final class StorageConfig {
       }
       /**
        * <code>optional string SaKeyFile = 8;</code>
+       * @param value The bytes for saKeyFile to set.
+       * @return This builder for chaining.
        */
       public Builder setSaKeyFileBytes(
           com.google.protobuf.ByteString value) {
@@ -1683,18 +2029,24 @@ public final class StorageConfig {
       private boolean useLocalMetadataService_ ;
       /**
        * <code>optional bool UseLocalMetadataService = 9;</code>
+       * @return Whether the useLocalMetadataService field is set.
        */
+      @java.lang.Override
       public boolean hasUseLocalMetadataService() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000080) != 0);
       }
       /**
        * <code>optional bool UseLocalMetadataService = 9;</code>
+       * @return The useLocalMetadataService.
        */
+      @java.lang.Override
       public boolean getUseLocalMetadataService() {
         return useLocalMetadataService_;
       }
       /**
        * <code>optional bool UseLocalMetadataService = 9;</code>
+       * @param value The useLocalMetadataService to set.
+       * @return This builder for chaining.
        */
       public Builder setUseLocalMetadataService(boolean value) {
         bitField0_ |= 0x00000080;
@@ -1704,10 +2056,128 @@ public final class StorageConfig {
       }
       /**
        * <code>optional bool UseLocalMetadataService = 9;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUseLocalMetadataService() {
         bitField0_ = (bitField0_ & ~0x00000080);
         useLocalMetadataService_ = false;
+        onChanged();
+        return this;
+      }
+
+      private int clientTimeoutSec_ = 30;
+      /**
+       * <code>optional uint32 ClientTimeoutSec = 10 [default = 30];</code>
+       * @return Whether the clientTimeoutSec field is set.
+       */
+      @java.lang.Override
+      public boolean hasClientTimeoutSec() {
+        return ((bitField0_ & 0x00000100) != 0);
+      }
+      /**
+       * <code>optional uint32 ClientTimeoutSec = 10 [default = 30];</code>
+       * @return The clientTimeoutSec.
+       */
+      @java.lang.Override
+      public int getClientTimeoutSec() {
+        return clientTimeoutSec_;
+      }
+      /**
+       * <code>optional uint32 ClientTimeoutSec = 10 [default = 30];</code>
+       * @param value The clientTimeoutSec to set.
+       * @return This builder for chaining.
+       */
+      public Builder setClientTimeoutSec(int value) {
+        bitField0_ |= 0x00000100;
+        clientTimeoutSec_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 ClientTimeoutSec = 10 [default = 30];</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearClientTimeoutSec() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        clientTimeoutSec_ = 30;
+        onChanged();
+        return this;
+      }
+
+      private int operationTimeoutSec_ = 30;
+      /**
+       * <code>optional uint32 OperationTimeoutSec = 11 [default = 30];</code>
+       * @return Whether the operationTimeoutSec field is set.
+       */
+      @java.lang.Override
+      public boolean hasOperationTimeoutSec() {
+        return ((bitField0_ & 0x00000200) != 0);
+      }
+      /**
+       * <code>optional uint32 OperationTimeoutSec = 11 [default = 30];</code>
+       * @return The operationTimeoutSec.
+       */
+      @java.lang.Override
+      public int getOperationTimeoutSec() {
+        return operationTimeoutSec_;
+      }
+      /**
+       * <code>optional uint32 OperationTimeoutSec = 11 [default = 30];</code>
+       * @param value The operationTimeoutSec to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOperationTimeoutSec(int value) {
+        bitField0_ |= 0x00000200;
+        operationTimeoutSec_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 OperationTimeoutSec = 11 [default = 30];</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearOperationTimeoutSec() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        operationTimeoutSec_ = 30;
+        onChanged();
+        return this;
+      }
+
+      private int cancelAfterSec_ = 30;
+      /**
+       * <code>optional uint32 CancelAfterSec = 12 [default = 30];</code>
+       * @return Whether the cancelAfterSec field is set.
+       */
+      @java.lang.Override
+      public boolean hasCancelAfterSec() {
+        return ((bitField0_ & 0x00000400) != 0);
+      }
+      /**
+       * <code>optional uint32 CancelAfterSec = 12 [default = 30];</code>
+       * @return The cancelAfterSec.
+       */
+      @java.lang.Override
+      public int getCancelAfterSec() {
+        return cancelAfterSec_;
+      }
+      /**
+       * <code>optional uint32 CancelAfterSec = 12 [default = 30];</code>
+       * @param value The cancelAfterSec to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCancelAfterSec(int value) {
+        bitField0_ |= 0x00000400;
+        cancelAfterSec_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 CancelAfterSec = 12 [default = 30];</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCancelAfterSec() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        cancelAfterSec_ = 30;
         onChanged();
         return this;
       }
@@ -1719,9 +2189,10 @@ public final class StorageConfig {
        * </pre>
        *
        * <code>optional string Token = 5;</code>
+       * @return Whether the token field is set.
        */
       public boolean hasToken() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
+        return ((bitField0_ & 0x00000800) != 0);
       }
       /**
        * <pre>
@@ -1729,6 +2200,7 @@ public final class StorageConfig {
        * </pre>
        *
        * <code>optional string Token = 5;</code>
+       * @return The token.
        */
       public java.lang.String getToken() {
         java.lang.Object ref = token_;
@@ -1750,6 +2222,7 @@ public final class StorageConfig {
        * </pre>
        *
        * <code>optional string Token = 5;</code>
+       * @return The bytes for token.
        */
       public com.google.protobuf.ByteString
           getTokenBytes() {
@@ -1770,13 +2243,15 @@ public final class StorageConfig {
        * </pre>
        *
        * <code>optional string Token = 5;</code>
+       * @param value The token to set.
+       * @return This builder for chaining.
        */
       public Builder setToken(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000100;
+  bitField0_ |= 0x00000800;
         token_ = value;
         onChanged();
         return this;
@@ -1787,9 +2262,10 @@ public final class StorageConfig {
        * </pre>
        *
        * <code>optional string Token = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearToken() {
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000800);
         token_ = getDefaultInstance().getToken();
         onChanged();
         return this;
@@ -1800,22 +2276,26 @@ public final class StorageConfig {
        * </pre>
        *
        * <code>optional string Token = 5;</code>
+       * @param value The bytes for token to set.
+       * @return This builder for chaining.
        */
       public Builder setTokenBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000100;
+  bitField0_ |= 0x00000800;
         token_ = value;
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1837,11 +2317,12 @@ public final class StorageConfig {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<TYdbStorageConfig>
         PARSER = new com.google.protobuf.AbstractParser<TYdbStorageConfig>() {
+      @java.lang.Override
       public TYdbStorageConfig parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TYdbStorageConfig(input, extensionRegistry);
+        return new TYdbStorageConfig(input, extensionRegistry);
       }
     };
 
@@ -1854,6 +2335,7 @@ public final class StorageConfig {
       return PARSER;
     }
 
+    @java.lang.Override
     public NStreams.NConfig.StorageConfig.TYdbStorageConfig getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1870,6 +2352,7 @@ public final class StorageConfig {
      * </pre>
      *
      * <code>optional uint64 MaxGraphCheckpointsSizeBytes = 1 [default = 1099511627776];</code>
+     * @return Whether the maxGraphCheckpointsSizeBytes field is set.
      */
     boolean hasMaxGraphCheckpointsSizeBytes();
     /**
@@ -1878,6 +2361,7 @@ public final class StorageConfig {
      * </pre>
      *
      * <code>optional uint64 MaxGraphCheckpointsSizeBytes = 1 [default = 1099511627776];</code>
+     * @return The maxGraphCheckpointsSizeBytes.
      */
     long getMaxGraphCheckpointsSizeBytes();
 
@@ -1887,6 +2371,7 @@ public final class StorageConfig {
      * </pre>
      *
      * <code>optional uint64 MaxCheckpointSizeBytes = 2 [default = 3298534883328];</code>
+     * @return Whether the maxCheckpointSizeBytes field is set.
      */
     boolean hasMaxCheckpointSizeBytes();
     /**
@@ -1895,13 +2380,14 @@ public final class StorageConfig {
      * </pre>
      *
      * <code>optional uint64 MaxCheckpointSizeBytes = 2 [default = 3298534883328];</code>
+     * @return The maxCheckpointSizeBytes.
      */
     long getMaxCheckpointSizeBytes();
   }
   /**
    * Protobuf type {@code NStreams.NConfig.TStateStorageLimits}
    */
-  public  static final class TStateStorageLimits extends
+  public static final class TStateStorageLimits extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NStreams.NConfig.TStateStorageLimits)
       TStateStorageLimitsOrBuilder {
@@ -1916,6 +2402,13 @@ public final class StorageConfig {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TStateStorageLimits();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -1925,6 +2418,9 @@ public final class StorageConfig {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -1936,13 +2432,6 @@ public final class StorageConfig {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               bitField0_ |= 0x00000001;
               maxGraphCheckpointsSizeBytes_ = input.readUInt64();
@@ -1951,6 +2440,13 @@ public final class StorageConfig {
             case 16: {
               bitField0_ |= 0x00000002;
               maxCheckpointSizeBytes_ = input.readUInt64();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -1970,6 +2466,7 @@ public final class StorageConfig {
       return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TStateStorageLimits_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TStateStorageLimits_fieldAccessorTable
@@ -1986,9 +2483,11 @@ public final class StorageConfig {
      * </pre>
      *
      * <code>optional uint64 MaxGraphCheckpointsSizeBytes = 1 [default = 1099511627776];</code>
+     * @return Whether the maxGraphCheckpointsSizeBytes field is set.
      */
+    @java.lang.Override
     public boolean hasMaxGraphCheckpointsSizeBytes() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <pre>
@@ -1996,7 +2495,9 @@ public final class StorageConfig {
      * </pre>
      *
      * <code>optional uint64 MaxGraphCheckpointsSizeBytes = 1 [default = 1099511627776];</code>
+     * @return The maxGraphCheckpointsSizeBytes.
      */
+    @java.lang.Override
     public long getMaxGraphCheckpointsSizeBytes() {
       return maxGraphCheckpointsSizeBytes_;
     }
@@ -2009,9 +2510,11 @@ public final class StorageConfig {
      * </pre>
      *
      * <code>optional uint64 MaxCheckpointSizeBytes = 2 [default = 3298534883328];</code>
+     * @return Whether the maxCheckpointSizeBytes field is set.
      */
+    @java.lang.Override
     public boolean hasMaxCheckpointSizeBytes() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <pre>
@@ -2019,12 +2522,15 @@ public final class StorageConfig {
      * </pre>
      *
      * <code>optional uint64 MaxCheckpointSizeBytes = 2 [default = 3298534883328];</code>
+     * @return The maxCheckpointSizeBytes.
      */
+    @java.lang.Override
     public long getMaxCheckpointSizeBytes() {
       return maxCheckpointSizeBytes_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2034,27 +2540,29 @@ public final class StorageConfig {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeUInt64(1, maxGraphCheckpointsSizeBytes_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeUInt64(2, maxCheckpointSizeBytes_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(1, maxGraphCheckpointsSizeBytes_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(2, maxCheckpointSizeBytes_);
       }
@@ -2073,19 +2581,18 @@ public final class StorageConfig {
       }
       NStreams.NConfig.StorageConfig.TStateStorageLimits other = (NStreams.NConfig.StorageConfig.TStateStorageLimits) obj;
 
-      boolean result = true;
-      result = result && (hasMaxGraphCheckpointsSizeBytes() == other.hasMaxGraphCheckpointsSizeBytes());
+      if (hasMaxGraphCheckpointsSizeBytes() != other.hasMaxGraphCheckpointsSizeBytes()) return false;
       if (hasMaxGraphCheckpointsSizeBytes()) {
-        result = result && (getMaxGraphCheckpointsSizeBytes()
-            == other.getMaxGraphCheckpointsSizeBytes());
+        if (getMaxGraphCheckpointsSizeBytes()
+            != other.getMaxGraphCheckpointsSizeBytes()) return false;
       }
-      result = result && (hasMaxCheckpointSizeBytes() == other.hasMaxCheckpointSizeBytes());
+      if (hasMaxCheckpointSizeBytes() != other.hasMaxCheckpointSizeBytes()) return false;
       if (hasMaxCheckpointSizeBytes()) {
-        result = result && (getMaxCheckpointSizeBytes()
-            == other.getMaxCheckpointSizeBytes());
+        if (getMaxCheckpointSizeBytes()
+            != other.getMaxCheckpointSizeBytes()) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2180,6 +2687,7 @@ public final class StorageConfig {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2187,6 +2695,7 @@ public final class StorageConfig {
     public static Builder newBuilder(NStreams.NConfig.StorageConfig.TStateStorageLimits prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2210,6 +2719,7 @@ public final class StorageConfig {
         return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TStateStorageLimits_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TStateStorageLimits_fieldAccessorTable
@@ -2232,6 +2742,7 @@ public final class StorageConfig {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         maxGraphCheckpointsSizeBytes_ = 1099511627776L;
@@ -2241,15 +2752,18 @@ public final class StorageConfig {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TStateStorageLimits_descriptor;
       }
 
+      @java.lang.Override
       public NStreams.NConfig.StorageConfig.TStateStorageLimits getDefaultInstanceForType() {
         return NStreams.NConfig.StorageConfig.TStateStorageLimits.getDefaultInstance();
       }
 
+      @java.lang.Override
       public NStreams.NConfig.StorageConfig.TStateStorageLimits build() {
         NStreams.NConfig.StorageConfig.TStateStorageLimits result = buildPartial();
         if (!result.isInitialized()) {
@@ -2258,15 +2772,16 @@ public final class StorageConfig {
         return result;
       }
 
+      @java.lang.Override
       public NStreams.NConfig.StorageConfig.TStateStorageLimits buildPartial() {
         NStreams.NConfig.StorageConfig.TStateStorageLimits result = new NStreams.NConfig.StorageConfig.TStateStorageLimits(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.maxGraphCheckpointsSizeBytes_ = maxGraphCheckpointsSizeBytes_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
         result.maxCheckpointSizeBytes_ = maxCheckpointSizeBytes_;
@@ -2275,32 +2790,39 @@ public final class StorageConfig {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof NStreams.NConfig.StorageConfig.TStateStorageLimits) {
           return mergeFrom((NStreams.NConfig.StorageConfig.TStateStorageLimits)other);
@@ -2323,10 +2845,12 @@ public final class StorageConfig {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2353,9 +2877,11 @@ public final class StorageConfig {
        * </pre>
        *
        * <code>optional uint64 MaxGraphCheckpointsSizeBytes = 1 [default = 1099511627776];</code>
+       * @return Whether the maxGraphCheckpointsSizeBytes field is set.
        */
+      @java.lang.Override
       public boolean hasMaxGraphCheckpointsSizeBytes() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <pre>
@@ -2363,7 +2889,9 @@ public final class StorageConfig {
        * </pre>
        *
        * <code>optional uint64 MaxGraphCheckpointsSizeBytes = 1 [default = 1099511627776];</code>
+       * @return The maxGraphCheckpointsSizeBytes.
        */
+      @java.lang.Override
       public long getMaxGraphCheckpointsSizeBytes() {
         return maxGraphCheckpointsSizeBytes_;
       }
@@ -2373,6 +2901,8 @@ public final class StorageConfig {
        * </pre>
        *
        * <code>optional uint64 MaxGraphCheckpointsSizeBytes = 1 [default = 1099511627776];</code>
+       * @param value The maxGraphCheckpointsSizeBytes to set.
+       * @return This builder for chaining.
        */
       public Builder setMaxGraphCheckpointsSizeBytes(long value) {
         bitField0_ |= 0x00000001;
@@ -2386,6 +2916,7 @@ public final class StorageConfig {
        * </pre>
        *
        * <code>optional uint64 MaxGraphCheckpointsSizeBytes = 1 [default = 1099511627776];</code>
+       * @return This builder for chaining.
        */
       public Builder clearMaxGraphCheckpointsSizeBytes() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -2401,9 +2932,11 @@ public final class StorageConfig {
        * </pre>
        *
        * <code>optional uint64 MaxCheckpointSizeBytes = 2 [default = 3298534883328];</code>
+       * @return Whether the maxCheckpointSizeBytes field is set.
        */
+      @java.lang.Override
       public boolean hasMaxCheckpointSizeBytes() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <pre>
@@ -2411,7 +2944,9 @@ public final class StorageConfig {
        * </pre>
        *
        * <code>optional uint64 MaxCheckpointSizeBytes = 2 [default = 3298534883328];</code>
+       * @return The maxCheckpointSizeBytes.
        */
+      @java.lang.Override
       public long getMaxCheckpointSizeBytes() {
         return maxCheckpointSizeBytes_;
       }
@@ -2421,6 +2956,8 @@ public final class StorageConfig {
        * </pre>
        *
        * <code>optional uint64 MaxCheckpointSizeBytes = 2 [default = 3298534883328];</code>
+       * @param value The maxCheckpointSizeBytes to set.
+       * @return This builder for chaining.
        */
       public Builder setMaxCheckpointSizeBytes(long value) {
         bitField0_ |= 0x00000002;
@@ -2434,6 +2971,7 @@ public final class StorageConfig {
        * </pre>
        *
        * <code>optional uint64 MaxCheckpointSizeBytes = 2 [default = 3298534883328];</code>
+       * @return This builder for chaining.
        */
       public Builder clearMaxCheckpointSizeBytes() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -2441,11 +2979,13 @@ public final class StorageConfig {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2467,11 +3007,12 @@ public final class StorageConfig {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<TStateStorageLimits>
         PARSER = new com.google.protobuf.AbstractParser<TStateStorageLimits>() {
+      @java.lang.Override
       public TStateStorageLimits parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TStateStorageLimits(input, extensionRegistry);
+        return new TStateStorageLimits(input, extensionRegistry);
       }
     };
 
@@ -2484,6 +3025,7 @@ public final class StorageConfig {
       return PARSER;
     }
 
+    @java.lang.Override
     public NStreams.NConfig.StorageConfig.TStateStorageLimits getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2496,17 +3038,19 @@ public final class StorageConfig {
 
     /**
      * <code>optional bool Enabled = 1 [default = true];</code>
+     * @return Whether the enabled field is set.
      */
     boolean hasEnabled();
     /**
      * <code>optional bool Enabled = 1 [default = true];</code>
+     * @return The enabled.
      */
     boolean getEnabled();
   }
   /**
    * Protobuf type {@code NStreams.NConfig.TCheckpointGcConfig}
    */
-  public  static final class TCheckpointGcConfig extends
+  public static final class TCheckpointGcConfig extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NStreams.NConfig.TCheckpointGcConfig)
       TCheckpointGcConfigOrBuilder {
@@ -2520,6 +3064,13 @@ public final class StorageConfig {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TCheckpointGcConfig();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2529,6 +3080,9 @@ public final class StorageConfig {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -2540,16 +3094,16 @@ public final class StorageConfig {
             case 0:
               done = true;
               break;
+            case 8: {
+              bitField0_ |= 0x00000001;
+              enabled_ = input.readBool();
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              enabled_ = input.readBool();
               break;
             }
           }
@@ -2569,6 +3123,7 @@ public final class StorageConfig {
       return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TCheckpointGcConfig_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TCheckpointGcConfig_fieldAccessorTable
@@ -2581,18 +3136,23 @@ public final class StorageConfig {
     private boolean enabled_;
     /**
      * <code>optional bool Enabled = 1 [default = true];</code>
+     * @return Whether the enabled field is set.
      */
+    @java.lang.Override
     public boolean hasEnabled() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional bool Enabled = 1 [default = true];</code>
+     * @return The enabled.
      */
+    @java.lang.Override
     public boolean getEnabled() {
       return enabled_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2602,20 +3162,22 @@ public final class StorageConfig {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeBool(1, enabled_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(1, enabled_);
       }
@@ -2634,14 +3196,13 @@ public final class StorageConfig {
       }
       NStreams.NConfig.StorageConfig.TCheckpointGcConfig other = (NStreams.NConfig.StorageConfig.TCheckpointGcConfig) obj;
 
-      boolean result = true;
-      result = result && (hasEnabled() == other.hasEnabled());
+      if (hasEnabled() != other.hasEnabled()) return false;
       if (hasEnabled()) {
-        result = result && (getEnabled()
-            == other.getEnabled());
+        if (getEnabled()
+            != other.getEnabled()) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2731,6 +3292,7 @@ public final class StorageConfig {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2738,6 +3300,7 @@ public final class StorageConfig {
     public static Builder newBuilder(NStreams.NConfig.StorageConfig.TCheckpointGcConfig prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2761,6 +3324,7 @@ public final class StorageConfig {
         return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TCheckpointGcConfig_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TCheckpointGcConfig_fieldAccessorTable
@@ -2783,6 +3347,7 @@ public final class StorageConfig {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         enabled_ = true;
@@ -2790,15 +3355,18 @@ public final class StorageConfig {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TCheckpointGcConfig_descriptor;
       }
 
+      @java.lang.Override
       public NStreams.NConfig.StorageConfig.TCheckpointGcConfig getDefaultInstanceForType() {
         return NStreams.NConfig.StorageConfig.TCheckpointGcConfig.getDefaultInstance();
       }
 
+      @java.lang.Override
       public NStreams.NConfig.StorageConfig.TCheckpointGcConfig build() {
         NStreams.NConfig.StorageConfig.TCheckpointGcConfig result = buildPartial();
         if (!result.isInitialized()) {
@@ -2807,11 +3375,12 @@ public final class StorageConfig {
         return result;
       }
 
+      @java.lang.Override
       public NStreams.NConfig.StorageConfig.TCheckpointGcConfig buildPartial() {
         NStreams.NConfig.StorageConfig.TCheckpointGcConfig result = new NStreams.NConfig.StorageConfig.TCheckpointGcConfig(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.enabled_ = enabled_;
@@ -2820,32 +3389,39 @@ public final class StorageConfig {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof NStreams.NConfig.StorageConfig.TCheckpointGcConfig) {
           return mergeFrom((NStreams.NConfig.StorageConfig.TCheckpointGcConfig)other);
@@ -2865,10 +3441,12 @@ public final class StorageConfig {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2891,18 +3469,24 @@ public final class StorageConfig {
       private boolean enabled_ = true;
       /**
        * <code>optional bool Enabled = 1 [default = true];</code>
+       * @return Whether the enabled field is set.
        */
+      @java.lang.Override
       public boolean hasEnabled() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional bool Enabled = 1 [default = true];</code>
+       * @return The enabled.
        */
+      @java.lang.Override
       public boolean getEnabled() {
         return enabled_;
       }
       /**
        * <code>optional bool Enabled = 1 [default = true];</code>
+       * @param value The enabled to set.
+       * @return This builder for chaining.
        */
       public Builder setEnabled(boolean value) {
         bitField0_ |= 0x00000001;
@@ -2912,6 +3496,7 @@ public final class StorageConfig {
       }
       /**
        * <code>optional bool Enabled = 1 [default = true];</code>
+       * @return This builder for chaining.
        */
       public Builder clearEnabled() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -2919,11 +3504,13 @@ public final class StorageConfig {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2945,11 +3532,12 @@ public final class StorageConfig {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<TCheckpointGcConfig>
         PARSER = new com.google.protobuf.AbstractParser<TCheckpointGcConfig>() {
+      @java.lang.Override
       public TCheckpointGcConfig parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TCheckpointGcConfig(input, extensionRegistry);
+        return new TCheckpointGcConfig(input, extensionRegistry);
       }
     };
 
@@ -2962,6 +3550,7 @@ public final class StorageConfig {
       return PARSER;
     }
 
+    @java.lang.Override
     public NStreams.NConfig.StorageConfig.TCheckpointGcConfig getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2974,10 +3563,12 @@ public final class StorageConfig {
 
     /**
      * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbCheckpointStorageConfig = 1;</code>
+     * @return Whether the ydbCheckpointStorageConfig field is set.
      */
     boolean hasYdbCheckpointStorageConfig();
     /**
      * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbCheckpointStorageConfig = 1;</code>
+     * @return The ydbCheckpointStorageConfig.
      */
     NStreams.NConfig.StorageConfig.TYdbStorageConfig getYdbCheckpointStorageConfig();
     /**
@@ -2987,10 +3578,12 @@ public final class StorageConfig {
 
     /**
      * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbStateStorageConfig = 2;</code>
+     * @return Whether the ydbStateStorageConfig field is set.
      */
     boolean hasYdbStateStorageConfig();
     /**
      * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbStateStorageConfig = 2;</code>
+     * @return The ydbStateStorageConfig.
      */
     NStreams.NConfig.StorageConfig.TYdbStorageConfig getYdbStateStorageConfig();
     /**
@@ -3000,10 +3593,12 @@ public final class StorageConfig {
 
     /**
      * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
+     * @return Whether the checkpointGarbageConfig field is set.
      */
     boolean hasCheckpointGarbageConfig();
     /**
      * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
+     * @return The checkpointGarbageConfig.
      */
     NStreams.NConfig.StorageConfig.TCheckpointGcConfig getCheckpointGarbageConfig();
     /**
@@ -3013,10 +3608,12 @@ public final class StorageConfig {
 
     /**
      * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
+     * @return Whether the stateStorageLimits field is set.
      */
     boolean hasStateStorageLimits();
     /**
      * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
+     * @return The stateStorageLimits.
      */
     NStreams.NConfig.StorageConfig.TStateStorageLimits getStateStorageLimits();
     /**
@@ -3026,10 +3623,12 @@ public final class StorageConfig {
 
     /**
      * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
+     * @return Whether the ydbSyncConfig field is set.
      */
     boolean hasYdbSyncConfig();
     /**
      * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
+     * @return The ydbSyncConfig.
      */
     NStreams.NConfig.StorageConfig.TYdbStorageConfig getYdbSyncConfig();
     /**
@@ -3039,10 +3638,12 @@ public final class StorageConfig {
 
     /**
      * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
+     * @return Whether the ydbControlPlaneConfig field is set.
      */
     boolean hasYdbControlPlaneConfig();
     /**
      * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
+     * @return The ydbControlPlaneConfig.
      */
     NStreams.NConfig.StorageConfig.TYdbStorageConfig getYdbControlPlaneConfig();
     /**
@@ -3053,7 +3654,7 @@ public final class StorageConfig {
   /**
    * Protobuf type {@code NStreams.NConfig.TStorageConfig}
    */
-  public  static final class TStorageConfig extends
+  public static final class TStorageConfig extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NStreams.NConfig.TStorageConfig)
       TStorageConfigOrBuilder {
@@ -3066,6 +3667,13 @@ public final class StorageConfig {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TStorageConfig();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3075,6 +3683,9 @@ public final class StorageConfig {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -3086,16 +3697,9 @@ public final class StorageConfig {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000001) == 0x00000001)) {
+              if (((bitField0_ & 0x00000001) != 0)) {
                 subBuilder = ydbCheckpointStorageConfig_.toBuilder();
               }
               ydbCheckpointStorageConfig_ = input.readMessage(NStreams.NConfig.StorageConfig.TYdbStorageConfig.PARSER, extensionRegistry);
@@ -3108,7 +3712,7 @@ public final class StorageConfig {
             }
             case 18: {
               NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+              if (((bitField0_ & 0x00000002) != 0)) {
                 subBuilder = ydbStateStorageConfig_.toBuilder();
               }
               ydbStateStorageConfig_ = input.readMessage(NStreams.NConfig.StorageConfig.TYdbStorageConfig.PARSER, extensionRegistry);
@@ -3121,7 +3725,7 @@ public final class StorageConfig {
             }
             case 26: {
               NStreams.NConfig.StorageConfig.TCheckpointGcConfig.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+              if (((bitField0_ & 0x00000004) != 0)) {
                 subBuilder = checkpointGarbageConfig_.toBuilder();
               }
               checkpointGarbageConfig_ = input.readMessage(NStreams.NConfig.StorageConfig.TCheckpointGcConfig.PARSER, extensionRegistry);
@@ -3134,7 +3738,7 @@ public final class StorageConfig {
             }
             case 34: {
               NStreams.NConfig.StorageConfig.TStateStorageLimits.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+              if (((bitField0_ & 0x00000008) != 0)) {
                 subBuilder = stateStorageLimits_.toBuilder();
               }
               stateStorageLimits_ = input.readMessage(NStreams.NConfig.StorageConfig.TStateStorageLimits.PARSER, extensionRegistry);
@@ -3147,7 +3751,7 @@ public final class StorageConfig {
             }
             case 42: {
               NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+              if (((bitField0_ & 0x00000010) != 0)) {
                 subBuilder = ydbSyncConfig_.toBuilder();
               }
               ydbSyncConfig_ = input.readMessage(NStreams.NConfig.StorageConfig.TYdbStorageConfig.PARSER, extensionRegistry);
@@ -3160,7 +3764,7 @@ public final class StorageConfig {
             }
             case 50: {
               NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000020) == 0x00000020)) {
+              if (((bitField0_ & 0x00000020) != 0)) {
                 subBuilder = ydbControlPlaneConfig_.toBuilder();
               }
               ydbControlPlaneConfig_ = input.readMessage(NStreams.NConfig.StorageConfig.TYdbStorageConfig.PARSER, extensionRegistry);
@@ -3169,6 +3773,13 @@ public final class StorageConfig {
                 ydbControlPlaneConfig_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000020;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -3188,6 +3799,7 @@ public final class StorageConfig {
       return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TStorageConfig_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TStorageConfig_fieldAccessorTable
@@ -3200,19 +3812,24 @@ public final class StorageConfig {
     private NStreams.NConfig.StorageConfig.TYdbStorageConfig ydbCheckpointStorageConfig_;
     /**
      * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbCheckpointStorageConfig = 1;</code>
+     * @return Whether the ydbCheckpointStorageConfig field is set.
      */
+    @java.lang.Override
     public boolean hasYdbCheckpointStorageConfig() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbCheckpointStorageConfig = 1;</code>
+     * @return The ydbCheckpointStorageConfig.
      */
+    @java.lang.Override
     public NStreams.NConfig.StorageConfig.TYdbStorageConfig getYdbCheckpointStorageConfig() {
       return ydbCheckpointStorageConfig_ == null ? NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance() : ydbCheckpointStorageConfig_;
     }
     /**
      * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbCheckpointStorageConfig = 1;</code>
      */
+    @java.lang.Override
     public NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder getYdbCheckpointStorageConfigOrBuilder() {
       return ydbCheckpointStorageConfig_ == null ? NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance() : ydbCheckpointStorageConfig_;
     }
@@ -3221,19 +3838,24 @@ public final class StorageConfig {
     private NStreams.NConfig.StorageConfig.TYdbStorageConfig ydbStateStorageConfig_;
     /**
      * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbStateStorageConfig = 2;</code>
+     * @return Whether the ydbStateStorageConfig field is set.
      */
+    @java.lang.Override
     public boolean hasYdbStateStorageConfig() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbStateStorageConfig = 2;</code>
+     * @return The ydbStateStorageConfig.
      */
+    @java.lang.Override
     public NStreams.NConfig.StorageConfig.TYdbStorageConfig getYdbStateStorageConfig() {
       return ydbStateStorageConfig_ == null ? NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance() : ydbStateStorageConfig_;
     }
     /**
      * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbStateStorageConfig = 2;</code>
      */
+    @java.lang.Override
     public NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder getYdbStateStorageConfigOrBuilder() {
       return ydbStateStorageConfig_ == null ? NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance() : ydbStateStorageConfig_;
     }
@@ -3242,19 +3864,24 @@ public final class StorageConfig {
     private NStreams.NConfig.StorageConfig.TCheckpointGcConfig checkpointGarbageConfig_;
     /**
      * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
+     * @return Whether the checkpointGarbageConfig field is set.
      */
+    @java.lang.Override
     public boolean hasCheckpointGarbageConfig() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
+     * @return The checkpointGarbageConfig.
      */
+    @java.lang.Override
     public NStreams.NConfig.StorageConfig.TCheckpointGcConfig getCheckpointGarbageConfig() {
       return checkpointGarbageConfig_ == null ? NStreams.NConfig.StorageConfig.TCheckpointGcConfig.getDefaultInstance() : checkpointGarbageConfig_;
     }
     /**
      * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
      */
+    @java.lang.Override
     public NStreams.NConfig.StorageConfig.TCheckpointGcConfigOrBuilder getCheckpointGarbageConfigOrBuilder() {
       return checkpointGarbageConfig_ == null ? NStreams.NConfig.StorageConfig.TCheckpointGcConfig.getDefaultInstance() : checkpointGarbageConfig_;
     }
@@ -3263,19 +3890,24 @@ public final class StorageConfig {
     private NStreams.NConfig.StorageConfig.TStateStorageLimits stateStorageLimits_;
     /**
      * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
+     * @return Whether the stateStorageLimits field is set.
      */
+    @java.lang.Override
     public boolean hasStateStorageLimits() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
      * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
+     * @return The stateStorageLimits.
      */
+    @java.lang.Override
     public NStreams.NConfig.StorageConfig.TStateStorageLimits getStateStorageLimits() {
       return stateStorageLimits_ == null ? NStreams.NConfig.StorageConfig.TStateStorageLimits.getDefaultInstance() : stateStorageLimits_;
     }
     /**
      * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
      */
+    @java.lang.Override
     public NStreams.NConfig.StorageConfig.TStateStorageLimitsOrBuilder getStateStorageLimitsOrBuilder() {
       return stateStorageLimits_ == null ? NStreams.NConfig.StorageConfig.TStateStorageLimits.getDefaultInstance() : stateStorageLimits_;
     }
@@ -3284,19 +3916,24 @@ public final class StorageConfig {
     private NStreams.NConfig.StorageConfig.TYdbStorageConfig ydbSyncConfig_;
     /**
      * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
+     * @return Whether the ydbSyncConfig field is set.
      */
+    @java.lang.Override
     public boolean hasYdbSyncConfig() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000010) != 0);
     }
     /**
      * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
+     * @return The ydbSyncConfig.
      */
+    @java.lang.Override
     public NStreams.NConfig.StorageConfig.TYdbStorageConfig getYdbSyncConfig() {
       return ydbSyncConfig_ == null ? NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance() : ydbSyncConfig_;
     }
     /**
      * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
      */
+    @java.lang.Override
     public NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder getYdbSyncConfigOrBuilder() {
       return ydbSyncConfig_ == null ? NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance() : ydbSyncConfig_;
     }
@@ -3305,24 +3942,30 @@ public final class StorageConfig {
     private NStreams.NConfig.StorageConfig.TYdbStorageConfig ydbControlPlaneConfig_;
     /**
      * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
+     * @return Whether the ydbControlPlaneConfig field is set.
      */
+    @java.lang.Override
     public boolean hasYdbControlPlaneConfig() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000020) != 0);
     }
     /**
      * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
+     * @return The ydbControlPlaneConfig.
      */
+    @java.lang.Override
     public NStreams.NConfig.StorageConfig.TYdbStorageConfig getYdbControlPlaneConfig() {
       return ydbControlPlaneConfig_ == null ? NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance() : ydbControlPlaneConfig_;
     }
     /**
      * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
      */
+    @java.lang.Override
     public NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder getYdbControlPlaneConfigOrBuilder() {
       return ydbControlPlaneConfig_ == null ? NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance() : ydbControlPlaneConfig_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3332,55 +3975,57 @@ public final class StorageConfig {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(1, getYdbCheckpointStorageConfig());
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeMessage(2, getYdbStateStorageConfig());
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeMessage(3, getCheckpointGarbageConfig());
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         output.writeMessage(4, getStateStorageLimits());
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         output.writeMessage(5, getYdbSyncConfig());
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         output.writeMessage(6, getYdbControlPlaneConfig());
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getYdbCheckpointStorageConfig());
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getYdbStateStorageConfig());
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, getCheckpointGarbageConfig());
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, getStateStorageLimits());
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, getYdbSyncConfig());
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(6, getYdbControlPlaneConfig());
       }
@@ -3399,39 +4044,38 @@ public final class StorageConfig {
       }
       NStreams.NConfig.StorageConfig.TStorageConfig other = (NStreams.NConfig.StorageConfig.TStorageConfig) obj;
 
-      boolean result = true;
-      result = result && (hasYdbCheckpointStorageConfig() == other.hasYdbCheckpointStorageConfig());
+      if (hasYdbCheckpointStorageConfig() != other.hasYdbCheckpointStorageConfig()) return false;
       if (hasYdbCheckpointStorageConfig()) {
-        result = result && getYdbCheckpointStorageConfig()
-            .equals(other.getYdbCheckpointStorageConfig());
+        if (!getYdbCheckpointStorageConfig()
+            .equals(other.getYdbCheckpointStorageConfig())) return false;
       }
-      result = result && (hasYdbStateStorageConfig() == other.hasYdbStateStorageConfig());
+      if (hasYdbStateStorageConfig() != other.hasYdbStateStorageConfig()) return false;
       if (hasYdbStateStorageConfig()) {
-        result = result && getYdbStateStorageConfig()
-            .equals(other.getYdbStateStorageConfig());
+        if (!getYdbStateStorageConfig()
+            .equals(other.getYdbStateStorageConfig())) return false;
       }
-      result = result && (hasCheckpointGarbageConfig() == other.hasCheckpointGarbageConfig());
+      if (hasCheckpointGarbageConfig() != other.hasCheckpointGarbageConfig()) return false;
       if (hasCheckpointGarbageConfig()) {
-        result = result && getCheckpointGarbageConfig()
-            .equals(other.getCheckpointGarbageConfig());
+        if (!getCheckpointGarbageConfig()
+            .equals(other.getCheckpointGarbageConfig())) return false;
       }
-      result = result && (hasStateStorageLimits() == other.hasStateStorageLimits());
+      if (hasStateStorageLimits() != other.hasStateStorageLimits()) return false;
       if (hasStateStorageLimits()) {
-        result = result && getStateStorageLimits()
-            .equals(other.getStateStorageLimits());
+        if (!getStateStorageLimits()
+            .equals(other.getStateStorageLimits())) return false;
       }
-      result = result && (hasYdbSyncConfig() == other.hasYdbSyncConfig());
+      if (hasYdbSyncConfig() != other.hasYdbSyncConfig()) return false;
       if (hasYdbSyncConfig()) {
-        result = result && getYdbSyncConfig()
-            .equals(other.getYdbSyncConfig());
+        if (!getYdbSyncConfig()
+            .equals(other.getYdbSyncConfig())) return false;
       }
-      result = result && (hasYdbControlPlaneConfig() == other.hasYdbControlPlaneConfig());
+      if (hasYdbControlPlaneConfig() != other.hasYdbControlPlaneConfig()) return false;
       if (hasYdbControlPlaneConfig()) {
-        result = result && getYdbControlPlaneConfig()
-            .equals(other.getYdbControlPlaneConfig());
+        if (!getYdbControlPlaneConfig()
+            .equals(other.getYdbControlPlaneConfig())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3540,6 +4184,7 @@ public final class StorageConfig {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3547,6 +4192,7 @@ public final class StorageConfig {
     public static Builder newBuilder(NStreams.NConfig.StorageConfig.TStorageConfig prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3570,6 +4216,7 @@ public final class StorageConfig {
         return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TStorageConfig_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TStorageConfig_fieldAccessorTable
@@ -3598,6 +4245,7 @@ public final class StorageConfig {
           getYdbControlPlaneConfigFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (ydbCheckpointStorageConfigBuilder_ == null) {
@@ -3639,15 +4287,18 @@ public final class StorageConfig {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return NStreams.NConfig.StorageConfig.internal_static_NStreams_NConfig_TStorageConfig_descriptor;
       }
 
+      @java.lang.Override
       public NStreams.NConfig.StorageConfig.TStorageConfig getDefaultInstanceForType() {
         return NStreams.NConfig.StorageConfig.TStorageConfig.getDefaultInstance();
       }
 
+      @java.lang.Override
       public NStreams.NConfig.StorageConfig.TStorageConfig build() {
         NStreams.NConfig.StorageConfig.TStorageConfig result = buildPartial();
         if (!result.isInitialized()) {
@@ -3656,89 +4307,97 @@ public final class StorageConfig {
         return result;
       }
 
+      @java.lang.Override
       public NStreams.NConfig.StorageConfig.TStorageConfig buildPartial() {
         NStreams.NConfig.StorageConfig.TStorageConfig result = new NStreams.NConfig.StorageConfig.TStorageConfig(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          if (ydbCheckpointStorageConfigBuilder_ == null) {
+            result.ydbCheckpointStorageConfig_ = ydbCheckpointStorageConfig_;
+          } else {
+            result.ydbCheckpointStorageConfig_ = ydbCheckpointStorageConfigBuilder_.build();
+          }
           to_bitField0_ |= 0x00000001;
         }
-        if (ydbCheckpointStorageConfigBuilder_ == null) {
-          result.ydbCheckpointStorageConfig_ = ydbCheckpointStorageConfig_;
-        } else {
-          result.ydbCheckpointStorageConfig_ = ydbCheckpointStorageConfigBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          if (ydbStateStorageConfigBuilder_ == null) {
+            result.ydbStateStorageConfig_ = ydbStateStorageConfig_;
+          } else {
+            result.ydbStateStorageConfig_ = ydbStateStorageConfigBuilder_.build();
+          }
           to_bitField0_ |= 0x00000002;
         }
-        if (ydbStateStorageConfigBuilder_ == null) {
-          result.ydbStateStorageConfig_ = ydbStateStorageConfig_;
-        } else {
-          result.ydbStateStorageConfig_ = ydbStateStorageConfigBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          if (checkpointGarbageConfigBuilder_ == null) {
+            result.checkpointGarbageConfig_ = checkpointGarbageConfig_;
+          } else {
+            result.checkpointGarbageConfig_ = checkpointGarbageConfigBuilder_.build();
+          }
           to_bitField0_ |= 0x00000004;
         }
-        if (checkpointGarbageConfigBuilder_ == null) {
-          result.checkpointGarbageConfig_ = checkpointGarbageConfig_;
-        } else {
-          result.checkpointGarbageConfig_ = checkpointGarbageConfigBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          if (stateStorageLimitsBuilder_ == null) {
+            result.stateStorageLimits_ = stateStorageLimits_;
+          } else {
+            result.stateStorageLimits_ = stateStorageLimitsBuilder_.build();
+          }
           to_bitField0_ |= 0x00000008;
         }
-        if (stateStorageLimitsBuilder_ == null) {
-          result.stateStorageLimits_ = stateStorageLimits_;
-        } else {
-          result.stateStorageLimits_ = stateStorageLimitsBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          if (ydbSyncConfigBuilder_ == null) {
+            result.ydbSyncConfig_ = ydbSyncConfig_;
+          } else {
+            result.ydbSyncConfig_ = ydbSyncConfigBuilder_.build();
+          }
           to_bitField0_ |= 0x00000010;
         }
-        if (ydbSyncConfigBuilder_ == null) {
-          result.ydbSyncConfig_ = ydbSyncConfig_;
-        } else {
-          result.ydbSyncConfig_ = ydbSyncConfigBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          if (ydbControlPlaneConfigBuilder_ == null) {
+            result.ydbControlPlaneConfig_ = ydbControlPlaneConfig_;
+          } else {
+            result.ydbControlPlaneConfig_ = ydbControlPlaneConfigBuilder_.build();
+          }
           to_bitField0_ |= 0x00000020;
-        }
-        if (ydbControlPlaneConfigBuilder_ == null) {
-          result.ydbControlPlaneConfig_ = ydbControlPlaneConfig_;
-        } else {
-          result.ydbControlPlaneConfig_ = ydbControlPlaneConfigBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof NStreams.NConfig.StorageConfig.TStorageConfig) {
           return mergeFrom((NStreams.NConfig.StorageConfig.TStorageConfig)other);
@@ -3773,10 +4432,12 @@ public final class StorageConfig {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3796,17 +4457,19 @@ public final class StorageConfig {
       }
       private int bitField0_;
 
-      private NStreams.NConfig.StorageConfig.TYdbStorageConfig ydbCheckpointStorageConfig_ = null;
+      private NStreams.NConfig.StorageConfig.TYdbStorageConfig ydbCheckpointStorageConfig_;
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NConfig.StorageConfig.TYdbStorageConfig, NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder, NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder> ydbCheckpointStorageConfigBuilder_;
       /**
        * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbCheckpointStorageConfig = 1;</code>
+       * @return Whether the ydbCheckpointStorageConfig field is set.
        */
       public boolean hasYdbCheckpointStorageConfig() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbCheckpointStorageConfig = 1;</code>
+       * @return The ydbCheckpointStorageConfig.
        */
       public NStreams.NConfig.StorageConfig.TYdbStorageConfig getYdbCheckpointStorageConfig() {
         if (ydbCheckpointStorageConfigBuilder_ == null) {
@@ -3850,7 +4513,7 @@ public final class StorageConfig {
        */
       public Builder mergeYdbCheckpointStorageConfig(NStreams.NConfig.StorageConfig.TYdbStorageConfig value) {
         if (ydbCheckpointStorageConfigBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001) &&
+          if (((bitField0_ & 0x00000001) != 0) &&
               ydbCheckpointStorageConfig_ != null &&
               ydbCheckpointStorageConfig_ != NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance()) {
             ydbCheckpointStorageConfig_ =
@@ -3914,17 +4577,19 @@ public final class StorageConfig {
         return ydbCheckpointStorageConfigBuilder_;
       }
 
-      private NStreams.NConfig.StorageConfig.TYdbStorageConfig ydbStateStorageConfig_ = null;
+      private NStreams.NConfig.StorageConfig.TYdbStorageConfig ydbStateStorageConfig_;
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NConfig.StorageConfig.TYdbStorageConfig, NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder, NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder> ydbStateStorageConfigBuilder_;
       /**
        * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbStateStorageConfig = 2;</code>
+       * @return Whether the ydbStateStorageConfig field is set.
        */
       public boolean hasYdbStateStorageConfig() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbStateStorageConfig = 2;</code>
+       * @return The ydbStateStorageConfig.
        */
       public NStreams.NConfig.StorageConfig.TYdbStorageConfig getYdbStateStorageConfig() {
         if (ydbStateStorageConfigBuilder_ == null) {
@@ -3968,7 +4633,7 @@ public final class StorageConfig {
        */
       public Builder mergeYdbStateStorageConfig(NStreams.NConfig.StorageConfig.TYdbStorageConfig value) {
         if (ydbStateStorageConfigBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+          if (((bitField0_ & 0x00000002) != 0) &&
               ydbStateStorageConfig_ != null &&
               ydbStateStorageConfig_ != NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance()) {
             ydbStateStorageConfig_ =
@@ -4032,17 +4697,19 @@ public final class StorageConfig {
         return ydbStateStorageConfigBuilder_;
       }
 
-      private NStreams.NConfig.StorageConfig.TCheckpointGcConfig checkpointGarbageConfig_ = null;
+      private NStreams.NConfig.StorageConfig.TCheckpointGcConfig checkpointGarbageConfig_;
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NConfig.StorageConfig.TCheckpointGcConfig, NStreams.NConfig.StorageConfig.TCheckpointGcConfig.Builder, NStreams.NConfig.StorageConfig.TCheckpointGcConfigOrBuilder> checkpointGarbageConfigBuilder_;
       /**
        * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
+       * @return Whether the checkpointGarbageConfig field is set.
        */
       public boolean hasCheckpointGarbageConfig() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>optional .NStreams.NConfig.TCheckpointGcConfig CheckpointGarbageConfig = 3;</code>
+       * @return The checkpointGarbageConfig.
        */
       public NStreams.NConfig.StorageConfig.TCheckpointGcConfig getCheckpointGarbageConfig() {
         if (checkpointGarbageConfigBuilder_ == null) {
@@ -4086,7 +4753,7 @@ public final class StorageConfig {
        */
       public Builder mergeCheckpointGarbageConfig(NStreams.NConfig.StorageConfig.TCheckpointGcConfig value) {
         if (checkpointGarbageConfigBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+          if (((bitField0_ & 0x00000004) != 0) &&
               checkpointGarbageConfig_ != null &&
               checkpointGarbageConfig_ != NStreams.NConfig.StorageConfig.TCheckpointGcConfig.getDefaultInstance()) {
             checkpointGarbageConfig_ =
@@ -4150,17 +4817,19 @@ public final class StorageConfig {
         return checkpointGarbageConfigBuilder_;
       }
 
-      private NStreams.NConfig.StorageConfig.TStateStorageLimits stateStorageLimits_ = null;
+      private NStreams.NConfig.StorageConfig.TStateStorageLimits stateStorageLimits_;
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NConfig.StorageConfig.TStateStorageLimits, NStreams.NConfig.StorageConfig.TStateStorageLimits.Builder, NStreams.NConfig.StorageConfig.TStateStorageLimitsOrBuilder> stateStorageLimitsBuilder_;
       /**
        * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
+       * @return Whether the stateStorageLimits field is set.
        */
       public boolean hasStateStorageLimits() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <code>optional .NStreams.NConfig.TStateStorageLimits StateStorageLimits = 4;</code>
+       * @return The stateStorageLimits.
        */
       public NStreams.NConfig.StorageConfig.TStateStorageLimits getStateStorageLimits() {
         if (stateStorageLimitsBuilder_ == null) {
@@ -4204,7 +4873,7 @@ public final class StorageConfig {
        */
       public Builder mergeStateStorageLimits(NStreams.NConfig.StorageConfig.TStateStorageLimits value) {
         if (stateStorageLimitsBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+          if (((bitField0_ & 0x00000008) != 0) &&
               stateStorageLimits_ != null &&
               stateStorageLimits_ != NStreams.NConfig.StorageConfig.TStateStorageLimits.getDefaultInstance()) {
             stateStorageLimits_ =
@@ -4268,17 +4937,19 @@ public final class StorageConfig {
         return stateStorageLimitsBuilder_;
       }
 
-      private NStreams.NConfig.StorageConfig.TYdbStorageConfig ydbSyncConfig_ = null;
+      private NStreams.NConfig.StorageConfig.TYdbStorageConfig ydbSyncConfig_;
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NConfig.StorageConfig.TYdbStorageConfig, NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder, NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder> ydbSyncConfigBuilder_;
       /**
        * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
+       * @return Whether the ydbSyncConfig field is set.
        */
       public boolean hasYdbSyncConfig() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
        * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbSyncConfig = 5;</code>
+       * @return The ydbSyncConfig.
        */
       public NStreams.NConfig.StorageConfig.TYdbStorageConfig getYdbSyncConfig() {
         if (ydbSyncConfigBuilder_ == null) {
@@ -4322,7 +4993,7 @@ public final class StorageConfig {
        */
       public Builder mergeYdbSyncConfig(NStreams.NConfig.StorageConfig.TYdbStorageConfig value) {
         if (ydbSyncConfigBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+          if (((bitField0_ & 0x00000010) != 0) &&
               ydbSyncConfig_ != null &&
               ydbSyncConfig_ != NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance()) {
             ydbSyncConfig_ =
@@ -4386,17 +5057,19 @@ public final class StorageConfig {
         return ydbSyncConfigBuilder_;
       }
 
-      private NStreams.NConfig.StorageConfig.TYdbStorageConfig ydbControlPlaneConfig_ = null;
+      private NStreams.NConfig.StorageConfig.TYdbStorageConfig ydbControlPlaneConfig_;
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NConfig.StorageConfig.TYdbStorageConfig, NStreams.NConfig.StorageConfig.TYdbStorageConfig.Builder, NStreams.NConfig.StorageConfig.TYdbStorageConfigOrBuilder> ydbControlPlaneConfigBuilder_;
       /**
        * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
+       * @return Whether the ydbControlPlaneConfig field is set.
        */
       public boolean hasYdbControlPlaneConfig() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000020) != 0);
       }
       /**
        * <code>optional .NStreams.NConfig.TYdbStorageConfig YdbControlPlaneConfig = 6;</code>
+       * @return The ydbControlPlaneConfig.
        */
       public NStreams.NConfig.StorageConfig.TYdbStorageConfig getYdbControlPlaneConfig() {
         if (ydbControlPlaneConfigBuilder_ == null) {
@@ -4440,7 +5113,7 @@ public final class StorageConfig {
        */
       public Builder mergeYdbControlPlaneConfig(NStreams.NConfig.StorageConfig.TYdbStorageConfig value) {
         if (ydbControlPlaneConfigBuilder_ == null) {
-          if (((bitField0_ & 0x00000020) == 0x00000020) &&
+          if (((bitField0_ & 0x00000020) != 0) &&
               ydbControlPlaneConfig_ != null &&
               ydbControlPlaneConfig_ != NStreams.NConfig.StorageConfig.TYdbStorageConfig.getDefaultInstance()) {
             ydbControlPlaneConfig_ =
@@ -4503,11 +5176,13 @@ public final class StorageConfig {
         }
         return ydbControlPlaneConfigBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4529,11 +5204,12 @@ public final class StorageConfig {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<TStorageConfig>
         PARSER = new com.google.protobuf.AbstractParser<TStorageConfig>() {
+      @java.lang.Override
       public TStorageConfig parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TStorageConfig(input, extensionRegistry);
+        return new TStorageConfig(input, extensionRegistry);
       }
     };
 
@@ -4546,6 +5222,7 @@ public final class StorageConfig {
       return PARSER;
     }
 
+    @java.lang.Override
     public NStreams.NConfig.StorageConfig.TStorageConfig getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4582,47 +5259,41 @@ public final class StorageConfig {
   static {
     java.lang.String[] descriptorData = {
       "\n7kikimr/streaming/libs/config/proto/sto" +
-      "rage_config.proto\022\020NStreams.NConfig\"\320\001\n\021" +
+      "rage_config.proto\022\020NStreams.NConfig\"\253\002\n\021" +
       "TYdbStorageConfig\022\020\n\010Endpoint\030\001 \001(\t\022\020\n\010D" +
       "atabase\030\002 \001(\t\022\021\n\tOAuthFile\030\003 \001(\t\022\023\n\013Tabl" +
       "ePrefix\030\004 \001(\t\022\027\n\017CertificateFile\030\006 \001(\t\022\023" +
       "\n\013IamEndpoint\030\007 \001(\t\022\021\n\tSaKeyFile\030\010 \001(\t\022\037" +
-      "\n\027UseLocalMetadataService\030\t \001(\010\022\r\n\005Token" +
-      "\030\005 \001(\t\"y\n\023TStateStorageLimits\0223\n\034MaxGrap" +
-      "hCheckpointsSizeBytes\030\001 \001(\004:\r10995116277" +
-      "76\022-\n\026MaxCheckpointSizeBytes\030\002 \001(\004:\r3298",
-      "534883328\",\n\023TCheckpointGcConfig\022\025\n\007Enab" +
-      "led\030\001 \001(\010:\004true\"\250\003\n\016TStorageConfig\022G\n\032Yd" +
-      "bCheckpointStorageConfig\030\001 \001(\0132#.NStream" +
-      "s.NConfig.TYdbStorageConfig\022B\n\025YdbStateS" +
-      "torageConfig\030\002 \001(\0132#.NStreams.NConfig.TY" +
-      "dbStorageConfig\022F\n\027CheckpointGarbageConf" +
-      "ig\030\003 \001(\0132%.NStreams.NConfig.TCheckpointG" +
-      "cConfig\022A\n\022StateStorageLimits\030\004 \001(\0132%.NS" +
-      "treams.NConfig.TStateStorageLimits\022:\n\rYd" +
-      "bSyncConfig\030\005 \001(\0132#.NStreams.NConfig.TYd",
-      "bStorageConfig\022B\n\025YdbControlPlaneConfig\030" +
-      "\006 \001(\0132#.NStreams.NConfig.TYdbStorageConf" +
-      "ig"
+      "\n\027UseLocalMetadataService\030\t \001(\010\022\034\n\020Clien" +
+      "tTimeoutSec\030\n \001(\r:\00230\022\037\n\023OperationTimeou" +
+      "tSec\030\013 \001(\r:\00230\022\032\n\016CancelAfterSec\030\014 \001(\r:\002" +
+      "30\022\r\n\005Token\030\005 \001(\t\"y\n\023TStateStorageLimits" +
+      "\0223\n\034MaxGraphCheckpointsSizeBytes\030\001 \001(\004:\r" +
+      "1099511627776\022-\n\026MaxCheckpointSizeBytes\030" +
+      "\002 \001(\004:\r3298534883328\",\n\023TCheckpointGcCon" +
+      "fig\022\025\n\007Enabled\030\001 \001(\010:\004true\"\250\003\n\016TStorageC" +
+      "onfig\022G\n\032YdbCheckpointStorageConfig\030\001 \001(" +
+      "\0132#.NStreams.NConfig.TYdbStorageConfig\022B" +
+      "\n\025YdbStateStorageConfig\030\002 \001(\0132#.NStreams" +
+      ".NConfig.TYdbStorageConfig\022F\n\027Checkpoint" +
+      "GarbageConfig\030\003 \001(\0132%.NStreams.NConfig.T" +
+      "CheckpointGcConfig\022A\n\022StateStorageLimits" +
+      "\030\004 \001(\0132%.NStreams.NConfig.TStateStorageL" +
+      "imits\022:\n\rYdbSyncConfig\030\005 \001(\0132#.NStreams." +
+      "NConfig.TYdbStorageConfig\022B\n\025YdbControlP" +
+      "laneConfig\030\006 \001(\0132#.NStreams.NConfig.TYdb" +
+      "StorageConfig"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+        });
     internal_static_NStreams_NConfig_TYdbStorageConfig_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_NStreams_NConfig_TYdbStorageConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NStreams_NConfig_TYdbStorageConfig_descriptor,
-        new java.lang.String[] { "Endpoint", "Database", "OAuthFile", "TablePrefix", "CertificateFile", "IamEndpoint", "SaKeyFile", "UseLocalMetadataService", "Token", });
+        new java.lang.String[] { "Endpoint", "Database", "OAuthFile", "TablePrefix", "CertificateFile", "IamEndpoint", "SaKeyFile", "UseLocalMetadataService", "ClientTimeoutSec", "OperationTimeoutSec", "CancelAfterSec", "Token", });
     internal_static_NStreams_NConfig_TStateStorageLimits_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_NStreams_NConfig_TStateStorageLimits_fieldAccessorTable = new

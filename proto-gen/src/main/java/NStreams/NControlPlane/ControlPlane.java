@@ -129,6 +129,8 @@ public final class ControlPlane {
     }
 
     /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
@@ -136,6 +138,10 @@ public final class ControlPlane {
       return forNumber(value);
     }
 
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
     public static EComputeState forNumber(int value) {
       switch (value) {
         case 0: return Unspecified;
@@ -168,6 +174,10 @@ public final class ControlPlane {
 
     public final com.google.protobuf.Descriptors.EnumValueDescriptor
         getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
       return getDescriptor().getValues().get(ordinal());
     }
     public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -208,81 +218,96 @@ public final class ControlPlane {
 
     /**
      * <code>string query_id = 1;</code>
+     * @return The queryId.
      */
     java.lang.String getQueryId();
     /**
      * <code>string query_id = 1;</code>
+     * @return The bytes for queryId.
      */
     com.google.protobuf.ByteString
         getQueryIdBytes();
 
     /**
      * <code>uint32 version = 2;</code>
+     * @return The version.
      */
     int getVersion();
 
     /**
      * <code>string yql_text = 3;</code>
+     * @return The yqlText.
      */
     java.lang.String getYqlText();
     /**
      * <code>string yql_text = 3;</code>
+     * @return The bytes for yqlText.
      */
     com.google.protobuf.ByteString
         getYqlTextBytes();
 
     /**
      * <code>string token = 4;</code>
+     * @return The token.
      */
     java.lang.String getToken();
     /**
      * <code>string token = 4;</code>
+     * @return The bytes for token.
      */
     com.google.protobuf.ByteString
         getTokenBytes();
 
     /**
      * <code>string user = 5;</code>
+     * @return The user.
      */
     java.lang.String getUser();
     /**
      * <code>string user = 5;</code>
+     * @return The bytes for user.
      */
     com.google.protobuf.ByteString
         getUserBytes();
 
     /**
      * <code>string program_file_name = 6;</code>
+     * @return The programFileName.
      */
     java.lang.String getProgramFileName();
     /**
      * <code>string program_file_name = 6;</code>
+     * @return The bytes for programFileName.
      */
     com.google.protobuf.ByteString
         getProgramFileNameBytes();
 
     /**
      * <code>.NStreams.NControlPlane.EComputeState state = 7;</code>
+     * @return The enum numeric value on the wire for state.
      */
     int getStateValue();
     /**
      * <code>.NStreams.NControlPlane.EComputeState state = 7;</code>
+     * @return The state.
      */
     NStreams.NControlPlane.ControlPlane.EComputeState getState();
 
     /**
      * <code>.NStreams.NControlPlane.EComputeState target_state = 8;</code>
+     * @return The enum numeric value on the wire for targetState.
      */
     int getTargetStateValue();
     /**
      * <code>.NStreams.NControlPlane.EComputeState target_state = 8;</code>
+     * @return The targetState.
      */
     NStreams.NControlPlane.ControlPlane.EComputeState getTargetState();
   }
   /**
    * Protobuf type {@code NStreams.NControlPlane.TInstance}
    */
-  public  static final class TInstance extends
+  public static final class TInstance extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NStreams.NControlPlane.TInstance)
       TInstanceOrBuilder {
@@ -293,13 +318,19 @@ public final class ControlPlane {
     }
     private TInstance() {
       queryId_ = "";
-      version_ = 0;
       yqlText_ = "";
       token_ = "";
       user_ = "";
       programFileName_ = "";
       state_ = 0;
       targetState_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TInstance();
     }
 
     @java.lang.Override
@@ -312,7 +343,9 @@ public final class ControlPlane {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -323,13 +356,6 @@ public final class ControlPlane {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -377,6 +403,13 @@ public final class ControlPlane {
               targetState_ = rawValue;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -394,6 +427,7 @@ public final class ControlPlane {
       return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TInstance_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TInstance_fieldAccessorTable
@@ -405,7 +439,9 @@ public final class ControlPlane {
     private volatile java.lang.Object queryId_;
     /**
      * <code>string query_id = 1;</code>
+     * @return The queryId.
      */
+    @java.lang.Override
     public java.lang.String getQueryId() {
       java.lang.Object ref = queryId_;
       if (ref instanceof java.lang.String) {
@@ -420,7 +456,9 @@ public final class ControlPlane {
     }
     /**
      * <code>string query_id = 1;</code>
+     * @return The bytes for queryId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getQueryIdBytes() {
       java.lang.Object ref = queryId_;
@@ -439,7 +477,9 @@ public final class ControlPlane {
     private int version_;
     /**
      * <code>uint32 version = 2;</code>
+     * @return The version.
      */
+    @java.lang.Override
     public int getVersion() {
       return version_;
     }
@@ -448,7 +488,9 @@ public final class ControlPlane {
     private volatile java.lang.Object yqlText_;
     /**
      * <code>string yql_text = 3;</code>
+     * @return The yqlText.
      */
+    @java.lang.Override
     public java.lang.String getYqlText() {
       java.lang.Object ref = yqlText_;
       if (ref instanceof java.lang.String) {
@@ -463,7 +505,9 @@ public final class ControlPlane {
     }
     /**
      * <code>string yql_text = 3;</code>
+     * @return The bytes for yqlText.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getYqlTextBytes() {
       java.lang.Object ref = yqlText_;
@@ -482,7 +526,9 @@ public final class ControlPlane {
     private volatile java.lang.Object token_;
     /**
      * <code>string token = 4;</code>
+     * @return The token.
      */
+    @java.lang.Override
     public java.lang.String getToken() {
       java.lang.Object ref = token_;
       if (ref instanceof java.lang.String) {
@@ -497,7 +543,9 @@ public final class ControlPlane {
     }
     /**
      * <code>string token = 4;</code>
+     * @return The bytes for token.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTokenBytes() {
       java.lang.Object ref = token_;
@@ -516,7 +564,9 @@ public final class ControlPlane {
     private volatile java.lang.Object user_;
     /**
      * <code>string user = 5;</code>
+     * @return The user.
      */
+    @java.lang.Override
     public java.lang.String getUser() {
       java.lang.Object ref = user_;
       if (ref instanceof java.lang.String) {
@@ -531,7 +581,9 @@ public final class ControlPlane {
     }
     /**
      * <code>string user = 5;</code>
+     * @return The bytes for user.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getUserBytes() {
       java.lang.Object ref = user_;
@@ -550,7 +602,9 @@ public final class ControlPlane {
     private volatile java.lang.Object programFileName_;
     /**
      * <code>string program_file_name = 6;</code>
+     * @return The programFileName.
      */
+    @java.lang.Override
     public java.lang.String getProgramFileName() {
       java.lang.Object ref = programFileName_;
       if (ref instanceof java.lang.String) {
@@ -565,7 +619,9 @@ public final class ControlPlane {
     }
     /**
      * <code>string program_file_name = 6;</code>
+     * @return The bytes for programFileName.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getProgramFileNameBytes() {
       java.lang.Object ref = programFileName_;
@@ -584,14 +640,17 @@ public final class ControlPlane {
     private int state_;
     /**
      * <code>.NStreams.NControlPlane.EComputeState state = 7;</code>
+     * @return The enum numeric value on the wire for state.
      */
-    public int getStateValue() {
+    @java.lang.Override public int getStateValue() {
       return state_;
     }
     /**
      * <code>.NStreams.NControlPlane.EComputeState state = 7;</code>
+     * @return The state.
      */
-    public NStreams.NControlPlane.ControlPlane.EComputeState getState() {
+    @java.lang.Override public NStreams.NControlPlane.ControlPlane.EComputeState getState() {
+      @SuppressWarnings("deprecation")
       NStreams.NControlPlane.ControlPlane.EComputeState result = NStreams.NControlPlane.ControlPlane.EComputeState.valueOf(state_);
       return result == null ? NStreams.NControlPlane.ControlPlane.EComputeState.UNRECOGNIZED : result;
     }
@@ -600,19 +659,23 @@ public final class ControlPlane {
     private int targetState_;
     /**
      * <code>.NStreams.NControlPlane.EComputeState target_state = 8;</code>
+     * @return The enum numeric value on the wire for targetState.
      */
-    public int getTargetStateValue() {
+    @java.lang.Override public int getTargetStateValue() {
       return targetState_;
     }
     /**
      * <code>.NStreams.NControlPlane.EComputeState target_state = 8;</code>
+     * @return The targetState.
      */
-    public NStreams.NControlPlane.ControlPlane.EComputeState getTargetState() {
+    @java.lang.Override public NStreams.NControlPlane.ControlPlane.EComputeState getTargetState() {
+      @SuppressWarnings("deprecation")
       NStreams.NControlPlane.ControlPlane.EComputeState result = NStreams.NControlPlane.ControlPlane.EComputeState.valueOf(targetState_);
       return result == null ? NStreams.NControlPlane.ControlPlane.EComputeState.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -622,6 +685,7 @@ public final class ControlPlane {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getQueryIdBytes().isEmpty()) {
@@ -651,6 +715,7 @@ public final class ControlPlane {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -698,23 +763,22 @@ public final class ControlPlane {
       }
       NStreams.NControlPlane.ControlPlane.TInstance other = (NStreams.NControlPlane.ControlPlane.TInstance) obj;
 
-      boolean result = true;
-      result = result && getQueryId()
-          .equals(other.getQueryId());
-      result = result && (getVersion()
-          == other.getVersion());
-      result = result && getYqlText()
-          .equals(other.getYqlText());
-      result = result && getToken()
-          .equals(other.getToken());
-      result = result && getUser()
-          .equals(other.getUser());
-      result = result && getProgramFileName()
-          .equals(other.getProgramFileName());
-      result = result && state_ == other.state_;
-      result = result && targetState_ == other.targetState_;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getQueryId()
+          .equals(other.getQueryId())) return false;
+      if (getVersion()
+          != other.getVersion()) return false;
+      if (!getYqlText()
+          .equals(other.getYqlText())) return false;
+      if (!getToken()
+          .equals(other.getToken())) return false;
+      if (!getUser()
+          .equals(other.getUser())) return false;
+      if (!getProgramFileName()
+          .equals(other.getProgramFileName())) return false;
+      if (state_ != other.state_) return false;
+      if (targetState_ != other.targetState_) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -815,6 +879,7 @@ public final class ControlPlane {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -822,6 +887,7 @@ public final class ControlPlane {
     public static Builder newBuilder(NStreams.NControlPlane.ControlPlane.TInstance prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -845,6 +911,7 @@ public final class ControlPlane {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TInstance_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TInstance_fieldAccessorTable
@@ -867,6 +934,7 @@ public final class ControlPlane {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         queryId_ = "";
@@ -888,15 +956,18 @@ public final class ControlPlane {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TInstance_descriptor;
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TInstance getDefaultInstanceForType() {
         return NStreams.NControlPlane.ControlPlane.TInstance.getDefaultInstance();
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TInstance build() {
         NStreams.NControlPlane.ControlPlane.TInstance result = buildPartial();
         if (!result.isInitialized()) {
@@ -905,6 +976,7 @@ public final class ControlPlane {
         return result;
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TInstance buildPartial() {
         NStreams.NControlPlane.ControlPlane.TInstance result = new NStreams.NControlPlane.ControlPlane.TInstance(this);
         result.queryId_ = queryId_;
@@ -919,32 +991,39 @@ public final class ControlPlane {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof NStreams.NControlPlane.ControlPlane.TInstance) {
           return mergeFrom((NStreams.NControlPlane.ControlPlane.TInstance)other);
@@ -990,10 +1069,12 @@ public final class ControlPlane {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1015,6 +1096,7 @@ public final class ControlPlane {
       private java.lang.Object queryId_ = "";
       /**
        * <code>string query_id = 1;</code>
+       * @return The queryId.
        */
       public java.lang.String getQueryId() {
         java.lang.Object ref = queryId_;
@@ -1030,6 +1112,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string query_id = 1;</code>
+       * @return The bytes for queryId.
        */
       public com.google.protobuf.ByteString
           getQueryIdBytes() {
@@ -1046,6 +1129,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string query_id = 1;</code>
+       * @param value The queryId to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryId(
           java.lang.String value) {
@@ -1059,6 +1144,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string query_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearQueryId() {
         
@@ -1068,6 +1154,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string query_id = 1;</code>
+       * @param value The bytes for queryId to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryIdBytes(
           com.google.protobuf.ByteString value) {
@@ -1084,12 +1172,16 @@ public final class ControlPlane {
       private int version_ ;
       /**
        * <code>uint32 version = 2;</code>
+       * @return The version.
        */
+      @java.lang.Override
       public int getVersion() {
         return version_;
       }
       /**
        * <code>uint32 version = 2;</code>
+       * @param value The version to set.
+       * @return This builder for chaining.
        */
       public Builder setVersion(int value) {
         
@@ -1099,6 +1191,7 @@ public final class ControlPlane {
       }
       /**
        * <code>uint32 version = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearVersion() {
         
@@ -1110,6 +1203,7 @@ public final class ControlPlane {
       private java.lang.Object yqlText_ = "";
       /**
        * <code>string yql_text = 3;</code>
+       * @return The yqlText.
        */
       public java.lang.String getYqlText() {
         java.lang.Object ref = yqlText_;
@@ -1125,6 +1219,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string yql_text = 3;</code>
+       * @return The bytes for yqlText.
        */
       public com.google.protobuf.ByteString
           getYqlTextBytes() {
@@ -1141,6 +1236,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string yql_text = 3;</code>
+       * @param value The yqlText to set.
+       * @return This builder for chaining.
        */
       public Builder setYqlText(
           java.lang.String value) {
@@ -1154,6 +1251,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string yql_text = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearYqlText() {
         
@@ -1163,6 +1261,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string yql_text = 3;</code>
+       * @param value The bytes for yqlText to set.
+       * @return This builder for chaining.
        */
       public Builder setYqlTextBytes(
           com.google.protobuf.ByteString value) {
@@ -1179,6 +1279,7 @@ public final class ControlPlane {
       private java.lang.Object token_ = "";
       /**
        * <code>string token = 4;</code>
+       * @return The token.
        */
       public java.lang.String getToken() {
         java.lang.Object ref = token_;
@@ -1194,6 +1295,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string token = 4;</code>
+       * @return The bytes for token.
        */
       public com.google.protobuf.ByteString
           getTokenBytes() {
@@ -1210,6 +1312,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string token = 4;</code>
+       * @param value The token to set.
+       * @return This builder for chaining.
        */
       public Builder setToken(
           java.lang.String value) {
@@ -1223,6 +1327,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string token = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearToken() {
         
@@ -1232,6 +1337,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string token = 4;</code>
+       * @param value The bytes for token to set.
+       * @return This builder for chaining.
        */
       public Builder setTokenBytes(
           com.google.protobuf.ByteString value) {
@@ -1248,6 +1355,7 @@ public final class ControlPlane {
       private java.lang.Object user_ = "";
       /**
        * <code>string user = 5;</code>
+       * @return The user.
        */
       public java.lang.String getUser() {
         java.lang.Object ref = user_;
@@ -1263,6 +1371,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string user = 5;</code>
+       * @return The bytes for user.
        */
       public com.google.protobuf.ByteString
           getUserBytes() {
@@ -1279,6 +1388,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string user = 5;</code>
+       * @param value The user to set.
+       * @return This builder for chaining.
        */
       public Builder setUser(
           java.lang.String value) {
@@ -1292,6 +1403,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string user = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUser() {
         
@@ -1301,6 +1413,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string user = 5;</code>
+       * @param value The bytes for user to set.
+       * @return This builder for chaining.
        */
       public Builder setUserBytes(
           com.google.protobuf.ByteString value) {
@@ -1317,6 +1431,7 @@ public final class ControlPlane {
       private java.lang.Object programFileName_ = "";
       /**
        * <code>string program_file_name = 6;</code>
+       * @return The programFileName.
        */
       public java.lang.String getProgramFileName() {
         java.lang.Object ref = programFileName_;
@@ -1332,6 +1447,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string program_file_name = 6;</code>
+       * @return The bytes for programFileName.
        */
       public com.google.protobuf.ByteString
           getProgramFileNameBytes() {
@@ -1348,6 +1464,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string program_file_name = 6;</code>
+       * @param value The programFileName to set.
+       * @return This builder for chaining.
        */
       public Builder setProgramFileName(
           java.lang.String value) {
@@ -1361,6 +1479,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string program_file_name = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearProgramFileName() {
         
@@ -1370,6 +1489,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string program_file_name = 6;</code>
+       * @param value The bytes for programFileName to set.
+       * @return This builder for chaining.
        */
       public Builder setProgramFileNameBytes(
           com.google.protobuf.ByteString value) {
@@ -1386,27 +1507,36 @@ public final class ControlPlane {
       private int state_ = 0;
       /**
        * <code>.NStreams.NControlPlane.EComputeState state = 7;</code>
+       * @return The enum numeric value on the wire for state.
        */
-      public int getStateValue() {
+      @java.lang.Override public int getStateValue() {
         return state_;
       }
       /**
        * <code>.NStreams.NControlPlane.EComputeState state = 7;</code>
+       * @param value The enum numeric value on the wire for state to set.
+       * @return This builder for chaining.
        */
       public Builder setStateValue(int value) {
+        
         state_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.NStreams.NControlPlane.EComputeState state = 7;</code>
+       * @return The state.
        */
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.EComputeState getState() {
+        @SuppressWarnings("deprecation")
         NStreams.NControlPlane.ControlPlane.EComputeState result = NStreams.NControlPlane.ControlPlane.EComputeState.valueOf(state_);
         return result == null ? NStreams.NControlPlane.ControlPlane.EComputeState.UNRECOGNIZED : result;
       }
       /**
        * <code>.NStreams.NControlPlane.EComputeState state = 7;</code>
+       * @param value The state to set.
+       * @return This builder for chaining.
        */
       public Builder setState(NStreams.NControlPlane.ControlPlane.EComputeState value) {
         if (value == null) {
@@ -1419,6 +1549,7 @@ public final class ControlPlane {
       }
       /**
        * <code>.NStreams.NControlPlane.EComputeState state = 7;</code>
+       * @return This builder for chaining.
        */
       public Builder clearState() {
         
@@ -1430,27 +1561,36 @@ public final class ControlPlane {
       private int targetState_ = 0;
       /**
        * <code>.NStreams.NControlPlane.EComputeState target_state = 8;</code>
+       * @return The enum numeric value on the wire for targetState.
        */
-      public int getTargetStateValue() {
+      @java.lang.Override public int getTargetStateValue() {
         return targetState_;
       }
       /**
        * <code>.NStreams.NControlPlane.EComputeState target_state = 8;</code>
+       * @param value The enum numeric value on the wire for targetState to set.
+       * @return This builder for chaining.
        */
       public Builder setTargetStateValue(int value) {
+        
         targetState_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.NStreams.NControlPlane.EComputeState target_state = 8;</code>
+       * @return The targetState.
        */
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.EComputeState getTargetState() {
+        @SuppressWarnings("deprecation")
         NStreams.NControlPlane.ControlPlane.EComputeState result = NStreams.NControlPlane.ControlPlane.EComputeState.valueOf(targetState_);
         return result == null ? NStreams.NControlPlane.ControlPlane.EComputeState.UNRECOGNIZED : result;
       }
       /**
        * <code>.NStreams.NControlPlane.EComputeState target_state = 8;</code>
+       * @param value The targetState to set.
+       * @return This builder for chaining.
        */
       public Builder setTargetState(NStreams.NControlPlane.ControlPlane.EComputeState value) {
         if (value == null) {
@@ -1463,6 +1603,7 @@ public final class ControlPlane {
       }
       /**
        * <code>.NStreams.NControlPlane.EComputeState target_state = 8;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTargetState() {
         
@@ -1470,11 +1611,13 @@ public final class ControlPlane {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1496,11 +1639,12 @@ public final class ControlPlane {
 
     private static final com.google.protobuf.Parser<TInstance>
         PARSER = new com.google.protobuf.AbstractParser<TInstance>() {
+      @java.lang.Override
       public TInstance parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TInstance(input, extensionRegistry);
+        return new TInstance(input, extensionRegistry);
       }
     };
 
@@ -1513,6 +1657,7 @@ public final class ControlPlane {
       return PARSER;
     }
 
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TInstance getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1525,53 +1670,62 @@ public final class ControlPlane {
 
     /**
      * <code>string idempotency_key = 1;</code>
+     * @return The idempotencyKey.
      */
     java.lang.String getIdempotencyKey();
     /**
      * <code>string idempotency_key = 1;</code>
+     * @return The bytes for idempotencyKey.
      */
     com.google.protobuf.ByteString
         getIdempotencyKeyBytes();
 
     /**
      * <code>string query_id = 2;</code>
+     * @return The queryId.
      */
     java.lang.String getQueryId();
     /**
      * <code>string query_id = 2;</code>
+     * @return The bytes for queryId.
      */
     com.google.protobuf.ByteString
         getQueryIdBytes();
 
     /**
      * <code>string yql_text = 3;</code>
+     * @return The yqlText.
      */
     java.lang.String getYqlText();
     /**
      * <code>string yql_text = 3;</code>
+     * @return The bytes for yqlText.
      */
     com.google.protobuf.ByteString
         getYqlTextBytes();
 
     /**
      * <code>string program_file_name = 4;</code>
+     * @return The programFileName.
      */
     java.lang.String getProgramFileName();
     /**
      * <code>string program_file_name = 4;</code>
+     * @return The bytes for programFileName.
      */
     com.google.protobuf.ByteString
         getProgramFileNameBytes();
 
     /**
      * <code>bool optimize_only = 5;</code>
+     * @return The optimizeOnly.
      */
     boolean getOptimizeOnly();
   }
   /**
    * Protobuf type {@code NStreams.NControlPlane.TInstallQueryRequest}
    */
-  public  static final class TInstallQueryRequest extends
+  public static final class TInstallQueryRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NStreams.NControlPlane.TInstallQueryRequest)
       TInstallQueryRequestOrBuilder {
@@ -1585,7 +1739,13 @@ public final class ControlPlane {
       queryId_ = "";
       yqlText_ = "";
       programFileName_ = "";
-      optimizeOnly_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TInstallQueryRequest();
     }
 
     @java.lang.Override
@@ -1598,7 +1758,9 @@ public final class ControlPlane {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1609,13 +1771,6 @@ public final class ControlPlane {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -1645,6 +1800,13 @@ public final class ControlPlane {
               optimizeOnly_ = input.readBool();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1662,6 +1824,7 @@ public final class ControlPlane {
       return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TInstallQueryRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TInstallQueryRequest_fieldAccessorTable
@@ -1673,7 +1836,9 @@ public final class ControlPlane {
     private volatile java.lang.Object idempotencyKey_;
     /**
      * <code>string idempotency_key = 1;</code>
+     * @return The idempotencyKey.
      */
+    @java.lang.Override
     public java.lang.String getIdempotencyKey() {
       java.lang.Object ref = idempotencyKey_;
       if (ref instanceof java.lang.String) {
@@ -1688,7 +1853,9 @@ public final class ControlPlane {
     }
     /**
      * <code>string idempotency_key = 1;</code>
+     * @return The bytes for idempotencyKey.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdempotencyKeyBytes() {
       java.lang.Object ref = idempotencyKey_;
@@ -1707,7 +1874,9 @@ public final class ControlPlane {
     private volatile java.lang.Object queryId_;
     /**
      * <code>string query_id = 2;</code>
+     * @return The queryId.
      */
+    @java.lang.Override
     public java.lang.String getQueryId() {
       java.lang.Object ref = queryId_;
       if (ref instanceof java.lang.String) {
@@ -1722,7 +1891,9 @@ public final class ControlPlane {
     }
     /**
      * <code>string query_id = 2;</code>
+     * @return The bytes for queryId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getQueryIdBytes() {
       java.lang.Object ref = queryId_;
@@ -1741,7 +1912,9 @@ public final class ControlPlane {
     private volatile java.lang.Object yqlText_;
     /**
      * <code>string yql_text = 3;</code>
+     * @return The yqlText.
      */
+    @java.lang.Override
     public java.lang.String getYqlText() {
       java.lang.Object ref = yqlText_;
       if (ref instanceof java.lang.String) {
@@ -1756,7 +1929,9 @@ public final class ControlPlane {
     }
     /**
      * <code>string yql_text = 3;</code>
+     * @return The bytes for yqlText.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getYqlTextBytes() {
       java.lang.Object ref = yqlText_;
@@ -1775,7 +1950,9 @@ public final class ControlPlane {
     private volatile java.lang.Object programFileName_;
     /**
      * <code>string program_file_name = 4;</code>
+     * @return The programFileName.
      */
+    @java.lang.Override
     public java.lang.String getProgramFileName() {
       java.lang.Object ref = programFileName_;
       if (ref instanceof java.lang.String) {
@@ -1790,7 +1967,9 @@ public final class ControlPlane {
     }
     /**
      * <code>string program_file_name = 4;</code>
+     * @return The bytes for programFileName.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getProgramFileNameBytes() {
       java.lang.Object ref = programFileName_;
@@ -1809,12 +1988,15 @@ public final class ControlPlane {
     private boolean optimizeOnly_;
     /**
      * <code>bool optimize_only = 5;</code>
+     * @return The optimizeOnly.
      */
+    @java.lang.Override
     public boolean getOptimizeOnly() {
       return optimizeOnly_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1824,6 +2006,7 @@ public final class ControlPlane {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getIdempotencyKeyBytes().isEmpty()) {
@@ -1844,6 +2027,7 @@ public final class ControlPlane {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1880,19 +2064,18 @@ public final class ControlPlane {
       }
       NStreams.NControlPlane.ControlPlane.TInstallQueryRequest other = (NStreams.NControlPlane.ControlPlane.TInstallQueryRequest) obj;
 
-      boolean result = true;
-      result = result && getIdempotencyKey()
-          .equals(other.getIdempotencyKey());
-      result = result && getQueryId()
-          .equals(other.getQueryId());
-      result = result && getYqlText()
-          .equals(other.getYqlText());
-      result = result && getProgramFileName()
-          .equals(other.getProgramFileName());
-      result = result && (getOptimizeOnly()
-          == other.getOptimizeOnly());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getIdempotencyKey()
+          .equals(other.getIdempotencyKey())) return false;
+      if (!getQueryId()
+          .equals(other.getQueryId())) return false;
+      if (!getYqlText()
+          .equals(other.getYqlText())) return false;
+      if (!getProgramFileName()
+          .equals(other.getProgramFileName())) return false;
+      if (getOptimizeOnly()
+          != other.getOptimizeOnly()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1988,6 +2171,7 @@ public final class ControlPlane {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1995,6 +2179,7 @@ public final class ControlPlane {
     public static Builder newBuilder(NStreams.NControlPlane.ControlPlane.TInstallQueryRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2018,6 +2203,7 @@ public final class ControlPlane {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TInstallQueryRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TInstallQueryRequest_fieldAccessorTable
@@ -2040,6 +2226,7 @@ public final class ControlPlane {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         idempotencyKey_ = "";
@@ -2055,15 +2242,18 @@ public final class ControlPlane {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TInstallQueryRequest_descriptor;
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TInstallQueryRequest getDefaultInstanceForType() {
         return NStreams.NControlPlane.ControlPlane.TInstallQueryRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TInstallQueryRequest build() {
         NStreams.NControlPlane.ControlPlane.TInstallQueryRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -2072,6 +2262,7 @@ public final class ControlPlane {
         return result;
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TInstallQueryRequest buildPartial() {
         NStreams.NControlPlane.ControlPlane.TInstallQueryRequest result = new NStreams.NControlPlane.ControlPlane.TInstallQueryRequest(this);
         result.idempotencyKey_ = idempotencyKey_;
@@ -2083,32 +2274,39 @@ public final class ControlPlane {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof NStreams.NControlPlane.ControlPlane.TInstallQueryRequest) {
           return mergeFrom((NStreams.NControlPlane.ControlPlane.TInstallQueryRequest)other);
@@ -2144,10 +2342,12 @@ public final class ControlPlane {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2169,6 +2369,7 @@ public final class ControlPlane {
       private java.lang.Object idempotencyKey_ = "";
       /**
        * <code>string idempotency_key = 1;</code>
+       * @return The idempotencyKey.
        */
       public java.lang.String getIdempotencyKey() {
         java.lang.Object ref = idempotencyKey_;
@@ -2184,6 +2385,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string idempotency_key = 1;</code>
+       * @return The bytes for idempotencyKey.
        */
       public com.google.protobuf.ByteString
           getIdempotencyKeyBytes() {
@@ -2200,6 +2402,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string idempotency_key = 1;</code>
+       * @param value The idempotencyKey to set.
+       * @return This builder for chaining.
        */
       public Builder setIdempotencyKey(
           java.lang.String value) {
@@ -2213,6 +2417,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string idempotency_key = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIdempotencyKey() {
         
@@ -2222,6 +2427,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string idempotency_key = 1;</code>
+       * @param value The bytes for idempotencyKey to set.
+       * @return This builder for chaining.
        */
       public Builder setIdempotencyKeyBytes(
           com.google.protobuf.ByteString value) {
@@ -2238,6 +2445,7 @@ public final class ControlPlane {
       private java.lang.Object queryId_ = "";
       /**
        * <code>string query_id = 2;</code>
+       * @return The queryId.
        */
       public java.lang.String getQueryId() {
         java.lang.Object ref = queryId_;
@@ -2253,6 +2461,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string query_id = 2;</code>
+       * @return The bytes for queryId.
        */
       public com.google.protobuf.ByteString
           getQueryIdBytes() {
@@ -2269,6 +2478,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string query_id = 2;</code>
+       * @param value The queryId to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryId(
           java.lang.String value) {
@@ -2282,6 +2493,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string query_id = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearQueryId() {
         
@@ -2291,6 +2503,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string query_id = 2;</code>
+       * @param value The bytes for queryId to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryIdBytes(
           com.google.protobuf.ByteString value) {
@@ -2307,6 +2521,7 @@ public final class ControlPlane {
       private java.lang.Object yqlText_ = "";
       /**
        * <code>string yql_text = 3;</code>
+       * @return The yqlText.
        */
       public java.lang.String getYqlText() {
         java.lang.Object ref = yqlText_;
@@ -2322,6 +2537,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string yql_text = 3;</code>
+       * @return The bytes for yqlText.
        */
       public com.google.protobuf.ByteString
           getYqlTextBytes() {
@@ -2338,6 +2554,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string yql_text = 3;</code>
+       * @param value The yqlText to set.
+       * @return This builder for chaining.
        */
       public Builder setYqlText(
           java.lang.String value) {
@@ -2351,6 +2569,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string yql_text = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearYqlText() {
         
@@ -2360,6 +2579,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string yql_text = 3;</code>
+       * @param value The bytes for yqlText to set.
+       * @return This builder for chaining.
        */
       public Builder setYqlTextBytes(
           com.google.protobuf.ByteString value) {
@@ -2376,6 +2597,7 @@ public final class ControlPlane {
       private java.lang.Object programFileName_ = "";
       /**
        * <code>string program_file_name = 4;</code>
+       * @return The programFileName.
        */
       public java.lang.String getProgramFileName() {
         java.lang.Object ref = programFileName_;
@@ -2391,6 +2613,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string program_file_name = 4;</code>
+       * @return The bytes for programFileName.
        */
       public com.google.protobuf.ByteString
           getProgramFileNameBytes() {
@@ -2407,6 +2630,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string program_file_name = 4;</code>
+       * @param value The programFileName to set.
+       * @return This builder for chaining.
        */
       public Builder setProgramFileName(
           java.lang.String value) {
@@ -2420,6 +2645,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string program_file_name = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearProgramFileName() {
         
@@ -2429,6 +2655,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string program_file_name = 4;</code>
+       * @param value The bytes for programFileName to set.
+       * @return This builder for chaining.
        */
       public Builder setProgramFileNameBytes(
           com.google.protobuf.ByteString value) {
@@ -2445,12 +2673,16 @@ public final class ControlPlane {
       private boolean optimizeOnly_ ;
       /**
        * <code>bool optimize_only = 5;</code>
+       * @return The optimizeOnly.
        */
+      @java.lang.Override
       public boolean getOptimizeOnly() {
         return optimizeOnly_;
       }
       /**
        * <code>bool optimize_only = 5;</code>
+       * @param value The optimizeOnly to set.
+       * @return This builder for chaining.
        */
       public Builder setOptimizeOnly(boolean value) {
         
@@ -2460,6 +2692,7 @@ public final class ControlPlane {
       }
       /**
        * <code>bool optimize_only = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearOptimizeOnly() {
         
@@ -2467,11 +2700,13 @@ public final class ControlPlane {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2493,11 +2728,12 @@ public final class ControlPlane {
 
     private static final com.google.protobuf.Parser<TInstallQueryRequest>
         PARSER = new com.google.protobuf.AbstractParser<TInstallQueryRequest>() {
+      @java.lang.Override
       public TInstallQueryRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TInstallQueryRequest(input, extensionRegistry);
+        return new TInstallQueryRequest(input, extensionRegistry);
       }
     };
 
@@ -2510,6 +2746,7 @@ public final class ControlPlane {
       return PARSER;
     }
 
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TInstallQueryRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2522,13 +2759,14 @@ public final class ControlPlane {
 
     /**
      * <code>uint32 version = 1;</code>
+     * @return The version.
      */
     int getVersion();
   }
   /**
    * Protobuf type {@code NStreams.NControlPlane.TInstallQueryResponse}
    */
-  public  static final class TInstallQueryResponse extends
+  public static final class TInstallQueryResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NStreams.NControlPlane.TInstallQueryResponse)
       TInstallQueryResponseOrBuilder {
@@ -2538,7 +2776,13 @@ public final class ControlPlane {
       super(builder);
     }
     private TInstallQueryResponse() {
-      version_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TInstallQueryResponse();
     }
 
     @java.lang.Override
@@ -2551,7 +2795,9 @@ public final class ControlPlane {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2562,16 +2808,16 @@ public final class ControlPlane {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               version_ = input.readUInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -2591,6 +2837,7 @@ public final class ControlPlane {
       return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TInstallQueryResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TInstallQueryResponse_fieldAccessorTable
@@ -2602,12 +2849,15 @@ public final class ControlPlane {
     private int version_;
     /**
      * <code>uint32 version = 1;</code>
+     * @return The version.
      */
+    @java.lang.Override
     public int getVersion() {
       return version_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2617,6 +2867,7 @@ public final class ControlPlane {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (version_ != 0) {
@@ -2625,6 +2876,7 @@ public final class ControlPlane {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2649,11 +2901,10 @@ public final class ControlPlane {
       }
       NStreams.NControlPlane.ControlPlane.TInstallQueryResponse other = (NStreams.NControlPlane.ControlPlane.TInstallQueryResponse) obj;
 
-      boolean result = true;
-      result = result && (getVersion()
-          == other.getVersion());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getVersion()
+          != other.getVersion()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2740,6 +2991,7 @@ public final class ControlPlane {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2747,6 +2999,7 @@ public final class ControlPlane {
     public static Builder newBuilder(NStreams.NControlPlane.ControlPlane.TInstallQueryResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2770,6 +3023,7 @@ public final class ControlPlane {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TInstallQueryResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TInstallQueryResponse_fieldAccessorTable
@@ -2792,6 +3046,7 @@ public final class ControlPlane {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         version_ = 0;
@@ -2799,15 +3054,18 @@ public final class ControlPlane {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TInstallQueryResponse_descriptor;
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TInstallQueryResponse getDefaultInstanceForType() {
         return NStreams.NControlPlane.ControlPlane.TInstallQueryResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TInstallQueryResponse build() {
         NStreams.NControlPlane.ControlPlane.TInstallQueryResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -2816,6 +3074,7 @@ public final class ControlPlane {
         return result;
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TInstallQueryResponse buildPartial() {
         NStreams.NControlPlane.ControlPlane.TInstallQueryResponse result = new NStreams.NControlPlane.ControlPlane.TInstallQueryResponse(this);
         result.version_ = version_;
@@ -2823,32 +3082,39 @@ public final class ControlPlane {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof NStreams.NControlPlane.ControlPlane.TInstallQueryResponse) {
           return mergeFrom((NStreams.NControlPlane.ControlPlane.TInstallQueryResponse)other);
@@ -2868,10 +3134,12 @@ public final class ControlPlane {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2893,12 +3161,16 @@ public final class ControlPlane {
       private int version_ ;
       /**
        * <code>uint32 version = 1;</code>
+       * @return The version.
        */
+      @java.lang.Override
       public int getVersion() {
         return version_;
       }
       /**
        * <code>uint32 version = 1;</code>
+       * @param value The version to set.
+       * @return This builder for chaining.
        */
       public Builder setVersion(int value) {
         
@@ -2908,6 +3180,7 @@ public final class ControlPlane {
       }
       /**
        * <code>uint32 version = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearVersion() {
         
@@ -2915,11 +3188,13 @@ public final class ControlPlane {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2941,11 +3216,12 @@ public final class ControlPlane {
 
     private static final com.google.protobuf.Parser<TInstallQueryResponse>
         PARSER = new com.google.protobuf.AbstractParser<TInstallQueryResponse>() {
+      @java.lang.Override
       public TInstallQueryResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TInstallQueryResponse(input, extensionRegistry);
+        return new TInstallQueryResponse(input, extensionRegistry);
       }
     };
 
@@ -2958,6 +3234,7 @@ public final class ControlPlane {
       return PARSER;
     }
 
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TInstallQueryResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2970,33 +3247,38 @@ public final class ControlPlane {
 
     /**
      * <code>string idempotency_key = 1;</code>
+     * @return The idempotencyKey.
      */
     java.lang.String getIdempotencyKey();
     /**
      * <code>string idempotency_key = 1;</code>
+     * @return The bytes for idempotencyKey.
      */
     com.google.protobuf.ByteString
         getIdempotencyKeyBytes();
 
     /**
      * <code>string query_id = 2;</code>
+     * @return The queryId.
      */
     java.lang.String getQueryId();
     /**
      * <code>string query_id = 2;</code>
+     * @return The bytes for queryId.
      */
     com.google.protobuf.ByteString
         getQueryIdBytes();
 
     /**
      * <code>uint32 previous_version = 3;</code>
+     * @return The previousVersion.
      */
     int getPreviousVersion();
   }
   /**
    * Protobuf type {@code NStreams.NControlPlane.TDeleteQueryRequest}
    */
-  public  static final class TDeleteQueryRequest extends
+  public static final class TDeleteQueryRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NStreams.NControlPlane.TDeleteQueryRequest)
       TDeleteQueryRequestOrBuilder {
@@ -3008,7 +3290,13 @@ public final class ControlPlane {
     private TDeleteQueryRequest() {
       idempotencyKey_ = "";
       queryId_ = "";
-      previousVersion_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TDeleteQueryRequest();
     }
 
     @java.lang.Override
@@ -3021,7 +3309,9 @@ public final class ControlPlane {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3032,13 +3322,6 @@ public final class ControlPlane {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -3054,6 +3337,13 @@ public final class ControlPlane {
             case 24: {
 
               previousVersion_ = input.readUInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -3073,6 +3363,7 @@ public final class ControlPlane {
       return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TDeleteQueryRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TDeleteQueryRequest_fieldAccessorTable
@@ -3084,7 +3375,9 @@ public final class ControlPlane {
     private volatile java.lang.Object idempotencyKey_;
     /**
      * <code>string idempotency_key = 1;</code>
+     * @return The idempotencyKey.
      */
+    @java.lang.Override
     public java.lang.String getIdempotencyKey() {
       java.lang.Object ref = idempotencyKey_;
       if (ref instanceof java.lang.String) {
@@ -3099,7 +3392,9 @@ public final class ControlPlane {
     }
     /**
      * <code>string idempotency_key = 1;</code>
+     * @return The bytes for idempotencyKey.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdempotencyKeyBytes() {
       java.lang.Object ref = idempotencyKey_;
@@ -3118,7 +3413,9 @@ public final class ControlPlane {
     private volatile java.lang.Object queryId_;
     /**
      * <code>string query_id = 2;</code>
+     * @return The queryId.
      */
+    @java.lang.Override
     public java.lang.String getQueryId() {
       java.lang.Object ref = queryId_;
       if (ref instanceof java.lang.String) {
@@ -3133,7 +3430,9 @@ public final class ControlPlane {
     }
     /**
      * <code>string query_id = 2;</code>
+     * @return The bytes for queryId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getQueryIdBytes() {
       java.lang.Object ref = queryId_;
@@ -3152,12 +3451,15 @@ public final class ControlPlane {
     private int previousVersion_;
     /**
      * <code>uint32 previous_version = 3;</code>
+     * @return The previousVersion.
      */
+    @java.lang.Override
     public int getPreviousVersion() {
       return previousVersion_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3167,6 +3469,7 @@ public final class ControlPlane {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getIdempotencyKeyBytes().isEmpty()) {
@@ -3181,6 +3484,7 @@ public final class ControlPlane {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3211,15 +3515,14 @@ public final class ControlPlane {
       }
       NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest other = (NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest) obj;
 
-      boolean result = true;
-      result = result && getIdempotencyKey()
-          .equals(other.getIdempotencyKey());
-      result = result && getQueryId()
-          .equals(other.getQueryId());
-      result = result && (getPreviousVersion()
-          == other.getPreviousVersion());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getIdempotencyKey()
+          .equals(other.getIdempotencyKey())) return false;
+      if (!getQueryId()
+          .equals(other.getQueryId())) return false;
+      if (getPreviousVersion()
+          != other.getPreviousVersion()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3310,6 +3613,7 @@ public final class ControlPlane {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3317,6 +3621,7 @@ public final class ControlPlane {
     public static Builder newBuilder(NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3340,6 +3645,7 @@ public final class ControlPlane {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TDeleteQueryRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TDeleteQueryRequest_fieldAccessorTable
@@ -3362,6 +3668,7 @@ public final class ControlPlane {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         idempotencyKey_ = "";
@@ -3373,15 +3680,18 @@ public final class ControlPlane {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TDeleteQueryRequest_descriptor;
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest getDefaultInstanceForType() {
         return NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest build() {
         NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -3390,6 +3700,7 @@ public final class ControlPlane {
         return result;
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest buildPartial() {
         NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest result = new NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest(this);
         result.idempotencyKey_ = idempotencyKey_;
@@ -3399,32 +3710,39 @@ public final class ControlPlane {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest) {
           return mergeFrom((NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest)other);
@@ -3452,10 +3770,12 @@ public final class ControlPlane {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3477,6 +3797,7 @@ public final class ControlPlane {
       private java.lang.Object idempotencyKey_ = "";
       /**
        * <code>string idempotency_key = 1;</code>
+       * @return The idempotencyKey.
        */
       public java.lang.String getIdempotencyKey() {
         java.lang.Object ref = idempotencyKey_;
@@ -3492,6 +3813,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string idempotency_key = 1;</code>
+       * @return The bytes for idempotencyKey.
        */
       public com.google.protobuf.ByteString
           getIdempotencyKeyBytes() {
@@ -3508,6 +3830,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string idempotency_key = 1;</code>
+       * @param value The idempotencyKey to set.
+       * @return This builder for chaining.
        */
       public Builder setIdempotencyKey(
           java.lang.String value) {
@@ -3521,6 +3845,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string idempotency_key = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIdempotencyKey() {
         
@@ -3530,6 +3855,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string idempotency_key = 1;</code>
+       * @param value The bytes for idempotencyKey to set.
+       * @return This builder for chaining.
        */
       public Builder setIdempotencyKeyBytes(
           com.google.protobuf.ByteString value) {
@@ -3546,6 +3873,7 @@ public final class ControlPlane {
       private java.lang.Object queryId_ = "";
       /**
        * <code>string query_id = 2;</code>
+       * @return The queryId.
        */
       public java.lang.String getQueryId() {
         java.lang.Object ref = queryId_;
@@ -3561,6 +3889,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string query_id = 2;</code>
+       * @return The bytes for queryId.
        */
       public com.google.protobuf.ByteString
           getQueryIdBytes() {
@@ -3577,6 +3906,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string query_id = 2;</code>
+       * @param value The queryId to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryId(
           java.lang.String value) {
@@ -3590,6 +3921,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string query_id = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearQueryId() {
         
@@ -3599,6 +3931,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string query_id = 2;</code>
+       * @param value The bytes for queryId to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryIdBytes(
           com.google.protobuf.ByteString value) {
@@ -3615,12 +3949,16 @@ public final class ControlPlane {
       private int previousVersion_ ;
       /**
        * <code>uint32 previous_version = 3;</code>
+       * @return The previousVersion.
        */
+      @java.lang.Override
       public int getPreviousVersion() {
         return previousVersion_;
       }
       /**
        * <code>uint32 previous_version = 3;</code>
+       * @param value The previousVersion to set.
+       * @return This builder for chaining.
        */
       public Builder setPreviousVersion(int value) {
         
@@ -3630,6 +3968,7 @@ public final class ControlPlane {
       }
       /**
        * <code>uint32 previous_version = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPreviousVersion() {
         
@@ -3637,11 +3976,13 @@ public final class ControlPlane {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3663,11 +4004,12 @@ public final class ControlPlane {
 
     private static final com.google.protobuf.Parser<TDeleteQueryRequest>
         PARSER = new com.google.protobuf.AbstractParser<TDeleteQueryRequest>() {
+      @java.lang.Override
       public TDeleteQueryRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TDeleteQueryRequest(input, extensionRegistry);
+        return new TDeleteQueryRequest(input, extensionRegistry);
       }
     };
 
@@ -3680,6 +4022,7 @@ public final class ControlPlane {
       return PARSER;
     }
 
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TDeleteQueryRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3693,7 +4036,7 @@ public final class ControlPlane {
   /**
    * Protobuf type {@code NStreams.NControlPlane.TDeleteQueryResponse}
    */
-  public  static final class TDeleteQueryResponse extends
+  public static final class TDeleteQueryResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NStreams.NControlPlane.TDeleteQueryResponse)
       TDeleteQueryResponseOrBuilder {
@@ -3706,6 +4049,13 @@ public final class ControlPlane {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TDeleteQueryResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3715,6 +4065,9 @@ public final class ControlPlane {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3726,7 +4079,7 @@ public final class ControlPlane {
               done = true;
               break;
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -3749,6 +4102,7 @@ public final class ControlPlane {
       return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TDeleteQueryResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TDeleteQueryResponse_fieldAccessorTable
@@ -3757,6 +4111,7 @@ public final class ControlPlane {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3766,11 +4121,13 @@ public final class ControlPlane {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3791,9 +4148,8 @@ public final class ControlPlane {
       }
       NStreams.NControlPlane.ControlPlane.TDeleteQueryResponse other = (NStreams.NControlPlane.ControlPlane.TDeleteQueryResponse) obj;
 
-      boolean result = true;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3878,6 +4234,7 @@ public final class ControlPlane {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3885,6 +4242,7 @@ public final class ControlPlane {
     public static Builder newBuilder(NStreams.NControlPlane.ControlPlane.TDeleteQueryResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3908,6 +4266,7 @@ public final class ControlPlane {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TDeleteQueryResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TDeleteQueryResponse_fieldAccessorTable
@@ -3930,20 +4289,24 @@ public final class ControlPlane {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TDeleteQueryResponse_descriptor;
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TDeleteQueryResponse getDefaultInstanceForType() {
         return NStreams.NControlPlane.ControlPlane.TDeleteQueryResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TDeleteQueryResponse build() {
         NStreams.NControlPlane.ControlPlane.TDeleteQueryResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -3952,38 +4315,46 @@ public final class ControlPlane {
         return result;
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TDeleteQueryResponse buildPartial() {
         NStreams.NControlPlane.ControlPlane.TDeleteQueryResponse result = new NStreams.NControlPlane.ControlPlane.TDeleteQueryResponse(this);
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof NStreams.NControlPlane.ControlPlane.TDeleteQueryResponse) {
           return mergeFrom((NStreams.NControlPlane.ControlPlane.TDeleteQueryResponse)other);
@@ -4000,10 +4371,12 @@ public final class ControlPlane {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4021,11 +4394,13 @@ public final class ControlPlane {
         }
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4047,11 +4422,12 @@ public final class ControlPlane {
 
     private static final com.google.protobuf.Parser<TDeleteQueryResponse>
         PARSER = new com.google.protobuf.AbstractParser<TDeleteQueryResponse>() {
+      @java.lang.Override
       public TDeleteQueryResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TDeleteQueryResponse(input, extensionRegistry);
+        return new TDeleteQueryResponse(input, extensionRegistry);
       }
     };
 
@@ -4064,6 +4440,7 @@ public final class ControlPlane {
       return PARSER;
     }
 
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TDeleteQueryResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4076,10 +4453,12 @@ public final class ControlPlane {
 
     /**
      * <code>.NStreams.NControlPlane.TListQueriesRequest.TFilter filter = 1;</code>
+     * @return Whether the filter field is set.
      */
     boolean hasFilter();
     /**
      * <code>.NStreams.NControlPlane.TListQueriesRequest.TFilter filter = 1;</code>
+     * @return The filter.
      */
     NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter getFilter();
     /**
@@ -4090,7 +4469,7 @@ public final class ControlPlane {
   /**
    * Protobuf type {@code NStreams.NControlPlane.TListQueriesRequest}
    */
-  public  static final class TListQueriesRequest extends
+  public static final class TListQueriesRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NStreams.NControlPlane.TListQueriesRequest)
       TListQueriesRequestOrBuilder {
@@ -4103,6 +4482,13 @@ public final class ControlPlane {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TListQueriesRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -4112,7 +4498,9 @@ public final class ControlPlane {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4123,13 +4511,6 @@ public final class ControlPlane {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter.Builder subBuilder = null;
               if (filter_ != null) {
@@ -4141,6 +4522,13 @@ public final class ControlPlane {
                 filter_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -4160,6 +4548,7 @@ public final class ControlPlane {
       return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TListQueriesRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TListQueriesRequest_fieldAccessorTable
@@ -4173,10 +4562,17 @@ public final class ControlPlane {
 
       /**
        * <code>string query_id = 1;</code>
+       * @return Whether the queryId field is set.
+       */
+      boolean hasQueryId();
+      /**
+       * <code>string query_id = 1;</code>
+       * @return The queryId.
        */
       java.lang.String getQueryId();
       /**
        * <code>string query_id = 1;</code>
+       * @return The bytes for queryId.
        */
       com.google.protobuf.ByteString
           getQueryIdBytes();
@@ -4186,7 +4582,7 @@ public final class ControlPlane {
     /**
      * Protobuf type {@code NStreams.NControlPlane.TListQueriesRequest.TFilter}
      */
-    public  static final class TFilter extends
+    public static final class TFilter extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NStreams.NControlPlane.TListQueriesRequest.TFilter)
         TFilterOrBuilder {
@@ -4199,6 +4595,13 @@ public final class ControlPlane {
       }
 
       @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new TFilter();
+      }
+
+      @java.lang.Override
       public final com.google.protobuf.UnknownFieldSet
       getUnknownFields() {
         return this.unknownFields;
@@ -4208,7 +4611,9 @@ public final class ControlPlane {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -4219,17 +4624,17 @@ public final class ControlPlane {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 10: {
                 java.lang.String s = input.readStringRequireUtf8();
                 entityCase_ = 1;
                 entity_ = s;
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
                 break;
               }
             }
@@ -4249,6 +4654,7 @@ public final class ControlPlane {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TListQueriesRequest_TFilter_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TListQueriesRequest_TFilter_fieldAccessorTable
@@ -4259,7 +4665,8 @@ public final class ControlPlane {
       private int entityCase_ = 0;
       private java.lang.Object entity_;
       public enum EntityCase
-          implements com.google.protobuf.Internal.EnumLite {
+          implements com.google.protobuf.Internal.EnumLite,
+              com.google.protobuf.AbstractMessage.InternalOneOfEnum {
         QUERY_ID(1),
         ENTITY_NOT_SET(0);
         private final int value;
@@ -4267,6 +4674,8 @@ public final class ControlPlane {
           this.value = value;
         }
         /**
+         * @param value The number of the enum to look for.
+         * @return The enum associated with the given number.
          * @deprecated Use {@link #forNumber(int)} instead.
          */
         @java.lang.Deprecated
@@ -4295,6 +4704,14 @@ public final class ControlPlane {
       public static final int QUERY_ID_FIELD_NUMBER = 1;
       /**
        * <code>string query_id = 1;</code>
+       * @return Whether the queryId field is set.
+       */
+      public boolean hasQueryId() {
+        return entityCase_ == 1;
+      }
+      /**
+       * <code>string query_id = 1;</code>
+       * @return The queryId.
        */
       public java.lang.String getQueryId() {
         java.lang.Object ref = "";
@@ -4315,6 +4732,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string query_id = 1;</code>
+       * @return The bytes for queryId.
        */
       public com.google.protobuf.ByteString
           getQueryIdBytes() {
@@ -4336,6 +4754,7 @@ public final class ControlPlane {
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -4345,6 +4764,7 @@ public final class ControlPlane {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (entityCase_ == 1) {
@@ -4353,6 +4773,7 @@ public final class ControlPlane {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -4376,20 +4797,17 @@ public final class ControlPlane {
         }
         NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter other = (NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter) obj;
 
-        boolean result = true;
-        result = result && getEntityCase().equals(
-            other.getEntityCase());
-        if (!result) return false;
+        if (!getEntityCase().equals(other.getEntityCase())) return false;
         switch (entityCase_) {
           case 1:
-            result = result && getQueryId()
-                .equals(other.getQueryId());
+            if (!getQueryId()
+                .equals(other.getQueryId())) return false;
             break;
           case 0:
           default:
         }
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -4482,6 +4900,7 @@ public final class ControlPlane {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -4489,6 +4908,7 @@ public final class ControlPlane {
       public static Builder newBuilder(NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -4512,6 +4932,7 @@ public final class ControlPlane {
           return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TListQueriesRequest_TFilter_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TListQueriesRequest_TFilter_fieldAccessorTable
@@ -4534,6 +4955,7 @@ public final class ControlPlane {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           entityCase_ = 0;
@@ -4541,15 +4963,18 @@ public final class ControlPlane {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TListQueriesRequest_TFilter_descriptor;
         }
 
+        @java.lang.Override
         public NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter getDefaultInstanceForType() {
           return NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter.getDefaultInstance();
         }
 
+        @java.lang.Override
         public NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter build() {
           NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter result = buildPartial();
           if (!result.isInitialized()) {
@@ -4558,6 +4983,7 @@ public final class ControlPlane {
           return result;
         }
 
+        @java.lang.Override
         public NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter buildPartial() {
           NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter result = new NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter(this);
           if (entityCase_ == 1) {
@@ -4568,32 +4994,39 @@ public final class ControlPlane {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter) {
             return mergeFrom((NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter)other);
@@ -4621,10 +5054,12 @@ public final class ControlPlane {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4660,7 +5095,17 @@ public final class ControlPlane {
 
         /**
          * <code>string query_id = 1;</code>
+         * @return Whether the queryId field is set.
          */
+        @java.lang.Override
+        public boolean hasQueryId() {
+          return entityCase_ == 1;
+        }
+        /**
+         * <code>string query_id = 1;</code>
+         * @return The queryId.
+         */
+        @java.lang.Override
         public java.lang.String getQueryId() {
           java.lang.Object ref = "";
           if (entityCase_ == 1) {
@@ -4680,7 +5125,9 @@ public final class ControlPlane {
         }
         /**
          * <code>string query_id = 1;</code>
+         * @return The bytes for queryId.
          */
+        @java.lang.Override
         public com.google.protobuf.ByteString
             getQueryIdBytes() {
           java.lang.Object ref = "";
@@ -4701,6 +5148,8 @@ public final class ControlPlane {
         }
         /**
          * <code>string query_id = 1;</code>
+         * @param value The queryId to set.
+         * @return This builder for chaining.
          */
         public Builder setQueryId(
             java.lang.String value) {
@@ -4714,6 +5163,7 @@ public final class ControlPlane {
         }
         /**
          * <code>string query_id = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearQueryId() {
           if (entityCase_ == 1) {
@@ -4725,6 +5175,8 @@ public final class ControlPlane {
         }
         /**
          * <code>string query_id = 1;</code>
+         * @param value The bytes for queryId to set.
+         * @return This builder for chaining.
          */
         public Builder setQueryIdBytes(
             com.google.protobuf.ByteString value) {
@@ -4737,11 +5189,13 @@ public final class ControlPlane {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -4763,11 +5217,12 @@ public final class ControlPlane {
 
       private static final com.google.protobuf.Parser<TFilter>
           PARSER = new com.google.protobuf.AbstractParser<TFilter>() {
+        @java.lang.Override
         public TFilter parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new TFilter(input, extensionRegistry);
+          return new TFilter(input, extensionRegistry);
         }
       };
 
@@ -4780,6 +5235,7 @@ public final class ControlPlane {
         return PARSER;
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -4790,24 +5246,30 @@ public final class ControlPlane {
     private NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter filter_;
     /**
      * <code>.NStreams.NControlPlane.TListQueriesRequest.TFilter filter = 1;</code>
+     * @return Whether the filter field is set.
      */
+    @java.lang.Override
     public boolean hasFilter() {
       return filter_ != null;
     }
     /**
      * <code>.NStreams.NControlPlane.TListQueriesRequest.TFilter filter = 1;</code>
+     * @return The filter.
      */
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter getFilter() {
       return filter_ == null ? NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter.getDefaultInstance() : filter_;
     }
     /**
      * <code>.NStreams.NControlPlane.TListQueriesRequest.TFilter filter = 1;</code>
      */
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilterOrBuilder getFilterOrBuilder() {
       return getFilter();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4817,6 +5279,7 @@ public final class ControlPlane {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (filter_ != null) {
@@ -4825,6 +5288,7 @@ public final class ControlPlane {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4849,14 +5313,13 @@ public final class ControlPlane {
       }
       NStreams.NControlPlane.ControlPlane.TListQueriesRequest other = (NStreams.NControlPlane.ControlPlane.TListQueriesRequest) obj;
 
-      boolean result = true;
-      result = result && (hasFilter() == other.hasFilter());
+      if (hasFilter() != other.hasFilter()) return false;
       if (hasFilter()) {
-        result = result && getFilter()
-            .equals(other.getFilter());
+        if (!getFilter()
+            .equals(other.getFilter())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4945,6 +5408,7 @@ public final class ControlPlane {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4952,6 +5416,7 @@ public final class ControlPlane {
     public static Builder newBuilder(NStreams.NControlPlane.ControlPlane.TListQueriesRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4975,6 +5440,7 @@ public final class ControlPlane {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TListQueriesRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TListQueriesRequest_fieldAccessorTable
@@ -4997,6 +5463,7 @@ public final class ControlPlane {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (filterBuilder_ == null) {
@@ -5008,15 +5475,18 @@ public final class ControlPlane {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TListQueriesRequest_descriptor;
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TListQueriesRequest getDefaultInstanceForType() {
         return NStreams.NControlPlane.ControlPlane.TListQueriesRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TListQueriesRequest build() {
         NStreams.NControlPlane.ControlPlane.TListQueriesRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -5025,6 +5495,7 @@ public final class ControlPlane {
         return result;
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TListQueriesRequest buildPartial() {
         NStreams.NControlPlane.ControlPlane.TListQueriesRequest result = new NStreams.NControlPlane.ControlPlane.TListQueriesRequest(this);
         if (filterBuilder_ == null) {
@@ -5036,32 +5507,39 @@ public final class ControlPlane {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof NStreams.NControlPlane.ControlPlane.TListQueriesRequest) {
           return mergeFrom((NStreams.NControlPlane.ControlPlane.TListQueriesRequest)other);
@@ -5081,10 +5559,12 @@ public final class ControlPlane {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5103,17 +5583,19 @@ public final class ControlPlane {
         return this;
       }
 
-      private NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter filter_ = null;
+      private NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter filter_;
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter, NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter.Builder, NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilterOrBuilder> filterBuilder_;
       /**
        * <code>.NStreams.NControlPlane.TListQueriesRequest.TFilter filter = 1;</code>
+       * @return Whether the filter field is set.
        */
       public boolean hasFilter() {
         return filterBuilder_ != null || filter_ != null;
       }
       /**
        * <code>.NStreams.NControlPlane.TListQueriesRequest.TFilter filter = 1;</code>
+       * @return The filter.
        */
       public NStreams.NControlPlane.ControlPlane.TListQueriesRequest.TFilter getFilter() {
         if (filterBuilder_ == null) {
@@ -5219,11 +5701,13 @@ public final class ControlPlane {
         }
         return filterBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5245,11 +5729,12 @@ public final class ControlPlane {
 
     private static final com.google.protobuf.Parser<TListQueriesRequest>
         PARSER = new com.google.protobuf.AbstractParser<TListQueriesRequest>() {
+      @java.lang.Override
       public TListQueriesRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TListQueriesRequest(input, extensionRegistry);
+        return new TListQueriesRequest(input, extensionRegistry);
       }
     };
 
@@ -5262,6 +5747,7 @@ public final class ControlPlane {
       return PARSER;
     }
 
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TListQueriesRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5299,7 +5785,7 @@ public final class ControlPlane {
   /**
    * Protobuf type {@code NStreams.NControlPlane.TListQueriesResponse}
    */
-  public  static final class TListQueriesResponse extends
+  public static final class TListQueriesResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NStreams.NControlPlane.TListQueriesResponse)
       TListQueriesResponseOrBuilder {
@@ -5313,6 +5799,13 @@ public final class ControlPlane {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TListQueriesResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -5322,6 +5815,9 @@ public final class ControlPlane {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -5333,20 +5829,20 @@ public final class ControlPlane {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 queries_ = new java.util.ArrayList<NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery>();
                 mutable_bitField0_ |= 0x00000001;
               }
               queries_.add(
                   input.readMessage(NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -5357,7 +5853,7 @@ public final class ControlPlane {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           queries_ = java.util.Collections.unmodifiableList(queries_);
         }
         this.unknownFields = unknownFields.build();
@@ -5369,6 +5865,7 @@ public final class ControlPlane {
       return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TListQueriesResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TListQueriesResponse_fieldAccessorTable
@@ -5382,34 +5879,41 @@ public final class ControlPlane {
 
       /**
        * <code>string query_id = 1;</code>
+       * @return The queryId.
        */
       java.lang.String getQueryId();
       /**
        * <code>string query_id = 1;</code>
+       * @return The bytes for queryId.
        */
       com.google.protobuf.ByteString
           getQueryIdBytes();
 
       /**
        * <code>uint32 active_version = 2;</code>
+       * @return The activeVersion.
        */
       int getActiveVersion();
 
       /**
        * <code>.NStreams.NControlPlane.EComputeState state = 3;</code>
+       * @return The enum numeric value on the wire for state.
        */
       int getStateValue();
       /**
        * <code>.NStreams.NControlPlane.EComputeState state = 3;</code>
+       * @return The state.
        */
       NStreams.NControlPlane.ControlPlane.EComputeState getState();
 
       /**
        * <code>string user = 4;</code>
+       * @return The user.
        */
       java.lang.String getUser();
       /**
        * <code>string user = 4;</code>
+       * @return The bytes for user.
        */
       com.google.protobuf.ByteString
           getUserBytes();
@@ -5417,7 +5921,7 @@ public final class ControlPlane {
     /**
      * Protobuf type {@code NStreams.NControlPlane.TListQueriesResponse.TQuery}
      */
-    public  static final class TQuery extends
+    public static final class TQuery extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NStreams.NControlPlane.TListQueriesResponse.TQuery)
         TQueryOrBuilder {
@@ -5428,9 +5932,15 @@ public final class ControlPlane {
       }
       private TQuery() {
         queryId_ = "";
-        activeVersion_ = 0;
         state_ = 0;
         user_ = "";
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new TQuery();
       }
 
       @java.lang.Override
@@ -5443,7 +5953,9 @@ public final class ControlPlane {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -5454,13 +5966,6 @@ public final class ControlPlane {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 10: {
                 java.lang.String s = input.readStringRequireUtf8();
 
@@ -5484,6 +5989,13 @@ public final class ControlPlane {
                 user_ = s;
                 break;
               }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -5501,6 +6013,7 @@ public final class ControlPlane {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TListQueriesResponse_TQuery_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TListQueriesResponse_TQuery_fieldAccessorTable
@@ -5512,7 +6025,9 @@ public final class ControlPlane {
       private volatile java.lang.Object queryId_;
       /**
        * <code>string query_id = 1;</code>
+       * @return The queryId.
        */
+      @java.lang.Override
       public java.lang.String getQueryId() {
         java.lang.Object ref = queryId_;
         if (ref instanceof java.lang.String) {
@@ -5527,7 +6042,9 @@ public final class ControlPlane {
       }
       /**
        * <code>string query_id = 1;</code>
+       * @return The bytes for queryId.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getQueryIdBytes() {
         java.lang.Object ref = queryId_;
@@ -5546,7 +6063,9 @@ public final class ControlPlane {
       private int activeVersion_;
       /**
        * <code>uint32 active_version = 2;</code>
+       * @return The activeVersion.
        */
+      @java.lang.Override
       public int getActiveVersion() {
         return activeVersion_;
       }
@@ -5555,14 +6074,17 @@ public final class ControlPlane {
       private int state_;
       /**
        * <code>.NStreams.NControlPlane.EComputeState state = 3;</code>
+       * @return The enum numeric value on the wire for state.
        */
-      public int getStateValue() {
+      @java.lang.Override public int getStateValue() {
         return state_;
       }
       /**
        * <code>.NStreams.NControlPlane.EComputeState state = 3;</code>
+       * @return The state.
        */
-      public NStreams.NControlPlane.ControlPlane.EComputeState getState() {
+      @java.lang.Override public NStreams.NControlPlane.ControlPlane.EComputeState getState() {
+        @SuppressWarnings("deprecation")
         NStreams.NControlPlane.ControlPlane.EComputeState result = NStreams.NControlPlane.ControlPlane.EComputeState.valueOf(state_);
         return result == null ? NStreams.NControlPlane.ControlPlane.EComputeState.UNRECOGNIZED : result;
       }
@@ -5571,7 +6093,9 @@ public final class ControlPlane {
       private volatile java.lang.Object user_;
       /**
        * <code>string user = 4;</code>
+       * @return The user.
        */
+      @java.lang.Override
       public java.lang.String getUser() {
         java.lang.Object ref = user_;
         if (ref instanceof java.lang.String) {
@@ -5586,7 +6110,9 @@ public final class ControlPlane {
       }
       /**
        * <code>string user = 4;</code>
+       * @return The bytes for user.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getUserBytes() {
         java.lang.Object ref = user_;
@@ -5602,6 +6128,7 @@ public final class ControlPlane {
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -5611,6 +6138,7 @@ public final class ControlPlane {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (!getQueryIdBytes().isEmpty()) {
@@ -5628,6 +6156,7 @@ public final class ControlPlane {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -5662,16 +6191,15 @@ public final class ControlPlane {
         }
         NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery other = (NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery) obj;
 
-        boolean result = true;
-        result = result && getQueryId()
-            .equals(other.getQueryId());
-        result = result && (getActiveVersion()
-            == other.getActiveVersion());
-        result = result && state_ == other.state_;
-        result = result && getUser()
-            .equals(other.getUser());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!getQueryId()
+            .equals(other.getQueryId())) return false;
+        if (getActiveVersion()
+            != other.getActiveVersion()) return false;
+        if (state_ != other.state_) return false;
+        if (!getUser()
+            .equals(other.getUser())) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -5764,6 +6292,7 @@ public final class ControlPlane {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -5771,6 +6300,7 @@ public final class ControlPlane {
       public static Builder newBuilder(NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -5794,6 +6324,7 @@ public final class ControlPlane {
           return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TListQueriesResponse_TQuery_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TListQueriesResponse_TQuery_fieldAccessorTable
@@ -5816,6 +6347,7 @@ public final class ControlPlane {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           queryId_ = "";
@@ -5829,15 +6361,18 @@ public final class ControlPlane {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TListQueriesResponse_TQuery_descriptor;
         }
 
+        @java.lang.Override
         public NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery getDefaultInstanceForType() {
           return NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery.getDefaultInstance();
         }
 
+        @java.lang.Override
         public NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery build() {
           NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery result = buildPartial();
           if (!result.isInitialized()) {
@@ -5846,6 +6381,7 @@ public final class ControlPlane {
           return result;
         }
 
+        @java.lang.Override
         public NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery buildPartial() {
           NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery result = new NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery(this);
           result.queryId_ = queryId_;
@@ -5856,32 +6392,39 @@ public final class ControlPlane {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery) {
             return mergeFrom((NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery)other);
@@ -5912,10 +6455,12 @@ public final class ControlPlane {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5937,6 +6482,7 @@ public final class ControlPlane {
         private java.lang.Object queryId_ = "";
         /**
          * <code>string query_id = 1;</code>
+         * @return The queryId.
          */
         public java.lang.String getQueryId() {
           java.lang.Object ref = queryId_;
@@ -5952,6 +6498,7 @@ public final class ControlPlane {
         }
         /**
          * <code>string query_id = 1;</code>
+         * @return The bytes for queryId.
          */
         public com.google.protobuf.ByteString
             getQueryIdBytes() {
@@ -5968,6 +6515,8 @@ public final class ControlPlane {
         }
         /**
          * <code>string query_id = 1;</code>
+         * @param value The queryId to set.
+         * @return This builder for chaining.
          */
         public Builder setQueryId(
             java.lang.String value) {
@@ -5981,6 +6530,7 @@ public final class ControlPlane {
         }
         /**
          * <code>string query_id = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearQueryId() {
           
@@ -5990,6 +6540,8 @@ public final class ControlPlane {
         }
         /**
          * <code>string query_id = 1;</code>
+         * @param value The bytes for queryId to set.
+         * @return This builder for chaining.
          */
         public Builder setQueryIdBytes(
             com.google.protobuf.ByteString value) {
@@ -6006,12 +6558,16 @@ public final class ControlPlane {
         private int activeVersion_ ;
         /**
          * <code>uint32 active_version = 2;</code>
+         * @return The activeVersion.
          */
+        @java.lang.Override
         public int getActiveVersion() {
           return activeVersion_;
         }
         /**
          * <code>uint32 active_version = 2;</code>
+         * @param value The activeVersion to set.
+         * @return This builder for chaining.
          */
         public Builder setActiveVersion(int value) {
           
@@ -6021,6 +6577,7 @@ public final class ControlPlane {
         }
         /**
          * <code>uint32 active_version = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearActiveVersion() {
           
@@ -6032,27 +6589,36 @@ public final class ControlPlane {
         private int state_ = 0;
         /**
          * <code>.NStreams.NControlPlane.EComputeState state = 3;</code>
+         * @return The enum numeric value on the wire for state.
          */
-        public int getStateValue() {
+        @java.lang.Override public int getStateValue() {
           return state_;
         }
         /**
          * <code>.NStreams.NControlPlane.EComputeState state = 3;</code>
+         * @param value The enum numeric value on the wire for state to set.
+         * @return This builder for chaining.
          */
         public Builder setStateValue(int value) {
+          
           state_ = value;
           onChanged();
           return this;
         }
         /**
          * <code>.NStreams.NControlPlane.EComputeState state = 3;</code>
+         * @return The state.
          */
+        @java.lang.Override
         public NStreams.NControlPlane.ControlPlane.EComputeState getState() {
+          @SuppressWarnings("deprecation")
           NStreams.NControlPlane.ControlPlane.EComputeState result = NStreams.NControlPlane.ControlPlane.EComputeState.valueOf(state_);
           return result == null ? NStreams.NControlPlane.ControlPlane.EComputeState.UNRECOGNIZED : result;
         }
         /**
          * <code>.NStreams.NControlPlane.EComputeState state = 3;</code>
+         * @param value The state to set.
+         * @return This builder for chaining.
          */
         public Builder setState(NStreams.NControlPlane.ControlPlane.EComputeState value) {
           if (value == null) {
@@ -6065,6 +6631,7 @@ public final class ControlPlane {
         }
         /**
          * <code>.NStreams.NControlPlane.EComputeState state = 3;</code>
+         * @return This builder for chaining.
          */
         public Builder clearState() {
           
@@ -6076,6 +6643,7 @@ public final class ControlPlane {
         private java.lang.Object user_ = "";
         /**
          * <code>string user = 4;</code>
+         * @return The user.
          */
         public java.lang.String getUser() {
           java.lang.Object ref = user_;
@@ -6091,6 +6659,7 @@ public final class ControlPlane {
         }
         /**
          * <code>string user = 4;</code>
+         * @return The bytes for user.
          */
         public com.google.protobuf.ByteString
             getUserBytes() {
@@ -6107,6 +6676,8 @@ public final class ControlPlane {
         }
         /**
          * <code>string user = 4;</code>
+         * @param value The user to set.
+         * @return This builder for chaining.
          */
         public Builder setUser(
             java.lang.String value) {
@@ -6120,6 +6691,7 @@ public final class ControlPlane {
         }
         /**
          * <code>string user = 4;</code>
+         * @return This builder for chaining.
          */
         public Builder clearUser() {
           
@@ -6129,6 +6701,8 @@ public final class ControlPlane {
         }
         /**
          * <code>string user = 4;</code>
+         * @param value The bytes for user to set.
+         * @return This builder for chaining.
          */
         public Builder setUserBytes(
             com.google.protobuf.ByteString value) {
@@ -6141,11 +6715,13 @@ public final class ControlPlane {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -6167,11 +6743,12 @@ public final class ControlPlane {
 
       private static final com.google.protobuf.Parser<TQuery>
           PARSER = new com.google.protobuf.AbstractParser<TQuery>() {
+        @java.lang.Override
         public TQuery parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new TQuery(input, extensionRegistry);
+          return new TQuery(input, extensionRegistry);
         }
       };
 
@@ -6184,6 +6761,7 @@ public final class ControlPlane {
         return PARSER;
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -6195,12 +6773,14 @@ public final class ControlPlane {
     /**
      * <code>repeated .NStreams.NControlPlane.TListQueriesResponse.TQuery queries = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery> getQueriesList() {
       return queries_;
     }
     /**
      * <code>repeated .NStreams.NControlPlane.TListQueriesResponse.TQuery queries = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQueryOrBuilder> 
         getQueriesOrBuilderList() {
       return queries_;
@@ -6208,24 +6788,28 @@ public final class ControlPlane {
     /**
      * <code>repeated .NStreams.NControlPlane.TListQueriesResponse.TQuery queries = 1;</code>
      */
+    @java.lang.Override
     public int getQueriesCount() {
       return queries_.size();
     }
     /**
      * <code>repeated .NStreams.NControlPlane.TListQueriesResponse.TQuery queries = 1;</code>
      */
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery getQueries(int index) {
       return queries_.get(index);
     }
     /**
      * <code>repeated .NStreams.NControlPlane.TListQueriesResponse.TQuery queries = 1;</code>
      */
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQueryOrBuilder getQueriesOrBuilder(
         int index) {
       return queries_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6235,6 +6819,7 @@ public final class ControlPlane {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < queries_.size(); i++) {
@@ -6243,6 +6828,7 @@ public final class ControlPlane {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -6267,11 +6853,10 @@ public final class ControlPlane {
       }
       NStreams.NControlPlane.ControlPlane.TListQueriesResponse other = (NStreams.NControlPlane.ControlPlane.TListQueriesResponse) obj;
 
-      boolean result = true;
-      result = result && getQueriesList()
-          .equals(other.getQueriesList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getQueriesList()
+          .equals(other.getQueriesList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -6360,6 +6945,7 @@ public final class ControlPlane {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -6367,6 +6953,7 @@ public final class ControlPlane {
     public static Builder newBuilder(NStreams.NControlPlane.ControlPlane.TListQueriesResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -6390,6 +6977,7 @@ public final class ControlPlane {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TListQueriesResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TListQueriesResponse_fieldAccessorTable
@@ -6413,6 +7001,7 @@ public final class ControlPlane {
           getQueriesFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (queriesBuilder_ == null) {
@@ -6424,15 +7013,18 @@ public final class ControlPlane {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TListQueriesResponse_descriptor;
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TListQueriesResponse getDefaultInstanceForType() {
         return NStreams.NControlPlane.ControlPlane.TListQueriesResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TListQueriesResponse build() {
         NStreams.NControlPlane.ControlPlane.TListQueriesResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -6441,11 +7033,12 @@ public final class ControlPlane {
         return result;
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TListQueriesResponse buildPartial() {
         NStreams.NControlPlane.ControlPlane.TListQueriesResponse result = new NStreams.NControlPlane.ControlPlane.TListQueriesResponse(this);
         int from_bitField0_ = bitField0_;
         if (queriesBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             queries_ = java.util.Collections.unmodifiableList(queries_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -6457,32 +7050,39 @@ public final class ControlPlane {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof NStreams.NControlPlane.ControlPlane.TListQueriesResponse) {
           return mergeFrom((NStreams.NControlPlane.ControlPlane.TListQueriesResponse)other);
@@ -6525,10 +7125,12 @@ public final class ControlPlane {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6551,7 +7153,7 @@ public final class ControlPlane {
       private java.util.List<NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery> queries_ =
         java.util.Collections.emptyList();
       private void ensureQueriesIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           queries_ = new java.util.ArrayList<NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery>(queries_);
           bitField0_ |= 0x00000001;
          }
@@ -6780,18 +7382,20 @@ public final class ControlPlane {
           queriesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery, NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQuery.Builder, NStreams.NControlPlane.ControlPlane.TListQueriesResponse.TQueryOrBuilder>(
                   queries_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           queries_ = null;
         }
         return queriesBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -6813,11 +7417,12 @@ public final class ControlPlane {
 
     private static final com.google.protobuf.Parser<TListQueriesResponse>
         PARSER = new com.google.protobuf.AbstractParser<TListQueriesResponse>() {
+      @java.lang.Override
       public TListQueriesResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TListQueriesResponse(input, extensionRegistry);
+        return new TListQueriesResponse(input, extensionRegistry);
       }
     };
 
@@ -6830,6 +7435,7 @@ public final class ControlPlane {
       return PARSER;
     }
 
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TListQueriesResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -6842,10 +7448,12 @@ public final class ControlPlane {
 
     /**
      * <code>string query_id = 1;</code>
+     * @return The queryId.
      */
     java.lang.String getQueryId();
     /**
      * <code>string query_id = 1;</code>
+     * @return The bytes for queryId.
      */
     com.google.protobuf.ByteString
         getQueryIdBytes();
@@ -6853,7 +7461,7 @@ public final class ControlPlane {
   /**
    * Protobuf type {@code NStreams.NControlPlane.TDescribeQueryRequest}
    */
-  public  static final class TDescribeQueryRequest extends
+  public static final class TDescribeQueryRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NStreams.NControlPlane.TDescribeQueryRequest)
       TDescribeQueryRequestOrBuilder {
@@ -6867,6 +7475,13 @@ public final class ControlPlane {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TDescribeQueryRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -6876,7 +7491,9 @@ public final class ControlPlane {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -6887,17 +7504,17 @@ public final class ControlPlane {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
               queryId_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -6917,6 +7534,7 @@ public final class ControlPlane {
       return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TDescribeQueryRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TDescribeQueryRequest_fieldAccessorTable
@@ -6928,7 +7546,9 @@ public final class ControlPlane {
     private volatile java.lang.Object queryId_;
     /**
      * <code>string query_id = 1;</code>
+     * @return The queryId.
      */
+    @java.lang.Override
     public java.lang.String getQueryId() {
       java.lang.Object ref = queryId_;
       if (ref instanceof java.lang.String) {
@@ -6943,7 +7563,9 @@ public final class ControlPlane {
     }
     /**
      * <code>string query_id = 1;</code>
+     * @return The bytes for queryId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getQueryIdBytes() {
       java.lang.Object ref = queryId_;
@@ -6959,6 +7581,7 @@ public final class ControlPlane {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6968,6 +7591,7 @@ public final class ControlPlane {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getQueryIdBytes().isEmpty()) {
@@ -6976,6 +7600,7 @@ public final class ControlPlane {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -6999,11 +7624,10 @@ public final class ControlPlane {
       }
       NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest other = (NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest) obj;
 
-      boolean result = true;
-      result = result && getQueryId()
-          .equals(other.getQueryId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getQueryId()
+          .equals(other.getQueryId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -7090,6 +7714,7 @@ public final class ControlPlane {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -7097,6 +7722,7 @@ public final class ControlPlane {
     public static Builder newBuilder(NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -7120,6 +7746,7 @@ public final class ControlPlane {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TDescribeQueryRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TDescribeQueryRequest_fieldAccessorTable
@@ -7142,6 +7769,7 @@ public final class ControlPlane {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         queryId_ = "";
@@ -7149,15 +7777,18 @@ public final class ControlPlane {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TDescribeQueryRequest_descriptor;
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest getDefaultInstanceForType() {
         return NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest build() {
         NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -7166,6 +7797,7 @@ public final class ControlPlane {
         return result;
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest buildPartial() {
         NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest result = new NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest(this);
         result.queryId_ = queryId_;
@@ -7173,32 +7805,39 @@ public final class ControlPlane {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest) {
           return mergeFrom((NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest)other);
@@ -7219,10 +7858,12 @@ public final class ControlPlane {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -7244,6 +7885,7 @@ public final class ControlPlane {
       private java.lang.Object queryId_ = "";
       /**
        * <code>string query_id = 1;</code>
+       * @return The queryId.
        */
       public java.lang.String getQueryId() {
         java.lang.Object ref = queryId_;
@@ -7259,6 +7901,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string query_id = 1;</code>
+       * @return The bytes for queryId.
        */
       public com.google.protobuf.ByteString
           getQueryIdBytes() {
@@ -7275,6 +7918,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string query_id = 1;</code>
+       * @param value The queryId to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryId(
           java.lang.String value) {
@@ -7288,6 +7933,7 @@ public final class ControlPlane {
       }
       /**
        * <code>string query_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearQueryId() {
         
@@ -7297,6 +7943,8 @@ public final class ControlPlane {
       }
       /**
        * <code>string query_id = 1;</code>
+       * @param value The bytes for queryId to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryIdBytes(
           com.google.protobuf.ByteString value) {
@@ -7309,11 +7957,13 @@ public final class ControlPlane {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -7335,11 +7985,12 @@ public final class ControlPlane {
 
     private static final com.google.protobuf.Parser<TDescribeQueryRequest>
         PARSER = new com.google.protobuf.AbstractParser<TDescribeQueryRequest>() {
+      @java.lang.Override
       public TDescribeQueryRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TDescribeQueryRequest(input, extensionRegistry);
+        return new TDescribeQueryRequest(input, extensionRegistry);
       }
     };
 
@@ -7352,6 +8003,7 @@ public final class ControlPlane {
       return PARSER;
     }
 
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TDescribeQueryRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -7389,7 +8041,7 @@ public final class ControlPlane {
   /**
    * Protobuf type {@code NStreams.NControlPlane.TDescribeQueryResponse}
    */
-  public  static final class TDescribeQueryResponse extends
+  public static final class TDescribeQueryResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NStreams.NControlPlane.TDescribeQueryResponse)
       TDescribeQueryResponseOrBuilder {
@@ -7403,6 +8055,13 @@ public final class ControlPlane {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TDescribeQueryResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -7412,6 +8071,9 @@ public final class ControlPlane {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -7423,20 +8085,20 @@ public final class ControlPlane {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 versions_ = new java.util.ArrayList<NStreams.NControlPlane.ControlPlane.TInstance>();
                 mutable_bitField0_ |= 0x00000001;
               }
               versions_.add(
                   input.readMessage(NStreams.NControlPlane.ControlPlane.TInstance.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -7447,7 +8109,7 @@ public final class ControlPlane {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           versions_ = java.util.Collections.unmodifiableList(versions_);
         }
         this.unknownFields = unknownFields.build();
@@ -7459,6 +8121,7 @@ public final class ControlPlane {
       return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TDescribeQueryResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TDescribeQueryResponse_fieldAccessorTable
@@ -7471,12 +8134,14 @@ public final class ControlPlane {
     /**
      * <code>repeated .NStreams.NControlPlane.TInstance versions = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<NStreams.NControlPlane.ControlPlane.TInstance> getVersionsList() {
       return versions_;
     }
     /**
      * <code>repeated .NStreams.NControlPlane.TInstance versions = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends NStreams.NControlPlane.ControlPlane.TInstanceOrBuilder> 
         getVersionsOrBuilderList() {
       return versions_;
@@ -7484,24 +8149,28 @@ public final class ControlPlane {
     /**
      * <code>repeated .NStreams.NControlPlane.TInstance versions = 1;</code>
      */
+    @java.lang.Override
     public int getVersionsCount() {
       return versions_.size();
     }
     /**
      * <code>repeated .NStreams.NControlPlane.TInstance versions = 1;</code>
      */
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TInstance getVersions(int index) {
       return versions_.get(index);
     }
     /**
      * <code>repeated .NStreams.NControlPlane.TInstance versions = 1;</code>
      */
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TInstanceOrBuilder getVersionsOrBuilder(
         int index) {
       return versions_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -7511,6 +8180,7 @@ public final class ControlPlane {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < versions_.size(); i++) {
@@ -7519,6 +8189,7 @@ public final class ControlPlane {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -7543,11 +8214,10 @@ public final class ControlPlane {
       }
       NStreams.NControlPlane.ControlPlane.TDescribeQueryResponse other = (NStreams.NControlPlane.ControlPlane.TDescribeQueryResponse) obj;
 
-      boolean result = true;
-      result = result && getVersionsList()
-          .equals(other.getVersionsList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getVersionsList()
+          .equals(other.getVersionsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -7636,6 +8306,7 @@ public final class ControlPlane {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -7643,6 +8314,7 @@ public final class ControlPlane {
     public static Builder newBuilder(NStreams.NControlPlane.ControlPlane.TDescribeQueryResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -7666,6 +8338,7 @@ public final class ControlPlane {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TDescribeQueryResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TDescribeQueryResponse_fieldAccessorTable
@@ -7689,6 +8362,7 @@ public final class ControlPlane {
           getVersionsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (versionsBuilder_ == null) {
@@ -7700,15 +8374,18 @@ public final class ControlPlane {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return NStreams.NControlPlane.ControlPlane.internal_static_NStreams_NControlPlane_TDescribeQueryResponse_descriptor;
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TDescribeQueryResponse getDefaultInstanceForType() {
         return NStreams.NControlPlane.ControlPlane.TDescribeQueryResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TDescribeQueryResponse build() {
         NStreams.NControlPlane.ControlPlane.TDescribeQueryResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -7717,11 +8394,12 @@ public final class ControlPlane {
         return result;
       }
 
+      @java.lang.Override
       public NStreams.NControlPlane.ControlPlane.TDescribeQueryResponse buildPartial() {
         NStreams.NControlPlane.ControlPlane.TDescribeQueryResponse result = new NStreams.NControlPlane.ControlPlane.TDescribeQueryResponse(this);
         int from_bitField0_ = bitField0_;
         if (versionsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             versions_ = java.util.Collections.unmodifiableList(versions_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -7733,32 +8411,39 @@ public final class ControlPlane {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof NStreams.NControlPlane.ControlPlane.TDescribeQueryResponse) {
           return mergeFrom((NStreams.NControlPlane.ControlPlane.TDescribeQueryResponse)other);
@@ -7801,10 +8486,12 @@ public final class ControlPlane {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -7827,7 +8514,7 @@ public final class ControlPlane {
       private java.util.List<NStreams.NControlPlane.ControlPlane.TInstance> versions_ =
         java.util.Collections.emptyList();
       private void ensureVersionsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           versions_ = new java.util.ArrayList<NStreams.NControlPlane.ControlPlane.TInstance>(versions_);
           bitField0_ |= 0x00000001;
          }
@@ -8056,18 +8743,20 @@ public final class ControlPlane {
           versionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               NStreams.NControlPlane.ControlPlane.TInstance, NStreams.NControlPlane.ControlPlane.TInstance.Builder, NStreams.NControlPlane.ControlPlane.TInstanceOrBuilder>(
                   versions_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           versions_ = null;
         }
         return versionsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -8089,11 +8778,12 @@ public final class ControlPlane {
 
     private static final com.google.protobuf.Parser<TDescribeQueryResponse>
         PARSER = new com.google.protobuf.AbstractParser<TDescribeQueryResponse>() {
+      @java.lang.Override
       public TDescribeQueryResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TDescribeQueryResponse(input, extensionRegistry);
+        return new TDescribeQueryResponse(input, extensionRegistry);
       }
     };
 
@@ -8106,6 +8796,7 @@ public final class ControlPlane {
       return PARSER;
     }
 
+    @java.lang.Override
     public NStreams.NControlPlane.ControlPlane.TDescribeQueryResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -8185,7 +8876,7 @@ public final class ControlPlane {
       "rogram_file_name\030\006 \001(\t\0224\n\005state\030\007 \001(\0162%." +
       "NStreams.NControlPlane.EComputeState\022;\n\014" +
       "target_state\030\010 \001(\0162%.NStreams.NControlPl" +
-      "ane.EComputeState\"\205\001\n\024TInstallQueryReque",
+      "ane.EComputeState\"\205\001\n\024TInstallQueryReque" +
       "st\022\027\n\017idempotency_key\030\001 \001(\t\022\020\n\010query_id\030" +
       "\002 \001(\t\022\020\n\010yql_text\030\003 \001(\t\022\031\n\021program_file_" +
       "name\030\004 \001(\t\022\025\n\roptimize_only\030\005 \001(\010\"(\n\025TIn" +
@@ -8195,7 +8886,7 @@ public final class ControlPlane {
       "n\030\003 \001(\r\"\026\n\024TDeleteQueryResponse\"\203\001\n\023TLis" +
       "tQueriesRequest\022C\n\006filter\030\001 \001(\01323.NStrea" +
       "ms.NControlPlane.TListQueriesRequest.TFi" +
-      "lter\032\'\n\007TFilter\022\022\n\010query_id\030\001 \001(\tH\000B\010\n\006E",
+      "lter\032\'\n\007TFilter\022\022\n\010query_id\030\001 \001(\tH\000B\010\n\006E" +
       "ntity\"\324\001\n\024TListQueriesResponse\022D\n\007querie" +
       "s\030\001 \003(\01323.NStreams.NControlPlane.TListQu" +
       "eriesResponse.TQuery\032v\n\006TQuery\022\020\n\010query_" +
@@ -8205,25 +8896,17 @@ public final class ControlPlane {
       "quest\022\020\n\010query_id\030\001 \001(\t\"M\n\026TDescribeQuer" +
       "yResponse\0223\n\010versions\030\001 \003(\0132!.NStreams.N" +
       "ControlPlane.TInstance*\266\001\n\rEComputeState" +
-      "\022\017\n\013Unspecified\020\000\022\n\n\006Queued\020\001\022\r\n\tCompili",
+      "\022\017\n\013Unspecified\020\000\022\n\n\006Queued\020\001\022\r\n\tCompili" +
       "ng\020\002\022\014\n\010Compiled\020\003\022\017\n\013Registering\020\004\022\013\n\007R" +
       "unning\020\005\022\r\n\tCompleted\020\006\022\n\n\006Failed\020\007\022\013\n\007P" +
       "ausing\020\010\022\n\n\006Paused\020\t\022\014\n\010Stopping\020\n\022\013\n\007St" +
       "opped\020\013B\003\370\001\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.yandex.yql.issue.proto.IssueMessageOuterClass.getDescriptor(),
-        }, assigner);
+        });
     internal_static_NStreams_NControlPlane_TInstance_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_NStreams_NControlPlane_TInstance_fieldAccessorTable = new

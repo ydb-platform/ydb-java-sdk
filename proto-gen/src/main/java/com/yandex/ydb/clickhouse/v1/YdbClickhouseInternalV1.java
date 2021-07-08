@@ -32,7 +32,7 @@ public final class YdbClickhouseInternalV1 {
       "ternal.ScanResponse\022x\n\021GetShardLocations" +
       "\0220.Ydb.ClickhouseInternal.GetShardLocati" +
       "onsRequest\0321.Ydb.ClickhouseInternal.GetS" +
-      "hardLocationsResponse\022l\n\rDescribeTable\022,",
+      "hardLocationsResponse\022l\n\rDescribeTable\022," +
       ".Ydb.ClickhouseInternal.DescribeTableReq" +
       "uest\032-.Ydb.ClickhouseInternal.DescribeTa" +
       "bleResponse\022o\n\016CreateSnapshot\022-.Ydb.Clic" +
@@ -42,23 +42,15 @@ public final class YdbClickhouseInternalV1 {
       "Internal.RefreshSnapshotRequest\032/.Ydb.Cl" +
       "ickhouseInternal.RefreshSnapshotResponse" +
       "\022r\n\017DiscardSnapshot\022..Ydb.ClickhouseInte" +
-      "rnal.DiscardSnapshotRequest\032/.Ydb.Clickh",
+      "rnal.DiscardSnapshotRequest\032/.Ydb.Clickh" +
       "ouseInternal.DiscardSnapshotResponseB\036\n\034" +
       "tech.ydb.clickhouse.v1b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.clickhouse.ClickhouseInternalProtos.getDescriptor(),
-        }, assigner);
+        });
     tech.ydb.clickhouse.ClickhouseInternalProtos.getDescriptor();
   }
 

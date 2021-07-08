@@ -16,6 +16,7 @@ public interface ResourceOrBuilder extends
    * </pre>
    *
    * <code>string resource_path = 1;</code>
+   * @return The resourcePath.
    */
   java.lang.String getResourcePath();
   /**
@@ -27,6 +28,7 @@ public interface ResourceOrBuilder extends
    * </pre>
    *
    * <code>string resource_path = 1;</code>
+   * @return The bytes for resourcePath.
    */
   com.google.protobuf.ByteString
       getResourcePathBytes();
@@ -37,6 +39,7 @@ public interface ResourceOrBuilder extends
    * </pre>
    *
    * <code>.Ydb.RateLimiter.HierarchicalDrrSettings hierarchical_drr = 2;</code>
+   * @return Whether the hierarchicalDrr field is set.
    */
   boolean hasHierarchicalDrr();
   /**
@@ -45,6 +48,7 @@ public interface ResourceOrBuilder extends
    * </pre>
    *
    * <code>.Ydb.RateLimiter.HierarchicalDrrSettings hierarchical_drr = 2;</code>
+   * @return The hierarchicalDrr.
    */
   tech.ydb.rate_limiter.HierarchicalDrrSettings getHierarchicalDrr();
   /**

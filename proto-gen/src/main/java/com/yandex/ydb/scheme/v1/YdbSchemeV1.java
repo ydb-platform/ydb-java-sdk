@@ -32,7 +32,7 @@ public final class YdbSchemeV1 {
       "emoveDirectoryRequest\032#.Ydb.Scheme.Remov" +
       "eDirectoryResponse\022T\n\rListDirectory\022 .Yd" +
       "b.Scheme.ListDirectoryRequest\032!.Ydb.Sche" +
-      "me.ListDirectoryResponse\022Q\n\014DescribePath",
+      "me.ListDirectoryResponse\022Q\n\014DescribePath" +
       "\022\037.Ydb.Scheme.DescribePathRequest\032 .Ydb." +
       "Scheme.DescribePathResponse\022`\n\021ModifyPer" +
       "missions\022$.Ydb.Scheme.ModifyPermissionsR" +
@@ -40,19 +40,11 @@ public final class YdbSchemeV1 {
       "ponseB\032\n\030tech.ydb.scheme.v1b\006proto" +
       "3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.scheme.SchemeOperationProtos.getDescriptor(),
-        }, assigner);
+        });
     tech.ydb.scheme.SchemeOperationProtos.getDescriptor();
   }
 

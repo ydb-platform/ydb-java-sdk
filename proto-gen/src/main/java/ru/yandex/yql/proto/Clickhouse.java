@@ -24,6 +24,7 @@ public final class Clickhouse {
      * </pre>
      *
      * <code>optional uint32 Port = 100;</code>
+     * @return Whether the port field is set.
      */
     boolean hasPort();
     /**
@@ -32,28 +33,34 @@ public final class Clickhouse {
      * </pre>
      *
      * <code>optional uint32 Port = 100;</code>
+     * @return The port.
      */
     int getPort();
 
     /**
      * <code>optional uint32 Threads = 101;</code>
+     * @return Whether the threads field is set.
      */
     boolean hasThreads();
     /**
      * <code>optional uint32 Threads = 101;</code>
+     * @return The threads.
      */
     int getThreads();
 
     /**
      * <code>optional string Bind = 102;</code>
+     * @return Whether the bind field is set.
      */
     boolean hasBind();
     /**
      * <code>optional string Bind = 102;</code>
+     * @return The bind.
      */
     java.lang.String getBind();
     /**
      * <code>optional string Bind = 102;</code>
+     * @return The bytes for bind.
      */
     com.google.protobuf.ByteString
         getBindBytes();
@@ -64,6 +71,7 @@ public final class Clickhouse {
      * </pre>
      *
      * <code>optional uint32 QueuePerUserMaxSize = 103;</code>
+     * @return Whether the queuePerUserMaxSize field is set.
      */
     boolean hasQueuePerUserMaxSize();
     /**
@@ -72,33 +80,40 @@ public final class Clickhouse {
      * </pre>
      *
      * <code>optional uint32 QueuePerUserMaxSize = 103;</code>
+     * @return The queuePerUserMaxSize.
      */
     int getQueuePerUserMaxSize();
 
     /**
      * <code>optional uint32 MaxResultRows = 3 [default = 1000];</code>
+     * @return Whether the maxResultRows field is set.
      */
     boolean hasMaxResultRows();
     /**
      * <code>optional uint32 MaxResultRows = 3 [default = 1000];</code>
+     * @return The maxResultRows.
      */
     int getMaxResultRows();
 
     /**
      * <code>optional uint32 MaxResultBytes = 4 [default = 30000000];</code>
+     * @return Whether the maxResultBytes field is set.
      */
     boolean hasMaxResultBytes();
     /**
      * <code>optional uint32 MaxResultBytes = 4 [default = 30000000];</code>
+     * @return The maxResultBytes.
      */
     int getMaxResultBytes();
 
     /**
      * <code>optional .NYql.NProto.TTime MaxExecutionTime = 5;</code>
+     * @return Whether the maxExecutionTime field is set.
      */
     boolean hasMaxExecutionTime();
     /**
      * <code>optional .NYql.NProto.TTime MaxExecutionTime = 5;</code>
+     * @return The maxExecutionTime.
      */
     ru.yandex.yql.proto.Common.TTime getMaxExecutionTime();
     /**
@@ -109,7 +124,7 @@ public final class Clickhouse {
   /**
    * Protobuf type {@code NYql.NProto.TClickHouseRunnerConfig}
    */
-  public  static final class TClickHouseRunnerConfig extends
+  public static final class TClickHouseRunnerConfig extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NYql.NProto.TClickHouseRunnerConfig)
       TClickHouseRunnerConfigOrBuilder {
@@ -119,12 +134,16 @@ public final class Clickhouse {
       super(builder);
     }
     private TClickHouseRunnerConfig() {
-      port_ = 0;
-      threads_ = 0;
       bind_ = "";
-      queuePerUserMaxSize_ = 0;
       maxResultRows_ = 1000;
       maxResultBytes_ = 30000000;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TClickHouseRunnerConfig();
     }
 
     @java.lang.Override
@@ -137,6 +156,9 @@ public final class Clickhouse {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -148,13 +170,6 @@ public final class Clickhouse {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 24: {
               bitField0_ |= 0x00000010;
               maxResultRows_ = input.readUInt32();
@@ -167,7 +182,7 @@ public final class Clickhouse {
             }
             case 42: {
               ru.yandex.yql.proto.Common.TTime.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000040) == 0x00000040)) {
+              if (((bitField0_ & 0x00000040) != 0)) {
                 subBuilder = maxExecutionTime_.toBuilder();
               }
               maxExecutionTime_ = input.readMessage(ru.yandex.yql.proto.Common.TTime.PARSER, extensionRegistry);
@@ -199,6 +214,13 @@ public final class Clickhouse {
               queuePerUserMaxSize_ = input.readUInt32();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -216,6 +238,7 @@ public final class Clickhouse {
       return ru.yandex.yql.proto.Clickhouse.internal_static_NYql_NProto_TClickHouseRunnerConfig_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return ru.yandex.yql.proto.Clickhouse.internal_static_NYql_NProto_TClickHouseRunnerConfig_fieldAccessorTable
@@ -232,9 +255,11 @@ public final class Clickhouse {
      * </pre>
      *
      * <code>optional uint32 Port = 100;</code>
+     * @return Whether the port field is set.
      */
+    @java.lang.Override
     public boolean hasPort() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <pre>
@@ -242,7 +267,9 @@ public final class Clickhouse {
      * </pre>
      *
      * <code>optional uint32 Port = 100;</code>
+     * @return The port.
      */
+    @java.lang.Override
     public int getPort() {
       return port_;
     }
@@ -251,13 +278,17 @@ public final class Clickhouse {
     private int threads_;
     /**
      * <code>optional uint32 Threads = 101;</code>
+     * @return Whether the threads field is set.
      */
+    @java.lang.Override
     public boolean hasThreads() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional uint32 Threads = 101;</code>
+     * @return The threads.
      */
+    @java.lang.Override
     public int getThreads() {
       return threads_;
     }
@@ -266,13 +297,17 @@ public final class Clickhouse {
     private volatile java.lang.Object bind_;
     /**
      * <code>optional string Bind = 102;</code>
+     * @return Whether the bind field is set.
      */
+    @java.lang.Override
     public boolean hasBind() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>optional string Bind = 102;</code>
+     * @return The bind.
      */
+    @java.lang.Override
     public java.lang.String getBind() {
       java.lang.Object ref = bind_;
       if (ref instanceof java.lang.String) {
@@ -289,7 +324,9 @@ public final class Clickhouse {
     }
     /**
      * <code>optional string Bind = 102;</code>
+     * @return The bytes for bind.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getBindBytes() {
       java.lang.Object ref = bind_;
@@ -312,9 +349,11 @@ public final class Clickhouse {
      * </pre>
      *
      * <code>optional uint32 QueuePerUserMaxSize = 103;</code>
+     * @return Whether the queuePerUserMaxSize field is set.
      */
+    @java.lang.Override
     public boolean hasQueuePerUserMaxSize() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
      * <pre>
@@ -322,7 +361,9 @@ public final class Clickhouse {
      * </pre>
      *
      * <code>optional uint32 QueuePerUserMaxSize = 103;</code>
+     * @return The queuePerUserMaxSize.
      */
+    @java.lang.Override
     public int getQueuePerUserMaxSize() {
       return queuePerUserMaxSize_;
     }
@@ -331,13 +372,17 @@ public final class Clickhouse {
     private int maxResultRows_;
     /**
      * <code>optional uint32 MaxResultRows = 3 [default = 1000];</code>
+     * @return Whether the maxResultRows field is set.
      */
+    @java.lang.Override
     public boolean hasMaxResultRows() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000010) != 0);
     }
     /**
      * <code>optional uint32 MaxResultRows = 3 [default = 1000];</code>
+     * @return The maxResultRows.
      */
+    @java.lang.Override
     public int getMaxResultRows() {
       return maxResultRows_;
     }
@@ -346,13 +391,17 @@ public final class Clickhouse {
     private int maxResultBytes_;
     /**
      * <code>optional uint32 MaxResultBytes = 4 [default = 30000000];</code>
+     * @return Whether the maxResultBytes field is set.
      */
+    @java.lang.Override
     public boolean hasMaxResultBytes() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000020) != 0);
     }
     /**
      * <code>optional uint32 MaxResultBytes = 4 [default = 30000000];</code>
+     * @return The maxResultBytes.
      */
+    @java.lang.Override
     public int getMaxResultBytes() {
       return maxResultBytes_;
     }
@@ -361,24 +410,30 @@ public final class Clickhouse {
     private ru.yandex.yql.proto.Common.TTime maxExecutionTime_;
     /**
      * <code>optional .NYql.NProto.TTime MaxExecutionTime = 5;</code>
+     * @return Whether the maxExecutionTime field is set.
      */
+    @java.lang.Override
     public boolean hasMaxExecutionTime() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000040) != 0);
     }
     /**
      * <code>optional .NYql.NProto.TTime MaxExecutionTime = 5;</code>
+     * @return The maxExecutionTime.
      */
+    @java.lang.Override
     public ru.yandex.yql.proto.Common.TTime getMaxExecutionTime() {
       return maxExecutionTime_ == null ? ru.yandex.yql.proto.Common.TTime.getDefaultInstance() : maxExecutionTime_;
     }
     /**
      * <code>optional .NYql.NProto.TTime MaxExecutionTime = 5;</code>
      */
+    @java.lang.Override
     public ru.yandex.yql.proto.Common.TTimeOrBuilder getMaxExecutionTimeOrBuilder() {
       return maxExecutionTime_ == null ? ru.yandex.yql.proto.Common.TTime.getDefaultInstance() : maxExecutionTime_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -388,61 +443,63 @@ public final class Clickhouse {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         output.writeUInt32(3, maxResultRows_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         output.writeUInt32(4, maxResultBytes_);
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((bitField0_ & 0x00000040) != 0)) {
         output.writeMessage(5, getMaxExecutionTime());
       }
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeUInt32(100, port_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeUInt32(101, threads_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 102, bind_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         output.writeUInt32(103, queuePerUserMaxSize_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(3, maxResultRows_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(4, maxResultBytes_);
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((bitField0_ & 0x00000040) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, getMaxExecutionTime());
       }
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(100, port_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(101, threads_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(102, bind_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(103, queuePerUserMaxSize_);
       }
@@ -461,44 +518,43 @@ public final class Clickhouse {
       }
       ru.yandex.yql.proto.Clickhouse.TClickHouseRunnerConfig other = (ru.yandex.yql.proto.Clickhouse.TClickHouseRunnerConfig) obj;
 
-      boolean result = true;
-      result = result && (hasPort() == other.hasPort());
+      if (hasPort() != other.hasPort()) return false;
       if (hasPort()) {
-        result = result && (getPort()
-            == other.getPort());
+        if (getPort()
+            != other.getPort()) return false;
       }
-      result = result && (hasThreads() == other.hasThreads());
+      if (hasThreads() != other.hasThreads()) return false;
       if (hasThreads()) {
-        result = result && (getThreads()
-            == other.getThreads());
+        if (getThreads()
+            != other.getThreads()) return false;
       }
-      result = result && (hasBind() == other.hasBind());
+      if (hasBind() != other.hasBind()) return false;
       if (hasBind()) {
-        result = result && getBind()
-            .equals(other.getBind());
+        if (!getBind()
+            .equals(other.getBind())) return false;
       }
-      result = result && (hasQueuePerUserMaxSize() == other.hasQueuePerUserMaxSize());
+      if (hasQueuePerUserMaxSize() != other.hasQueuePerUserMaxSize()) return false;
       if (hasQueuePerUserMaxSize()) {
-        result = result && (getQueuePerUserMaxSize()
-            == other.getQueuePerUserMaxSize());
+        if (getQueuePerUserMaxSize()
+            != other.getQueuePerUserMaxSize()) return false;
       }
-      result = result && (hasMaxResultRows() == other.hasMaxResultRows());
+      if (hasMaxResultRows() != other.hasMaxResultRows()) return false;
       if (hasMaxResultRows()) {
-        result = result && (getMaxResultRows()
-            == other.getMaxResultRows());
+        if (getMaxResultRows()
+            != other.getMaxResultRows()) return false;
       }
-      result = result && (hasMaxResultBytes() == other.hasMaxResultBytes());
+      if (hasMaxResultBytes() != other.hasMaxResultBytes()) return false;
       if (hasMaxResultBytes()) {
-        result = result && (getMaxResultBytes()
-            == other.getMaxResultBytes());
+        if (getMaxResultBytes()
+            != other.getMaxResultBytes()) return false;
       }
-      result = result && (hasMaxExecutionTime() == other.hasMaxExecutionTime());
+      if (hasMaxExecutionTime() != other.hasMaxExecutionTime()) return false;
       if (hasMaxExecutionTime()) {
-        result = result && getMaxExecutionTime()
-            .equals(other.getMaxExecutionTime());
+        if (!getMaxExecutionTime()
+            .equals(other.getMaxExecutionTime())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -611,6 +667,7 @@ public final class Clickhouse {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -618,6 +675,7 @@ public final class Clickhouse {
     public static Builder newBuilder(ru.yandex.yql.proto.Clickhouse.TClickHouseRunnerConfig prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -641,6 +699,7 @@ public final class Clickhouse {
         return ru.yandex.yql.proto.Clickhouse.internal_static_NYql_NProto_TClickHouseRunnerConfig_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return ru.yandex.yql.proto.Clickhouse.internal_static_NYql_NProto_TClickHouseRunnerConfig_fieldAccessorTable
@@ -664,6 +723,7 @@ public final class Clickhouse {
           getMaxExecutionTimeFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         port_ = 0;
@@ -687,15 +747,18 @@ public final class Clickhouse {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return ru.yandex.yql.proto.Clickhouse.internal_static_NYql_NProto_TClickHouseRunnerConfig_descriptor;
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.Clickhouse.TClickHouseRunnerConfig getDefaultInstanceForType() {
         return ru.yandex.yql.proto.Clickhouse.TClickHouseRunnerConfig.getDefaultInstance();
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.Clickhouse.TClickHouseRunnerConfig build() {
         ru.yandex.yql.proto.Clickhouse.TClickHouseRunnerConfig result = buildPartial();
         if (!result.isInitialized()) {
@@ -704,73 +767,81 @@ public final class Clickhouse {
         return result;
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.Clickhouse.TClickHouseRunnerConfig buildPartial() {
         ru.yandex.yql.proto.Clickhouse.TClickHouseRunnerConfig result = new ru.yandex.yql.proto.Clickhouse.TClickHouseRunnerConfig(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.port_ = port_;
           to_bitField0_ |= 0x00000001;
         }
-        result.port_ = port_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.threads_ = threads_;
           to_bitField0_ |= 0x00000002;
         }
-        result.threads_ = threads_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
           to_bitField0_ |= 0x00000004;
         }
         result.bind_ = bind_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.queuePerUserMaxSize_ = queuePerUserMaxSize_;
           to_bitField0_ |= 0x00000008;
         }
-        result.queuePerUserMaxSize_ = queuePerUserMaxSize_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((from_bitField0_ & 0x00000010) != 0)) {
           to_bitField0_ |= 0x00000010;
         }
         result.maxResultRows_ = maxResultRows_;
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((from_bitField0_ & 0x00000020) != 0)) {
           to_bitField0_ |= 0x00000020;
         }
         result.maxResultBytes_ = maxResultBytes_;
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          if (maxExecutionTimeBuilder_ == null) {
+            result.maxExecutionTime_ = maxExecutionTime_;
+          } else {
+            result.maxExecutionTime_ = maxExecutionTimeBuilder_.build();
+          }
           to_bitField0_ |= 0x00000040;
-        }
-        if (maxExecutionTimeBuilder_ == null) {
-          result.maxExecutionTime_ = maxExecutionTime_;
-        } else {
-          result.maxExecutionTime_ = maxExecutionTimeBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof ru.yandex.yql.proto.Clickhouse.TClickHouseRunnerConfig) {
           return mergeFrom((ru.yandex.yql.proto.Clickhouse.TClickHouseRunnerConfig)other);
@@ -810,10 +881,12 @@ public final class Clickhouse {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -840,9 +913,11 @@ public final class Clickhouse {
        * </pre>
        *
        * <code>optional uint32 Port = 100;</code>
+       * @return Whether the port field is set.
        */
+      @java.lang.Override
       public boolean hasPort() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <pre>
@@ -850,7 +925,9 @@ public final class Clickhouse {
        * </pre>
        *
        * <code>optional uint32 Port = 100;</code>
+       * @return The port.
        */
+      @java.lang.Override
       public int getPort() {
         return port_;
       }
@@ -860,6 +937,8 @@ public final class Clickhouse {
        * </pre>
        *
        * <code>optional uint32 Port = 100;</code>
+       * @param value The port to set.
+       * @return This builder for chaining.
        */
       public Builder setPort(int value) {
         bitField0_ |= 0x00000001;
@@ -873,6 +952,7 @@ public final class Clickhouse {
        * </pre>
        *
        * <code>optional uint32 Port = 100;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPort() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -884,18 +964,24 @@ public final class Clickhouse {
       private int threads_ ;
       /**
        * <code>optional uint32 Threads = 101;</code>
+       * @return Whether the threads field is set.
        */
+      @java.lang.Override
       public boolean hasThreads() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional uint32 Threads = 101;</code>
+       * @return The threads.
        */
+      @java.lang.Override
       public int getThreads() {
         return threads_;
       }
       /**
        * <code>optional uint32 Threads = 101;</code>
+       * @param value The threads to set.
+       * @return This builder for chaining.
        */
       public Builder setThreads(int value) {
         bitField0_ |= 0x00000002;
@@ -905,6 +991,7 @@ public final class Clickhouse {
       }
       /**
        * <code>optional uint32 Threads = 101;</code>
+       * @return This builder for chaining.
        */
       public Builder clearThreads() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -916,12 +1003,14 @@ public final class Clickhouse {
       private java.lang.Object bind_ = "";
       /**
        * <code>optional string Bind = 102;</code>
+       * @return Whether the bind field is set.
        */
       public boolean hasBind() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>optional string Bind = 102;</code>
+       * @return The bind.
        */
       public java.lang.String getBind() {
         java.lang.Object ref = bind_;
@@ -939,6 +1028,7 @@ public final class Clickhouse {
       }
       /**
        * <code>optional string Bind = 102;</code>
+       * @return The bytes for bind.
        */
       public com.google.protobuf.ByteString
           getBindBytes() {
@@ -955,6 +1045,8 @@ public final class Clickhouse {
       }
       /**
        * <code>optional string Bind = 102;</code>
+       * @param value The bind to set.
+       * @return This builder for chaining.
        */
       public Builder setBind(
           java.lang.String value) {
@@ -968,6 +1060,7 @@ public final class Clickhouse {
       }
       /**
        * <code>optional string Bind = 102;</code>
+       * @return This builder for chaining.
        */
       public Builder clearBind() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -977,6 +1070,8 @@ public final class Clickhouse {
       }
       /**
        * <code>optional string Bind = 102;</code>
+       * @param value The bytes for bind to set.
+       * @return This builder for chaining.
        */
       public Builder setBindBytes(
           com.google.protobuf.ByteString value) {
@@ -996,9 +1091,11 @@ public final class Clickhouse {
        * </pre>
        *
        * <code>optional uint32 QueuePerUserMaxSize = 103;</code>
+       * @return Whether the queuePerUserMaxSize field is set.
        */
+      @java.lang.Override
       public boolean hasQueuePerUserMaxSize() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <pre>
@@ -1006,7 +1103,9 @@ public final class Clickhouse {
        * </pre>
        *
        * <code>optional uint32 QueuePerUserMaxSize = 103;</code>
+       * @return The queuePerUserMaxSize.
        */
+      @java.lang.Override
       public int getQueuePerUserMaxSize() {
         return queuePerUserMaxSize_;
       }
@@ -1016,6 +1115,8 @@ public final class Clickhouse {
        * </pre>
        *
        * <code>optional uint32 QueuePerUserMaxSize = 103;</code>
+       * @param value The queuePerUserMaxSize to set.
+       * @return This builder for chaining.
        */
       public Builder setQueuePerUserMaxSize(int value) {
         bitField0_ |= 0x00000008;
@@ -1029,6 +1130,7 @@ public final class Clickhouse {
        * </pre>
        *
        * <code>optional uint32 QueuePerUserMaxSize = 103;</code>
+       * @return This builder for chaining.
        */
       public Builder clearQueuePerUserMaxSize() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -1040,18 +1142,24 @@ public final class Clickhouse {
       private int maxResultRows_ = 1000;
       /**
        * <code>optional uint32 MaxResultRows = 3 [default = 1000];</code>
+       * @return Whether the maxResultRows field is set.
        */
+      @java.lang.Override
       public boolean hasMaxResultRows() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
        * <code>optional uint32 MaxResultRows = 3 [default = 1000];</code>
+       * @return The maxResultRows.
        */
+      @java.lang.Override
       public int getMaxResultRows() {
         return maxResultRows_;
       }
       /**
        * <code>optional uint32 MaxResultRows = 3 [default = 1000];</code>
+       * @param value The maxResultRows to set.
+       * @return This builder for chaining.
        */
       public Builder setMaxResultRows(int value) {
         bitField0_ |= 0x00000010;
@@ -1061,6 +1169,7 @@ public final class Clickhouse {
       }
       /**
        * <code>optional uint32 MaxResultRows = 3 [default = 1000];</code>
+       * @return This builder for chaining.
        */
       public Builder clearMaxResultRows() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -1072,18 +1181,24 @@ public final class Clickhouse {
       private int maxResultBytes_ = 30000000;
       /**
        * <code>optional uint32 MaxResultBytes = 4 [default = 30000000];</code>
+       * @return Whether the maxResultBytes field is set.
        */
+      @java.lang.Override
       public boolean hasMaxResultBytes() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000020) != 0);
       }
       /**
        * <code>optional uint32 MaxResultBytes = 4 [default = 30000000];</code>
+       * @return The maxResultBytes.
        */
+      @java.lang.Override
       public int getMaxResultBytes() {
         return maxResultBytes_;
       }
       /**
        * <code>optional uint32 MaxResultBytes = 4 [default = 30000000];</code>
+       * @param value The maxResultBytes to set.
+       * @return This builder for chaining.
        */
       public Builder setMaxResultBytes(int value) {
         bitField0_ |= 0x00000020;
@@ -1093,6 +1208,7 @@ public final class Clickhouse {
       }
       /**
        * <code>optional uint32 MaxResultBytes = 4 [default = 30000000];</code>
+       * @return This builder for chaining.
        */
       public Builder clearMaxResultBytes() {
         bitField0_ = (bitField0_ & ~0x00000020);
@@ -1101,17 +1217,19 @@ public final class Clickhouse {
         return this;
       }
 
-      private ru.yandex.yql.proto.Common.TTime maxExecutionTime_ = null;
+      private ru.yandex.yql.proto.Common.TTime maxExecutionTime_;
       private com.google.protobuf.SingleFieldBuilderV3<
           ru.yandex.yql.proto.Common.TTime, ru.yandex.yql.proto.Common.TTime.Builder, ru.yandex.yql.proto.Common.TTimeOrBuilder> maxExecutionTimeBuilder_;
       /**
        * <code>optional .NYql.NProto.TTime MaxExecutionTime = 5;</code>
+       * @return Whether the maxExecutionTime field is set.
        */
       public boolean hasMaxExecutionTime() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000040) != 0);
       }
       /**
        * <code>optional .NYql.NProto.TTime MaxExecutionTime = 5;</code>
+       * @return The maxExecutionTime.
        */
       public ru.yandex.yql.proto.Common.TTime getMaxExecutionTime() {
         if (maxExecutionTimeBuilder_ == null) {
@@ -1155,7 +1273,7 @@ public final class Clickhouse {
        */
       public Builder mergeMaxExecutionTime(ru.yandex.yql.proto.Common.TTime value) {
         if (maxExecutionTimeBuilder_ == null) {
-          if (((bitField0_ & 0x00000040) == 0x00000040) &&
+          if (((bitField0_ & 0x00000040) != 0) &&
               maxExecutionTime_ != null &&
               maxExecutionTime_ != ru.yandex.yql.proto.Common.TTime.getDefaultInstance()) {
             maxExecutionTime_ =
@@ -1218,11 +1336,13 @@ public final class Clickhouse {
         }
         return maxExecutionTimeBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1244,11 +1364,12 @@ public final class Clickhouse {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<TClickHouseRunnerConfig>
         PARSER = new com.google.protobuf.AbstractParser<TClickHouseRunnerConfig>() {
+      @java.lang.Override
       public TClickHouseRunnerConfig parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TClickHouseRunnerConfig(input, extensionRegistry);
+        return new TClickHouseRunnerConfig(input, extensionRegistry);
       }
     };
 
@@ -1261,6 +1382,7 @@ public final class Clickhouse {
       return PARSER;
     }
 
+    @java.lang.Override
     public ru.yandex.yql.proto.Clickhouse.TClickHouseRunnerConfig getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1290,19 +1412,11 @@ public final class Clickhouse {
       "xecutionTime\030\005 \001(\0132\022.NYql.NProto.TTimeB\025" +
       "\n\023ru.yandex.yql.proto"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           ru.yandex.yql.proto.Common.getDescriptor(),
-        }, assigner);
+        });
     internal_static_NYql_NProto_TClickHouseRunnerConfig_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_NYql_NProto_TClickHouseRunnerConfig_fieldAccessorTable = new

@@ -32,19 +32,11 @@ public final class YdbImportV1 {
       "aRequest\032\036.Ydb.Import.ImportDataResponse" +
       "B\033\n\031tech.ydb.import_.v1b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.import_.YdbImport.getDescriptor(),
-        }, assigner);
+        });
     tech.ydb.import_.YdbImport.getDescriptor();
   }
 

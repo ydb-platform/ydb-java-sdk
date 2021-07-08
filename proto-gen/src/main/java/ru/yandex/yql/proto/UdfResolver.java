@@ -20,42 +20,51 @@ public final class UdfResolver {
 
     /**
      * <code>required string Name = 1;</code>
+     * @return Whether the name field is set.
      */
     boolean hasName();
     /**
      * <code>required string Name = 1;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
      * <code>required string Name = 1;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
      * <code>required string TypeConfig = 2;</code>
+     * @return Whether the typeConfig field is set.
      */
     boolean hasTypeConfig();
     /**
      * <code>required string TypeConfig = 2;</code>
+     * @return The typeConfig.
      */
     java.lang.String getTypeConfig();
     /**
      * <code>required string TypeConfig = 2;</code>
+     * @return The bytes for typeConfig.
      */
     com.google.protobuf.ByteString
         getTypeConfigBytes();
 
     /**
      * <code>optional string UserType = 3;</code>
+     * @return Whether the userType field is set.
      */
     boolean hasUserType();
     /**
      * <code>optional string UserType = 3;</code>
+     * @return The userType.
      */
     java.lang.String getUserType();
     /**
      * <code>optional string UserType = 3;</code>
+     * @return The bytes for userType.
      */
     com.google.protobuf.ByteString
         getUserTypeBytes();
@@ -63,7 +72,7 @@ public final class UdfResolver {
   /**
    * Protobuf type {@code NYql.TFunction}
    */
-  public  static final class TFunction extends
+  public static final class TFunction extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NYql.TFunction)
       TFunctionOrBuilder {
@@ -79,6 +88,13 @@ public final class UdfResolver {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TFunction();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -88,6 +104,9 @@ public final class UdfResolver {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -99,13 +118,6 @@ public final class UdfResolver {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
@@ -122,6 +134,13 @@ public final class UdfResolver {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
               userType_ = bs;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -141,6 +160,7 @@ public final class UdfResolver {
       return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TFunction_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TFunction_fieldAccessorTable
@@ -153,13 +173,17 @@ public final class UdfResolver {
     private volatile java.lang.Object name_;
     /**
      * <code>required string Name = 1;</code>
+     * @return Whether the name field is set.
      */
+    @java.lang.Override
     public boolean hasName() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>required string Name = 1;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -176,7 +200,9 @@ public final class UdfResolver {
     }
     /**
      * <code>required string Name = 1;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -195,13 +221,17 @@ public final class UdfResolver {
     private volatile java.lang.Object typeConfig_;
     /**
      * <code>required string TypeConfig = 2;</code>
+     * @return Whether the typeConfig field is set.
      */
+    @java.lang.Override
     public boolean hasTypeConfig() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>required string TypeConfig = 2;</code>
+     * @return The typeConfig.
      */
+    @java.lang.Override
     public java.lang.String getTypeConfig() {
       java.lang.Object ref = typeConfig_;
       if (ref instanceof java.lang.String) {
@@ -218,7 +248,9 @@ public final class UdfResolver {
     }
     /**
      * <code>required string TypeConfig = 2;</code>
+     * @return The bytes for typeConfig.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTypeConfigBytes() {
       java.lang.Object ref = typeConfig_;
@@ -237,13 +269,17 @@ public final class UdfResolver {
     private volatile java.lang.Object userType_;
     /**
      * <code>optional string UserType = 3;</code>
+     * @return Whether the userType field is set.
      */
+    @java.lang.Override
     public boolean hasUserType() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>optional string UserType = 3;</code>
+     * @return The userType.
      */
+    @java.lang.Override
     public java.lang.String getUserType() {
       java.lang.Object ref = userType_;
       if (ref instanceof java.lang.String) {
@@ -260,7 +296,9 @@ public final class UdfResolver {
     }
     /**
      * <code>optional string UserType = 3;</code>
+     * @return The bytes for userType.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getUserTypeBytes() {
       java.lang.Object ref = userType_;
@@ -276,6 +314,7 @@ public final class UdfResolver {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -293,32 +332,34 @@ public final class UdfResolver {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, typeConfig_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, userType_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, typeConfig_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, userType_);
       }
       size += unknownFields.getSerializedSize();
@@ -336,24 +377,23 @@ public final class UdfResolver {
       }
       ru.yandex.yql.proto.UdfResolver.TFunction other = (ru.yandex.yql.proto.UdfResolver.TFunction) obj;
 
-      boolean result = true;
-      result = result && (hasName() == other.hasName());
+      if (hasName() != other.hasName()) return false;
       if (hasName()) {
-        result = result && getName()
-            .equals(other.getName());
+        if (!getName()
+            .equals(other.getName())) return false;
       }
-      result = result && (hasTypeConfig() == other.hasTypeConfig());
+      if (hasTypeConfig() != other.hasTypeConfig()) return false;
       if (hasTypeConfig()) {
-        result = result && getTypeConfig()
-            .equals(other.getTypeConfig());
+        if (!getTypeConfig()
+            .equals(other.getTypeConfig())) return false;
       }
-      result = result && (hasUserType() == other.hasUserType());
+      if (hasUserType() != other.hasUserType()) return false;
       if (hasUserType()) {
-        result = result && getUserType()
-            .equals(other.getUserType());
+        if (!getUserType()
+            .equals(other.getUserType())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -450,6 +490,7 @@ public final class UdfResolver {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -457,6 +498,7 @@ public final class UdfResolver {
     public static Builder newBuilder(ru.yandex.yql.proto.UdfResolver.TFunction prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -480,6 +522,7 @@ public final class UdfResolver {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TFunction_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TFunction_fieldAccessorTable
@@ -502,6 +545,7 @@ public final class UdfResolver {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         name_ = "";
@@ -513,15 +557,18 @@ public final class UdfResolver {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TFunction_descriptor;
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TFunction getDefaultInstanceForType() {
         return ru.yandex.yql.proto.UdfResolver.TFunction.getDefaultInstance();
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TFunction build() {
         ru.yandex.yql.proto.UdfResolver.TFunction result = buildPartial();
         if (!result.isInitialized()) {
@@ -530,19 +577,20 @@ public final class UdfResolver {
         return result;
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TFunction buildPartial() {
         ru.yandex.yql.proto.UdfResolver.TFunction result = new ru.yandex.yql.proto.UdfResolver.TFunction(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.name_ = name_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
         result.typeConfig_ = typeConfig_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
           to_bitField0_ |= 0x00000004;
         }
         result.userType_ = userType_;
@@ -551,32 +599,39 @@ public final class UdfResolver {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof ru.yandex.yql.proto.UdfResolver.TFunction) {
           return mergeFrom((ru.yandex.yql.proto.UdfResolver.TFunction)other);
@@ -608,6 +663,7 @@ public final class UdfResolver {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasName()) {
           return false;
@@ -618,6 +674,7 @@ public final class UdfResolver {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -640,12 +697,14 @@ public final class UdfResolver {
       private java.lang.Object name_ = "";
       /**
        * <code>required string Name = 1;</code>
+       * @return Whether the name field is set.
        */
       public boolean hasName() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>required string Name = 1;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -663,6 +722,7 @@ public final class UdfResolver {
       }
       /**
        * <code>required string Name = 1;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -679,6 +739,8 @@ public final class UdfResolver {
       }
       /**
        * <code>required string Name = 1;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -692,6 +754,7 @@ public final class UdfResolver {
       }
       /**
        * <code>required string Name = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -701,6 +764,8 @@ public final class UdfResolver {
       }
       /**
        * <code>required string Name = 1;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -716,12 +781,14 @@ public final class UdfResolver {
       private java.lang.Object typeConfig_ = "";
       /**
        * <code>required string TypeConfig = 2;</code>
+       * @return Whether the typeConfig field is set.
        */
       public boolean hasTypeConfig() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>required string TypeConfig = 2;</code>
+       * @return The typeConfig.
        */
       public java.lang.String getTypeConfig() {
         java.lang.Object ref = typeConfig_;
@@ -739,6 +806,7 @@ public final class UdfResolver {
       }
       /**
        * <code>required string TypeConfig = 2;</code>
+       * @return The bytes for typeConfig.
        */
       public com.google.protobuf.ByteString
           getTypeConfigBytes() {
@@ -755,6 +823,8 @@ public final class UdfResolver {
       }
       /**
        * <code>required string TypeConfig = 2;</code>
+       * @param value The typeConfig to set.
+       * @return This builder for chaining.
        */
       public Builder setTypeConfig(
           java.lang.String value) {
@@ -768,6 +838,7 @@ public final class UdfResolver {
       }
       /**
        * <code>required string TypeConfig = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTypeConfig() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -777,6 +848,8 @@ public final class UdfResolver {
       }
       /**
        * <code>required string TypeConfig = 2;</code>
+       * @param value The bytes for typeConfig to set.
+       * @return This builder for chaining.
        */
       public Builder setTypeConfigBytes(
           com.google.protobuf.ByteString value) {
@@ -792,12 +865,14 @@ public final class UdfResolver {
       private java.lang.Object userType_ = "";
       /**
        * <code>optional string UserType = 3;</code>
+       * @return Whether the userType field is set.
        */
       public boolean hasUserType() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>optional string UserType = 3;</code>
+       * @return The userType.
        */
       public java.lang.String getUserType() {
         java.lang.Object ref = userType_;
@@ -815,6 +890,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string UserType = 3;</code>
+       * @return The bytes for userType.
        */
       public com.google.protobuf.ByteString
           getUserTypeBytes() {
@@ -831,6 +907,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string UserType = 3;</code>
+       * @param value The userType to set.
+       * @return This builder for chaining.
        */
       public Builder setUserType(
           java.lang.String value) {
@@ -844,6 +922,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string UserType = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUserType() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -853,6 +932,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string UserType = 3;</code>
+       * @param value The bytes for userType to set.
+       * @return This builder for chaining.
        */
       public Builder setUserTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -864,11 +945,13 @@ public final class UdfResolver {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -890,11 +973,12 @@ public final class UdfResolver {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<TFunction>
         PARSER = new com.google.protobuf.AbstractParser<TFunction>() {
+      @java.lang.Override
       public TFunction parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TFunction(input, extensionRegistry);
+        return new TFunction(input, extensionRegistry);
       }
     };
 
@@ -907,6 +991,7 @@ public final class UdfResolver {
       return PARSER;
     }
 
+    @java.lang.Override
     public ru.yandex.yql.proto.UdfResolver.TFunction getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -919,59 +1004,70 @@ public final class UdfResolver {
 
     /**
      * <code>required string Name = 1;</code>
+     * @return Whether the name field is set.
      */
     boolean hasName();
     /**
      * <code>required string Name = 1;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
      * <code>required string Name = 1;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
      * <code>required string Type = 2;</code>
+     * @return Whether the type field is set.
      */
     boolean hasType();
     /**
      * <code>required string Type = 2;</code>
+     * @return The type.
      */
     java.lang.String getType();
     /**
      * <code>required string Type = 2;</code>
+     * @return The bytes for type.
      */
     com.google.protobuf.ByteString
         getTypeBytes();
 
     /**
      * <code>required string Doc = 3;</code>
+     * @return Whether the doc field is set.
      */
     boolean hasDoc();
     /**
      * <code>required string Doc = 3;</code>
+     * @return The doc.
      */
     java.lang.String getDoc();
     /**
      * <code>required string Doc = 3;</code>
+     * @return The bytes for doc.
      */
     com.google.protobuf.ByteString
         getDocBytes();
 
     /**
      * <code>required uint32 Flags = 4;</code>
+     * @return Whether the flags field is set.
      */
     boolean hasFlags();
     /**
      * <code>required uint32 Flags = 4;</code>
+     * @return The flags.
      */
     int getFlags();
   }
   /**
    * Protobuf type {@code NYql.TArgResult}
    */
-  public  static final class TArgResult extends
+  public static final class TArgResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NYql.TArgResult)
       TArgResultOrBuilder {
@@ -984,7 +1080,13 @@ public final class UdfResolver {
       name_ = "";
       type_ = "";
       doc_ = "";
-      flags_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TArgResult();
     }
 
     @java.lang.Override
@@ -997,6 +1099,9 @@ public final class UdfResolver {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -1008,13 +1113,6 @@ public final class UdfResolver {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
@@ -1038,6 +1136,13 @@ public final class UdfResolver {
               flags_ = input.readUInt32();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1055,6 +1160,7 @@ public final class UdfResolver {
       return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TArgResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TArgResult_fieldAccessorTable
@@ -1067,13 +1173,17 @@ public final class UdfResolver {
     private volatile java.lang.Object name_;
     /**
      * <code>required string Name = 1;</code>
+     * @return Whether the name field is set.
      */
+    @java.lang.Override
     public boolean hasName() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>required string Name = 1;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -1090,7 +1200,9 @@ public final class UdfResolver {
     }
     /**
      * <code>required string Name = 1;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -1109,13 +1221,17 @@ public final class UdfResolver {
     private volatile java.lang.Object type_;
     /**
      * <code>required string Type = 2;</code>
+     * @return Whether the type field is set.
      */
+    @java.lang.Override
     public boolean hasType() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>required string Type = 2;</code>
+     * @return The type.
      */
+    @java.lang.Override
     public java.lang.String getType() {
       java.lang.Object ref = type_;
       if (ref instanceof java.lang.String) {
@@ -1132,7 +1248,9 @@ public final class UdfResolver {
     }
     /**
      * <code>required string Type = 2;</code>
+     * @return The bytes for type.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getTypeBytes() {
       java.lang.Object ref = type_;
@@ -1151,13 +1269,17 @@ public final class UdfResolver {
     private volatile java.lang.Object doc_;
     /**
      * <code>required string Doc = 3;</code>
+     * @return Whether the doc field is set.
      */
+    @java.lang.Override
     public boolean hasDoc() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>required string Doc = 3;</code>
+     * @return The doc.
      */
+    @java.lang.Override
     public java.lang.String getDoc() {
       java.lang.Object ref = doc_;
       if (ref instanceof java.lang.String) {
@@ -1174,7 +1296,9 @@ public final class UdfResolver {
     }
     /**
      * <code>required string Doc = 3;</code>
+     * @return The bytes for doc.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getDocBytes() {
       java.lang.Object ref = doc_;
@@ -1193,18 +1317,23 @@ public final class UdfResolver {
     private int flags_;
     /**
      * <code>required uint32 Flags = 4;</code>
+     * @return Whether the flags field is set.
      */
+    @java.lang.Override
     public boolean hasFlags() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
      * <code>required uint32 Flags = 4;</code>
+     * @return The flags.
      */
+    @java.lang.Override
     public int getFlags() {
       return flags_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1230,38 +1359,40 @@ public final class UdfResolver {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, type_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, doc_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         output.writeUInt32(4, flags_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, type_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, doc_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(4, flags_);
       }
@@ -1280,29 +1411,28 @@ public final class UdfResolver {
       }
       ru.yandex.yql.proto.UdfResolver.TArgResult other = (ru.yandex.yql.proto.UdfResolver.TArgResult) obj;
 
-      boolean result = true;
-      result = result && (hasName() == other.hasName());
+      if (hasName() != other.hasName()) return false;
       if (hasName()) {
-        result = result && getName()
-            .equals(other.getName());
+        if (!getName()
+            .equals(other.getName())) return false;
       }
-      result = result && (hasType() == other.hasType());
+      if (hasType() != other.hasType()) return false;
       if (hasType()) {
-        result = result && getType()
-            .equals(other.getType());
+        if (!getType()
+            .equals(other.getType())) return false;
       }
-      result = result && (hasDoc() == other.hasDoc());
+      if (hasDoc() != other.hasDoc()) return false;
       if (hasDoc()) {
-        result = result && getDoc()
-            .equals(other.getDoc());
+        if (!getDoc()
+            .equals(other.getDoc())) return false;
       }
-      result = result && (hasFlags() == other.hasFlags());
+      if (hasFlags() != other.hasFlags()) return false;
       if (hasFlags()) {
-        result = result && (getFlags()
-            == other.getFlags());
+        if (getFlags()
+            != other.getFlags()) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1403,6 +1533,7 @@ public final class UdfResolver {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1410,6 +1541,7 @@ public final class UdfResolver {
     public static Builder newBuilder(ru.yandex.yql.proto.UdfResolver.TArgResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1433,6 +1565,7 @@ public final class UdfResolver {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TArgResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TArgResult_fieldAccessorTable
@@ -1455,6 +1588,7 @@ public final class UdfResolver {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         name_ = "";
@@ -1468,15 +1602,18 @@ public final class UdfResolver {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TArgResult_descriptor;
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TArgResult getDefaultInstanceForType() {
         return ru.yandex.yql.proto.UdfResolver.TArgResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TArgResult build() {
         ru.yandex.yql.proto.UdfResolver.TArgResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -1485,57 +1622,65 @@ public final class UdfResolver {
         return result;
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TArgResult buildPartial() {
         ru.yandex.yql.proto.UdfResolver.TArgResult result = new ru.yandex.yql.proto.UdfResolver.TArgResult(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.name_ = name_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
         result.type_ = type_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
           to_bitField0_ |= 0x00000004;
         }
         result.doc_ = doc_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.flags_ = flags_;
           to_bitField0_ |= 0x00000008;
         }
-        result.flags_ = flags_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof ru.yandex.yql.proto.UdfResolver.TArgResult) {
           return mergeFrom((ru.yandex.yql.proto.UdfResolver.TArgResult)other);
@@ -1570,6 +1715,7 @@ public final class UdfResolver {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasName()) {
           return false;
@@ -1586,6 +1732,7 @@ public final class UdfResolver {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1608,12 +1755,14 @@ public final class UdfResolver {
       private java.lang.Object name_ = "";
       /**
        * <code>required string Name = 1;</code>
+       * @return Whether the name field is set.
        */
       public boolean hasName() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>required string Name = 1;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -1631,6 +1780,7 @@ public final class UdfResolver {
       }
       /**
        * <code>required string Name = 1;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -1647,6 +1797,8 @@ public final class UdfResolver {
       }
       /**
        * <code>required string Name = 1;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -1660,6 +1812,7 @@ public final class UdfResolver {
       }
       /**
        * <code>required string Name = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -1669,6 +1822,8 @@ public final class UdfResolver {
       }
       /**
        * <code>required string Name = 1;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -1684,12 +1839,14 @@ public final class UdfResolver {
       private java.lang.Object type_ = "";
       /**
        * <code>required string Type = 2;</code>
+       * @return Whether the type field is set.
        */
       public boolean hasType() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>required string Type = 2;</code>
+       * @return The type.
        */
       public java.lang.String getType() {
         java.lang.Object ref = type_;
@@ -1707,6 +1864,7 @@ public final class UdfResolver {
       }
       /**
        * <code>required string Type = 2;</code>
+       * @return The bytes for type.
        */
       public com.google.protobuf.ByteString
           getTypeBytes() {
@@ -1723,6 +1881,8 @@ public final class UdfResolver {
       }
       /**
        * <code>required string Type = 2;</code>
+       * @param value The type to set.
+       * @return This builder for chaining.
        */
       public Builder setType(
           java.lang.String value) {
@@ -1736,6 +1896,7 @@ public final class UdfResolver {
       }
       /**
        * <code>required string Type = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearType() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -1745,6 +1906,8 @@ public final class UdfResolver {
       }
       /**
        * <code>required string Type = 2;</code>
+       * @param value The bytes for type to set.
+       * @return This builder for chaining.
        */
       public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -1760,12 +1923,14 @@ public final class UdfResolver {
       private java.lang.Object doc_ = "";
       /**
        * <code>required string Doc = 3;</code>
+       * @return Whether the doc field is set.
        */
       public boolean hasDoc() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>required string Doc = 3;</code>
+       * @return The doc.
        */
       public java.lang.String getDoc() {
         java.lang.Object ref = doc_;
@@ -1783,6 +1948,7 @@ public final class UdfResolver {
       }
       /**
        * <code>required string Doc = 3;</code>
+       * @return The bytes for doc.
        */
       public com.google.protobuf.ByteString
           getDocBytes() {
@@ -1799,6 +1965,8 @@ public final class UdfResolver {
       }
       /**
        * <code>required string Doc = 3;</code>
+       * @param value The doc to set.
+       * @return This builder for chaining.
        */
       public Builder setDoc(
           java.lang.String value) {
@@ -1812,6 +1980,7 @@ public final class UdfResolver {
       }
       /**
        * <code>required string Doc = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDoc() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -1821,6 +1990,8 @@ public final class UdfResolver {
       }
       /**
        * <code>required string Doc = 3;</code>
+       * @param value The bytes for doc to set.
+       * @return This builder for chaining.
        */
       public Builder setDocBytes(
           com.google.protobuf.ByteString value) {
@@ -1836,18 +2007,24 @@ public final class UdfResolver {
       private int flags_ ;
       /**
        * <code>required uint32 Flags = 4;</code>
+       * @return Whether the flags field is set.
        */
+      @java.lang.Override
       public boolean hasFlags() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <code>required uint32 Flags = 4;</code>
+       * @return The flags.
        */
+      @java.lang.Override
       public int getFlags() {
         return flags_;
       }
       /**
        * <code>required uint32 Flags = 4;</code>
+       * @param value The flags to set.
+       * @return This builder for chaining.
        */
       public Builder setFlags(int value) {
         bitField0_ |= 0x00000008;
@@ -1857,6 +2034,7 @@ public final class UdfResolver {
       }
       /**
        * <code>required uint32 Flags = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFlags() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -1864,11 +2042,13 @@ public final class UdfResolver {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1890,11 +2070,12 @@ public final class UdfResolver {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<TArgResult>
         PARSER = new com.google.protobuf.AbstractParser<TArgResult>() {
+      @java.lang.Override
       public TArgResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TArgResult(input, extensionRegistry);
+        return new TArgResult(input, extensionRegistry);
       }
     };
 
@@ -1907,6 +2088,7 @@ public final class UdfResolver {
       return PARSER;
     }
 
+    @java.lang.Override
     public ru.yandex.yql.proto.UdfResolver.TArgResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1919,112 +2101,136 @@ public final class UdfResolver {
 
     /**
      * <code>optional string NormalizedUserType = 1;</code>
+     * @return Whether the normalizedUserType field is set.
      */
     boolean hasNormalizedUserType();
     /**
      * <code>optional string NormalizedUserType = 1;</code>
+     * @return The normalizedUserType.
      */
     java.lang.String getNormalizedUserType();
     /**
      * <code>optional string NormalizedUserType = 1;</code>
+     * @return The bytes for normalizedUserType.
      */
     com.google.protobuf.ByteString
         getNormalizedUserTypeBytes();
 
     /**
      * <code>optional string RunConfigType = 2;</code>
+     * @return Whether the runConfigType field is set.
      */
     boolean hasRunConfigType();
     /**
      * <code>optional string RunConfigType = 2;</code>
+     * @return The runConfigType.
      */
     java.lang.String getRunConfigType();
     /**
      * <code>optional string RunConfigType = 2;</code>
+     * @return The bytes for runConfigType.
      */
     com.google.protobuf.ByteString
         getRunConfigTypeBytes();
 
     /**
      * <code>optional string CallableType = 3;</code>
+     * @return Whether the callableType field is set.
      */
     boolean hasCallableType();
     /**
      * <code>optional string CallableType = 3;</code>
+     * @return The callableType.
      */
     java.lang.String getCallableType();
     /**
      * <code>optional string CallableType = 3;</code>
+     * @return The bytes for callableType.
      */
     com.google.protobuf.ByteString
         getCallableTypeBytes();
 
     /**
      * <code>optional string Error = 4;</code>
+     * @return Whether the error field is set.
      */
     boolean hasError();
     /**
      * <code>optional string Error = 4;</code>
+     * @return The error.
      */
     java.lang.String getError();
     /**
      * <code>optional string Error = 4;</code>
+     * @return The bytes for error.
      */
     com.google.protobuf.ByteString
         getErrorBytes();
 
     /**
      * <code>optional string Name = 5;</code>
+     * @return Whether the name field is set.
      */
     boolean hasName();
     /**
      * <code>optional string Name = 5;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
      * <code>optional string Name = 5;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
      * <code>optional string Doc = 7;</code>
+     * @return Whether the doc field is set.
      */
     boolean hasDoc();
     /**
      * <code>optional string Doc = 7;</code>
+     * @return The doc.
      */
     java.lang.String getDoc();
     /**
      * <code>optional string Doc = 7;</code>
+     * @return The bytes for doc.
      */
     com.google.protobuf.ByteString
         getDocBytes();
 
     /**
      * <code>optional bool IsTypeAwareness = 8;</code>
+     * @return Whether the isTypeAwareness field is set.
      */
     boolean hasIsTypeAwareness();
     /**
      * <code>optional bool IsTypeAwareness = 8;</code>
+     * @return The isTypeAwareness.
      */
     boolean getIsTypeAwareness();
 
     /**
      * <code>optional uint32 ArgCount = 9;</code>
+     * @return Whether the argCount field is set.
      */
     boolean hasArgCount();
     /**
      * <code>optional uint32 ArgCount = 9;</code>
+     * @return The argCount.
      */
     int getArgCount();
 
     /**
      * <code>optional uint32 OptionalArgCount = 10;</code>
+     * @return Whether the optionalArgCount field is set.
      */
     boolean hasOptionalArgCount();
     /**
      * <code>optional uint32 OptionalArgCount = 10;</code>
+     * @return The optionalArgCount.
      */
     int getOptionalArgCount();
 
@@ -2054,28 +2260,34 @@ public final class UdfResolver {
 
     /**
      * <code>optional string ReturnType = 12;</code>
+     * @return Whether the returnType field is set.
      */
     boolean hasReturnType();
     /**
      * <code>optional string ReturnType = 12;</code>
+     * @return The returnType.
      */
     java.lang.String getReturnType();
     /**
      * <code>optional string ReturnType = 12;</code>
+     * @return The bytes for returnType.
      */
     com.google.protobuf.ByteString
         getReturnTypeBytes();
 
     /**
      * <code>optional string ReturnDoc = 13;</code>
+     * @return Whether the returnDoc field is set.
      */
     boolean hasReturnDoc();
     /**
      * <code>optional string ReturnDoc = 13;</code>
+     * @return The returnDoc.
      */
     java.lang.String getReturnDoc();
     /**
      * <code>optional string ReturnDoc = 13;</code>
+     * @return The bytes for returnDoc.
      */
     com.google.protobuf.ByteString
         getReturnDocBytes();
@@ -2083,7 +2295,7 @@ public final class UdfResolver {
   /**
    * Protobuf type {@code NYql.TFunctionResult}
    */
-  public  static final class TFunctionResult extends
+  public static final class TFunctionResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NYql.TFunctionResult)
       TFunctionResultOrBuilder {
@@ -2099,12 +2311,16 @@ public final class UdfResolver {
       error_ = "";
       name_ = "";
       doc_ = "";
-      isTypeAwareness_ = false;
-      argCount_ = 0;
-      optionalArgCount_ = 0;
       args_ = java.util.Collections.emptyList();
       returnType_ = "";
       returnDoc_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TFunctionResult();
     }
 
     @java.lang.Override
@@ -2117,6 +2333,9 @@ public final class UdfResolver {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -2128,13 +2347,6 @@ public final class UdfResolver {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
@@ -2187,7 +2399,7 @@ public final class UdfResolver {
               break;
             }
             case 90: {
-              if (!((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+              if (!((mutable_bitField0_ & 0x00000200) != 0)) {
                 args_ = new java.util.ArrayList<ru.yandex.yql.proto.UdfResolver.TArgResult>();
                 mutable_bitField0_ |= 0x00000200;
               }
@@ -2207,6 +2419,13 @@ public final class UdfResolver {
               returnDoc_ = bs;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2215,7 +2434,7 @@ public final class UdfResolver {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+        if (((mutable_bitField0_ & 0x00000200) != 0)) {
           args_ = java.util.Collections.unmodifiableList(args_);
         }
         this.unknownFields = unknownFields.build();
@@ -2227,6 +2446,7 @@ public final class UdfResolver {
       return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TFunctionResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TFunctionResult_fieldAccessorTable
@@ -2239,13 +2459,17 @@ public final class UdfResolver {
     private volatile java.lang.Object normalizedUserType_;
     /**
      * <code>optional string NormalizedUserType = 1;</code>
+     * @return Whether the normalizedUserType field is set.
      */
+    @java.lang.Override
     public boolean hasNormalizedUserType() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional string NormalizedUserType = 1;</code>
+     * @return The normalizedUserType.
      */
+    @java.lang.Override
     public java.lang.String getNormalizedUserType() {
       java.lang.Object ref = normalizedUserType_;
       if (ref instanceof java.lang.String) {
@@ -2262,7 +2486,9 @@ public final class UdfResolver {
     }
     /**
      * <code>optional string NormalizedUserType = 1;</code>
+     * @return The bytes for normalizedUserType.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNormalizedUserTypeBytes() {
       java.lang.Object ref = normalizedUserType_;
@@ -2281,13 +2507,17 @@ public final class UdfResolver {
     private volatile java.lang.Object runConfigType_;
     /**
      * <code>optional string RunConfigType = 2;</code>
+     * @return Whether the runConfigType field is set.
      */
+    @java.lang.Override
     public boolean hasRunConfigType() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional string RunConfigType = 2;</code>
+     * @return The runConfigType.
      */
+    @java.lang.Override
     public java.lang.String getRunConfigType() {
       java.lang.Object ref = runConfigType_;
       if (ref instanceof java.lang.String) {
@@ -2304,7 +2534,9 @@ public final class UdfResolver {
     }
     /**
      * <code>optional string RunConfigType = 2;</code>
+     * @return The bytes for runConfigType.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getRunConfigTypeBytes() {
       java.lang.Object ref = runConfigType_;
@@ -2323,13 +2555,17 @@ public final class UdfResolver {
     private volatile java.lang.Object callableType_;
     /**
      * <code>optional string CallableType = 3;</code>
+     * @return Whether the callableType field is set.
      */
+    @java.lang.Override
     public boolean hasCallableType() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>optional string CallableType = 3;</code>
+     * @return The callableType.
      */
+    @java.lang.Override
     public java.lang.String getCallableType() {
       java.lang.Object ref = callableType_;
       if (ref instanceof java.lang.String) {
@@ -2346,7 +2582,9 @@ public final class UdfResolver {
     }
     /**
      * <code>optional string CallableType = 3;</code>
+     * @return The bytes for callableType.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getCallableTypeBytes() {
       java.lang.Object ref = callableType_;
@@ -2365,13 +2603,17 @@ public final class UdfResolver {
     private volatile java.lang.Object error_;
     /**
      * <code>optional string Error = 4;</code>
+     * @return Whether the error field is set.
      */
+    @java.lang.Override
     public boolean hasError() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
      * <code>optional string Error = 4;</code>
+     * @return The error.
      */
+    @java.lang.Override
     public java.lang.String getError() {
       java.lang.Object ref = error_;
       if (ref instanceof java.lang.String) {
@@ -2388,7 +2630,9 @@ public final class UdfResolver {
     }
     /**
      * <code>optional string Error = 4;</code>
+     * @return The bytes for error.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getErrorBytes() {
       java.lang.Object ref = error_;
@@ -2407,13 +2651,17 @@ public final class UdfResolver {
     private volatile java.lang.Object name_;
     /**
      * <code>optional string Name = 5;</code>
+     * @return Whether the name field is set.
      */
+    @java.lang.Override
     public boolean hasName() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000010) != 0);
     }
     /**
      * <code>optional string Name = 5;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -2430,7 +2678,9 @@ public final class UdfResolver {
     }
     /**
      * <code>optional string Name = 5;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -2449,13 +2699,17 @@ public final class UdfResolver {
     private volatile java.lang.Object doc_;
     /**
      * <code>optional string Doc = 7;</code>
+     * @return Whether the doc field is set.
      */
+    @java.lang.Override
     public boolean hasDoc() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000020) != 0);
     }
     /**
      * <code>optional string Doc = 7;</code>
+     * @return The doc.
      */
+    @java.lang.Override
     public java.lang.String getDoc() {
       java.lang.Object ref = doc_;
       if (ref instanceof java.lang.String) {
@@ -2472,7 +2726,9 @@ public final class UdfResolver {
     }
     /**
      * <code>optional string Doc = 7;</code>
+     * @return The bytes for doc.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getDocBytes() {
       java.lang.Object ref = doc_;
@@ -2491,13 +2747,17 @@ public final class UdfResolver {
     private boolean isTypeAwareness_;
     /**
      * <code>optional bool IsTypeAwareness = 8;</code>
+     * @return Whether the isTypeAwareness field is set.
      */
+    @java.lang.Override
     public boolean hasIsTypeAwareness() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000040) != 0);
     }
     /**
      * <code>optional bool IsTypeAwareness = 8;</code>
+     * @return The isTypeAwareness.
      */
+    @java.lang.Override
     public boolean getIsTypeAwareness() {
       return isTypeAwareness_;
     }
@@ -2506,13 +2766,17 @@ public final class UdfResolver {
     private int argCount_;
     /**
      * <code>optional uint32 ArgCount = 9;</code>
+     * @return Whether the argCount field is set.
      */
+    @java.lang.Override
     public boolean hasArgCount() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
+      return ((bitField0_ & 0x00000080) != 0);
     }
     /**
      * <code>optional uint32 ArgCount = 9;</code>
+     * @return The argCount.
      */
+    @java.lang.Override
     public int getArgCount() {
       return argCount_;
     }
@@ -2521,13 +2785,17 @@ public final class UdfResolver {
     private int optionalArgCount_;
     /**
      * <code>optional uint32 OptionalArgCount = 10;</code>
+     * @return Whether the optionalArgCount field is set.
      */
+    @java.lang.Override
     public boolean hasOptionalArgCount() {
-      return ((bitField0_ & 0x00000100) == 0x00000100);
+      return ((bitField0_ & 0x00000100) != 0);
     }
     /**
      * <code>optional uint32 OptionalArgCount = 10;</code>
+     * @return The optionalArgCount.
      */
+    @java.lang.Override
     public int getOptionalArgCount() {
       return optionalArgCount_;
     }
@@ -2537,12 +2805,14 @@ public final class UdfResolver {
     /**
      * <code>repeated .NYql.TArgResult Args = 11;</code>
      */
+    @java.lang.Override
     public java.util.List<ru.yandex.yql.proto.UdfResolver.TArgResult> getArgsList() {
       return args_;
     }
     /**
      * <code>repeated .NYql.TArgResult Args = 11;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends ru.yandex.yql.proto.UdfResolver.TArgResultOrBuilder> 
         getArgsOrBuilderList() {
       return args_;
@@ -2550,18 +2820,21 @@ public final class UdfResolver {
     /**
      * <code>repeated .NYql.TArgResult Args = 11;</code>
      */
+    @java.lang.Override
     public int getArgsCount() {
       return args_.size();
     }
     /**
      * <code>repeated .NYql.TArgResult Args = 11;</code>
      */
+    @java.lang.Override
     public ru.yandex.yql.proto.UdfResolver.TArgResult getArgs(int index) {
       return args_.get(index);
     }
     /**
      * <code>repeated .NYql.TArgResult Args = 11;</code>
      */
+    @java.lang.Override
     public ru.yandex.yql.proto.UdfResolver.TArgResultOrBuilder getArgsOrBuilder(
         int index) {
       return args_.get(index);
@@ -2571,13 +2844,17 @@ public final class UdfResolver {
     private volatile java.lang.Object returnType_;
     /**
      * <code>optional string ReturnType = 12;</code>
+     * @return Whether the returnType field is set.
      */
+    @java.lang.Override
     public boolean hasReturnType() {
-      return ((bitField0_ & 0x00000200) == 0x00000200);
+      return ((bitField0_ & 0x00000200) != 0);
     }
     /**
      * <code>optional string ReturnType = 12;</code>
+     * @return The returnType.
      */
+    @java.lang.Override
     public java.lang.String getReturnType() {
       java.lang.Object ref = returnType_;
       if (ref instanceof java.lang.String) {
@@ -2594,7 +2871,9 @@ public final class UdfResolver {
     }
     /**
      * <code>optional string ReturnType = 12;</code>
+     * @return The bytes for returnType.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getReturnTypeBytes() {
       java.lang.Object ref = returnType_;
@@ -2613,13 +2892,17 @@ public final class UdfResolver {
     private volatile java.lang.Object returnDoc_;
     /**
      * <code>optional string ReturnDoc = 13;</code>
+     * @return Whether the returnDoc field is set.
      */
+    @java.lang.Override
     public boolean hasReturnDoc() {
-      return ((bitField0_ & 0x00000400) == 0x00000400);
+      return ((bitField0_ & 0x00000400) != 0);
     }
     /**
      * <code>optional string ReturnDoc = 13;</code>
+     * @return The returnDoc.
      */
+    @java.lang.Override
     public java.lang.String getReturnDoc() {
       java.lang.Object ref = returnDoc_;
       if (ref instanceof java.lang.String) {
@@ -2636,7 +2919,9 @@ public final class UdfResolver {
     }
     /**
      * <code>optional string ReturnDoc = 13;</code>
+     * @return The bytes for returnDoc.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getReturnDocBytes() {
       java.lang.Object ref = returnDoc_;
@@ -2652,6 +2937,7 @@ public final class UdfResolver {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2667,79 +2953,81 @@ public final class UdfResolver {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, normalizedUserType_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, runConfigType_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, callableType_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, error_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 5, name_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 7, doc_);
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((bitField0_ & 0x00000040) != 0)) {
         output.writeBool(8, isTypeAwareness_);
       }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      if (((bitField0_ & 0x00000080) != 0)) {
         output.writeUInt32(9, argCount_);
       }
-      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      if (((bitField0_ & 0x00000100) != 0)) {
         output.writeUInt32(10, optionalArgCount_);
       }
       for (int i = 0; i < args_.size(); i++) {
         output.writeMessage(11, args_.get(i));
       }
-      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      if (((bitField0_ & 0x00000200) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 12, returnType_);
       }
-      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+      if (((bitField0_ & 0x00000400) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 13, returnDoc_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, normalizedUserType_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, runConfigType_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, callableType_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, error_);
       }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+      if (((bitField0_ & 0x00000010) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, name_);
       }
-      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((bitField0_ & 0x00000020) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, doc_);
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((bitField0_ & 0x00000040) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(8, isTypeAwareness_);
       }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+      if (((bitField0_ & 0x00000080) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(9, argCount_);
       }
-      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+      if (((bitField0_ & 0x00000100) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(10, optionalArgCount_);
       }
@@ -2747,10 +3035,10 @@ public final class UdfResolver {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(11, args_.get(i));
       }
-      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+      if (((bitField0_ & 0x00000200) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(12, returnType_);
       }
-      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+      if (((bitField0_ & 0x00000400) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(13, returnDoc_);
       }
       size += unknownFields.getSerializedSize();
@@ -2768,66 +3056,65 @@ public final class UdfResolver {
       }
       ru.yandex.yql.proto.UdfResolver.TFunctionResult other = (ru.yandex.yql.proto.UdfResolver.TFunctionResult) obj;
 
-      boolean result = true;
-      result = result && (hasNormalizedUserType() == other.hasNormalizedUserType());
+      if (hasNormalizedUserType() != other.hasNormalizedUserType()) return false;
       if (hasNormalizedUserType()) {
-        result = result && getNormalizedUserType()
-            .equals(other.getNormalizedUserType());
+        if (!getNormalizedUserType()
+            .equals(other.getNormalizedUserType())) return false;
       }
-      result = result && (hasRunConfigType() == other.hasRunConfigType());
+      if (hasRunConfigType() != other.hasRunConfigType()) return false;
       if (hasRunConfigType()) {
-        result = result && getRunConfigType()
-            .equals(other.getRunConfigType());
+        if (!getRunConfigType()
+            .equals(other.getRunConfigType())) return false;
       }
-      result = result && (hasCallableType() == other.hasCallableType());
+      if (hasCallableType() != other.hasCallableType()) return false;
       if (hasCallableType()) {
-        result = result && getCallableType()
-            .equals(other.getCallableType());
+        if (!getCallableType()
+            .equals(other.getCallableType())) return false;
       }
-      result = result && (hasError() == other.hasError());
+      if (hasError() != other.hasError()) return false;
       if (hasError()) {
-        result = result && getError()
-            .equals(other.getError());
+        if (!getError()
+            .equals(other.getError())) return false;
       }
-      result = result && (hasName() == other.hasName());
+      if (hasName() != other.hasName()) return false;
       if (hasName()) {
-        result = result && getName()
-            .equals(other.getName());
+        if (!getName()
+            .equals(other.getName())) return false;
       }
-      result = result && (hasDoc() == other.hasDoc());
+      if (hasDoc() != other.hasDoc()) return false;
       if (hasDoc()) {
-        result = result && getDoc()
-            .equals(other.getDoc());
+        if (!getDoc()
+            .equals(other.getDoc())) return false;
       }
-      result = result && (hasIsTypeAwareness() == other.hasIsTypeAwareness());
+      if (hasIsTypeAwareness() != other.hasIsTypeAwareness()) return false;
       if (hasIsTypeAwareness()) {
-        result = result && (getIsTypeAwareness()
-            == other.getIsTypeAwareness());
+        if (getIsTypeAwareness()
+            != other.getIsTypeAwareness()) return false;
       }
-      result = result && (hasArgCount() == other.hasArgCount());
+      if (hasArgCount() != other.hasArgCount()) return false;
       if (hasArgCount()) {
-        result = result && (getArgCount()
-            == other.getArgCount());
+        if (getArgCount()
+            != other.getArgCount()) return false;
       }
-      result = result && (hasOptionalArgCount() == other.hasOptionalArgCount());
+      if (hasOptionalArgCount() != other.hasOptionalArgCount()) return false;
       if (hasOptionalArgCount()) {
-        result = result && (getOptionalArgCount()
-            == other.getOptionalArgCount());
+        if (getOptionalArgCount()
+            != other.getOptionalArgCount()) return false;
       }
-      result = result && getArgsList()
-          .equals(other.getArgsList());
-      result = result && (hasReturnType() == other.hasReturnType());
+      if (!getArgsList()
+          .equals(other.getArgsList())) return false;
+      if (hasReturnType() != other.hasReturnType()) return false;
       if (hasReturnType()) {
-        result = result && getReturnType()
-            .equals(other.getReturnType());
+        if (!getReturnType()
+            .equals(other.getReturnType())) return false;
       }
-      result = result && (hasReturnDoc() == other.hasReturnDoc());
+      if (hasReturnDoc() != other.hasReturnDoc()) return false;
       if (hasReturnDoc()) {
-        result = result && getReturnDoc()
-            .equals(other.getReturnDoc());
+        if (!getReturnDoc()
+            .equals(other.getReturnDoc())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2961,6 +3248,7 @@ public final class UdfResolver {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2968,6 +3256,7 @@ public final class UdfResolver {
     public static Builder newBuilder(ru.yandex.yql.proto.UdfResolver.TFunctionResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2991,6 +3280,7 @@ public final class UdfResolver {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TFunctionResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TFunctionResult_fieldAccessorTable
@@ -3014,6 +3304,7 @@ public final class UdfResolver {
           getArgsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         normalizedUserType_ = "";
@@ -3047,15 +3338,18 @@ public final class UdfResolver {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TFunctionResult_descriptor;
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TFunctionResult getDefaultInstanceForType() {
         return ru.yandex.yql.proto.UdfResolver.TFunctionResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TFunctionResult build() {
         ru.yandex.yql.proto.UdfResolver.TFunctionResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -3064,48 +3358,49 @@ public final class UdfResolver {
         return result;
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TFunctionResult buildPartial() {
         ru.yandex.yql.proto.UdfResolver.TFunctionResult result = new ru.yandex.yql.proto.UdfResolver.TFunctionResult(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.normalizedUserType_ = normalizedUserType_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
         result.runConfigType_ = runConfigType_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
           to_bitField0_ |= 0x00000004;
         }
         result.callableType_ = callableType_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((from_bitField0_ & 0x00000008) != 0)) {
           to_bitField0_ |= 0x00000008;
         }
         result.error_ = error_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((from_bitField0_ & 0x00000010) != 0)) {
           to_bitField0_ |= 0x00000010;
         }
         result.name_ = name_;
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((from_bitField0_ & 0x00000020) != 0)) {
           to_bitField0_ |= 0x00000020;
         }
         result.doc_ = doc_;
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.isTypeAwareness_ = isTypeAwareness_;
           to_bitField0_ |= 0x00000040;
         }
-        result.isTypeAwareness_ = isTypeAwareness_;
-        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+        if (((from_bitField0_ & 0x00000080) != 0)) {
+          result.argCount_ = argCount_;
           to_bitField0_ |= 0x00000080;
         }
-        result.argCount_ = argCount_;
-        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+        if (((from_bitField0_ & 0x00000100) != 0)) {
+          result.optionalArgCount_ = optionalArgCount_;
           to_bitField0_ |= 0x00000100;
         }
-        result.optionalArgCount_ = optionalArgCount_;
         if (argsBuilder_ == null) {
-          if (((bitField0_ & 0x00000200) == 0x00000200)) {
+          if (((bitField0_ & 0x00000200) != 0)) {
             args_ = java.util.Collections.unmodifiableList(args_);
             bitField0_ = (bitField0_ & ~0x00000200);
           }
@@ -3113,11 +3408,11 @@ public final class UdfResolver {
         } else {
           result.args_ = argsBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+        if (((from_bitField0_ & 0x00000400) != 0)) {
           to_bitField0_ |= 0x00000200;
         }
         result.returnType_ = returnType_;
-        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+        if (((from_bitField0_ & 0x00000800) != 0)) {
           to_bitField0_ |= 0x00000400;
         }
         result.returnDoc_ = returnDoc_;
@@ -3126,32 +3421,39 @@ public final class UdfResolver {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof ru.yandex.yql.proto.UdfResolver.TFunctionResult) {
           return mergeFrom((ru.yandex.yql.proto.UdfResolver.TFunctionResult)other);
@@ -3243,6 +3545,7 @@ public final class UdfResolver {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         for (int i = 0; i < getArgsCount(); i++) {
           if (!getArgs(i).isInitialized()) {
@@ -3252,6 +3555,7 @@ public final class UdfResolver {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3274,12 +3578,14 @@ public final class UdfResolver {
       private java.lang.Object normalizedUserType_ = "";
       /**
        * <code>optional string NormalizedUserType = 1;</code>
+       * @return Whether the normalizedUserType field is set.
        */
       public boolean hasNormalizedUserType() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional string NormalizedUserType = 1;</code>
+       * @return The normalizedUserType.
        */
       public java.lang.String getNormalizedUserType() {
         java.lang.Object ref = normalizedUserType_;
@@ -3297,6 +3603,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string NormalizedUserType = 1;</code>
+       * @return The bytes for normalizedUserType.
        */
       public com.google.protobuf.ByteString
           getNormalizedUserTypeBytes() {
@@ -3313,6 +3620,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string NormalizedUserType = 1;</code>
+       * @param value The normalizedUserType to set.
+       * @return This builder for chaining.
        */
       public Builder setNormalizedUserType(
           java.lang.String value) {
@@ -3326,6 +3635,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string NormalizedUserType = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearNormalizedUserType() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -3335,6 +3645,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string NormalizedUserType = 1;</code>
+       * @param value The bytes for normalizedUserType to set.
+       * @return This builder for chaining.
        */
       public Builder setNormalizedUserTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -3350,12 +3662,14 @@ public final class UdfResolver {
       private java.lang.Object runConfigType_ = "";
       /**
        * <code>optional string RunConfigType = 2;</code>
+       * @return Whether the runConfigType field is set.
        */
       public boolean hasRunConfigType() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional string RunConfigType = 2;</code>
+       * @return The runConfigType.
        */
       public java.lang.String getRunConfigType() {
         java.lang.Object ref = runConfigType_;
@@ -3373,6 +3687,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string RunConfigType = 2;</code>
+       * @return The bytes for runConfigType.
        */
       public com.google.protobuf.ByteString
           getRunConfigTypeBytes() {
@@ -3389,6 +3704,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string RunConfigType = 2;</code>
+       * @param value The runConfigType to set.
+       * @return This builder for chaining.
        */
       public Builder setRunConfigType(
           java.lang.String value) {
@@ -3402,6 +3719,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string RunConfigType = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearRunConfigType() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -3411,6 +3729,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string RunConfigType = 2;</code>
+       * @param value The bytes for runConfigType to set.
+       * @return This builder for chaining.
        */
       public Builder setRunConfigTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -3426,12 +3746,14 @@ public final class UdfResolver {
       private java.lang.Object callableType_ = "";
       /**
        * <code>optional string CallableType = 3;</code>
+       * @return Whether the callableType field is set.
        */
       public boolean hasCallableType() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>optional string CallableType = 3;</code>
+       * @return The callableType.
        */
       public java.lang.String getCallableType() {
         java.lang.Object ref = callableType_;
@@ -3449,6 +3771,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string CallableType = 3;</code>
+       * @return The bytes for callableType.
        */
       public com.google.protobuf.ByteString
           getCallableTypeBytes() {
@@ -3465,6 +3788,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string CallableType = 3;</code>
+       * @param value The callableType to set.
+       * @return This builder for chaining.
        */
       public Builder setCallableType(
           java.lang.String value) {
@@ -3478,6 +3803,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string CallableType = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCallableType() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -3487,6 +3813,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string CallableType = 3;</code>
+       * @param value The bytes for callableType to set.
+       * @return This builder for chaining.
        */
       public Builder setCallableTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -3502,12 +3830,14 @@ public final class UdfResolver {
       private java.lang.Object error_ = "";
       /**
        * <code>optional string Error = 4;</code>
+       * @return Whether the error field is set.
        */
       public boolean hasError() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <code>optional string Error = 4;</code>
+       * @return The error.
        */
       public java.lang.String getError() {
         java.lang.Object ref = error_;
@@ -3525,6 +3855,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string Error = 4;</code>
+       * @return The bytes for error.
        */
       public com.google.protobuf.ByteString
           getErrorBytes() {
@@ -3541,6 +3872,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string Error = 4;</code>
+       * @param value The error to set.
+       * @return This builder for chaining.
        */
       public Builder setError(
           java.lang.String value) {
@@ -3554,6 +3887,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string Error = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearError() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -3563,6 +3897,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string Error = 4;</code>
+       * @param value The bytes for error to set.
+       * @return This builder for chaining.
        */
       public Builder setErrorBytes(
           com.google.protobuf.ByteString value) {
@@ -3578,12 +3914,14 @@ public final class UdfResolver {
       private java.lang.Object name_ = "";
       /**
        * <code>optional string Name = 5;</code>
+       * @return Whether the name field is set.
        */
       public boolean hasName() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
        * <code>optional string Name = 5;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -3601,6 +3939,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string Name = 5;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -3617,6 +3956,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string Name = 5;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -3630,6 +3971,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string Name = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -3639,6 +3981,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string Name = 5;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -3654,12 +3998,14 @@ public final class UdfResolver {
       private java.lang.Object doc_ = "";
       /**
        * <code>optional string Doc = 7;</code>
+       * @return Whether the doc field is set.
        */
       public boolean hasDoc() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000020) != 0);
       }
       /**
        * <code>optional string Doc = 7;</code>
+       * @return The doc.
        */
       public java.lang.String getDoc() {
         java.lang.Object ref = doc_;
@@ -3677,6 +4023,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string Doc = 7;</code>
+       * @return The bytes for doc.
        */
       public com.google.protobuf.ByteString
           getDocBytes() {
@@ -3693,6 +4040,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string Doc = 7;</code>
+       * @param value The doc to set.
+       * @return This builder for chaining.
        */
       public Builder setDoc(
           java.lang.String value) {
@@ -3706,6 +4055,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string Doc = 7;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDoc() {
         bitField0_ = (bitField0_ & ~0x00000020);
@@ -3715,6 +4065,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string Doc = 7;</code>
+       * @param value The bytes for doc to set.
+       * @return This builder for chaining.
        */
       public Builder setDocBytes(
           com.google.protobuf.ByteString value) {
@@ -3730,18 +4082,24 @@ public final class UdfResolver {
       private boolean isTypeAwareness_ ;
       /**
        * <code>optional bool IsTypeAwareness = 8;</code>
+       * @return Whether the isTypeAwareness field is set.
        */
+      @java.lang.Override
       public boolean hasIsTypeAwareness() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000040) != 0);
       }
       /**
        * <code>optional bool IsTypeAwareness = 8;</code>
+       * @return The isTypeAwareness.
        */
+      @java.lang.Override
       public boolean getIsTypeAwareness() {
         return isTypeAwareness_;
       }
       /**
        * <code>optional bool IsTypeAwareness = 8;</code>
+       * @param value The isTypeAwareness to set.
+       * @return This builder for chaining.
        */
       public Builder setIsTypeAwareness(boolean value) {
         bitField0_ |= 0x00000040;
@@ -3751,6 +4109,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional bool IsTypeAwareness = 8;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIsTypeAwareness() {
         bitField0_ = (bitField0_ & ~0x00000040);
@@ -3762,18 +4121,24 @@ public final class UdfResolver {
       private int argCount_ ;
       /**
        * <code>optional uint32 ArgCount = 9;</code>
+       * @return Whether the argCount field is set.
        */
+      @java.lang.Override
       public boolean hasArgCount() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000080) != 0);
       }
       /**
        * <code>optional uint32 ArgCount = 9;</code>
+       * @return The argCount.
        */
+      @java.lang.Override
       public int getArgCount() {
         return argCount_;
       }
       /**
        * <code>optional uint32 ArgCount = 9;</code>
+       * @param value The argCount to set.
+       * @return This builder for chaining.
        */
       public Builder setArgCount(int value) {
         bitField0_ |= 0x00000080;
@@ -3783,6 +4148,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional uint32 ArgCount = 9;</code>
+       * @return This builder for chaining.
        */
       public Builder clearArgCount() {
         bitField0_ = (bitField0_ & ~0x00000080);
@@ -3794,18 +4160,24 @@ public final class UdfResolver {
       private int optionalArgCount_ ;
       /**
        * <code>optional uint32 OptionalArgCount = 10;</code>
+       * @return Whether the optionalArgCount field is set.
        */
+      @java.lang.Override
       public boolean hasOptionalArgCount() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
+        return ((bitField0_ & 0x00000100) != 0);
       }
       /**
        * <code>optional uint32 OptionalArgCount = 10;</code>
+       * @return The optionalArgCount.
        */
+      @java.lang.Override
       public int getOptionalArgCount() {
         return optionalArgCount_;
       }
       /**
        * <code>optional uint32 OptionalArgCount = 10;</code>
+       * @param value The optionalArgCount to set.
+       * @return This builder for chaining.
        */
       public Builder setOptionalArgCount(int value) {
         bitField0_ |= 0x00000100;
@@ -3815,6 +4187,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional uint32 OptionalArgCount = 10;</code>
+       * @return This builder for chaining.
        */
       public Builder clearOptionalArgCount() {
         bitField0_ = (bitField0_ & ~0x00000100);
@@ -3826,7 +4199,7 @@ public final class UdfResolver {
       private java.util.List<ru.yandex.yql.proto.UdfResolver.TArgResult> args_ =
         java.util.Collections.emptyList();
       private void ensureArgsIsMutable() {
-        if (!((bitField0_ & 0x00000200) == 0x00000200)) {
+        if (!((bitField0_ & 0x00000200) != 0)) {
           args_ = new java.util.ArrayList<ru.yandex.yql.proto.UdfResolver.TArgResult>(args_);
           bitField0_ |= 0x00000200;
          }
@@ -4055,7 +4428,7 @@ public final class UdfResolver {
           argsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               ru.yandex.yql.proto.UdfResolver.TArgResult, ru.yandex.yql.proto.UdfResolver.TArgResult.Builder, ru.yandex.yql.proto.UdfResolver.TArgResultOrBuilder>(
                   args_,
-                  ((bitField0_ & 0x00000200) == 0x00000200),
+                  ((bitField0_ & 0x00000200) != 0),
                   getParentForChildren(),
                   isClean());
           args_ = null;
@@ -4066,12 +4439,14 @@ public final class UdfResolver {
       private java.lang.Object returnType_ = "";
       /**
        * <code>optional string ReturnType = 12;</code>
+       * @return Whether the returnType field is set.
        */
       public boolean hasReturnType() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
+        return ((bitField0_ & 0x00000400) != 0);
       }
       /**
        * <code>optional string ReturnType = 12;</code>
+       * @return The returnType.
        */
       public java.lang.String getReturnType() {
         java.lang.Object ref = returnType_;
@@ -4089,6 +4464,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string ReturnType = 12;</code>
+       * @return The bytes for returnType.
        */
       public com.google.protobuf.ByteString
           getReturnTypeBytes() {
@@ -4105,6 +4481,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string ReturnType = 12;</code>
+       * @param value The returnType to set.
+       * @return This builder for chaining.
        */
       public Builder setReturnType(
           java.lang.String value) {
@@ -4118,6 +4496,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string ReturnType = 12;</code>
+       * @return This builder for chaining.
        */
       public Builder clearReturnType() {
         bitField0_ = (bitField0_ & ~0x00000400);
@@ -4127,6 +4506,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string ReturnType = 12;</code>
+       * @param value The bytes for returnType to set.
+       * @return This builder for chaining.
        */
       public Builder setReturnTypeBytes(
           com.google.protobuf.ByteString value) {
@@ -4142,12 +4523,14 @@ public final class UdfResolver {
       private java.lang.Object returnDoc_ = "";
       /**
        * <code>optional string ReturnDoc = 13;</code>
+       * @return Whether the returnDoc field is set.
        */
       public boolean hasReturnDoc() {
-        return ((bitField0_ & 0x00000800) == 0x00000800);
+        return ((bitField0_ & 0x00000800) != 0);
       }
       /**
        * <code>optional string ReturnDoc = 13;</code>
+       * @return The returnDoc.
        */
       public java.lang.String getReturnDoc() {
         java.lang.Object ref = returnDoc_;
@@ -4165,6 +4548,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string ReturnDoc = 13;</code>
+       * @return The bytes for returnDoc.
        */
       public com.google.protobuf.ByteString
           getReturnDocBytes() {
@@ -4181,6 +4565,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string ReturnDoc = 13;</code>
+       * @param value The returnDoc to set.
+       * @return This builder for chaining.
        */
       public Builder setReturnDoc(
           java.lang.String value) {
@@ -4194,6 +4580,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string ReturnDoc = 13;</code>
+       * @return This builder for chaining.
        */
       public Builder clearReturnDoc() {
         bitField0_ = (bitField0_ & ~0x00000800);
@@ -4203,6 +4590,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string ReturnDoc = 13;</code>
+       * @param value The bytes for returnDoc to set.
+       * @return This builder for chaining.
        */
       public Builder setReturnDocBytes(
           com.google.protobuf.ByteString value) {
@@ -4214,11 +4603,13 @@ public final class UdfResolver {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4240,11 +4631,12 @@ public final class UdfResolver {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<TFunctionResult>
         PARSER = new com.google.protobuf.AbstractParser<TFunctionResult>() {
+      @java.lang.Override
       public TFunctionResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TFunctionResult(input, extensionRegistry);
+        return new TFunctionResult(input, extensionRegistry);
       }
     };
 
@@ -4257,6 +4649,7 @@ public final class UdfResolver {
       return PARSER;
     }
 
+    @java.lang.Override
     public ru.yandex.yql.proto.UdfResolver.TFunctionResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4269,45 +4662,53 @@ public final class UdfResolver {
 
     /**
      * <code>required string FileAlias = 1;</code>
+     * @return Whether the fileAlias field is set.
      */
     boolean hasFileAlias();
     /**
      * <code>required string FileAlias = 1;</code>
+     * @return The fileAlias.
      */
     java.lang.String getFileAlias();
     /**
      * <code>required string FileAlias = 1;</code>
+     * @return The bytes for fileAlias.
      */
     com.google.protobuf.ByteString
         getFileAliasBytes();
 
     /**
      * <code>required string Path = 2;</code>
+     * @return Whether the path field is set.
      */
     boolean hasPath();
     /**
      * <code>required string Path = 2;</code>
+     * @return The path.
      */
     java.lang.String getPath();
     /**
      * <code>required string Path = 2;</code>
+     * @return The bytes for path.
      */
     com.google.protobuf.ByteString
         getPathBytes();
 
     /**
      * <code>optional bool System = 3 [default = false];</code>
+     * @return Whether the system field is set.
      */
     boolean hasSystem();
     /**
      * <code>optional bool System = 3 [default = false];</code>
+     * @return The system.
      */
     boolean getSystem();
   }
   /**
    * Protobuf type {@code NYql.TImport}
    */
-  public  static final class TImport extends
+  public static final class TImport extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NYql.TImport)
       TImportOrBuilder {
@@ -4319,7 +4720,13 @@ public final class UdfResolver {
     private TImport() {
       fileAlias_ = "";
       path_ = "";
-      system_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TImport();
     }
 
     @java.lang.Override
@@ -4332,6 +4739,9 @@ public final class UdfResolver {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -4343,13 +4753,6 @@ public final class UdfResolver {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
@@ -4365,6 +4768,13 @@ public final class UdfResolver {
             case 24: {
               bitField0_ |= 0x00000004;
               system_ = input.readBool();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -4384,6 +4794,7 @@ public final class UdfResolver {
       return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TImport_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TImport_fieldAccessorTable
@@ -4396,13 +4807,17 @@ public final class UdfResolver {
     private volatile java.lang.Object fileAlias_;
     /**
      * <code>required string FileAlias = 1;</code>
+     * @return Whether the fileAlias field is set.
      */
+    @java.lang.Override
     public boolean hasFileAlias() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>required string FileAlias = 1;</code>
+     * @return The fileAlias.
      */
+    @java.lang.Override
     public java.lang.String getFileAlias() {
       java.lang.Object ref = fileAlias_;
       if (ref instanceof java.lang.String) {
@@ -4419,7 +4834,9 @@ public final class UdfResolver {
     }
     /**
      * <code>required string FileAlias = 1;</code>
+     * @return The bytes for fileAlias.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getFileAliasBytes() {
       java.lang.Object ref = fileAlias_;
@@ -4438,13 +4855,17 @@ public final class UdfResolver {
     private volatile java.lang.Object path_;
     /**
      * <code>required string Path = 2;</code>
+     * @return Whether the path field is set.
      */
+    @java.lang.Override
     public boolean hasPath() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>required string Path = 2;</code>
+     * @return The path.
      */
+    @java.lang.Override
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
@@ -4461,7 +4882,9 @@ public final class UdfResolver {
     }
     /**
      * <code>required string Path = 2;</code>
+     * @return The bytes for path.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathBytes() {
       java.lang.Object ref = path_;
@@ -4480,18 +4903,23 @@ public final class UdfResolver {
     private boolean system_;
     /**
      * <code>optional bool System = 3 [default = false];</code>
+     * @return Whether the system field is set.
      */
+    @java.lang.Override
     public boolean hasSystem() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>optional bool System = 3 [default = false];</code>
+     * @return The system.
      */
+    @java.lang.Override
     public boolean getSystem() {
       return system_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4509,32 +4937,34 @@ public final class UdfResolver {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, fileAlias_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, path_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeBool(3, system_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, fileAlias_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, path_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(3, system_);
       }
@@ -4553,24 +4983,23 @@ public final class UdfResolver {
       }
       ru.yandex.yql.proto.UdfResolver.TImport other = (ru.yandex.yql.proto.UdfResolver.TImport) obj;
 
-      boolean result = true;
-      result = result && (hasFileAlias() == other.hasFileAlias());
+      if (hasFileAlias() != other.hasFileAlias()) return false;
       if (hasFileAlias()) {
-        result = result && getFileAlias()
-            .equals(other.getFileAlias());
+        if (!getFileAlias()
+            .equals(other.getFileAlias())) return false;
       }
-      result = result && (hasPath() == other.hasPath());
+      if (hasPath() != other.hasPath()) return false;
       if (hasPath()) {
-        result = result && getPath()
-            .equals(other.getPath());
+        if (!getPath()
+            .equals(other.getPath())) return false;
       }
-      result = result && (hasSystem() == other.hasSystem());
+      if (hasSystem() != other.hasSystem()) return false;
       if (hasSystem()) {
-        result = result && (getSystem()
-            == other.getSystem());
+        if (getSystem()
+            != other.getSystem()) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4668,6 +5097,7 @@ public final class UdfResolver {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4675,6 +5105,7 @@ public final class UdfResolver {
     public static Builder newBuilder(ru.yandex.yql.proto.UdfResolver.TImport prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4698,6 +5129,7 @@ public final class UdfResolver {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TImport_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TImport_fieldAccessorTable
@@ -4720,6 +5152,7 @@ public final class UdfResolver {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         fileAlias_ = "";
@@ -4731,15 +5164,18 @@ public final class UdfResolver {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TImport_descriptor;
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TImport getDefaultInstanceForType() {
         return ru.yandex.yql.proto.UdfResolver.TImport.getDefaultInstance();
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TImport build() {
         ru.yandex.yql.proto.UdfResolver.TImport result = buildPartial();
         if (!result.isInitialized()) {
@@ -4748,53 +5184,61 @@ public final class UdfResolver {
         return result;
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TImport buildPartial() {
         ru.yandex.yql.proto.UdfResolver.TImport result = new ru.yandex.yql.proto.UdfResolver.TImport(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.fileAlias_ = fileAlias_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
         result.path_ = path_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.system_ = system_;
           to_bitField0_ |= 0x00000004;
         }
-        result.system_ = system_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof ru.yandex.yql.proto.UdfResolver.TImport) {
           return mergeFrom((ru.yandex.yql.proto.UdfResolver.TImport)other);
@@ -4824,6 +5268,7 @@ public final class UdfResolver {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasFileAlias()) {
           return false;
@@ -4834,6 +5279,7 @@ public final class UdfResolver {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4856,12 +5302,14 @@ public final class UdfResolver {
       private java.lang.Object fileAlias_ = "";
       /**
        * <code>required string FileAlias = 1;</code>
+       * @return Whether the fileAlias field is set.
        */
       public boolean hasFileAlias() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>required string FileAlias = 1;</code>
+       * @return The fileAlias.
        */
       public java.lang.String getFileAlias() {
         java.lang.Object ref = fileAlias_;
@@ -4879,6 +5327,7 @@ public final class UdfResolver {
       }
       /**
        * <code>required string FileAlias = 1;</code>
+       * @return The bytes for fileAlias.
        */
       public com.google.protobuf.ByteString
           getFileAliasBytes() {
@@ -4895,6 +5344,8 @@ public final class UdfResolver {
       }
       /**
        * <code>required string FileAlias = 1;</code>
+       * @param value The fileAlias to set.
+       * @return This builder for chaining.
        */
       public Builder setFileAlias(
           java.lang.String value) {
@@ -4908,6 +5359,7 @@ public final class UdfResolver {
       }
       /**
        * <code>required string FileAlias = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFileAlias() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -4917,6 +5369,8 @@ public final class UdfResolver {
       }
       /**
        * <code>required string FileAlias = 1;</code>
+       * @param value The bytes for fileAlias to set.
+       * @return This builder for chaining.
        */
       public Builder setFileAliasBytes(
           com.google.protobuf.ByteString value) {
@@ -4932,12 +5386,14 @@ public final class UdfResolver {
       private java.lang.Object path_ = "";
       /**
        * <code>required string Path = 2;</code>
+       * @return Whether the path field is set.
        */
       public boolean hasPath() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>required string Path = 2;</code>
+       * @return The path.
        */
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
@@ -4955,6 +5411,7 @@ public final class UdfResolver {
       }
       /**
        * <code>required string Path = 2;</code>
+       * @return The bytes for path.
        */
       public com.google.protobuf.ByteString
           getPathBytes() {
@@ -4971,6 +5428,8 @@ public final class UdfResolver {
       }
       /**
        * <code>required string Path = 2;</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           java.lang.String value) {
@@ -4984,6 +5443,7 @@ public final class UdfResolver {
       }
       /**
        * <code>required string Path = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -4993,6 +5453,8 @@ public final class UdfResolver {
       }
       /**
        * <code>required string Path = 2;</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
        */
       public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
@@ -5008,18 +5470,24 @@ public final class UdfResolver {
       private boolean system_ ;
       /**
        * <code>optional bool System = 3 [default = false];</code>
+       * @return Whether the system field is set.
        */
+      @java.lang.Override
       public boolean hasSystem() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>optional bool System = 3 [default = false];</code>
+       * @return The system.
        */
+      @java.lang.Override
       public boolean getSystem() {
         return system_;
       }
       /**
        * <code>optional bool System = 3 [default = false];</code>
+       * @param value The system to set.
+       * @return This builder for chaining.
        */
       public Builder setSystem(boolean value) {
         bitField0_ |= 0x00000004;
@@ -5029,6 +5497,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional bool System = 3 [default = false];</code>
+       * @return This builder for chaining.
        */
       public Builder clearSystem() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -5036,11 +5505,13 @@ public final class UdfResolver {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5062,11 +5533,12 @@ public final class UdfResolver {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<TImport>
         PARSER = new com.google.protobuf.AbstractParser<TImport>() {
+      @java.lang.Override
       public TImport parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TImport(input, extensionRegistry);
+        return new TImport(input, extensionRegistry);
       }
     };
 
@@ -5079,6 +5551,7 @@ public final class UdfResolver {
       return PARSER;
     }
 
+    @java.lang.Override
     public ru.yandex.yql.proto.UdfResolver.TImport getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5091,70 +5564,87 @@ public final class UdfResolver {
 
     /**
      * <code>required string FileAlias = 1;</code>
+     * @return Whether the fileAlias field is set.
      */
     boolean hasFileAlias();
     /**
      * <code>required string FileAlias = 1;</code>
+     * @return The fileAlias.
      */
     java.lang.String getFileAlias();
     /**
      * <code>required string FileAlias = 1;</code>
+     * @return The bytes for fileAlias.
      */
     com.google.protobuf.ByteString
         getFileAliasBytes();
 
     /**
      * <code>repeated string Modules = 2;</code>
+     * @return A list containing the modules.
      */
     java.util.List<java.lang.String>
         getModulesList();
     /**
      * <code>repeated string Modules = 2;</code>
+     * @return The count of modules.
      */
     int getModulesCount();
     /**
      * <code>repeated string Modules = 2;</code>
+     * @param index The index of the element to return.
+     * @return The modules at the given index.
      */
     java.lang.String getModules(int index);
     /**
      * <code>repeated string Modules = 2;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the modules at the given index.
      */
     com.google.protobuf.ByteString
         getModulesBytes(int index);
 
     /**
      * <code>optional string Error = 3;</code>
+     * @return Whether the error field is set.
      */
     boolean hasError();
     /**
      * <code>optional string Error = 3;</code>
+     * @return The error.
      */
     java.lang.String getError();
     /**
      * <code>optional string Error = 3;</code>
+     * @return The bytes for error.
      */
     com.google.protobuf.ByteString
         getErrorBytes();
 
     /**
      * <code>optional uint64 FileSize = 4;</code>
+     * @return Whether the fileSize field is set.
      */
     boolean hasFileSize();
     /**
      * <code>optional uint64 FileSize = 4;</code>
+     * @return The fileSize.
      */
     long getFileSize();
 
     /**
      * <code>optional string Md5 = 5;</code>
+     * @return Whether the md5 field is set.
      */
     boolean hasMd5();
     /**
      * <code>optional string Md5 = 5;</code>
+     * @return The md5.
      */
     java.lang.String getMd5();
     /**
      * <code>optional string Md5 = 5;</code>
+     * @return The bytes for md5.
      */
     com.google.protobuf.ByteString
         getMd5Bytes();
@@ -5162,7 +5652,7 @@ public final class UdfResolver {
   /**
    * Protobuf type {@code NYql.TImportResult}
    */
-  public  static final class TImportResult extends
+  public static final class TImportResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NYql.TImportResult)
       TImportResultOrBuilder {
@@ -5175,8 +5665,14 @@ public final class UdfResolver {
       fileAlias_ = "";
       modules_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       error_ = "";
-      fileSize_ = 0L;
       md5_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TImportResult();
     }
 
     @java.lang.Override
@@ -5189,6 +5685,9 @@ public final class UdfResolver {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -5200,13 +5699,6 @@ public final class UdfResolver {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
@@ -5215,7 +5707,7 @@ public final class UdfResolver {
             }
             case 18: {
               com.google.protobuf.ByteString bs = input.readBytes();
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 modules_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000002;
               }
@@ -5239,6 +5731,13 @@ public final class UdfResolver {
               md5_ = bs;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -5247,7 +5746,7 @@ public final class UdfResolver {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           modules_ = modules_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -5259,6 +5758,7 @@ public final class UdfResolver {
       return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TImportResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TImportResult_fieldAccessorTable
@@ -5271,13 +5771,17 @@ public final class UdfResolver {
     private volatile java.lang.Object fileAlias_;
     /**
      * <code>required string FileAlias = 1;</code>
+     * @return Whether the fileAlias field is set.
      */
+    @java.lang.Override
     public boolean hasFileAlias() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>required string FileAlias = 1;</code>
+     * @return The fileAlias.
      */
+    @java.lang.Override
     public java.lang.String getFileAlias() {
       java.lang.Object ref = fileAlias_;
       if (ref instanceof java.lang.String) {
@@ -5294,7 +5798,9 @@ public final class UdfResolver {
     }
     /**
      * <code>required string FileAlias = 1;</code>
+     * @return The bytes for fileAlias.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getFileAliasBytes() {
       java.lang.Object ref = fileAlias_;
@@ -5313,6 +5819,7 @@ public final class UdfResolver {
     private com.google.protobuf.LazyStringList modules_;
     /**
      * <code>repeated string Modules = 2;</code>
+     * @return A list containing the modules.
      */
     public com.google.protobuf.ProtocolStringList
         getModulesList() {
@@ -5320,18 +5827,23 @@ public final class UdfResolver {
     }
     /**
      * <code>repeated string Modules = 2;</code>
+     * @return The count of modules.
      */
     public int getModulesCount() {
       return modules_.size();
     }
     /**
      * <code>repeated string Modules = 2;</code>
+     * @param index The index of the element to return.
+     * @return The modules at the given index.
      */
     public java.lang.String getModules(int index) {
       return modules_.get(index);
     }
     /**
      * <code>repeated string Modules = 2;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the modules at the given index.
      */
     public com.google.protobuf.ByteString
         getModulesBytes(int index) {
@@ -5342,13 +5854,17 @@ public final class UdfResolver {
     private volatile java.lang.Object error_;
     /**
      * <code>optional string Error = 3;</code>
+     * @return Whether the error field is set.
      */
+    @java.lang.Override
     public boolean hasError() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional string Error = 3;</code>
+     * @return The error.
      */
+    @java.lang.Override
     public java.lang.String getError() {
       java.lang.Object ref = error_;
       if (ref instanceof java.lang.String) {
@@ -5365,7 +5881,9 @@ public final class UdfResolver {
     }
     /**
      * <code>optional string Error = 3;</code>
+     * @return The bytes for error.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getErrorBytes() {
       java.lang.Object ref = error_;
@@ -5384,13 +5902,17 @@ public final class UdfResolver {
     private long fileSize_;
     /**
      * <code>optional uint64 FileSize = 4;</code>
+     * @return Whether the fileSize field is set.
      */
+    @java.lang.Override
     public boolean hasFileSize() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>optional uint64 FileSize = 4;</code>
+     * @return The fileSize.
      */
+    @java.lang.Override
     public long getFileSize() {
       return fileSize_;
     }
@@ -5399,13 +5921,17 @@ public final class UdfResolver {
     private volatile java.lang.Object md5_;
     /**
      * <code>optional string Md5 = 5;</code>
+     * @return Whether the md5 field is set.
      */
+    @java.lang.Override
     public boolean hasMd5() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
      * <code>optional string Md5 = 5;</code>
+     * @return The md5.
      */
+    @java.lang.Override
     public java.lang.String getMd5() {
       java.lang.Object ref = md5_;
       if (ref instanceof java.lang.String) {
@@ -5422,7 +5948,9 @@ public final class UdfResolver {
     }
     /**
      * <code>optional string Md5 = 5;</code>
+     * @return The bytes for md5.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getMd5Bytes() {
       java.lang.Object ref = md5_;
@@ -5438,6 +5966,7 @@ public final class UdfResolver {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -5451,32 +5980,34 @@ public final class UdfResolver {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, fileAlias_);
       }
       for (int i = 0; i < modules_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, modules_.getRaw(i));
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, error_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeUInt64(4, fileSize_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 5, md5_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, fileAlias_);
       }
       {
@@ -5487,14 +6018,14 @@ public final class UdfResolver {
         size += dataSize;
         size += 1 * getModulesList().size();
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, error_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(4, fileSize_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, md5_);
       }
       size += unknownFields.getSerializedSize();
@@ -5512,31 +6043,30 @@ public final class UdfResolver {
       }
       ru.yandex.yql.proto.UdfResolver.TImportResult other = (ru.yandex.yql.proto.UdfResolver.TImportResult) obj;
 
-      boolean result = true;
-      result = result && (hasFileAlias() == other.hasFileAlias());
+      if (hasFileAlias() != other.hasFileAlias()) return false;
       if (hasFileAlias()) {
-        result = result && getFileAlias()
-            .equals(other.getFileAlias());
+        if (!getFileAlias()
+            .equals(other.getFileAlias())) return false;
       }
-      result = result && getModulesList()
-          .equals(other.getModulesList());
-      result = result && (hasError() == other.hasError());
+      if (!getModulesList()
+          .equals(other.getModulesList())) return false;
+      if (hasError() != other.hasError()) return false;
       if (hasError()) {
-        result = result && getError()
-            .equals(other.getError());
+        if (!getError()
+            .equals(other.getError())) return false;
       }
-      result = result && (hasFileSize() == other.hasFileSize());
+      if (hasFileSize() != other.hasFileSize()) return false;
       if (hasFileSize()) {
-        result = result && (getFileSize()
-            == other.getFileSize());
+        if (getFileSize()
+            != other.getFileSize()) return false;
       }
-      result = result && (hasMd5() == other.hasMd5());
+      if (hasMd5() != other.hasMd5()) return false;
       if (hasMd5()) {
-        result = result && getMd5()
-            .equals(other.getMd5());
+        if (!getMd5()
+            .equals(other.getMd5())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5642,6 +6172,7 @@ public final class UdfResolver {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5649,6 +6180,7 @@ public final class UdfResolver {
     public static Builder newBuilder(ru.yandex.yql.proto.UdfResolver.TImportResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5672,6 +6204,7 @@ public final class UdfResolver {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TImportResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TImportResult_fieldAccessorTable
@@ -5694,6 +6227,7 @@ public final class UdfResolver {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         fileAlias_ = "";
@@ -5709,15 +6243,18 @@ public final class UdfResolver {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TImportResult_descriptor;
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TImportResult getDefaultInstanceForType() {
         return ru.yandex.yql.proto.UdfResolver.TImportResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TImportResult build() {
         ru.yandex.yql.proto.UdfResolver.TImportResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -5726,28 +6263,29 @@ public final class UdfResolver {
         return result;
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TImportResult buildPartial() {
         ru.yandex.yql.proto.UdfResolver.TImportResult result = new ru.yandex.yql.proto.UdfResolver.TImportResult(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.fileAlias_ = fileAlias_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((bitField0_ & 0x00000002) != 0)) {
           modules_ = modules_.getUnmodifiableView();
           bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.modules_ = modules_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
         result.error_ = error_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.fileSize_ = fileSize_;
           to_bitField0_ |= 0x00000004;
         }
-        result.fileSize_ = fileSize_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((from_bitField0_ & 0x00000010) != 0)) {
           to_bitField0_ |= 0x00000008;
         }
         result.md5_ = md5_;
@@ -5756,32 +6294,39 @@ public final class UdfResolver {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof ru.yandex.yql.proto.UdfResolver.TImportResult) {
           return mergeFrom((ru.yandex.yql.proto.UdfResolver.TImportResult)other);
@@ -5826,6 +6371,7 @@ public final class UdfResolver {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         if (!hasFileAlias()) {
           return false;
@@ -5833,6 +6379,7 @@ public final class UdfResolver {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5855,12 +6402,14 @@ public final class UdfResolver {
       private java.lang.Object fileAlias_ = "";
       /**
        * <code>required string FileAlias = 1;</code>
+       * @return Whether the fileAlias field is set.
        */
       public boolean hasFileAlias() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>required string FileAlias = 1;</code>
+       * @return The fileAlias.
        */
       public java.lang.String getFileAlias() {
         java.lang.Object ref = fileAlias_;
@@ -5878,6 +6427,7 @@ public final class UdfResolver {
       }
       /**
        * <code>required string FileAlias = 1;</code>
+       * @return The bytes for fileAlias.
        */
       public com.google.protobuf.ByteString
           getFileAliasBytes() {
@@ -5894,6 +6444,8 @@ public final class UdfResolver {
       }
       /**
        * <code>required string FileAlias = 1;</code>
+       * @param value The fileAlias to set.
+       * @return This builder for chaining.
        */
       public Builder setFileAlias(
           java.lang.String value) {
@@ -5907,6 +6459,7 @@ public final class UdfResolver {
       }
       /**
        * <code>required string FileAlias = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFileAlias() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -5916,6 +6469,8 @@ public final class UdfResolver {
       }
       /**
        * <code>required string FileAlias = 1;</code>
+       * @param value The bytes for fileAlias to set.
+       * @return This builder for chaining.
        */
       public Builder setFileAliasBytes(
           com.google.protobuf.ByteString value) {
@@ -5930,13 +6485,14 @@ public final class UdfResolver {
 
       private com.google.protobuf.LazyStringList modules_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureModulesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           modules_ = new com.google.protobuf.LazyStringArrayList(modules_);
           bitField0_ |= 0x00000002;
          }
       }
       /**
        * <code>repeated string Modules = 2;</code>
+       * @return A list containing the modules.
        */
       public com.google.protobuf.ProtocolStringList
           getModulesList() {
@@ -5944,18 +6500,23 @@ public final class UdfResolver {
       }
       /**
        * <code>repeated string Modules = 2;</code>
+       * @return The count of modules.
        */
       public int getModulesCount() {
         return modules_.size();
       }
       /**
        * <code>repeated string Modules = 2;</code>
+       * @param index The index of the element to return.
+       * @return The modules at the given index.
        */
       public java.lang.String getModules(int index) {
         return modules_.get(index);
       }
       /**
        * <code>repeated string Modules = 2;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the modules at the given index.
        */
       public com.google.protobuf.ByteString
           getModulesBytes(int index) {
@@ -5963,6 +6524,9 @@ public final class UdfResolver {
       }
       /**
        * <code>repeated string Modules = 2;</code>
+       * @param index The index to set the value at.
+       * @param value The modules to set.
+       * @return This builder for chaining.
        */
       public Builder setModules(
           int index, java.lang.String value) {
@@ -5976,6 +6540,8 @@ public final class UdfResolver {
       }
       /**
        * <code>repeated string Modules = 2;</code>
+       * @param value The modules to add.
+       * @return This builder for chaining.
        */
       public Builder addModules(
           java.lang.String value) {
@@ -5989,6 +6555,8 @@ public final class UdfResolver {
       }
       /**
        * <code>repeated string Modules = 2;</code>
+       * @param values The modules to add.
+       * @return This builder for chaining.
        */
       public Builder addAllModules(
           java.lang.Iterable<java.lang.String> values) {
@@ -6000,6 +6568,7 @@ public final class UdfResolver {
       }
       /**
        * <code>repeated string Modules = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearModules() {
         modules_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -6009,6 +6578,8 @@ public final class UdfResolver {
       }
       /**
        * <code>repeated string Modules = 2;</code>
+       * @param value The bytes of the modules to add.
+       * @return This builder for chaining.
        */
       public Builder addModulesBytes(
           com.google.protobuf.ByteString value) {
@@ -6024,12 +6595,14 @@ public final class UdfResolver {
       private java.lang.Object error_ = "";
       /**
        * <code>optional string Error = 3;</code>
+       * @return Whether the error field is set.
        */
       public boolean hasError() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>optional string Error = 3;</code>
+       * @return The error.
        */
       public java.lang.String getError() {
         java.lang.Object ref = error_;
@@ -6047,6 +6620,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string Error = 3;</code>
+       * @return The bytes for error.
        */
       public com.google.protobuf.ByteString
           getErrorBytes() {
@@ -6063,6 +6637,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string Error = 3;</code>
+       * @param value The error to set.
+       * @return This builder for chaining.
        */
       public Builder setError(
           java.lang.String value) {
@@ -6076,6 +6652,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string Error = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearError() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -6085,6 +6662,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string Error = 3;</code>
+       * @param value The bytes for error to set.
+       * @return This builder for chaining.
        */
       public Builder setErrorBytes(
           com.google.protobuf.ByteString value) {
@@ -6100,18 +6679,24 @@ public final class UdfResolver {
       private long fileSize_ ;
       /**
        * <code>optional uint64 FileSize = 4;</code>
+       * @return Whether the fileSize field is set.
        */
+      @java.lang.Override
       public boolean hasFileSize() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <code>optional uint64 FileSize = 4;</code>
+       * @return The fileSize.
        */
+      @java.lang.Override
       public long getFileSize() {
         return fileSize_;
       }
       /**
        * <code>optional uint64 FileSize = 4;</code>
+       * @param value The fileSize to set.
+       * @return This builder for chaining.
        */
       public Builder setFileSize(long value) {
         bitField0_ |= 0x00000008;
@@ -6121,6 +6706,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional uint64 FileSize = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFileSize() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -6132,12 +6718,14 @@ public final class UdfResolver {
       private java.lang.Object md5_ = "";
       /**
        * <code>optional string Md5 = 5;</code>
+       * @return Whether the md5 field is set.
        */
       public boolean hasMd5() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
        * <code>optional string Md5 = 5;</code>
+       * @return The md5.
        */
       public java.lang.String getMd5() {
         java.lang.Object ref = md5_;
@@ -6155,6 +6743,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string Md5 = 5;</code>
+       * @return The bytes for md5.
        */
       public com.google.protobuf.ByteString
           getMd5Bytes() {
@@ -6171,6 +6760,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string Md5 = 5;</code>
+       * @param value The md5 to set.
+       * @return This builder for chaining.
        */
       public Builder setMd5(
           java.lang.String value) {
@@ -6184,6 +6775,7 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string Md5 = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearMd5() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -6193,6 +6785,8 @@ public final class UdfResolver {
       }
       /**
        * <code>optional string Md5 = 5;</code>
+       * @param value The bytes for md5 to set.
+       * @return This builder for chaining.
        */
       public Builder setMd5Bytes(
           com.google.protobuf.ByteString value) {
@@ -6204,11 +6798,13 @@ public final class UdfResolver {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -6230,11 +6826,12 @@ public final class UdfResolver {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<TImportResult>
         PARSER = new com.google.protobuf.AbstractParser<TImportResult>() {
+      @java.lang.Override
       public TImportResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TImportResult(input, extensionRegistry);
+        return new TImportResult(input, extensionRegistry);
       }
     };
 
@@ -6247,6 +6844,7 @@ public final class UdfResolver {
       return PARSER;
     }
 
+    @java.lang.Override
     public ru.yandex.yql.proto.UdfResolver.TImportResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -6308,7 +6906,7 @@ public final class UdfResolver {
   /**
    * Protobuf type {@code NYql.TResolve}
    */
-  public  static final class TResolve extends
+  public static final class TResolve extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NYql.TResolve)
       TResolveOrBuilder {
@@ -6323,6 +6921,13 @@ public final class UdfResolver {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TResolve();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -6332,6 +6937,9 @@ public final class UdfResolver {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -6343,15 +6951,8 @@ public final class UdfResolver {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 imports_ = new java.util.ArrayList<ru.yandex.yql.proto.UdfResolver.TImport>();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -6360,12 +6961,19 @@ public final class UdfResolver {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 udfs_ = new java.util.ArrayList<ru.yandex.yql.proto.UdfResolver.TFunction>();
                 mutable_bitField0_ |= 0x00000002;
               }
               udfs_.add(
                   input.readMessage(ru.yandex.yql.proto.UdfResolver.TFunction.PARSER, extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -6376,10 +6984,10 @@ public final class UdfResolver {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           imports_ = java.util.Collections.unmodifiableList(imports_);
         }
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           udfs_ = java.util.Collections.unmodifiableList(udfs_);
         }
         this.unknownFields = unknownFields.build();
@@ -6391,6 +6999,7 @@ public final class UdfResolver {
       return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TResolve_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TResolve_fieldAccessorTable
@@ -6403,12 +7012,14 @@ public final class UdfResolver {
     /**
      * <code>repeated .NYql.TImport Imports = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<ru.yandex.yql.proto.UdfResolver.TImport> getImportsList() {
       return imports_;
     }
     /**
      * <code>repeated .NYql.TImport Imports = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends ru.yandex.yql.proto.UdfResolver.TImportOrBuilder> 
         getImportsOrBuilderList() {
       return imports_;
@@ -6416,18 +7027,21 @@ public final class UdfResolver {
     /**
      * <code>repeated .NYql.TImport Imports = 1;</code>
      */
+    @java.lang.Override
     public int getImportsCount() {
       return imports_.size();
     }
     /**
      * <code>repeated .NYql.TImport Imports = 1;</code>
      */
+    @java.lang.Override
     public ru.yandex.yql.proto.UdfResolver.TImport getImports(int index) {
       return imports_.get(index);
     }
     /**
      * <code>repeated .NYql.TImport Imports = 1;</code>
      */
+    @java.lang.Override
     public ru.yandex.yql.proto.UdfResolver.TImportOrBuilder getImportsOrBuilder(
         int index) {
       return imports_.get(index);
@@ -6438,12 +7052,14 @@ public final class UdfResolver {
     /**
      * <code>repeated .NYql.TFunction Udfs = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<ru.yandex.yql.proto.UdfResolver.TFunction> getUdfsList() {
       return udfs_;
     }
     /**
      * <code>repeated .NYql.TFunction Udfs = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends ru.yandex.yql.proto.UdfResolver.TFunctionOrBuilder> 
         getUdfsOrBuilderList() {
       return udfs_;
@@ -6451,24 +7067,28 @@ public final class UdfResolver {
     /**
      * <code>repeated .NYql.TFunction Udfs = 2;</code>
      */
+    @java.lang.Override
     public int getUdfsCount() {
       return udfs_.size();
     }
     /**
      * <code>repeated .NYql.TFunction Udfs = 2;</code>
      */
+    @java.lang.Override
     public ru.yandex.yql.proto.UdfResolver.TFunction getUdfs(int index) {
       return udfs_.get(index);
     }
     /**
      * <code>repeated .NYql.TFunction Udfs = 2;</code>
      */
+    @java.lang.Override
     public ru.yandex.yql.proto.UdfResolver.TFunctionOrBuilder getUdfsOrBuilder(
         int index) {
       return udfs_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6490,6 +7110,7 @@ public final class UdfResolver {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < imports_.size(); i++) {
@@ -6501,6 +7122,7 @@ public final class UdfResolver {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -6529,13 +7151,12 @@ public final class UdfResolver {
       }
       ru.yandex.yql.proto.UdfResolver.TResolve other = (ru.yandex.yql.proto.UdfResolver.TResolve) obj;
 
-      boolean result = true;
-      result = result && getImportsList()
-          .equals(other.getImportsList());
-      result = result && getUdfsList()
-          .equals(other.getUdfsList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getImportsList()
+          .equals(other.getImportsList())) return false;
+      if (!getUdfsList()
+          .equals(other.getUdfsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -6628,6 +7249,7 @@ public final class UdfResolver {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -6635,6 +7257,7 @@ public final class UdfResolver {
     public static Builder newBuilder(ru.yandex.yql.proto.UdfResolver.TResolve prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -6658,6 +7281,7 @@ public final class UdfResolver {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TResolve_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TResolve_fieldAccessorTable
@@ -6682,6 +7306,7 @@ public final class UdfResolver {
           getUdfsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (importsBuilder_ == null) {
@@ -6699,15 +7324,18 @@ public final class UdfResolver {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TResolve_descriptor;
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TResolve getDefaultInstanceForType() {
         return ru.yandex.yql.proto.UdfResolver.TResolve.getDefaultInstance();
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TResolve build() {
         ru.yandex.yql.proto.UdfResolver.TResolve result = buildPartial();
         if (!result.isInitialized()) {
@@ -6716,11 +7344,12 @@ public final class UdfResolver {
         return result;
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TResolve buildPartial() {
         ru.yandex.yql.proto.UdfResolver.TResolve result = new ru.yandex.yql.proto.UdfResolver.TResolve(this);
         int from_bitField0_ = bitField0_;
         if (importsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             imports_ = java.util.Collections.unmodifiableList(imports_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -6729,7 +7358,7 @@ public final class UdfResolver {
           result.imports_ = importsBuilder_.build();
         }
         if (udfsBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000002) != 0)) {
             udfs_ = java.util.Collections.unmodifiableList(udfs_);
             bitField0_ = (bitField0_ & ~0x00000002);
           }
@@ -6741,32 +7370,39 @@ public final class UdfResolver {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof ru.yandex.yql.proto.UdfResolver.TResolve) {
           return mergeFrom((ru.yandex.yql.proto.UdfResolver.TResolve)other);
@@ -6835,6 +7471,7 @@ public final class UdfResolver {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         for (int i = 0; i < getImportsCount(); i++) {
           if (!getImports(i).isInitialized()) {
@@ -6849,6 +7486,7 @@ public final class UdfResolver {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6871,7 +7509,7 @@ public final class UdfResolver {
       private java.util.List<ru.yandex.yql.proto.UdfResolver.TImport> imports_ =
         java.util.Collections.emptyList();
       private void ensureImportsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           imports_ = new java.util.ArrayList<ru.yandex.yql.proto.UdfResolver.TImport>(imports_);
           bitField0_ |= 0x00000001;
          }
@@ -7100,7 +7738,7 @@ public final class UdfResolver {
           importsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               ru.yandex.yql.proto.UdfResolver.TImport, ru.yandex.yql.proto.UdfResolver.TImport.Builder, ru.yandex.yql.proto.UdfResolver.TImportOrBuilder>(
                   imports_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           imports_ = null;
@@ -7111,7 +7749,7 @@ public final class UdfResolver {
       private java.util.List<ru.yandex.yql.proto.UdfResolver.TFunction> udfs_ =
         java.util.Collections.emptyList();
       private void ensureUdfsIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           udfs_ = new java.util.ArrayList<ru.yandex.yql.proto.UdfResolver.TFunction>(udfs_);
           bitField0_ |= 0x00000002;
          }
@@ -7340,18 +7978,20 @@ public final class UdfResolver {
           udfsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               ru.yandex.yql.proto.UdfResolver.TFunction, ru.yandex.yql.proto.UdfResolver.TFunction.Builder, ru.yandex.yql.proto.UdfResolver.TFunctionOrBuilder>(
                   udfs_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           udfs_ = null;
         }
         return udfsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -7373,11 +8013,12 @@ public final class UdfResolver {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<TResolve>
         PARSER = new com.google.protobuf.AbstractParser<TResolve>() {
+      @java.lang.Override
       public TResolve parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TResolve(input, extensionRegistry);
+        return new TResolve(input, extensionRegistry);
       }
     };
 
@@ -7390,6 +8031,7 @@ public final class UdfResolver {
       return PARSER;
     }
 
+    @java.lang.Override
     public ru.yandex.yql.proto.UdfResolver.TResolve getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -7451,7 +8093,7 @@ public final class UdfResolver {
   /**
    * Protobuf type {@code NYql.TResolveResult}
    */
-  public  static final class TResolveResult extends
+  public static final class TResolveResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NYql.TResolveResult)
       TResolveResultOrBuilder {
@@ -7466,6 +8108,13 @@ public final class UdfResolver {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TResolveResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -7475,6 +8124,9 @@ public final class UdfResolver {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -7486,15 +8138,8 @@ public final class UdfResolver {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 imports_ = new java.util.ArrayList<ru.yandex.yql.proto.UdfResolver.TImportResult>();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -7503,12 +8148,19 @@ public final class UdfResolver {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 udfs_ = new java.util.ArrayList<ru.yandex.yql.proto.UdfResolver.TFunctionResult>();
                 mutable_bitField0_ |= 0x00000002;
               }
               udfs_.add(
                   input.readMessage(ru.yandex.yql.proto.UdfResolver.TFunctionResult.PARSER, extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -7519,10 +8171,10 @@ public final class UdfResolver {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           imports_ = java.util.Collections.unmodifiableList(imports_);
         }
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           udfs_ = java.util.Collections.unmodifiableList(udfs_);
         }
         this.unknownFields = unknownFields.build();
@@ -7534,6 +8186,7 @@ public final class UdfResolver {
       return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TResolveResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TResolveResult_fieldAccessorTable
@@ -7546,12 +8199,14 @@ public final class UdfResolver {
     /**
      * <code>repeated .NYql.TImportResult Imports = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<ru.yandex.yql.proto.UdfResolver.TImportResult> getImportsList() {
       return imports_;
     }
     /**
      * <code>repeated .NYql.TImportResult Imports = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends ru.yandex.yql.proto.UdfResolver.TImportResultOrBuilder> 
         getImportsOrBuilderList() {
       return imports_;
@@ -7559,18 +8214,21 @@ public final class UdfResolver {
     /**
      * <code>repeated .NYql.TImportResult Imports = 1;</code>
      */
+    @java.lang.Override
     public int getImportsCount() {
       return imports_.size();
     }
     /**
      * <code>repeated .NYql.TImportResult Imports = 1;</code>
      */
+    @java.lang.Override
     public ru.yandex.yql.proto.UdfResolver.TImportResult getImports(int index) {
       return imports_.get(index);
     }
     /**
      * <code>repeated .NYql.TImportResult Imports = 1;</code>
      */
+    @java.lang.Override
     public ru.yandex.yql.proto.UdfResolver.TImportResultOrBuilder getImportsOrBuilder(
         int index) {
       return imports_.get(index);
@@ -7581,12 +8239,14 @@ public final class UdfResolver {
     /**
      * <code>repeated .NYql.TFunctionResult Udfs = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<ru.yandex.yql.proto.UdfResolver.TFunctionResult> getUdfsList() {
       return udfs_;
     }
     /**
      * <code>repeated .NYql.TFunctionResult Udfs = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends ru.yandex.yql.proto.UdfResolver.TFunctionResultOrBuilder> 
         getUdfsOrBuilderList() {
       return udfs_;
@@ -7594,24 +8254,28 @@ public final class UdfResolver {
     /**
      * <code>repeated .NYql.TFunctionResult Udfs = 2;</code>
      */
+    @java.lang.Override
     public int getUdfsCount() {
       return udfs_.size();
     }
     /**
      * <code>repeated .NYql.TFunctionResult Udfs = 2;</code>
      */
+    @java.lang.Override
     public ru.yandex.yql.proto.UdfResolver.TFunctionResult getUdfs(int index) {
       return udfs_.get(index);
     }
     /**
      * <code>repeated .NYql.TFunctionResult Udfs = 2;</code>
      */
+    @java.lang.Override
     public ru.yandex.yql.proto.UdfResolver.TFunctionResultOrBuilder getUdfsOrBuilder(
         int index) {
       return udfs_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -7633,6 +8297,7 @@ public final class UdfResolver {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < imports_.size(); i++) {
@@ -7644,6 +8309,7 @@ public final class UdfResolver {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -7672,13 +8338,12 @@ public final class UdfResolver {
       }
       ru.yandex.yql.proto.UdfResolver.TResolveResult other = (ru.yandex.yql.proto.UdfResolver.TResolveResult) obj;
 
-      boolean result = true;
-      result = result && getImportsList()
-          .equals(other.getImportsList());
-      result = result && getUdfsList()
-          .equals(other.getUdfsList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getImportsList()
+          .equals(other.getImportsList())) return false;
+      if (!getUdfsList()
+          .equals(other.getUdfsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -7771,6 +8436,7 @@ public final class UdfResolver {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -7778,6 +8444,7 @@ public final class UdfResolver {
     public static Builder newBuilder(ru.yandex.yql.proto.UdfResolver.TResolveResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -7801,6 +8468,7 @@ public final class UdfResolver {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TResolveResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TResolveResult_fieldAccessorTable
@@ -7825,6 +8493,7 @@ public final class UdfResolver {
           getUdfsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (importsBuilder_ == null) {
@@ -7842,15 +8511,18 @@ public final class UdfResolver {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return ru.yandex.yql.proto.UdfResolver.internal_static_NYql_TResolveResult_descriptor;
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TResolveResult getDefaultInstanceForType() {
         return ru.yandex.yql.proto.UdfResolver.TResolveResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TResolveResult build() {
         ru.yandex.yql.proto.UdfResolver.TResolveResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -7859,11 +8531,12 @@ public final class UdfResolver {
         return result;
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.UdfResolver.TResolveResult buildPartial() {
         ru.yandex.yql.proto.UdfResolver.TResolveResult result = new ru.yandex.yql.proto.UdfResolver.TResolveResult(this);
         int from_bitField0_ = bitField0_;
         if (importsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             imports_ = java.util.Collections.unmodifiableList(imports_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -7872,7 +8545,7 @@ public final class UdfResolver {
           result.imports_ = importsBuilder_.build();
         }
         if (udfsBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000002) != 0)) {
             udfs_ = java.util.Collections.unmodifiableList(udfs_);
             bitField0_ = (bitField0_ & ~0x00000002);
           }
@@ -7884,32 +8557,39 @@ public final class UdfResolver {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof ru.yandex.yql.proto.UdfResolver.TResolveResult) {
           return mergeFrom((ru.yandex.yql.proto.UdfResolver.TResolveResult)other);
@@ -7978,6 +8658,7 @@ public final class UdfResolver {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         for (int i = 0; i < getImportsCount(); i++) {
           if (!getImports(i).isInitialized()) {
@@ -7992,6 +8673,7 @@ public final class UdfResolver {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8014,7 +8696,7 @@ public final class UdfResolver {
       private java.util.List<ru.yandex.yql.proto.UdfResolver.TImportResult> imports_ =
         java.util.Collections.emptyList();
       private void ensureImportsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           imports_ = new java.util.ArrayList<ru.yandex.yql.proto.UdfResolver.TImportResult>(imports_);
           bitField0_ |= 0x00000001;
          }
@@ -8243,7 +8925,7 @@ public final class UdfResolver {
           importsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               ru.yandex.yql.proto.UdfResolver.TImportResult, ru.yandex.yql.proto.UdfResolver.TImportResult.Builder, ru.yandex.yql.proto.UdfResolver.TImportResultOrBuilder>(
                   imports_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           imports_ = null;
@@ -8254,7 +8936,7 @@ public final class UdfResolver {
       private java.util.List<ru.yandex.yql.proto.UdfResolver.TFunctionResult> udfs_ =
         java.util.Collections.emptyList();
       private void ensureUdfsIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           udfs_ = new java.util.ArrayList<ru.yandex.yql.proto.UdfResolver.TFunctionResult>(udfs_);
           bitField0_ |= 0x00000002;
          }
@@ -8483,18 +9165,20 @@ public final class UdfResolver {
           udfsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               ru.yandex.yql.proto.UdfResolver.TFunctionResult, ru.yandex.yql.proto.UdfResolver.TFunctionResult.Builder, ru.yandex.yql.proto.UdfResolver.TFunctionResultOrBuilder>(
                   udfs_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           udfs_ = null;
         }
         return udfsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -8516,11 +9200,12 @@ public final class UdfResolver {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<TResolveResult>
         PARSER = new com.google.protobuf.AbstractParser<TResolveResult>() {
+      @java.lang.Override
       public TResolveResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TResolveResult(input, extensionRegistry);
+        return new TResolveResult(input, extensionRegistry);
       }
     };
 
@@ -8533,6 +9218,7 @@ public final class UdfResolver {
       return PARSER;
     }
 
+    @java.lang.Override
     public ru.yandex.yql.proto.UdfResolver.TResolveResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -8592,7 +9278,7 @@ public final class UdfResolver {
       "RunConfigType\030\002 \001(\t\022\024\n\014CallableType\030\003 \001(" +
       "\t\022\r\n\005Error\030\004 \001(\t\022\014\n\004Name\030\005 \001(\t\022\013\n\003Doc\030\007 " +
       "\001(\t\022\027\n\017IsTypeAwareness\030\010 \001(\010\022\020\n\010ArgCount" +
-      "\030\t \001(\r\022\030\n\020OptionalArgCount\030\n \001(\r\022\036\n\004Args",
+      "\030\t \001(\r\022\030\n\020OptionalArgCount\030\n \001(\r\022\036\n\004Args" +
       "\030\013 \003(\0132\020.NYql.TArgResult\022\022\n\nReturnType\030\014" +
       " \001(\t\022\021\n\tReturnDoc\030\r \001(\t\"A\n\007TImport\022\021\n\tFi" +
       "leAlias\030\001 \002(\t\022\014\n\004Path\030\002 \002(\t\022\025\n\006System\030\003 " +
@@ -8602,21 +9288,13 @@ public final class UdfResolver {
       "e\022\036\n\007Imports\030\001 \003(\0132\r.NYql.TImport\022\035\n\004Udf" +
       "s\030\002 \003(\0132\017.NYql.TFunction\"[\n\016TResolveResu" +
       "lt\022$\n\007Imports\030\001 \003(\0132\023.NYql.TImportResult" +
-      "\022#\n\004Udfs\030\002 \003(\0132\025.NYql.TFunctionResultB\025\n",
+      "\022#\n\004Udfs\030\002 \003(\0132\025.NYql.TFunctionResultB\025\n" +
       "\023ru.yandex.yql.proto"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+        });
     internal_static_NYql_TFunction_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_NYql_TFunction_fieldAccessorTable = new

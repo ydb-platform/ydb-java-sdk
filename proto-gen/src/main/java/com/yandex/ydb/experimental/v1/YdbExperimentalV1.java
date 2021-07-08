@@ -32,24 +32,16 @@ public final class YdbExperimentalV1 {
       "q\n\022ExecuteStreamQuery\022+.Ydb.Experimental" +
       ".ExecuteStreamQueryRequest\032,.Ydb.Experim" +
       "ental.ExecuteStreamQueryResponse0\001\022l\n\021Ge" +
-      "tDiskSpaceUsage\022*.Ydb.Experimental.GetDi",
+      "tDiskSpaceUsage\022*.Ydb.Experimental.GetDi" +
       "skSpaceUsageRequest\032+.Ydb.Experimental.G" +
       "etDiskSpaceUsageResponseB \n\036com.yandex.y" +
       "db.experimental.v1b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.experimental.ExperimentalProtos.getDescriptor(),
-        }, assigner);
+        });
     tech.ydb.experimental.ExperimentalProtos.getDescriptor();
   }
 

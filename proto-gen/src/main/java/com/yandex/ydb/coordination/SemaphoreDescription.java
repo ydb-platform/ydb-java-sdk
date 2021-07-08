@@ -11,7 +11,7 @@ package tech.ydb.coordination;
  *
  * Protobuf type {@code Ydb.Coordination.SemaphoreDescription}
  */
-public  final class SemaphoreDescription extends
+public final class SemaphoreDescription extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:Ydb.Coordination.SemaphoreDescription)
     SemaphoreDescriptionOrBuilder {
@@ -23,11 +23,15 @@ private static final long serialVersionUID = 0L;
   private SemaphoreDescription() {
     name_ = "";
     data_ = com.google.protobuf.ByteString.EMPTY;
-    count_ = 0L;
-    limit_ = 0L;
-    ephemeral_ = false;
     owners_ = java.util.Collections.emptyList();
     waiters_ = java.util.Collections.emptyList();
+  }
+
+  @java.lang.Override
+  @SuppressWarnings({"unused"})
+  protected java.lang.Object newInstance(
+      UnusedPrivateParameter unused) {
+    return new SemaphoreDescription();
   }
 
   @java.lang.Override
@@ -40,6 +44,9 @@ private static final long serialVersionUID = 0L;
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     this();
+    if (extensionRegistry == null) {
+      throw new java.lang.NullPointerException();
+    }
     int mutable_bitField0_ = 0;
     com.google.protobuf.UnknownFieldSet.Builder unknownFields =
         com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -51,13 +58,6 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          default: {
-            if (!parseUnknownFieldProto3(
-                input, unknownFields, extensionRegistry, tag)) {
-              done = true;
-            }
-            break;
-          }
           case 10: {
             java.lang.String s = input.readStringRequireUtf8();
 
@@ -80,18 +80,18 @@ private static final long serialVersionUID = 0L;
             break;
           }
           case 42: {
-            if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+            if (!((mutable_bitField0_ & 0x00000001) != 0)) {
               owners_ = new java.util.ArrayList<tech.ydb.coordination.SemaphoreSession>();
-              mutable_bitField0_ |= 0x00000020;
+              mutable_bitField0_ |= 0x00000001;
             }
             owners_.add(
                 input.readMessage(tech.ydb.coordination.SemaphoreSession.parser(), extensionRegistry));
             break;
           }
           case 50: {
-            if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+            if (!((mutable_bitField0_ & 0x00000002) != 0)) {
               waiters_ = new java.util.ArrayList<tech.ydb.coordination.SemaphoreSession>();
-              mutable_bitField0_ |= 0x00000040;
+              mutable_bitField0_ |= 0x00000002;
             }
             waiters_.add(
                 input.readMessage(tech.ydb.coordination.SemaphoreSession.parser(), extensionRegistry));
@@ -102,6 +102,13 @@ private static final long serialVersionUID = 0L;
             count_ = input.readUInt64();
             break;
           }
+          default: {
+            if (!parseUnknownField(
+                input, unknownFields, extensionRegistry, tag)) {
+              done = true;
+            }
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -110,10 +117,10 @@ private static final long serialVersionUID = 0L;
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
-      if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+      if (((mutable_bitField0_ & 0x00000001) != 0)) {
         owners_ = java.util.Collections.unmodifiableList(owners_);
       }
-      if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+      if (((mutable_bitField0_ & 0x00000002) != 0)) {
         waiters_ = java.util.Collections.unmodifiableList(waiters_);
       }
       this.unknownFields = unknownFields.build();
@@ -125,6 +132,7 @@ private static final long serialVersionUID = 0L;
     return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SemaphoreDescription_descriptor;
   }
 
+  @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SemaphoreDescription_fieldAccessorTable
@@ -132,7 +140,6 @@ private static final long serialVersionUID = 0L;
             tech.ydb.coordination.SemaphoreDescription.class, tech.ydb.coordination.SemaphoreDescription.Builder.class);
   }
 
-  private int bitField0_;
   public static final int NAME_FIELD_NUMBER = 1;
   private volatile java.lang.Object name_;
   /**
@@ -141,7 +148,9 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>string name = 1;</code>
+   * @return The name.
    */
+  @java.lang.Override
   public java.lang.String getName() {
     java.lang.Object ref = name_;
     if (ref instanceof java.lang.String) {
@@ -160,7 +169,9 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>string name = 1;</code>
+   * @return The bytes for name.
    */
+  @java.lang.Override
   public com.google.protobuf.ByteString
       getNameBytes() {
     java.lang.Object ref = name_;
@@ -183,7 +194,9 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>bytes data = 2;</code>
+   * @return The data.
    */
+  @java.lang.Override
   public com.google.protobuf.ByteString getData() {
     return data_;
   }
@@ -196,7 +209,9 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>uint64 count = 7;</code>
+   * @return The count.
    */
+  @java.lang.Override
   public long getCount() {
     return count_;
   }
@@ -209,7 +224,9 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>uint64 limit = 3;</code>
+   * @return The limit.
    */
+  @java.lang.Override
   public long getLimit() {
     return limit_;
   }
@@ -222,7 +239,9 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>bool ephemeral = 4;</code>
+   * @return The ephemeral.
    */
+  @java.lang.Override
   public boolean getEphemeral() {
     return ephemeral_;
   }
@@ -236,6 +255,7 @@ private static final long serialVersionUID = 0L;
    *
    * <code>repeated .Ydb.Coordination.SemaphoreSession owners = 5;</code>
    */
+  @java.lang.Override
   public java.util.List<tech.ydb.coordination.SemaphoreSession> getOwnersList() {
     return owners_;
   }
@@ -246,6 +266,7 @@ private static final long serialVersionUID = 0L;
    *
    * <code>repeated .Ydb.Coordination.SemaphoreSession owners = 5;</code>
    */
+  @java.lang.Override
   public java.util.List<? extends tech.ydb.coordination.SemaphoreSessionOrBuilder> 
       getOwnersOrBuilderList() {
     return owners_;
@@ -257,6 +278,7 @@ private static final long serialVersionUID = 0L;
    *
    * <code>repeated .Ydb.Coordination.SemaphoreSession owners = 5;</code>
    */
+  @java.lang.Override
   public int getOwnersCount() {
     return owners_.size();
   }
@@ -267,6 +289,7 @@ private static final long serialVersionUID = 0L;
    *
    * <code>repeated .Ydb.Coordination.SemaphoreSession owners = 5;</code>
    */
+  @java.lang.Override
   public tech.ydb.coordination.SemaphoreSession getOwners(int index) {
     return owners_.get(index);
   }
@@ -277,6 +300,7 @@ private static final long serialVersionUID = 0L;
    *
    * <code>repeated .Ydb.Coordination.SemaphoreSession owners = 5;</code>
    */
+  @java.lang.Override
   public tech.ydb.coordination.SemaphoreSessionOrBuilder getOwnersOrBuilder(
       int index) {
     return owners_.get(index);
@@ -291,6 +315,7 @@ private static final long serialVersionUID = 0L;
    *
    * <code>repeated .Ydb.Coordination.SemaphoreSession waiters = 6;</code>
    */
+  @java.lang.Override
   public java.util.List<tech.ydb.coordination.SemaphoreSession> getWaitersList() {
     return waiters_;
   }
@@ -301,6 +326,7 @@ private static final long serialVersionUID = 0L;
    *
    * <code>repeated .Ydb.Coordination.SemaphoreSession waiters = 6;</code>
    */
+  @java.lang.Override
   public java.util.List<? extends tech.ydb.coordination.SemaphoreSessionOrBuilder> 
       getWaitersOrBuilderList() {
     return waiters_;
@@ -312,6 +338,7 @@ private static final long serialVersionUID = 0L;
    *
    * <code>repeated .Ydb.Coordination.SemaphoreSession waiters = 6;</code>
    */
+  @java.lang.Override
   public int getWaitersCount() {
     return waiters_.size();
   }
@@ -322,6 +349,7 @@ private static final long serialVersionUID = 0L;
    *
    * <code>repeated .Ydb.Coordination.SemaphoreSession waiters = 6;</code>
    */
+  @java.lang.Override
   public tech.ydb.coordination.SemaphoreSession getWaiters(int index) {
     return waiters_.get(index);
   }
@@ -332,12 +360,14 @@ private static final long serialVersionUID = 0L;
    *
    * <code>repeated .Ydb.Coordination.SemaphoreSession waiters = 6;</code>
    */
+  @java.lang.Override
   public tech.ydb.coordination.SemaphoreSessionOrBuilder getWaitersOrBuilder(
       int index) {
     return waiters_.get(index);
   }
 
   private byte memoizedIsInitialized = -1;
+  @java.lang.Override
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
     if (isInitialized == 1) return true;
@@ -347,6 +377,7 @@ private static final long serialVersionUID = 0L;
     return true;
   }
 
+  @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     if (!getNameBytes().isEmpty()) {
@@ -373,6 +404,7 @@ private static final long serialVersionUID = 0L;
     unknownFields.writeTo(output);
   }
 
+  @java.lang.Override
   public int getSerializedSize() {
     int size = memoizedSize;
     if (size != -1) return size;
@@ -420,23 +452,22 @@ private static final long serialVersionUID = 0L;
     }
     tech.ydb.coordination.SemaphoreDescription other = (tech.ydb.coordination.SemaphoreDescription) obj;
 
-    boolean result = true;
-    result = result && getName()
-        .equals(other.getName());
-    result = result && getData()
-        .equals(other.getData());
-    result = result && (getCount()
-        == other.getCount());
-    result = result && (getLimit()
-        == other.getLimit());
-    result = result && (getEphemeral()
-        == other.getEphemeral());
-    result = result && getOwnersList()
-        .equals(other.getOwnersList());
-    result = result && getWaitersList()
-        .equals(other.getWaitersList());
-    result = result && unknownFields.equals(other.unknownFields);
-    return result;
+    if (!getName()
+        .equals(other.getName())) return false;
+    if (!getData()
+        .equals(other.getData())) return false;
+    if (getCount()
+        != other.getCount()) return false;
+    if (getLimit()
+        != other.getLimit()) return false;
+    if (getEphemeral()
+        != other.getEphemeral()) return false;
+    if (!getOwnersList()
+        .equals(other.getOwnersList())) return false;
+    if (!getWaitersList()
+        .equals(other.getWaitersList())) return false;
+    if (!unknownFields.equals(other.unknownFields)) return false;
+    return true;
   }
 
   @java.lang.Override
@@ -542,6 +573,7 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
+  @java.lang.Override
   public Builder newBuilderForType() { return newBuilder(); }
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
@@ -549,6 +581,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder(tech.ydb.coordination.SemaphoreDescription prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
+  @java.lang.Override
   public Builder toBuilder() {
     return this == DEFAULT_INSTANCE
         ? new Builder() : new Builder().mergeFrom(this);
@@ -577,6 +610,7 @@ private static final long serialVersionUID = 0L;
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SemaphoreDescription_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SemaphoreDescription_fieldAccessorTable
@@ -601,6 +635,7 @@ private static final long serialVersionUID = 0L;
         getWaitersFieldBuilder();
       }
     }
+    @java.lang.Override
     public Builder clear() {
       super.clear();
       name_ = "";
@@ -615,28 +650,31 @@ private static final long serialVersionUID = 0L;
 
       if (ownersBuilder_ == null) {
         owners_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000001);
       } else {
         ownersBuilder_.clear();
       }
       if (waitersBuilder_ == null) {
         waiters_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000002);
       } else {
         waitersBuilder_.clear();
       }
       return this;
     }
 
+    @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_SemaphoreDescription_descriptor;
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.SemaphoreDescription getDefaultInstanceForType() {
       return tech.ydb.coordination.SemaphoreDescription.getDefaultInstance();
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.SemaphoreDescription build() {
       tech.ydb.coordination.SemaphoreDescription result = buildPartial();
       if (!result.isInitialized()) {
@@ -645,64 +683,70 @@ private static final long serialVersionUID = 0L;
       return result;
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.SemaphoreDescription buildPartial() {
       tech.ydb.coordination.SemaphoreDescription result = new tech.ydb.coordination.SemaphoreDescription(this);
       int from_bitField0_ = bitField0_;
-      int to_bitField0_ = 0;
       result.name_ = name_;
       result.data_ = data_;
       result.count_ = count_;
       result.limit_ = limit_;
       result.ephemeral_ = ephemeral_;
       if (ownersBuilder_ == null) {
-        if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           owners_ = java.util.Collections.unmodifiableList(owners_);
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.owners_ = owners_;
       } else {
         result.owners_ = ownersBuilder_.build();
       }
       if (waitersBuilder_ == null) {
-        if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((bitField0_ & 0x00000002) != 0)) {
           waiters_ = java.util.Collections.unmodifiableList(waiters_);
-          bitField0_ = (bitField0_ & ~0x00000040);
+          bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.waiters_ = waiters_;
       } else {
         result.waiters_ = waitersBuilder_.build();
       }
-      result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
     }
 
+    @java.lang.Override
     public Builder clone() {
-      return (Builder) super.clone();
+      return super.clone();
     }
+    @java.lang.Override
     public Builder setField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         java.lang.Object value) {
-      return (Builder) super.setField(field, value);
+      return super.setField(field, value);
     }
+    @java.lang.Override
     public Builder clearField(
         com.google.protobuf.Descriptors.FieldDescriptor field) {
-      return (Builder) super.clearField(field);
+      return super.clearField(field);
     }
+    @java.lang.Override
     public Builder clearOneof(
         com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-      return (Builder) super.clearOneof(oneof);
+      return super.clearOneof(oneof);
     }
+    @java.lang.Override
     public Builder setRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         int index, java.lang.Object value) {
-      return (Builder) super.setRepeatedField(field, index, value);
+      return super.setRepeatedField(field, index, value);
     }
+    @java.lang.Override
     public Builder addRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         java.lang.Object value) {
-      return (Builder) super.addRepeatedField(field, value);
+      return super.addRepeatedField(field, value);
     }
+    @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof tech.ydb.coordination.SemaphoreDescription) {
         return mergeFrom((tech.ydb.coordination.SemaphoreDescription)other);
@@ -734,7 +778,7 @@ private static final long serialVersionUID = 0L;
         if (!other.owners_.isEmpty()) {
           if (owners_.isEmpty()) {
             owners_ = other.owners_;
-            bitField0_ = (bitField0_ & ~0x00000020);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensureOwnersIsMutable();
             owners_.addAll(other.owners_);
@@ -747,7 +791,7 @@ private static final long serialVersionUID = 0L;
             ownersBuilder_.dispose();
             ownersBuilder_ = null;
             owners_ = other.owners_;
-            bitField0_ = (bitField0_ & ~0x00000020);
+            bitField0_ = (bitField0_ & ~0x00000001);
             ownersBuilder_ = 
               com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                  getOwnersFieldBuilder() : null;
@@ -760,7 +804,7 @@ private static final long serialVersionUID = 0L;
         if (!other.waiters_.isEmpty()) {
           if (waiters_.isEmpty()) {
             waiters_ = other.waiters_;
-            bitField0_ = (bitField0_ & ~0x00000040);
+            bitField0_ = (bitField0_ & ~0x00000002);
           } else {
             ensureWaitersIsMutable();
             waiters_.addAll(other.waiters_);
@@ -773,7 +817,7 @@ private static final long serialVersionUID = 0L;
             waitersBuilder_.dispose();
             waitersBuilder_ = null;
             waiters_ = other.waiters_;
-            bitField0_ = (bitField0_ & ~0x00000040);
+            bitField0_ = (bitField0_ & ~0x00000002);
             waitersBuilder_ = 
               com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                  getWaitersFieldBuilder() : null;
@@ -787,10 +831,12 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
+    @java.lang.Override
     public final boolean isInitialized() {
       return true;
     }
 
+    @java.lang.Override
     public Builder mergeFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -817,6 +863,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 1;</code>
+     * @return The name.
      */
     public java.lang.String getName() {
       java.lang.Object ref = name_;
@@ -836,6 +883,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
     public com.google.protobuf.ByteString
         getNameBytes() {
@@ -856,6 +904,8 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 1;</code>
+     * @param value The name to set.
+     * @return This builder for chaining.
      */
     public Builder setName(
         java.lang.String value) {
@@ -873,6 +923,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 1;</code>
+     * @return This builder for chaining.
      */
     public Builder clearName() {
       
@@ -886,6 +937,8 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string name = 1;</code>
+     * @param value The bytes for name to set.
+     * @return This builder for chaining.
      */
     public Builder setNameBytes(
         com.google.protobuf.ByteString value) {
@@ -906,7 +959,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bytes data = 2;</code>
+     * @return The data.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getData() {
       return data_;
     }
@@ -916,6 +971,8 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bytes data = 2;</code>
+     * @param value The data to set.
+     * @return This builder for chaining.
      */
     public Builder setData(com.google.protobuf.ByteString value) {
       if (value == null) {
@@ -932,6 +989,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bytes data = 2;</code>
+     * @return This builder for chaining.
      */
     public Builder clearData() {
       
@@ -947,7 +1005,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 count = 7;</code>
+     * @return The count.
      */
+    @java.lang.Override
     public long getCount() {
       return count_;
     }
@@ -957,6 +1017,8 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 count = 7;</code>
+     * @param value The count to set.
+     * @return This builder for chaining.
      */
     public Builder setCount(long value) {
       
@@ -970,6 +1032,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 count = 7;</code>
+     * @return This builder for chaining.
      */
     public Builder clearCount() {
       
@@ -985,7 +1048,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 limit = 3;</code>
+     * @return The limit.
      */
+    @java.lang.Override
     public long getLimit() {
       return limit_;
     }
@@ -995,6 +1060,8 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 limit = 3;</code>
+     * @param value The limit to set.
+     * @return This builder for chaining.
      */
     public Builder setLimit(long value) {
       
@@ -1008,6 +1075,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 limit = 3;</code>
+     * @return This builder for chaining.
      */
     public Builder clearLimit() {
       
@@ -1023,7 +1091,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bool ephemeral = 4;</code>
+     * @return The ephemeral.
      */
+    @java.lang.Override
     public boolean getEphemeral() {
       return ephemeral_;
     }
@@ -1033,6 +1103,8 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bool ephemeral = 4;</code>
+     * @param value The ephemeral to set.
+     * @return This builder for chaining.
      */
     public Builder setEphemeral(boolean value) {
       
@@ -1046,6 +1118,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>bool ephemeral = 4;</code>
+     * @return This builder for chaining.
      */
     public Builder clearEphemeral() {
       
@@ -1057,9 +1130,9 @@ private static final long serialVersionUID = 0L;
     private java.util.List<tech.ydb.coordination.SemaphoreSession> owners_ =
       java.util.Collections.emptyList();
     private void ensureOwnersIsMutable() {
-      if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+      if (!((bitField0_ & 0x00000001) != 0)) {
         owners_ = new java.util.ArrayList<tech.ydb.coordination.SemaphoreSession>(owners_);
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000001;
        }
     }
 
@@ -1253,7 +1326,7 @@ private static final long serialVersionUID = 0L;
     public Builder clearOwners() {
       if (ownersBuilder_ == null) {
         owners_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
       } else {
         ownersBuilder_.clear();
@@ -1358,7 +1431,7 @@ private static final long serialVersionUID = 0L;
         ownersBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
             tech.ydb.coordination.SemaphoreSession, tech.ydb.coordination.SemaphoreSession.Builder, tech.ydb.coordination.SemaphoreSessionOrBuilder>(
                 owners_,
-                ((bitField0_ & 0x00000020) == 0x00000020),
+                ((bitField0_ & 0x00000001) != 0),
                 getParentForChildren(),
                 isClean());
         owners_ = null;
@@ -1369,9 +1442,9 @@ private static final long serialVersionUID = 0L;
     private java.util.List<tech.ydb.coordination.SemaphoreSession> waiters_ =
       java.util.Collections.emptyList();
     private void ensureWaitersIsMutable() {
-      if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+      if (!((bitField0_ & 0x00000002) != 0)) {
         waiters_ = new java.util.ArrayList<tech.ydb.coordination.SemaphoreSession>(waiters_);
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000002;
        }
     }
 
@@ -1565,7 +1638,7 @@ private static final long serialVersionUID = 0L;
     public Builder clearWaiters() {
       if (waitersBuilder_ == null) {
         waiters_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
       } else {
         waitersBuilder_.clear();
@@ -1670,18 +1743,20 @@ private static final long serialVersionUID = 0L;
         waitersBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
             tech.ydb.coordination.SemaphoreSession, tech.ydb.coordination.SemaphoreSession.Builder, tech.ydb.coordination.SemaphoreSessionOrBuilder>(
                 waiters_,
-                ((bitField0_ & 0x00000040) == 0x00000040),
+                ((bitField0_ & 0x00000002) != 0),
                 getParentForChildren(),
                 isClean());
         waiters_ = null;
       }
       return waitersBuilder_;
     }
+    @java.lang.Override
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return super.setUnknownFieldsProto3(unknownFields);
+      return super.setUnknownFields(unknownFields);
     }
 
+    @java.lang.Override
     public final Builder mergeUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
       return super.mergeUnknownFields(unknownFields);
@@ -1703,11 +1778,12 @@ private static final long serialVersionUID = 0L;
 
   private static final com.google.protobuf.Parser<SemaphoreDescription>
       PARSER = new com.google.protobuf.AbstractParser<SemaphoreDescription>() {
+    @java.lang.Override
     public SemaphoreDescription parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new SemaphoreDescription(input, extensionRegistry);
+      return new SemaphoreDescription(input, extensionRegistry);
     }
   };
 
@@ -1720,6 +1796,7 @@ private static final long serialVersionUID = 0L;
     return PARSER;
   }
 
+  @java.lang.Override
   public tech.ydb.coordination.SemaphoreDescription getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }

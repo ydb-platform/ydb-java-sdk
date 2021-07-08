@@ -20,15 +20,18 @@ public final class YqConfig {
 
     /**
      * <code>bool enable = 1;</code>
+     * @return The enable.
      */
     boolean getEnable();
 
     /**
      * <code>.NYq.NConfig.ControlPlaneStorageConfig control_plane_storage = 2;</code>
+     * @return Whether the controlPlaneStorage field is set.
      */
     boolean hasControlPlaneStorage();
     /**
      * <code>.NYq.NConfig.ControlPlaneStorageConfig control_plane_storage = 2;</code>
+     * @return The controlPlaneStorage.
      */
     NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig getControlPlaneStorage();
     /**
@@ -38,10 +41,12 @@ public final class YqConfig {
 
     /**
      * <code>.NYq.NConfig.ControlPlaneProxyConfig control_plane_proxy = 3;</code>
+     * @return Whether the controlPlaneProxy field is set.
      */
     boolean hasControlPlaneProxy();
     /**
      * <code>.NYq.NConfig.ControlPlaneProxyConfig control_plane_proxy = 3;</code>
+     * @return The controlPlaneProxy.
      */
     NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig getControlPlaneProxy();
     /**
@@ -52,7 +57,7 @@ public final class YqConfig {
   /**
    * Protobuf type {@code NYq.NConfig.Config}
    */
-  public  static final class Config extends
+  public static final class Config extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NYq.NConfig.Config)
       ConfigOrBuilder {
@@ -62,7 +67,13 @@ public final class YqConfig {
       super(builder);
     }
     private Config() {
-      enable_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Config();
     }
 
     @java.lang.Override
@@ -75,7 +86,9 @@ public final class YqConfig {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -86,13 +99,6 @@ public final class YqConfig {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               enable_ = input.readBool();
@@ -124,6 +130,13 @@ public final class YqConfig {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -141,6 +154,7 @@ public final class YqConfig {
       return ru.yandex.kikimr.proto.YqConfig.internal_static_NYq_NConfig_Config_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return ru.yandex.kikimr.proto.YqConfig.internal_static_NYq_NConfig_Config_fieldAccessorTable
@@ -152,7 +166,9 @@ public final class YqConfig {
     private boolean enable_;
     /**
      * <code>bool enable = 1;</code>
+     * @return The enable.
      */
+    @java.lang.Override
     public boolean getEnable() {
       return enable_;
     }
@@ -161,19 +177,24 @@ public final class YqConfig {
     private NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig controlPlaneStorage_;
     /**
      * <code>.NYq.NConfig.ControlPlaneStorageConfig control_plane_storage = 2;</code>
+     * @return Whether the controlPlaneStorage field is set.
      */
+    @java.lang.Override
     public boolean hasControlPlaneStorage() {
       return controlPlaneStorage_ != null;
     }
     /**
      * <code>.NYq.NConfig.ControlPlaneStorageConfig control_plane_storage = 2;</code>
+     * @return The controlPlaneStorage.
      */
+    @java.lang.Override
     public NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig getControlPlaneStorage() {
       return controlPlaneStorage_ == null ? NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig.getDefaultInstance() : controlPlaneStorage_;
     }
     /**
      * <code>.NYq.NConfig.ControlPlaneStorageConfig control_plane_storage = 2;</code>
      */
+    @java.lang.Override
     public NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfigOrBuilder getControlPlaneStorageOrBuilder() {
       return getControlPlaneStorage();
     }
@@ -182,24 +203,30 @@ public final class YqConfig {
     private NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig controlPlaneProxy_;
     /**
      * <code>.NYq.NConfig.ControlPlaneProxyConfig control_plane_proxy = 3;</code>
+     * @return Whether the controlPlaneProxy field is set.
      */
+    @java.lang.Override
     public boolean hasControlPlaneProxy() {
       return controlPlaneProxy_ != null;
     }
     /**
      * <code>.NYq.NConfig.ControlPlaneProxyConfig control_plane_proxy = 3;</code>
+     * @return The controlPlaneProxy.
      */
+    @java.lang.Override
     public NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig getControlPlaneProxy() {
       return controlPlaneProxy_ == null ? NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig.getDefaultInstance() : controlPlaneProxy_;
     }
     /**
      * <code>.NYq.NConfig.ControlPlaneProxyConfig control_plane_proxy = 3;</code>
      */
+    @java.lang.Override
     public NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfigOrBuilder getControlPlaneProxyOrBuilder() {
       return getControlPlaneProxy();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -209,6 +236,7 @@ public final class YqConfig {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (enable_ != false) {
@@ -223,6 +251,7 @@ public final class YqConfig {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -255,21 +284,20 @@ public final class YqConfig {
       }
       ru.yandex.kikimr.proto.YqConfig.Config other = (ru.yandex.kikimr.proto.YqConfig.Config) obj;
 
-      boolean result = true;
-      result = result && (getEnable()
-          == other.getEnable());
-      result = result && (hasControlPlaneStorage() == other.hasControlPlaneStorage());
+      if (getEnable()
+          != other.getEnable()) return false;
+      if (hasControlPlaneStorage() != other.hasControlPlaneStorage()) return false;
       if (hasControlPlaneStorage()) {
-        result = result && getControlPlaneStorage()
-            .equals(other.getControlPlaneStorage());
+        if (!getControlPlaneStorage()
+            .equals(other.getControlPlaneStorage())) return false;
       }
-      result = result && (hasControlPlaneProxy() == other.hasControlPlaneProxy());
+      if (hasControlPlaneProxy() != other.hasControlPlaneProxy()) return false;
       if (hasControlPlaneProxy()) {
-        result = result && getControlPlaneProxy()
-            .equals(other.getControlPlaneProxy());
+        if (!getControlPlaneProxy()
+            .equals(other.getControlPlaneProxy())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -365,6 +393,7 @@ public final class YqConfig {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -372,6 +401,7 @@ public final class YqConfig {
     public static Builder newBuilder(ru.yandex.kikimr.proto.YqConfig.Config prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -395,6 +425,7 @@ public final class YqConfig {
         return ru.yandex.kikimr.proto.YqConfig.internal_static_NYq_NConfig_Config_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return ru.yandex.kikimr.proto.YqConfig.internal_static_NYq_NConfig_Config_fieldAccessorTable
@@ -417,6 +448,7 @@ public final class YqConfig {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         enable_ = false;
@@ -436,15 +468,18 @@ public final class YqConfig {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return ru.yandex.kikimr.proto.YqConfig.internal_static_NYq_NConfig_Config_descriptor;
       }
 
+      @java.lang.Override
       public ru.yandex.kikimr.proto.YqConfig.Config getDefaultInstanceForType() {
         return ru.yandex.kikimr.proto.YqConfig.Config.getDefaultInstance();
       }
 
+      @java.lang.Override
       public ru.yandex.kikimr.proto.YqConfig.Config build() {
         ru.yandex.kikimr.proto.YqConfig.Config result = buildPartial();
         if (!result.isInitialized()) {
@@ -453,6 +488,7 @@ public final class YqConfig {
         return result;
       }
 
+      @java.lang.Override
       public ru.yandex.kikimr.proto.YqConfig.Config buildPartial() {
         ru.yandex.kikimr.proto.YqConfig.Config result = new ru.yandex.kikimr.proto.YqConfig.Config(this);
         result.enable_ = enable_;
@@ -470,32 +506,39 @@ public final class YqConfig {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof ru.yandex.kikimr.proto.YqConfig.Config) {
           return mergeFrom((ru.yandex.kikimr.proto.YqConfig.Config)other);
@@ -521,10 +564,12 @@ public final class YqConfig {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -546,12 +591,16 @@ public final class YqConfig {
       private boolean enable_ ;
       /**
        * <code>bool enable = 1;</code>
+       * @return The enable.
        */
+      @java.lang.Override
       public boolean getEnable() {
         return enable_;
       }
       /**
        * <code>bool enable = 1;</code>
+       * @param value The enable to set.
+       * @return This builder for chaining.
        */
       public Builder setEnable(boolean value) {
         
@@ -561,6 +610,7 @@ public final class YqConfig {
       }
       /**
        * <code>bool enable = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearEnable() {
         
@@ -569,17 +619,19 @@ public final class YqConfig {
         return this;
       }
 
-      private NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig controlPlaneStorage_ = null;
+      private NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig controlPlaneStorage_;
       private com.google.protobuf.SingleFieldBuilderV3<
           NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig, NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig.Builder, NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfigOrBuilder> controlPlaneStorageBuilder_;
       /**
        * <code>.NYq.NConfig.ControlPlaneStorageConfig control_plane_storage = 2;</code>
+       * @return Whether the controlPlaneStorage field is set.
        */
       public boolean hasControlPlaneStorage() {
         return controlPlaneStorageBuilder_ != null || controlPlaneStorage_ != null;
       }
       /**
        * <code>.NYq.NConfig.ControlPlaneStorageConfig control_plane_storage = 2;</code>
+       * @return The controlPlaneStorage.
        */
       public NYq.NConfig.ControlPlaneConfig.ControlPlaneStorageConfig getControlPlaneStorage() {
         if (controlPlaneStorageBuilder_ == null) {
@@ -686,17 +738,19 @@ public final class YqConfig {
         return controlPlaneStorageBuilder_;
       }
 
-      private NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig controlPlaneProxy_ = null;
+      private NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig controlPlaneProxy_;
       private com.google.protobuf.SingleFieldBuilderV3<
           NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig, NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig.Builder, NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfigOrBuilder> controlPlaneProxyBuilder_;
       /**
        * <code>.NYq.NConfig.ControlPlaneProxyConfig control_plane_proxy = 3;</code>
+       * @return Whether the controlPlaneProxy field is set.
        */
       public boolean hasControlPlaneProxy() {
         return controlPlaneProxyBuilder_ != null || controlPlaneProxy_ != null;
       }
       /**
        * <code>.NYq.NConfig.ControlPlaneProxyConfig control_plane_proxy = 3;</code>
+       * @return The controlPlaneProxy.
        */
       public NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfig getControlPlaneProxy() {
         if (controlPlaneProxyBuilder_ == null) {
@@ -802,11 +856,13 @@ public final class YqConfig {
         }
         return controlPlaneProxyBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -828,11 +884,12 @@ public final class YqConfig {
 
     private static final com.google.protobuf.Parser<Config>
         PARSER = new com.google.protobuf.AbstractParser<Config>() {
+      @java.lang.Override
       public Config parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Config(input, extensionRegistry);
+        return new Config(input, extensionRegistry);
       }
     };
 
@@ -845,6 +902,7 @@ public final class YqConfig {
       return PARSER;
     }
 
+    @java.lang.Override
     public ru.yandex.kikimr.proto.YqConfig.Config getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -875,19 +933,11 @@ public final class YqConfig {
       "neProxyConfigB\033\n\026ru.yandex.kikimr.proto\370" +
       "\001\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           NYq.NConfig.ControlPlaneConfig.getDescriptor(),
-        }, assigner);
+        });
     internal_static_NYq_NConfig_Config_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_NYq_NConfig_Config_fieldAccessorTable = new

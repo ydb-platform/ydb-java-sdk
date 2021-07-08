@@ -9,10 +9,12 @@ public interface DescribeNodeResultOrBuilder extends
 
   /**
    * <code>.Ydb.Scheme.Entry self = 1;</code>
+   * @return Whether the self field is set.
    */
   boolean hasSelf();
   /**
    * <code>.Ydb.Scheme.Entry self = 1;</code>
+   * @return The self.
    */
   tech.ydb.scheme.SchemeOperationProtos.Entry getSelf();
   /**
@@ -22,10 +24,12 @@ public interface DescribeNodeResultOrBuilder extends
 
   /**
    * <code>.Ydb.Coordination.Config config = 2;</code>
+   * @return Whether the config field is set.
    */
   boolean hasConfig();
   /**
    * <code>.Ydb.Coordination.Config config = 2;</code>
+   * @return The config.
    */
   tech.ydb.coordination.Config getConfig();
   /**

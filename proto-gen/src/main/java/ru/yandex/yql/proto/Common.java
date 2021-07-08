@@ -20,26 +20,30 @@ public final class Common {
 
     /**
      * <code>optional uint64 Value = 1;</code>
+     * @return Whether the value field is set.
      */
     boolean hasValue();
     /**
      * <code>optional uint64 Value = 1;</code>
+     * @return The value.
      */
     long getValue();
 
     /**
      * <code>optional .NYql.NProto.TTime.TUnit Unit = 2;</code>
+     * @return Whether the unit field is set.
      */
     boolean hasUnit();
     /**
      * <code>optional .NYql.NProto.TTime.TUnit Unit = 2;</code>
+     * @return The unit.
      */
     ru.yandex.yql.proto.Common.TTime.TUnit getUnit();
   }
   /**
    * Protobuf type {@code NYql.NProto.TTime}
    */
-  public  static final class TTime extends
+  public static final class TTime extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NYql.NProto.TTime)
       TTimeOrBuilder {
@@ -49,8 +53,14 @@ public final class Common {
       super(builder);
     }
     private TTime() {
-      value_ = 0L;
       unit_ = 1;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TTime();
     }
 
     @java.lang.Override
@@ -63,6 +73,9 @@ public final class Common {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -74,13 +87,6 @@ public final class Common {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               bitField0_ |= 0x00000001;
               value_ = input.readUInt64();
@@ -88,12 +94,20 @@ public final class Common {
             }
             case 16: {
               int rawValue = input.readEnum();
+                @SuppressWarnings("deprecation")
               ru.yandex.yql.proto.Common.TTime.TUnit value = ru.yandex.yql.proto.Common.TTime.TUnit.valueOf(rawValue);
               if (value == null) {
                 unknownFields.mergeVarintField(2, rawValue);
               } else {
                 bitField0_ |= 0x00000002;
                 unit_ = rawValue;
+              }
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
               }
               break;
             }
@@ -114,6 +128,7 @@ public final class Common {
       return ru.yandex.yql.proto.Common.internal_static_NYql_NProto_TTime_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return ru.yandex.yql.proto.Common.internal_static_NYql_NProto_TTime_fieldAccessorTable
@@ -191,6 +206,8 @@ public final class Common {
       }
 
       /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -198,6 +215,10 @@ public final class Common {
         return forNumber(value);
       }
 
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
       public static TUnit forNumber(int value) {
         switch (value) {
           case 1: return NANOSECONDS;
@@ -261,13 +282,17 @@ public final class Common {
     private long value_;
     /**
      * <code>optional uint64 Value = 1;</code>
+     * @return Whether the value field is set.
      */
+    @java.lang.Override
     public boolean hasValue() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>optional uint64 Value = 1;</code>
+     * @return The value.
      */
+    @java.lang.Override
     public long getValue() {
       return value_;
     }
@@ -276,19 +301,23 @@ public final class Common {
     private int unit_;
     /**
      * <code>optional .NYql.NProto.TTime.TUnit Unit = 2;</code>
+     * @return Whether the unit field is set.
      */
-    public boolean hasUnit() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+    @java.lang.Override public boolean hasUnit() {
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>optional .NYql.NProto.TTime.TUnit Unit = 2;</code>
+     * @return The unit.
      */
-    public ru.yandex.yql.proto.Common.TTime.TUnit getUnit() {
+    @java.lang.Override public ru.yandex.yql.proto.Common.TTime.TUnit getUnit() {
+      @SuppressWarnings("deprecation")
       ru.yandex.yql.proto.Common.TTime.TUnit result = ru.yandex.yql.proto.Common.TTime.TUnit.valueOf(unit_);
       return result == null ? ru.yandex.yql.proto.Common.TTime.TUnit.NANOSECONDS : result;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -298,27 +327,29 @@ public final class Common {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeUInt64(1, value_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeEnum(2, unit_);
       }
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(1, value_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, unit_);
       }
@@ -337,18 +368,17 @@ public final class Common {
       }
       ru.yandex.yql.proto.Common.TTime other = (ru.yandex.yql.proto.Common.TTime) obj;
 
-      boolean result = true;
-      result = result && (hasValue() == other.hasValue());
+      if (hasValue() != other.hasValue()) return false;
       if (hasValue()) {
-        result = result && (getValue()
-            == other.getValue());
+        if (getValue()
+            != other.getValue()) return false;
       }
-      result = result && (hasUnit() == other.hasUnit());
+      if (hasUnit() != other.hasUnit()) return false;
       if (hasUnit()) {
-        result = result && unit_ == other.unit_;
+        if (unit_ != other.unit_) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -442,6 +472,7 @@ public final class Common {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -449,6 +480,7 @@ public final class Common {
     public static Builder newBuilder(ru.yandex.yql.proto.Common.TTime prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -472,6 +504,7 @@ public final class Common {
         return ru.yandex.yql.proto.Common.internal_static_NYql_NProto_TTime_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return ru.yandex.yql.proto.Common.internal_static_NYql_NProto_TTime_fieldAccessorTable
@@ -494,6 +527,7 @@ public final class Common {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         value_ = 0L;
@@ -503,15 +537,18 @@ public final class Common {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return ru.yandex.yql.proto.Common.internal_static_NYql_NProto_TTime_descriptor;
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.Common.TTime getDefaultInstanceForType() {
         return ru.yandex.yql.proto.Common.TTime.getDefaultInstance();
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.Common.TTime build() {
         ru.yandex.yql.proto.Common.TTime result = buildPartial();
         if (!result.isInitialized()) {
@@ -520,15 +557,16 @@ public final class Common {
         return result;
       }
 
+      @java.lang.Override
       public ru.yandex.yql.proto.Common.TTime buildPartial() {
         ru.yandex.yql.proto.Common.TTime result = new ru.yandex.yql.proto.Common.TTime(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.value_ = value_;
           to_bitField0_ |= 0x00000001;
         }
-        result.value_ = value_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000002;
         }
         result.unit_ = unit_;
@@ -537,32 +575,39 @@ public final class Common {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof ru.yandex.yql.proto.Common.TTime) {
           return mergeFrom((ru.yandex.yql.proto.Common.TTime)other);
@@ -585,10 +630,12 @@ public final class Common {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -611,18 +658,24 @@ public final class Common {
       private long value_ ;
       /**
        * <code>optional uint64 Value = 1;</code>
+       * @return Whether the value field is set.
        */
+      @java.lang.Override
       public boolean hasValue() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional uint64 Value = 1;</code>
+       * @return The value.
        */
+      @java.lang.Override
       public long getValue() {
         return value_;
       }
       /**
        * <code>optional uint64 Value = 1;</code>
+       * @param value The value to set.
+       * @return This builder for chaining.
        */
       public Builder setValue(long value) {
         bitField0_ |= 0x00000001;
@@ -632,6 +685,7 @@ public final class Common {
       }
       /**
        * <code>optional uint64 Value = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -643,19 +697,25 @@ public final class Common {
       private int unit_ = 1;
       /**
        * <code>optional .NYql.NProto.TTime.TUnit Unit = 2;</code>
+       * @return Whether the unit field is set.
        */
-      public boolean hasUnit() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+      @java.lang.Override public boolean hasUnit() {
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional .NYql.NProto.TTime.TUnit Unit = 2;</code>
+       * @return The unit.
        */
+      @java.lang.Override
       public ru.yandex.yql.proto.Common.TTime.TUnit getUnit() {
+        @SuppressWarnings("deprecation")
         ru.yandex.yql.proto.Common.TTime.TUnit result = ru.yandex.yql.proto.Common.TTime.TUnit.valueOf(unit_);
         return result == null ? ru.yandex.yql.proto.Common.TTime.TUnit.NANOSECONDS : result;
       }
       /**
        * <code>optional .NYql.NProto.TTime.TUnit Unit = 2;</code>
+       * @param value The unit to set.
+       * @return This builder for chaining.
        */
       public Builder setUnit(ru.yandex.yql.proto.Common.TTime.TUnit value) {
         if (value == null) {
@@ -668,6 +728,7 @@ public final class Common {
       }
       /**
        * <code>optional .NYql.NProto.TTime.TUnit Unit = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUnit() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -675,11 +736,13 @@ public final class Common {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -701,11 +764,12 @@ public final class Common {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<TTime>
         PARSER = new com.google.protobuf.AbstractParser<TTime>() {
+      @java.lang.Override
       public TTime parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new TTime(input, extensionRegistry);
+        return new TTime(input, extensionRegistry);
       }
     };
 
@@ -718,6 +782,7 @@ public final class Common {
       return PARSER;
     }
 
+    @java.lang.Override
     public ru.yandex.yql.proto.Common.TTime getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -745,18 +810,10 @@ public final class Common {
       "NDS\020\003\022\013\n\007SECONDS\020\004\022\013\n\007MINUTES\020\005\022\t\n\005HOURS" +
       "\020\006\022\010\n\004DAYS\020\007B\025\n\023ru.yandex.yql.proto"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+        });
     internal_static_NYql_NProto_TTime_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_NYql_NProto_TTime_fieldAccessorTable = new

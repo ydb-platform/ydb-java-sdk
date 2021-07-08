@@ -13,6 +13,7 @@ public interface SemaphoreSessionOrBuilder extends
    * </pre>
    *
    * <code>uint64 order_id = 5;</code>
+   * @return The orderId.
    */
   long getOrderId();
 
@@ -22,6 +23,7 @@ public interface SemaphoreSessionOrBuilder extends
    * </pre>
    *
    * <code>uint64 session_id = 1;</code>
+   * @return The sessionId.
    */
   long getSessionId();
 
@@ -31,6 +33,7 @@ public interface SemaphoreSessionOrBuilder extends
    * </pre>
    *
    * <code>uint64 timeout_millis = 2;</code>
+   * @return The timeoutMillis.
    */
   long getTimeoutMillis();
 
@@ -40,6 +43,7 @@ public interface SemaphoreSessionOrBuilder extends
    * </pre>
    *
    * <code>uint64 count = 3;</code>
+   * @return The count.
    */
   long getCount();
 
@@ -49,6 +53,7 @@ public interface SemaphoreSessionOrBuilder extends
    * </pre>
    *
    * <code>bytes data = 4;</code>
+   * @return The data.
    */
   com.google.protobuf.ByteString getData();
 }

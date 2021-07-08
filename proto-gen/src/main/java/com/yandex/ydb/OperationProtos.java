@@ -20,10 +20,12 @@ public final class OperationProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams.OperationMode operation_mode = 1;</code>
+     * @return The enum numeric value on the wire for operationMode.
      */
     int getOperationModeValue();
     /**
      * <code>.Ydb.Operations.OperationParams.OperationMode operation_mode = 1;</code>
+     * @return The operationMode.
      */
     tech.ydb.OperationProtos.OperationParams.OperationMode getOperationMode();
 
@@ -38,6 +40,7 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>.google.protobuf.Duration operation_timeout = 2;</code>
+     * @return Whether the operationTimeout field is set.
      */
     boolean hasOperationTimeout();
     /**
@@ -51,6 +54,7 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>.google.protobuf.Duration operation_timeout = 2;</code>
+     * @return The operationTimeout.
      */
     com.google.protobuf.Duration getOperationTimeout();
     /**
@@ -77,6 +81,7 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>.google.protobuf.Duration cancel_after = 3;</code>
+     * @return Whether the cancelAfter field is set.
      */
     boolean hasCancelAfter();
     /**
@@ -89,6 +94,7 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>.google.protobuf.Duration cancel_after = 3;</code>
+     * @return The cancelAfter.
      */
     com.google.protobuf.Duration getCancelAfter();
     /**
@@ -165,6 +171,7 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>.Ydb.FeatureFlag.Status report_cost_info = 5;</code>
+     * @return The enum numeric value on the wire for reportCostInfo.
      */
     int getReportCostInfoValue();
     /**
@@ -174,13 +181,14 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>.Ydb.FeatureFlag.Status report_cost_info = 5;</code>
+     * @return The reportCostInfo.
      */
     tech.ydb.common.CommonProtos.FeatureFlag.Status getReportCostInfo();
   }
   /**
    * Protobuf type {@code Ydb.Operations.OperationParams}
    */
-  public  static final class OperationParams extends
+  public static final class OperationParams extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Operations.OperationParams)
       OperationParamsOrBuilder {
@@ -195,6 +203,13 @@ public final class OperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new OperationParams();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -204,6 +219,9 @@ public final class OperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -215,13 +233,6 @@ public final class OperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               int rawValue = input.readEnum();
 
@@ -255,10 +266,10 @@ public final class OperationProtos {
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 labels_ = com.google.protobuf.MapField.newMapField(
                     LabelsDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000001;
               }
               com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
               labels__ = input.readMessage(
@@ -271,6 +282,13 @@ public final class OperationProtos {
               int rawValue = input.readEnum();
 
               reportCostInfo_ = rawValue;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -291,6 +309,7 @@ public final class OperationProtos {
     }
 
     @SuppressWarnings({"rawtypes"})
+    @java.lang.Override
     protected com.google.protobuf.MapField internalGetMapField(
         int number) {
       switch (number) {
@@ -301,6 +320,7 @@ public final class OperationProtos {
               "Invalid map field number: " + number);
       }
     }
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.OperationProtos.internal_static_Ydb_Operations_OperationParams_fieldAccessorTable
@@ -361,6 +381,8 @@ public final class OperationProtos {
       }
 
       /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -368,6 +390,10 @@ public final class OperationProtos {
         return forNumber(value);
       }
 
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
       public static OperationMode forNumber(int value) {
         switch (value) {
           case 0: return OPERATION_MODE_UNSPECIFIED;
@@ -391,6 +417,10 @@ public final class OperationProtos {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -425,19 +455,21 @@ public final class OperationProtos {
       // @@protoc_insertion_point(enum_scope:Ydb.Operations.OperationParams.OperationMode)
     }
 
-    private int bitField0_;
     public static final int OPERATION_MODE_FIELD_NUMBER = 1;
     private int operationMode_;
     /**
      * <code>.Ydb.Operations.OperationParams.OperationMode operation_mode = 1;</code>
+     * @return The enum numeric value on the wire for operationMode.
      */
-    public int getOperationModeValue() {
+    @java.lang.Override public int getOperationModeValue() {
       return operationMode_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams.OperationMode operation_mode = 1;</code>
+     * @return The operationMode.
      */
-    public tech.ydb.OperationProtos.OperationParams.OperationMode getOperationMode() {
+    @java.lang.Override public tech.ydb.OperationProtos.OperationParams.OperationMode getOperationMode() {
+      @SuppressWarnings("deprecation")
       tech.ydb.OperationProtos.OperationParams.OperationMode result = tech.ydb.OperationProtos.OperationParams.OperationMode.valueOf(operationMode_);
       return result == null ? tech.ydb.OperationProtos.OperationParams.OperationMode.UNRECOGNIZED : result;
     }
@@ -455,7 +487,9 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>.google.protobuf.Duration operation_timeout = 2;</code>
+     * @return Whether the operationTimeout field is set.
      */
+    @java.lang.Override
     public boolean hasOperationTimeout() {
       return operationTimeout_ != null;
     }
@@ -470,7 +504,9 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>.google.protobuf.Duration operation_timeout = 2;</code>
+     * @return The operationTimeout.
      */
+    @java.lang.Override
     public com.google.protobuf.Duration getOperationTimeout() {
       return operationTimeout_ == null ? com.google.protobuf.Duration.getDefaultInstance() : operationTimeout_;
     }
@@ -486,6 +522,7 @@ public final class OperationProtos {
      *
      * <code>.google.protobuf.Duration operation_timeout = 2;</code>
      */
+    @java.lang.Override
     public com.google.protobuf.DurationOrBuilder getOperationTimeoutOrBuilder() {
       return getOperationTimeout();
     }
@@ -502,7 +539,9 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>.google.protobuf.Duration cancel_after = 3;</code>
+     * @return Whether the cancelAfter field is set.
      */
+    @java.lang.Override
     public boolean hasCancelAfter() {
       return cancelAfter_ != null;
     }
@@ -516,7 +555,9 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>.google.protobuf.Duration cancel_after = 3;</code>
+     * @return The cancelAfter.
      */
+    @java.lang.Override
     public com.google.protobuf.Duration getCancelAfter() {
       return cancelAfter_ == null ? com.google.protobuf.Duration.getDefaultInstance() : cancelAfter_;
     }
@@ -531,6 +572,7 @@ public final class OperationProtos {
      *
      * <code>.google.protobuf.Duration cancel_after = 3;</code>
      */
+    @java.lang.Override
     public com.google.protobuf.DurationOrBuilder getCancelAfterOrBuilder() {
       return getCancelAfter();
     }
@@ -569,6 +611,7 @@ public final class OperationProtos {
      * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
      */
 
+    @java.lang.Override
     public boolean containsLabels(
         java.lang.String key) {
       if (key == null) { throw new java.lang.NullPointerException(); }
@@ -577,6 +620,7 @@ public final class OperationProtos {
     /**
      * Use {@link #getLabelsMap()} instead.
      */
+    @java.lang.Override
     @java.lang.Deprecated
     public java.util.Map<java.lang.String, java.lang.String> getLabels() {
       return getLabelsMap();
@@ -588,6 +632,7 @@ public final class OperationProtos {
      *
      * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
      */
+    @java.lang.Override
 
     public java.util.Map<java.lang.String, java.lang.String> getLabelsMap() {
       return internalGetLabels().getMap();
@@ -599,6 +644,7 @@ public final class OperationProtos {
      *
      * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
      */
+    @java.lang.Override
 
     public java.lang.String getLabelsOrDefault(
         java.lang.String key,
@@ -615,6 +661,7 @@ public final class OperationProtos {
      *
      * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
      */
+    @java.lang.Override
 
     public java.lang.String getLabelsOrThrow(
         java.lang.String key) {
@@ -636,8 +683,9 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>.Ydb.FeatureFlag.Status report_cost_info = 5;</code>
+     * @return The enum numeric value on the wire for reportCostInfo.
      */
-    public int getReportCostInfoValue() {
+    @java.lang.Override public int getReportCostInfoValue() {
       return reportCostInfo_;
     }
     /**
@@ -647,13 +695,16 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>.Ydb.FeatureFlag.Status report_cost_info = 5;</code>
+     * @return The reportCostInfo.
      */
-    public tech.ydb.common.CommonProtos.FeatureFlag.Status getReportCostInfo() {
+    @java.lang.Override public tech.ydb.common.CommonProtos.FeatureFlag.Status getReportCostInfo() {
+      @SuppressWarnings("deprecation")
       tech.ydb.common.CommonProtos.FeatureFlag.Status result = tech.ydb.common.CommonProtos.FeatureFlag.Status.valueOf(reportCostInfo_);
       return result == null ? tech.ydb.common.CommonProtos.FeatureFlag.Status.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -663,6 +714,7 @@ public final class OperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationMode_ != tech.ydb.OperationProtos.OperationParams.OperationMode.OPERATION_MODE_UNSPECIFIED.getNumber()) {
@@ -686,6 +738,7 @@ public final class OperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -732,23 +785,22 @@ public final class OperationProtos {
       }
       tech.ydb.OperationProtos.OperationParams other = (tech.ydb.OperationProtos.OperationParams) obj;
 
-      boolean result = true;
-      result = result && operationMode_ == other.operationMode_;
-      result = result && (hasOperationTimeout() == other.hasOperationTimeout());
+      if (operationMode_ != other.operationMode_) return false;
+      if (hasOperationTimeout() != other.hasOperationTimeout()) return false;
       if (hasOperationTimeout()) {
-        result = result && getOperationTimeout()
-            .equals(other.getOperationTimeout());
+        if (!getOperationTimeout()
+            .equals(other.getOperationTimeout())) return false;
       }
-      result = result && (hasCancelAfter() == other.hasCancelAfter());
+      if (hasCancelAfter() != other.hasCancelAfter()) return false;
       if (hasCancelAfter()) {
-        result = result && getCancelAfter()
-            .equals(other.getCancelAfter());
+        if (!getCancelAfter()
+            .equals(other.getCancelAfter())) return false;
       }
-      result = result && internalGetLabels().equals(
-          other.internalGetLabels());
-      result = result && reportCostInfo_ == other.reportCostInfo_;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!internalGetLabels().equals(
+          other.internalGetLabels())) return false;
+      if (reportCostInfo_ != other.reportCostInfo_) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -849,6 +901,7 @@ public final class OperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -856,6 +909,7 @@ public final class OperationProtos {
     public static Builder newBuilder(tech.ydb.OperationProtos.OperationParams prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -901,6 +955,7 @@ public final class OperationProtos {
                 "Invalid map field number: " + number);
         }
       }
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_OperationParams_fieldAccessorTable
@@ -923,6 +978,7 @@ public final class OperationProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         operationMode_ = 0;
@@ -945,15 +1001,18 @@ public final class OperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_OperationParams_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.OperationParams getDefaultInstanceForType() {
         return tech.ydb.OperationProtos.OperationParams.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.OperationParams build() {
         tech.ydb.OperationProtos.OperationParams result = buildPartial();
         if (!result.isInitialized()) {
@@ -962,10 +1021,10 @@ public final class OperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.OperationParams buildPartial() {
         tech.ydb.OperationProtos.OperationParams result = new tech.ydb.OperationProtos.OperationParams(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.operationMode_ = operationMode_;
         if (operationTimeoutBuilder_ == null) {
           result.operationTimeout_ = operationTimeout_;
@@ -980,37 +1039,43 @@ public final class OperationProtos {
         result.labels_ = internalGetLabels();
         result.labels_.makeImmutable();
         result.reportCostInfo_ = reportCostInfo_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.OperationProtos.OperationParams) {
           return mergeFrom((tech.ydb.OperationProtos.OperationParams)other);
@@ -1041,10 +1106,12 @@ public final class OperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1067,27 +1134,36 @@ public final class OperationProtos {
       private int operationMode_ = 0;
       /**
        * <code>.Ydb.Operations.OperationParams.OperationMode operation_mode = 1;</code>
+       * @return The enum numeric value on the wire for operationMode.
        */
-      public int getOperationModeValue() {
+      @java.lang.Override public int getOperationModeValue() {
         return operationMode_;
       }
       /**
        * <code>.Ydb.Operations.OperationParams.OperationMode operation_mode = 1;</code>
+       * @param value The enum numeric value on the wire for operationMode to set.
+       * @return This builder for chaining.
        */
       public Builder setOperationModeValue(int value) {
+        
         operationMode_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.Operations.OperationParams.OperationMode operation_mode = 1;</code>
+       * @return The operationMode.
        */
+      @java.lang.Override
       public tech.ydb.OperationProtos.OperationParams.OperationMode getOperationMode() {
+        @SuppressWarnings("deprecation")
         tech.ydb.OperationProtos.OperationParams.OperationMode result = tech.ydb.OperationProtos.OperationParams.OperationMode.valueOf(operationMode_);
         return result == null ? tech.ydb.OperationProtos.OperationParams.OperationMode.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.Operations.OperationParams.OperationMode operation_mode = 1;</code>
+       * @param value The operationMode to set.
+       * @return This builder for chaining.
        */
       public Builder setOperationMode(tech.ydb.OperationProtos.OperationParams.OperationMode value) {
         if (value == null) {
@@ -1100,6 +1176,7 @@ public final class OperationProtos {
       }
       /**
        * <code>.Ydb.Operations.OperationParams.OperationMode operation_mode = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearOperationMode() {
         
@@ -1108,7 +1185,7 @@ public final class OperationProtos {
         return this;
       }
 
-      private com.google.protobuf.Duration operationTimeout_ = null;
+      private com.google.protobuf.Duration operationTimeout_;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Duration, com.google.protobuf.Duration.Builder, com.google.protobuf.DurationOrBuilder> operationTimeoutBuilder_;
       /**
@@ -1122,6 +1199,7 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>.google.protobuf.Duration operation_timeout = 2;</code>
+       * @return Whether the operationTimeout field is set.
        */
       public boolean hasOperationTimeout() {
         return operationTimeoutBuilder_ != null || operationTimeout_ != null;
@@ -1137,6 +1215,7 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>.google.protobuf.Duration operation_timeout = 2;</code>
+       * @return The operationTimeout.
        */
       public com.google.protobuf.Duration getOperationTimeout() {
         if (operationTimeoutBuilder_ == null) {
@@ -1306,7 +1385,7 @@ public final class OperationProtos {
         return operationTimeoutBuilder_;
       }
 
-      private com.google.protobuf.Duration cancelAfter_ = null;
+      private com.google.protobuf.Duration cancelAfter_;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Duration, com.google.protobuf.Duration.Builder, com.google.protobuf.DurationOrBuilder> cancelAfterBuilder_;
       /**
@@ -1319,6 +1398,7 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>.google.protobuf.Duration cancel_after = 3;</code>
+       * @return Whether the cancelAfter field is set.
        */
       public boolean hasCancelAfter() {
         return cancelAfterBuilder_ != null || cancelAfter_ != null;
@@ -1333,6 +1413,7 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>.google.protobuf.Duration cancel_after = 3;</code>
+       * @return The cancelAfter.
        */
       public com.google.protobuf.Duration getCancelAfter() {
         if (cancelAfterBuilder_ == null) {
@@ -1529,6 +1610,7 @@ public final class OperationProtos {
        * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
        */
 
+      @java.lang.Override
       public boolean containsLabels(
           java.lang.String key) {
         if (key == null) { throw new java.lang.NullPointerException(); }
@@ -1537,6 +1619,7 @@ public final class OperationProtos {
       /**
        * Use {@link #getLabelsMap()} instead.
        */
+      @java.lang.Override
       @java.lang.Deprecated
       public java.util.Map<java.lang.String, java.lang.String> getLabels() {
         return getLabelsMap();
@@ -1548,6 +1631,7 @@ public final class OperationProtos {
        *
        * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
        */
+      @java.lang.Override
 
       public java.util.Map<java.lang.String, java.lang.String> getLabelsMap() {
         return internalGetLabels().getMap();
@@ -1559,6 +1643,7 @@ public final class OperationProtos {
        *
        * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
        */
+      @java.lang.Override
 
       public java.lang.String getLabelsOrDefault(
           java.lang.String key,
@@ -1575,6 +1660,7 @@ public final class OperationProtos {
        *
        * <code>map&lt;string, string&gt; labels = 4 [(.Ydb.length) = { ... }</code>
        */
+      @java.lang.Override
 
       public java.lang.String getLabelsOrThrow(
           java.lang.String key) {
@@ -1654,8 +1740,9 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>.Ydb.FeatureFlag.Status report_cost_info = 5;</code>
+       * @return The enum numeric value on the wire for reportCostInfo.
        */
-      public int getReportCostInfoValue() {
+      @java.lang.Override public int getReportCostInfoValue() {
         return reportCostInfo_;
       }
       /**
@@ -1665,8 +1752,11 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>.Ydb.FeatureFlag.Status report_cost_info = 5;</code>
+       * @param value The enum numeric value on the wire for reportCostInfo to set.
+       * @return This builder for chaining.
        */
       public Builder setReportCostInfoValue(int value) {
+        
         reportCostInfo_ = value;
         onChanged();
         return this;
@@ -1678,8 +1768,11 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>.Ydb.FeatureFlag.Status report_cost_info = 5;</code>
+       * @return The reportCostInfo.
        */
+      @java.lang.Override
       public tech.ydb.common.CommonProtos.FeatureFlag.Status getReportCostInfo() {
+        @SuppressWarnings("deprecation")
         tech.ydb.common.CommonProtos.FeatureFlag.Status result = tech.ydb.common.CommonProtos.FeatureFlag.Status.valueOf(reportCostInfo_);
         return result == null ? tech.ydb.common.CommonProtos.FeatureFlag.Status.UNRECOGNIZED : result;
       }
@@ -1690,6 +1783,8 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>.Ydb.FeatureFlag.Status report_cost_info = 5;</code>
+       * @param value The reportCostInfo to set.
+       * @return This builder for chaining.
        */
       public Builder setReportCostInfo(tech.ydb.common.CommonProtos.FeatureFlag.Status value) {
         if (value == null) {
@@ -1707,6 +1802,7 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>.Ydb.FeatureFlag.Status report_cost_info = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearReportCostInfo() {
         
@@ -1714,11 +1810,13 @@ public final class OperationProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1740,11 +1838,12 @@ public final class OperationProtos {
 
     private static final com.google.protobuf.Parser<OperationParams>
         PARSER = new com.google.protobuf.AbstractParser<OperationParams>() {
+      @java.lang.Override
       public OperationParams parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new OperationParams(input, extensionRegistry);
+        return new OperationParams(input, extensionRegistry);
       }
     };
 
@@ -1757,6 +1856,7 @@ public final class OperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1769,10 +1869,12 @@ public final class OperationProtos {
 
     /**
      * <code>string id = 1 [(.Ydb.required) = true];</code>
+     * @return The id.
      */
     java.lang.String getId();
     /**
      * <code>string id = 1 [(.Ydb.required) = true];</code>
+     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
@@ -1780,7 +1882,7 @@ public final class OperationProtos {
   /**
    * Protobuf type {@code Ydb.Operations.GetOperationRequest}
    */
-  public  static final class GetOperationRequest extends
+  public static final class GetOperationRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Operations.GetOperationRequest)
       GetOperationRequestOrBuilder {
@@ -1794,6 +1896,13 @@ public final class OperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetOperationRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -1803,7 +1912,9 @@ public final class OperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1814,17 +1925,17 @@ public final class OperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
               id_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -1844,6 +1955,7 @@ public final class OperationProtos {
       return tech.ydb.OperationProtos.internal_static_Ydb_Operations_GetOperationRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.OperationProtos.internal_static_Ydb_Operations_GetOperationRequest_fieldAccessorTable
@@ -1855,7 +1967,9 @@ public final class OperationProtos {
     private volatile java.lang.Object id_;
     /**
      * <code>string id = 1 [(.Ydb.required) = true];</code>
+     * @return The id.
      */
+    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -1870,7 +1984,9 @@ public final class OperationProtos {
     }
     /**
      * <code>string id = 1 [(.Ydb.required) = true];</code>
+     * @return The bytes for id.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -1886,6 +2002,7 @@ public final class OperationProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1895,6 +2012,7 @@ public final class OperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getIdBytes().isEmpty()) {
@@ -1903,6 +2021,7 @@ public final class OperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1926,11 +2045,10 @@ public final class OperationProtos {
       }
       tech.ydb.OperationProtos.GetOperationRequest other = (tech.ydb.OperationProtos.GetOperationRequest) obj;
 
-      boolean result = true;
-      result = result && getId()
-          .equals(other.getId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getId()
+          .equals(other.getId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2017,6 +2135,7 @@ public final class OperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2024,6 +2143,7 @@ public final class OperationProtos {
     public static Builder newBuilder(tech.ydb.OperationProtos.GetOperationRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2047,6 +2167,7 @@ public final class OperationProtos {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_GetOperationRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_GetOperationRequest_fieldAccessorTable
@@ -2069,6 +2190,7 @@ public final class OperationProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         id_ = "";
@@ -2076,15 +2198,18 @@ public final class OperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_GetOperationRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.GetOperationRequest getDefaultInstanceForType() {
         return tech.ydb.OperationProtos.GetOperationRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.GetOperationRequest build() {
         tech.ydb.OperationProtos.GetOperationRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -2093,6 +2218,7 @@ public final class OperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.GetOperationRequest buildPartial() {
         tech.ydb.OperationProtos.GetOperationRequest result = new tech.ydb.OperationProtos.GetOperationRequest(this);
         result.id_ = id_;
@@ -2100,32 +2226,39 @@ public final class OperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.OperationProtos.GetOperationRequest) {
           return mergeFrom((tech.ydb.OperationProtos.GetOperationRequest)other);
@@ -2146,10 +2279,12 @@ public final class OperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2171,6 +2306,7 @@ public final class OperationProtos {
       private java.lang.Object id_ = "";
       /**
        * <code>string id = 1 [(.Ydb.required) = true];</code>
+       * @return The id.
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -2186,6 +2322,7 @@ public final class OperationProtos {
       }
       /**
        * <code>string id = 1 [(.Ydb.required) = true];</code>
+       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -2202,6 +2339,8 @@ public final class OperationProtos {
       }
       /**
        * <code>string id = 1 [(.Ydb.required) = true];</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -2215,6 +2354,7 @@ public final class OperationProtos {
       }
       /**
        * <code>string id = 1 [(.Ydb.required) = true];</code>
+       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -2224,6 +2364,8 @@ public final class OperationProtos {
       }
       /**
        * <code>string id = 1 [(.Ydb.required) = true];</code>
+       * @param value The bytes for id to set.
+       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -2236,11 +2378,13 @@ public final class OperationProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2262,11 +2406,12 @@ public final class OperationProtos {
 
     private static final com.google.protobuf.Parser<GetOperationRequest>
         PARSER = new com.google.protobuf.AbstractParser<GetOperationRequest>() {
+      @java.lang.Override
       public GetOperationRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetOperationRequest(input, extensionRegistry);
+        return new GetOperationRequest(input, extensionRegistry);
       }
     };
 
@@ -2279,6 +2424,7 @@ public final class OperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.OperationProtos.GetOperationRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2291,10 +2437,12 @@ public final class OperationProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -2305,7 +2453,7 @@ public final class OperationProtos {
   /**
    * Protobuf type {@code Ydb.Operations.GetOperationResponse}
    */
-  public  static final class GetOperationResponse extends
+  public static final class GetOperationResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Operations.GetOperationResponse)
       GetOperationResponseOrBuilder {
@@ -2318,6 +2466,13 @@ public final class OperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetOperationResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2327,7 +2482,9 @@ public final class OperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2338,13 +2495,6 @@ public final class OperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -2356,6 +2506,13 @@ public final class OperationProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -2375,6 +2532,7 @@ public final class OperationProtos {
       return tech.ydb.OperationProtos.internal_static_Ydb_Operations_GetOperationResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.OperationProtos.internal_static_Ydb_Operations_GetOperationResponse_fieldAccessorTable
@@ -2386,24 +2544,30 @@ public final class OperationProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2413,6 +2577,7 @@ public final class OperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -2421,6 +2586,7 @@ public final class OperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2445,14 +2611,13 @@ public final class OperationProtos {
       }
       tech.ydb.OperationProtos.GetOperationResponse other = (tech.ydb.OperationProtos.GetOperationResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2541,6 +2706,7 @@ public final class OperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2548,6 +2714,7 @@ public final class OperationProtos {
     public static Builder newBuilder(tech.ydb.OperationProtos.GetOperationResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2571,6 +2738,7 @@ public final class OperationProtos {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_GetOperationResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_GetOperationResponse_fieldAccessorTable
@@ -2593,6 +2761,7 @@ public final class OperationProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -2604,15 +2773,18 @@ public final class OperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_GetOperationResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.GetOperationResponse getDefaultInstanceForType() {
         return tech.ydb.OperationProtos.GetOperationResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.GetOperationResponse build() {
         tech.ydb.OperationProtos.GetOperationResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -2621,6 +2793,7 @@ public final class OperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.GetOperationResponse buildPartial() {
         tech.ydb.OperationProtos.GetOperationResponse result = new tech.ydb.OperationProtos.GetOperationResponse(this);
         if (operationBuilder_ == null) {
@@ -2632,32 +2805,39 @@ public final class OperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.OperationProtos.GetOperationResponse) {
           return mergeFrom((tech.ydb.OperationProtos.GetOperationResponse)other);
@@ -2677,10 +2857,12 @@ public final class OperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2699,17 +2881,19 @@ public final class OperationProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -2815,11 +2999,13 @@ public final class OperationProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2841,11 +3027,12 @@ public final class OperationProtos {
 
     private static final com.google.protobuf.Parser<GetOperationResponse>
         PARSER = new com.google.protobuf.AbstractParser<GetOperationResponse>() {
+      @java.lang.Override
       public GetOperationResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetOperationResponse(input, extensionRegistry);
+        return new GetOperationResponse(input, extensionRegistry);
       }
     };
 
@@ -2858,6 +3045,7 @@ public final class OperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.OperationProtos.GetOperationResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2870,10 +3058,12 @@ public final class OperationProtos {
 
     /**
      * <code>string id = 1 [(.Ydb.required) = true];</code>
+     * @return The id.
      */
     java.lang.String getId();
     /**
      * <code>string id = 1 [(.Ydb.required) = true];</code>
+     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
@@ -2881,7 +3071,7 @@ public final class OperationProtos {
   /**
    * Protobuf type {@code Ydb.Operations.CancelOperationRequest}
    */
-  public  static final class CancelOperationRequest extends
+  public static final class CancelOperationRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Operations.CancelOperationRequest)
       CancelOperationRequestOrBuilder {
@@ -2895,6 +3085,13 @@ public final class OperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CancelOperationRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2904,7 +3101,9 @@ public final class OperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2915,17 +3114,17 @@ public final class OperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
               id_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -2945,6 +3144,7 @@ public final class OperationProtos {
       return tech.ydb.OperationProtos.internal_static_Ydb_Operations_CancelOperationRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.OperationProtos.internal_static_Ydb_Operations_CancelOperationRequest_fieldAccessorTable
@@ -2956,7 +3156,9 @@ public final class OperationProtos {
     private volatile java.lang.Object id_;
     /**
      * <code>string id = 1 [(.Ydb.required) = true];</code>
+     * @return The id.
      */
+    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -2971,7 +3173,9 @@ public final class OperationProtos {
     }
     /**
      * <code>string id = 1 [(.Ydb.required) = true];</code>
+     * @return The bytes for id.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -2987,6 +3191,7 @@ public final class OperationProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2996,6 +3201,7 @@ public final class OperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getIdBytes().isEmpty()) {
@@ -3004,6 +3210,7 @@ public final class OperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3027,11 +3234,10 @@ public final class OperationProtos {
       }
       tech.ydb.OperationProtos.CancelOperationRequest other = (tech.ydb.OperationProtos.CancelOperationRequest) obj;
 
-      boolean result = true;
-      result = result && getId()
-          .equals(other.getId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getId()
+          .equals(other.getId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3118,6 +3324,7 @@ public final class OperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3125,6 +3332,7 @@ public final class OperationProtos {
     public static Builder newBuilder(tech.ydb.OperationProtos.CancelOperationRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3148,6 +3356,7 @@ public final class OperationProtos {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_CancelOperationRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_CancelOperationRequest_fieldAccessorTable
@@ -3170,6 +3379,7 @@ public final class OperationProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         id_ = "";
@@ -3177,15 +3387,18 @@ public final class OperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_CancelOperationRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.CancelOperationRequest getDefaultInstanceForType() {
         return tech.ydb.OperationProtos.CancelOperationRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.CancelOperationRequest build() {
         tech.ydb.OperationProtos.CancelOperationRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -3194,6 +3407,7 @@ public final class OperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.CancelOperationRequest buildPartial() {
         tech.ydb.OperationProtos.CancelOperationRequest result = new tech.ydb.OperationProtos.CancelOperationRequest(this);
         result.id_ = id_;
@@ -3201,32 +3415,39 @@ public final class OperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.OperationProtos.CancelOperationRequest) {
           return mergeFrom((tech.ydb.OperationProtos.CancelOperationRequest)other);
@@ -3247,10 +3468,12 @@ public final class OperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3272,6 +3495,7 @@ public final class OperationProtos {
       private java.lang.Object id_ = "";
       /**
        * <code>string id = 1 [(.Ydb.required) = true];</code>
+       * @return The id.
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -3287,6 +3511,7 @@ public final class OperationProtos {
       }
       /**
        * <code>string id = 1 [(.Ydb.required) = true];</code>
+       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -3303,6 +3528,8 @@ public final class OperationProtos {
       }
       /**
        * <code>string id = 1 [(.Ydb.required) = true];</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -3316,6 +3543,7 @@ public final class OperationProtos {
       }
       /**
        * <code>string id = 1 [(.Ydb.required) = true];</code>
+       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -3325,6 +3553,8 @@ public final class OperationProtos {
       }
       /**
        * <code>string id = 1 [(.Ydb.required) = true];</code>
+       * @param value The bytes for id to set.
+       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -3337,11 +3567,13 @@ public final class OperationProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3363,11 +3595,12 @@ public final class OperationProtos {
 
     private static final com.google.protobuf.Parser<CancelOperationRequest>
         PARSER = new com.google.protobuf.AbstractParser<CancelOperationRequest>() {
+      @java.lang.Override
       public CancelOperationRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CancelOperationRequest(input, extensionRegistry);
+        return new CancelOperationRequest(input, extensionRegistry);
       }
     };
 
@@ -3380,6 +3613,7 @@ public final class OperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.OperationProtos.CancelOperationRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3392,10 +3626,12 @@ public final class OperationProtos {
 
     /**
      * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     * @return The enum numeric value on the wire for status.
      */
     int getStatusValue();
     /**
      * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     * @return The status.
      */
     tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus();
 
@@ -3426,7 +3662,7 @@ public final class OperationProtos {
   /**
    * Protobuf type {@code Ydb.Operations.CancelOperationResponse}
    */
-  public  static final class CancelOperationResponse extends
+  public static final class CancelOperationResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Operations.CancelOperationResponse)
       CancelOperationResponseOrBuilder {
@@ -3441,6 +3677,13 @@ public final class OperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CancelOperationResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3450,6 +3693,9 @@ public final class OperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -3461,13 +3707,6 @@ public final class OperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               int rawValue = input.readEnum();
 
@@ -3475,12 +3714,19 @@ public final class OperationProtos {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 issues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               issues_.add(
                   input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -3491,7 +3737,7 @@ public final class OperationProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           issues_ = java.util.Collections.unmodifiableList(issues_);
         }
         this.unknownFields = unknownFields.build();
@@ -3503,6 +3749,7 @@ public final class OperationProtos {
       return tech.ydb.OperationProtos.internal_static_Ydb_Operations_CancelOperationResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.OperationProtos.internal_static_Ydb_Operations_CancelOperationResponse_fieldAccessorTable
@@ -3510,19 +3757,21 @@ public final class OperationProtos {
               tech.ydb.OperationProtos.CancelOperationResponse.class, tech.ydb.OperationProtos.CancelOperationResponse.Builder.class);
     }
 
-    private int bitField0_;
     public static final int STATUS_FIELD_NUMBER = 1;
     private int status_;
     /**
      * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     * @return The enum numeric value on the wire for status.
      */
-    public int getStatusValue() {
+    @java.lang.Override public int getStatusValue() {
       return status_;
     }
     /**
      * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     * @return The status.
      */
-    public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+    @java.lang.Override public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+      @SuppressWarnings("deprecation")
       tech.ydb.StatusCodesProtos.StatusIds.StatusCode result = tech.ydb.StatusCodesProtos.StatusIds.StatusCode.valueOf(status_);
       return result == null ? tech.ydb.StatusCodesProtos.StatusIds.StatusCode.UNRECOGNIZED : result;
     }
@@ -3532,12 +3781,14 @@ public final class OperationProtos {
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> getIssuesList() {
       return issues_;
     }
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
         getIssuesOrBuilderList() {
       return issues_;
@@ -3545,24 +3796,28 @@ public final class OperationProtos {
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
      */
+    @java.lang.Override
     public int getIssuesCount() {
       return issues_.size();
     }
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.YdbIssueMessage.IssueMessage getIssues(int index) {
       return issues_.get(index);
     }
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.YdbIssueMessage.IssueMessageOrBuilder getIssuesOrBuilder(
         int index) {
       return issues_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3572,6 +3827,7 @@ public final class OperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (status_ != tech.ydb.StatusCodesProtos.StatusIds.StatusCode.STATUS_CODE_UNSPECIFIED.getNumber()) {
@@ -3583,6 +3839,7 @@ public final class OperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3611,12 +3868,11 @@ public final class OperationProtos {
       }
       tech.ydb.OperationProtos.CancelOperationResponse other = (tech.ydb.OperationProtos.CancelOperationResponse) obj;
 
-      boolean result = true;
-      result = result && status_ == other.status_;
-      result = result && getIssuesList()
-          .equals(other.getIssuesList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (status_ != other.status_) return false;
+      if (!getIssuesList()
+          .equals(other.getIssuesList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3707,6 +3963,7 @@ public final class OperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3714,6 +3971,7 @@ public final class OperationProtos {
     public static Builder newBuilder(tech.ydb.OperationProtos.CancelOperationResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3737,6 +3995,7 @@ public final class OperationProtos {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_CancelOperationResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_CancelOperationResponse_fieldAccessorTable
@@ -3760,28 +4019,32 @@ public final class OperationProtos {
           getIssuesFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         status_ = 0;
 
         if (issuesBuilder_ == null) {
           issues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           issuesBuilder_.clear();
         }
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_CancelOperationResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.CancelOperationResponse getDefaultInstanceForType() {
         return tech.ydb.OperationProtos.CancelOperationResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.CancelOperationResponse build() {
         tech.ydb.OperationProtos.CancelOperationResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -3790,51 +4053,57 @@ public final class OperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.CancelOperationResponse buildPartial() {
         tech.ydb.OperationProtos.CancelOperationResponse result = new tech.ydb.OperationProtos.CancelOperationResponse(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.status_ = status_;
         if (issuesBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             issues_ = java.util.Collections.unmodifiableList(issues_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.issues_ = issues_;
         } else {
           result.issues_ = issuesBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.OperationProtos.CancelOperationResponse) {
           return mergeFrom((tech.ydb.OperationProtos.CancelOperationResponse)other);
@@ -3853,7 +4122,7 @@ public final class OperationProtos {
           if (!other.issues_.isEmpty()) {
             if (issues_.isEmpty()) {
               issues_ = other.issues_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureIssuesIsMutable();
               issues_.addAll(other.issues_);
@@ -3866,7 +4135,7 @@ public final class OperationProtos {
               issuesBuilder_.dispose();
               issuesBuilder_ = null;
               issues_ = other.issues_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               issuesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getIssuesFieldBuilder() : null;
@@ -3880,10 +4149,12 @@ public final class OperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3906,27 +4177,36 @@ public final class OperationProtos {
       private int status_ = 0;
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       * @return The enum numeric value on the wire for status.
        */
-      public int getStatusValue() {
+      @java.lang.Override public int getStatusValue() {
         return status_;
       }
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       * @param value The enum numeric value on the wire for status to set.
+       * @return This builder for chaining.
        */
       public Builder setStatusValue(int value) {
+        
         status_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       * @return The status.
        */
+      @java.lang.Override
       public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+        @SuppressWarnings("deprecation")
         tech.ydb.StatusCodesProtos.StatusIds.StatusCode result = tech.ydb.StatusCodesProtos.StatusIds.StatusCode.valueOf(status_);
         return result == null ? tech.ydb.StatusCodesProtos.StatusIds.StatusCode.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       * @param value The status to set.
+       * @return This builder for chaining.
        */
       public Builder setStatus(tech.ydb.StatusCodesProtos.StatusIds.StatusCode value) {
         if (value == null) {
@@ -3939,6 +4219,7 @@ public final class OperationProtos {
       }
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearStatus() {
         
@@ -3950,9 +4231,9 @@ public final class OperationProtos {
       private java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> issues_ =
         java.util.Collections.emptyList();
       private void ensureIssuesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           issues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>(issues_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -4102,7 +4383,7 @@ public final class OperationProtos {
       public Builder clearIssues() {
         if (issuesBuilder_ == null) {
           issues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           issuesBuilder_.clear();
@@ -4179,18 +4460,20 @@ public final class OperationProtos {
           issuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.YdbIssueMessage.IssueMessage, tech.ydb.YdbIssueMessage.IssueMessage.Builder, tech.ydb.YdbIssueMessage.IssueMessageOrBuilder>(
                   issues_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           issues_ = null;
         }
         return issuesBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4212,11 +4495,12 @@ public final class OperationProtos {
 
     private static final com.google.protobuf.Parser<CancelOperationResponse>
         PARSER = new com.google.protobuf.AbstractParser<CancelOperationResponse>() {
+      @java.lang.Override
       public CancelOperationResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CancelOperationResponse(input, extensionRegistry);
+        return new CancelOperationResponse(input, extensionRegistry);
       }
     };
 
@@ -4229,6 +4513,7 @@ public final class OperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.OperationProtos.CancelOperationResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4241,10 +4526,12 @@ public final class OperationProtos {
 
     /**
      * <code>string id = 1 [(.Ydb.required) = true];</code>
+     * @return The id.
      */
     java.lang.String getId();
     /**
      * <code>string id = 1 [(.Ydb.required) = true];</code>
+     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
@@ -4252,7 +4539,7 @@ public final class OperationProtos {
   /**
    * Protobuf type {@code Ydb.Operations.ForgetOperationRequest}
    */
-  public  static final class ForgetOperationRequest extends
+  public static final class ForgetOperationRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Operations.ForgetOperationRequest)
       ForgetOperationRequestOrBuilder {
@@ -4266,6 +4553,13 @@ public final class OperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ForgetOperationRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -4275,7 +4569,9 @@ public final class OperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4286,17 +4582,17 @@ public final class OperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
               id_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -4316,6 +4612,7 @@ public final class OperationProtos {
       return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ForgetOperationRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ForgetOperationRequest_fieldAccessorTable
@@ -4327,7 +4624,9 @@ public final class OperationProtos {
     private volatile java.lang.Object id_;
     /**
      * <code>string id = 1 [(.Ydb.required) = true];</code>
+     * @return The id.
      */
+    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -4342,7 +4641,9 @@ public final class OperationProtos {
     }
     /**
      * <code>string id = 1 [(.Ydb.required) = true];</code>
+     * @return The bytes for id.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -4358,6 +4659,7 @@ public final class OperationProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4367,6 +4669,7 @@ public final class OperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getIdBytes().isEmpty()) {
@@ -4375,6 +4678,7 @@ public final class OperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4398,11 +4702,10 @@ public final class OperationProtos {
       }
       tech.ydb.OperationProtos.ForgetOperationRequest other = (tech.ydb.OperationProtos.ForgetOperationRequest) obj;
 
-      boolean result = true;
-      result = result && getId()
-          .equals(other.getId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getId()
+          .equals(other.getId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4489,6 +4792,7 @@ public final class OperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4496,6 +4800,7 @@ public final class OperationProtos {
     public static Builder newBuilder(tech.ydb.OperationProtos.ForgetOperationRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4519,6 +4824,7 @@ public final class OperationProtos {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ForgetOperationRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ForgetOperationRequest_fieldAccessorTable
@@ -4541,6 +4847,7 @@ public final class OperationProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         id_ = "";
@@ -4548,15 +4855,18 @@ public final class OperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ForgetOperationRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.ForgetOperationRequest getDefaultInstanceForType() {
         return tech.ydb.OperationProtos.ForgetOperationRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.ForgetOperationRequest build() {
         tech.ydb.OperationProtos.ForgetOperationRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -4565,6 +4875,7 @@ public final class OperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.ForgetOperationRequest buildPartial() {
         tech.ydb.OperationProtos.ForgetOperationRequest result = new tech.ydb.OperationProtos.ForgetOperationRequest(this);
         result.id_ = id_;
@@ -4572,32 +4883,39 @@ public final class OperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.OperationProtos.ForgetOperationRequest) {
           return mergeFrom((tech.ydb.OperationProtos.ForgetOperationRequest)other);
@@ -4618,10 +4936,12 @@ public final class OperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4643,6 +4963,7 @@ public final class OperationProtos {
       private java.lang.Object id_ = "";
       /**
        * <code>string id = 1 [(.Ydb.required) = true];</code>
+       * @return The id.
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -4658,6 +4979,7 @@ public final class OperationProtos {
       }
       /**
        * <code>string id = 1 [(.Ydb.required) = true];</code>
+       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -4674,6 +4996,8 @@ public final class OperationProtos {
       }
       /**
        * <code>string id = 1 [(.Ydb.required) = true];</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -4687,6 +5011,7 @@ public final class OperationProtos {
       }
       /**
        * <code>string id = 1 [(.Ydb.required) = true];</code>
+       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -4696,6 +5021,8 @@ public final class OperationProtos {
       }
       /**
        * <code>string id = 1 [(.Ydb.required) = true];</code>
+       * @param value The bytes for id to set.
+       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -4708,11 +5035,13 @@ public final class OperationProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4734,11 +5063,12 @@ public final class OperationProtos {
 
     private static final com.google.protobuf.Parser<ForgetOperationRequest>
         PARSER = new com.google.protobuf.AbstractParser<ForgetOperationRequest>() {
+      @java.lang.Override
       public ForgetOperationRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ForgetOperationRequest(input, extensionRegistry);
+        return new ForgetOperationRequest(input, extensionRegistry);
       }
     };
 
@@ -4751,6 +5081,7 @@ public final class OperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.OperationProtos.ForgetOperationRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4763,10 +5094,12 @@ public final class OperationProtos {
 
     /**
      * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     * @return The enum numeric value on the wire for status.
      */
     int getStatusValue();
     /**
      * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     * @return The status.
      */
     tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus();
 
@@ -4797,7 +5130,7 @@ public final class OperationProtos {
   /**
    * Protobuf type {@code Ydb.Operations.ForgetOperationResponse}
    */
-  public  static final class ForgetOperationResponse extends
+  public static final class ForgetOperationResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Operations.ForgetOperationResponse)
       ForgetOperationResponseOrBuilder {
@@ -4812,6 +5145,13 @@ public final class OperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ForgetOperationResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -4821,6 +5161,9 @@ public final class OperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -4832,13 +5175,6 @@ public final class OperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               int rawValue = input.readEnum();
 
@@ -4846,12 +5182,19 @@ public final class OperationProtos {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 issues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               issues_.add(
                   input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -4862,7 +5205,7 @@ public final class OperationProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           issues_ = java.util.Collections.unmodifiableList(issues_);
         }
         this.unknownFields = unknownFields.build();
@@ -4874,6 +5217,7 @@ public final class OperationProtos {
       return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ForgetOperationResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ForgetOperationResponse_fieldAccessorTable
@@ -4881,19 +5225,21 @@ public final class OperationProtos {
               tech.ydb.OperationProtos.ForgetOperationResponse.class, tech.ydb.OperationProtos.ForgetOperationResponse.Builder.class);
     }
 
-    private int bitField0_;
     public static final int STATUS_FIELD_NUMBER = 1;
     private int status_;
     /**
      * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     * @return The enum numeric value on the wire for status.
      */
-    public int getStatusValue() {
+    @java.lang.Override public int getStatusValue() {
       return status_;
     }
     /**
      * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     * @return The status.
      */
-    public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+    @java.lang.Override public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+      @SuppressWarnings("deprecation")
       tech.ydb.StatusCodesProtos.StatusIds.StatusCode result = tech.ydb.StatusCodesProtos.StatusIds.StatusCode.valueOf(status_);
       return result == null ? tech.ydb.StatusCodesProtos.StatusIds.StatusCode.UNRECOGNIZED : result;
     }
@@ -4903,12 +5249,14 @@ public final class OperationProtos {
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> getIssuesList() {
       return issues_;
     }
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
         getIssuesOrBuilderList() {
       return issues_;
@@ -4916,24 +5264,28 @@ public final class OperationProtos {
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
      */
+    @java.lang.Override
     public int getIssuesCount() {
       return issues_.size();
     }
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.YdbIssueMessage.IssueMessage getIssues(int index) {
       return issues_.get(index);
     }
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.YdbIssueMessage.IssueMessageOrBuilder getIssuesOrBuilder(
         int index) {
       return issues_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4943,6 +5295,7 @@ public final class OperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (status_ != tech.ydb.StatusCodesProtos.StatusIds.StatusCode.STATUS_CODE_UNSPECIFIED.getNumber()) {
@@ -4954,6 +5307,7 @@ public final class OperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4982,12 +5336,11 @@ public final class OperationProtos {
       }
       tech.ydb.OperationProtos.ForgetOperationResponse other = (tech.ydb.OperationProtos.ForgetOperationResponse) obj;
 
-      boolean result = true;
-      result = result && status_ == other.status_;
-      result = result && getIssuesList()
-          .equals(other.getIssuesList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (status_ != other.status_) return false;
+      if (!getIssuesList()
+          .equals(other.getIssuesList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5078,6 +5431,7 @@ public final class OperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5085,6 +5439,7 @@ public final class OperationProtos {
     public static Builder newBuilder(tech.ydb.OperationProtos.ForgetOperationResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5108,6 +5463,7 @@ public final class OperationProtos {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ForgetOperationResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ForgetOperationResponse_fieldAccessorTable
@@ -5131,28 +5487,32 @@ public final class OperationProtos {
           getIssuesFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         status_ = 0;
 
         if (issuesBuilder_ == null) {
           issues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           issuesBuilder_.clear();
         }
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ForgetOperationResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.ForgetOperationResponse getDefaultInstanceForType() {
         return tech.ydb.OperationProtos.ForgetOperationResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.ForgetOperationResponse build() {
         tech.ydb.OperationProtos.ForgetOperationResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -5161,51 +5521,57 @@ public final class OperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.ForgetOperationResponse buildPartial() {
         tech.ydb.OperationProtos.ForgetOperationResponse result = new tech.ydb.OperationProtos.ForgetOperationResponse(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.status_ = status_;
         if (issuesBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             issues_ = java.util.Collections.unmodifiableList(issues_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.issues_ = issues_;
         } else {
           result.issues_ = issuesBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.OperationProtos.ForgetOperationResponse) {
           return mergeFrom((tech.ydb.OperationProtos.ForgetOperationResponse)other);
@@ -5224,7 +5590,7 @@ public final class OperationProtos {
           if (!other.issues_.isEmpty()) {
             if (issues_.isEmpty()) {
               issues_ = other.issues_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureIssuesIsMutable();
               issues_.addAll(other.issues_);
@@ -5237,7 +5603,7 @@ public final class OperationProtos {
               issuesBuilder_.dispose();
               issuesBuilder_ = null;
               issues_ = other.issues_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               issuesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getIssuesFieldBuilder() : null;
@@ -5251,10 +5617,12 @@ public final class OperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5277,27 +5645,36 @@ public final class OperationProtos {
       private int status_ = 0;
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       * @return The enum numeric value on the wire for status.
        */
-      public int getStatusValue() {
+      @java.lang.Override public int getStatusValue() {
         return status_;
       }
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       * @param value The enum numeric value on the wire for status to set.
+       * @return This builder for chaining.
        */
       public Builder setStatusValue(int value) {
+        
         status_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       * @return The status.
        */
+      @java.lang.Override
       public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+        @SuppressWarnings("deprecation")
         tech.ydb.StatusCodesProtos.StatusIds.StatusCode result = tech.ydb.StatusCodesProtos.StatusIds.StatusCode.valueOf(status_);
         return result == null ? tech.ydb.StatusCodesProtos.StatusIds.StatusCode.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       * @param value The status to set.
+       * @return This builder for chaining.
        */
       public Builder setStatus(tech.ydb.StatusCodesProtos.StatusIds.StatusCode value) {
         if (value == null) {
@@ -5310,6 +5687,7 @@ public final class OperationProtos {
       }
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearStatus() {
         
@@ -5321,9 +5699,9 @@ public final class OperationProtos {
       private java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> issues_ =
         java.util.Collections.emptyList();
       private void ensureIssuesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           issues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>(issues_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -5473,7 +5851,7 @@ public final class OperationProtos {
       public Builder clearIssues() {
         if (issuesBuilder_ == null) {
           issues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           issuesBuilder_.clear();
@@ -5550,18 +5928,20 @@ public final class OperationProtos {
           issuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.YdbIssueMessage.IssueMessage, tech.ydb.YdbIssueMessage.IssueMessage.Builder, tech.ydb.YdbIssueMessage.IssueMessageOrBuilder>(
                   issues_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           issues_ = null;
         }
         return issuesBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5583,11 +5963,12 @@ public final class OperationProtos {
 
     private static final com.google.protobuf.Parser<ForgetOperationResponse>
         PARSER = new com.google.protobuf.AbstractParser<ForgetOperationResponse>() {
+      @java.lang.Override
       public ForgetOperationResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ForgetOperationResponse(input, extensionRegistry);
+        return new ForgetOperationResponse(input, extensionRegistry);
       }
     };
 
@@ -5600,6 +5981,7 @@ public final class OperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.OperationProtos.ForgetOperationResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5612,25 +5994,30 @@ public final class OperationProtos {
 
     /**
      * <code>string kind = 1 [(.Ydb.required) = true];</code>
+     * @return The kind.
      */
     java.lang.String getKind();
     /**
      * <code>string kind = 1 [(.Ydb.required) = true];</code>
+     * @return The bytes for kind.
      */
     com.google.protobuf.ByteString
         getKindBytes();
 
     /**
      * <code>uint64 page_size = 2;</code>
+     * @return The pageSize.
      */
     long getPageSize();
 
     /**
      * <code>string page_token = 3;</code>
+     * @return The pageToken.
      */
     java.lang.String getPageToken();
     /**
      * <code>string page_token = 3;</code>
+     * @return The bytes for pageToken.
      */
     com.google.protobuf.ByteString
         getPageTokenBytes();
@@ -5638,7 +6025,7 @@ public final class OperationProtos {
   /**
    * Protobuf type {@code Ydb.Operations.ListOperationsRequest}
    */
-  public  static final class ListOperationsRequest extends
+  public static final class ListOperationsRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Operations.ListOperationsRequest)
       ListOperationsRequestOrBuilder {
@@ -5649,8 +6036,14 @@ public final class OperationProtos {
     }
     private ListOperationsRequest() {
       kind_ = "";
-      pageSize_ = 0L;
       pageToken_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ListOperationsRequest();
     }
 
     @java.lang.Override
@@ -5663,7 +6056,9 @@ public final class OperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -5674,13 +6069,6 @@ public final class OperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -5696,6 +6084,13 @@ public final class OperationProtos {
               java.lang.String s = input.readStringRequireUtf8();
 
               pageToken_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -5715,6 +6110,7 @@ public final class OperationProtos {
       return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ListOperationsRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ListOperationsRequest_fieldAccessorTable
@@ -5726,7 +6122,9 @@ public final class OperationProtos {
     private volatile java.lang.Object kind_;
     /**
      * <code>string kind = 1 [(.Ydb.required) = true];</code>
+     * @return The kind.
      */
+    @java.lang.Override
     public java.lang.String getKind() {
       java.lang.Object ref = kind_;
       if (ref instanceof java.lang.String) {
@@ -5741,7 +6139,9 @@ public final class OperationProtos {
     }
     /**
      * <code>string kind = 1 [(.Ydb.required) = true];</code>
+     * @return The bytes for kind.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getKindBytes() {
       java.lang.Object ref = kind_;
@@ -5760,7 +6160,9 @@ public final class OperationProtos {
     private long pageSize_;
     /**
      * <code>uint64 page_size = 2;</code>
+     * @return The pageSize.
      */
+    @java.lang.Override
     public long getPageSize() {
       return pageSize_;
     }
@@ -5769,7 +6171,9 @@ public final class OperationProtos {
     private volatile java.lang.Object pageToken_;
     /**
      * <code>string page_token = 3;</code>
+     * @return The pageToken.
      */
+    @java.lang.Override
     public java.lang.String getPageToken() {
       java.lang.Object ref = pageToken_;
       if (ref instanceof java.lang.String) {
@@ -5784,7 +6188,9 @@ public final class OperationProtos {
     }
     /**
      * <code>string page_token = 3;</code>
+     * @return The bytes for pageToken.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPageTokenBytes() {
       java.lang.Object ref = pageToken_;
@@ -5800,6 +6206,7 @@ public final class OperationProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -5809,6 +6216,7 @@ public final class OperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getKindBytes().isEmpty()) {
@@ -5823,6 +6231,7 @@ public final class OperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -5853,15 +6262,14 @@ public final class OperationProtos {
       }
       tech.ydb.OperationProtos.ListOperationsRequest other = (tech.ydb.OperationProtos.ListOperationsRequest) obj;
 
-      boolean result = true;
-      result = result && getKind()
-          .equals(other.getKind());
-      result = result && (getPageSize()
-          == other.getPageSize());
-      result = result && getPageToken()
-          .equals(other.getPageToken());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getKind()
+          .equals(other.getKind())) return false;
+      if (getPageSize()
+          != other.getPageSize()) return false;
+      if (!getPageToken()
+          .equals(other.getPageToken())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5953,6 +6361,7 @@ public final class OperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5960,6 +6369,7 @@ public final class OperationProtos {
     public static Builder newBuilder(tech.ydb.OperationProtos.ListOperationsRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5983,6 +6393,7 @@ public final class OperationProtos {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ListOperationsRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ListOperationsRequest_fieldAccessorTable
@@ -6005,6 +6416,7 @@ public final class OperationProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         kind_ = "";
@@ -6016,15 +6428,18 @@ public final class OperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ListOperationsRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.ListOperationsRequest getDefaultInstanceForType() {
         return tech.ydb.OperationProtos.ListOperationsRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.ListOperationsRequest build() {
         tech.ydb.OperationProtos.ListOperationsRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -6033,6 +6448,7 @@ public final class OperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.ListOperationsRequest buildPartial() {
         tech.ydb.OperationProtos.ListOperationsRequest result = new tech.ydb.OperationProtos.ListOperationsRequest(this);
         result.kind_ = kind_;
@@ -6042,32 +6458,39 @@ public final class OperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.OperationProtos.ListOperationsRequest) {
           return mergeFrom((tech.ydb.OperationProtos.ListOperationsRequest)other);
@@ -6095,10 +6518,12 @@ public final class OperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6120,6 +6545,7 @@ public final class OperationProtos {
       private java.lang.Object kind_ = "";
       /**
        * <code>string kind = 1 [(.Ydb.required) = true];</code>
+       * @return The kind.
        */
       public java.lang.String getKind() {
         java.lang.Object ref = kind_;
@@ -6135,6 +6561,7 @@ public final class OperationProtos {
       }
       /**
        * <code>string kind = 1 [(.Ydb.required) = true];</code>
+       * @return The bytes for kind.
        */
       public com.google.protobuf.ByteString
           getKindBytes() {
@@ -6151,6 +6578,8 @@ public final class OperationProtos {
       }
       /**
        * <code>string kind = 1 [(.Ydb.required) = true];</code>
+       * @param value The kind to set.
+       * @return This builder for chaining.
        */
       public Builder setKind(
           java.lang.String value) {
@@ -6164,6 +6593,7 @@ public final class OperationProtos {
       }
       /**
        * <code>string kind = 1 [(.Ydb.required) = true];</code>
+       * @return This builder for chaining.
        */
       public Builder clearKind() {
         
@@ -6173,6 +6603,8 @@ public final class OperationProtos {
       }
       /**
        * <code>string kind = 1 [(.Ydb.required) = true];</code>
+       * @param value The bytes for kind to set.
+       * @return This builder for chaining.
        */
       public Builder setKindBytes(
           com.google.protobuf.ByteString value) {
@@ -6189,12 +6621,16 @@ public final class OperationProtos {
       private long pageSize_ ;
       /**
        * <code>uint64 page_size = 2;</code>
+       * @return The pageSize.
        */
+      @java.lang.Override
       public long getPageSize() {
         return pageSize_;
       }
       /**
        * <code>uint64 page_size = 2;</code>
+       * @param value The pageSize to set.
+       * @return This builder for chaining.
        */
       public Builder setPageSize(long value) {
         
@@ -6204,6 +6640,7 @@ public final class OperationProtos {
       }
       /**
        * <code>uint64 page_size = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPageSize() {
         
@@ -6215,6 +6652,7 @@ public final class OperationProtos {
       private java.lang.Object pageToken_ = "";
       /**
        * <code>string page_token = 3;</code>
+       * @return The pageToken.
        */
       public java.lang.String getPageToken() {
         java.lang.Object ref = pageToken_;
@@ -6230,6 +6668,7 @@ public final class OperationProtos {
       }
       /**
        * <code>string page_token = 3;</code>
+       * @return The bytes for pageToken.
        */
       public com.google.protobuf.ByteString
           getPageTokenBytes() {
@@ -6246,6 +6685,8 @@ public final class OperationProtos {
       }
       /**
        * <code>string page_token = 3;</code>
+       * @param value The pageToken to set.
+       * @return This builder for chaining.
        */
       public Builder setPageToken(
           java.lang.String value) {
@@ -6259,6 +6700,7 @@ public final class OperationProtos {
       }
       /**
        * <code>string page_token = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPageToken() {
         
@@ -6268,6 +6710,8 @@ public final class OperationProtos {
       }
       /**
        * <code>string page_token = 3;</code>
+       * @param value The bytes for pageToken to set.
+       * @return This builder for chaining.
        */
       public Builder setPageTokenBytes(
           com.google.protobuf.ByteString value) {
@@ -6280,11 +6724,13 @@ public final class OperationProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -6306,11 +6752,12 @@ public final class OperationProtos {
 
     private static final com.google.protobuf.Parser<ListOperationsRequest>
         PARSER = new com.google.protobuf.AbstractParser<ListOperationsRequest>() {
+      @java.lang.Override
       public ListOperationsRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ListOperationsRequest(input, extensionRegistry);
+        return new ListOperationsRequest(input, extensionRegistry);
       }
     };
 
@@ -6323,6 +6770,7 @@ public final class OperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.OperationProtos.ListOperationsRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -6335,10 +6783,12 @@ public final class OperationProtos {
 
     /**
      * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     * @return The enum numeric value on the wire for status.
      */
     int getStatusValue();
     /**
      * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     * @return The status.
      */
     tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus();
 
@@ -6392,10 +6842,12 @@ public final class OperationProtos {
 
     /**
      * <code>string next_page_token = 4;</code>
+     * @return The nextPageToken.
      */
     java.lang.String getNextPageToken();
     /**
      * <code>string next_page_token = 4;</code>
+     * @return The bytes for nextPageToken.
      */
     com.google.protobuf.ByteString
         getNextPageTokenBytes();
@@ -6403,7 +6855,7 @@ public final class OperationProtos {
   /**
    * Protobuf type {@code Ydb.Operations.ListOperationsResponse}
    */
-  public  static final class ListOperationsResponse extends
+  public static final class ListOperationsResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Operations.ListOperationsResponse)
       ListOperationsResponseOrBuilder {
@@ -6420,6 +6872,13 @@ public final class OperationProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ListOperationsResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -6429,6 +6888,9 @@ public final class OperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -6440,13 +6902,6 @@ public final class OperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               int rawValue = input.readEnum();
 
@@ -6454,18 +6909,18 @@ public final class OperationProtos {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 issues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               issues_.add(
                   input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 operations_ = new java.util.ArrayList<tech.ydb.OperationProtos.Operation>();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000002;
               }
               operations_.add(
                   input.readMessage(tech.ydb.OperationProtos.Operation.parser(), extensionRegistry));
@@ -6477,6 +6932,13 @@ public final class OperationProtos {
               nextPageToken_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -6485,10 +6947,10 @@ public final class OperationProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           issues_ = java.util.Collections.unmodifiableList(issues_);
         }
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           operations_ = java.util.Collections.unmodifiableList(operations_);
         }
         this.unknownFields = unknownFields.build();
@@ -6500,6 +6962,7 @@ public final class OperationProtos {
       return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ListOperationsResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ListOperationsResponse_fieldAccessorTable
@@ -6507,19 +6970,21 @@ public final class OperationProtos {
               tech.ydb.OperationProtos.ListOperationsResponse.class, tech.ydb.OperationProtos.ListOperationsResponse.Builder.class);
     }
 
-    private int bitField0_;
     public static final int STATUS_FIELD_NUMBER = 1;
     private int status_;
     /**
      * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     * @return The enum numeric value on the wire for status.
      */
-    public int getStatusValue() {
+    @java.lang.Override public int getStatusValue() {
       return status_;
     }
     /**
      * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+     * @return The status.
      */
-    public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+    @java.lang.Override public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+      @SuppressWarnings("deprecation")
       tech.ydb.StatusCodesProtos.StatusIds.StatusCode result = tech.ydb.StatusCodesProtos.StatusIds.StatusCode.valueOf(status_);
       return result == null ? tech.ydb.StatusCodesProtos.StatusIds.StatusCode.UNRECOGNIZED : result;
     }
@@ -6529,12 +6994,14 @@ public final class OperationProtos {
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> getIssuesList() {
       return issues_;
     }
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
         getIssuesOrBuilderList() {
       return issues_;
@@ -6542,18 +7009,21 @@ public final class OperationProtos {
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
      */
+    @java.lang.Override
     public int getIssuesCount() {
       return issues_.size();
     }
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.YdbIssueMessage.IssueMessage getIssues(int index) {
       return issues_.get(index);
     }
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.YdbIssueMessage.IssueMessageOrBuilder getIssuesOrBuilder(
         int index) {
       return issues_.get(index);
@@ -6564,12 +7034,14 @@ public final class OperationProtos {
     /**
      * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.OperationProtos.Operation> getOperationsList() {
       return operations_;
     }
     /**
      * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.OperationProtos.OperationOrBuilder> 
         getOperationsOrBuilderList() {
       return operations_;
@@ -6577,18 +7049,21 @@ public final class OperationProtos {
     /**
      * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
      */
+    @java.lang.Override
     public int getOperationsCount() {
       return operations_.size();
     }
     /**
      * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperations(int index) {
       return operations_.get(index);
     }
     /**
      * <code>repeated .Ydb.Operations.Operation operations = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationsOrBuilder(
         int index) {
       return operations_.get(index);
@@ -6598,7 +7073,9 @@ public final class OperationProtos {
     private volatile java.lang.Object nextPageToken_;
     /**
      * <code>string next_page_token = 4;</code>
+     * @return The nextPageToken.
      */
+    @java.lang.Override
     public java.lang.String getNextPageToken() {
       java.lang.Object ref = nextPageToken_;
       if (ref instanceof java.lang.String) {
@@ -6613,7 +7090,9 @@ public final class OperationProtos {
     }
     /**
      * <code>string next_page_token = 4;</code>
+     * @return The bytes for nextPageToken.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNextPageTokenBytes() {
       java.lang.Object ref = nextPageToken_;
@@ -6629,6 +7108,7 @@ public final class OperationProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6638,6 +7118,7 @@ public final class OperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (status_ != tech.ydb.StatusCodesProtos.StatusIds.StatusCode.STATUS_CODE_UNSPECIFIED.getNumber()) {
@@ -6655,6 +7136,7 @@ public final class OperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -6690,16 +7172,15 @@ public final class OperationProtos {
       }
       tech.ydb.OperationProtos.ListOperationsResponse other = (tech.ydb.OperationProtos.ListOperationsResponse) obj;
 
-      boolean result = true;
-      result = result && status_ == other.status_;
-      result = result && getIssuesList()
-          .equals(other.getIssuesList());
-      result = result && getOperationsList()
-          .equals(other.getOperationsList());
-      result = result && getNextPageToken()
-          .equals(other.getNextPageToken());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (status_ != other.status_) return false;
+      if (!getIssuesList()
+          .equals(other.getIssuesList())) return false;
+      if (!getOperationsList()
+          .equals(other.getOperationsList())) return false;
+      if (!getNextPageToken()
+          .equals(other.getNextPageToken())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -6796,6 +7277,7 @@ public final class OperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -6803,6 +7285,7 @@ public final class OperationProtos {
     public static Builder newBuilder(tech.ydb.OperationProtos.ListOperationsResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -6826,6 +7309,7 @@ public final class OperationProtos {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ListOperationsResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ListOperationsResponse_fieldAccessorTable
@@ -6850,19 +7334,20 @@ public final class OperationProtos {
           getOperationsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         status_ = 0;
 
         if (issuesBuilder_ == null) {
           issues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           issuesBuilder_.clear();
         }
         if (operationsBuilder_ == null) {
           operations_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
           operationsBuilder_.clear();
         }
@@ -6871,15 +7356,18 @@ public final class OperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_ListOperationsResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.ListOperationsResponse getDefaultInstanceForType() {
         return tech.ydb.OperationProtos.ListOperationsResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.ListOperationsResponse build() {
         tech.ydb.OperationProtos.ListOperationsResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -6888,61 +7376,67 @@ public final class OperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.ListOperationsResponse buildPartial() {
         tech.ydb.OperationProtos.ListOperationsResponse result = new tech.ydb.OperationProtos.ListOperationsResponse(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.status_ = status_;
         if (issuesBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             issues_ = java.util.Collections.unmodifiableList(issues_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.issues_ = issues_;
         } else {
           result.issues_ = issuesBuilder_.build();
         }
         if (operationsBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000002) != 0)) {
             operations_ = java.util.Collections.unmodifiableList(operations_);
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
           result.operations_ = operations_;
         } else {
           result.operations_ = operationsBuilder_.build();
         }
         result.nextPageToken_ = nextPageToken_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.OperationProtos.ListOperationsResponse) {
           return mergeFrom((tech.ydb.OperationProtos.ListOperationsResponse)other);
@@ -6961,7 +7455,7 @@ public final class OperationProtos {
           if (!other.issues_.isEmpty()) {
             if (issues_.isEmpty()) {
               issues_ = other.issues_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureIssuesIsMutable();
               issues_.addAll(other.issues_);
@@ -6974,7 +7468,7 @@ public final class OperationProtos {
               issuesBuilder_.dispose();
               issuesBuilder_ = null;
               issues_ = other.issues_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               issuesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getIssuesFieldBuilder() : null;
@@ -6987,7 +7481,7 @@ public final class OperationProtos {
           if (!other.operations_.isEmpty()) {
             if (operations_.isEmpty()) {
               operations_ = other.operations_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensureOperationsIsMutable();
               operations_.addAll(other.operations_);
@@ -7000,7 +7494,7 @@ public final class OperationProtos {
               operationsBuilder_.dispose();
               operationsBuilder_ = null;
               operations_ = other.operations_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000002);
               operationsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getOperationsFieldBuilder() : null;
@@ -7018,10 +7512,12 @@ public final class OperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -7044,27 +7540,36 @@ public final class OperationProtos {
       private int status_ = 0;
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       * @return The enum numeric value on the wire for status.
        */
-      public int getStatusValue() {
+      @java.lang.Override public int getStatusValue() {
         return status_;
       }
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       * @param value The enum numeric value on the wire for status to set.
+       * @return This builder for chaining.
        */
       public Builder setStatusValue(int value) {
+        
         status_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       * @return The status.
        */
+      @java.lang.Override
       public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+        @SuppressWarnings("deprecation")
         tech.ydb.StatusCodesProtos.StatusIds.StatusCode result = tech.ydb.StatusCodesProtos.StatusIds.StatusCode.valueOf(status_);
         return result == null ? tech.ydb.StatusCodesProtos.StatusIds.StatusCode.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       * @param value The status to set.
+       * @return This builder for chaining.
        */
       public Builder setStatus(tech.ydb.StatusCodesProtos.StatusIds.StatusCode value) {
         if (value == null) {
@@ -7077,6 +7582,7 @@ public final class OperationProtos {
       }
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearStatus() {
         
@@ -7088,9 +7594,9 @@ public final class OperationProtos {
       private java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> issues_ =
         java.util.Collections.emptyList();
       private void ensureIssuesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           issues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>(issues_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -7240,7 +7746,7 @@ public final class OperationProtos {
       public Builder clearIssues() {
         if (issuesBuilder_ == null) {
           issues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           issuesBuilder_.clear();
@@ -7317,7 +7823,7 @@ public final class OperationProtos {
           issuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.YdbIssueMessage.IssueMessage, tech.ydb.YdbIssueMessage.IssueMessage.Builder, tech.ydb.YdbIssueMessage.IssueMessageOrBuilder>(
                   issues_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           issues_ = null;
@@ -7328,9 +7834,9 @@ public final class OperationProtos {
       private java.util.List<tech.ydb.OperationProtos.Operation> operations_ =
         java.util.Collections.emptyList();
       private void ensureOperationsIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           operations_ = new java.util.ArrayList<tech.ydb.OperationProtos.Operation>(operations_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000002;
          }
       }
 
@@ -7480,7 +7986,7 @@ public final class OperationProtos {
       public Builder clearOperations() {
         if (operationsBuilder_ == null) {
           operations_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
           operationsBuilder_.clear();
@@ -7557,7 +8063,7 @@ public final class OperationProtos {
           operationsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder>(
                   operations_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           operations_ = null;
@@ -7568,6 +8074,7 @@ public final class OperationProtos {
       private java.lang.Object nextPageToken_ = "";
       /**
        * <code>string next_page_token = 4;</code>
+       * @return The nextPageToken.
        */
       public java.lang.String getNextPageToken() {
         java.lang.Object ref = nextPageToken_;
@@ -7583,6 +8090,7 @@ public final class OperationProtos {
       }
       /**
        * <code>string next_page_token = 4;</code>
+       * @return The bytes for nextPageToken.
        */
       public com.google.protobuf.ByteString
           getNextPageTokenBytes() {
@@ -7599,6 +8107,8 @@ public final class OperationProtos {
       }
       /**
        * <code>string next_page_token = 4;</code>
+       * @param value The nextPageToken to set.
+       * @return This builder for chaining.
        */
       public Builder setNextPageToken(
           java.lang.String value) {
@@ -7612,6 +8122,7 @@ public final class OperationProtos {
       }
       /**
        * <code>string next_page_token = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearNextPageToken() {
         
@@ -7621,6 +8132,8 @@ public final class OperationProtos {
       }
       /**
        * <code>string next_page_token = 4;</code>
+       * @param value The bytes for nextPageToken to set.
+       * @return This builder for chaining.
        */
       public Builder setNextPageTokenBytes(
           com.google.protobuf.ByteString value) {
@@ -7633,11 +8146,13 @@ public final class OperationProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -7659,11 +8174,12 @@ public final class OperationProtos {
 
     private static final com.google.protobuf.Parser<ListOperationsResponse>
         PARSER = new com.google.protobuf.AbstractParser<ListOperationsResponse>() {
+      @java.lang.Override
       public ListOperationsResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ListOperationsResponse(input, extensionRegistry);
+        return new ListOperationsResponse(input, extensionRegistry);
       }
     };
 
@@ -7676,6 +8192,7 @@ public final class OperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.OperationProtos.ListOperationsResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -7693,6 +8210,7 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>string id = 1;</code>
+     * @return The id.
      */
     java.lang.String getId();
     /**
@@ -7702,6 +8220,7 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
@@ -7714,15 +8233,18 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>bool ready = 2;</code>
+     * @return The ready.
      */
     boolean getReady();
 
     /**
      * <code>.Ydb.StatusIds.StatusCode status = 3;</code>
+     * @return The enum numeric value on the wire for status.
      */
     int getStatusValue();
     /**
      * <code>.Ydb.StatusIds.StatusCode status = 3;</code>
+     * @return The status.
      */
     tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus();
 
@@ -7756,6 +8278,7 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>.google.protobuf.Any result = 5;</code>
+     * @return Whether the result field is set.
      */
     boolean hasResult();
     /**
@@ -7764,6 +8287,7 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>.google.protobuf.Any result = 5;</code>
+     * @return The result.
      */
     com.google.protobuf.Any getResult();
     /**
@@ -7777,10 +8301,12 @@ public final class OperationProtos {
 
     /**
      * <code>.google.protobuf.Any metadata = 6;</code>
+     * @return Whether the metadata field is set.
      */
     boolean hasMetadata();
     /**
      * <code>.google.protobuf.Any metadata = 6;</code>
+     * @return The metadata.
      */
     com.google.protobuf.Any getMetadata();
     /**
@@ -7796,6 +8322,7 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>.Ydb.CostInfo cost_info = 7;</code>
+     * @return Whether the costInfo field is set.
      */
     boolean hasCostInfo();
     /**
@@ -7806,6 +8333,7 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>.Ydb.CostInfo cost_info = 7;</code>
+     * @return The costInfo.
      */
     tech.ydb.common.CommonProtos.CostInfo getCostInfo();
     /**
@@ -7822,7 +8350,7 @@ public final class OperationProtos {
   /**
    * Protobuf type {@code Ydb.Operations.Operation}
    */
-  public  static final class Operation extends
+  public static final class Operation extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Operations.Operation)
       OperationOrBuilder {
@@ -7833,9 +8361,15 @@ public final class OperationProtos {
     }
     private Operation() {
       id_ = "";
-      ready_ = false;
       status_ = 0;
       issues_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Operation();
     }
 
     @java.lang.Override
@@ -7848,6 +8382,9 @@ public final class OperationProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -7859,13 +8396,6 @@ public final class OperationProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -7884,9 +8414,9 @@ public final class OperationProtos {
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 issues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000001;
               }
               issues_.add(
                   input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
@@ -7931,6 +8461,13 @@ public final class OperationProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -7939,7 +8476,7 @@ public final class OperationProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           issues_ = java.util.Collections.unmodifiableList(issues_);
         }
         this.unknownFields = unknownFields.build();
@@ -7951,6 +8488,7 @@ public final class OperationProtos {
       return tech.ydb.OperationProtos.internal_static_Ydb_Operations_Operation_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.OperationProtos.internal_static_Ydb_Operations_Operation_fieldAccessorTable
@@ -7958,7 +8496,6 @@ public final class OperationProtos {
               tech.ydb.OperationProtos.Operation.class, tech.ydb.OperationProtos.Operation.Builder.class);
     }
 
-    private int bitField0_;
     public static final int ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object id_;
     /**
@@ -7968,7 +8505,9 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>string id = 1;</code>
+     * @return The id.
      */
+    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -7988,7 +8527,9 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -8013,7 +8554,9 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>bool ready = 2;</code>
+     * @return The ready.
      */
+    @java.lang.Override
     public boolean getReady() {
       return ready_;
     }
@@ -8022,14 +8565,17 @@ public final class OperationProtos {
     private int status_;
     /**
      * <code>.Ydb.StatusIds.StatusCode status = 3;</code>
+     * @return The enum numeric value on the wire for status.
      */
-    public int getStatusValue() {
+    @java.lang.Override public int getStatusValue() {
       return status_;
     }
     /**
      * <code>.Ydb.StatusIds.StatusCode status = 3;</code>
+     * @return The status.
      */
-    public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+    @java.lang.Override public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+      @SuppressWarnings("deprecation")
       tech.ydb.StatusCodesProtos.StatusIds.StatusCode result = tech.ydb.StatusCodesProtos.StatusIds.StatusCode.valueOf(status_);
       return result == null ? tech.ydb.StatusCodesProtos.StatusIds.StatusCode.UNRECOGNIZED : result;
     }
@@ -8039,12 +8585,14 @@ public final class OperationProtos {
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 4;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> getIssuesList() {
       return issues_;
     }
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 4;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
         getIssuesOrBuilderList() {
       return issues_;
@@ -8052,18 +8600,21 @@ public final class OperationProtos {
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 4;</code>
      */
+    @java.lang.Override
     public int getIssuesCount() {
       return issues_.size();
     }
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 4;</code>
      */
+    @java.lang.Override
     public tech.ydb.YdbIssueMessage.IssueMessage getIssues(int index) {
       return issues_.get(index);
     }
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 4;</code>
      */
+    @java.lang.Override
     public tech.ydb.YdbIssueMessage.IssueMessageOrBuilder getIssuesOrBuilder(
         int index) {
       return issues_.get(index);
@@ -8077,7 +8628,9 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>.google.protobuf.Any result = 5;</code>
+     * @return Whether the result field is set.
      */
+    @java.lang.Override
     public boolean hasResult() {
       return result_ != null;
     }
@@ -8087,7 +8640,9 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>.google.protobuf.Any result = 5;</code>
+     * @return The result.
      */
+    @java.lang.Override
     public com.google.protobuf.Any getResult() {
       return result_ == null ? com.google.protobuf.Any.getDefaultInstance() : result_;
     }
@@ -8098,6 +8653,7 @@ public final class OperationProtos {
      *
      * <code>.google.protobuf.Any result = 5;</code>
      */
+    @java.lang.Override
     public com.google.protobuf.AnyOrBuilder getResultOrBuilder() {
       return getResult();
     }
@@ -8106,19 +8662,24 @@ public final class OperationProtos {
     private com.google.protobuf.Any metadata_;
     /**
      * <code>.google.protobuf.Any metadata = 6;</code>
+     * @return Whether the metadata field is set.
      */
+    @java.lang.Override
     public boolean hasMetadata() {
       return metadata_ != null;
     }
     /**
      * <code>.google.protobuf.Any metadata = 6;</code>
+     * @return The metadata.
      */
+    @java.lang.Override
     public com.google.protobuf.Any getMetadata() {
       return metadata_ == null ? com.google.protobuf.Any.getDefaultInstance() : metadata_;
     }
     /**
      * <code>.google.protobuf.Any metadata = 6;</code>
      */
+    @java.lang.Override
     public com.google.protobuf.AnyOrBuilder getMetadataOrBuilder() {
       return getMetadata();
     }
@@ -8133,7 +8694,9 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>.Ydb.CostInfo cost_info = 7;</code>
+     * @return Whether the costInfo field is set.
      */
+    @java.lang.Override
     public boolean hasCostInfo() {
       return costInfo_ != null;
     }
@@ -8145,7 +8708,9 @@ public final class OperationProtos {
      * </pre>
      *
      * <code>.Ydb.CostInfo cost_info = 7;</code>
+     * @return The costInfo.
      */
+    @java.lang.Override
     public tech.ydb.common.CommonProtos.CostInfo getCostInfo() {
       return costInfo_ == null ? tech.ydb.common.CommonProtos.CostInfo.getDefaultInstance() : costInfo_;
     }
@@ -8158,11 +8723,13 @@ public final class OperationProtos {
      *
      * <code>.Ydb.CostInfo cost_info = 7;</code>
      */
+    @java.lang.Override
     public tech.ydb.common.CommonProtos.CostInfoOrBuilder getCostInfoOrBuilder() {
       return getCostInfo();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -8172,6 +8739,7 @@ public final class OperationProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getIdBytes().isEmpty()) {
@@ -8198,6 +8766,7 @@ public final class OperationProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -8245,31 +8814,30 @@ public final class OperationProtos {
       }
       tech.ydb.OperationProtos.Operation other = (tech.ydb.OperationProtos.Operation) obj;
 
-      boolean result = true;
-      result = result && getId()
-          .equals(other.getId());
-      result = result && (getReady()
-          == other.getReady());
-      result = result && status_ == other.status_;
-      result = result && getIssuesList()
-          .equals(other.getIssuesList());
-      result = result && (hasResult() == other.hasResult());
+      if (!getId()
+          .equals(other.getId())) return false;
+      if (getReady()
+          != other.getReady()) return false;
+      if (status_ != other.status_) return false;
+      if (!getIssuesList()
+          .equals(other.getIssuesList())) return false;
+      if (hasResult() != other.hasResult()) return false;
       if (hasResult()) {
-        result = result && getResult()
-            .equals(other.getResult());
+        if (!getResult()
+            .equals(other.getResult())) return false;
       }
-      result = result && (hasMetadata() == other.hasMetadata());
+      if (hasMetadata() != other.hasMetadata()) return false;
       if (hasMetadata()) {
-        result = result && getMetadata()
-            .equals(other.getMetadata());
+        if (!getMetadata()
+            .equals(other.getMetadata())) return false;
       }
-      result = result && (hasCostInfo() == other.hasCostInfo());
+      if (hasCostInfo() != other.hasCostInfo()) return false;
       if (hasCostInfo()) {
-        result = result && getCostInfo()
-            .equals(other.getCostInfo());
+        if (!getCostInfo()
+            .equals(other.getCostInfo())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -8377,6 +8945,7 @@ public final class OperationProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -8384,6 +8953,7 @@ public final class OperationProtos {
     public static Builder newBuilder(tech.ydb.OperationProtos.Operation prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -8407,6 +8977,7 @@ public final class OperationProtos {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_Operation_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_Operation_fieldAccessorTable
@@ -8430,6 +9001,7 @@ public final class OperationProtos {
           getIssuesFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         id_ = "";
@@ -8440,7 +9012,7 @@ public final class OperationProtos {
 
         if (issuesBuilder_ == null) {
           issues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           issuesBuilder_.clear();
         }
@@ -8465,15 +9037,18 @@ public final class OperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.OperationProtos.internal_static_Ydb_Operations_Operation_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.Operation getDefaultInstanceForType() {
         return tech.ydb.OperationProtos.Operation.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.Operation build() {
         tech.ydb.OperationProtos.Operation result = buildPartial();
         if (!result.isInitialized()) {
@@ -8482,17 +9057,17 @@ public final class OperationProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.OperationProtos.Operation buildPartial() {
         tech.ydb.OperationProtos.Operation result = new tech.ydb.OperationProtos.Operation(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.id_ = id_;
         result.ready_ = ready_;
         result.status_ = status_;
         if (issuesBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             issues_ = java.util.Collections.unmodifiableList(issues_);
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.issues_ = issues_;
         } else {
@@ -8513,37 +9088,43 @@ public final class OperationProtos {
         } else {
           result.costInfo_ = costInfoBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.OperationProtos.Operation) {
           return mergeFrom((tech.ydb.OperationProtos.Operation)other);
@@ -8569,7 +9150,7 @@ public final class OperationProtos {
           if (!other.issues_.isEmpty()) {
             if (issues_.isEmpty()) {
               issues_ = other.issues_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureIssuesIsMutable();
               issues_.addAll(other.issues_);
@@ -8582,7 +9163,7 @@ public final class OperationProtos {
               issuesBuilder_.dispose();
               issuesBuilder_ = null;
               issues_ = other.issues_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000001);
               issuesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getIssuesFieldBuilder() : null;
@@ -8605,10 +9186,12 @@ public final class OperationProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8636,6 +9219,7 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>string id = 1;</code>
+       * @return The id.
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -8656,6 +9240,7 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>string id = 1;</code>
+       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -8677,6 +9262,8 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>string id = 1;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -8695,6 +9282,7 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>string id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -8709,6 +9297,8 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>string id = 1;</code>
+       * @param value The bytes for id to set.
+       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -8731,7 +9321,9 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>bool ready = 2;</code>
+       * @return The ready.
        */
+      @java.lang.Override
       public boolean getReady() {
         return ready_;
       }
@@ -8743,6 +9335,8 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>bool ready = 2;</code>
+       * @param value The ready to set.
+       * @return This builder for chaining.
        */
       public Builder setReady(boolean value) {
         
@@ -8758,6 +9352,7 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>bool ready = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearReady() {
         
@@ -8769,27 +9364,36 @@ public final class OperationProtos {
       private int status_ = 0;
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 3;</code>
+       * @return The enum numeric value on the wire for status.
        */
-      public int getStatusValue() {
+      @java.lang.Override public int getStatusValue() {
         return status_;
       }
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 3;</code>
+       * @param value The enum numeric value on the wire for status to set.
+       * @return This builder for chaining.
        */
       public Builder setStatusValue(int value) {
+        
         status_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 3;</code>
+       * @return The status.
        */
+      @java.lang.Override
       public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getStatus() {
+        @SuppressWarnings("deprecation")
         tech.ydb.StatusCodesProtos.StatusIds.StatusCode result = tech.ydb.StatusCodesProtos.StatusIds.StatusCode.valueOf(status_);
         return result == null ? tech.ydb.StatusCodesProtos.StatusIds.StatusCode.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 3;</code>
+       * @param value The status to set.
+       * @return This builder for chaining.
        */
       public Builder setStatus(tech.ydb.StatusCodesProtos.StatusIds.StatusCode value) {
         if (value == null) {
@@ -8802,6 +9406,7 @@ public final class OperationProtos {
       }
       /**
        * <code>.Ydb.StatusIds.StatusCode status = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearStatus() {
         
@@ -8813,9 +9418,9 @@ public final class OperationProtos {
       private java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> issues_ =
         java.util.Collections.emptyList();
       private void ensureIssuesIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           issues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>(issues_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -8965,7 +9570,7 @@ public final class OperationProtos {
       public Builder clearIssues() {
         if (issuesBuilder_ == null) {
           issues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           issuesBuilder_.clear();
@@ -9042,7 +9647,7 @@ public final class OperationProtos {
           issuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.YdbIssueMessage.IssueMessage, tech.ydb.YdbIssueMessage.IssueMessage.Builder, tech.ydb.YdbIssueMessage.IssueMessageOrBuilder>(
                   issues_,
-                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           issues_ = null;
@@ -9050,7 +9655,7 @@ public final class OperationProtos {
         return issuesBuilder_;
       }
 
-      private com.google.protobuf.Any result_ = null;
+      private com.google.protobuf.Any result_;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Any, com.google.protobuf.Any.Builder, com.google.protobuf.AnyOrBuilder> resultBuilder_;
       /**
@@ -9059,6 +9664,7 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>.google.protobuf.Any result = 5;</code>
+       * @return Whether the result field is set.
        */
       public boolean hasResult() {
         return resultBuilder_ != null || result_ != null;
@@ -9069,6 +9675,7 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>.google.protobuf.Any result = 5;</code>
+       * @return The result.
        */
       public com.google.protobuf.Any getResult() {
         if (resultBuilder_ == null) {
@@ -9203,17 +9810,19 @@ public final class OperationProtos {
         return resultBuilder_;
       }
 
-      private com.google.protobuf.Any metadata_ = null;
+      private com.google.protobuf.Any metadata_;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Any, com.google.protobuf.Any.Builder, com.google.protobuf.AnyOrBuilder> metadataBuilder_;
       /**
        * <code>.google.protobuf.Any metadata = 6;</code>
+       * @return Whether the metadata field is set.
        */
       public boolean hasMetadata() {
         return metadataBuilder_ != null || metadata_ != null;
       }
       /**
        * <code>.google.protobuf.Any metadata = 6;</code>
+       * @return The metadata.
        */
       public com.google.protobuf.Any getMetadata() {
         if (metadataBuilder_ == null) {
@@ -9320,7 +9929,7 @@ public final class OperationProtos {
         return metadataBuilder_;
       }
 
-      private tech.ydb.common.CommonProtos.CostInfo costInfo_ = null;
+      private tech.ydb.common.CommonProtos.CostInfo costInfo_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.common.CommonProtos.CostInfo, tech.ydb.common.CommonProtos.CostInfo.Builder, tech.ydb.common.CommonProtos.CostInfoOrBuilder> costInfoBuilder_;
       /**
@@ -9331,6 +9940,7 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>.Ydb.CostInfo cost_info = 7;</code>
+       * @return Whether the costInfo field is set.
        */
       public boolean hasCostInfo() {
         return costInfoBuilder_ != null || costInfo_ != null;
@@ -9343,6 +9953,7 @@ public final class OperationProtos {
        * </pre>
        *
        * <code>.Ydb.CostInfo cost_info = 7;</code>
+       * @return The costInfo.
        */
       public tech.ydb.common.CommonProtos.CostInfo getCostInfo() {
         if (costInfoBuilder_ == null) {
@@ -9490,11 +10101,13 @@ public final class OperationProtos {
         }
         return costInfoBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -9516,11 +10129,12 @@ public final class OperationProtos {
 
     private static final com.google.protobuf.Parser<Operation>
         PARSER = new com.google.protobuf.AbstractParser<Operation>() {
+      @java.lang.Override
       public Operation parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Operation(input, extensionRegistry);
+        return new Operation(input, extensionRegistry);
       }
     };
 
@@ -9533,6 +10147,7 @@ public final class OperationProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -9612,7 +10227,7 @@ public final class OperationProtos {
       "otos/ydb_issue_message.proto\032/kikimr/pub" +
       "lic/api/protos/ydb_status_codes.proto\"\266\003" +
       "\n\017OperationParams\022E\n\016operation_mode\030\001 \001(" +
-      "\0162-.Ydb.Operations.OperationParams.Opera",
+      "\0162-.Ydb.Operations.OperationParams.Opera" +
       "tionMode\0224\n\021operation_timeout\030\002 \001(\0132\031.go" +
       "ogle.protobuf.Duration\022/\n\014cancel_after\030\003" +
       " \001(\0132\031.google.protobuf.Duration\022M\n\006label" +
@@ -9622,7 +10237,7 @@ public final class OperationProtos {
       "s\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002" +
       " \001(\t:\0028\001\"D\n\rOperationMode\022\036\n\032OPERATION_M" +
       "ODE_UNSPECIFIED\020\000\022\010\n\004SYNC\020\001\022\t\n\005ASYNC\020\002\"\'" +
-      "\n\023GetOperationRequest\022\020\n\002id\030\001 \001(\tB\004\220\346*\001\"",
+      "\n\023GetOperationRequest\022\020\n\002id\030\001 \001(\tB\004\220\346*\001\"" +
       "D\n\024GetOperationResponse\022,\n\toperation\030\001 \001" +
       "(\0132\031.Ydb.Operations.Operation\"*\n\026CancelO" +
       "perationRequest\022\020\n\002id\030\001 \001(\tB\004\220\346*\001\"m\n\027Can" +
@@ -9632,7 +10247,7 @@ public final class OperationProtos {
       "ionRequest\022\020\n\002id\030\001 \001(\tB\004\220\346*\001\"m\n\027ForgetOp" +
       "erationResponse\022)\n\006status\030\001 \001(\0162\031.Ydb.St" +
       "atusIds.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb" +
-      ".Issue.IssueMessage\"R\n\025ListOperationsReq",
+      ".Issue.IssueMessage\"R\n\025ListOperationsReq" +
       "uest\022\022\n\004kind\030\001 \001(\tB\004\220\346*\001\022\021\n\tpage_size\030\002 " +
       "\001(\004\022\022\n\npage_token\030\003 \001(\t\"\264\001\n\026ListOperatio" +
       "nsResponse\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusI" +
@@ -9642,21 +10257,13 @@ public final class OperationProtos {
       "\030\004 \001(\t\"\352\001\n\tOperation\022\n\n\002id\030\001 \001(\t\022\r\n\005read" +
       "y\030\002 \001(\010\022)\n\006status\030\003 \001(\0162\031.Ydb.StatusIds." +
       "StatusCode\022\'\n\006issues\030\004 \003(\0132\027.Ydb.Issue.I" +
-      "ssueMessage\022$\n\006result\030\005 \001(\0132\024.google.pro",
+      "ssueMessage\022$\n\006result\030\005 \001(\0132\024.google.pro" +
       "tobuf.Any\022&\n\010metadata\030\006 \001(\0132\024.google.pro" +
       "tobuf.Any\022 \n\tcost_info\030\007 \001(\0132\r.Ydb.CostI" +
       "nfoB$\n\016tech.ydbB\017OperationProtos\370\001" +
       "\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.google.protobuf.AnyProto.getDescriptor(),
@@ -9665,7 +10272,7 @@ public final class OperationProtos {
           tech.ydb.common.CommonProtos.getDescriptor(),
           tech.ydb.YdbIssueMessage.getDescriptor(),
           tech.ydb.StatusCodesProtos.getDescriptor(),
-        }, assigner);
+        });
     internal_static_Ydb_Operations_OperationParams_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_Operations_OperationParams_fieldAccessorTable = new

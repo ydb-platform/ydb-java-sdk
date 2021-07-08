@@ -26,6 +26,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string unit_kind = 1;</code>
+     * @return The unitKind.
      */
     java.lang.String getUnitKind();
     /**
@@ -36,6 +37,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string unit_kind = 1;</code>
+     * @return The bytes for unitKind.
      */
     com.google.protobuf.ByteString
         getUnitKindBytes();
@@ -46,6 +48,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>uint64 count = 2;</code>
+     * @return The count.
      */
     long getCount();
   }
@@ -57,7 +60,7 @@ public final class YdbCms {
    *
    * Protobuf type {@code Ydb.Cms.StorageUnits}
    */
-  public  static final class StorageUnits extends
+  public static final class StorageUnits extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.StorageUnits)
       StorageUnitsOrBuilder {
@@ -68,7 +71,13 @@ public final class YdbCms {
     }
     private StorageUnits() {
       unitKind_ = "";
-      count_ = 0L;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StorageUnits();
     }
 
     @java.lang.Override
@@ -81,7 +90,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -92,13 +103,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -108,6 +112,13 @@ public final class YdbCms {
             case 16: {
 
               count_ = input.readUInt64();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -127,6 +138,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_StorageUnits_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_StorageUnits_fieldAccessorTable
@@ -144,7 +156,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string unit_kind = 1;</code>
+     * @return The unitKind.
      */
+    @java.lang.Override
     public java.lang.String getUnitKind() {
       java.lang.Object ref = unitKind_;
       if (ref instanceof java.lang.String) {
@@ -165,7 +179,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string unit_kind = 1;</code>
+     * @return The bytes for unitKind.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getUnitKindBytes() {
       java.lang.Object ref = unitKind_;
@@ -188,12 +204,15 @@ public final class YdbCms {
      * </pre>
      *
      * <code>uint64 count = 2;</code>
+     * @return The count.
      */
+    @java.lang.Override
     public long getCount() {
       return count_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -203,6 +222,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getUnitKindBytes().isEmpty()) {
@@ -214,6 +234,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -241,13 +262,12 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.StorageUnits other = (tech.ydb.cms.YdbCms.StorageUnits) obj;
 
-      boolean result = true;
-      result = result && getUnitKind()
-          .equals(other.getUnitKind());
-      result = result && (getCount()
-          == other.getCount());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getUnitKind()
+          .equals(other.getUnitKind())) return false;
+      if (getCount()
+          != other.getCount()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -337,6 +357,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -344,6 +365,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.StorageUnits prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -372,6 +394,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_StorageUnits_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_StorageUnits_fieldAccessorTable
@@ -394,6 +417,7 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         unitKind_ = "";
@@ -403,15 +427,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_StorageUnits_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.StorageUnits getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.StorageUnits.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.StorageUnits build() {
         tech.ydb.cms.YdbCms.StorageUnits result = buildPartial();
         if (!result.isInitialized()) {
@@ -420,6 +447,7 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.StorageUnits buildPartial() {
         tech.ydb.cms.YdbCms.StorageUnits result = new tech.ydb.cms.YdbCms.StorageUnits(this);
         result.unitKind_ = unitKind_;
@@ -428,32 +456,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.StorageUnits) {
           return mergeFrom((tech.ydb.cms.YdbCms.StorageUnits)other);
@@ -477,10 +512,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -508,6 +545,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string unit_kind = 1;</code>
+       * @return The unitKind.
        */
       public java.lang.String getUnitKind() {
         java.lang.Object ref = unitKind_;
@@ -529,6 +567,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string unit_kind = 1;</code>
+       * @return The bytes for unitKind.
        */
       public com.google.protobuf.ByteString
           getUnitKindBytes() {
@@ -551,6 +590,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string unit_kind = 1;</code>
+       * @param value The unitKind to set.
+       * @return This builder for chaining.
        */
       public Builder setUnitKind(
           java.lang.String value) {
@@ -570,6 +611,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string unit_kind = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUnitKind() {
         
@@ -585,6 +627,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string unit_kind = 1;</code>
+       * @param value The bytes for unitKind to set.
+       * @return This builder for chaining.
        */
       public Builder setUnitKindBytes(
           com.google.protobuf.ByteString value) {
@@ -605,7 +649,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 count = 2;</code>
+       * @return The count.
        */
+      @java.lang.Override
       public long getCount() {
         return count_;
       }
@@ -615,6 +661,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 count = 2;</code>
+       * @param value The count to set.
+       * @return This builder for chaining.
        */
       public Builder setCount(long value) {
         
@@ -628,6 +676,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 count = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCount() {
         
@@ -635,11 +684,13 @@ public final class YdbCms {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -661,11 +712,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<StorageUnits>
         PARSER = new com.google.protobuf.AbstractParser<StorageUnits>() {
+      @java.lang.Override
       public StorageUnits parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new StorageUnits(input, extensionRegistry);
+        return new StorageUnits(input, extensionRegistry);
       }
     };
 
@@ -678,6 +730,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.StorageUnits getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -695,6 +748,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string unit_kind = 1;</code>
+     * @return The unitKind.
      */
     java.lang.String getUnitKind();
     /**
@@ -704,6 +758,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string unit_kind = 1;</code>
+     * @return The bytes for unitKind.
      */
     com.google.protobuf.ByteString
         getUnitKindBytes();
@@ -715,6 +770,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string availability_zone = 2;</code>
+     * @return The availabilityZone.
      */
     java.lang.String getAvailabilityZone();
     /**
@@ -724,6 +780,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string availability_zone = 2;</code>
+     * @return The bytes for availabilityZone.
      */
     com.google.protobuf.ByteString
         getAvailabilityZoneBytes();
@@ -734,6 +791,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>uint64 count = 3;</code>
+     * @return The count.
      */
     long getCount();
   }
@@ -744,7 +802,7 @@ public final class YdbCms {
    *
    * Protobuf type {@code Ydb.Cms.ComputationalUnits}
    */
-  public  static final class ComputationalUnits extends
+  public static final class ComputationalUnits extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.ComputationalUnits)
       ComputationalUnitsOrBuilder {
@@ -756,7 +814,13 @@ public final class YdbCms {
     private ComputationalUnits() {
       unitKind_ = "";
       availabilityZone_ = "";
-      count_ = 0L;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ComputationalUnits();
     }
 
     @java.lang.Override
@@ -769,7 +833,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -780,13 +846,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -802,6 +861,13 @@ public final class YdbCms {
             case 24: {
 
               count_ = input.readUInt64();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -821,6 +887,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ComputationalUnits_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ComputationalUnits_fieldAccessorTable
@@ -837,7 +904,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string unit_kind = 1;</code>
+     * @return The unitKind.
      */
+    @java.lang.Override
     public java.lang.String getUnitKind() {
       java.lang.Object ref = unitKind_;
       if (ref instanceof java.lang.String) {
@@ -857,7 +926,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string unit_kind = 1;</code>
+     * @return The bytes for unitKind.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getUnitKindBytes() {
       java.lang.Object ref = unitKind_;
@@ -881,7 +952,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string availability_zone = 2;</code>
+     * @return The availabilityZone.
      */
+    @java.lang.Override
     public java.lang.String getAvailabilityZone() {
       java.lang.Object ref = availabilityZone_;
       if (ref instanceof java.lang.String) {
@@ -901,7 +974,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string availability_zone = 2;</code>
+     * @return The bytes for availabilityZone.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getAvailabilityZoneBytes() {
       java.lang.Object ref = availabilityZone_;
@@ -924,12 +999,15 @@ public final class YdbCms {
      * </pre>
      *
      * <code>uint64 count = 3;</code>
+     * @return The count.
      */
+    @java.lang.Override
     public long getCount() {
       return count_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -939,6 +1017,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getUnitKindBytes().isEmpty()) {
@@ -953,6 +1032,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -983,15 +1063,14 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.ComputationalUnits other = (tech.ydb.cms.YdbCms.ComputationalUnits) obj;
 
-      boolean result = true;
-      result = result && getUnitKind()
-          .equals(other.getUnitKind());
-      result = result && getAvailabilityZone()
-          .equals(other.getAvailabilityZone());
-      result = result && (getCount()
-          == other.getCount());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getUnitKind()
+          .equals(other.getUnitKind())) return false;
+      if (!getAvailabilityZone()
+          .equals(other.getAvailabilityZone())) return false;
+      if (getCount()
+          != other.getCount()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1083,6 +1162,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1090,6 +1170,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.ComputationalUnits prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1117,6 +1198,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ComputationalUnits_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ComputationalUnits_fieldAccessorTable
@@ -1139,6 +1221,7 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         unitKind_ = "";
@@ -1150,15 +1233,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ComputationalUnits_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ComputationalUnits getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.ComputationalUnits.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ComputationalUnits build() {
         tech.ydb.cms.YdbCms.ComputationalUnits result = buildPartial();
         if (!result.isInitialized()) {
@@ -1167,6 +1253,7 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ComputationalUnits buildPartial() {
         tech.ydb.cms.YdbCms.ComputationalUnits result = new tech.ydb.cms.YdbCms.ComputationalUnits(this);
         result.unitKind_ = unitKind_;
@@ -1176,32 +1263,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.ComputationalUnits) {
           return mergeFrom((tech.ydb.cms.YdbCms.ComputationalUnits)other);
@@ -1229,10 +1323,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1259,6 +1355,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string unit_kind = 1;</code>
+       * @return The unitKind.
        */
       public java.lang.String getUnitKind() {
         java.lang.Object ref = unitKind_;
@@ -1279,6 +1376,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string unit_kind = 1;</code>
+       * @return The bytes for unitKind.
        */
       public com.google.protobuf.ByteString
           getUnitKindBytes() {
@@ -1300,6 +1398,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string unit_kind = 1;</code>
+       * @param value The unitKind to set.
+       * @return This builder for chaining.
        */
       public Builder setUnitKind(
           java.lang.String value) {
@@ -1318,6 +1418,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string unit_kind = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUnitKind() {
         
@@ -1332,6 +1433,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string unit_kind = 1;</code>
+       * @param value The bytes for unitKind to set.
+       * @return This builder for chaining.
        */
       public Builder setUnitKindBytes(
           com.google.protobuf.ByteString value) {
@@ -1353,6 +1456,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string availability_zone = 2;</code>
+       * @return The availabilityZone.
        */
       public java.lang.String getAvailabilityZone() {
         java.lang.Object ref = availabilityZone_;
@@ -1373,6 +1477,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string availability_zone = 2;</code>
+       * @return The bytes for availabilityZone.
        */
       public com.google.protobuf.ByteString
           getAvailabilityZoneBytes() {
@@ -1394,6 +1499,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string availability_zone = 2;</code>
+       * @param value The availabilityZone to set.
+       * @return This builder for chaining.
        */
       public Builder setAvailabilityZone(
           java.lang.String value) {
@@ -1412,6 +1519,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string availability_zone = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearAvailabilityZone() {
         
@@ -1426,6 +1534,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string availability_zone = 2;</code>
+       * @param value The bytes for availabilityZone to set.
+       * @return This builder for chaining.
        */
       public Builder setAvailabilityZoneBytes(
           com.google.protobuf.ByteString value) {
@@ -1446,7 +1556,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 count = 3;</code>
+       * @return The count.
        */
+      @java.lang.Override
       public long getCount() {
         return count_;
       }
@@ -1456,6 +1568,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 count = 3;</code>
+       * @param value The count to set.
+       * @return This builder for chaining.
        */
       public Builder setCount(long value) {
         
@@ -1469,6 +1583,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 count = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCount() {
         
@@ -1476,11 +1591,13 @@ public final class YdbCms {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1502,11 +1619,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<ComputationalUnits>
         PARSER = new com.google.protobuf.AbstractParser<ComputationalUnits>() {
+      @java.lang.Override
       public ComputationalUnits parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ComputationalUnits(input, extensionRegistry);
+        return new ComputationalUnits(input, extensionRegistry);
       }
     };
 
@@ -1519,6 +1637,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ComputationalUnits getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1535,6 +1654,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string host = 1;</code>
+     * @return The host.
      */
     java.lang.String getHost();
     /**
@@ -1543,6 +1663,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string host = 1;</code>
+     * @return The bytes for host.
      */
     com.google.protobuf.ByteString
         getHostBytes();
@@ -1553,6 +1674,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>uint32 port = 2;</code>
+     * @return The port.
      */
     int getPort();
 
@@ -1562,6 +1684,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string unit_kind = 3;</code>
+     * @return The unitKind.
      */
     java.lang.String getUnitKind();
     /**
@@ -1570,6 +1693,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string unit_kind = 3;</code>
+     * @return The bytes for unitKind.
      */
     com.google.protobuf.ByteString
         getUnitKindBytes();
@@ -1582,7 +1706,7 @@ public final class YdbCms {
    *
    * Protobuf type {@code Ydb.Cms.AllocatedComputationalUnit}
    */
-  public  static final class AllocatedComputationalUnit extends
+  public static final class AllocatedComputationalUnit extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.AllocatedComputationalUnit)
       AllocatedComputationalUnitOrBuilder {
@@ -1593,8 +1717,14 @@ public final class YdbCms {
     }
     private AllocatedComputationalUnit() {
       host_ = "";
-      port_ = 0;
       unitKind_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new AllocatedComputationalUnit();
     }
 
     @java.lang.Override
@@ -1607,7 +1737,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1618,13 +1750,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -1640,6 +1765,13 @@ public final class YdbCms {
               java.lang.String s = input.readStringRequireUtf8();
 
               unitKind_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -1659,6 +1791,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AllocatedComputationalUnit_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AllocatedComputationalUnit_fieldAccessorTable
@@ -1674,7 +1807,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string host = 1;</code>
+     * @return The host.
      */
+    @java.lang.Override
     public java.lang.String getHost() {
       java.lang.Object ref = host_;
       if (ref instanceof java.lang.String) {
@@ -1693,7 +1828,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string host = 1;</code>
+     * @return The bytes for host.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getHostBytes() {
       java.lang.Object ref = host_;
@@ -1716,7 +1853,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>uint32 port = 2;</code>
+     * @return The port.
      */
+    @java.lang.Override
     public int getPort() {
       return port_;
     }
@@ -1729,7 +1868,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string unit_kind = 3;</code>
+     * @return The unitKind.
      */
+    @java.lang.Override
     public java.lang.String getUnitKind() {
       java.lang.Object ref = unitKind_;
       if (ref instanceof java.lang.String) {
@@ -1748,7 +1889,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string unit_kind = 3;</code>
+     * @return The bytes for unitKind.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getUnitKindBytes() {
       java.lang.Object ref = unitKind_;
@@ -1764,6 +1907,7 @@ public final class YdbCms {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1773,6 +1917,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getHostBytes().isEmpty()) {
@@ -1787,6 +1932,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1817,15 +1963,14 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.AllocatedComputationalUnit other = (tech.ydb.cms.YdbCms.AllocatedComputationalUnit) obj;
 
-      boolean result = true;
-      result = result && getHost()
-          .equals(other.getHost());
-      result = result && (getPort()
-          == other.getPort());
-      result = result && getUnitKind()
-          .equals(other.getUnitKind());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getHost()
+          .equals(other.getHost())) return false;
+      if (getPort()
+          != other.getPort()) return false;
+      if (!getUnitKind()
+          .equals(other.getUnitKind())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1916,6 +2061,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1923,6 +2069,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.AllocatedComputationalUnit prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1951,6 +2098,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AllocatedComputationalUnit_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AllocatedComputationalUnit_fieldAccessorTable
@@ -1973,6 +2121,7 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         host_ = "";
@@ -1984,15 +2133,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AllocatedComputationalUnit_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.AllocatedComputationalUnit getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.AllocatedComputationalUnit.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.AllocatedComputationalUnit build() {
         tech.ydb.cms.YdbCms.AllocatedComputationalUnit result = buildPartial();
         if (!result.isInitialized()) {
@@ -2001,6 +2153,7 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.AllocatedComputationalUnit buildPartial() {
         tech.ydb.cms.YdbCms.AllocatedComputationalUnit result = new tech.ydb.cms.YdbCms.AllocatedComputationalUnit(this);
         result.host_ = host_;
@@ -2010,32 +2163,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.AllocatedComputationalUnit) {
           return mergeFrom((tech.ydb.cms.YdbCms.AllocatedComputationalUnit)other);
@@ -2063,10 +2223,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2092,6 +2254,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string host = 1;</code>
+       * @return The host.
        */
       public java.lang.String getHost() {
         java.lang.Object ref = host_;
@@ -2111,6 +2274,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string host = 1;</code>
+       * @return The bytes for host.
        */
       public com.google.protobuf.ByteString
           getHostBytes() {
@@ -2131,6 +2295,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string host = 1;</code>
+       * @param value The host to set.
+       * @return This builder for chaining.
        */
       public Builder setHost(
           java.lang.String value) {
@@ -2148,6 +2314,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string host = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearHost() {
         
@@ -2161,6 +2328,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string host = 1;</code>
+       * @param value The bytes for host to set.
+       * @return This builder for chaining.
        */
       public Builder setHostBytes(
           com.google.protobuf.ByteString value) {
@@ -2181,7 +2350,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint32 port = 2;</code>
+       * @return The port.
        */
+      @java.lang.Override
       public int getPort() {
         return port_;
       }
@@ -2191,6 +2362,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint32 port = 2;</code>
+       * @param value The port to set.
+       * @return This builder for chaining.
        */
       public Builder setPort(int value) {
         
@@ -2204,6 +2377,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint32 port = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPort() {
         
@@ -2219,6 +2393,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string unit_kind = 3;</code>
+       * @return The unitKind.
        */
       public java.lang.String getUnitKind() {
         java.lang.Object ref = unitKind_;
@@ -2238,6 +2413,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string unit_kind = 3;</code>
+       * @return The bytes for unitKind.
        */
       public com.google.protobuf.ByteString
           getUnitKindBytes() {
@@ -2258,6 +2434,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string unit_kind = 3;</code>
+       * @param value The unitKind to set.
+       * @return This builder for chaining.
        */
       public Builder setUnitKind(
           java.lang.String value) {
@@ -2275,6 +2453,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string unit_kind = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUnitKind() {
         
@@ -2288,6 +2467,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string unit_kind = 3;</code>
+       * @param value The bytes for unitKind to set.
+       * @return This builder for chaining.
        */
       public Builder setUnitKindBytes(
           com.google.protobuf.ByteString value) {
@@ -2300,11 +2481,13 @@ public final class YdbCms {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2326,11 +2509,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<AllocatedComputationalUnit>
         PARSER = new com.google.protobuf.AbstractParser<AllocatedComputationalUnit>() {
+      @java.lang.Override
       public AllocatedComputationalUnit parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new AllocatedComputationalUnit(input, extensionRegistry);
+        return new AllocatedComputationalUnit(input, extensionRegistry);
       }
     };
 
@@ -2343,6 +2527,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.AllocatedComputationalUnit getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2448,7 +2633,7 @@ public final class YdbCms {
    *
    * Protobuf type {@code Ydb.Cms.Resources}
    */
-  public  static final class Resources extends
+  public static final class Resources extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.Resources)
       ResourcesOrBuilder {
@@ -2463,6 +2648,13 @@ public final class YdbCms {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Resources();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2472,6 +2664,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -2483,15 +2678,8 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 storageUnits_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.StorageUnits>();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -2500,12 +2688,19 @@ public final class YdbCms {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 computationalUnits_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.ComputationalUnits>();
                 mutable_bitField0_ |= 0x00000002;
               }
               computationalUnits_.add(
                   input.readMessage(tech.ydb.cms.YdbCms.ComputationalUnits.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -2516,10 +2711,10 @@ public final class YdbCms {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           storageUnits_ = java.util.Collections.unmodifiableList(storageUnits_);
         }
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           computationalUnits_ = java.util.Collections.unmodifiableList(computationalUnits_);
         }
         this.unknownFields = unknownFields.build();
@@ -2531,6 +2726,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_Resources_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_Resources_fieldAccessorTable
@@ -2547,6 +2743,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.StorageUnits storage_units = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.cms.YdbCms.StorageUnits> getStorageUnitsList() {
       return storageUnits_;
     }
@@ -2557,6 +2754,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.StorageUnits storage_units = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.cms.YdbCms.StorageUnitsOrBuilder> 
         getStorageUnitsOrBuilderList() {
       return storageUnits_;
@@ -2568,6 +2766,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.StorageUnits storage_units = 1;</code>
      */
+    @java.lang.Override
     public int getStorageUnitsCount() {
       return storageUnits_.size();
     }
@@ -2578,6 +2777,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.StorageUnits storage_units = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.StorageUnits getStorageUnits(int index) {
       return storageUnits_.get(index);
     }
@@ -2588,6 +2788,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.StorageUnits storage_units = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.StorageUnitsOrBuilder getStorageUnitsOrBuilder(
         int index) {
       return storageUnits_.get(index);
@@ -2602,6 +2803,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.ComputationalUnits computational_units = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.cms.YdbCms.ComputationalUnits> getComputationalUnitsList() {
       return computationalUnits_;
     }
@@ -2612,6 +2814,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.ComputationalUnits computational_units = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.cms.YdbCms.ComputationalUnitsOrBuilder> 
         getComputationalUnitsOrBuilderList() {
       return computationalUnits_;
@@ -2623,6 +2826,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.ComputationalUnits computational_units = 2;</code>
      */
+    @java.lang.Override
     public int getComputationalUnitsCount() {
       return computationalUnits_.size();
     }
@@ -2633,6 +2837,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.ComputationalUnits computational_units = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ComputationalUnits getComputationalUnits(int index) {
       return computationalUnits_.get(index);
     }
@@ -2643,12 +2848,14 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.ComputationalUnits computational_units = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ComputationalUnitsOrBuilder getComputationalUnitsOrBuilder(
         int index) {
       return computationalUnits_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2658,6 +2865,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < storageUnits_.size(); i++) {
@@ -2669,6 +2877,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2697,13 +2906,12 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.Resources other = (tech.ydb.cms.YdbCms.Resources) obj;
 
-      boolean result = true;
-      result = result && getStorageUnitsList()
-          .equals(other.getStorageUnitsList());
-      result = result && getComputationalUnitsList()
-          .equals(other.getComputationalUnitsList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getStorageUnitsList()
+          .equals(other.getStorageUnitsList())) return false;
+      if (!getComputationalUnitsList()
+          .equals(other.getComputationalUnitsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2796,6 +3004,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2803,6 +3012,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.Resources prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2830,6 +3040,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_Resources_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_Resources_fieldAccessorTable
@@ -2854,6 +3065,7 @@ public final class YdbCms {
           getComputationalUnitsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (storageUnitsBuilder_ == null) {
@@ -2871,15 +3083,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_Resources_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.Resources getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.Resources.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.Resources build() {
         tech.ydb.cms.YdbCms.Resources result = buildPartial();
         if (!result.isInitialized()) {
@@ -2888,11 +3103,12 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.Resources buildPartial() {
         tech.ydb.cms.YdbCms.Resources result = new tech.ydb.cms.YdbCms.Resources(this);
         int from_bitField0_ = bitField0_;
         if (storageUnitsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             storageUnits_ = java.util.Collections.unmodifiableList(storageUnits_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -2901,7 +3117,7 @@ public final class YdbCms {
           result.storageUnits_ = storageUnitsBuilder_.build();
         }
         if (computationalUnitsBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000002) != 0)) {
             computationalUnits_ = java.util.Collections.unmodifiableList(computationalUnits_);
             bitField0_ = (bitField0_ & ~0x00000002);
           }
@@ -2913,32 +3129,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.Resources) {
           return mergeFrom((tech.ydb.cms.YdbCms.Resources)other);
@@ -3007,10 +3230,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3033,7 +3258,7 @@ public final class YdbCms {
       private java.util.List<tech.ydb.cms.YdbCms.StorageUnits> storageUnits_ =
         java.util.Collections.emptyList();
       private void ensureStorageUnitsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           storageUnits_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.StorageUnits>(storageUnits_);
           bitField0_ |= 0x00000001;
          }
@@ -3334,7 +3559,7 @@ public final class YdbCms {
           storageUnitsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.cms.YdbCms.StorageUnits, tech.ydb.cms.YdbCms.StorageUnits.Builder, tech.ydb.cms.YdbCms.StorageUnitsOrBuilder>(
                   storageUnits_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           storageUnits_ = null;
@@ -3345,7 +3570,7 @@ public final class YdbCms {
       private java.util.List<tech.ydb.cms.YdbCms.ComputationalUnits> computationalUnits_ =
         java.util.Collections.emptyList();
       private void ensureComputationalUnitsIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           computationalUnits_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.ComputationalUnits>(computationalUnits_);
           bitField0_ |= 0x00000002;
          }
@@ -3646,18 +3871,20 @@ public final class YdbCms {
           computationalUnitsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.cms.YdbCms.ComputationalUnits, tech.ydb.cms.YdbCms.ComputationalUnits.Builder, tech.ydb.cms.YdbCms.ComputationalUnitsOrBuilder>(
                   computationalUnits_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           computationalUnits_ = null;
         }
         return computationalUnitsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3679,11 +3906,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<Resources>
         PARSER = new com.google.protobuf.AbstractParser<Resources>() {
+      @java.lang.Override
       public Resources parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Resources(input, extensionRegistry);
+        return new Resources(input, extensionRegistry);
       }
     };
 
@@ -3696,6 +3924,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.Resources getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3712,6 +3941,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string shared_database_path = 1;</code>
+     * @return The sharedDatabasePath.
      */
     java.lang.String getSharedDatabasePath();
     /**
@@ -3720,6 +3950,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string shared_database_path = 1;</code>
+     * @return The bytes for sharedDatabasePath.
      */
     com.google.protobuf.ByteString
         getSharedDatabasePathBytes();
@@ -3727,7 +3958,7 @@ public final class YdbCms {
   /**
    * Protobuf type {@code Ydb.Cms.ServerlessResources}
    */
-  public  static final class ServerlessResources extends
+  public static final class ServerlessResources extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.ServerlessResources)
       ServerlessResourcesOrBuilder {
@@ -3741,6 +3972,13 @@ public final class YdbCms {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ServerlessResources();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3750,7 +3988,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3761,17 +4001,17 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
               sharedDatabasePath_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -3791,6 +4031,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ServerlessResources_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ServerlessResources_fieldAccessorTable
@@ -3806,7 +4047,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string shared_database_path = 1;</code>
+     * @return The sharedDatabasePath.
      */
+    @java.lang.Override
     public java.lang.String getSharedDatabasePath() {
       java.lang.Object ref = sharedDatabasePath_;
       if (ref instanceof java.lang.String) {
@@ -3825,7 +4068,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string shared_database_path = 1;</code>
+     * @return The bytes for sharedDatabasePath.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getSharedDatabasePathBytes() {
       java.lang.Object ref = sharedDatabasePath_;
@@ -3841,6 +4086,7 @@ public final class YdbCms {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3850,6 +4096,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getSharedDatabasePathBytes().isEmpty()) {
@@ -3858,6 +4105,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3881,11 +4129,10 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.ServerlessResources other = (tech.ydb.cms.YdbCms.ServerlessResources) obj;
 
-      boolean result = true;
-      result = result && getSharedDatabasePath()
-          .equals(other.getSharedDatabasePath());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getSharedDatabasePath()
+          .equals(other.getSharedDatabasePath())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3972,6 +4219,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3979,6 +4227,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.ServerlessResources prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4002,6 +4251,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ServerlessResources_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ServerlessResources_fieldAccessorTable
@@ -4024,6 +4274,7 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         sharedDatabasePath_ = "";
@@ -4031,15 +4282,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ServerlessResources_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ServerlessResources getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.ServerlessResources.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ServerlessResources build() {
         tech.ydb.cms.YdbCms.ServerlessResources result = buildPartial();
         if (!result.isInitialized()) {
@@ -4048,6 +4302,7 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ServerlessResources buildPartial() {
         tech.ydb.cms.YdbCms.ServerlessResources result = new tech.ydb.cms.YdbCms.ServerlessResources(this);
         result.sharedDatabasePath_ = sharedDatabasePath_;
@@ -4055,32 +4310,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.ServerlessResources) {
           return mergeFrom((tech.ydb.cms.YdbCms.ServerlessResources)other);
@@ -4101,10 +4363,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4130,6 +4394,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string shared_database_path = 1;</code>
+       * @return The sharedDatabasePath.
        */
       public java.lang.String getSharedDatabasePath() {
         java.lang.Object ref = sharedDatabasePath_;
@@ -4149,6 +4414,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string shared_database_path = 1;</code>
+       * @return The bytes for sharedDatabasePath.
        */
       public com.google.protobuf.ByteString
           getSharedDatabasePathBytes() {
@@ -4169,6 +4435,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string shared_database_path = 1;</code>
+       * @param value The sharedDatabasePath to set.
+       * @return This builder for chaining.
        */
       public Builder setSharedDatabasePath(
           java.lang.String value) {
@@ -4186,6 +4454,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string shared_database_path = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSharedDatabasePath() {
         
@@ -4199,6 +4468,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string shared_database_path = 1;</code>
+       * @param value The bytes for sharedDatabasePath to set.
+       * @return This builder for chaining.
        */
       public Builder setSharedDatabasePathBytes(
           com.google.protobuf.ByteString value) {
@@ -4211,11 +4482,13 @@ public final class YdbCms {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4237,11 +4510,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<ServerlessResources>
         PARSER = new com.google.protobuf.AbstractParser<ServerlessResources>() {
+      @java.lang.Override
       public ServerlessResources parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ServerlessResources(input, extensionRegistry);
+        return new ServerlessResources(input, extensionRegistry);
       }
     };
 
@@ -4254,6 +4528,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ServerlessResources getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4270,6 +4545,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>bool disable_tx_service = 1;</code>
+     * @return The disableTxService.
      */
     boolean getDisableTxService();
 
@@ -4279,6 +4555,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>bool disable_external_subdomain = 2;</code>
+     * @return The disableExternalSubdomain.
      */
     boolean getDisableExternalSubdomain();
 
@@ -4288,13 +4565,14 @@ public final class YdbCms {
      * </pre>
      *
      * <code>uint32 plan_resolution = 3;</code>
+     * @return The planResolution.
      */
     int getPlanResolution();
   }
   /**
    * Protobuf type {@code Ydb.Cms.DatabaseOptions}
    */
-  public  static final class DatabaseOptions extends
+  public static final class DatabaseOptions extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.DatabaseOptions)
       DatabaseOptionsOrBuilder {
@@ -4304,9 +4582,13 @@ public final class YdbCms {
       super(builder);
     }
     private DatabaseOptions() {
-      disableTxService_ = false;
-      disableExternalSubdomain_ = false;
-      planResolution_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DatabaseOptions();
     }
 
     @java.lang.Override
@@ -4319,7 +4601,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4330,13 +4614,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               disableTxService_ = input.readBool();
@@ -4350,6 +4627,13 @@ public final class YdbCms {
             case 24: {
 
               planResolution_ = input.readUInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -4369,6 +4653,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DatabaseOptions_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DatabaseOptions_fieldAccessorTable
@@ -4384,7 +4669,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>bool disable_tx_service = 1;</code>
+     * @return The disableTxService.
      */
+    @java.lang.Override
     public boolean getDisableTxService() {
       return disableTxService_;
     }
@@ -4397,7 +4684,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>bool disable_external_subdomain = 2;</code>
+     * @return The disableExternalSubdomain.
      */
+    @java.lang.Override
     public boolean getDisableExternalSubdomain() {
       return disableExternalSubdomain_;
     }
@@ -4410,12 +4699,15 @@ public final class YdbCms {
      * </pre>
      *
      * <code>uint32 plan_resolution = 3;</code>
+     * @return The planResolution.
      */
+    @java.lang.Override
     public int getPlanResolution() {
       return planResolution_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4425,6 +4717,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (disableTxService_ != false) {
@@ -4439,6 +4732,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4471,15 +4765,14 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.DatabaseOptions other = (tech.ydb.cms.YdbCms.DatabaseOptions) obj;
 
-      boolean result = true;
-      result = result && (getDisableTxService()
-          == other.getDisableTxService());
-      result = result && (getDisableExternalSubdomain()
-          == other.getDisableExternalSubdomain());
-      result = result && (getPlanResolution()
-          == other.getPlanResolution());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getDisableTxService()
+          != other.getDisableTxService()) return false;
+      if (getDisableExternalSubdomain()
+          != other.getDisableExternalSubdomain()) return false;
+      if (getPlanResolution()
+          != other.getPlanResolution()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4572,6 +4865,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4579,6 +4873,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.DatabaseOptions prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4602,6 +4897,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DatabaseOptions_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DatabaseOptions_fieldAccessorTable
@@ -4624,6 +4920,7 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         disableTxService_ = false;
@@ -4635,15 +4932,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DatabaseOptions_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.DatabaseOptions getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.DatabaseOptions.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.DatabaseOptions build() {
         tech.ydb.cms.YdbCms.DatabaseOptions result = buildPartial();
         if (!result.isInitialized()) {
@@ -4652,6 +4952,7 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.DatabaseOptions buildPartial() {
         tech.ydb.cms.YdbCms.DatabaseOptions result = new tech.ydb.cms.YdbCms.DatabaseOptions(this);
         result.disableTxService_ = disableTxService_;
@@ -4661,32 +4962,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.DatabaseOptions) {
           return mergeFrom((tech.ydb.cms.YdbCms.DatabaseOptions)other);
@@ -4712,10 +5020,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4741,7 +5051,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>bool disable_tx_service = 1;</code>
+       * @return The disableTxService.
        */
+      @java.lang.Override
       public boolean getDisableTxService() {
         return disableTxService_;
       }
@@ -4751,6 +5063,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>bool disable_tx_service = 1;</code>
+       * @param value The disableTxService to set.
+       * @return This builder for chaining.
        */
       public Builder setDisableTxService(boolean value) {
         
@@ -4764,6 +5078,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>bool disable_tx_service = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDisableTxService() {
         
@@ -4779,7 +5094,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>bool disable_external_subdomain = 2;</code>
+       * @return The disableExternalSubdomain.
        */
+      @java.lang.Override
       public boolean getDisableExternalSubdomain() {
         return disableExternalSubdomain_;
       }
@@ -4789,6 +5106,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>bool disable_external_subdomain = 2;</code>
+       * @param value The disableExternalSubdomain to set.
+       * @return This builder for chaining.
        */
       public Builder setDisableExternalSubdomain(boolean value) {
         
@@ -4802,6 +5121,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>bool disable_external_subdomain = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDisableExternalSubdomain() {
         
@@ -4817,7 +5137,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint32 plan_resolution = 3;</code>
+       * @return The planResolution.
        */
+      @java.lang.Override
       public int getPlanResolution() {
         return planResolution_;
       }
@@ -4827,6 +5149,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint32 plan_resolution = 3;</code>
+       * @param value The planResolution to set.
+       * @return This builder for chaining.
        */
       public Builder setPlanResolution(int value) {
         
@@ -4840,6 +5164,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint32 plan_resolution = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPlanResolution() {
         
@@ -4847,11 +5172,13 @@ public final class YdbCms {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4873,11 +5200,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<DatabaseOptions>
         PARSER = new com.google.protobuf.AbstractParser<DatabaseOptions>() {
+      @java.lang.Override
       public DatabaseOptions parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DatabaseOptions(input, extensionRegistry);
+        return new DatabaseOptions(input, extensionRegistry);
       }
     };
 
@@ -4890,6 +5218,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.DatabaseOptions getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4902,20 +5231,24 @@ public final class YdbCms {
 
     /**
      * <code>string name = 1;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
      * <code>string value = 2;</code>
+     * @return The value.
      */
     java.lang.String getValue();
     /**
      * <code>string value = 2;</code>
+     * @return The bytes for value.
      */
     com.google.protobuf.ByteString
         getValueBytes();
@@ -4923,7 +5256,7 @@ public final class YdbCms {
   /**
    * Protobuf type {@code Ydb.Cms.Attribute}
    */
-  public  static final class Attribute extends
+  public static final class Attribute extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.Attribute)
       AttributeOrBuilder {
@@ -4938,6 +5271,13 @@ public final class YdbCms {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Attribute();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -4947,7 +5287,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4958,13 +5300,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -4975,6 +5310,13 @@ public final class YdbCms {
               java.lang.String s = input.readStringRequireUtf8();
 
               value_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -4994,6 +5336,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_Attribute_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_Attribute_fieldAccessorTable
@@ -5005,7 +5348,9 @@ public final class YdbCms {
     private volatile java.lang.Object name_;
     /**
      * <code>string name = 1;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -5020,7 +5365,9 @@ public final class YdbCms {
     }
     /**
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -5039,7 +5386,9 @@ public final class YdbCms {
     private volatile java.lang.Object value_;
     /**
      * <code>string value = 2;</code>
+     * @return The value.
      */
+    @java.lang.Override
     public java.lang.String getValue() {
       java.lang.Object ref = value_;
       if (ref instanceof java.lang.String) {
@@ -5054,7 +5403,9 @@ public final class YdbCms {
     }
     /**
      * <code>string value = 2;</code>
+     * @return The bytes for value.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getValueBytes() {
       java.lang.Object ref = value_;
@@ -5070,6 +5421,7 @@ public final class YdbCms {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -5079,6 +5431,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getNameBytes().isEmpty()) {
@@ -5090,6 +5443,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -5116,13 +5470,12 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.Attribute other = (tech.ydb.cms.YdbCms.Attribute) obj;
 
-      boolean result = true;
-      result = result && getName()
-          .equals(other.getName());
-      result = result && getValue()
-          .equals(other.getValue());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (!getValue()
+          .equals(other.getValue())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5211,6 +5564,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5218,6 +5572,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.Attribute prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5241,6 +5596,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_Attribute_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_Attribute_fieldAccessorTable
@@ -5263,6 +5619,7 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         name_ = "";
@@ -5272,15 +5629,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_Attribute_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.Attribute getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.Attribute.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.Attribute build() {
         tech.ydb.cms.YdbCms.Attribute result = buildPartial();
         if (!result.isInitialized()) {
@@ -5289,6 +5649,7 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.Attribute buildPartial() {
         tech.ydb.cms.YdbCms.Attribute result = new tech.ydb.cms.YdbCms.Attribute(this);
         result.name_ = name_;
@@ -5297,32 +5658,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.Attribute) {
           return mergeFrom((tech.ydb.cms.YdbCms.Attribute)other);
@@ -5347,10 +5715,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5372,6 +5742,7 @@ public final class YdbCms {
       private java.lang.Object name_ = "";
       /**
        * <code>string name = 1;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -5387,6 +5758,7 @@ public final class YdbCms {
       }
       /**
        * <code>string name = 1;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -5403,6 +5775,8 @@ public final class YdbCms {
       }
       /**
        * <code>string name = 1;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -5416,6 +5790,7 @@ public final class YdbCms {
       }
       /**
        * <code>string name = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -5425,6 +5800,8 @@ public final class YdbCms {
       }
       /**
        * <code>string name = 1;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -5441,6 +5818,7 @@ public final class YdbCms {
       private java.lang.Object value_ = "";
       /**
        * <code>string value = 2;</code>
+       * @return The value.
        */
       public java.lang.String getValue() {
         java.lang.Object ref = value_;
@@ -5456,6 +5834,7 @@ public final class YdbCms {
       }
       /**
        * <code>string value = 2;</code>
+       * @return The bytes for value.
        */
       public com.google.protobuf.ByteString
           getValueBytes() {
@@ -5472,6 +5851,8 @@ public final class YdbCms {
       }
       /**
        * <code>string value = 2;</code>
+       * @param value The value to set.
+       * @return This builder for chaining.
        */
       public Builder setValue(
           java.lang.String value) {
@@ -5485,6 +5866,7 @@ public final class YdbCms {
       }
       /**
        * <code>string value = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearValue() {
         
@@ -5494,6 +5876,8 @@ public final class YdbCms {
       }
       /**
        * <code>string value = 2;</code>
+       * @param value The bytes for value to set.
+       * @return This builder for chaining.
        */
       public Builder setValueBytes(
           com.google.protobuf.ByteString value) {
@@ -5506,11 +5890,13 @@ public final class YdbCms {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5532,11 +5918,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<Attribute>
         PARSER = new com.google.protobuf.AbstractParser<Attribute>() {
+      @java.lang.Override
       public Attribute parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Attribute(input, extensionRegistry);
+        return new Attribute(input, extensionRegistry);
       }
     };
 
@@ -5549,6 +5936,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.Attribute getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5610,7 +5998,7 @@ public final class YdbCms {
    *
    * Protobuf type {@code Ydb.Cms.SchemaOperationQuotas}
    */
-  public  static final class SchemaOperationQuotas extends
+  public static final class SchemaOperationQuotas extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.SchemaOperationQuotas)
       SchemaOperationQuotasOrBuilder {
@@ -5624,6 +6012,13 @@ public final class YdbCms {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SchemaOperationQuotas();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -5633,6 +6028,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -5644,20 +6042,20 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 leakyBucketQuotas_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket>();
                 mutable_bitField0_ |= 0x00000001;
               }
               leakyBucketQuotas_.add(
                   input.readMessage(tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -5668,7 +6066,7 @@ public final class YdbCms {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           leakyBucketQuotas_ = java.util.Collections.unmodifiableList(leakyBucketQuotas_);
         }
         this.unknownFields = unknownFields.build();
@@ -5680,6 +6078,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_SchemaOperationQuotas_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_SchemaOperationQuotas_fieldAccessorTable
@@ -5697,6 +6096,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>double bucket_size = 1;</code>
+       * @return The bucketSize.
        */
       double getBucketSize();
 
@@ -5706,6 +6106,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 bucket_seconds = 2;</code>
+       * @return The bucketSeconds.
        */
       long getBucketSeconds();
     }
@@ -5716,7 +6117,7 @@ public final class YdbCms {
      *
      * Protobuf type {@code Ydb.Cms.SchemaOperationQuotas.LeakyBucket}
      */
-    public  static final class LeakyBucket extends
+    public static final class LeakyBucket extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:Ydb.Cms.SchemaOperationQuotas.LeakyBucket)
         LeakyBucketOrBuilder {
@@ -5726,8 +6127,13 @@ public final class YdbCms {
         super(builder);
       }
       private LeakyBucket() {
-        bucketSize_ = 0D;
-        bucketSeconds_ = 0L;
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new LeakyBucket();
       }
 
       @java.lang.Override
@@ -5740,7 +6146,9 @@ public final class YdbCms {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -5751,13 +6159,6 @@ public final class YdbCms {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 9: {
 
                 bucketSize_ = input.readDouble();
@@ -5766,6 +6167,13 @@ public final class YdbCms {
               case 16: {
 
                 bucketSeconds_ = input.readUInt64();
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
                 break;
               }
             }
@@ -5785,6 +6193,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_SchemaOperationQuotas_LeakyBucket_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_SchemaOperationQuotas_LeakyBucket_fieldAccessorTable
@@ -5800,7 +6209,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>double bucket_size = 1;</code>
+       * @return The bucketSize.
        */
+      @java.lang.Override
       public double getBucketSize() {
         return bucketSize_;
       }
@@ -5813,12 +6224,15 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 bucket_seconds = 2;</code>
+       * @return The bucketSeconds.
        */
+      @java.lang.Override
       public long getBucketSeconds() {
         return bucketSeconds_;
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -5828,6 +6242,7 @@ public final class YdbCms {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (bucketSize_ != 0D) {
@@ -5839,6 +6254,7 @@ public final class YdbCms {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -5867,15 +6283,13 @@ public final class YdbCms {
         }
         tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket other = (tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket) obj;
 
-        boolean result = true;
-        result = result && (
-            java.lang.Double.doubleToLongBits(getBucketSize())
-            == java.lang.Double.doubleToLongBits(
-                other.getBucketSize()));
-        result = result && (getBucketSeconds()
-            == other.getBucketSeconds());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (java.lang.Double.doubleToLongBits(getBucketSize())
+            != java.lang.Double.doubleToLongBits(
+                other.getBucketSize())) return false;
+        if (getBucketSeconds()
+            != other.getBucketSeconds()) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -5966,6 +6380,7 @@ public final class YdbCms {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -5973,6 +6388,7 @@ public final class YdbCms {
       public static Builder newBuilder(tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -6000,6 +6416,7 @@ public final class YdbCms {
           return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_SchemaOperationQuotas_LeakyBucket_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_SchemaOperationQuotas_LeakyBucket_fieldAccessorTable
@@ -6022,6 +6439,7 @@ public final class YdbCms {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           bucketSize_ = 0D;
@@ -6031,15 +6449,18 @@ public final class YdbCms {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_SchemaOperationQuotas_LeakyBucket_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket getDefaultInstanceForType() {
           return tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket build() {
           tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket result = buildPartial();
           if (!result.isInitialized()) {
@@ -6048,6 +6469,7 @@ public final class YdbCms {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket buildPartial() {
           tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket result = new tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket(this);
           result.bucketSize_ = bucketSize_;
@@ -6056,32 +6478,39 @@ public final class YdbCms {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket) {
             return mergeFrom((tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket)other);
@@ -6104,10 +6533,12 @@ public final class YdbCms {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6133,7 +6564,9 @@ public final class YdbCms {
          * </pre>
          *
          * <code>double bucket_size = 1;</code>
+         * @return The bucketSize.
          */
+        @java.lang.Override
         public double getBucketSize() {
           return bucketSize_;
         }
@@ -6143,6 +6576,8 @@ public final class YdbCms {
          * </pre>
          *
          * <code>double bucket_size = 1;</code>
+         * @param value The bucketSize to set.
+         * @return This builder for chaining.
          */
         public Builder setBucketSize(double value) {
           
@@ -6156,6 +6591,7 @@ public final class YdbCms {
          * </pre>
          *
          * <code>double bucket_size = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearBucketSize() {
           
@@ -6171,7 +6607,9 @@ public final class YdbCms {
          * </pre>
          *
          * <code>uint64 bucket_seconds = 2;</code>
+         * @return The bucketSeconds.
          */
+        @java.lang.Override
         public long getBucketSeconds() {
           return bucketSeconds_;
         }
@@ -6181,6 +6619,8 @@ public final class YdbCms {
          * </pre>
          *
          * <code>uint64 bucket_seconds = 2;</code>
+         * @param value The bucketSeconds to set.
+         * @return This builder for chaining.
          */
         public Builder setBucketSeconds(long value) {
           
@@ -6194,6 +6634,7 @@ public final class YdbCms {
          * </pre>
          *
          * <code>uint64 bucket_seconds = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearBucketSeconds() {
           
@@ -6201,11 +6642,13 @@ public final class YdbCms {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -6227,11 +6670,12 @@ public final class YdbCms {
 
       private static final com.google.protobuf.Parser<LeakyBucket>
           PARSER = new com.google.protobuf.AbstractParser<LeakyBucket>() {
+        @java.lang.Override
         public LeakyBucket parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new LeakyBucket(input, extensionRegistry);
+          return new LeakyBucket(input, extensionRegistry);
         }
       };
 
@@ -6244,6 +6688,7 @@ public final class YdbCms {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -6259,6 +6704,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket> getLeakyBucketQuotasList() {
       return leakyBucketQuotas_;
     }
@@ -6269,6 +6715,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucketOrBuilder> 
         getLeakyBucketQuotasOrBuilderList() {
       return leakyBucketQuotas_;
@@ -6280,6 +6727,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
      */
+    @java.lang.Override
     public int getLeakyBucketQuotasCount() {
       return leakyBucketQuotas_.size();
     }
@@ -6290,6 +6738,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket getLeakyBucketQuotas(int index) {
       return leakyBucketQuotas_.get(index);
     }
@@ -6300,12 +6749,14 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.SchemaOperationQuotas.LeakyBucket leaky_bucket_quotas = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucketOrBuilder getLeakyBucketQuotasOrBuilder(
         int index) {
       return leakyBucketQuotas_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6315,6 +6766,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < leakyBucketQuotas_.size(); i++) {
@@ -6323,6 +6775,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -6347,11 +6800,10 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.SchemaOperationQuotas other = (tech.ydb.cms.YdbCms.SchemaOperationQuotas) obj;
 
-      boolean result = true;
-      result = result && getLeakyBucketQuotasList()
-          .equals(other.getLeakyBucketQuotasList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getLeakyBucketQuotasList()
+          .equals(other.getLeakyBucketQuotasList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -6440,6 +6892,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -6447,6 +6900,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.SchemaOperationQuotas prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -6474,6 +6928,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_SchemaOperationQuotas_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_SchemaOperationQuotas_fieldAccessorTable
@@ -6497,6 +6952,7 @@ public final class YdbCms {
           getLeakyBucketQuotasFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (leakyBucketQuotasBuilder_ == null) {
@@ -6508,15 +6964,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_SchemaOperationQuotas_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.SchemaOperationQuotas getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.SchemaOperationQuotas.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.SchemaOperationQuotas build() {
         tech.ydb.cms.YdbCms.SchemaOperationQuotas result = buildPartial();
         if (!result.isInitialized()) {
@@ -6525,11 +6984,12 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.SchemaOperationQuotas buildPartial() {
         tech.ydb.cms.YdbCms.SchemaOperationQuotas result = new tech.ydb.cms.YdbCms.SchemaOperationQuotas(this);
         int from_bitField0_ = bitField0_;
         if (leakyBucketQuotasBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             leakyBucketQuotas_ = java.util.Collections.unmodifiableList(leakyBucketQuotas_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -6541,32 +7001,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.SchemaOperationQuotas) {
           return mergeFrom((tech.ydb.cms.YdbCms.SchemaOperationQuotas)other);
@@ -6609,10 +7076,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6635,7 +7104,7 @@ public final class YdbCms {
       private java.util.List<tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket> leakyBucketQuotas_ =
         java.util.Collections.emptyList();
       private void ensureLeakyBucketQuotasIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           leakyBucketQuotas_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket>(leakyBucketQuotas_);
           bitField0_ |= 0x00000001;
          }
@@ -6936,18 +7405,20 @@ public final class YdbCms {
           leakyBucketQuotasBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket, tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucket.Builder, tech.ydb.cms.YdbCms.SchemaOperationQuotas.LeakyBucketOrBuilder>(
                   leakyBucketQuotas_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           leakyBucketQuotas_ = null;
         }
         return leakyBucketQuotasBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -6969,11 +7440,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<SchemaOperationQuotas>
         PARSER = new com.google.protobuf.AbstractParser<SchemaOperationQuotas>() {
+      @java.lang.Override
       public SchemaOperationQuotas parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new SchemaOperationQuotas(input, extensionRegistry);
+        return new SchemaOperationQuotas(input, extensionRegistry);
       }
     };
 
@@ -6986,6 +7458,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.SchemaOperationQuotas getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -7002,6 +7475,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>uint64 data_size_hard_quota = 1;</code>
+     * @return The dataSizeHardQuota.
      */
     long getDataSizeHardQuota();
 
@@ -7014,6 +7488,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>uint64 data_size_soft_quota = 2;</code>
+     * @return The dataSizeSoftQuota.
      */
     long getDataSizeSoftQuota();
 
@@ -7023,6 +7498,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>uint64 data_stream_shards_quota = 3;</code>
+     * @return The dataStreamShardsQuota.
      */
     long getDataStreamShardsQuota();
   }
@@ -7033,7 +7509,7 @@ public final class YdbCms {
    *
    * Protobuf type {@code Ydb.Cms.DatabaseQuotas}
    */
-  public  static final class DatabaseQuotas extends
+  public static final class DatabaseQuotas extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.DatabaseQuotas)
       DatabaseQuotasOrBuilder {
@@ -7043,9 +7519,13 @@ public final class YdbCms {
       super(builder);
     }
     private DatabaseQuotas() {
-      dataSizeHardQuota_ = 0L;
-      dataSizeSoftQuota_ = 0L;
-      dataStreamShardsQuota_ = 0L;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DatabaseQuotas();
     }
 
     @java.lang.Override
@@ -7058,7 +7538,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -7069,13 +7551,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               dataSizeHardQuota_ = input.readUInt64();
@@ -7089,6 +7564,13 @@ public final class YdbCms {
             case 24: {
 
               dataStreamShardsQuota_ = input.readUInt64();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -7108,6 +7590,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DatabaseQuotas_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DatabaseQuotas_fieldAccessorTable
@@ -7123,7 +7606,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>uint64 data_size_hard_quota = 1;</code>
+     * @return The dataSizeHardQuota.
      */
+    @java.lang.Override
     public long getDataSizeHardQuota() {
       return dataSizeHardQuota_;
     }
@@ -7139,7 +7624,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>uint64 data_size_soft_quota = 2;</code>
+     * @return The dataSizeSoftQuota.
      */
+    @java.lang.Override
     public long getDataSizeSoftQuota() {
       return dataSizeSoftQuota_;
     }
@@ -7152,12 +7639,15 @@ public final class YdbCms {
      * </pre>
      *
      * <code>uint64 data_stream_shards_quota = 3;</code>
+     * @return The dataStreamShardsQuota.
      */
+    @java.lang.Override
     public long getDataStreamShardsQuota() {
       return dataStreamShardsQuota_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -7167,6 +7657,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (dataSizeHardQuota_ != 0L) {
@@ -7181,6 +7672,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -7213,15 +7705,14 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.DatabaseQuotas other = (tech.ydb.cms.YdbCms.DatabaseQuotas) obj;
 
-      boolean result = true;
-      result = result && (getDataSizeHardQuota()
-          == other.getDataSizeHardQuota());
-      result = result && (getDataSizeSoftQuota()
-          == other.getDataSizeSoftQuota());
-      result = result && (getDataStreamShardsQuota()
-          == other.getDataStreamShardsQuota());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getDataSizeHardQuota()
+          != other.getDataSizeHardQuota()) return false;
+      if (getDataSizeSoftQuota()
+          != other.getDataSizeSoftQuota()) return false;
+      if (getDataStreamShardsQuota()
+          != other.getDataStreamShardsQuota()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -7315,6 +7806,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -7322,6 +7814,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.DatabaseQuotas prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -7349,6 +7842,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DatabaseQuotas_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DatabaseQuotas_fieldAccessorTable
@@ -7371,6 +7865,7 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         dataSizeHardQuota_ = 0L;
@@ -7382,15 +7877,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DatabaseQuotas_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.DatabaseQuotas getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.DatabaseQuotas.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.DatabaseQuotas build() {
         tech.ydb.cms.YdbCms.DatabaseQuotas result = buildPartial();
         if (!result.isInitialized()) {
@@ -7399,6 +7897,7 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.DatabaseQuotas buildPartial() {
         tech.ydb.cms.YdbCms.DatabaseQuotas result = new tech.ydb.cms.YdbCms.DatabaseQuotas(this);
         result.dataSizeHardQuota_ = dataSizeHardQuota_;
@@ -7408,32 +7907,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.DatabaseQuotas) {
           return mergeFrom((tech.ydb.cms.YdbCms.DatabaseQuotas)other);
@@ -7459,10 +7965,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -7488,7 +7996,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 data_size_hard_quota = 1;</code>
+       * @return The dataSizeHardQuota.
        */
+      @java.lang.Override
       public long getDataSizeHardQuota() {
         return dataSizeHardQuota_;
       }
@@ -7498,6 +8008,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 data_size_hard_quota = 1;</code>
+       * @param value The dataSizeHardQuota to set.
+       * @return This builder for chaining.
        */
       public Builder setDataSizeHardQuota(long value) {
         
@@ -7511,6 +8023,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 data_size_hard_quota = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDataSizeHardQuota() {
         
@@ -7529,7 +8042,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 data_size_soft_quota = 2;</code>
+       * @return The dataSizeSoftQuota.
        */
+      @java.lang.Override
       public long getDataSizeSoftQuota() {
         return dataSizeSoftQuota_;
       }
@@ -7542,6 +8057,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 data_size_soft_quota = 2;</code>
+       * @param value The dataSizeSoftQuota to set.
+       * @return This builder for chaining.
        */
       public Builder setDataSizeSoftQuota(long value) {
         
@@ -7558,6 +8075,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 data_size_soft_quota = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDataSizeSoftQuota() {
         
@@ -7573,7 +8091,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 data_stream_shards_quota = 3;</code>
+       * @return The dataStreamShardsQuota.
        */
+      @java.lang.Override
       public long getDataStreamShardsQuota() {
         return dataStreamShardsQuota_;
       }
@@ -7583,6 +8103,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 data_stream_shards_quota = 3;</code>
+       * @param value The dataStreamShardsQuota to set.
+       * @return This builder for chaining.
        */
       public Builder setDataStreamShardsQuota(long value) {
         
@@ -7596,6 +8118,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 data_stream_shards_quota = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDataStreamShardsQuota() {
         
@@ -7603,11 +8126,13 @@ public final class YdbCms {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -7629,11 +8154,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<DatabaseQuotas>
         PARSER = new com.google.protobuf.AbstractParser<DatabaseQuotas>() {
+      @java.lang.Override
       public DatabaseQuotas parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DatabaseQuotas(input, extensionRegistry);
+        return new DatabaseQuotas(input, extensionRegistry);
       }
     };
 
@@ -7646,6 +8172,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.DatabaseQuotas getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -7658,10 +8185,12 @@ public final class YdbCms {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -7675,6 +8204,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string path = 2;</code>
+     * @return The path.
      */
     java.lang.String getPath();
     /**
@@ -7683,6 +8213,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string path = 2;</code>
+     * @return The bytes for path.
      */
     com.google.protobuf.ByteString
         getPathBytes();
@@ -7693,6 +8224,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.Resources resources = 3;</code>
+     * @return Whether the resources field is set.
      */
     boolean hasResources();
     /**
@@ -7701,6 +8233,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.Resources resources = 3;</code>
+     * @return The resources.
      */
     tech.ydb.cms.YdbCms.Resources getResources();
     /**
@@ -7718,6 +8251,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+     * @return Whether the sharedResources field is set.
      */
     boolean hasSharedResources();
     /**
@@ -7726,6 +8260,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+     * @return The sharedResources.
      */
     tech.ydb.cms.YdbCms.Resources getSharedResources();
     /**
@@ -7743,6 +8278,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+     * @return Whether the serverlessResources field is set.
      */
     boolean hasServerlessResources();
     /**
@@ -7751,6 +8287,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+     * @return The serverlessResources.
      */
     tech.ydb.cms.YdbCms.ServerlessResources getServerlessResources();
     /**
@@ -7768,6 +8305,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.DatabaseOptions options = 4;</code>
+     * @return Whether the options field is set.
      */
     boolean hasOptions();
     /**
@@ -7776,6 +8314,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.DatabaseOptions options = 4;</code>
+     * @return The options.
      */
     tech.ydb.cms.YdbCms.DatabaseOptions getOptions();
     /**
@@ -7837,6 +8376,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+     * @return Whether the schemaOperationQuotas field is set.
      */
     boolean hasSchemaOperationQuotas();
     /**
@@ -7845,6 +8385,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+     * @return The schemaOperationQuotas.
      */
     tech.ydb.cms.YdbCms.SchemaOperationQuotas getSchemaOperationQuotas();
     /**
@@ -7862,6 +8403,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string idempotency_key = 9;</code>
+     * @return The idempotencyKey.
      */
     java.lang.String getIdempotencyKey();
     /**
@@ -7870,6 +8412,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string idempotency_key = 9;</code>
+     * @return The bytes for idempotencyKey.
      */
     com.google.protobuf.ByteString
         getIdempotencyKeyBytes();
@@ -7880,6 +8423,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+     * @return Whether the databaseQuotas field is set.
      */
     boolean hasDatabaseQuotas();
     /**
@@ -7888,6 +8432,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+     * @return The databaseQuotas.
      */
     tech.ydb.cms.YdbCms.DatabaseQuotas getDatabaseQuotas();
     /**
@@ -7910,7 +8455,7 @@ public final class YdbCms {
    *
    * Protobuf type {@code Ydb.Cms.CreateDatabaseRequest}
    */
-  public  static final class CreateDatabaseRequest extends
+  public static final class CreateDatabaseRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.CreateDatabaseRequest)
       CreateDatabaseRequestOrBuilder {
@@ -7926,6 +8471,13 @@ public final class YdbCms {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CreateDatabaseRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -7935,6 +8487,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -7946,13 +8501,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -8000,9 +8548,9 @@ public final class YdbCms {
               break;
             }
             case 42: {
-              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 attributes_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.Attribute>();
-                mutable_bitField0_ |= 0x00000040;
+                mutable_bitField0_ |= 0x00000001;
               }
               attributes_.add(
                   input.readMessage(tech.ydb.cms.YdbCms.Attribute.parser(), extensionRegistry));
@@ -8068,6 +8616,13 @@ public final class YdbCms {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -8076,7 +8631,7 @@ public final class YdbCms {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           attributes_ = java.util.Collections.unmodifiableList(attributes_);
         }
         this.unknownFields = unknownFields.build();
@@ -8088,6 +8643,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_CreateDatabaseRequest_fieldAccessorTable
@@ -8095,11 +8651,11 @@ public final class YdbCms {
               tech.ydb.cms.YdbCms.CreateDatabaseRequest.class, tech.ydb.cms.YdbCms.CreateDatabaseRequest.Builder.class);
     }
 
-    private int bitField0_;
     private int resourcesKindCase_ = 0;
     private java.lang.Object resourcesKind_;
     public enum ResourcesKindCase
-        implements com.google.protobuf.Internal.EnumLite {
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       RESOURCES(3),
       SHARED_RESOURCES(6),
       SERVERLESS_RESOURCES(7),
@@ -8109,6 +8665,8 @@ public final class YdbCms {
         this.value = value;
       }
       /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -8140,19 +8698,24 @@ public final class YdbCms {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -8165,7 +8728,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string path = 2;</code>
+     * @return The path.
      */
+    @java.lang.Override
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
@@ -8184,7 +8749,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string path = 2;</code>
+     * @return The bytes for path.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathBytes() {
       java.lang.Object ref = path_;
@@ -8206,7 +8773,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.Resources resources = 3;</code>
+     * @return Whether the resources field is set.
      */
+    @java.lang.Override
     public boolean hasResources() {
       return resourcesKindCase_ == 3;
     }
@@ -8216,7 +8785,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.Resources resources = 3;</code>
+     * @return The resources.
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.Resources getResources() {
       if (resourcesKindCase_ == 3) {
          return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
@@ -8230,6 +8801,7 @@ public final class YdbCms {
      *
      * <code>.Ydb.Cms.Resources resources = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ResourcesOrBuilder getResourcesOrBuilder() {
       if (resourcesKindCase_ == 3) {
          return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
@@ -8244,7 +8816,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+     * @return Whether the sharedResources field is set.
      */
+    @java.lang.Override
     public boolean hasSharedResources() {
       return resourcesKindCase_ == 6;
     }
@@ -8254,7 +8828,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+     * @return The sharedResources.
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.Resources getSharedResources() {
       if (resourcesKindCase_ == 6) {
          return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
@@ -8268,6 +8844,7 @@ public final class YdbCms {
      *
      * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ResourcesOrBuilder getSharedResourcesOrBuilder() {
       if (resourcesKindCase_ == 6) {
          return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
@@ -8282,7 +8859,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+     * @return Whether the serverlessResources field is set.
      */
+    @java.lang.Override
     public boolean hasServerlessResources() {
       return resourcesKindCase_ == 7;
     }
@@ -8292,7 +8871,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+     * @return The serverlessResources.
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ServerlessResources getServerlessResources() {
       if (resourcesKindCase_ == 7) {
          return (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_;
@@ -8306,6 +8887,7 @@ public final class YdbCms {
      *
      * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ServerlessResourcesOrBuilder getServerlessResourcesOrBuilder() {
       if (resourcesKindCase_ == 7) {
          return (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_;
@@ -8321,7 +8903,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.DatabaseOptions options = 4;</code>
+     * @return Whether the options field is set.
      */
+    @java.lang.Override
     public boolean hasOptions() {
       return options_ != null;
     }
@@ -8331,7 +8915,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.DatabaseOptions options = 4;</code>
+     * @return The options.
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.DatabaseOptions getOptions() {
       return options_ == null ? tech.ydb.cms.YdbCms.DatabaseOptions.getDefaultInstance() : options_;
     }
@@ -8342,6 +8928,7 @@ public final class YdbCms {
      *
      * <code>.Ydb.Cms.DatabaseOptions options = 4;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.DatabaseOptionsOrBuilder getOptionsOrBuilder() {
       return getOptions();
     }
@@ -8355,6 +8942,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.cms.YdbCms.Attribute> getAttributesList() {
       return attributes_;
     }
@@ -8365,6 +8953,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.cms.YdbCms.AttributeOrBuilder> 
         getAttributesOrBuilderList() {
       return attributes_;
@@ -8376,6 +8965,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
      */
+    @java.lang.Override
     public int getAttributesCount() {
       return attributes_.size();
     }
@@ -8386,6 +8976,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.Attribute getAttributes(int index) {
       return attributes_.get(index);
     }
@@ -8396,6 +8987,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.AttributeOrBuilder getAttributesOrBuilder(
         int index) {
       return attributes_.get(index);
@@ -8409,7 +9001,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+     * @return Whether the schemaOperationQuotas field is set.
      */
+    @java.lang.Override
     public boolean hasSchemaOperationQuotas() {
       return schemaOperationQuotas_ != null;
     }
@@ -8419,7 +9013,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+     * @return The schemaOperationQuotas.
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.SchemaOperationQuotas getSchemaOperationQuotas() {
       return schemaOperationQuotas_ == null ? tech.ydb.cms.YdbCms.SchemaOperationQuotas.getDefaultInstance() : schemaOperationQuotas_;
     }
@@ -8430,6 +9026,7 @@ public final class YdbCms {
      *
      * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder getSchemaOperationQuotasOrBuilder() {
       return getSchemaOperationQuotas();
     }
@@ -8442,7 +9039,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string idempotency_key = 9;</code>
+     * @return The idempotencyKey.
      */
+    @java.lang.Override
     public java.lang.String getIdempotencyKey() {
       java.lang.Object ref = idempotencyKey_;
       if (ref instanceof java.lang.String) {
@@ -8461,7 +9060,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string idempotency_key = 9;</code>
+     * @return The bytes for idempotencyKey.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdempotencyKeyBytes() {
       java.lang.Object ref = idempotencyKey_;
@@ -8484,7 +9085,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+     * @return Whether the databaseQuotas field is set.
      */
+    @java.lang.Override
     public boolean hasDatabaseQuotas() {
       return databaseQuotas_ != null;
     }
@@ -8494,7 +9097,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+     * @return The databaseQuotas.
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.DatabaseQuotas getDatabaseQuotas() {
       return databaseQuotas_ == null ? tech.ydb.cms.YdbCms.DatabaseQuotas.getDefaultInstance() : databaseQuotas_;
     }
@@ -8505,11 +9110,13 @@ public final class YdbCms {
      *
      * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder getDatabaseQuotasOrBuilder() {
       return getDatabaseQuotas();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -8519,6 +9126,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -8554,6 +9162,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -8612,54 +9221,51 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.CreateDatabaseRequest other = (tech.ydb.cms.YdbCms.CreateDatabaseRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getPath()
-          .equals(other.getPath());
-      result = result && (hasOptions() == other.hasOptions());
+      if (!getPath()
+          .equals(other.getPath())) return false;
+      if (hasOptions() != other.hasOptions()) return false;
       if (hasOptions()) {
-        result = result && getOptions()
-            .equals(other.getOptions());
+        if (!getOptions()
+            .equals(other.getOptions())) return false;
       }
-      result = result && getAttributesList()
-          .equals(other.getAttributesList());
-      result = result && (hasSchemaOperationQuotas() == other.hasSchemaOperationQuotas());
+      if (!getAttributesList()
+          .equals(other.getAttributesList())) return false;
+      if (hasSchemaOperationQuotas() != other.hasSchemaOperationQuotas()) return false;
       if (hasSchemaOperationQuotas()) {
-        result = result && getSchemaOperationQuotas()
-            .equals(other.getSchemaOperationQuotas());
+        if (!getSchemaOperationQuotas()
+            .equals(other.getSchemaOperationQuotas())) return false;
       }
-      result = result && getIdempotencyKey()
-          .equals(other.getIdempotencyKey());
-      result = result && (hasDatabaseQuotas() == other.hasDatabaseQuotas());
+      if (!getIdempotencyKey()
+          .equals(other.getIdempotencyKey())) return false;
+      if (hasDatabaseQuotas() != other.hasDatabaseQuotas()) return false;
       if (hasDatabaseQuotas()) {
-        result = result && getDatabaseQuotas()
-            .equals(other.getDatabaseQuotas());
+        if (!getDatabaseQuotas()
+            .equals(other.getDatabaseQuotas())) return false;
       }
-      result = result && getResourcesKindCase().equals(
-          other.getResourcesKindCase());
-      if (!result) return false;
+      if (!getResourcesKindCase().equals(other.getResourcesKindCase())) return false;
       switch (resourcesKindCase_) {
         case 3:
-          result = result && getResources()
-              .equals(other.getResources());
+          if (!getResources()
+              .equals(other.getResources())) return false;
           break;
         case 6:
-          result = result && getSharedResources()
-              .equals(other.getSharedResources());
+          if (!getSharedResources()
+              .equals(other.getSharedResources())) return false;
           break;
         case 7:
-          result = result && getServerlessResources()
-              .equals(other.getServerlessResources());
+          if (!getServerlessResources()
+              .equals(other.getServerlessResources())) return false;
           break;
         case 0:
         default:
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -8784,6 +9390,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -8791,6 +9398,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.CreateDatabaseRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -8820,6 +9428,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_CreateDatabaseRequest_fieldAccessorTable
@@ -8843,6 +9452,7 @@ public final class YdbCms {
           getAttributesFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -8861,7 +9471,7 @@ public final class YdbCms {
         }
         if (attributesBuilder_ == null) {
           attributes_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000040);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           attributesBuilder_.clear();
         }
@@ -8884,15 +9494,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.CreateDatabaseRequest getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.CreateDatabaseRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.CreateDatabaseRequest build() {
         tech.ydb.cms.YdbCms.CreateDatabaseRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -8901,10 +9514,10 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.CreateDatabaseRequest buildPartial() {
         tech.ydb.cms.YdbCms.CreateDatabaseRequest result = new tech.ydb.cms.YdbCms.CreateDatabaseRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
         } else {
@@ -8938,9 +9551,9 @@ public final class YdbCms {
           result.options_ = optionsBuilder_.build();
         }
         if (attributesBuilder_ == null) {
-          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             attributes_ = java.util.Collections.unmodifiableList(attributes_);
-            bitField0_ = (bitField0_ & ~0x00000040);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.attributes_ = attributes_;
         } else {
@@ -8957,38 +9570,44 @@ public final class YdbCms {
         } else {
           result.databaseQuotas_ = databaseQuotasBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         result.resourcesKindCase_ = resourcesKindCase_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.CreateDatabaseRequest) {
           return mergeFrom((tech.ydb.cms.YdbCms.CreateDatabaseRequest)other);
@@ -9014,7 +9633,7 @@ public final class YdbCms {
           if (!other.attributes_.isEmpty()) {
             if (attributes_.isEmpty()) {
               attributes_ = other.attributes_;
-              bitField0_ = (bitField0_ & ~0x00000040);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureAttributesIsMutable();
               attributes_.addAll(other.attributes_);
@@ -9027,7 +9646,7 @@ public final class YdbCms {
               attributesBuilder_.dispose();
               attributesBuilder_ = null;
               attributes_ = other.attributes_;
-              bitField0_ = (bitField0_ & ~0x00000040);
+              bitField0_ = (bitField0_ & ~0x00000001);
               attributesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getAttributesFieldBuilder() : null;
@@ -9068,10 +9687,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -9106,17 +9727,19 @@ public final class YdbCms {
 
       private int bitField0_;
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -9230,6 +9853,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 2;</code>
+       * @return The path.
        */
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
@@ -9249,6 +9873,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 2;</code>
+       * @return The bytes for path.
        */
       public com.google.protobuf.ByteString
           getPathBytes() {
@@ -9269,6 +9894,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 2;</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           java.lang.String value) {
@@ -9286,6 +9913,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         
@@ -9299,6 +9927,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 2;</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
        */
       public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
@@ -9320,7 +9950,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.Resources resources = 3;</code>
+       * @return Whether the resources field is set.
        */
+      @java.lang.Override
       public boolean hasResources() {
         return resourcesKindCase_ == 3;
       }
@@ -9330,7 +9962,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.Resources resources = 3;</code>
+       * @return The resources.
        */
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.Resources getResources() {
         if (resourcesBuilder_ == null) {
           if (resourcesKindCase_ == 3) {
@@ -9448,6 +10082,7 @@ public final class YdbCms {
        *
        * <code>.Ydb.Cms.Resources resources = 3;</code>
        */
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ResourcesOrBuilder getResourcesOrBuilder() {
         if ((resourcesKindCase_ == 3) && (resourcesBuilder_ != null)) {
           return resourcesBuilder_.getMessageOrBuilder();
@@ -9492,7 +10127,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+       * @return Whether the sharedResources field is set.
        */
+      @java.lang.Override
       public boolean hasSharedResources() {
         return resourcesKindCase_ == 6;
       }
@@ -9502,7 +10139,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
+       * @return The sharedResources.
        */
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.Resources getSharedResources() {
         if (sharedResourcesBuilder_ == null) {
           if (resourcesKindCase_ == 6) {
@@ -9620,6 +10259,7 @@ public final class YdbCms {
        *
        * <code>.Ydb.Cms.Resources shared_resources = 6;</code>
        */
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ResourcesOrBuilder getSharedResourcesOrBuilder() {
         if ((resourcesKindCase_ == 6) && (sharedResourcesBuilder_ != null)) {
           return sharedResourcesBuilder_.getMessageOrBuilder();
@@ -9664,7 +10304,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+       * @return Whether the serverlessResources field is set.
        */
+      @java.lang.Override
       public boolean hasServerlessResources() {
         return resourcesKindCase_ == 7;
       }
@@ -9674,7 +10316,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
+       * @return The serverlessResources.
        */
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ServerlessResources getServerlessResources() {
         if (serverlessResourcesBuilder_ == null) {
           if (resourcesKindCase_ == 7) {
@@ -9792,6 +10436,7 @@ public final class YdbCms {
        *
        * <code>.Ydb.Cms.ServerlessResources serverless_resources = 7;</code>
        */
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ServerlessResourcesOrBuilder getServerlessResourcesOrBuilder() {
         if ((resourcesKindCase_ == 7) && (serverlessResourcesBuilder_ != null)) {
           return serverlessResourcesBuilder_.getMessageOrBuilder();
@@ -9828,7 +10473,7 @@ public final class YdbCms {
         return serverlessResourcesBuilder_;
       }
 
-      private tech.ydb.cms.YdbCms.DatabaseOptions options_ = null;
+      private tech.ydb.cms.YdbCms.DatabaseOptions options_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.cms.YdbCms.DatabaseOptions, tech.ydb.cms.YdbCms.DatabaseOptions.Builder, tech.ydb.cms.YdbCms.DatabaseOptionsOrBuilder> optionsBuilder_;
       /**
@@ -9837,6 +10482,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.DatabaseOptions options = 4;</code>
+       * @return Whether the options field is set.
        */
       public boolean hasOptions() {
         return optionsBuilder_ != null || options_ != null;
@@ -9847,6 +10493,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.DatabaseOptions options = 4;</code>
+       * @return The options.
        */
       public tech.ydb.cms.YdbCms.DatabaseOptions getOptions() {
         if (optionsBuilder_ == null) {
@@ -9984,9 +10631,9 @@ public final class YdbCms {
       private java.util.List<tech.ydb.cms.YdbCms.Attribute> attributes_ =
         java.util.Collections.emptyList();
       private void ensureAttributesIsMutable() {
-        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           attributes_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.Attribute>(attributes_);
-          bitField0_ |= 0x00000040;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -10180,7 +10827,7 @@ public final class YdbCms {
       public Builder clearAttributes() {
         if (attributesBuilder_ == null) {
           attributes_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000040);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           attributesBuilder_.clear();
@@ -10285,7 +10932,7 @@ public final class YdbCms {
           attributesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.cms.YdbCms.Attribute, tech.ydb.cms.YdbCms.Attribute.Builder, tech.ydb.cms.YdbCms.AttributeOrBuilder>(
                   attributes_,
-                  ((bitField0_ & 0x00000040) == 0x00000040),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           attributes_ = null;
@@ -10293,7 +10940,7 @@ public final class YdbCms {
         return attributesBuilder_;
       }
 
-      private tech.ydb.cms.YdbCms.SchemaOperationQuotas schemaOperationQuotas_ = null;
+      private tech.ydb.cms.YdbCms.SchemaOperationQuotas schemaOperationQuotas_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.cms.YdbCms.SchemaOperationQuotas, tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder, tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder> schemaOperationQuotasBuilder_;
       /**
@@ -10302,6 +10949,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+       * @return Whether the schemaOperationQuotas field is set.
        */
       public boolean hasSchemaOperationQuotas() {
         return schemaOperationQuotasBuilder_ != null || schemaOperationQuotas_ != null;
@@ -10312,6 +10960,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 8;</code>
+       * @return The schemaOperationQuotas.
        */
       public tech.ydb.cms.YdbCms.SchemaOperationQuotas getSchemaOperationQuotas() {
         if (schemaOperationQuotasBuilder_ == null) {
@@ -10453,6 +11102,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string idempotency_key = 9;</code>
+       * @return The idempotencyKey.
        */
       public java.lang.String getIdempotencyKey() {
         java.lang.Object ref = idempotencyKey_;
@@ -10472,6 +11122,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string idempotency_key = 9;</code>
+       * @return The bytes for idempotencyKey.
        */
       public com.google.protobuf.ByteString
           getIdempotencyKeyBytes() {
@@ -10492,6 +11143,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string idempotency_key = 9;</code>
+       * @param value The idempotencyKey to set.
+       * @return This builder for chaining.
        */
       public Builder setIdempotencyKey(
           java.lang.String value) {
@@ -10509,6 +11162,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string idempotency_key = 9;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIdempotencyKey() {
         
@@ -10522,6 +11176,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string idempotency_key = 9;</code>
+       * @param value The bytes for idempotencyKey to set.
+       * @return This builder for chaining.
        */
       public Builder setIdempotencyKeyBytes(
           com.google.protobuf.ByteString value) {
@@ -10535,7 +11191,7 @@ public final class YdbCms {
         return this;
       }
 
-      private tech.ydb.cms.YdbCms.DatabaseQuotas databaseQuotas_ = null;
+      private tech.ydb.cms.YdbCms.DatabaseQuotas databaseQuotas_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.cms.YdbCms.DatabaseQuotas, tech.ydb.cms.YdbCms.DatabaseQuotas.Builder, tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder> databaseQuotasBuilder_;
       /**
@@ -10544,6 +11200,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       * @return Whether the databaseQuotas field is set.
        */
       public boolean hasDatabaseQuotas() {
         return databaseQuotasBuilder_ != null || databaseQuotas_ != null;
@@ -10554,6 +11211,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       * @return The databaseQuotas.
        */
       public tech.ydb.cms.YdbCms.DatabaseQuotas getDatabaseQuotas() {
         if (databaseQuotasBuilder_ == null) {
@@ -10687,11 +11345,13 @@ public final class YdbCms {
         }
         return databaseQuotasBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -10713,11 +11373,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<CreateDatabaseRequest>
         PARSER = new com.google.protobuf.AbstractParser<CreateDatabaseRequest>() {
+      @java.lang.Override
       public CreateDatabaseRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CreateDatabaseRequest(input, extensionRegistry);
+        return new CreateDatabaseRequest(input, extensionRegistry);
       }
     };
 
@@ -10730,6 +11391,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.CreateDatabaseRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -10742,10 +11404,12 @@ public final class YdbCms {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -10756,7 +11420,7 @@ public final class YdbCms {
   /**
    * Protobuf type {@code Ydb.Cms.CreateDatabaseResponse}
    */
-  public  static final class CreateDatabaseResponse extends
+  public static final class CreateDatabaseResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.CreateDatabaseResponse)
       CreateDatabaseResponseOrBuilder {
@@ -10769,6 +11433,13 @@ public final class YdbCms {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CreateDatabaseResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -10778,7 +11449,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -10789,13 +11462,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -10807,6 +11473,13 @@ public final class YdbCms {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -10826,6 +11499,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_CreateDatabaseResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_CreateDatabaseResponse_fieldAccessorTable
@@ -10837,24 +11511,30 @@ public final class YdbCms {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -10864,6 +11544,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -10872,6 +11553,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -10896,14 +11578,13 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.CreateDatabaseResponse other = (tech.ydb.cms.YdbCms.CreateDatabaseResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -10992,6 +11673,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -10999,6 +11681,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.CreateDatabaseResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -11022,6 +11705,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_CreateDatabaseResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_CreateDatabaseResponse_fieldAccessorTable
@@ -11044,6 +11728,7 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -11055,15 +11740,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_CreateDatabaseResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.CreateDatabaseResponse getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.CreateDatabaseResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.CreateDatabaseResponse build() {
         tech.ydb.cms.YdbCms.CreateDatabaseResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -11072,6 +11760,7 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.CreateDatabaseResponse buildPartial() {
         tech.ydb.cms.YdbCms.CreateDatabaseResponse result = new tech.ydb.cms.YdbCms.CreateDatabaseResponse(this);
         if (operationBuilder_ == null) {
@@ -11083,32 +11772,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.CreateDatabaseResponse) {
           return mergeFrom((tech.ydb.cms.YdbCms.CreateDatabaseResponse)other);
@@ -11128,10 +11824,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -11150,17 +11848,19 @@ public final class YdbCms {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -11266,11 +11966,13 @@ public final class YdbCms {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -11292,11 +11994,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<CreateDatabaseResponse>
         PARSER = new com.google.protobuf.AbstractParser<CreateDatabaseResponse>() {
+      @java.lang.Override
       public CreateDatabaseResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CreateDatabaseResponse(input, extensionRegistry);
+        return new CreateDatabaseResponse(input, extensionRegistry);
       }
     };
 
@@ -11309,6 +12012,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.CreateDatabaseResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -11325,6 +12029,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The path.
      */
     java.lang.String getPath();
     /**
@@ -11333,6 +12038,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The bytes for path.
      */
     com.google.protobuf.ByteString
         getPathBytes();
@@ -11343,6 +12049,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.OperationParams operation_params = 2;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
@@ -11351,6 +12058,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.OperationParams operation_params = 2;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -11369,7 +12077,7 @@ public final class YdbCms {
    *
    * Protobuf type {@code Ydb.Cms.GetDatabaseStatusRequest}
    */
-  public  static final class GetDatabaseStatusRequest extends
+  public static final class GetDatabaseStatusRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.GetDatabaseStatusRequest)
       GetDatabaseStatusRequestOrBuilder {
@@ -11383,6 +12091,13 @@ public final class YdbCms {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetDatabaseStatusRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -11392,7 +12107,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -11403,13 +12120,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -11429,6 +12139,13 @@ public final class YdbCms {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -11446,6 +12163,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_GetDatabaseStatusRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_GetDatabaseStatusRequest_fieldAccessorTable
@@ -11461,7 +12179,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The path.
      */
+    @java.lang.Override
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
@@ -11480,7 +12200,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The bytes for path.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathBytes() {
       java.lang.Object ref = path_;
@@ -11503,7 +12225,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.OperationParams operation_params = 2;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
@@ -11513,7 +12237,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.OperationParams operation_params = 2;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
@@ -11524,11 +12250,13 @@ public final class YdbCms {
      *
      * <code>.Ydb.Operations.OperationParams operation_params = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -11538,6 +12266,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getPathBytes().isEmpty()) {
@@ -11549,6 +12278,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -11576,16 +12306,15 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.GetDatabaseStatusRequest other = (tech.ydb.cms.YdbCms.GetDatabaseStatusRequest) obj;
 
-      boolean result = true;
-      result = result && getPath()
-          .equals(other.getPath());
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (!getPath()
+          .equals(other.getPath())) return false;
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -11676,6 +12405,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -11683,6 +12413,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.GetDatabaseStatusRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -11710,6 +12441,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_GetDatabaseStatusRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_GetDatabaseStatusRequest_fieldAccessorTable
@@ -11732,6 +12464,7 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         path_ = "";
@@ -11745,15 +12478,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_GetDatabaseStatusRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.GetDatabaseStatusRequest getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.GetDatabaseStatusRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.GetDatabaseStatusRequest build() {
         tech.ydb.cms.YdbCms.GetDatabaseStatusRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -11762,6 +12498,7 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.GetDatabaseStatusRequest buildPartial() {
         tech.ydb.cms.YdbCms.GetDatabaseStatusRequest result = new tech.ydb.cms.YdbCms.GetDatabaseStatusRequest(this);
         result.path_ = path_;
@@ -11774,32 +12511,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.GetDatabaseStatusRequest) {
           return mergeFrom((tech.ydb.cms.YdbCms.GetDatabaseStatusRequest)other);
@@ -11823,10 +12567,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -11852,6 +12598,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @return The path.
        */
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
@@ -11871,6 +12618,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @return The bytes for path.
        */
       public com.google.protobuf.ByteString
           getPathBytes() {
@@ -11891,6 +12639,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           java.lang.String value) {
@@ -11908,6 +12658,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         
@@ -11921,6 +12672,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
        */
       public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
@@ -11934,7 +12687,7 @@ public final class YdbCms {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
@@ -11943,6 +12696,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Operations.OperationParams operation_params = 2;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
@@ -11953,6 +12707,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Operations.OperationParams operation_params = 2;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -12086,11 +12841,13 @@ public final class YdbCms {
         }
         return operationParamsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -12112,11 +12869,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<GetDatabaseStatusRequest>
         PARSER = new com.google.protobuf.AbstractParser<GetDatabaseStatusRequest>() {
+      @java.lang.Override
       public GetDatabaseStatusRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetDatabaseStatusRequest(input, extensionRegistry);
+        return new GetDatabaseStatusRequest(input, extensionRegistry);
       }
     };
 
@@ -12129,6 +12887,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.GetDatabaseStatusRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -12145,6 +12904,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
@@ -12153,6 +12913,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -12167,7 +12928,7 @@ public final class YdbCms {
   /**
    * Protobuf type {@code Ydb.Cms.GetDatabaseStatusResponse}
    */
-  public  static final class GetDatabaseStatusResponse extends
+  public static final class GetDatabaseStatusResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.GetDatabaseStatusResponse)
       GetDatabaseStatusResponseOrBuilder {
@@ -12180,6 +12941,13 @@ public final class YdbCms {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetDatabaseStatusResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -12189,7 +12957,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -12200,13 +12970,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -12218,6 +12981,13 @@ public final class YdbCms {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -12237,6 +13007,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_GetDatabaseStatusResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_GetDatabaseStatusResponse_fieldAccessorTable
@@ -12252,7 +13023,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
@@ -12262,7 +13035,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
@@ -12273,11 +13048,13 @@ public final class YdbCms {
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -12287,6 +13064,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -12295,6 +13073,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -12319,14 +13098,13 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.GetDatabaseStatusResponse other = (tech.ydb.cms.YdbCms.GetDatabaseStatusResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -12415,6 +13193,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -12422,6 +13201,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.GetDatabaseStatusResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -12445,6 +13225,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_GetDatabaseStatusResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_GetDatabaseStatusResponse_fieldAccessorTable
@@ -12467,6 +13248,7 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -12478,15 +13260,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_GetDatabaseStatusResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.GetDatabaseStatusResponse getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.GetDatabaseStatusResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.GetDatabaseStatusResponse build() {
         tech.ydb.cms.YdbCms.GetDatabaseStatusResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -12495,6 +13280,7 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.GetDatabaseStatusResponse buildPartial() {
         tech.ydb.cms.YdbCms.GetDatabaseStatusResponse result = new tech.ydb.cms.YdbCms.GetDatabaseStatusResponse(this);
         if (operationBuilder_ == null) {
@@ -12506,32 +13292,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.GetDatabaseStatusResponse) {
           return mergeFrom((tech.ydb.cms.YdbCms.GetDatabaseStatusResponse)other);
@@ -12551,10 +13344,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -12573,7 +13368,7 @@ public final class YdbCms {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
@@ -12582,6 +13377,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
@@ -12592,6 +13388,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -12725,11 +13522,13 @@ public final class YdbCms {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -12751,11 +13550,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<GetDatabaseStatusResponse>
         PARSER = new com.google.protobuf.AbstractParser<GetDatabaseStatusResponse>() {
+      @java.lang.Override
       public GetDatabaseStatusResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetDatabaseStatusResponse(input, extensionRegistry);
+        return new GetDatabaseStatusResponse(input, extensionRegistry);
       }
     };
 
@@ -12768,6 +13568,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.GetDatabaseStatusResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -12784,6 +13585,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The path.
      */
     java.lang.String getPath();
     /**
@@ -12792,6 +13594,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The bytes for path.
      */
     com.google.protobuf.ByteString
         getPathBytes();
@@ -12802,6 +13605,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.GetDatabaseStatusResult.State state = 2;</code>
+     * @return The enum numeric value on the wire for state.
      */
     int getStateValue();
     /**
@@ -12810,6 +13614,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.GetDatabaseStatusResult.State state = 2;</code>
+     * @return The state.
      */
     tech.ydb.cms.YdbCms.GetDatabaseStatusResult.State getState();
 
@@ -12819,6 +13624,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.Resources required_resources = 3;</code>
+     * @return Whether the requiredResources field is set.
      */
     boolean hasRequiredResources();
     /**
@@ -12827,6 +13633,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.Resources required_resources = 3;</code>
+     * @return The requiredResources.
      */
     tech.ydb.cms.YdbCms.Resources getRequiredResources();
     /**
@@ -12840,10 +13647,12 @@ public final class YdbCms {
 
     /**
      * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+     * @return Whether the requiredSharedResources field is set.
      */
     boolean hasRequiredSharedResources();
     /**
      * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+     * @return The requiredSharedResources.
      */
     tech.ydb.cms.YdbCms.Resources getRequiredSharedResources();
     /**
@@ -12853,10 +13662,12 @@ public final class YdbCms {
 
     /**
      * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+     * @return Whether the serverlessResources field is set.
      */
     boolean hasServerlessResources();
     /**
      * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+     * @return The serverlessResources.
      */
     tech.ydb.cms.YdbCms.ServerlessResources getServerlessResources();
     /**
@@ -12870,6 +13681,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.Resources allocated_resources = 4;</code>
+     * @return Whether the allocatedResources field is set.
      */
     boolean hasAllocatedResources();
     /**
@@ -12878,6 +13690,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.Resources allocated_resources = 4;</code>
+     * @return The allocatedResources.
      */
     tech.ydb.cms.YdbCms.Resources getAllocatedResources();
     /**
@@ -12940,6 +13753,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>uint64 generation = 6;</code>
+     * @return The generation.
      */
     long getGeneration();
 
@@ -12949,6 +13763,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+     * @return Whether the schemaOperationQuotas field is set.
      */
     boolean hasSchemaOperationQuotas();
     /**
@@ -12957,6 +13772,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+     * @return The schemaOperationQuotas.
      */
     tech.ydb.cms.YdbCms.SchemaOperationQuotas getSchemaOperationQuotas();
     /**
@@ -12974,6 +13790,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+     * @return Whether the databaseQuotas field is set.
      */
     boolean hasDatabaseQuotas();
     /**
@@ -12982,6 +13799,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+     * @return The databaseQuotas.
      */
     tech.ydb.cms.YdbCms.DatabaseQuotas getDatabaseQuotas();
     /**
@@ -12998,7 +13816,7 @@ public final class YdbCms {
   /**
    * Protobuf type {@code Ydb.Cms.GetDatabaseStatusResult}
    */
-  public  static final class GetDatabaseStatusResult extends
+  public static final class GetDatabaseStatusResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.GetDatabaseStatusResult)
       GetDatabaseStatusResultOrBuilder {
@@ -13011,7 +13829,13 @@ public final class YdbCms {
       path_ = "";
       state_ = 0;
       registeredResources_ = java.util.Collections.emptyList();
-      generation_ = 0L;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetDatabaseStatusResult();
     }
 
     @java.lang.Override
@@ -13024,6 +13848,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -13035,13 +13862,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -13082,9 +13902,9 @@ public final class YdbCms {
               break;
             }
             case 42: {
-              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 registeredResources_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.AllocatedComputationalUnit>();
-                mutable_bitField0_ |= 0x00000040;
+                mutable_bitField0_ |= 0x00000001;
               }
               registeredResources_.add(
                   input.readMessage(tech.ydb.cms.YdbCms.AllocatedComputationalUnit.parser(), extensionRegistry));
@@ -13149,6 +13969,13 @@ public final class YdbCms {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -13157,7 +13984,7 @@ public final class YdbCms {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           registeredResources_ = java.util.Collections.unmodifiableList(registeredResources_);
         }
         this.unknownFields = unknownFields.build();
@@ -13169,6 +13996,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_GetDatabaseStatusResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_GetDatabaseStatusResult_fieldAccessorTable
@@ -13243,6 +14071,8 @@ public final class YdbCms {
       }
 
       /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -13250,6 +14080,10 @@ public final class YdbCms {
         return forNumber(value);
       }
 
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
       public static State forNumber(int value) {
         switch (value) {
           case 0: return STATE_UNSPECIFIED;
@@ -13276,6 +14110,10 @@ public final class YdbCms {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -13310,11 +14148,11 @@ public final class YdbCms {
       // @@protoc_insertion_point(enum_scope:Ydb.Cms.GetDatabaseStatusResult.State)
     }
 
-    private int bitField0_;
     private int resourcesKindCase_ = 0;
     private java.lang.Object resourcesKind_;
     public enum ResourcesKindCase
-        implements com.google.protobuf.Internal.EnumLite {
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       REQUIRED_RESOURCES(3),
       REQUIRED_SHARED_RESOURCES(7),
       SERVERLESS_RESOURCES(8),
@@ -13324,6 +14162,8 @@ public final class YdbCms {
         this.value = value;
       }
       /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -13359,7 +14199,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The path.
      */
+    @java.lang.Override
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
@@ -13378,7 +14220,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The bytes for path.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathBytes() {
       java.lang.Object ref = path_;
@@ -13401,8 +14245,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.GetDatabaseStatusResult.State state = 2;</code>
+     * @return The enum numeric value on the wire for state.
      */
-    public int getStateValue() {
+    @java.lang.Override public int getStateValue() {
       return state_;
     }
     /**
@@ -13411,8 +14256,10 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.GetDatabaseStatusResult.State state = 2;</code>
+     * @return The state.
      */
-    public tech.ydb.cms.YdbCms.GetDatabaseStatusResult.State getState() {
+    @java.lang.Override public tech.ydb.cms.YdbCms.GetDatabaseStatusResult.State getState() {
+      @SuppressWarnings("deprecation")
       tech.ydb.cms.YdbCms.GetDatabaseStatusResult.State result = tech.ydb.cms.YdbCms.GetDatabaseStatusResult.State.valueOf(state_);
       return result == null ? tech.ydb.cms.YdbCms.GetDatabaseStatusResult.State.UNRECOGNIZED : result;
     }
@@ -13424,7 +14271,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.Resources required_resources = 3;</code>
+     * @return Whether the requiredResources field is set.
      */
+    @java.lang.Override
     public boolean hasRequiredResources() {
       return resourcesKindCase_ == 3;
     }
@@ -13434,7 +14283,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.Resources required_resources = 3;</code>
+     * @return The requiredResources.
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.Resources getRequiredResources() {
       if (resourcesKindCase_ == 3) {
          return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
@@ -13448,6 +14299,7 @@ public final class YdbCms {
      *
      * <code>.Ydb.Cms.Resources required_resources = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ResourcesOrBuilder getRequiredResourcesOrBuilder() {
       if (resourcesKindCase_ == 3) {
          return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
@@ -13458,13 +14310,17 @@ public final class YdbCms {
     public static final int REQUIRED_SHARED_RESOURCES_FIELD_NUMBER = 7;
     /**
      * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+     * @return Whether the requiredSharedResources field is set.
      */
+    @java.lang.Override
     public boolean hasRequiredSharedResources() {
       return resourcesKindCase_ == 7;
     }
     /**
      * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+     * @return The requiredSharedResources.
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.Resources getRequiredSharedResources() {
       if (resourcesKindCase_ == 7) {
          return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
@@ -13474,6 +14330,7 @@ public final class YdbCms {
     /**
      * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ResourcesOrBuilder getRequiredSharedResourcesOrBuilder() {
       if (resourcesKindCase_ == 7) {
          return (tech.ydb.cms.YdbCms.Resources) resourcesKind_;
@@ -13484,13 +14341,17 @@ public final class YdbCms {
     public static final int SERVERLESS_RESOURCES_FIELD_NUMBER = 8;
     /**
      * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+     * @return Whether the serverlessResources field is set.
      */
+    @java.lang.Override
     public boolean hasServerlessResources() {
       return resourcesKindCase_ == 8;
     }
     /**
      * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+     * @return The serverlessResources.
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ServerlessResources getServerlessResources() {
       if (resourcesKindCase_ == 8) {
          return (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_;
@@ -13500,6 +14361,7 @@ public final class YdbCms {
     /**
      * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ServerlessResourcesOrBuilder getServerlessResourcesOrBuilder() {
       if (resourcesKindCase_ == 8) {
          return (tech.ydb.cms.YdbCms.ServerlessResources) resourcesKind_;
@@ -13515,7 +14377,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.Resources allocated_resources = 4;</code>
+     * @return Whether the allocatedResources field is set.
      */
+    @java.lang.Override
     public boolean hasAllocatedResources() {
       return allocatedResources_ != null;
     }
@@ -13525,7 +14389,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.Resources allocated_resources = 4;</code>
+     * @return The allocatedResources.
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.Resources getAllocatedResources() {
       return allocatedResources_ == null ? tech.ydb.cms.YdbCms.Resources.getDefaultInstance() : allocatedResources_;
     }
@@ -13536,6 +14402,7 @@ public final class YdbCms {
      *
      * <code>.Ydb.Cms.Resources allocated_resources = 4;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ResourcesOrBuilder getAllocatedResourcesOrBuilder() {
       return getAllocatedResources();
     }
@@ -13549,6 +14416,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.AllocatedComputationalUnit registered_resources = 5;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.cms.YdbCms.AllocatedComputationalUnit> getRegisteredResourcesList() {
       return registeredResources_;
     }
@@ -13559,6 +14427,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.AllocatedComputationalUnit registered_resources = 5;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.cms.YdbCms.AllocatedComputationalUnitOrBuilder> 
         getRegisteredResourcesOrBuilderList() {
       return registeredResources_;
@@ -13570,6 +14439,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.AllocatedComputationalUnit registered_resources = 5;</code>
      */
+    @java.lang.Override
     public int getRegisteredResourcesCount() {
       return registeredResources_.size();
     }
@@ -13580,6 +14450,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.AllocatedComputationalUnit registered_resources = 5;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.AllocatedComputationalUnit getRegisteredResources(int index) {
       return registeredResources_.get(index);
     }
@@ -13590,6 +14461,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.AllocatedComputationalUnit registered_resources = 5;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.AllocatedComputationalUnitOrBuilder getRegisteredResourcesOrBuilder(
         int index) {
       return registeredResources_.get(index);
@@ -13604,7 +14476,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>uint64 generation = 6;</code>
+     * @return The generation.
      */
+    @java.lang.Override
     public long getGeneration() {
       return generation_;
     }
@@ -13617,7 +14491,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+     * @return Whether the schemaOperationQuotas field is set.
      */
+    @java.lang.Override
     public boolean hasSchemaOperationQuotas() {
       return schemaOperationQuotas_ != null;
     }
@@ -13627,7 +14503,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+     * @return The schemaOperationQuotas.
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.SchemaOperationQuotas getSchemaOperationQuotas() {
       return schemaOperationQuotas_ == null ? tech.ydb.cms.YdbCms.SchemaOperationQuotas.getDefaultInstance() : schemaOperationQuotas_;
     }
@@ -13638,6 +14516,7 @@ public final class YdbCms {
      *
      * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder getSchemaOperationQuotasOrBuilder() {
       return getSchemaOperationQuotas();
     }
@@ -13650,7 +14529,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+     * @return Whether the databaseQuotas field is set.
      */
+    @java.lang.Override
     public boolean hasDatabaseQuotas() {
       return databaseQuotas_ != null;
     }
@@ -13660,7 +14541,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+     * @return The databaseQuotas.
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.DatabaseQuotas getDatabaseQuotas() {
       return databaseQuotas_ == null ? tech.ydb.cms.YdbCms.DatabaseQuotas.getDefaultInstance() : databaseQuotas_;
     }
@@ -13671,11 +14554,13 @@ public final class YdbCms {
      *
      * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder getDatabaseQuotasOrBuilder() {
       return getDatabaseQuotas();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -13685,6 +14570,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getPathBytes().isEmpty()) {
@@ -13720,6 +14606,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -13779,50 +14666,47 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.GetDatabaseStatusResult other = (tech.ydb.cms.YdbCms.GetDatabaseStatusResult) obj;
 
-      boolean result = true;
-      result = result && getPath()
-          .equals(other.getPath());
-      result = result && state_ == other.state_;
-      result = result && (hasAllocatedResources() == other.hasAllocatedResources());
+      if (!getPath()
+          .equals(other.getPath())) return false;
+      if (state_ != other.state_) return false;
+      if (hasAllocatedResources() != other.hasAllocatedResources()) return false;
       if (hasAllocatedResources()) {
-        result = result && getAllocatedResources()
-            .equals(other.getAllocatedResources());
+        if (!getAllocatedResources()
+            .equals(other.getAllocatedResources())) return false;
       }
-      result = result && getRegisteredResourcesList()
-          .equals(other.getRegisteredResourcesList());
-      result = result && (getGeneration()
-          == other.getGeneration());
-      result = result && (hasSchemaOperationQuotas() == other.hasSchemaOperationQuotas());
+      if (!getRegisteredResourcesList()
+          .equals(other.getRegisteredResourcesList())) return false;
+      if (getGeneration()
+          != other.getGeneration()) return false;
+      if (hasSchemaOperationQuotas() != other.hasSchemaOperationQuotas()) return false;
       if (hasSchemaOperationQuotas()) {
-        result = result && getSchemaOperationQuotas()
-            .equals(other.getSchemaOperationQuotas());
+        if (!getSchemaOperationQuotas()
+            .equals(other.getSchemaOperationQuotas())) return false;
       }
-      result = result && (hasDatabaseQuotas() == other.hasDatabaseQuotas());
+      if (hasDatabaseQuotas() != other.hasDatabaseQuotas()) return false;
       if (hasDatabaseQuotas()) {
-        result = result && getDatabaseQuotas()
-            .equals(other.getDatabaseQuotas());
+        if (!getDatabaseQuotas()
+            .equals(other.getDatabaseQuotas())) return false;
       }
-      result = result && getResourcesKindCase().equals(
-          other.getResourcesKindCase());
-      if (!result) return false;
+      if (!getResourcesKindCase().equals(other.getResourcesKindCase())) return false;
       switch (resourcesKindCase_) {
         case 3:
-          result = result && getRequiredResources()
-              .equals(other.getRequiredResources());
+          if (!getRequiredResources()
+              .equals(other.getRequiredResources())) return false;
           break;
         case 7:
-          result = result && getRequiredSharedResources()
-              .equals(other.getRequiredSharedResources());
+          if (!getRequiredSharedResources()
+              .equals(other.getRequiredSharedResources())) return false;
           break;
         case 8:
-          result = result && getServerlessResources()
-              .equals(other.getServerlessResources());
+          if (!getServerlessResources()
+              .equals(other.getServerlessResources())) return false;
           break;
         case 0:
         default:
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -13946,6 +14830,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -13953,6 +14838,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.GetDatabaseStatusResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -13976,6 +14862,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_GetDatabaseStatusResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_GetDatabaseStatusResult_fieldAccessorTable
@@ -13999,6 +14886,7 @@ public final class YdbCms {
           getRegisteredResourcesFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         path_ = "";
@@ -14013,7 +14901,7 @@ public final class YdbCms {
         }
         if (registeredResourcesBuilder_ == null) {
           registeredResources_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000040);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           registeredResourcesBuilder_.clear();
         }
@@ -14036,15 +14924,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_GetDatabaseStatusResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.GetDatabaseStatusResult getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.GetDatabaseStatusResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.GetDatabaseStatusResult build() {
         tech.ydb.cms.YdbCms.GetDatabaseStatusResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -14053,10 +14944,10 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.GetDatabaseStatusResult buildPartial() {
         tech.ydb.cms.YdbCms.GetDatabaseStatusResult result = new tech.ydb.cms.YdbCms.GetDatabaseStatusResult(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.path_ = path_;
         result.state_ = state_;
         if (resourcesKindCase_ == 3) {
@@ -14086,9 +14977,9 @@ public final class YdbCms {
           result.allocatedResources_ = allocatedResourcesBuilder_.build();
         }
         if (registeredResourcesBuilder_ == null) {
-          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             registeredResources_ = java.util.Collections.unmodifiableList(registeredResources_);
-            bitField0_ = (bitField0_ & ~0x00000040);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.registeredResources_ = registeredResources_;
         } else {
@@ -14105,38 +14996,44 @@ public final class YdbCms {
         } else {
           result.databaseQuotas_ = databaseQuotasBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         result.resourcesKindCase_ = resourcesKindCase_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.GetDatabaseStatusResult) {
           return mergeFrom((tech.ydb.cms.YdbCms.GetDatabaseStatusResult)other);
@@ -14162,7 +15059,7 @@ public final class YdbCms {
           if (!other.registeredResources_.isEmpty()) {
             if (registeredResources_.isEmpty()) {
               registeredResources_ = other.registeredResources_;
-              bitField0_ = (bitField0_ & ~0x00000040);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureRegisteredResourcesIsMutable();
               registeredResources_.addAll(other.registeredResources_);
@@ -14175,7 +15072,7 @@ public final class YdbCms {
               registeredResourcesBuilder_.dispose();
               registeredResourcesBuilder_ = null;
               registeredResources_ = other.registeredResources_;
-              bitField0_ = (bitField0_ & ~0x00000040);
+              bitField0_ = (bitField0_ & ~0x00000001);
               registeredResourcesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getRegisteredResourcesFieldBuilder() : null;
@@ -14215,10 +15112,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -14260,6 +15159,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @return The path.
        */
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
@@ -14279,6 +15179,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @return The bytes for path.
        */
       public com.google.protobuf.ByteString
           getPathBytes() {
@@ -14299,6 +15200,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           java.lang.String value) {
@@ -14316,6 +15219,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         
@@ -14329,6 +15233,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
        */
       public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
@@ -14349,8 +15255,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.GetDatabaseStatusResult.State state = 2;</code>
+       * @return The enum numeric value on the wire for state.
        */
-      public int getStateValue() {
+      @java.lang.Override public int getStateValue() {
         return state_;
       }
       /**
@@ -14359,8 +15266,11 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.GetDatabaseStatusResult.State state = 2;</code>
+       * @param value The enum numeric value on the wire for state to set.
+       * @return This builder for chaining.
        */
       public Builder setStateValue(int value) {
+        
         state_ = value;
         onChanged();
         return this;
@@ -14371,8 +15281,11 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.GetDatabaseStatusResult.State state = 2;</code>
+       * @return The state.
        */
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.GetDatabaseStatusResult.State getState() {
+        @SuppressWarnings("deprecation")
         tech.ydb.cms.YdbCms.GetDatabaseStatusResult.State result = tech.ydb.cms.YdbCms.GetDatabaseStatusResult.State.valueOf(state_);
         return result == null ? tech.ydb.cms.YdbCms.GetDatabaseStatusResult.State.UNRECOGNIZED : result;
       }
@@ -14382,6 +15295,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.GetDatabaseStatusResult.State state = 2;</code>
+       * @param value The state to set.
+       * @return This builder for chaining.
        */
       public Builder setState(tech.ydb.cms.YdbCms.GetDatabaseStatusResult.State value) {
         if (value == null) {
@@ -14398,6 +15313,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.GetDatabaseStatusResult.State state = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearState() {
         
@@ -14414,7 +15330,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.Resources required_resources = 3;</code>
+       * @return Whether the requiredResources field is set.
        */
+      @java.lang.Override
       public boolean hasRequiredResources() {
         return resourcesKindCase_ == 3;
       }
@@ -14424,7 +15342,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.Resources required_resources = 3;</code>
+       * @return The requiredResources.
        */
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.Resources getRequiredResources() {
         if (requiredResourcesBuilder_ == null) {
           if (resourcesKindCase_ == 3) {
@@ -14542,6 +15462,7 @@ public final class YdbCms {
        *
        * <code>.Ydb.Cms.Resources required_resources = 3;</code>
        */
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ResourcesOrBuilder getRequiredResourcesOrBuilder() {
         if ((resourcesKindCase_ == 3) && (requiredResourcesBuilder_ != null)) {
           return requiredResourcesBuilder_.getMessageOrBuilder();
@@ -14582,13 +15503,17 @@ public final class YdbCms {
           tech.ydb.cms.YdbCms.Resources, tech.ydb.cms.YdbCms.Resources.Builder, tech.ydb.cms.YdbCms.ResourcesOrBuilder> requiredSharedResourcesBuilder_;
       /**
        * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+       * @return Whether the requiredSharedResources field is set.
        */
+      @java.lang.Override
       public boolean hasRequiredSharedResources() {
         return resourcesKindCase_ == 7;
       }
       /**
        * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
+       * @return The requiredSharedResources.
        */
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.Resources getRequiredSharedResources() {
         if (requiredSharedResourcesBuilder_ == null) {
           if (resourcesKindCase_ == 7) {
@@ -14682,6 +15607,7 @@ public final class YdbCms {
       /**
        * <code>.Ydb.Cms.Resources required_shared_resources = 7;</code>
        */
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ResourcesOrBuilder getRequiredSharedResourcesOrBuilder() {
         if ((resourcesKindCase_ == 7) && (requiredSharedResourcesBuilder_ != null)) {
           return requiredSharedResourcesBuilder_.getMessageOrBuilder();
@@ -14718,13 +15644,17 @@ public final class YdbCms {
           tech.ydb.cms.YdbCms.ServerlessResources, tech.ydb.cms.YdbCms.ServerlessResources.Builder, tech.ydb.cms.YdbCms.ServerlessResourcesOrBuilder> serverlessResourcesBuilder_;
       /**
        * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+       * @return Whether the serverlessResources field is set.
        */
+      @java.lang.Override
       public boolean hasServerlessResources() {
         return resourcesKindCase_ == 8;
       }
       /**
        * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
+       * @return The serverlessResources.
        */
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ServerlessResources getServerlessResources() {
         if (serverlessResourcesBuilder_ == null) {
           if (resourcesKindCase_ == 8) {
@@ -14818,6 +15748,7 @@ public final class YdbCms {
       /**
        * <code>.Ydb.Cms.ServerlessResources serverless_resources = 8;</code>
        */
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ServerlessResourcesOrBuilder getServerlessResourcesOrBuilder() {
         if ((resourcesKindCase_ == 8) && (serverlessResourcesBuilder_ != null)) {
           return serverlessResourcesBuilder_.getMessageOrBuilder();
@@ -14850,7 +15781,7 @@ public final class YdbCms {
         return serverlessResourcesBuilder_;
       }
 
-      private tech.ydb.cms.YdbCms.Resources allocatedResources_ = null;
+      private tech.ydb.cms.YdbCms.Resources allocatedResources_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.cms.YdbCms.Resources, tech.ydb.cms.YdbCms.Resources.Builder, tech.ydb.cms.YdbCms.ResourcesOrBuilder> allocatedResourcesBuilder_;
       /**
@@ -14859,6 +15790,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.Resources allocated_resources = 4;</code>
+       * @return Whether the allocatedResources field is set.
        */
       public boolean hasAllocatedResources() {
         return allocatedResourcesBuilder_ != null || allocatedResources_ != null;
@@ -14869,6 +15801,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.Resources allocated_resources = 4;</code>
+       * @return The allocatedResources.
        */
       public tech.ydb.cms.YdbCms.Resources getAllocatedResources() {
         if (allocatedResourcesBuilder_ == null) {
@@ -15006,9 +15939,9 @@ public final class YdbCms {
       private java.util.List<tech.ydb.cms.YdbCms.AllocatedComputationalUnit> registeredResources_ =
         java.util.Collections.emptyList();
       private void ensureRegisteredResourcesIsMutable() {
-        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           registeredResources_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.AllocatedComputationalUnit>(registeredResources_);
-          bitField0_ |= 0x00000040;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -15202,7 +16135,7 @@ public final class YdbCms {
       public Builder clearRegisteredResources() {
         if (registeredResourcesBuilder_ == null) {
           registeredResources_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000040);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           registeredResourcesBuilder_.clear();
@@ -15307,7 +16240,7 @@ public final class YdbCms {
           registeredResourcesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.cms.YdbCms.AllocatedComputationalUnit, tech.ydb.cms.YdbCms.AllocatedComputationalUnit.Builder, tech.ydb.cms.YdbCms.AllocatedComputationalUnitOrBuilder>(
                   registeredResources_,
-                  ((bitField0_ & 0x00000040) == 0x00000040),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           registeredResources_ = null;
@@ -15323,7 +16256,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 generation = 6;</code>
+       * @return The generation.
        */
+      @java.lang.Override
       public long getGeneration() {
         return generation_;
       }
@@ -15334,6 +16269,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 generation = 6;</code>
+       * @param value The generation to set.
+       * @return This builder for chaining.
        */
       public Builder setGeneration(long value) {
         
@@ -15348,6 +16285,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 generation = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearGeneration() {
         
@@ -15356,7 +16294,7 @@ public final class YdbCms {
         return this;
       }
 
-      private tech.ydb.cms.YdbCms.SchemaOperationQuotas schemaOperationQuotas_ = null;
+      private tech.ydb.cms.YdbCms.SchemaOperationQuotas schemaOperationQuotas_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.cms.YdbCms.SchemaOperationQuotas, tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder, tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder> schemaOperationQuotasBuilder_;
       /**
@@ -15365,6 +16303,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       * @return Whether the schemaOperationQuotas field is set.
        */
       public boolean hasSchemaOperationQuotas() {
         return schemaOperationQuotasBuilder_ != null || schemaOperationQuotas_ != null;
@@ -15375,6 +16314,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       * @return The schemaOperationQuotas.
        */
       public tech.ydb.cms.YdbCms.SchemaOperationQuotas getSchemaOperationQuotas() {
         if (schemaOperationQuotasBuilder_ == null) {
@@ -15509,7 +16449,7 @@ public final class YdbCms {
         return schemaOperationQuotasBuilder_;
       }
 
-      private tech.ydb.cms.YdbCms.DatabaseQuotas databaseQuotas_ = null;
+      private tech.ydb.cms.YdbCms.DatabaseQuotas databaseQuotas_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.cms.YdbCms.DatabaseQuotas, tech.ydb.cms.YdbCms.DatabaseQuotas.Builder, tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder> databaseQuotasBuilder_;
       /**
@@ -15518,6 +16458,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       * @return Whether the databaseQuotas field is set.
        */
       public boolean hasDatabaseQuotas() {
         return databaseQuotasBuilder_ != null || databaseQuotas_ != null;
@@ -15528,6 +16469,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 10;</code>
+       * @return The databaseQuotas.
        */
       public tech.ydb.cms.YdbCms.DatabaseQuotas getDatabaseQuotas() {
         if (databaseQuotasBuilder_ == null) {
@@ -15661,11 +16603,13 @@ public final class YdbCms {
         }
         return databaseQuotasBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -15687,11 +16631,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<GetDatabaseStatusResult>
         PARSER = new com.google.protobuf.AbstractParser<GetDatabaseStatusResult>() {
+      @java.lang.Override
       public GetDatabaseStatusResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetDatabaseStatusResult(input, extensionRegistry);
+        return new GetDatabaseStatusResult(input, extensionRegistry);
       }
     };
 
@@ -15704,6 +16649,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.GetDatabaseStatusResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -15720,6 +16666,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The path.
      */
     java.lang.String getPath();
     /**
@@ -15728,6 +16675,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The bytes for path.
      */
     com.google.protobuf.ByteString
         getPathBytes();
@@ -15958,6 +16906,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
@@ -15966,6 +16915,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -15983,6 +16933,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>uint64 generation = 8;</code>
+     * @return The generation.
      */
     long getGeneration();
 
@@ -15992,6 +16943,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+     * @return Whether the schemaOperationQuotas field is set.
      */
     boolean hasSchemaOperationQuotas();
     /**
@@ -16000,6 +16952,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+     * @return The schemaOperationQuotas.
      */
     tech.ydb.cms.YdbCms.SchemaOperationQuotas getSchemaOperationQuotas();
     /**
@@ -16017,6 +16970,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string idempotency_key = 10;</code>
+     * @return The idempotencyKey.
      */
     java.lang.String getIdempotencyKey();
     /**
@@ -16025,6 +16979,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string idempotency_key = 10;</code>
+     * @return The bytes for idempotencyKey.
      */
     com.google.protobuf.ByteString
         getIdempotencyKeyBytes();
@@ -16035,6 +16990,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+     * @return Whether the databaseQuotas field is set.
      */
     boolean hasDatabaseQuotas();
     /**
@@ -16043,6 +16999,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+     * @return The databaseQuotas.
      */
     tech.ydb.cms.YdbCms.DatabaseQuotas getDatabaseQuotas();
     /**
@@ -16061,7 +17018,7 @@ public final class YdbCms {
    *
    * Protobuf type {@code Ydb.Cms.AlterDatabaseRequest}
    */
-  public  static final class AlterDatabaseRequest extends
+  public static final class AlterDatabaseRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.AlterDatabaseRequest)
       AlterDatabaseRequestOrBuilder {
@@ -16077,8 +17034,14 @@ public final class YdbCms {
       storageUnitsToAdd_ = java.util.Collections.emptyList();
       computationalUnitsToRegister_ = java.util.Collections.emptyList();
       computationalUnitsToDeregister_ = java.util.Collections.emptyList();
-      generation_ = 0L;
       idempotencyKey_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new AlterDatabaseRequest();
     }
 
     @java.lang.Override
@@ -16091,6 +17054,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -16102,13 +17068,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -16116,45 +17075,45 @@ public final class YdbCms {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 computationalUnitsToAdd_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.ComputationalUnits>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               computationalUnitsToAdd_.add(
                   input.readMessage(tech.ydb.cms.YdbCms.ComputationalUnits.parser(), extensionRegistry));
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 computationalUnitsToRemove_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.ComputationalUnits>();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000002;
               }
               computationalUnitsToRemove_.add(
                   input.readMessage(tech.ydb.cms.YdbCms.ComputationalUnits.parser(), extensionRegistry));
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
                 storageUnitsToAdd_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.StorageUnits>();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000004;
               }
               storageUnitsToAdd_.add(
                   input.readMessage(tech.ydb.cms.YdbCms.StorageUnits.parser(), extensionRegistry));
               break;
             }
             case 42: {
-              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
                 computationalUnitsToRegister_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.AllocatedComputationalUnit>();
-                mutable_bitField0_ |= 0x00000010;
+                mutable_bitField0_ |= 0x00000008;
               }
               computationalUnitsToRegister_.add(
                   input.readMessage(tech.ydb.cms.YdbCms.AllocatedComputationalUnit.parser(), extensionRegistry));
               break;
             }
             case 50: {
-              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+              if (!((mutable_bitField0_ & 0x00000010) != 0)) {
                 computationalUnitsToDeregister_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.AllocatedComputationalUnit>();
-                mutable_bitField0_ |= 0x00000020;
+                mutable_bitField0_ |= 0x00000010;
               }
               computationalUnitsToDeregister_.add(
                   input.readMessage(tech.ydb.cms.YdbCms.AllocatedComputationalUnit.parser(), extensionRegistry));
@@ -16210,6 +17169,13 @@ public final class YdbCms {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -16218,19 +17184,19 @@ public final class YdbCms {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           computationalUnitsToAdd_ = java.util.Collections.unmodifiableList(computationalUnitsToAdd_);
         }
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           computationalUnitsToRemove_ = java.util.Collections.unmodifiableList(computationalUnitsToRemove_);
         }
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((mutable_bitField0_ & 0x00000004) != 0)) {
           storageUnitsToAdd_ = java.util.Collections.unmodifiableList(storageUnitsToAdd_);
         }
-        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((mutable_bitField0_ & 0x00000008) != 0)) {
           computationalUnitsToRegister_ = java.util.Collections.unmodifiableList(computationalUnitsToRegister_);
         }
-        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((mutable_bitField0_ & 0x00000010) != 0)) {
           computationalUnitsToDeregister_ = java.util.Collections.unmodifiableList(computationalUnitsToDeregister_);
         }
         this.unknownFields = unknownFields.build();
@@ -16242,6 +17208,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AlterDatabaseRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AlterDatabaseRequest_fieldAccessorTable
@@ -16249,7 +17216,6 @@ public final class YdbCms {
               tech.ydb.cms.YdbCms.AlterDatabaseRequest.class, tech.ydb.cms.YdbCms.AlterDatabaseRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int PATH_FIELD_NUMBER = 1;
     private volatile java.lang.Object path_;
     /**
@@ -16258,7 +17224,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The path.
      */
+    @java.lang.Override
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
@@ -16277,7 +17245,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The bytes for path.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathBytes() {
       java.lang.Object ref = path_;
@@ -16301,6 +17271,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.ComputationalUnits computational_units_to_add = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.cms.YdbCms.ComputationalUnits> getComputationalUnitsToAddList() {
       return computationalUnitsToAdd_;
     }
@@ -16311,6 +17282,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.ComputationalUnits computational_units_to_add = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.cms.YdbCms.ComputationalUnitsOrBuilder> 
         getComputationalUnitsToAddOrBuilderList() {
       return computationalUnitsToAdd_;
@@ -16322,6 +17294,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.ComputationalUnits computational_units_to_add = 2;</code>
      */
+    @java.lang.Override
     public int getComputationalUnitsToAddCount() {
       return computationalUnitsToAdd_.size();
     }
@@ -16332,6 +17305,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.ComputationalUnits computational_units_to_add = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ComputationalUnits getComputationalUnitsToAdd(int index) {
       return computationalUnitsToAdd_.get(index);
     }
@@ -16342,6 +17316,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.ComputationalUnits computational_units_to_add = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ComputationalUnitsOrBuilder getComputationalUnitsToAddOrBuilder(
         int index) {
       return computationalUnitsToAdd_.get(index);
@@ -16356,6 +17331,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.ComputationalUnits computational_units_to_remove = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.cms.YdbCms.ComputationalUnits> getComputationalUnitsToRemoveList() {
       return computationalUnitsToRemove_;
     }
@@ -16366,6 +17342,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.ComputationalUnits computational_units_to_remove = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.cms.YdbCms.ComputationalUnitsOrBuilder> 
         getComputationalUnitsToRemoveOrBuilderList() {
       return computationalUnitsToRemove_;
@@ -16377,6 +17354,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.ComputationalUnits computational_units_to_remove = 3;</code>
      */
+    @java.lang.Override
     public int getComputationalUnitsToRemoveCount() {
       return computationalUnitsToRemove_.size();
     }
@@ -16387,6 +17365,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.ComputationalUnits computational_units_to_remove = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ComputationalUnits getComputationalUnitsToRemove(int index) {
       return computationalUnitsToRemove_.get(index);
     }
@@ -16397,6 +17376,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.ComputationalUnits computational_units_to_remove = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ComputationalUnitsOrBuilder getComputationalUnitsToRemoveOrBuilder(
         int index) {
       return computationalUnitsToRemove_.get(index);
@@ -16411,6 +17391,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.StorageUnits storage_units_to_add = 4;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.cms.YdbCms.StorageUnits> getStorageUnitsToAddList() {
       return storageUnitsToAdd_;
     }
@@ -16421,6 +17402,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.StorageUnits storage_units_to_add = 4;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.cms.YdbCms.StorageUnitsOrBuilder> 
         getStorageUnitsToAddOrBuilderList() {
       return storageUnitsToAdd_;
@@ -16432,6 +17414,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.StorageUnits storage_units_to_add = 4;</code>
      */
+    @java.lang.Override
     public int getStorageUnitsToAddCount() {
       return storageUnitsToAdd_.size();
     }
@@ -16442,6 +17425,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.StorageUnits storage_units_to_add = 4;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.StorageUnits getStorageUnitsToAdd(int index) {
       return storageUnitsToAdd_.get(index);
     }
@@ -16452,6 +17436,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.StorageUnits storage_units_to_add = 4;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.StorageUnitsOrBuilder getStorageUnitsToAddOrBuilder(
         int index) {
       return storageUnitsToAdd_.get(index);
@@ -16466,6 +17451,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.AllocatedComputationalUnit computational_units_to_register = 5;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.cms.YdbCms.AllocatedComputationalUnit> getComputationalUnitsToRegisterList() {
       return computationalUnitsToRegister_;
     }
@@ -16476,6 +17462,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.AllocatedComputationalUnit computational_units_to_register = 5;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.cms.YdbCms.AllocatedComputationalUnitOrBuilder> 
         getComputationalUnitsToRegisterOrBuilderList() {
       return computationalUnitsToRegister_;
@@ -16487,6 +17474,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.AllocatedComputationalUnit computational_units_to_register = 5;</code>
      */
+    @java.lang.Override
     public int getComputationalUnitsToRegisterCount() {
       return computationalUnitsToRegister_.size();
     }
@@ -16497,6 +17485,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.AllocatedComputationalUnit computational_units_to_register = 5;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.AllocatedComputationalUnit getComputationalUnitsToRegister(int index) {
       return computationalUnitsToRegister_.get(index);
     }
@@ -16507,6 +17496,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.AllocatedComputationalUnit computational_units_to_register = 5;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.AllocatedComputationalUnitOrBuilder getComputationalUnitsToRegisterOrBuilder(
         int index) {
       return computationalUnitsToRegister_.get(index);
@@ -16521,6 +17511,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.AllocatedComputationalUnit computational_units_to_deregister = 6;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.cms.YdbCms.AllocatedComputationalUnit> getComputationalUnitsToDeregisterList() {
       return computationalUnitsToDeregister_;
     }
@@ -16531,6 +17522,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.AllocatedComputationalUnit computational_units_to_deregister = 6;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.cms.YdbCms.AllocatedComputationalUnitOrBuilder> 
         getComputationalUnitsToDeregisterOrBuilderList() {
       return computationalUnitsToDeregister_;
@@ -16542,6 +17534,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.AllocatedComputationalUnit computational_units_to_deregister = 6;</code>
      */
+    @java.lang.Override
     public int getComputationalUnitsToDeregisterCount() {
       return computationalUnitsToDeregister_.size();
     }
@@ -16552,6 +17545,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.AllocatedComputationalUnit computational_units_to_deregister = 6;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.AllocatedComputationalUnit getComputationalUnitsToDeregister(int index) {
       return computationalUnitsToDeregister_.get(index);
     }
@@ -16562,6 +17556,7 @@ public final class YdbCms {
      *
      * <code>repeated .Ydb.Cms.AllocatedComputationalUnit computational_units_to_deregister = 6;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.AllocatedComputationalUnitOrBuilder getComputationalUnitsToDeregisterOrBuilder(
         int index) {
       return computationalUnitsToDeregister_.get(index);
@@ -16575,7 +17570,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
@@ -16585,7 +17582,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
@@ -16596,6 +17595,7 @@ public final class YdbCms {
      *
      * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -16608,7 +17608,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>uint64 generation = 8;</code>
+     * @return The generation.
      */
+    @java.lang.Override
     public long getGeneration() {
       return generation_;
     }
@@ -16621,7 +17623,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+     * @return Whether the schemaOperationQuotas field is set.
      */
+    @java.lang.Override
     public boolean hasSchemaOperationQuotas() {
       return schemaOperationQuotas_ != null;
     }
@@ -16631,7 +17635,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+     * @return The schemaOperationQuotas.
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.SchemaOperationQuotas getSchemaOperationQuotas() {
       return schemaOperationQuotas_ == null ? tech.ydb.cms.YdbCms.SchemaOperationQuotas.getDefaultInstance() : schemaOperationQuotas_;
     }
@@ -16642,6 +17648,7 @@ public final class YdbCms {
      *
      * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder getSchemaOperationQuotasOrBuilder() {
       return getSchemaOperationQuotas();
     }
@@ -16654,7 +17661,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string idempotency_key = 10;</code>
+     * @return The idempotencyKey.
      */
+    @java.lang.Override
     public java.lang.String getIdempotencyKey() {
       java.lang.Object ref = idempotencyKey_;
       if (ref instanceof java.lang.String) {
@@ -16673,7 +17682,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string idempotency_key = 10;</code>
+     * @return The bytes for idempotencyKey.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdempotencyKeyBytes() {
       java.lang.Object ref = idempotencyKey_;
@@ -16696,7 +17707,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+     * @return Whether the databaseQuotas field is set.
      */
+    @java.lang.Override
     public boolean hasDatabaseQuotas() {
       return databaseQuotas_ != null;
     }
@@ -16706,7 +17719,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+     * @return The databaseQuotas.
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.DatabaseQuotas getDatabaseQuotas() {
       return databaseQuotas_ == null ? tech.ydb.cms.YdbCms.DatabaseQuotas.getDefaultInstance() : databaseQuotas_;
     }
@@ -16717,11 +17732,13 @@ public final class YdbCms {
      *
      * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder getDatabaseQuotasOrBuilder() {
       return getDatabaseQuotas();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -16731,6 +17748,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getPathBytes().isEmpty()) {
@@ -16769,6 +17787,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -16831,40 +17850,39 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.AlterDatabaseRequest other = (tech.ydb.cms.YdbCms.AlterDatabaseRequest) obj;
 
-      boolean result = true;
-      result = result && getPath()
-          .equals(other.getPath());
-      result = result && getComputationalUnitsToAddList()
-          .equals(other.getComputationalUnitsToAddList());
-      result = result && getComputationalUnitsToRemoveList()
-          .equals(other.getComputationalUnitsToRemoveList());
-      result = result && getStorageUnitsToAddList()
-          .equals(other.getStorageUnitsToAddList());
-      result = result && getComputationalUnitsToRegisterList()
-          .equals(other.getComputationalUnitsToRegisterList());
-      result = result && getComputationalUnitsToDeregisterList()
-          .equals(other.getComputationalUnitsToDeregisterList());
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (!getPath()
+          .equals(other.getPath())) return false;
+      if (!getComputationalUnitsToAddList()
+          .equals(other.getComputationalUnitsToAddList())) return false;
+      if (!getComputationalUnitsToRemoveList()
+          .equals(other.getComputationalUnitsToRemoveList())) return false;
+      if (!getStorageUnitsToAddList()
+          .equals(other.getStorageUnitsToAddList())) return false;
+      if (!getComputationalUnitsToRegisterList()
+          .equals(other.getComputationalUnitsToRegisterList())) return false;
+      if (!getComputationalUnitsToDeregisterList()
+          .equals(other.getComputationalUnitsToDeregisterList())) return false;
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && (getGeneration()
-          == other.getGeneration());
-      result = result && (hasSchemaOperationQuotas() == other.hasSchemaOperationQuotas());
+      if (getGeneration()
+          != other.getGeneration()) return false;
+      if (hasSchemaOperationQuotas() != other.hasSchemaOperationQuotas()) return false;
       if (hasSchemaOperationQuotas()) {
-        result = result && getSchemaOperationQuotas()
-            .equals(other.getSchemaOperationQuotas());
+        if (!getSchemaOperationQuotas()
+            .equals(other.getSchemaOperationQuotas())) return false;
       }
-      result = result && getIdempotencyKey()
-          .equals(other.getIdempotencyKey());
-      result = result && (hasDatabaseQuotas() == other.hasDatabaseQuotas());
+      if (!getIdempotencyKey()
+          .equals(other.getIdempotencyKey())) return false;
+      if (hasDatabaseQuotas() != other.hasDatabaseQuotas()) return false;
       if (hasDatabaseQuotas()) {
-        result = result && getDatabaseQuotas()
-            .equals(other.getDatabaseQuotas());
+        if (!getDatabaseQuotas()
+            .equals(other.getDatabaseQuotas())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -16988,6 +18006,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -16995,6 +18014,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.AlterDatabaseRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -17022,6 +18042,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AlterDatabaseRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AlterDatabaseRequest_fieldAccessorTable
@@ -17049,37 +18070,38 @@ public final class YdbCms {
           getComputationalUnitsToDeregisterFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         path_ = "";
 
         if (computationalUnitsToAddBuilder_ == null) {
           computationalUnitsToAdd_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           computationalUnitsToAddBuilder_.clear();
         }
         if (computationalUnitsToRemoveBuilder_ == null) {
           computationalUnitsToRemove_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
           computationalUnitsToRemoveBuilder_.clear();
         }
         if (storageUnitsToAddBuilder_ == null) {
           storageUnitsToAdd_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000004);
         } else {
           storageUnitsToAddBuilder_.clear();
         }
         if (computationalUnitsToRegisterBuilder_ == null) {
           computationalUnitsToRegister_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
+          bitField0_ = (bitField0_ & ~0x00000008);
         } else {
           computationalUnitsToRegisterBuilder_.clear();
         }
         if (computationalUnitsToDeregisterBuilder_ == null) {
           computationalUnitsToDeregister_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000010);
         } else {
           computationalUnitsToDeregisterBuilder_.clear();
         }
@@ -17108,15 +18130,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AlterDatabaseRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.AlterDatabaseRequest getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.AlterDatabaseRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.AlterDatabaseRequest build() {
         tech.ydb.cms.YdbCms.AlterDatabaseRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -17125,51 +18150,51 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.AlterDatabaseRequest buildPartial() {
         tech.ydb.cms.YdbCms.AlterDatabaseRequest result = new tech.ydb.cms.YdbCms.AlterDatabaseRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.path_ = path_;
         if (computationalUnitsToAddBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             computationalUnitsToAdd_ = java.util.Collections.unmodifiableList(computationalUnitsToAdd_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.computationalUnitsToAdd_ = computationalUnitsToAdd_;
         } else {
           result.computationalUnitsToAdd_ = computationalUnitsToAddBuilder_.build();
         }
         if (computationalUnitsToRemoveBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000002) != 0)) {
             computationalUnitsToRemove_ = java.util.Collections.unmodifiableList(computationalUnitsToRemove_);
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
           result.computationalUnitsToRemove_ = computationalUnitsToRemove_;
         } else {
           result.computationalUnitsToRemove_ = computationalUnitsToRemoveBuilder_.build();
         }
         if (storageUnitsToAddBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          if (((bitField0_ & 0x00000004) != 0)) {
             storageUnitsToAdd_ = java.util.Collections.unmodifiableList(storageUnitsToAdd_);
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000004);
           }
           result.storageUnitsToAdd_ = storageUnitsToAdd_;
         } else {
           result.storageUnitsToAdd_ = storageUnitsToAddBuilder_.build();
         }
         if (computationalUnitsToRegisterBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          if (((bitField0_ & 0x00000008) != 0)) {
             computationalUnitsToRegister_ = java.util.Collections.unmodifiableList(computationalUnitsToRegister_);
-            bitField0_ = (bitField0_ & ~0x00000010);
+            bitField0_ = (bitField0_ & ~0x00000008);
           }
           result.computationalUnitsToRegister_ = computationalUnitsToRegister_;
         } else {
           result.computationalUnitsToRegister_ = computationalUnitsToRegisterBuilder_.build();
         }
         if (computationalUnitsToDeregisterBuilder_ == null) {
-          if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          if (((bitField0_ & 0x00000010) != 0)) {
             computationalUnitsToDeregister_ = java.util.Collections.unmodifiableList(computationalUnitsToDeregister_);
-            bitField0_ = (bitField0_ & ~0x00000020);
+            bitField0_ = (bitField0_ & ~0x00000010);
           }
           result.computationalUnitsToDeregister_ = computationalUnitsToDeregister_;
         } else {
@@ -17192,37 +18217,43 @@ public final class YdbCms {
         } else {
           result.databaseQuotas_ = databaseQuotasBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.AlterDatabaseRequest) {
           return mergeFrom((tech.ydb.cms.YdbCms.AlterDatabaseRequest)other);
@@ -17242,7 +18273,7 @@ public final class YdbCms {
           if (!other.computationalUnitsToAdd_.isEmpty()) {
             if (computationalUnitsToAdd_.isEmpty()) {
               computationalUnitsToAdd_ = other.computationalUnitsToAdd_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureComputationalUnitsToAddIsMutable();
               computationalUnitsToAdd_.addAll(other.computationalUnitsToAdd_);
@@ -17255,7 +18286,7 @@ public final class YdbCms {
               computationalUnitsToAddBuilder_.dispose();
               computationalUnitsToAddBuilder_ = null;
               computationalUnitsToAdd_ = other.computationalUnitsToAdd_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               computationalUnitsToAddBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getComputationalUnitsToAddFieldBuilder() : null;
@@ -17268,7 +18299,7 @@ public final class YdbCms {
           if (!other.computationalUnitsToRemove_.isEmpty()) {
             if (computationalUnitsToRemove_.isEmpty()) {
               computationalUnitsToRemove_ = other.computationalUnitsToRemove_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensureComputationalUnitsToRemoveIsMutable();
               computationalUnitsToRemove_.addAll(other.computationalUnitsToRemove_);
@@ -17281,7 +18312,7 @@ public final class YdbCms {
               computationalUnitsToRemoveBuilder_.dispose();
               computationalUnitsToRemoveBuilder_ = null;
               computationalUnitsToRemove_ = other.computationalUnitsToRemove_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000002);
               computationalUnitsToRemoveBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getComputationalUnitsToRemoveFieldBuilder() : null;
@@ -17294,7 +18325,7 @@ public final class YdbCms {
           if (!other.storageUnitsToAdd_.isEmpty()) {
             if (storageUnitsToAdd_.isEmpty()) {
               storageUnitsToAdd_ = other.storageUnitsToAdd_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000004);
             } else {
               ensureStorageUnitsToAddIsMutable();
               storageUnitsToAdd_.addAll(other.storageUnitsToAdd_);
@@ -17307,7 +18338,7 @@ public final class YdbCms {
               storageUnitsToAddBuilder_.dispose();
               storageUnitsToAddBuilder_ = null;
               storageUnitsToAdd_ = other.storageUnitsToAdd_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000004);
               storageUnitsToAddBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getStorageUnitsToAddFieldBuilder() : null;
@@ -17320,7 +18351,7 @@ public final class YdbCms {
           if (!other.computationalUnitsToRegister_.isEmpty()) {
             if (computationalUnitsToRegister_.isEmpty()) {
               computationalUnitsToRegister_ = other.computationalUnitsToRegister_;
-              bitField0_ = (bitField0_ & ~0x00000010);
+              bitField0_ = (bitField0_ & ~0x00000008);
             } else {
               ensureComputationalUnitsToRegisterIsMutable();
               computationalUnitsToRegister_.addAll(other.computationalUnitsToRegister_);
@@ -17333,7 +18364,7 @@ public final class YdbCms {
               computationalUnitsToRegisterBuilder_.dispose();
               computationalUnitsToRegisterBuilder_ = null;
               computationalUnitsToRegister_ = other.computationalUnitsToRegister_;
-              bitField0_ = (bitField0_ & ~0x00000010);
+              bitField0_ = (bitField0_ & ~0x00000008);
               computationalUnitsToRegisterBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getComputationalUnitsToRegisterFieldBuilder() : null;
@@ -17346,7 +18377,7 @@ public final class YdbCms {
           if (!other.computationalUnitsToDeregister_.isEmpty()) {
             if (computationalUnitsToDeregister_.isEmpty()) {
               computationalUnitsToDeregister_ = other.computationalUnitsToDeregister_;
-              bitField0_ = (bitField0_ & ~0x00000020);
+              bitField0_ = (bitField0_ & ~0x00000010);
             } else {
               ensureComputationalUnitsToDeregisterIsMutable();
               computationalUnitsToDeregister_.addAll(other.computationalUnitsToDeregister_);
@@ -17359,7 +18390,7 @@ public final class YdbCms {
               computationalUnitsToDeregisterBuilder_.dispose();
               computationalUnitsToDeregisterBuilder_ = null;
               computationalUnitsToDeregister_ = other.computationalUnitsToDeregister_;
-              bitField0_ = (bitField0_ & ~0x00000020);
+              bitField0_ = (bitField0_ & ~0x00000010);
               computationalUnitsToDeregisterBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getComputationalUnitsToDeregisterFieldBuilder() : null;
@@ -17389,10 +18420,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -17419,6 +18452,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @return The path.
        */
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
@@ -17438,6 +18472,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @return The bytes for path.
        */
       public com.google.protobuf.ByteString
           getPathBytes() {
@@ -17458,6 +18493,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           java.lang.String value) {
@@ -17475,6 +18512,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         
@@ -17488,6 +18526,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
        */
       public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
@@ -17504,9 +18544,9 @@ public final class YdbCms {
       private java.util.List<tech.ydb.cms.YdbCms.ComputationalUnits> computationalUnitsToAdd_ =
         java.util.Collections.emptyList();
       private void ensureComputationalUnitsToAddIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           computationalUnitsToAdd_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.ComputationalUnits>(computationalUnitsToAdd_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -17700,7 +18740,7 @@ public final class YdbCms {
       public Builder clearComputationalUnitsToAdd() {
         if (computationalUnitsToAddBuilder_ == null) {
           computationalUnitsToAdd_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           computationalUnitsToAddBuilder_.clear();
@@ -17805,7 +18845,7 @@ public final class YdbCms {
           computationalUnitsToAddBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.cms.YdbCms.ComputationalUnits, tech.ydb.cms.YdbCms.ComputationalUnits.Builder, tech.ydb.cms.YdbCms.ComputationalUnitsOrBuilder>(
                   computationalUnitsToAdd_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           computationalUnitsToAdd_ = null;
@@ -17816,9 +18856,9 @@ public final class YdbCms {
       private java.util.List<tech.ydb.cms.YdbCms.ComputationalUnits> computationalUnitsToRemove_ =
         java.util.Collections.emptyList();
       private void ensureComputationalUnitsToRemoveIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           computationalUnitsToRemove_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.ComputationalUnits>(computationalUnitsToRemove_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000002;
          }
       }
 
@@ -18012,7 +19052,7 @@ public final class YdbCms {
       public Builder clearComputationalUnitsToRemove() {
         if (computationalUnitsToRemoveBuilder_ == null) {
           computationalUnitsToRemove_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
           computationalUnitsToRemoveBuilder_.clear();
@@ -18117,7 +19157,7 @@ public final class YdbCms {
           computationalUnitsToRemoveBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.cms.YdbCms.ComputationalUnits, tech.ydb.cms.YdbCms.ComputationalUnits.Builder, tech.ydb.cms.YdbCms.ComputationalUnitsOrBuilder>(
                   computationalUnitsToRemove_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           computationalUnitsToRemove_ = null;
@@ -18128,9 +19168,9 @@ public final class YdbCms {
       private java.util.List<tech.ydb.cms.YdbCms.StorageUnits> storageUnitsToAdd_ =
         java.util.Collections.emptyList();
       private void ensureStorageUnitsToAddIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+        if (!((bitField0_ & 0x00000004) != 0)) {
           storageUnitsToAdd_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.StorageUnits>(storageUnitsToAdd_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000004;
          }
       }
 
@@ -18324,7 +19364,7 @@ public final class YdbCms {
       public Builder clearStorageUnitsToAdd() {
         if (storageUnitsToAddBuilder_ == null) {
           storageUnitsToAdd_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000004);
           onChanged();
         } else {
           storageUnitsToAddBuilder_.clear();
@@ -18429,7 +19469,7 @@ public final class YdbCms {
           storageUnitsToAddBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.cms.YdbCms.StorageUnits, tech.ydb.cms.YdbCms.StorageUnits.Builder, tech.ydb.cms.YdbCms.StorageUnitsOrBuilder>(
                   storageUnitsToAdd_,
-                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  ((bitField0_ & 0x00000004) != 0),
                   getParentForChildren(),
                   isClean());
           storageUnitsToAdd_ = null;
@@ -18440,9 +19480,9 @@ public final class YdbCms {
       private java.util.List<tech.ydb.cms.YdbCms.AllocatedComputationalUnit> computationalUnitsToRegister_ =
         java.util.Collections.emptyList();
       private void ensureComputationalUnitsToRegisterIsMutable() {
-        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+        if (!((bitField0_ & 0x00000008) != 0)) {
           computationalUnitsToRegister_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.AllocatedComputationalUnit>(computationalUnitsToRegister_);
-          bitField0_ |= 0x00000010;
+          bitField0_ |= 0x00000008;
          }
       }
 
@@ -18636,7 +19676,7 @@ public final class YdbCms {
       public Builder clearComputationalUnitsToRegister() {
         if (computationalUnitsToRegisterBuilder_ == null) {
           computationalUnitsToRegister_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
+          bitField0_ = (bitField0_ & ~0x00000008);
           onChanged();
         } else {
           computationalUnitsToRegisterBuilder_.clear();
@@ -18741,7 +19781,7 @@ public final class YdbCms {
           computationalUnitsToRegisterBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.cms.YdbCms.AllocatedComputationalUnit, tech.ydb.cms.YdbCms.AllocatedComputationalUnit.Builder, tech.ydb.cms.YdbCms.AllocatedComputationalUnitOrBuilder>(
                   computationalUnitsToRegister_,
-                  ((bitField0_ & 0x00000010) == 0x00000010),
+                  ((bitField0_ & 0x00000008) != 0),
                   getParentForChildren(),
                   isClean());
           computationalUnitsToRegister_ = null;
@@ -18752,9 +19792,9 @@ public final class YdbCms {
       private java.util.List<tech.ydb.cms.YdbCms.AllocatedComputationalUnit> computationalUnitsToDeregister_ =
         java.util.Collections.emptyList();
       private void ensureComputationalUnitsToDeregisterIsMutable() {
-        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+        if (!((bitField0_ & 0x00000010) != 0)) {
           computationalUnitsToDeregister_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.AllocatedComputationalUnit>(computationalUnitsToDeregister_);
-          bitField0_ |= 0x00000020;
+          bitField0_ |= 0x00000010;
          }
       }
 
@@ -18948,7 +19988,7 @@ public final class YdbCms {
       public Builder clearComputationalUnitsToDeregister() {
         if (computationalUnitsToDeregisterBuilder_ == null) {
           computationalUnitsToDeregister_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000010);
           onChanged();
         } else {
           computationalUnitsToDeregisterBuilder_.clear();
@@ -19053,7 +20093,7 @@ public final class YdbCms {
           computationalUnitsToDeregisterBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.cms.YdbCms.AllocatedComputationalUnit, tech.ydb.cms.YdbCms.AllocatedComputationalUnit.Builder, tech.ydb.cms.YdbCms.AllocatedComputationalUnitOrBuilder>(
                   computationalUnitsToDeregister_,
-                  ((bitField0_ & 0x00000020) == 0x00000020),
+                  ((bitField0_ & 0x00000010) != 0),
                   getParentForChildren(),
                   isClean());
           computationalUnitsToDeregister_ = null;
@@ -19061,7 +20101,7 @@ public final class YdbCms {
         return computationalUnitsToDeregisterBuilder_;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
@@ -19070,6 +20110,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
@@ -19080,6 +20121,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -19221,7 +20263,9 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 generation = 8;</code>
+       * @return The generation.
        */
+      @java.lang.Override
       public long getGeneration() {
         return generation_;
       }
@@ -19231,6 +20275,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 generation = 8;</code>
+       * @param value The generation to set.
+       * @return This builder for chaining.
        */
       public Builder setGeneration(long value) {
         
@@ -19244,6 +20290,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>uint64 generation = 8;</code>
+       * @return This builder for chaining.
        */
       public Builder clearGeneration() {
         
@@ -19252,7 +20299,7 @@ public final class YdbCms {
         return this;
       }
 
-      private tech.ydb.cms.YdbCms.SchemaOperationQuotas schemaOperationQuotas_ = null;
+      private tech.ydb.cms.YdbCms.SchemaOperationQuotas schemaOperationQuotas_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.cms.YdbCms.SchemaOperationQuotas, tech.ydb.cms.YdbCms.SchemaOperationQuotas.Builder, tech.ydb.cms.YdbCms.SchemaOperationQuotasOrBuilder> schemaOperationQuotasBuilder_;
       /**
@@ -19261,6 +20308,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       * @return Whether the schemaOperationQuotas field is set.
        */
       public boolean hasSchemaOperationQuotas() {
         return schemaOperationQuotasBuilder_ != null || schemaOperationQuotas_ != null;
@@ -19271,6 +20319,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.SchemaOperationQuotas schema_operation_quotas = 9;</code>
+       * @return The schemaOperationQuotas.
        */
       public tech.ydb.cms.YdbCms.SchemaOperationQuotas getSchemaOperationQuotas() {
         if (schemaOperationQuotasBuilder_ == null) {
@@ -19412,6 +20461,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string idempotency_key = 10;</code>
+       * @return The idempotencyKey.
        */
       public java.lang.String getIdempotencyKey() {
         java.lang.Object ref = idempotencyKey_;
@@ -19431,6 +20481,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string idempotency_key = 10;</code>
+       * @return The bytes for idempotencyKey.
        */
       public com.google.protobuf.ByteString
           getIdempotencyKeyBytes() {
@@ -19451,6 +20502,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string idempotency_key = 10;</code>
+       * @param value The idempotencyKey to set.
+       * @return This builder for chaining.
        */
       public Builder setIdempotencyKey(
           java.lang.String value) {
@@ -19468,6 +20521,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string idempotency_key = 10;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIdempotencyKey() {
         
@@ -19481,6 +20535,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string idempotency_key = 10;</code>
+       * @param value The bytes for idempotencyKey to set.
+       * @return This builder for chaining.
        */
       public Builder setIdempotencyKeyBytes(
           com.google.protobuf.ByteString value) {
@@ -19494,7 +20550,7 @@ public final class YdbCms {
         return this;
       }
 
-      private tech.ydb.cms.YdbCms.DatabaseQuotas databaseQuotas_ = null;
+      private tech.ydb.cms.YdbCms.DatabaseQuotas databaseQuotas_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.cms.YdbCms.DatabaseQuotas, tech.ydb.cms.YdbCms.DatabaseQuotas.Builder, tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder> databaseQuotasBuilder_;
       /**
@@ -19503,6 +20559,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+       * @return Whether the databaseQuotas field is set.
        */
       public boolean hasDatabaseQuotas() {
         return databaseQuotasBuilder_ != null || databaseQuotas_ != null;
@@ -19513,6 +20570,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
+       * @return The databaseQuotas.
        */
       public tech.ydb.cms.YdbCms.DatabaseQuotas getDatabaseQuotas() {
         if (databaseQuotasBuilder_ == null) {
@@ -19646,11 +20704,13 @@ public final class YdbCms {
         }
         return databaseQuotasBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -19672,11 +20732,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<AlterDatabaseRequest>
         PARSER = new com.google.protobuf.AbstractParser<AlterDatabaseRequest>() {
+      @java.lang.Override
       public AlterDatabaseRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new AlterDatabaseRequest(input, extensionRegistry);
+        return new AlterDatabaseRequest(input, extensionRegistry);
       }
     };
 
@@ -19689,6 +20750,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.AlterDatabaseRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -19701,10 +20763,12 @@ public final class YdbCms {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -19715,7 +20779,7 @@ public final class YdbCms {
   /**
    * Protobuf type {@code Ydb.Cms.AlterDatabaseResponse}
    */
-  public  static final class AlterDatabaseResponse extends
+  public static final class AlterDatabaseResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.AlterDatabaseResponse)
       AlterDatabaseResponseOrBuilder {
@@ -19728,6 +20792,13 @@ public final class YdbCms {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new AlterDatabaseResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -19737,7 +20808,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -19748,13 +20821,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -19766,6 +20832,13 @@ public final class YdbCms {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -19785,6 +20858,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AlterDatabaseResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AlterDatabaseResponse_fieldAccessorTable
@@ -19796,24 +20870,30 @@ public final class YdbCms {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -19823,6 +20903,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -19831,6 +20912,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -19855,14 +20937,13 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.AlterDatabaseResponse other = (tech.ydb.cms.YdbCms.AlterDatabaseResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -19951,6 +21032,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -19958,6 +21040,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.AlterDatabaseResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -19981,6 +21064,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AlterDatabaseResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AlterDatabaseResponse_fieldAccessorTable
@@ -20003,6 +21087,7 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -20014,15 +21099,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AlterDatabaseResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.AlterDatabaseResponse getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.AlterDatabaseResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.AlterDatabaseResponse build() {
         tech.ydb.cms.YdbCms.AlterDatabaseResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -20031,6 +21119,7 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.AlterDatabaseResponse buildPartial() {
         tech.ydb.cms.YdbCms.AlterDatabaseResponse result = new tech.ydb.cms.YdbCms.AlterDatabaseResponse(this);
         if (operationBuilder_ == null) {
@@ -20042,32 +21131,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.AlterDatabaseResponse) {
           return mergeFrom((tech.ydb.cms.YdbCms.AlterDatabaseResponse)other);
@@ -20087,10 +21183,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -20109,17 +21207,19 @@ public final class YdbCms {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -20225,11 +21325,13 @@ public final class YdbCms {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -20251,11 +21353,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<AlterDatabaseResponse>
         PARSER = new com.google.protobuf.AbstractParser<AlterDatabaseResponse>() {
+      @java.lang.Override
       public AlterDatabaseResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new AlterDatabaseResponse(input, extensionRegistry);
+        return new AlterDatabaseResponse(input, extensionRegistry);
       }
     };
 
@@ -20268,6 +21371,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.AlterDatabaseResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -20284,6 +21388,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
@@ -20292,6 +21397,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -20310,7 +21416,7 @@ public final class YdbCms {
    *
    * Protobuf type {@code Ydb.Cms.ListDatabasesRequest}
    */
-  public  static final class ListDatabasesRequest extends
+  public static final class ListDatabasesRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.ListDatabasesRequest)
       ListDatabasesRequestOrBuilder {
@@ -20323,6 +21429,13 @@ public final class YdbCms {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ListDatabasesRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -20332,7 +21445,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -20343,13 +21458,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -20361,6 +21469,13 @@ public final class YdbCms {
                 operationParams_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -20380,6 +21495,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ListDatabasesRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ListDatabasesRequest_fieldAccessorTable
@@ -20395,7 +21511,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
@@ -20405,7 +21523,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
@@ -20416,11 +21536,13 @@ public final class YdbCms {
      *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -20430,6 +21552,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -20438,6 +21561,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -20462,14 +21586,13 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.ListDatabasesRequest other = (tech.ydb.cms.YdbCms.ListDatabasesRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -20558,6 +21681,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -20565,6 +21689,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.ListDatabasesRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -20592,6 +21717,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ListDatabasesRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ListDatabasesRequest_fieldAccessorTable
@@ -20614,6 +21740,7 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -20625,15 +21752,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ListDatabasesRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ListDatabasesRequest getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.ListDatabasesRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ListDatabasesRequest build() {
         tech.ydb.cms.YdbCms.ListDatabasesRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -20642,6 +21772,7 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ListDatabasesRequest buildPartial() {
         tech.ydb.cms.YdbCms.ListDatabasesRequest result = new tech.ydb.cms.YdbCms.ListDatabasesRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -20653,32 +21784,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.ListDatabasesRequest) {
           return mergeFrom((tech.ydb.cms.YdbCms.ListDatabasesRequest)other);
@@ -20698,10 +21836,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -20720,7 +21860,7 @@ public final class YdbCms {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
@@ -20729,6 +21869,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
@@ -20739,6 +21880,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -20872,11 +22014,13 @@ public final class YdbCms {
         }
         return operationParamsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -20898,11 +22042,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<ListDatabasesRequest>
         PARSER = new com.google.protobuf.AbstractParser<ListDatabasesRequest>() {
+      @java.lang.Override
       public ListDatabasesRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ListDatabasesRequest(input, extensionRegistry);
+        return new ListDatabasesRequest(input, extensionRegistry);
       }
     };
 
@@ -20915,6 +22060,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ListDatabasesRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -20931,6 +22077,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
@@ -20939,6 +22086,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -20953,7 +22101,7 @@ public final class YdbCms {
   /**
    * Protobuf type {@code Ydb.Cms.ListDatabasesResponse}
    */
-  public  static final class ListDatabasesResponse extends
+  public static final class ListDatabasesResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.ListDatabasesResponse)
       ListDatabasesResponseOrBuilder {
@@ -20966,6 +22114,13 @@ public final class YdbCms {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ListDatabasesResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -20975,7 +22130,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -20986,13 +22143,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -21004,6 +22154,13 @@ public final class YdbCms {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -21023,6 +22180,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ListDatabasesResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ListDatabasesResponse_fieldAccessorTable
@@ -21038,7 +22196,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
@@ -21048,7 +22208,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
@@ -21059,11 +22221,13 @@ public final class YdbCms {
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -21073,6 +22237,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -21081,6 +22246,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -21105,14 +22271,13 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.ListDatabasesResponse other = (tech.ydb.cms.YdbCms.ListDatabasesResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -21201,6 +22366,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -21208,6 +22374,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.ListDatabasesResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -21231,6 +22398,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ListDatabasesResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ListDatabasesResponse_fieldAccessorTable
@@ -21253,6 +22421,7 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -21264,15 +22433,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ListDatabasesResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ListDatabasesResponse getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.ListDatabasesResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ListDatabasesResponse build() {
         tech.ydb.cms.YdbCms.ListDatabasesResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -21281,6 +22453,7 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ListDatabasesResponse buildPartial() {
         tech.ydb.cms.YdbCms.ListDatabasesResponse result = new tech.ydb.cms.YdbCms.ListDatabasesResponse(this);
         if (operationBuilder_ == null) {
@@ -21292,32 +22465,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.ListDatabasesResponse) {
           return mergeFrom((tech.ydb.cms.YdbCms.ListDatabasesResponse)other);
@@ -21337,10 +22517,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -21359,7 +22541,7 @@ public final class YdbCms {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
@@ -21368,6 +22550,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
@@ -21378,6 +22561,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -21511,11 +22695,13 @@ public final class YdbCms {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -21537,11 +22723,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<ListDatabasesResponse>
         PARSER = new com.google.protobuf.AbstractParser<ListDatabasesResponse>() {
+      @java.lang.Override
       public ListDatabasesResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ListDatabasesResponse(input, extensionRegistry);
+        return new ListDatabasesResponse(input, extensionRegistry);
       }
     };
 
@@ -21554,6 +22741,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ListDatabasesResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -21566,19 +22754,25 @@ public final class YdbCms {
 
     /**
      * <code>repeated string paths = 1;</code>
+     * @return A list containing the paths.
      */
     java.util.List<java.lang.String>
         getPathsList();
     /**
      * <code>repeated string paths = 1;</code>
+     * @return The count of paths.
      */
     int getPathsCount();
     /**
      * <code>repeated string paths = 1;</code>
+     * @param index The index of the element to return.
+     * @return The paths at the given index.
      */
     java.lang.String getPaths(int index);
     /**
      * <code>repeated string paths = 1;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the paths at the given index.
      */
     com.google.protobuf.ByteString
         getPathsBytes(int index);
@@ -21586,7 +22780,7 @@ public final class YdbCms {
   /**
    * Protobuf type {@code Ydb.Cms.ListDatabasesResult}
    */
-  public  static final class ListDatabasesResult extends
+  public static final class ListDatabasesResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.ListDatabasesResult)
       ListDatabasesResultOrBuilder {
@@ -21600,6 +22794,13 @@ public final class YdbCms {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ListDatabasesResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -21609,6 +22810,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -21620,20 +22824,20 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 paths_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000001;
               }
               paths_.add(s);
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -21644,7 +22848,7 @@ public final class YdbCms {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           paths_ = paths_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -21656,6 +22860,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ListDatabasesResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ListDatabasesResult_fieldAccessorTable
@@ -21667,6 +22872,7 @@ public final class YdbCms {
     private com.google.protobuf.LazyStringList paths_;
     /**
      * <code>repeated string paths = 1;</code>
+     * @return A list containing the paths.
      */
     public com.google.protobuf.ProtocolStringList
         getPathsList() {
@@ -21674,18 +22880,23 @@ public final class YdbCms {
     }
     /**
      * <code>repeated string paths = 1;</code>
+     * @return The count of paths.
      */
     public int getPathsCount() {
       return paths_.size();
     }
     /**
      * <code>repeated string paths = 1;</code>
+     * @param index The index of the element to return.
+     * @return The paths at the given index.
      */
     public java.lang.String getPaths(int index) {
       return paths_.get(index);
     }
     /**
      * <code>repeated string paths = 1;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the paths at the given index.
      */
     public com.google.protobuf.ByteString
         getPathsBytes(int index) {
@@ -21693,6 +22904,7 @@ public final class YdbCms {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -21702,6 +22914,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < paths_.size(); i++) {
@@ -21710,6 +22923,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -21738,11 +22952,10 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.ListDatabasesResult other = (tech.ydb.cms.YdbCms.ListDatabasesResult) obj;
 
-      boolean result = true;
-      result = result && getPathsList()
-          .equals(other.getPathsList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getPathsList()
+          .equals(other.getPathsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -21831,6 +23044,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -21838,6 +23052,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.ListDatabasesResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -21861,6 +23076,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ListDatabasesResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ListDatabasesResult_fieldAccessorTable
@@ -21883,6 +23099,7 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         paths_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -21890,15 +23107,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ListDatabasesResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ListDatabasesResult getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.ListDatabasesResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ListDatabasesResult build() {
         tech.ydb.cms.YdbCms.ListDatabasesResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -21907,10 +23127,11 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ListDatabasesResult buildPartial() {
         tech.ydb.cms.YdbCms.ListDatabasesResult result = new tech.ydb.cms.YdbCms.ListDatabasesResult(this);
         int from_bitField0_ = bitField0_;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           paths_ = paths_.getUnmodifiableView();
           bitField0_ = (bitField0_ & ~0x00000001);
         }
@@ -21919,32 +23140,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.ListDatabasesResult) {
           return mergeFrom((tech.ydb.cms.YdbCms.ListDatabasesResult)other);
@@ -21971,10 +23199,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -21996,13 +23226,14 @@ public final class YdbCms {
 
       private com.google.protobuf.LazyStringList paths_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensurePathsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           paths_ = new com.google.protobuf.LazyStringArrayList(paths_);
           bitField0_ |= 0x00000001;
          }
       }
       /**
        * <code>repeated string paths = 1;</code>
+       * @return A list containing the paths.
        */
       public com.google.protobuf.ProtocolStringList
           getPathsList() {
@@ -22010,18 +23241,23 @@ public final class YdbCms {
       }
       /**
        * <code>repeated string paths = 1;</code>
+       * @return The count of paths.
        */
       public int getPathsCount() {
         return paths_.size();
       }
       /**
        * <code>repeated string paths = 1;</code>
+       * @param index The index of the element to return.
+       * @return The paths at the given index.
        */
       public java.lang.String getPaths(int index) {
         return paths_.get(index);
       }
       /**
        * <code>repeated string paths = 1;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the paths at the given index.
        */
       public com.google.protobuf.ByteString
           getPathsBytes(int index) {
@@ -22029,6 +23265,9 @@ public final class YdbCms {
       }
       /**
        * <code>repeated string paths = 1;</code>
+       * @param index The index to set the value at.
+       * @param value The paths to set.
+       * @return This builder for chaining.
        */
       public Builder setPaths(
           int index, java.lang.String value) {
@@ -22042,6 +23281,8 @@ public final class YdbCms {
       }
       /**
        * <code>repeated string paths = 1;</code>
+       * @param value The paths to add.
+       * @return This builder for chaining.
        */
       public Builder addPaths(
           java.lang.String value) {
@@ -22055,6 +23296,8 @@ public final class YdbCms {
       }
       /**
        * <code>repeated string paths = 1;</code>
+       * @param values The paths to add.
+       * @return This builder for chaining.
        */
       public Builder addAllPaths(
           java.lang.Iterable<java.lang.String> values) {
@@ -22066,6 +23309,7 @@ public final class YdbCms {
       }
       /**
        * <code>repeated string paths = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPaths() {
         paths_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -22075,6 +23319,8 @@ public final class YdbCms {
       }
       /**
        * <code>repeated string paths = 1;</code>
+       * @param value The bytes of the paths to add.
+       * @return This builder for chaining.
        */
       public Builder addPathsBytes(
           com.google.protobuf.ByteString value) {
@@ -22087,11 +23333,13 @@ public final class YdbCms {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -22113,11 +23361,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<ListDatabasesResult>
         PARSER = new com.google.protobuf.AbstractParser<ListDatabasesResult>() {
+      @java.lang.Override
       public ListDatabasesResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ListDatabasesResult(input, extensionRegistry);
+        return new ListDatabasesResult(input, extensionRegistry);
       }
     };
 
@@ -22130,6 +23379,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ListDatabasesResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -22146,6 +23396,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The path.
      */
     java.lang.String getPath();
     /**
@@ -22154,16 +23405,19 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The bytes for path.
      */
     com.google.protobuf.ByteString
         getPathBytes();
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 2;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 2;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -22178,7 +23432,7 @@ public final class YdbCms {
    *
    * Protobuf type {@code Ydb.Cms.RemoveDatabaseRequest}
    */
-  public  static final class RemoveDatabaseRequest extends
+  public static final class RemoveDatabaseRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.RemoveDatabaseRequest)
       RemoveDatabaseRequestOrBuilder {
@@ -22192,6 +23446,13 @@ public final class YdbCms {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RemoveDatabaseRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -22201,7 +23462,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -22212,13 +23475,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -22238,6 +23494,13 @@ public final class YdbCms {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -22255,6 +23518,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_RemoveDatabaseRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_RemoveDatabaseRequest_fieldAccessorTable
@@ -22270,7 +23534,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The path.
      */
+    @java.lang.Override
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
@@ -22289,7 +23555,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The bytes for path.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathBytes() {
       java.lang.Object ref = path_;
@@ -22308,24 +23576,30 @@ public final class YdbCms {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 2;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 2;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -22335,6 +23609,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getPathBytes().isEmpty()) {
@@ -22346,6 +23621,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -22373,16 +23649,15 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.RemoveDatabaseRequest other = (tech.ydb.cms.YdbCms.RemoveDatabaseRequest) obj;
 
-      boolean result = true;
-      result = result && getPath()
-          .equals(other.getPath());
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (!getPath()
+          .equals(other.getPath())) return false;
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -22473,6 +23748,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -22480,6 +23756,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.RemoveDatabaseRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -22507,6 +23784,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_RemoveDatabaseRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_RemoveDatabaseRequest_fieldAccessorTable
@@ -22529,6 +23807,7 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         path_ = "";
@@ -22542,15 +23821,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_RemoveDatabaseRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.RemoveDatabaseRequest getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.RemoveDatabaseRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.RemoveDatabaseRequest build() {
         tech.ydb.cms.YdbCms.RemoveDatabaseRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -22559,6 +23841,7 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.RemoveDatabaseRequest buildPartial() {
         tech.ydb.cms.YdbCms.RemoveDatabaseRequest result = new tech.ydb.cms.YdbCms.RemoveDatabaseRequest(this);
         result.path_ = path_;
@@ -22571,32 +23854,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.RemoveDatabaseRequest) {
           return mergeFrom((tech.ydb.cms.YdbCms.RemoveDatabaseRequest)other);
@@ -22620,10 +23910,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -22649,6 +23941,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @return The path.
        */
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
@@ -22668,6 +23961,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @return The bytes for path.
        */
       public com.google.protobuf.ByteString
           getPathBytes() {
@@ -22688,6 +23982,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           java.lang.String value) {
@@ -22705,6 +24001,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         
@@ -22718,6 +24015,8 @@ public final class YdbCms {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
        */
       public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
@@ -22731,17 +24030,19 @@ public final class YdbCms {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 2;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 2;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -22847,11 +24148,13 @@ public final class YdbCms {
         }
         return operationParamsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -22873,11 +24176,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<RemoveDatabaseRequest>
         PARSER = new com.google.protobuf.AbstractParser<RemoveDatabaseRequest>() {
+      @java.lang.Override
       public RemoveDatabaseRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new RemoveDatabaseRequest(input, extensionRegistry);
+        return new RemoveDatabaseRequest(input, extensionRegistry);
       }
     };
 
@@ -22890,6 +24194,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.RemoveDatabaseRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -22902,10 +24207,12 @@ public final class YdbCms {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -22916,7 +24223,7 @@ public final class YdbCms {
   /**
    * Protobuf type {@code Ydb.Cms.RemoveDatabaseResponse}
    */
-  public  static final class RemoveDatabaseResponse extends
+  public static final class RemoveDatabaseResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.RemoveDatabaseResponse)
       RemoveDatabaseResponseOrBuilder {
@@ -22929,6 +24236,13 @@ public final class YdbCms {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new RemoveDatabaseResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -22938,7 +24252,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -22949,13 +24265,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -22967,6 +24276,13 @@ public final class YdbCms {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -22986,6 +24302,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_RemoveDatabaseResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_RemoveDatabaseResponse_fieldAccessorTable
@@ -22997,24 +24314,30 @@ public final class YdbCms {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -23024,6 +24347,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -23032,6 +24356,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -23056,14 +24381,13 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.RemoveDatabaseResponse other = (tech.ydb.cms.YdbCms.RemoveDatabaseResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -23152,6 +24476,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -23159,6 +24484,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.RemoveDatabaseResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -23182,6 +24508,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_RemoveDatabaseResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_RemoveDatabaseResponse_fieldAccessorTable
@@ -23204,6 +24531,7 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -23215,15 +24543,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_RemoveDatabaseResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.RemoveDatabaseResponse getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.RemoveDatabaseResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.RemoveDatabaseResponse build() {
         tech.ydb.cms.YdbCms.RemoveDatabaseResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -23232,6 +24563,7 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.RemoveDatabaseResponse buildPartial() {
         tech.ydb.cms.YdbCms.RemoveDatabaseResponse result = new tech.ydb.cms.YdbCms.RemoveDatabaseResponse(this);
         if (operationBuilder_ == null) {
@@ -23243,32 +24575,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.RemoveDatabaseResponse) {
           return mergeFrom((tech.ydb.cms.YdbCms.RemoveDatabaseResponse)other);
@@ -23288,10 +24627,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -23310,17 +24651,19 @@ public final class YdbCms {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -23426,11 +24769,13 @@ public final class YdbCms {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -23452,11 +24797,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<RemoveDatabaseResponse>
         PARSER = new com.google.protobuf.AbstractParser<RemoveDatabaseResponse>() {
+      @java.lang.Override
       public RemoveDatabaseResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new RemoveDatabaseResponse(input, extensionRegistry);
+        return new RemoveDatabaseResponse(input, extensionRegistry);
       }
     };
 
@@ -23469,6 +24815,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.RemoveDatabaseResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -23481,10 +24828,12 @@ public final class YdbCms {
 
     /**
      * <code>string kind = 1;</code>
+     * @return The kind.
      */
     java.lang.String getKind();
     /**
      * <code>string kind = 1;</code>
+     * @return The bytes for kind.
      */
     com.google.protobuf.ByteString
         getKindBytes();
@@ -23526,7 +24875,7 @@ public final class YdbCms {
   /**
    * Protobuf type {@code Ydb.Cms.StorageUnitDescription}
    */
-  public  static final class StorageUnitDescription extends
+  public static final class StorageUnitDescription extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.StorageUnitDescription)
       StorageUnitDescriptionOrBuilder {
@@ -23540,6 +24889,13 @@ public final class YdbCms {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StorageUnitDescription();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -23549,6 +24905,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -23560,13 +24919,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -23574,16 +24926,23 @@ public final class YdbCms {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 labels_ = com.google.protobuf.MapField.newMapField(
                     LabelsDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
               labels__ = input.readMessage(
                   LabelsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
               labels_.getMutableMap().put(
                   labels__.getKey(), labels__.getValue());
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -23604,6 +24963,7 @@ public final class YdbCms {
     }
 
     @SuppressWarnings({"rawtypes"})
+    @java.lang.Override
     protected com.google.protobuf.MapField internalGetMapField(
         int number) {
       switch (number) {
@@ -23614,6 +24974,7 @@ public final class YdbCms {
               "Invalid map field number: " + number);
       }
     }
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_StorageUnitDescription_fieldAccessorTable
@@ -23621,12 +24982,13 @@ public final class YdbCms {
               tech.ydb.cms.YdbCms.StorageUnitDescription.class, tech.ydb.cms.YdbCms.StorageUnitDescription.Builder.class);
     }
 
-    private int bitField0_;
     public static final int KIND_FIELD_NUMBER = 1;
     private volatile java.lang.Object kind_;
     /**
      * <code>string kind = 1;</code>
+     * @return The kind.
      */
+    @java.lang.Override
     public java.lang.String getKind() {
       java.lang.Object ref = kind_;
       if (ref instanceof java.lang.String) {
@@ -23641,7 +25003,9 @@ public final class YdbCms {
     }
     /**
      * <code>string kind = 1;</code>
+     * @return The bytes for kind.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getKindBytes() {
       java.lang.Object ref = kind_;
@@ -23686,6 +25050,7 @@ public final class YdbCms {
      * <code>map&lt;string, string&gt; labels = 2;</code>
      */
 
+    @java.lang.Override
     public boolean containsLabels(
         java.lang.String key) {
       if (key == null) { throw new java.lang.NullPointerException(); }
@@ -23694,6 +25059,7 @@ public final class YdbCms {
     /**
      * Use {@link #getLabelsMap()} instead.
      */
+    @java.lang.Override
     @java.lang.Deprecated
     public java.util.Map<java.lang.String, java.lang.String> getLabels() {
       return getLabelsMap();
@@ -23701,6 +25067,7 @@ public final class YdbCms {
     /**
      * <code>map&lt;string, string&gt; labels = 2;</code>
      */
+    @java.lang.Override
 
     public java.util.Map<java.lang.String, java.lang.String> getLabelsMap() {
       return internalGetLabels().getMap();
@@ -23708,6 +25075,7 @@ public final class YdbCms {
     /**
      * <code>map&lt;string, string&gt; labels = 2;</code>
      */
+    @java.lang.Override
 
     public java.lang.String getLabelsOrDefault(
         java.lang.String key,
@@ -23720,6 +25088,7 @@ public final class YdbCms {
     /**
      * <code>map&lt;string, string&gt; labels = 2;</code>
      */
+    @java.lang.Override
 
     public java.lang.String getLabelsOrThrow(
         java.lang.String key) {
@@ -23733,6 +25102,7 @@ public final class YdbCms {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -23742,6 +25112,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getKindBytes().isEmpty()) {
@@ -23756,6 +25127,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -23789,13 +25161,12 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.StorageUnitDescription other = (tech.ydb.cms.YdbCms.StorageUnitDescription) obj;
 
-      boolean result = true;
-      result = result && getKind()
-          .equals(other.getKind());
-      result = result && internalGetLabels().equals(
-          other.internalGetLabels());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getKind()
+          .equals(other.getKind())) return false;
+      if (!internalGetLabels().equals(
+          other.internalGetLabels())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -23886,6 +25257,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -23893,6 +25265,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.StorageUnitDescription prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -23938,6 +25311,7 @@ public final class YdbCms {
                 "Invalid map field number: " + number);
         }
       }
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_StorageUnitDescription_fieldAccessorTable
@@ -23960,6 +25334,7 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         kind_ = "";
@@ -23968,15 +25343,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_StorageUnitDescription_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.StorageUnitDescription getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.StorageUnitDescription.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.StorageUnitDescription build() {
         tech.ydb.cms.YdbCms.StorageUnitDescription result = buildPartial();
         if (!result.isInitialized()) {
@@ -23985,44 +25363,50 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.StorageUnitDescription buildPartial() {
         tech.ydb.cms.YdbCms.StorageUnitDescription result = new tech.ydb.cms.YdbCms.StorageUnitDescription(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.kind_ = kind_;
         result.labels_ = internalGetLabels();
         result.labels_.makeImmutable();
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.StorageUnitDescription) {
           return mergeFrom((tech.ydb.cms.YdbCms.StorageUnitDescription)other);
@@ -24045,10 +25429,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -24071,6 +25457,7 @@ public final class YdbCms {
       private java.lang.Object kind_ = "";
       /**
        * <code>string kind = 1;</code>
+       * @return The kind.
        */
       public java.lang.String getKind() {
         java.lang.Object ref = kind_;
@@ -24086,6 +25473,7 @@ public final class YdbCms {
       }
       /**
        * <code>string kind = 1;</code>
+       * @return The bytes for kind.
        */
       public com.google.protobuf.ByteString
           getKindBytes() {
@@ -24102,6 +25490,8 @@ public final class YdbCms {
       }
       /**
        * <code>string kind = 1;</code>
+       * @param value The kind to set.
+       * @return This builder for chaining.
        */
       public Builder setKind(
           java.lang.String value) {
@@ -24115,6 +25505,7 @@ public final class YdbCms {
       }
       /**
        * <code>string kind = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearKind() {
         
@@ -24124,6 +25515,8 @@ public final class YdbCms {
       }
       /**
        * <code>string kind = 1;</code>
+       * @param value The bytes for kind to set.
+       * @return This builder for chaining.
        */
       public Builder setKindBytes(
           com.google.protobuf.ByteString value) {
@@ -24167,6 +25560,7 @@ public final class YdbCms {
        * <code>map&lt;string, string&gt; labels = 2;</code>
        */
 
+      @java.lang.Override
       public boolean containsLabels(
           java.lang.String key) {
         if (key == null) { throw new java.lang.NullPointerException(); }
@@ -24175,6 +25569,7 @@ public final class YdbCms {
       /**
        * Use {@link #getLabelsMap()} instead.
        */
+      @java.lang.Override
       @java.lang.Deprecated
       public java.util.Map<java.lang.String, java.lang.String> getLabels() {
         return getLabelsMap();
@@ -24182,6 +25577,7 @@ public final class YdbCms {
       /**
        * <code>map&lt;string, string&gt; labels = 2;</code>
        */
+      @java.lang.Override
 
       public java.util.Map<java.lang.String, java.lang.String> getLabelsMap() {
         return internalGetLabels().getMap();
@@ -24189,6 +25585,7 @@ public final class YdbCms {
       /**
        * <code>map&lt;string, string&gt; labels = 2;</code>
        */
+      @java.lang.Override
 
       public java.lang.String getLabelsOrDefault(
           java.lang.String key,
@@ -24201,6 +25598,7 @@ public final class YdbCms {
       /**
        * <code>map&lt;string, string&gt; labels = 2;</code>
        */
+      @java.lang.Override
 
       public java.lang.String getLabelsOrThrow(
           java.lang.String key) {
@@ -24259,11 +25657,13 @@ public final class YdbCms {
             .putAll(values);
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -24285,11 +25685,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<StorageUnitDescription>
         PARSER = new com.google.protobuf.AbstractParser<StorageUnitDescription>() {
+      @java.lang.Override
       public StorageUnitDescription parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new StorageUnitDescription(input, extensionRegistry);
+        return new StorageUnitDescription(input, extensionRegistry);
       }
     };
 
@@ -24302,6 +25703,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.StorageUnitDescription getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -24314,10 +25716,12 @@ public final class YdbCms {
 
     /**
      * <code>string name = 1;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -24359,7 +25763,7 @@ public final class YdbCms {
   /**
    * Protobuf type {@code Ydb.Cms.AvailabilityZoneDescription}
    */
-  public  static final class AvailabilityZoneDescription extends
+  public static final class AvailabilityZoneDescription extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.AvailabilityZoneDescription)
       AvailabilityZoneDescriptionOrBuilder {
@@ -24373,6 +25777,13 @@ public final class YdbCms {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new AvailabilityZoneDescription();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -24382,6 +25793,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -24393,13 +25807,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -24407,16 +25814,23 @@ public final class YdbCms {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 labels_ = com.google.protobuf.MapField.newMapField(
                     LabelsDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
               labels__ = input.readMessage(
                   LabelsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
               labels_.getMutableMap().put(
                   labels__.getKey(), labels__.getValue());
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -24437,6 +25851,7 @@ public final class YdbCms {
     }
 
     @SuppressWarnings({"rawtypes"})
+    @java.lang.Override
     protected com.google.protobuf.MapField internalGetMapField(
         int number) {
       switch (number) {
@@ -24447,6 +25862,7 @@ public final class YdbCms {
               "Invalid map field number: " + number);
       }
     }
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AvailabilityZoneDescription_fieldAccessorTable
@@ -24454,12 +25870,13 @@ public final class YdbCms {
               tech.ydb.cms.YdbCms.AvailabilityZoneDescription.class, tech.ydb.cms.YdbCms.AvailabilityZoneDescription.Builder.class);
     }
 
-    private int bitField0_;
     public static final int NAME_FIELD_NUMBER = 1;
     private volatile java.lang.Object name_;
     /**
      * <code>string name = 1;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -24474,7 +25891,9 @@ public final class YdbCms {
     }
     /**
      * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -24519,6 +25938,7 @@ public final class YdbCms {
      * <code>map&lt;string, string&gt; labels = 2;</code>
      */
 
+    @java.lang.Override
     public boolean containsLabels(
         java.lang.String key) {
       if (key == null) { throw new java.lang.NullPointerException(); }
@@ -24527,6 +25947,7 @@ public final class YdbCms {
     /**
      * Use {@link #getLabelsMap()} instead.
      */
+    @java.lang.Override
     @java.lang.Deprecated
     public java.util.Map<java.lang.String, java.lang.String> getLabels() {
       return getLabelsMap();
@@ -24534,6 +25955,7 @@ public final class YdbCms {
     /**
      * <code>map&lt;string, string&gt; labels = 2;</code>
      */
+    @java.lang.Override
 
     public java.util.Map<java.lang.String, java.lang.String> getLabelsMap() {
       return internalGetLabels().getMap();
@@ -24541,6 +25963,7 @@ public final class YdbCms {
     /**
      * <code>map&lt;string, string&gt; labels = 2;</code>
      */
+    @java.lang.Override
 
     public java.lang.String getLabelsOrDefault(
         java.lang.String key,
@@ -24553,6 +25976,7 @@ public final class YdbCms {
     /**
      * <code>map&lt;string, string&gt; labels = 2;</code>
      */
+    @java.lang.Override
 
     public java.lang.String getLabelsOrThrow(
         java.lang.String key) {
@@ -24566,6 +25990,7 @@ public final class YdbCms {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -24575,6 +26000,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getNameBytes().isEmpty()) {
@@ -24589,6 +26015,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -24622,13 +26049,12 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.AvailabilityZoneDescription other = (tech.ydb.cms.YdbCms.AvailabilityZoneDescription) obj;
 
-      boolean result = true;
-      result = result && getName()
-          .equals(other.getName());
-      result = result && internalGetLabels().equals(
-          other.internalGetLabels());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (!internalGetLabels().equals(
+          other.internalGetLabels())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -24719,6 +26145,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -24726,6 +26153,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.AvailabilityZoneDescription prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -24771,6 +26199,7 @@ public final class YdbCms {
                 "Invalid map field number: " + number);
         }
       }
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AvailabilityZoneDescription_fieldAccessorTable
@@ -24793,6 +26222,7 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         name_ = "";
@@ -24801,15 +26231,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AvailabilityZoneDescription_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.AvailabilityZoneDescription getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.AvailabilityZoneDescription.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.AvailabilityZoneDescription build() {
         tech.ydb.cms.YdbCms.AvailabilityZoneDescription result = buildPartial();
         if (!result.isInitialized()) {
@@ -24818,44 +26251,50 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.AvailabilityZoneDescription buildPartial() {
         tech.ydb.cms.YdbCms.AvailabilityZoneDescription result = new tech.ydb.cms.YdbCms.AvailabilityZoneDescription(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.name_ = name_;
         result.labels_ = internalGetLabels();
         result.labels_.makeImmutable();
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.AvailabilityZoneDescription) {
           return mergeFrom((tech.ydb.cms.YdbCms.AvailabilityZoneDescription)other);
@@ -24878,10 +26317,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -24904,6 +26345,7 @@ public final class YdbCms {
       private java.lang.Object name_ = "";
       /**
        * <code>string name = 1;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -24919,6 +26361,7 @@ public final class YdbCms {
       }
       /**
        * <code>string name = 1;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -24935,6 +26378,8 @@ public final class YdbCms {
       }
       /**
        * <code>string name = 1;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -24948,6 +26393,7 @@ public final class YdbCms {
       }
       /**
        * <code>string name = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -24957,6 +26403,8 @@ public final class YdbCms {
       }
       /**
        * <code>string name = 1;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -25000,6 +26448,7 @@ public final class YdbCms {
        * <code>map&lt;string, string&gt; labels = 2;</code>
        */
 
+      @java.lang.Override
       public boolean containsLabels(
           java.lang.String key) {
         if (key == null) { throw new java.lang.NullPointerException(); }
@@ -25008,6 +26457,7 @@ public final class YdbCms {
       /**
        * Use {@link #getLabelsMap()} instead.
        */
+      @java.lang.Override
       @java.lang.Deprecated
       public java.util.Map<java.lang.String, java.lang.String> getLabels() {
         return getLabelsMap();
@@ -25015,6 +26465,7 @@ public final class YdbCms {
       /**
        * <code>map&lt;string, string&gt; labels = 2;</code>
        */
+      @java.lang.Override
 
       public java.util.Map<java.lang.String, java.lang.String> getLabelsMap() {
         return internalGetLabels().getMap();
@@ -25022,6 +26473,7 @@ public final class YdbCms {
       /**
        * <code>map&lt;string, string&gt; labels = 2;</code>
        */
+      @java.lang.Override
 
       public java.lang.String getLabelsOrDefault(
           java.lang.String key,
@@ -25034,6 +26486,7 @@ public final class YdbCms {
       /**
        * <code>map&lt;string, string&gt; labels = 2;</code>
        */
+      @java.lang.Override
 
       public java.lang.String getLabelsOrThrow(
           java.lang.String key) {
@@ -25092,11 +26545,13 @@ public final class YdbCms {
             .putAll(values);
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -25118,11 +26573,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<AvailabilityZoneDescription>
         PARSER = new com.google.protobuf.AbstractParser<AvailabilityZoneDescription>() {
+      @java.lang.Override
       public AvailabilityZoneDescription parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new AvailabilityZoneDescription(input, extensionRegistry);
+        return new AvailabilityZoneDescription(input, extensionRegistry);
       }
     };
 
@@ -25135,6 +26591,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.AvailabilityZoneDescription getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -25147,10 +26604,12 @@ public final class YdbCms {
 
     /**
      * <code>string kind = 1;</code>
+     * @return The kind.
      */
     java.lang.String getKind();
     /**
      * <code>string kind = 1;</code>
+     * @return The bytes for kind.
      */
     com.google.protobuf.ByteString
         getKindBytes();
@@ -25191,19 +26650,25 @@ public final class YdbCms {
 
     /**
      * <code>repeated string allowed_availability_zones = 3;</code>
+     * @return A list containing the allowedAvailabilityZones.
      */
     java.util.List<java.lang.String>
         getAllowedAvailabilityZonesList();
     /**
      * <code>repeated string allowed_availability_zones = 3;</code>
+     * @return The count of allowedAvailabilityZones.
      */
     int getAllowedAvailabilityZonesCount();
     /**
      * <code>repeated string allowed_availability_zones = 3;</code>
+     * @param index The index of the element to return.
+     * @return The allowedAvailabilityZones at the given index.
      */
     java.lang.String getAllowedAvailabilityZones(int index);
     /**
      * <code>repeated string allowed_availability_zones = 3;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the allowedAvailabilityZones at the given index.
      */
     com.google.protobuf.ByteString
         getAllowedAvailabilityZonesBytes(int index);
@@ -25211,7 +26676,7 @@ public final class YdbCms {
   /**
    * Protobuf type {@code Ydb.Cms.ComputationalUnitDescription}
    */
-  public  static final class ComputationalUnitDescription extends
+  public static final class ComputationalUnitDescription extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.ComputationalUnitDescription)
       ComputationalUnitDescriptionOrBuilder {
@@ -25226,6 +26691,13 @@ public final class YdbCms {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ComputationalUnitDescription();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -25235,6 +26707,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -25246,13 +26721,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -25260,10 +26728,10 @@ public final class YdbCms {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 labels_ = com.google.protobuf.MapField.newMapField(
                     LabelsDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
               labels__ = input.readMessage(
@@ -25274,11 +26742,18 @@ public final class YdbCms {
             }
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 allowedAvailabilityZones_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000002;
               }
               allowedAvailabilityZones_.add(s);
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -25289,7 +26764,7 @@ public final class YdbCms {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           allowedAvailabilityZones_ = allowedAvailabilityZones_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -25302,6 +26777,7 @@ public final class YdbCms {
     }
 
     @SuppressWarnings({"rawtypes"})
+    @java.lang.Override
     protected com.google.protobuf.MapField internalGetMapField(
         int number) {
       switch (number) {
@@ -25312,6 +26788,7 @@ public final class YdbCms {
               "Invalid map field number: " + number);
       }
     }
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ComputationalUnitDescription_fieldAccessorTable
@@ -25319,12 +26796,13 @@ public final class YdbCms {
               tech.ydb.cms.YdbCms.ComputationalUnitDescription.class, tech.ydb.cms.YdbCms.ComputationalUnitDescription.Builder.class);
     }
 
-    private int bitField0_;
     public static final int KIND_FIELD_NUMBER = 1;
     private volatile java.lang.Object kind_;
     /**
      * <code>string kind = 1;</code>
+     * @return The kind.
      */
+    @java.lang.Override
     public java.lang.String getKind() {
       java.lang.Object ref = kind_;
       if (ref instanceof java.lang.String) {
@@ -25339,7 +26817,9 @@ public final class YdbCms {
     }
     /**
      * <code>string kind = 1;</code>
+     * @return The bytes for kind.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getKindBytes() {
       java.lang.Object ref = kind_;
@@ -25384,6 +26864,7 @@ public final class YdbCms {
      * <code>map&lt;string, string&gt; labels = 2;</code>
      */
 
+    @java.lang.Override
     public boolean containsLabels(
         java.lang.String key) {
       if (key == null) { throw new java.lang.NullPointerException(); }
@@ -25392,6 +26873,7 @@ public final class YdbCms {
     /**
      * Use {@link #getLabelsMap()} instead.
      */
+    @java.lang.Override
     @java.lang.Deprecated
     public java.util.Map<java.lang.String, java.lang.String> getLabels() {
       return getLabelsMap();
@@ -25399,6 +26881,7 @@ public final class YdbCms {
     /**
      * <code>map&lt;string, string&gt; labels = 2;</code>
      */
+    @java.lang.Override
 
     public java.util.Map<java.lang.String, java.lang.String> getLabelsMap() {
       return internalGetLabels().getMap();
@@ -25406,6 +26889,7 @@ public final class YdbCms {
     /**
      * <code>map&lt;string, string&gt; labels = 2;</code>
      */
+    @java.lang.Override
 
     public java.lang.String getLabelsOrDefault(
         java.lang.String key,
@@ -25418,6 +26902,7 @@ public final class YdbCms {
     /**
      * <code>map&lt;string, string&gt; labels = 2;</code>
      */
+    @java.lang.Override
 
     public java.lang.String getLabelsOrThrow(
         java.lang.String key) {
@@ -25434,6 +26919,7 @@ public final class YdbCms {
     private com.google.protobuf.LazyStringList allowedAvailabilityZones_;
     /**
      * <code>repeated string allowed_availability_zones = 3;</code>
+     * @return A list containing the allowedAvailabilityZones.
      */
     public com.google.protobuf.ProtocolStringList
         getAllowedAvailabilityZonesList() {
@@ -25441,18 +26927,23 @@ public final class YdbCms {
     }
     /**
      * <code>repeated string allowed_availability_zones = 3;</code>
+     * @return The count of allowedAvailabilityZones.
      */
     public int getAllowedAvailabilityZonesCount() {
       return allowedAvailabilityZones_.size();
     }
     /**
      * <code>repeated string allowed_availability_zones = 3;</code>
+     * @param index The index of the element to return.
+     * @return The allowedAvailabilityZones at the given index.
      */
     public java.lang.String getAllowedAvailabilityZones(int index) {
       return allowedAvailabilityZones_.get(index);
     }
     /**
      * <code>repeated string allowed_availability_zones = 3;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the allowedAvailabilityZones at the given index.
      */
     public com.google.protobuf.ByteString
         getAllowedAvailabilityZonesBytes(int index) {
@@ -25460,6 +26951,7 @@ public final class YdbCms {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -25469,6 +26961,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getKindBytes().isEmpty()) {
@@ -25486,6 +26979,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -25527,15 +27021,14 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.ComputationalUnitDescription other = (tech.ydb.cms.YdbCms.ComputationalUnitDescription) obj;
 
-      boolean result = true;
-      result = result && getKind()
-          .equals(other.getKind());
-      result = result && internalGetLabels().equals(
-          other.internalGetLabels());
-      result = result && getAllowedAvailabilityZonesList()
-          .equals(other.getAllowedAvailabilityZonesList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getKind()
+          .equals(other.getKind())) return false;
+      if (!internalGetLabels().equals(
+          other.internalGetLabels())) return false;
+      if (!getAllowedAvailabilityZonesList()
+          .equals(other.getAllowedAvailabilityZonesList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -25630,6 +27123,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -25637,6 +27131,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.ComputationalUnitDescription prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -25682,6 +27177,7 @@ public final class YdbCms {
                 "Invalid map field number: " + number);
         }
       }
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ComputationalUnitDescription_fieldAccessorTable
@@ -25704,25 +27200,29 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         kind_ = "";
 
         internalGetMutableLabels().clear();
         allowedAvailabilityZones_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_ComputationalUnitDescription_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ComputationalUnitDescription getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.ComputationalUnitDescription.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ComputationalUnitDescription build() {
         tech.ydb.cms.YdbCms.ComputationalUnitDescription result = buildPartial();
         if (!result.isInitialized()) {
@@ -25731,49 +27231,55 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.ComputationalUnitDescription buildPartial() {
         tech.ydb.cms.YdbCms.ComputationalUnitDescription result = new tech.ydb.cms.YdbCms.ComputationalUnitDescription(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.kind_ = kind_;
         result.labels_ = internalGetLabels();
         result.labels_.makeImmutable();
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((bitField0_ & 0x00000002) != 0)) {
           allowedAvailabilityZones_ = allowedAvailabilityZones_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.allowedAvailabilityZones_ = allowedAvailabilityZones_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.ComputationalUnitDescription) {
           return mergeFrom((tech.ydb.cms.YdbCms.ComputationalUnitDescription)other);
@@ -25794,7 +27300,7 @@ public final class YdbCms {
         if (!other.allowedAvailabilityZones_.isEmpty()) {
           if (allowedAvailabilityZones_.isEmpty()) {
             allowedAvailabilityZones_ = other.allowedAvailabilityZones_;
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000002);
           } else {
             ensureAllowedAvailabilityZonesIsMutable();
             allowedAvailabilityZones_.addAll(other.allowedAvailabilityZones_);
@@ -25806,10 +27312,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -25832,6 +27340,7 @@ public final class YdbCms {
       private java.lang.Object kind_ = "";
       /**
        * <code>string kind = 1;</code>
+       * @return The kind.
        */
       public java.lang.String getKind() {
         java.lang.Object ref = kind_;
@@ -25847,6 +27356,7 @@ public final class YdbCms {
       }
       /**
        * <code>string kind = 1;</code>
+       * @return The bytes for kind.
        */
       public com.google.protobuf.ByteString
           getKindBytes() {
@@ -25863,6 +27373,8 @@ public final class YdbCms {
       }
       /**
        * <code>string kind = 1;</code>
+       * @param value The kind to set.
+       * @return This builder for chaining.
        */
       public Builder setKind(
           java.lang.String value) {
@@ -25876,6 +27388,7 @@ public final class YdbCms {
       }
       /**
        * <code>string kind = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearKind() {
         
@@ -25885,6 +27398,8 @@ public final class YdbCms {
       }
       /**
        * <code>string kind = 1;</code>
+       * @param value The bytes for kind to set.
+       * @return This builder for chaining.
        */
       public Builder setKindBytes(
           com.google.protobuf.ByteString value) {
@@ -25928,6 +27443,7 @@ public final class YdbCms {
        * <code>map&lt;string, string&gt; labels = 2;</code>
        */
 
+      @java.lang.Override
       public boolean containsLabels(
           java.lang.String key) {
         if (key == null) { throw new java.lang.NullPointerException(); }
@@ -25936,6 +27452,7 @@ public final class YdbCms {
       /**
        * Use {@link #getLabelsMap()} instead.
        */
+      @java.lang.Override
       @java.lang.Deprecated
       public java.util.Map<java.lang.String, java.lang.String> getLabels() {
         return getLabelsMap();
@@ -25943,6 +27460,7 @@ public final class YdbCms {
       /**
        * <code>map&lt;string, string&gt; labels = 2;</code>
        */
+      @java.lang.Override
 
       public java.util.Map<java.lang.String, java.lang.String> getLabelsMap() {
         return internalGetLabels().getMap();
@@ -25950,6 +27468,7 @@ public final class YdbCms {
       /**
        * <code>map&lt;string, string&gt; labels = 2;</code>
        */
+      @java.lang.Override
 
       public java.lang.String getLabelsOrDefault(
           java.lang.String key,
@@ -25962,6 +27481,7 @@ public final class YdbCms {
       /**
        * <code>map&lt;string, string&gt; labels = 2;</code>
        */
+      @java.lang.Override
 
       public java.lang.String getLabelsOrThrow(
           java.lang.String key) {
@@ -26023,13 +27543,14 @@ public final class YdbCms {
 
       private com.google.protobuf.LazyStringList allowedAvailabilityZones_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureAllowedAvailabilityZonesIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           allowedAvailabilityZones_ = new com.google.protobuf.LazyStringArrayList(allowedAvailabilityZones_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000002;
          }
       }
       /**
        * <code>repeated string allowed_availability_zones = 3;</code>
+       * @return A list containing the allowedAvailabilityZones.
        */
       public com.google.protobuf.ProtocolStringList
           getAllowedAvailabilityZonesList() {
@@ -26037,18 +27558,23 @@ public final class YdbCms {
       }
       /**
        * <code>repeated string allowed_availability_zones = 3;</code>
+       * @return The count of allowedAvailabilityZones.
        */
       public int getAllowedAvailabilityZonesCount() {
         return allowedAvailabilityZones_.size();
       }
       /**
        * <code>repeated string allowed_availability_zones = 3;</code>
+       * @param index The index of the element to return.
+       * @return The allowedAvailabilityZones at the given index.
        */
       public java.lang.String getAllowedAvailabilityZones(int index) {
         return allowedAvailabilityZones_.get(index);
       }
       /**
        * <code>repeated string allowed_availability_zones = 3;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the allowedAvailabilityZones at the given index.
        */
       public com.google.protobuf.ByteString
           getAllowedAvailabilityZonesBytes(int index) {
@@ -26056,6 +27582,9 @@ public final class YdbCms {
       }
       /**
        * <code>repeated string allowed_availability_zones = 3;</code>
+       * @param index The index to set the value at.
+       * @param value The allowedAvailabilityZones to set.
+       * @return This builder for chaining.
        */
       public Builder setAllowedAvailabilityZones(
           int index, java.lang.String value) {
@@ -26069,6 +27598,8 @@ public final class YdbCms {
       }
       /**
        * <code>repeated string allowed_availability_zones = 3;</code>
+       * @param value The allowedAvailabilityZones to add.
+       * @return This builder for chaining.
        */
       public Builder addAllowedAvailabilityZones(
           java.lang.String value) {
@@ -26082,6 +27613,8 @@ public final class YdbCms {
       }
       /**
        * <code>repeated string allowed_availability_zones = 3;</code>
+       * @param values The allowedAvailabilityZones to add.
+       * @return This builder for chaining.
        */
       public Builder addAllAllowedAvailabilityZones(
           java.lang.Iterable<java.lang.String> values) {
@@ -26093,15 +27626,18 @@ public final class YdbCms {
       }
       /**
        * <code>repeated string allowed_availability_zones = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearAllowedAvailabilityZones() {
         allowedAvailabilityZones_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
       /**
        * <code>repeated string allowed_availability_zones = 3;</code>
+       * @param value The bytes of the allowedAvailabilityZones to add.
+       * @return This builder for chaining.
        */
       public Builder addAllowedAvailabilityZonesBytes(
           com.google.protobuf.ByteString value) {
@@ -26114,11 +27650,13 @@ public final class YdbCms {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -26140,11 +27678,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<ComputationalUnitDescription>
         PARSER = new com.google.protobuf.AbstractParser<ComputationalUnitDescription>() {
+      @java.lang.Override
       public ComputationalUnitDescription parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ComputationalUnitDescription(input, extensionRegistry);
+        return new ComputationalUnitDescription(input, extensionRegistry);
       }
     };
 
@@ -26157,6 +27696,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ComputationalUnitDescription getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -26173,6 +27713,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
@@ -26181,6 +27722,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -26195,7 +27737,7 @@ public final class YdbCms {
   /**
    * Protobuf type {@code Ydb.Cms.DescribeDatabaseOptionsRequest}
    */
-  public  static final class DescribeDatabaseOptionsRequest extends
+  public static final class DescribeDatabaseOptionsRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.DescribeDatabaseOptionsRequest)
       DescribeDatabaseOptionsRequestOrBuilder {
@@ -26208,6 +27750,13 @@ public final class YdbCms {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DescribeDatabaseOptionsRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -26217,7 +27766,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -26228,13 +27779,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -26246,6 +27790,13 @@ public final class YdbCms {
                 operationParams_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -26265,6 +27816,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DescribeDatabaseOptionsRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DescribeDatabaseOptionsRequest_fieldAccessorTable
@@ -26280,7 +27832,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
@@ -26290,7 +27844,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
@@ -26301,11 +27857,13 @@ public final class YdbCms {
      *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -26315,6 +27873,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -26323,6 +27882,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -26347,14 +27907,13 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest other = (tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -26443,6 +28002,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -26450,6 +28010,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -26473,6 +28034,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DescribeDatabaseOptionsRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DescribeDatabaseOptionsRequest_fieldAccessorTable
@@ -26495,6 +28057,7 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -26506,15 +28069,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DescribeDatabaseOptionsRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest build() {
         tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -26523,6 +28089,7 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest buildPartial() {
         tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest result = new tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -26534,32 +28101,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest) {
           return mergeFrom((tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest)other);
@@ -26579,10 +28153,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -26601,7 +28177,7 @@ public final class YdbCms {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
@@ -26610,6 +28186,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
@@ -26620,6 +28197,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -26753,11 +28331,13 @@ public final class YdbCms {
         }
         return operationParamsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -26779,11 +28359,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<DescribeDatabaseOptionsRequest>
         PARSER = new com.google.protobuf.AbstractParser<DescribeDatabaseOptionsRequest>() {
+      @java.lang.Override
       public DescribeDatabaseOptionsRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DescribeDatabaseOptionsRequest(input, extensionRegistry);
+        return new DescribeDatabaseOptionsRequest(input, extensionRegistry);
       }
     };
 
@@ -26796,6 +28377,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.DescribeDatabaseOptionsRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -26812,6 +28394,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
@@ -26820,6 +28403,7 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -26834,7 +28418,7 @@ public final class YdbCms {
   /**
    * Protobuf type {@code Ydb.Cms.DescribeDatabaseOptionsResponse}
    */
-  public  static final class DescribeDatabaseOptionsResponse extends
+  public static final class DescribeDatabaseOptionsResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.DescribeDatabaseOptionsResponse)
       DescribeDatabaseOptionsResponseOrBuilder {
@@ -26847,6 +28431,13 @@ public final class YdbCms {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DescribeDatabaseOptionsResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -26856,7 +28447,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -26867,13 +28460,6 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -26885,6 +28471,13 @@ public final class YdbCms {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -26904,6 +28497,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DescribeDatabaseOptionsResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DescribeDatabaseOptionsResponse_fieldAccessorTable
@@ -26919,7 +28513,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
@@ -26929,7 +28525,9 @@ public final class YdbCms {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
@@ -26940,11 +28538,13 @@ public final class YdbCms {
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -26954,6 +28554,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -26962,6 +28563,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -26986,14 +28588,13 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse other = (tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -27082,6 +28683,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -27089,6 +28691,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -27112,6 +28715,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DescribeDatabaseOptionsResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DescribeDatabaseOptionsResponse_fieldAccessorTable
@@ -27134,6 +28738,7 @@ public final class YdbCms {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -27145,15 +28750,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DescribeDatabaseOptionsResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse build() {
         tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -27162,6 +28770,7 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse buildPartial() {
         tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse result = new tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse(this);
         if (operationBuilder_ == null) {
@@ -27173,32 +28782,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse) {
           return mergeFrom((tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse)other);
@@ -27218,10 +28834,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -27240,7 +28858,7 @@ public final class YdbCms {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
@@ -27249,6 +28867,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
@@ -27259,6 +28878,7 @@ public final class YdbCms {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -27392,11 +29012,13 @@ public final class YdbCms {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -27418,11 +29040,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<DescribeDatabaseOptionsResponse>
         PARSER = new com.google.protobuf.AbstractParser<DescribeDatabaseOptionsResponse>() {
+      @java.lang.Override
       public DescribeDatabaseOptionsResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DescribeDatabaseOptionsResponse(input, extensionRegistry);
+        return new DescribeDatabaseOptionsResponse(input, extensionRegistry);
       }
     };
 
@@ -27435,6 +29058,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -27520,7 +29144,7 @@ public final class YdbCms {
   /**
    * Protobuf type {@code Ydb.Cms.DescribeDatabaseOptionsResult}
    */
-  public  static final class DescribeDatabaseOptionsResult extends
+  public static final class DescribeDatabaseOptionsResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Cms.DescribeDatabaseOptionsResult)
       DescribeDatabaseOptionsResultOrBuilder {
@@ -27536,6 +29160,13 @@ public final class YdbCms {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new DescribeDatabaseOptionsResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -27545,6 +29176,9 @@ public final class YdbCms {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -27556,15 +29190,8 @@ public final class YdbCms {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 storageUnits_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.StorageUnitDescription>();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -27573,7 +29200,7 @@ public final class YdbCms {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 availabilityZones_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.AvailabilityZoneDescription>();
                 mutable_bitField0_ |= 0x00000002;
               }
@@ -27582,12 +29209,19 @@ public final class YdbCms {
               break;
             }
             case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
                 computationalUnits_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.ComputationalUnitDescription>();
                 mutable_bitField0_ |= 0x00000004;
               }
               computationalUnits_.add(
                   input.readMessage(tech.ydb.cms.YdbCms.ComputationalUnitDescription.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -27598,13 +29232,13 @@ public final class YdbCms {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           storageUnits_ = java.util.Collections.unmodifiableList(storageUnits_);
         }
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           availabilityZones_ = java.util.Collections.unmodifiableList(availabilityZones_);
         }
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000004) != 0)) {
           computationalUnits_ = java.util.Collections.unmodifiableList(computationalUnits_);
         }
         this.unknownFields = unknownFields.build();
@@ -27616,6 +29250,7 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DescribeDatabaseOptionsResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DescribeDatabaseOptionsResult_fieldAccessorTable
@@ -27628,12 +29263,14 @@ public final class YdbCms {
     /**
      * <code>repeated .Ydb.Cms.StorageUnitDescription storage_units = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.cms.YdbCms.StorageUnitDescription> getStorageUnitsList() {
       return storageUnits_;
     }
     /**
      * <code>repeated .Ydb.Cms.StorageUnitDescription storage_units = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.cms.YdbCms.StorageUnitDescriptionOrBuilder> 
         getStorageUnitsOrBuilderList() {
       return storageUnits_;
@@ -27641,18 +29278,21 @@ public final class YdbCms {
     /**
      * <code>repeated .Ydb.Cms.StorageUnitDescription storage_units = 1;</code>
      */
+    @java.lang.Override
     public int getStorageUnitsCount() {
       return storageUnits_.size();
     }
     /**
      * <code>repeated .Ydb.Cms.StorageUnitDescription storage_units = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.StorageUnitDescription getStorageUnits(int index) {
       return storageUnits_.get(index);
     }
     /**
      * <code>repeated .Ydb.Cms.StorageUnitDescription storage_units = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.StorageUnitDescriptionOrBuilder getStorageUnitsOrBuilder(
         int index) {
       return storageUnits_.get(index);
@@ -27663,12 +29303,14 @@ public final class YdbCms {
     /**
      * <code>repeated .Ydb.Cms.AvailabilityZoneDescription availability_zones = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.cms.YdbCms.AvailabilityZoneDescription> getAvailabilityZonesList() {
       return availabilityZones_;
     }
     /**
      * <code>repeated .Ydb.Cms.AvailabilityZoneDescription availability_zones = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.cms.YdbCms.AvailabilityZoneDescriptionOrBuilder> 
         getAvailabilityZonesOrBuilderList() {
       return availabilityZones_;
@@ -27676,18 +29318,21 @@ public final class YdbCms {
     /**
      * <code>repeated .Ydb.Cms.AvailabilityZoneDescription availability_zones = 2;</code>
      */
+    @java.lang.Override
     public int getAvailabilityZonesCount() {
       return availabilityZones_.size();
     }
     /**
      * <code>repeated .Ydb.Cms.AvailabilityZoneDescription availability_zones = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.AvailabilityZoneDescription getAvailabilityZones(int index) {
       return availabilityZones_.get(index);
     }
     /**
      * <code>repeated .Ydb.Cms.AvailabilityZoneDescription availability_zones = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.AvailabilityZoneDescriptionOrBuilder getAvailabilityZonesOrBuilder(
         int index) {
       return availabilityZones_.get(index);
@@ -27698,12 +29343,14 @@ public final class YdbCms {
     /**
      * <code>repeated .Ydb.Cms.ComputationalUnitDescription computational_units = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.cms.YdbCms.ComputationalUnitDescription> getComputationalUnitsList() {
       return computationalUnits_;
     }
     /**
      * <code>repeated .Ydb.Cms.ComputationalUnitDescription computational_units = 3;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.cms.YdbCms.ComputationalUnitDescriptionOrBuilder> 
         getComputationalUnitsOrBuilderList() {
       return computationalUnits_;
@@ -27711,24 +29358,28 @@ public final class YdbCms {
     /**
      * <code>repeated .Ydb.Cms.ComputationalUnitDescription computational_units = 3;</code>
      */
+    @java.lang.Override
     public int getComputationalUnitsCount() {
       return computationalUnits_.size();
     }
     /**
      * <code>repeated .Ydb.Cms.ComputationalUnitDescription computational_units = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ComputationalUnitDescription getComputationalUnits(int index) {
       return computationalUnits_.get(index);
     }
     /**
      * <code>repeated .Ydb.Cms.ComputationalUnitDescription computational_units = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.ComputationalUnitDescriptionOrBuilder getComputationalUnitsOrBuilder(
         int index) {
       return computationalUnits_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -27738,6 +29389,7 @@ public final class YdbCms {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < storageUnits_.size(); i++) {
@@ -27752,6 +29404,7 @@ public final class YdbCms {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -27784,15 +29437,14 @@ public final class YdbCms {
       }
       tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResult other = (tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResult) obj;
 
-      boolean result = true;
-      result = result && getStorageUnitsList()
-          .equals(other.getStorageUnitsList());
-      result = result && getAvailabilityZonesList()
-          .equals(other.getAvailabilityZonesList());
-      result = result && getComputationalUnitsList()
-          .equals(other.getComputationalUnitsList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getStorageUnitsList()
+          .equals(other.getStorageUnitsList())) return false;
+      if (!getAvailabilityZonesList()
+          .equals(other.getAvailabilityZonesList())) return false;
+      if (!getComputationalUnitsList()
+          .equals(other.getComputationalUnitsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -27889,6 +29541,7 @@ public final class YdbCms {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -27896,6 +29549,7 @@ public final class YdbCms {
     public static Builder newBuilder(tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -27919,6 +29573,7 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DescribeDatabaseOptionsResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DescribeDatabaseOptionsResult_fieldAccessorTable
@@ -27944,6 +29599,7 @@ public final class YdbCms {
           getComputationalUnitsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (storageUnitsBuilder_ == null) {
@@ -27967,15 +29623,18 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_DescribeDatabaseOptionsResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResult getDefaultInstanceForType() {
         return tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResult build() {
         tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -27984,11 +29643,12 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResult buildPartial() {
         tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResult result = new tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResult(this);
         int from_bitField0_ = bitField0_;
         if (storageUnitsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             storageUnits_ = java.util.Collections.unmodifiableList(storageUnits_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -27997,7 +29657,7 @@ public final class YdbCms {
           result.storageUnits_ = storageUnitsBuilder_.build();
         }
         if (availabilityZonesBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000002) != 0)) {
             availabilityZones_ = java.util.Collections.unmodifiableList(availabilityZones_);
             bitField0_ = (bitField0_ & ~0x00000002);
           }
@@ -28006,7 +29666,7 @@ public final class YdbCms {
           result.availabilityZones_ = availabilityZonesBuilder_.build();
         }
         if (computationalUnitsBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000004) != 0)) {
             computationalUnits_ = java.util.Collections.unmodifiableList(computationalUnits_);
             bitField0_ = (bitField0_ & ~0x00000004);
           }
@@ -28018,32 +29678,39 @@ public final class YdbCms {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResult) {
           return mergeFrom((tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResult)other);
@@ -28138,10 +29805,12 @@ public final class YdbCms {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -28164,7 +29833,7 @@ public final class YdbCms {
       private java.util.List<tech.ydb.cms.YdbCms.StorageUnitDescription> storageUnits_ =
         java.util.Collections.emptyList();
       private void ensureStorageUnitsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           storageUnits_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.StorageUnitDescription>(storageUnits_);
           bitField0_ |= 0x00000001;
          }
@@ -28393,7 +30062,7 @@ public final class YdbCms {
           storageUnitsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.cms.YdbCms.StorageUnitDescription, tech.ydb.cms.YdbCms.StorageUnitDescription.Builder, tech.ydb.cms.YdbCms.StorageUnitDescriptionOrBuilder>(
                   storageUnits_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           storageUnits_ = null;
@@ -28404,7 +30073,7 @@ public final class YdbCms {
       private java.util.List<tech.ydb.cms.YdbCms.AvailabilityZoneDescription> availabilityZones_ =
         java.util.Collections.emptyList();
       private void ensureAvailabilityZonesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           availabilityZones_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.AvailabilityZoneDescription>(availabilityZones_);
           bitField0_ |= 0x00000002;
          }
@@ -28633,7 +30302,7 @@ public final class YdbCms {
           availabilityZonesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.cms.YdbCms.AvailabilityZoneDescription, tech.ydb.cms.YdbCms.AvailabilityZoneDescription.Builder, tech.ydb.cms.YdbCms.AvailabilityZoneDescriptionOrBuilder>(
                   availabilityZones_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           availabilityZones_ = null;
@@ -28644,7 +30313,7 @@ public final class YdbCms {
       private java.util.List<tech.ydb.cms.YdbCms.ComputationalUnitDescription> computationalUnits_ =
         java.util.Collections.emptyList();
       private void ensureComputationalUnitsIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000004) != 0)) {
           computationalUnits_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.ComputationalUnitDescription>(computationalUnits_);
           bitField0_ |= 0x00000004;
          }
@@ -28873,18 +30542,20 @@ public final class YdbCms {
           computationalUnitsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.cms.YdbCms.ComputationalUnitDescription, tech.ydb.cms.YdbCms.ComputationalUnitDescription.Builder, tech.ydb.cms.YdbCms.ComputationalUnitDescriptionOrBuilder>(
                   computationalUnits_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  ((bitField0_ & 0x00000004) != 0),
                   getParentForChildren(),
                   isClean());
           computationalUnits_ = null;
         }
         return computationalUnitsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -28906,11 +30577,12 @@ public final class YdbCms {
 
     private static final com.google.protobuf.Parser<DescribeDatabaseOptionsResult>
         PARSER = new com.google.protobuf.AbstractParser<DescribeDatabaseOptionsResult>() {
+      @java.lang.Override
       public DescribeDatabaseOptionsResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new DescribeDatabaseOptionsResult(input, extensionRegistry);
+        return new DescribeDatabaseOptionsResult(input, extensionRegistry);
       }
     };
 
@@ -28923,6 +30595,7 @@ public final class YdbCms {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.cms.YdbCms.DescribeDatabaseOptionsResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -29102,7 +30775,7 @@ public final class YdbCms {
       "dComputationalUnit\022\014\n\004host\030\001 \001(\t\022\014\n\004port" +
       "\030\002 \001(\r\022\021\n\tunit_kind\030\003 \001(\t\"s\n\tResources\022," +
       "\n\rstorage_units\030\001 \003(\0132\025.Ydb.Cms.StorageU" +
-      "nits\0228\n\023computational_units\030\002 \003(\0132\033.Ydb.",
+      "nits\0228\n\023computational_units\030\002 \003(\0132\033.Ydb." +
       "Cms.ComputationalUnits\"3\n\023ServerlessReso" +
       "urces\022\034\n\024shared_database_path\030\001 \001(\t\"j\n\017D" +
       "atabaseOptions\022\032\n\022disable_tx_service\030\001 \001" +
@@ -29112,7 +30785,7 @@ public final class YdbCms {
       "ationQuotas\022G\n\023leaky_bucket_quotas\030\001 \003(\013" +
       "2*.Ydb.Cms.SchemaOperationQuotas.LeakyBu" +
       "cket\032:\n\013LeakyBucket\022\023\n\013bucket_size\030\001 \001(\001" +
-      "\022\026\n\016bucket_seconds\030\002 \001(\004\"n\n\016DatabaseQuot",
+      "\022\026\n\016bucket_seconds\030\002 \001(\004\"n\n\016DatabaseQuot" +
       "as\022\034\n\024data_size_hard_quota\030\001 \001(\004\022\034\n\024data" +
       "_size_soft_quota\030\002 \001(\004\022 \n\030data_stream_sh" +
       "ards_quota\030\003 \001(\004\"\350\003\n\025CreateDatabaseReque" +
@@ -29122,7 +30795,7 @@ public final class YdbCms {
       "shared_resources\030\006 \001(\0132\022.Ydb.Cms.Resourc" +
       "esH\000\022<\n\024serverless_resources\030\007 \001(\0132\034.Ydb" +
       ".Cms.ServerlessResourcesH\000\022)\n\007options\030\004 " +
-      "\001(\0132\030.Ydb.Cms.DatabaseOptions\022&\n\nattribu",
+      "\001(\0132\030.Ydb.Cms.DatabaseOptions\022&\n\nattribu" +
       "tes\030\005 \003(\0132\022.Ydb.Cms.Attribute\022?\n\027schema_" +
       "operation_quotas\030\010 \001(\0132\036.Ydb.Cms.SchemaO" +
       "perationQuotas\022\027\n\017idempotency_key\030\t \001(\t\022" +
@@ -29132,7 +30805,7 @@ public final class YdbCms {
       "perations.Operation\"c\n\030GetDatabaseStatus" +
       "Request\022\014\n\004path\030\001 \001(\t\0229\n\020operation_param" +
       "s\030\002 \001(\0132\037.Ydb.Operations.OperationParams" +
-      "\"I\n\031GetDatabaseStatusResponse\022,\n\toperati",
+      "\"I\n\031GetDatabaseStatusResponse\022,\n\toperati" +
       "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\205\005\n\027" +
       "GetDatabaseStatusResult\022\014\n\004path\030\001 \001(\t\0225\n" +
       "\005state\030\002 \001(\0162&.Ydb.Cms.GetDatabaseStatus" +
@@ -29142,7 +30815,7 @@ public final class YdbCms {
       "<\n\024serverless_resources\030\010 \001(\0132\034.Ydb.Cms." +
       "ServerlessResourcesH\000\022/\n\023allocated_resou" +
       "rces\030\004 \001(\0132\022.Ydb.Cms.Resources\022A\n\024regist" +
-      "ered_resources\030\005 \003(\0132#.Ydb.Cms.Allocated",
+      "ered_resources\030\005 \003(\0132#.Ydb.Cms.Allocated" +
       "ComputationalUnit\022\022\n\ngeneration\030\006 \001(\004\022?\n" +
       "\027schema_operation_quotas\030\t \001(\0132\036.Ydb.Cms" +
       ".SchemaOperationQuotas\0220\n\017database_quota" +
@@ -29152,7 +30825,7 @@ public final class YdbCms {
       "OURCES\020\004\022\017\n\013CONFIGURING\020\005B\020\n\016resources_k" +
       "ind\"\327\004\n\024AlterDatabaseRequest\022\014\n\004path\030\001 \001" +
       "(\t\022?\n\032computational_units_to_add\030\002 \003(\0132\033" +
-      ".Ydb.Cms.ComputationalUnits\022B\n\035computati",
+      ".Ydb.Cms.ComputationalUnits\022B\n\035computati" +
       "onal_units_to_remove\030\003 \003(\0132\033.Ydb.Cms.Com" +
       "putationalUnits\0223\n\024storage_units_to_add\030" +
       "\004 \003(\0132\025.Ydb.Cms.StorageUnits\022L\n\037computat" +
@@ -29162,7 +30835,7 @@ public final class YdbCms {
       "AllocatedComputationalUnit\0229\n\020operation_" +
       "params\030\007 \001(\0132\037.Ydb.Operations.OperationP" +
       "arams\022\022\n\ngeneration\030\010 \001(\004\022?\n\027schema_oper" +
-      "ation_quotas\030\t \001(\0132\036.Ydb.Cms.SchemaOpera",
+      "ation_quotas\030\t \001(\0132\036.Ydb.Cms.SchemaOpera" +
       "tionQuotas\022\027\n\017idempotency_key\030\n \001(\t\0220\n\017d" +
       "atabase_quotas\030\013 \001(\0132\027.Ydb.Cms.DatabaseQ" +
       "uotas\"E\n\025AlterDatabaseResponse\022,\n\toperat" +
@@ -29172,7 +30845,7 @@ public final class YdbCms {
       "E\n\025ListDatabasesResponse\022,\n\toperation\030\001 " +
       "\001(\0132\031.Ydb.Operations.Operation\"$\n\023ListDa" +
       "tabasesResult\022\r\n\005paths\030\001 \003(\t\"`\n\025RemoveDa" +
-      "tabaseRequest\022\014\n\004path\030\001 \001(\t\0229\n\020operation",
+      "tabaseRequest\022\014\n\004path\030\001 \001(\t\0229\n\020operation" +
       "_params\030\002 \001(\0132\037.Ydb.Operations.Operation" +
       "Params\"F\n\026RemoveDatabaseResponse\022,\n\toper" +
       "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\222" +
@@ -29182,7 +30855,7 @@ public final class YdbCms {
       "ey\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\234\001\n\033Availabi" +
       "lityZoneDescription\022\014\n\004name\030\001 \001(\t\022@\n\006lab" +
       "els\030\002 \003(\01320.Ydb.Cms.AvailabilityZoneDesc" +
-      "ription.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003ke",
+      "ription.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003ke" +
       "y\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\302\001\n\034Computati" +
       "onalUnitDescription\022\014\n\004kind\030\001 \001(\t\022A\n\006lab" +
       "els\030\002 \003(\01321.Ydb.Cms.ComputationalUnitDes" +
@@ -29192,7 +30865,7 @@ public final class YdbCms {
       "aseOptionsRequest\0229\n\020operation_params\030\001 " +
       "\001(\0132\037.Ydb.Operations.OperationParams\"O\n\037" +
       "DescribeDatabaseOptionsResponse\022,\n\topera" +
-      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\335\001",
+      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\335\001" +
       "\n\035DescribeDatabaseOptionsResult\0226\n\rstora" +
       "ge_units\030\001 \003(\0132\037.Ydb.Cms.StorageUnitDesc" +
       "ription\022@\n\022availability_zones\030\002 \003(\0132$.Yd" +
@@ -29201,19 +30874,11 @@ public final class YdbCms {
       "tionalUnitDescriptionB\027\n\022tech.ydb." +
       "cms\370\001\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.OperationProtos.getDescriptor(),
-        }, assigner);
+        });
     internal_static_Ydb_Cms_StorageUnits_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_Cms_StorageUnits_fieldAccessorTable = new

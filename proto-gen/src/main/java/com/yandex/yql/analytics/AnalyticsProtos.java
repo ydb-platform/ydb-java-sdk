@@ -65,6 +65,8 @@ public final class AnalyticsProtos {
     }
 
     /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
@@ -72,6 +74,10 @@ public final class AnalyticsProtos {
       return forNumber(value);
     }
 
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
     public static EVisibility forNumber(int value) {
       switch (value) {
         case 0: return VISIBILITY_NONE;
@@ -96,6 +102,10 @@ public final class AnalyticsProtos {
 
     public final com.google.protobuf.Descriptors.EnumValueDescriptor
         getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
       return getDescriptor().getValues().get(ordinal());
     }
     public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -173,6 +183,8 @@ public final class AnalyticsProtos {
     }
 
     /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
@@ -180,6 +192,10 @@ public final class AnalyticsProtos {
       return forNumber(value);
     }
 
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
     public static EFieldType forNumber(int value) {
       switch (value) {
         case 0: return NONE;
@@ -203,6 +219,10 @@ public final class AnalyticsProtos {
 
     public final com.google.protobuf.Descriptors.EnumValueDescriptor
         getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
       return getDescriptor().getValues().get(ordinal());
     }
     public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -296,6 +316,8 @@ public final class AnalyticsProtos {
     }
 
     /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
@@ -303,6 +325,10 @@ public final class AnalyticsProtos {
       return forNumber(value);
     }
 
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
     public static EExecuteMode forNumber(int value) {
       switch (value) {
         case 0: return MODE_UNSPECIFIED;
@@ -328,6 +354,10 @@ public final class AnalyticsProtos {
 
     public final com.google.protobuf.Descriptors.EnumValueDescriptor
         getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
       return getDescriptor().getValues().get(ordinal());
     }
     public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -421,6 +451,8 @@ public final class AnalyticsProtos {
     }
 
     /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
@@ -428,6 +460,10 @@ public final class AnalyticsProtos {
       return forNumber(value);
     }
 
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
     public static EQueryStatus forNumber(int value) {
       switch (value) {
         case 0: return UNSPECIFIED;
@@ -453,6 +489,10 @@ public final class AnalyticsProtos {
 
     public final com.google.protobuf.Descriptors.EnumValueDescriptor
         getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
       return getDescriptor().getValues().get(ordinal());
     }
     public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -493,53 +533,62 @@ public final class AnalyticsProtos {
 
     /**
      * <code>string endpoint = 1;</code>
+     * @return The endpoint.
      */
     java.lang.String getEndpoint();
     /**
      * <code>string endpoint = 1;</code>
+     * @return The bytes for endpoint.
      */
     com.google.protobuf.ByteString
         getEndpointBytes();
 
     /**
      * <code>string database = 2;</code>
+     * @return The database.
      */
     java.lang.String getDatabase();
     /**
      * <code>string database = 2;</code>
+     * @return The bytes for database.
      */
     com.google.protobuf.ByteString
         getDatabaseBytes();
 
     /**
      * <code>string name = 3;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
      * <code>string name = 3;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
      * <code>string id = 4;</code>
+     * @return The id.
      */
     java.lang.String getId();
     /**
      * <code>string id = 4;</code>
+     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
 
     /**
      * <code>bool secure = 5;</code>
+     * @return The secure.
      */
     boolean getSecure();
   }
   /**
    * Protobuf type {@code Yql.Analytics.YdbDatabase}
    */
-  public  static final class YdbDatabase extends
+  public static final class YdbDatabase extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.YdbDatabase)
       YdbDatabaseOrBuilder {
@@ -553,7 +602,13 @@ public final class AnalyticsProtos {
       database_ = "";
       name_ = "";
       id_ = "";
-      secure_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new YdbDatabase();
     }
 
     @java.lang.Override
@@ -566,7 +621,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -577,13 +634,6 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -613,6 +663,13 @@ public final class AnalyticsProtos {
               secure_ = input.readBool();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -630,6 +687,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_YdbDatabase_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_YdbDatabase_fieldAccessorTable
@@ -641,7 +699,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object endpoint_;
     /**
      * <code>string endpoint = 1;</code>
+     * @return The endpoint.
      */
+    @java.lang.Override
     public java.lang.String getEndpoint() {
       java.lang.Object ref = endpoint_;
       if (ref instanceof java.lang.String) {
@@ -656,7 +716,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string endpoint = 1;</code>
+     * @return The bytes for endpoint.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getEndpointBytes() {
       java.lang.Object ref = endpoint_;
@@ -675,7 +737,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object database_;
     /**
      * <code>string database = 2;</code>
+     * @return The database.
      */
+    @java.lang.Override
     public java.lang.String getDatabase() {
       java.lang.Object ref = database_;
       if (ref instanceof java.lang.String) {
@@ -690,7 +754,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string database = 2;</code>
+     * @return The bytes for database.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getDatabaseBytes() {
       java.lang.Object ref = database_;
@@ -709,7 +775,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object name_;
     /**
      * <code>string name = 3;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -724,7 +792,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string name = 3;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -743,7 +813,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object id_;
     /**
      * <code>string id = 4;</code>
+     * @return The id.
      */
+    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -758,7 +830,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string id = 4;</code>
+     * @return The bytes for id.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -777,12 +851,15 @@ public final class AnalyticsProtos {
     private boolean secure_;
     /**
      * <code>bool secure = 5;</code>
+     * @return The secure.
      */
+    @java.lang.Override
     public boolean getSecure() {
       return secure_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -792,6 +869,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getEndpointBytes().isEmpty()) {
@@ -812,6 +890,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -848,19 +927,18 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase other = (com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase) obj;
 
-      boolean result = true;
-      result = result && getEndpoint()
-          .equals(other.getEndpoint());
-      result = result && getDatabase()
-          .equals(other.getDatabase());
-      result = result && getName()
-          .equals(other.getName());
-      result = result && getId()
-          .equals(other.getId());
-      result = result && (getSecure()
-          == other.getSecure());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getEndpoint()
+          .equals(other.getEndpoint())) return false;
+      if (!getDatabase()
+          .equals(other.getDatabase())) return false;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (!getId()
+          .equals(other.getId())) return false;
+      if (getSecure()
+          != other.getSecure()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -956,6 +1034,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -963,6 +1042,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -986,6 +1066,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_YdbDatabase_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_YdbDatabase_fieldAccessorTable
@@ -1008,6 +1089,7 @@ public final class AnalyticsProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         endpoint_ = "";
@@ -1023,15 +1105,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_YdbDatabase_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase build() {
         com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase result = buildPartial();
         if (!result.isInitialized()) {
@@ -1040,6 +1125,7 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase result = new com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase(this);
         result.endpoint_ = endpoint_;
@@ -1051,32 +1137,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase)other);
@@ -1112,10 +1205,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1137,6 +1232,7 @@ public final class AnalyticsProtos {
       private java.lang.Object endpoint_ = "";
       /**
        * <code>string endpoint = 1;</code>
+       * @return The endpoint.
        */
       public java.lang.String getEndpoint() {
         java.lang.Object ref = endpoint_;
@@ -1152,6 +1248,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string endpoint = 1;</code>
+       * @return The bytes for endpoint.
        */
       public com.google.protobuf.ByteString
           getEndpointBytes() {
@@ -1168,6 +1265,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string endpoint = 1;</code>
+       * @param value The endpoint to set.
+       * @return This builder for chaining.
        */
       public Builder setEndpoint(
           java.lang.String value) {
@@ -1181,6 +1280,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string endpoint = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearEndpoint() {
         
@@ -1190,6 +1290,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string endpoint = 1;</code>
+       * @param value The bytes for endpoint to set.
+       * @return This builder for chaining.
        */
       public Builder setEndpointBytes(
           com.google.protobuf.ByteString value) {
@@ -1206,6 +1308,7 @@ public final class AnalyticsProtos {
       private java.lang.Object database_ = "";
       /**
        * <code>string database = 2;</code>
+       * @return The database.
        */
       public java.lang.String getDatabase() {
         java.lang.Object ref = database_;
@@ -1221,6 +1324,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string database = 2;</code>
+       * @return The bytes for database.
        */
       public com.google.protobuf.ByteString
           getDatabaseBytes() {
@@ -1237,6 +1341,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string database = 2;</code>
+       * @param value The database to set.
+       * @return This builder for chaining.
        */
       public Builder setDatabase(
           java.lang.String value) {
@@ -1250,6 +1356,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string database = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDatabase() {
         
@@ -1259,6 +1366,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string database = 2;</code>
+       * @param value The bytes for database to set.
+       * @return This builder for chaining.
        */
       public Builder setDatabaseBytes(
           com.google.protobuf.ByteString value) {
@@ -1275,6 +1384,7 @@ public final class AnalyticsProtos {
       private java.lang.Object name_ = "";
       /**
        * <code>string name = 3;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -1290,6 +1400,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 3;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -1306,6 +1417,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 3;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -1319,6 +1432,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -1328,6 +1442,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 3;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -1344,6 +1460,7 @@ public final class AnalyticsProtos {
       private java.lang.Object id_ = "";
       /**
        * <code>string id = 4;</code>
+       * @return The id.
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -1359,6 +1476,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string id = 4;</code>
+       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -1375,6 +1493,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string id = 4;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -1388,6 +1508,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string id = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -1397,6 +1518,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string id = 4;</code>
+       * @param value The bytes for id to set.
+       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -1413,12 +1536,16 @@ public final class AnalyticsProtos {
       private boolean secure_ ;
       /**
        * <code>bool secure = 5;</code>
+       * @return The secure.
        */
+      @java.lang.Override
       public boolean getSecure() {
         return secure_;
       }
       /**
        * <code>bool secure = 5;</code>
+       * @param value The secure to set.
+       * @return This builder for chaining.
        */
       public Builder setSecure(boolean value) {
         
@@ -1428,6 +1555,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>bool secure = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSecure() {
         
@@ -1435,11 +1563,13 @@ public final class AnalyticsProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1461,11 +1591,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<YdbDatabase>
         PARSER = new com.google.protobuf.AbstractParser<YdbDatabase>() {
+      @java.lang.Override
       public YdbDatabase parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new YdbDatabase(input, extensionRegistry);
+        return new YdbDatabase(input, extensionRegistry);
       }
     };
 
@@ -1478,6 +1609,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1490,50 +1622,60 @@ public final class AnalyticsProtos {
 
     /**
      * <code>string cluster = 1;</code>
+     * @return The cluster.
      */
     java.lang.String getCluster();
     /**
      * <code>string cluster = 1;</code>
+     * @return The bytes for cluster.
      */
     com.google.protobuf.ByteString
         getClusterBytes();
 
     /**
      * <code>string host = 2;</code>
+     * @return The host.
      */
     java.lang.String getHost();
     /**
      * <code>string host = 2;</code>
+     * @return The bytes for host.
      */
     com.google.protobuf.ByteString
         getHostBytes();
 
     /**
      * <code>int32 port = 3;</code>
+     * @return The port.
      */
     int getPort();
 
     /**
      * <code>bool secure = 4;</code>
+     * @return The secure.
      */
     boolean getSecure();
 
     /**
      * <code>string login = 5;</code>
+     * @return The login.
      */
     java.lang.String getLogin();
     /**
      * <code>string login = 5;</code>
+     * @return The bytes for login.
      */
     com.google.protobuf.ByteString
         getLoginBytes();
 
     /**
      * <code>string password = 6;</code>
+     * @return The password.
      */
     java.lang.String getPassword();
     /**
      * <code>string password = 6;</code>
+     * @return The bytes for password.
      */
     com.google.protobuf.ByteString
         getPasswordBytes();
@@ -1541,7 +1683,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.ClickHouseCluster}
    */
-  public  static final class ClickHouseCluster extends
+  public static final class ClickHouseCluster extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.ClickHouseCluster)
       ClickHouseClusterOrBuilder {
@@ -1553,10 +1695,15 @@ public final class AnalyticsProtos {
     private ClickHouseCluster() {
       cluster_ = "";
       host_ = "";
-      port_ = 0;
-      secure_ = false;
       login_ = "";
       password_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ClickHouseCluster();
     }
 
     @java.lang.Override
@@ -1569,7 +1716,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1580,13 +1729,6 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -1621,6 +1763,13 @@ public final class AnalyticsProtos {
               password_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1638,6 +1787,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ClickHouseCluster_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ClickHouseCluster_fieldAccessorTable
@@ -1649,7 +1799,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object cluster_;
     /**
      * <code>string cluster = 1;</code>
+     * @return The cluster.
      */
+    @java.lang.Override
     public java.lang.String getCluster() {
       java.lang.Object ref = cluster_;
       if (ref instanceof java.lang.String) {
@@ -1664,7 +1816,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string cluster = 1;</code>
+     * @return The bytes for cluster.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getClusterBytes() {
       java.lang.Object ref = cluster_;
@@ -1683,7 +1837,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object host_;
     /**
      * <code>string host = 2;</code>
+     * @return The host.
      */
+    @java.lang.Override
     public java.lang.String getHost() {
       java.lang.Object ref = host_;
       if (ref instanceof java.lang.String) {
@@ -1698,7 +1854,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string host = 2;</code>
+     * @return The bytes for host.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getHostBytes() {
       java.lang.Object ref = host_;
@@ -1717,7 +1875,9 @@ public final class AnalyticsProtos {
     private int port_;
     /**
      * <code>int32 port = 3;</code>
+     * @return The port.
      */
+    @java.lang.Override
     public int getPort() {
       return port_;
     }
@@ -1726,7 +1886,9 @@ public final class AnalyticsProtos {
     private boolean secure_;
     /**
      * <code>bool secure = 4;</code>
+     * @return The secure.
      */
+    @java.lang.Override
     public boolean getSecure() {
       return secure_;
     }
@@ -1735,7 +1897,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object login_;
     /**
      * <code>string login = 5;</code>
+     * @return The login.
      */
+    @java.lang.Override
     public java.lang.String getLogin() {
       java.lang.Object ref = login_;
       if (ref instanceof java.lang.String) {
@@ -1750,7 +1914,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string login = 5;</code>
+     * @return The bytes for login.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getLoginBytes() {
       java.lang.Object ref = login_;
@@ -1769,7 +1935,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object password_;
     /**
      * <code>string password = 6;</code>
+     * @return The password.
      */
+    @java.lang.Override
     public java.lang.String getPassword() {
       java.lang.Object ref = password_;
       if (ref instanceof java.lang.String) {
@@ -1784,7 +1952,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string password = 6;</code>
+     * @return The bytes for password.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPasswordBytes() {
       java.lang.Object ref = password_;
@@ -1800,6 +1970,7 @@ public final class AnalyticsProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1809,6 +1980,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getClusterBytes().isEmpty()) {
@@ -1832,6 +2004,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1872,21 +2045,20 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.ClickHouseCluster other = (com.yandex.yql.analytics.AnalyticsProtos.ClickHouseCluster) obj;
 
-      boolean result = true;
-      result = result && getCluster()
-          .equals(other.getCluster());
-      result = result && getHost()
-          .equals(other.getHost());
-      result = result && (getPort()
-          == other.getPort());
-      result = result && (getSecure()
-          == other.getSecure());
-      result = result && getLogin()
-          .equals(other.getLogin());
-      result = result && getPassword()
-          .equals(other.getPassword());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getCluster()
+          .equals(other.getCluster())) return false;
+      if (!getHost()
+          .equals(other.getHost())) return false;
+      if (getPort()
+          != other.getPort()) return false;
+      if (getSecure()
+          != other.getSecure()) return false;
+      if (!getLogin()
+          .equals(other.getLogin())) return false;
+      if (!getPassword()
+          .equals(other.getPassword())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1984,6 +2156,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1991,6 +2164,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.ClickHouseCluster prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2014,6 +2188,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ClickHouseCluster_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ClickHouseCluster_fieldAccessorTable
@@ -2036,6 +2211,7 @@ public final class AnalyticsProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         cluster_ = "";
@@ -2053,15 +2229,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ClickHouseCluster_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ClickHouseCluster getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.ClickHouseCluster.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ClickHouseCluster build() {
         com.yandex.yql.analytics.AnalyticsProtos.ClickHouseCluster result = buildPartial();
         if (!result.isInitialized()) {
@@ -2070,6 +2249,7 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ClickHouseCluster buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.ClickHouseCluster result = new com.yandex.yql.analytics.AnalyticsProtos.ClickHouseCluster(this);
         result.cluster_ = cluster_;
@@ -2082,32 +2262,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.ClickHouseCluster) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.ClickHouseCluster)other);
@@ -2146,10 +2333,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2171,6 +2360,7 @@ public final class AnalyticsProtos {
       private java.lang.Object cluster_ = "";
       /**
        * <code>string cluster = 1;</code>
+       * @return The cluster.
        */
       public java.lang.String getCluster() {
         java.lang.Object ref = cluster_;
@@ -2186,6 +2376,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cluster = 1;</code>
+       * @return The bytes for cluster.
        */
       public com.google.protobuf.ByteString
           getClusterBytes() {
@@ -2202,6 +2393,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cluster = 1;</code>
+       * @param value The cluster to set.
+       * @return This builder for chaining.
        */
       public Builder setCluster(
           java.lang.String value) {
@@ -2215,6 +2408,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cluster = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCluster() {
         
@@ -2224,6 +2418,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cluster = 1;</code>
+       * @param value The bytes for cluster to set.
+       * @return This builder for chaining.
        */
       public Builder setClusterBytes(
           com.google.protobuf.ByteString value) {
@@ -2240,6 +2436,7 @@ public final class AnalyticsProtos {
       private java.lang.Object host_ = "";
       /**
        * <code>string host = 2;</code>
+       * @return The host.
        */
       public java.lang.String getHost() {
         java.lang.Object ref = host_;
@@ -2255,6 +2452,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string host = 2;</code>
+       * @return The bytes for host.
        */
       public com.google.protobuf.ByteString
           getHostBytes() {
@@ -2271,6 +2469,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string host = 2;</code>
+       * @param value The host to set.
+       * @return This builder for chaining.
        */
       public Builder setHost(
           java.lang.String value) {
@@ -2284,6 +2484,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string host = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearHost() {
         
@@ -2293,6 +2494,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string host = 2;</code>
+       * @param value The bytes for host to set.
+       * @return This builder for chaining.
        */
       public Builder setHostBytes(
           com.google.protobuf.ByteString value) {
@@ -2309,12 +2512,16 @@ public final class AnalyticsProtos {
       private int port_ ;
       /**
        * <code>int32 port = 3;</code>
+       * @return The port.
        */
+      @java.lang.Override
       public int getPort() {
         return port_;
       }
       /**
        * <code>int32 port = 3;</code>
+       * @param value The port to set.
+       * @return This builder for chaining.
        */
       public Builder setPort(int value) {
         
@@ -2324,6 +2531,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>int32 port = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPort() {
         
@@ -2335,12 +2543,16 @@ public final class AnalyticsProtos {
       private boolean secure_ ;
       /**
        * <code>bool secure = 4;</code>
+       * @return The secure.
        */
+      @java.lang.Override
       public boolean getSecure() {
         return secure_;
       }
       /**
        * <code>bool secure = 4;</code>
+       * @param value The secure to set.
+       * @return This builder for chaining.
        */
       public Builder setSecure(boolean value) {
         
@@ -2350,6 +2562,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>bool secure = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSecure() {
         
@@ -2361,6 +2574,7 @@ public final class AnalyticsProtos {
       private java.lang.Object login_ = "";
       /**
        * <code>string login = 5;</code>
+       * @return The login.
        */
       public java.lang.String getLogin() {
         java.lang.Object ref = login_;
@@ -2376,6 +2590,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string login = 5;</code>
+       * @return The bytes for login.
        */
       public com.google.protobuf.ByteString
           getLoginBytes() {
@@ -2392,6 +2607,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string login = 5;</code>
+       * @param value The login to set.
+       * @return This builder for chaining.
        */
       public Builder setLogin(
           java.lang.String value) {
@@ -2405,6 +2622,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string login = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearLogin() {
         
@@ -2414,6 +2632,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string login = 5;</code>
+       * @param value The bytes for login to set.
+       * @return This builder for chaining.
        */
       public Builder setLoginBytes(
           com.google.protobuf.ByteString value) {
@@ -2430,6 +2650,7 @@ public final class AnalyticsProtos {
       private java.lang.Object password_ = "";
       /**
        * <code>string password = 6;</code>
+       * @return The password.
        */
       public java.lang.String getPassword() {
         java.lang.Object ref = password_;
@@ -2445,6 +2666,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string password = 6;</code>
+       * @return The bytes for password.
        */
       public com.google.protobuf.ByteString
           getPasswordBytes() {
@@ -2461,6 +2683,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string password = 6;</code>
+       * @param value The password to set.
+       * @return This builder for chaining.
        */
       public Builder setPassword(
           java.lang.String value) {
@@ -2474,6 +2698,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string password = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPassword() {
         
@@ -2483,6 +2708,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string password = 6;</code>
+       * @param value The bytes for password to set.
+       * @return This builder for chaining.
        */
       public Builder setPasswordBytes(
           com.google.protobuf.ByteString value) {
@@ -2495,11 +2722,13 @@ public final class AnalyticsProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2521,11 +2750,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<ClickHouseCluster>
         PARSER = new com.google.protobuf.AbstractParser<ClickHouseCluster>() {
+      @java.lang.Override
       public ClickHouseCluster parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ClickHouseCluster(input, extensionRegistry);
+        return new ClickHouseCluster(input, extensionRegistry);
       }
     };
 
@@ -2538,6 +2768,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ClickHouseCluster getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2550,10 +2781,12 @@ public final class AnalyticsProtos {
 
     /**
      * <code>.Yql.Analytics.YdbDatabase ydb_database = 1;</code>
+     * @return Whether the ydbDatabase field is set.
      */
     boolean hasYdbDatabase();
     /**
      * <code>.Yql.Analytics.YdbDatabase ydb_database = 1;</code>
+     * @return The ydbDatabase.
      */
     com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase getYdbDatabase();
     /**
@@ -2563,10 +2796,12 @@ public final class AnalyticsProtos {
 
     /**
      * <code>.Yql.Analytics.ClickHouseCluster clickhouse_cluster = 2;</code>
+     * @return Whether the clickhouseCluster field is set.
      */
     boolean hasClickhouseCluster();
     /**
      * <code>.Yql.Analytics.ClickHouseCluster clickhouse_cluster = 2;</code>
+     * @return The clickhouseCluster.
      */
     com.yandex.yql.analytics.AnalyticsProtos.ClickHouseCluster getClickhouseCluster();
     /**
@@ -2579,7 +2814,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.Connection}
    */
-  public  static final class Connection extends
+  public static final class Connection extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.Connection)
       ConnectionOrBuilder {
@@ -2592,6 +2827,13 @@ public final class AnalyticsProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Connection();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2601,7 +2843,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2612,13 +2856,6 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase.Builder subBuilder = null;
               if (connectionCase_ == 1) {
@@ -2647,6 +2884,13 @@ public final class AnalyticsProtos {
               connectionCase_ = 2;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2664,6 +2908,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Connection_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Connection_fieldAccessorTable
@@ -2674,7 +2919,8 @@ public final class AnalyticsProtos {
     private int connectionCase_ = 0;
     private java.lang.Object connection_;
     public enum ConnectionCase
-        implements com.google.protobuf.Internal.EnumLite {
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       YDB_DATABASE(1),
       CLICKHOUSE_CLUSTER(2),
       CONNECTION_NOT_SET(0);
@@ -2683,6 +2929,8 @@ public final class AnalyticsProtos {
         this.value = value;
       }
       /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -2712,13 +2960,17 @@ public final class AnalyticsProtos {
     public static final int YDB_DATABASE_FIELD_NUMBER = 1;
     /**
      * <code>.Yql.Analytics.YdbDatabase ydb_database = 1;</code>
+     * @return Whether the ydbDatabase field is set.
      */
+    @java.lang.Override
     public boolean hasYdbDatabase() {
       return connectionCase_ == 1;
     }
     /**
      * <code>.Yql.Analytics.YdbDatabase ydb_database = 1;</code>
+     * @return The ydbDatabase.
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase getYdbDatabase() {
       if (connectionCase_ == 1) {
          return (com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase) connection_;
@@ -2728,6 +2980,7 @@ public final class AnalyticsProtos {
     /**
      * <code>.Yql.Analytics.YdbDatabase ydb_database = 1;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.YdbDatabaseOrBuilder getYdbDatabaseOrBuilder() {
       if (connectionCase_ == 1) {
          return (com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase) connection_;
@@ -2738,13 +2991,17 @@ public final class AnalyticsProtos {
     public static final int CLICKHOUSE_CLUSTER_FIELD_NUMBER = 2;
     /**
      * <code>.Yql.Analytics.ClickHouseCluster clickhouse_cluster = 2;</code>
+     * @return Whether the clickhouseCluster field is set.
      */
+    @java.lang.Override
     public boolean hasClickhouseCluster() {
       return connectionCase_ == 2;
     }
     /**
      * <code>.Yql.Analytics.ClickHouseCluster clickhouse_cluster = 2;</code>
+     * @return The clickhouseCluster.
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ClickHouseCluster getClickhouseCluster() {
       if (connectionCase_ == 2) {
          return (com.yandex.yql.analytics.AnalyticsProtos.ClickHouseCluster) connection_;
@@ -2754,6 +3011,7 @@ public final class AnalyticsProtos {
     /**
      * <code>.Yql.Analytics.ClickHouseCluster clickhouse_cluster = 2;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ClickHouseClusterOrBuilder getClickhouseClusterOrBuilder() {
       if (connectionCase_ == 2) {
          return (com.yandex.yql.analytics.AnalyticsProtos.ClickHouseCluster) connection_;
@@ -2762,6 +3020,7 @@ public final class AnalyticsProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2771,6 +3030,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (connectionCase_ == 1) {
@@ -2782,6 +3042,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2810,24 +3071,21 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.Connection other = (com.yandex.yql.analytics.AnalyticsProtos.Connection) obj;
 
-      boolean result = true;
-      result = result && getConnectionCase().equals(
-          other.getConnectionCase());
-      if (!result) return false;
+      if (!getConnectionCase().equals(other.getConnectionCase())) return false;
       switch (connectionCase_) {
         case 1:
-          result = result && getYdbDatabase()
-              .equals(other.getYdbDatabase());
+          if (!getYdbDatabase()
+              .equals(other.getYdbDatabase())) return false;
           break;
         case 2:
-          result = result && getClickhouseCluster()
-              .equals(other.getClickhouseCluster());
+          if (!getClickhouseCluster()
+              .equals(other.getClickhouseCluster())) return false;
           break;
         case 0:
         default:
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2924,6 +3182,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2931,6 +3190,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.Connection prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2954,6 +3214,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Connection_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Connection_fieldAccessorTable
@@ -2976,6 +3237,7 @@ public final class AnalyticsProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         connectionCase_ = 0;
@@ -2983,15 +3245,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Connection_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.Connection getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.Connection.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.Connection build() {
         com.yandex.yql.analytics.AnalyticsProtos.Connection result = buildPartial();
         if (!result.isInitialized()) {
@@ -3000,6 +3265,7 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.Connection buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.Connection result = new com.yandex.yql.analytics.AnalyticsProtos.Connection(this);
         if (connectionCase_ == 1) {
@@ -3021,32 +3287,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.Connection) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.Connection)other);
@@ -3076,10 +3349,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3117,13 +3392,17 @@ public final class AnalyticsProtos {
           com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase, com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase.Builder, com.yandex.yql.analytics.AnalyticsProtos.YdbDatabaseOrBuilder> ydbDatabaseBuilder_;
       /**
        * <code>.Yql.Analytics.YdbDatabase ydb_database = 1;</code>
+       * @return Whether the ydbDatabase field is set.
        */
+      @java.lang.Override
       public boolean hasYdbDatabase() {
         return connectionCase_ == 1;
       }
       /**
        * <code>.Yql.Analytics.YdbDatabase ydb_database = 1;</code>
+       * @return The ydbDatabase.
        */
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.YdbDatabase getYdbDatabase() {
         if (ydbDatabaseBuilder_ == null) {
           if (connectionCase_ == 1) {
@@ -3217,6 +3496,7 @@ public final class AnalyticsProtos {
       /**
        * <code>.Yql.Analytics.YdbDatabase ydb_database = 1;</code>
        */
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.YdbDatabaseOrBuilder getYdbDatabaseOrBuilder() {
         if ((connectionCase_ == 1) && (ydbDatabaseBuilder_ != null)) {
           return ydbDatabaseBuilder_.getMessageOrBuilder();
@@ -3253,13 +3533,17 @@ public final class AnalyticsProtos {
           com.yandex.yql.analytics.AnalyticsProtos.ClickHouseCluster, com.yandex.yql.analytics.AnalyticsProtos.ClickHouseCluster.Builder, com.yandex.yql.analytics.AnalyticsProtos.ClickHouseClusterOrBuilder> clickhouseClusterBuilder_;
       /**
        * <code>.Yql.Analytics.ClickHouseCluster clickhouse_cluster = 2;</code>
+       * @return Whether the clickhouseCluster field is set.
        */
+      @java.lang.Override
       public boolean hasClickhouseCluster() {
         return connectionCase_ == 2;
       }
       /**
        * <code>.Yql.Analytics.ClickHouseCluster clickhouse_cluster = 2;</code>
+       * @return The clickhouseCluster.
        */
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ClickHouseCluster getClickhouseCluster() {
         if (clickhouseClusterBuilder_ == null) {
           if (connectionCase_ == 2) {
@@ -3353,6 +3637,7 @@ public final class AnalyticsProtos {
       /**
        * <code>.Yql.Analytics.ClickHouseCluster clickhouse_cluster = 2;</code>
        */
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ClickHouseClusterOrBuilder getClickhouseClusterOrBuilder() {
         if ((connectionCase_ == 2) && (clickhouseClusterBuilder_ != null)) {
           return clickhouseClusterBuilder_.getMessageOrBuilder();
@@ -3384,11 +3669,13 @@ public final class AnalyticsProtos {
         onChanged();;
         return clickhouseClusterBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3410,11 +3697,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<Connection>
         PARSER = new com.google.protobuf.AbstractParser<Connection>() {
+      @java.lang.Override
       public Connection parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Connection(input, extensionRegistry);
+        return new Connection(input, extensionRegistry);
       }
     };
 
@@ -3427,6 +3715,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.Connection getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3439,10 +3728,12 @@ public final class AnalyticsProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -3452,40 +3743,48 @@ public final class AnalyticsProtos {
 
     /**
      * <code>string cloud_id = 100;</code>
+     * @return The cloudId.
      */
     java.lang.String getCloudId();
     /**
      * <code>string cloud_id = 100;</code>
+     * @return The bytes for cloudId.
      */
     com.google.protobuf.ByteString
         getCloudIdBytes();
 
     /**
      * <code>string folder_id = 2;</code>
+     * @return The folderId.
      */
     java.lang.String getFolderId();
     /**
      * <code>string folder_id = 2;</code>
+     * @return The bytes for folderId.
      */
     com.google.protobuf.ByteString
         getFolderIdBytes();
 
     /**
      * <code>string name = 3;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
      * <code>string name = 3;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
      * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 4;</code>
+     * @return Whether the filter field is set.
      */
     boolean hasFilter();
     /**
      * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 4;</code>
+     * @return The filter.
      */
     com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter getFilter();
     /**
@@ -3496,7 +3795,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.GetConnectionsRequest}
    */
-  public  static final class GetConnectionsRequest extends
+  public static final class GetConnectionsRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.GetConnectionsRequest)
       GetConnectionsRequestOrBuilder {
@@ -3512,6 +3811,13 @@ public final class AnalyticsProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetConnectionsRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3521,7 +3827,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3532,13 +3840,6 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -3583,6 +3884,13 @@ public final class AnalyticsProtos {
               cloudId_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3600,6 +3908,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetConnectionsRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetConnectionsRequest_fieldAccessorTable
@@ -3613,10 +3922,12 @@ public final class AnalyticsProtos {
 
       /**
        * <code>string connection_id = 1;</code>
+       * @return The connectionId.
        */
       java.lang.String getConnectionId();
       /**
        * <code>string connection_id = 1;</code>
+       * @return The bytes for connectionId.
        */
       com.google.protobuf.ByteString
           getConnectionIdBytes();
@@ -3624,7 +3935,7 @@ public final class AnalyticsProtos {
     /**
      * Protobuf type {@code Yql.Analytics.GetConnectionsRequest.Filter}
      */
-    public  static final class Filter extends
+    public static final class Filter extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:Yql.Analytics.GetConnectionsRequest.Filter)
         FilterOrBuilder {
@@ -3638,6 +3949,13 @@ public final class AnalyticsProtos {
       }
 
       @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Filter();
+      }
+
+      @java.lang.Override
       public final com.google.protobuf.UnknownFieldSet
       getUnknownFields() {
         return this.unknownFields;
@@ -3647,7 +3965,9 @@ public final class AnalyticsProtos {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -3658,17 +3978,17 @@ public final class AnalyticsProtos {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 10: {
                 java.lang.String s = input.readStringRequireUtf8();
 
                 connectionId_ = s;
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
                 break;
               }
             }
@@ -3688,6 +4008,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetConnectionsRequest_Filter_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetConnectionsRequest_Filter_fieldAccessorTable
@@ -3699,7 +4020,9 @@ public final class AnalyticsProtos {
       private volatile java.lang.Object connectionId_;
       /**
        * <code>string connection_id = 1;</code>
+       * @return The connectionId.
        */
+      @java.lang.Override
       public java.lang.String getConnectionId() {
         java.lang.Object ref = connectionId_;
         if (ref instanceof java.lang.String) {
@@ -3714,7 +4037,9 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string connection_id = 1;</code>
+       * @return The bytes for connectionId.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getConnectionIdBytes() {
         java.lang.Object ref = connectionId_;
@@ -3730,6 +4055,7 @@ public final class AnalyticsProtos {
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -3739,6 +4065,7 @@ public final class AnalyticsProtos {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (!getConnectionIdBytes().isEmpty()) {
@@ -3747,6 +4074,7 @@ public final class AnalyticsProtos {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -3770,11 +4098,10 @@ public final class AnalyticsProtos {
         }
         com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter other = (com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter) obj;
 
-        boolean result = true;
-        result = result && getConnectionId()
-            .equals(other.getConnectionId());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!getConnectionId()
+            .equals(other.getConnectionId())) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -3861,6 +4188,7 @@ public final class AnalyticsProtos {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -3868,6 +4196,7 @@ public final class AnalyticsProtos {
       public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -3891,6 +4220,7 @@ public final class AnalyticsProtos {
           return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetConnectionsRequest_Filter_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetConnectionsRequest_Filter_fieldAccessorTable
@@ -3913,6 +4243,7 @@ public final class AnalyticsProtos {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           connectionId_ = "";
@@ -3920,15 +4251,18 @@ public final class AnalyticsProtos {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetConnectionsRequest_Filter_descriptor;
         }
 
+        @java.lang.Override
         public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter getDefaultInstanceForType() {
           return com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter.getDefaultInstance();
         }
 
+        @java.lang.Override
         public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter build() {
           com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter result = buildPartial();
           if (!result.isInitialized()) {
@@ -3937,6 +4271,7 @@ public final class AnalyticsProtos {
           return result;
         }
 
+        @java.lang.Override
         public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter buildPartial() {
           com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter result = new com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter(this);
           result.connectionId_ = connectionId_;
@@ -3944,32 +4279,39 @@ public final class AnalyticsProtos {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter) {
             return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter)other);
@@ -3990,10 +4332,12 @@ public final class AnalyticsProtos {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4015,6 +4359,7 @@ public final class AnalyticsProtos {
         private java.lang.Object connectionId_ = "";
         /**
          * <code>string connection_id = 1;</code>
+         * @return The connectionId.
          */
         public java.lang.String getConnectionId() {
           java.lang.Object ref = connectionId_;
@@ -4030,6 +4375,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string connection_id = 1;</code>
+         * @return The bytes for connectionId.
          */
         public com.google.protobuf.ByteString
             getConnectionIdBytes() {
@@ -4046,6 +4392,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string connection_id = 1;</code>
+         * @param value The connectionId to set.
+         * @return This builder for chaining.
          */
         public Builder setConnectionId(
             java.lang.String value) {
@@ -4059,6 +4407,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string connection_id = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearConnectionId() {
           
@@ -4068,6 +4417,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string connection_id = 1;</code>
+         * @param value The bytes for connectionId to set.
+         * @return This builder for chaining.
          */
         public Builder setConnectionIdBytes(
             com.google.protobuf.ByteString value) {
@@ -4080,11 +4431,13 @@ public final class AnalyticsProtos {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -4106,11 +4459,12 @@ public final class AnalyticsProtos {
 
       private static final com.google.protobuf.Parser<Filter>
           PARSER = new com.google.protobuf.AbstractParser<Filter>() {
+        @java.lang.Override
         public Filter parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Filter(input, extensionRegistry);
+          return new Filter(input, extensionRegistry);
         }
       };
 
@@ -4123,6 +4477,7 @@ public final class AnalyticsProtos {
         return PARSER;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -4133,19 +4488,24 @@ public final class AnalyticsProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -4154,7 +4514,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object cloudId_;
     /**
      * <code>string cloud_id = 100;</code>
+     * @return The cloudId.
      */
+    @java.lang.Override
     public java.lang.String getCloudId() {
       java.lang.Object ref = cloudId_;
       if (ref instanceof java.lang.String) {
@@ -4169,7 +4531,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string cloud_id = 100;</code>
+     * @return The bytes for cloudId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getCloudIdBytes() {
       java.lang.Object ref = cloudId_;
@@ -4188,7 +4552,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object folderId_;
     /**
      * <code>string folder_id = 2;</code>
+     * @return The folderId.
      */
+    @java.lang.Override
     public java.lang.String getFolderId() {
       java.lang.Object ref = folderId_;
       if (ref instanceof java.lang.String) {
@@ -4203,7 +4569,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string folder_id = 2;</code>
+     * @return The bytes for folderId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getFolderIdBytes() {
       java.lang.Object ref = folderId_;
@@ -4222,7 +4590,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object name_;
     /**
      * <code>string name = 3;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -4237,7 +4607,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string name = 3;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -4256,24 +4628,30 @@ public final class AnalyticsProtos {
     private com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter filter_;
     /**
      * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 4;</code>
+     * @return Whether the filter field is set.
      */
+    @java.lang.Override
     public boolean hasFilter() {
       return filter_ != null;
     }
     /**
      * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 4;</code>
+     * @return The filter.
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter getFilter() {
       return filter_ == null ? com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter.getDefaultInstance() : filter_;
     }
     /**
      * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 4;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.FilterOrBuilder getFilterOrBuilder() {
       return getFilter();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4283,6 +4661,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -4303,6 +4682,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4340,25 +4720,24 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest other = (com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getCloudId()
-          .equals(other.getCloudId());
-      result = result && getFolderId()
-          .equals(other.getFolderId());
-      result = result && getName()
-          .equals(other.getName());
-      result = result && (hasFilter() == other.hasFilter());
+      if (!getCloudId()
+          .equals(other.getCloudId())) return false;
+      if (!getFolderId()
+          .equals(other.getFolderId())) return false;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (hasFilter() != other.hasFilter()) return false;
       if (hasFilter()) {
-        result = result && getFilter()
-            .equals(other.getFilter());
+        if (!getFilter()
+            .equals(other.getFilter())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4457,6 +4836,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4464,6 +4844,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4487,6 +4868,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetConnectionsRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetConnectionsRequest_fieldAccessorTable
@@ -4509,6 +4891,7 @@ public final class AnalyticsProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -4532,15 +4915,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetConnectionsRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest build() {
         com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -4549,6 +4935,7 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest result = new com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -4568,32 +4955,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest)other);
@@ -4628,10 +5022,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4650,17 +5046,19 @@ public final class AnalyticsProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -4770,6 +5168,7 @@ public final class AnalyticsProtos {
       private java.lang.Object cloudId_ = "";
       /**
        * <code>string cloud_id = 100;</code>
+       * @return The cloudId.
        */
       public java.lang.String getCloudId() {
         java.lang.Object ref = cloudId_;
@@ -4785,6 +5184,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 100;</code>
+       * @return The bytes for cloudId.
        */
       public com.google.protobuf.ByteString
           getCloudIdBytes() {
@@ -4801,6 +5201,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 100;</code>
+       * @param value The cloudId to set.
+       * @return This builder for chaining.
        */
       public Builder setCloudId(
           java.lang.String value) {
@@ -4814,6 +5216,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 100;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCloudId() {
         
@@ -4823,6 +5226,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 100;</code>
+       * @param value The bytes for cloudId to set.
+       * @return This builder for chaining.
        */
       public Builder setCloudIdBytes(
           com.google.protobuf.ByteString value) {
@@ -4839,6 +5244,7 @@ public final class AnalyticsProtos {
       private java.lang.Object folderId_ = "";
       /**
        * <code>string folder_id = 2;</code>
+       * @return The folderId.
        */
       public java.lang.String getFolderId() {
         java.lang.Object ref = folderId_;
@@ -4854,6 +5260,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 2;</code>
+       * @return The bytes for folderId.
        */
       public com.google.protobuf.ByteString
           getFolderIdBytes() {
@@ -4870,6 +5277,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 2;</code>
+       * @param value The folderId to set.
+       * @return This builder for chaining.
        */
       public Builder setFolderId(
           java.lang.String value) {
@@ -4883,6 +5292,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFolderId() {
         
@@ -4892,6 +5302,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 2;</code>
+       * @param value The bytes for folderId to set.
+       * @return This builder for chaining.
        */
       public Builder setFolderIdBytes(
           com.google.protobuf.ByteString value) {
@@ -4908,6 +5320,7 @@ public final class AnalyticsProtos {
       private java.lang.Object name_ = "";
       /**
        * <code>string name = 3;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -4923,6 +5336,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 3;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -4939,6 +5353,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 3;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -4952,6 +5368,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -4961,6 +5378,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 3;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -4974,17 +5393,19 @@ public final class AnalyticsProtos {
         return this;
       }
 
-      private com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter filter_ = null;
+      private com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter filter_;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter, com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter.Builder, com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.FilterOrBuilder> filterBuilder_;
       /**
        * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 4;</code>
+       * @return Whether the filter field is set.
        */
       public boolean hasFilter() {
         return filterBuilder_ != null || filter_ != null;
       }
       /**
        * <code>.Yql.Analytics.GetConnectionsRequest.Filter filter = 4;</code>
+       * @return The filter.
        */
       public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest.Filter getFilter() {
         if (filterBuilder_ == null) {
@@ -5090,11 +5511,13 @@ public final class AnalyticsProtos {
         }
         return filterBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5116,11 +5539,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<GetConnectionsRequest>
         PARSER = new com.google.protobuf.AbstractParser<GetConnectionsRequest>() {
+      @java.lang.Override
       public GetConnectionsRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetConnectionsRequest(input, extensionRegistry);
+        return new GetConnectionsRequest(input, extensionRegistry);
       }
     };
 
@@ -5133,6 +5557,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5169,17 +5594,19 @@ public final class AnalyticsProtos {
 
     /**
      * <code>.Yql.Analytics.EVisibility visibility = 2;</code>
+     * @return The enum numeric value on the wire for visibility.
      */
     int getVisibilityValue();
     /**
      * <code>.Yql.Analytics.EVisibility visibility = 2;</code>
+     * @return The visibility.
      */
     com.yandex.yql.analytics.AnalyticsProtos.EVisibility getVisibility();
   }
   /**
    * Protobuf type {@code Yql.Analytics.Acl}
    */
-  public  static final class Acl extends
+  public static final class Acl extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.Acl)
       AclOrBuilder {
@@ -5194,6 +5621,13 @@ public final class AnalyticsProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Acl();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -5203,6 +5637,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -5214,15 +5651,8 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 ace_ = new java.util.ArrayList<com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace>();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -5236,6 +5666,13 @@ public final class AnalyticsProtos {
               visibility_ = rawValue;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -5244,7 +5681,7 @@ public final class AnalyticsProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           ace_ = java.util.Collections.unmodifiableList(ace_);
         }
         this.unknownFields = unknownFields.build();
@@ -5256,6 +5693,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Acl_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Acl_fieldAccessorTable
@@ -5270,7 +5708,7 @@ public final class AnalyticsProtos {
     /**
      * Protobuf type {@code Yql.Analytics.Acl.Ace}
      */
-    public  static final class Ace extends
+    public static final class Ace extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:Yql.Analytics.Acl.Ace)
         AceOrBuilder {
@@ -5283,6 +5721,13 @@ public final class AnalyticsProtos {
       }
 
       @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Ace();
+      }
+
+      @java.lang.Override
       public final com.google.protobuf.UnknownFieldSet
       getUnknownFields() {
         return this.unknownFields;
@@ -5292,6 +5737,9 @@ public final class AnalyticsProtos {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -5303,7 +5751,7 @@ public final class AnalyticsProtos {
                 done = true;
                 break;
               default: {
-                if (!parseUnknownFieldProto3(
+                if (!parseUnknownField(
                     input, unknownFields, extensionRegistry, tag)) {
                   done = true;
                 }
@@ -5326,6 +5774,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Acl_Ace_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Acl_Ace_fieldAccessorTable
@@ -5334,6 +5783,7 @@ public final class AnalyticsProtos {
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -5343,11 +5793,13 @@ public final class AnalyticsProtos {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -5368,9 +5820,8 @@ public final class AnalyticsProtos {
         }
         com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace other = (com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace) obj;
 
-        boolean result = true;
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -5455,6 +5906,7 @@ public final class AnalyticsProtos {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -5462,6 +5914,7 @@ public final class AnalyticsProtos {
       public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -5485,6 +5938,7 @@ public final class AnalyticsProtos {
           return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Acl_Ace_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Acl_Ace_fieldAccessorTable
@@ -5507,20 +5961,24 @@ public final class AnalyticsProtos {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Acl_Ace_descriptor;
         }
 
+        @java.lang.Override
         public com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace getDefaultInstanceForType() {
           return com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.getDefaultInstance();
         }
 
+        @java.lang.Override
         public com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace build() {
           com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace result = buildPartial();
           if (!result.isInitialized()) {
@@ -5529,38 +5987,46 @@ public final class AnalyticsProtos {
           return result;
         }
 
+        @java.lang.Override
         public com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace buildPartial() {
           com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace result = new com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace(this);
           onBuilt();
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace) {
             return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace)other);
@@ -5577,10 +6043,12 @@ public final class AnalyticsProtos {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5598,11 +6066,13 @@ public final class AnalyticsProtos {
           }
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -5624,11 +6094,12 @@ public final class AnalyticsProtos {
 
       private static final com.google.protobuf.Parser<Ace>
           PARSER = new com.google.protobuf.AbstractParser<Ace>() {
+        @java.lang.Override
         public Ace parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Ace(input, extensionRegistry);
+          return new Ace(input, extensionRegistry);
         }
       };
 
@@ -5641,24 +6112,26 @@ public final class AnalyticsProtos {
         return PARSER;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
     }
 
-    private int bitField0_;
     public static final int ACE_FIELD_NUMBER = 1;
     private java.util.List<com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace> ace_;
     /**
      * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace> getAceList() {
       return ace_;
     }
     /**
      * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends com.yandex.yql.analytics.AnalyticsProtos.Acl.AceOrBuilder> 
         getAceOrBuilderList() {
       return ace_;
@@ -5666,18 +6139,21 @@ public final class AnalyticsProtos {
     /**
      * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
      */
+    @java.lang.Override
     public int getAceCount() {
       return ace_.size();
     }
     /**
      * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace getAce(int index) {
       return ace_.get(index);
     }
     /**
      * <code>repeated .Yql.Analytics.Acl.Ace ace = 1;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.Acl.AceOrBuilder getAceOrBuilder(
         int index) {
       return ace_.get(index);
@@ -5687,19 +6163,23 @@ public final class AnalyticsProtos {
     private int visibility_;
     /**
      * <code>.Yql.Analytics.EVisibility visibility = 2;</code>
+     * @return The enum numeric value on the wire for visibility.
      */
-    public int getVisibilityValue() {
+    @java.lang.Override public int getVisibilityValue() {
       return visibility_;
     }
     /**
      * <code>.Yql.Analytics.EVisibility visibility = 2;</code>
+     * @return The visibility.
      */
-    public com.yandex.yql.analytics.AnalyticsProtos.EVisibility getVisibility() {
+    @java.lang.Override public com.yandex.yql.analytics.AnalyticsProtos.EVisibility getVisibility() {
+      @SuppressWarnings("deprecation")
       com.yandex.yql.analytics.AnalyticsProtos.EVisibility result = com.yandex.yql.analytics.AnalyticsProtos.EVisibility.valueOf(visibility_);
       return result == null ? com.yandex.yql.analytics.AnalyticsProtos.EVisibility.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -5709,6 +6189,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < ace_.size(); i++) {
@@ -5720,6 +6201,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -5748,12 +6230,11 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.Acl other = (com.yandex.yql.analytics.AnalyticsProtos.Acl) obj;
 
-      boolean result = true;
-      result = result && getAceList()
-          .equals(other.getAceList());
-      result = result && visibility_ == other.visibility_;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getAceList()
+          .equals(other.getAceList())) return false;
+      if (visibility_ != other.visibility_) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5844,6 +6325,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5851,6 +6333,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.Acl prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5874,6 +6357,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Acl_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Acl_fieldAccessorTable
@@ -5897,6 +6381,7 @@ public final class AnalyticsProtos {
           getAceFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (aceBuilder_ == null) {
@@ -5910,15 +6395,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_Acl_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.Acl getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.Acl build() {
         com.yandex.yql.analytics.AnalyticsProtos.Acl result = buildPartial();
         if (!result.isInitialized()) {
@@ -5927,12 +6415,12 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.Acl buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.Acl result = new com.yandex.yql.analytics.AnalyticsProtos.Acl(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (aceBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             ace_ = java.util.Collections.unmodifiableList(ace_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -5941,37 +6429,43 @@ public final class AnalyticsProtos {
           result.ace_ = aceBuilder_.build();
         }
         result.visibility_ = visibility_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.Acl) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.Acl)other);
@@ -6017,10 +6511,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6043,7 +6539,7 @@ public final class AnalyticsProtos {
       private java.util.List<com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace> ace_ =
         java.util.Collections.emptyList();
       private void ensureAceIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           ace_ = new java.util.ArrayList<com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace>(ace_);
           bitField0_ |= 0x00000001;
          }
@@ -6272,7 +6768,7 @@ public final class AnalyticsProtos {
           aceBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace, com.yandex.yql.analytics.AnalyticsProtos.Acl.Ace.Builder, com.yandex.yql.analytics.AnalyticsProtos.Acl.AceOrBuilder>(
                   ace_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           ace_ = null;
@@ -6283,27 +6779,36 @@ public final class AnalyticsProtos {
       private int visibility_ = 0;
       /**
        * <code>.Yql.Analytics.EVisibility visibility = 2;</code>
+       * @return The enum numeric value on the wire for visibility.
        */
-      public int getVisibilityValue() {
+      @java.lang.Override public int getVisibilityValue() {
         return visibility_;
       }
       /**
        * <code>.Yql.Analytics.EVisibility visibility = 2;</code>
+       * @param value The enum numeric value on the wire for visibility to set.
+       * @return This builder for chaining.
        */
       public Builder setVisibilityValue(int value) {
+        
         visibility_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Yql.Analytics.EVisibility visibility = 2;</code>
+       * @return The visibility.
        */
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.EVisibility getVisibility() {
+        @SuppressWarnings("deprecation")
         com.yandex.yql.analytics.AnalyticsProtos.EVisibility result = com.yandex.yql.analytics.AnalyticsProtos.EVisibility.valueOf(visibility_);
         return result == null ? com.yandex.yql.analytics.AnalyticsProtos.EVisibility.UNRECOGNIZED : result;
       }
       /**
        * <code>.Yql.Analytics.EVisibility visibility = 2;</code>
+       * @param value The visibility to set.
+       * @return This builder for chaining.
        */
       public Builder setVisibility(com.yandex.yql.analytics.AnalyticsProtos.EVisibility value) {
         if (value == null) {
@@ -6316,6 +6821,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>.Yql.Analytics.EVisibility visibility = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearVisibility() {
         
@@ -6323,11 +6829,13 @@ public final class AnalyticsProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -6349,11 +6857,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<Acl>
         PARSER = new com.google.protobuf.AbstractParser<Acl>() {
+      @java.lang.Override
       public Acl parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Acl(input, extensionRegistry);
+        return new Acl(input, extensionRegistry);
       }
     };
 
@@ -6366,6 +6875,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.Acl getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -6382,6 +6892,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string connection_id = 2;</code>
+     * @return The connectionId.
      */
     java.lang.String getConnectionId();
     /**
@@ -6390,46 +6901,55 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string connection_id = 2;</code>
+     * @return The bytes for connectionId.
      */
     com.google.protobuf.ByteString
         getConnectionIdBytes();
 
     /**
      * <code>string created_by = 3;</code>
+     * @return The createdBy.
      */
     java.lang.String getCreatedBy();
     /**
      * <code>string created_by = 3;</code>
+     * @return The bytes for createdBy.
      */
     com.google.protobuf.ByteString
         getCreatedByBytes();
 
     /**
      * <code>string modified_by = 4;</code>
+     * @return The modifiedBy.
      */
     java.lang.String getModifiedBy();
     /**
      * <code>string modified_by = 4;</code>
+     * @return The bytes for modifiedBy.
      */
     com.google.protobuf.ByteString
         getModifiedByBytes();
 
     /**
      * <code>string name = 5;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
      * <code>string name = 5;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
      * <code>.Yql.Analytics.Connection connection = 6;</code>
+     * @return Whether the connection field is set.
      */
     boolean hasConnection();
     /**
      * <code>.Yql.Analytics.Connection connection = 6;</code>
+     * @return The connection.
      */
     com.yandex.yql.analytics.AnalyticsProtos.Connection getConnection();
     /**
@@ -6439,10 +6959,12 @@ public final class AnalyticsProtos {
 
     /**
      * <code>.Yql.Analytics.Acl acl = 7;</code>
+     * @return Whether the acl field is set.
      */
     boolean hasAcl();
     /**
      * <code>.Yql.Analytics.Acl acl = 7;</code>
+     * @return The acl.
      */
     com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl();
     /**
@@ -6452,10 +6974,12 @@ public final class AnalyticsProtos {
 
     /**
      * <code>.google.protobuf.Timestamp creation_time = 8;</code>
+     * @return Whether the creationTime field is set.
      */
     boolean hasCreationTime();
     /**
      * <code>.google.protobuf.Timestamp creation_time = 8;</code>
+     * @return The creationTime.
      */
     com.google.protobuf.Timestamp getCreationTime();
     /**
@@ -6465,10 +6989,12 @@ public final class AnalyticsProtos {
 
     /**
      * <code>.google.protobuf.Timestamp modification_time = 9;</code>
+     * @return Whether the modificationTime field is set.
      */
     boolean hasModificationTime();
     /**
      * <code>.google.protobuf.Timestamp modification_time = 9;</code>
+     * @return The modificationTime.
      */
     com.google.protobuf.Timestamp getModificationTime();
     /**
@@ -6478,13 +7004,14 @@ public final class AnalyticsProtos {
 
     /**
      * <code>bool is_deleted = 10;</code>
+     * @return The isDeleted.
      */
     boolean getIsDeleted();
   }
   /**
    * Protobuf type {@code Yql.Analytics.ConnectionEntity}
    */
-  public  static final class ConnectionEntity extends
+  public static final class ConnectionEntity extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.ConnectionEntity)
       ConnectionEntityOrBuilder {
@@ -6498,7 +7025,13 @@ public final class AnalyticsProtos {
       createdBy_ = "";
       modifiedBy_ = "";
       name_ = "";
-      isDeleted_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ConnectionEntity();
     }
 
     @java.lang.Override
@@ -6511,7 +7044,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -6522,13 +7057,6 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -6610,6 +7138,13 @@ public final class AnalyticsProtos {
               isDeleted_ = input.readBool();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -6627,6 +7162,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ConnectionEntity_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ConnectionEntity_fieldAccessorTable
@@ -6642,7 +7178,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string connection_id = 2;</code>
+     * @return The connectionId.
      */
+    @java.lang.Override
     public java.lang.String getConnectionId() {
       java.lang.Object ref = connectionId_;
       if (ref instanceof java.lang.String) {
@@ -6661,7 +7199,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string connection_id = 2;</code>
+     * @return The bytes for connectionId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getConnectionIdBytes() {
       java.lang.Object ref = connectionId_;
@@ -6680,7 +7220,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object createdBy_;
     /**
      * <code>string created_by = 3;</code>
+     * @return The createdBy.
      */
+    @java.lang.Override
     public java.lang.String getCreatedBy() {
       java.lang.Object ref = createdBy_;
       if (ref instanceof java.lang.String) {
@@ -6695,7 +7237,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string created_by = 3;</code>
+     * @return The bytes for createdBy.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getCreatedByBytes() {
       java.lang.Object ref = createdBy_;
@@ -6714,7 +7258,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object modifiedBy_;
     /**
      * <code>string modified_by = 4;</code>
+     * @return The modifiedBy.
      */
+    @java.lang.Override
     public java.lang.String getModifiedBy() {
       java.lang.Object ref = modifiedBy_;
       if (ref instanceof java.lang.String) {
@@ -6729,7 +7275,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string modified_by = 4;</code>
+     * @return The bytes for modifiedBy.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getModifiedByBytes() {
       java.lang.Object ref = modifiedBy_;
@@ -6748,7 +7296,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object name_;
     /**
      * <code>string name = 5;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -6763,7 +7313,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string name = 5;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -6782,19 +7334,24 @@ public final class AnalyticsProtos {
     private com.yandex.yql.analytics.AnalyticsProtos.Connection connection_;
     /**
      * <code>.Yql.Analytics.Connection connection = 6;</code>
+     * @return Whether the connection field is set.
      */
+    @java.lang.Override
     public boolean hasConnection() {
       return connection_ != null;
     }
     /**
      * <code>.Yql.Analytics.Connection connection = 6;</code>
+     * @return The connection.
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.Connection getConnection() {
       return connection_ == null ? com.yandex.yql.analytics.AnalyticsProtos.Connection.getDefaultInstance() : connection_;
     }
     /**
      * <code>.Yql.Analytics.Connection connection = 6;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ConnectionOrBuilder getConnectionOrBuilder() {
       return getConnection();
     }
@@ -6803,19 +7360,24 @@ public final class AnalyticsProtos {
     private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_;
     /**
      * <code>.Yql.Analytics.Acl acl = 7;</code>
+     * @return Whether the acl field is set.
      */
+    @java.lang.Override
     public boolean hasAcl() {
       return acl_ != null;
     }
     /**
      * <code>.Yql.Analytics.Acl acl = 7;</code>
+     * @return The acl.
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl() {
       return acl_ == null ? com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance() : acl_;
     }
     /**
      * <code>.Yql.Analytics.Acl acl = 7;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder getAclOrBuilder() {
       return getAcl();
     }
@@ -6824,19 +7386,24 @@ public final class AnalyticsProtos {
     private com.google.protobuf.Timestamp creationTime_;
     /**
      * <code>.google.protobuf.Timestamp creation_time = 8;</code>
+     * @return Whether the creationTime field is set.
      */
+    @java.lang.Override
     public boolean hasCreationTime() {
       return creationTime_ != null;
     }
     /**
      * <code>.google.protobuf.Timestamp creation_time = 8;</code>
+     * @return The creationTime.
      */
+    @java.lang.Override
     public com.google.protobuf.Timestamp getCreationTime() {
       return creationTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : creationTime_;
     }
     /**
      * <code>.google.protobuf.Timestamp creation_time = 8;</code>
      */
+    @java.lang.Override
     public com.google.protobuf.TimestampOrBuilder getCreationTimeOrBuilder() {
       return getCreationTime();
     }
@@ -6845,19 +7412,24 @@ public final class AnalyticsProtos {
     private com.google.protobuf.Timestamp modificationTime_;
     /**
      * <code>.google.protobuf.Timestamp modification_time = 9;</code>
+     * @return Whether the modificationTime field is set.
      */
+    @java.lang.Override
     public boolean hasModificationTime() {
       return modificationTime_ != null;
     }
     /**
      * <code>.google.protobuf.Timestamp modification_time = 9;</code>
+     * @return The modificationTime.
      */
+    @java.lang.Override
     public com.google.protobuf.Timestamp getModificationTime() {
       return modificationTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : modificationTime_;
     }
     /**
      * <code>.google.protobuf.Timestamp modification_time = 9;</code>
      */
+    @java.lang.Override
     public com.google.protobuf.TimestampOrBuilder getModificationTimeOrBuilder() {
       return getModificationTime();
     }
@@ -6866,12 +7438,15 @@ public final class AnalyticsProtos {
     private boolean isDeleted_;
     /**
      * <code>bool is_deleted = 10;</code>
+     * @return The isDeleted.
      */
+    @java.lang.Override
     public boolean getIsDeleted() {
       return isDeleted_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6881,6 +7456,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getConnectionIdBytes().isEmpty()) {
@@ -6913,6 +7489,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -6965,39 +7542,38 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity other = (com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity) obj;
 
-      boolean result = true;
-      result = result && getConnectionId()
-          .equals(other.getConnectionId());
-      result = result && getCreatedBy()
-          .equals(other.getCreatedBy());
-      result = result && getModifiedBy()
-          .equals(other.getModifiedBy());
-      result = result && getName()
-          .equals(other.getName());
-      result = result && (hasConnection() == other.hasConnection());
+      if (!getConnectionId()
+          .equals(other.getConnectionId())) return false;
+      if (!getCreatedBy()
+          .equals(other.getCreatedBy())) return false;
+      if (!getModifiedBy()
+          .equals(other.getModifiedBy())) return false;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (hasConnection() != other.hasConnection()) return false;
       if (hasConnection()) {
-        result = result && getConnection()
-            .equals(other.getConnection());
+        if (!getConnection()
+            .equals(other.getConnection())) return false;
       }
-      result = result && (hasAcl() == other.hasAcl());
+      if (hasAcl() != other.hasAcl()) return false;
       if (hasAcl()) {
-        result = result && getAcl()
-            .equals(other.getAcl());
+        if (!getAcl()
+            .equals(other.getAcl())) return false;
       }
-      result = result && (hasCreationTime() == other.hasCreationTime());
+      if (hasCreationTime() != other.hasCreationTime()) return false;
       if (hasCreationTime()) {
-        result = result && getCreationTime()
-            .equals(other.getCreationTime());
+        if (!getCreationTime()
+            .equals(other.getCreationTime())) return false;
       }
-      result = result && (hasModificationTime() == other.hasModificationTime());
+      if (hasModificationTime() != other.hasModificationTime()) return false;
       if (hasModificationTime()) {
-        result = result && getModificationTime()
-            .equals(other.getModificationTime());
+        if (!getModificationTime()
+            .equals(other.getModificationTime())) return false;
       }
-      result = result && (getIsDeleted()
-          == other.getIsDeleted());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getIsDeleted()
+          != other.getIsDeleted()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -7109,6 +7685,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -7116,6 +7693,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -7139,6 +7717,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ConnectionEntity_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ConnectionEntity_fieldAccessorTable
@@ -7161,6 +7740,7 @@ public final class AnalyticsProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         connectionId_ = "";
@@ -7200,15 +7780,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ConnectionEntity_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity build() {
         com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity result = buildPartial();
         if (!result.isInitialized()) {
@@ -7217,6 +7800,7 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity result = new com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity(this);
         result.connectionId_ = connectionId_;
@@ -7248,32 +7832,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity)other);
@@ -7321,10 +7912,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -7350,6 +7943,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string connection_id = 2;</code>
+       * @return The connectionId.
        */
       public java.lang.String getConnectionId() {
         java.lang.Object ref = connectionId_;
@@ -7369,6 +7963,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string connection_id = 2;</code>
+       * @return The bytes for connectionId.
        */
       public com.google.protobuf.ByteString
           getConnectionIdBytes() {
@@ -7389,6 +7984,8 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string connection_id = 2;</code>
+       * @param value The connectionId to set.
+       * @return This builder for chaining.
        */
       public Builder setConnectionId(
           java.lang.String value) {
@@ -7406,6 +8003,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string connection_id = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearConnectionId() {
         
@@ -7419,6 +8017,8 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string connection_id = 2;</code>
+       * @param value The bytes for connectionId to set.
+       * @return This builder for chaining.
        */
       public Builder setConnectionIdBytes(
           com.google.protobuf.ByteString value) {
@@ -7435,6 +8035,7 @@ public final class AnalyticsProtos {
       private java.lang.Object createdBy_ = "";
       /**
        * <code>string created_by = 3;</code>
+       * @return The createdBy.
        */
       public java.lang.String getCreatedBy() {
         java.lang.Object ref = createdBy_;
@@ -7450,6 +8051,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string created_by = 3;</code>
+       * @return The bytes for createdBy.
        */
       public com.google.protobuf.ByteString
           getCreatedByBytes() {
@@ -7466,6 +8068,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string created_by = 3;</code>
+       * @param value The createdBy to set.
+       * @return This builder for chaining.
        */
       public Builder setCreatedBy(
           java.lang.String value) {
@@ -7479,6 +8083,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string created_by = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCreatedBy() {
         
@@ -7488,6 +8093,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string created_by = 3;</code>
+       * @param value The bytes for createdBy to set.
+       * @return This builder for chaining.
        */
       public Builder setCreatedByBytes(
           com.google.protobuf.ByteString value) {
@@ -7504,6 +8111,7 @@ public final class AnalyticsProtos {
       private java.lang.Object modifiedBy_ = "";
       /**
        * <code>string modified_by = 4;</code>
+       * @return The modifiedBy.
        */
       public java.lang.String getModifiedBy() {
         java.lang.Object ref = modifiedBy_;
@@ -7519,6 +8127,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string modified_by = 4;</code>
+       * @return The bytes for modifiedBy.
        */
       public com.google.protobuf.ByteString
           getModifiedByBytes() {
@@ -7535,6 +8144,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string modified_by = 4;</code>
+       * @param value The modifiedBy to set.
+       * @return This builder for chaining.
        */
       public Builder setModifiedBy(
           java.lang.String value) {
@@ -7548,6 +8159,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string modified_by = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearModifiedBy() {
         
@@ -7557,6 +8169,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string modified_by = 4;</code>
+       * @param value The bytes for modifiedBy to set.
+       * @return This builder for chaining.
        */
       public Builder setModifiedByBytes(
           com.google.protobuf.ByteString value) {
@@ -7573,6 +8187,7 @@ public final class AnalyticsProtos {
       private java.lang.Object name_ = "";
       /**
        * <code>string name = 5;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -7588,6 +8203,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 5;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -7604,6 +8220,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 5;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -7617,6 +8235,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -7626,6 +8245,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 5;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -7639,17 +8260,19 @@ public final class AnalyticsProtos {
         return this;
       }
 
-      private com.yandex.yql.analytics.AnalyticsProtos.Connection connection_ = null;
+      private com.yandex.yql.analytics.AnalyticsProtos.Connection connection_;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.yandex.yql.analytics.AnalyticsProtos.Connection, com.yandex.yql.analytics.AnalyticsProtos.Connection.Builder, com.yandex.yql.analytics.AnalyticsProtos.ConnectionOrBuilder> connectionBuilder_;
       /**
        * <code>.Yql.Analytics.Connection connection = 6;</code>
+       * @return Whether the connection field is set.
        */
       public boolean hasConnection() {
         return connectionBuilder_ != null || connection_ != null;
       }
       /**
        * <code>.Yql.Analytics.Connection connection = 6;</code>
+       * @return The connection.
        */
       public com.yandex.yql.analytics.AnalyticsProtos.Connection getConnection() {
         if (connectionBuilder_ == null) {
@@ -7756,17 +8379,19 @@ public final class AnalyticsProtos {
         return connectionBuilder_;
       }
 
-      private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_ = null;
+      private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.yandex.yql.analytics.AnalyticsProtos.Acl, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder, com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder> aclBuilder_;
       /**
        * <code>.Yql.Analytics.Acl acl = 7;</code>
+       * @return Whether the acl field is set.
        */
       public boolean hasAcl() {
         return aclBuilder_ != null || acl_ != null;
       }
       /**
        * <code>.Yql.Analytics.Acl acl = 7;</code>
+       * @return The acl.
        */
       public com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl() {
         if (aclBuilder_ == null) {
@@ -7873,17 +8498,19 @@ public final class AnalyticsProtos {
         return aclBuilder_;
       }
 
-      private com.google.protobuf.Timestamp creationTime_ = null;
+      private com.google.protobuf.Timestamp creationTime_;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> creationTimeBuilder_;
       /**
        * <code>.google.protobuf.Timestamp creation_time = 8;</code>
+       * @return Whether the creationTime field is set.
        */
       public boolean hasCreationTime() {
         return creationTimeBuilder_ != null || creationTime_ != null;
       }
       /**
        * <code>.google.protobuf.Timestamp creation_time = 8;</code>
+       * @return The creationTime.
        */
       public com.google.protobuf.Timestamp getCreationTime() {
         if (creationTimeBuilder_ == null) {
@@ -7990,17 +8617,19 @@ public final class AnalyticsProtos {
         return creationTimeBuilder_;
       }
 
-      private com.google.protobuf.Timestamp modificationTime_ = null;
+      private com.google.protobuf.Timestamp modificationTime_;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> modificationTimeBuilder_;
       /**
        * <code>.google.protobuf.Timestamp modification_time = 9;</code>
+       * @return Whether the modificationTime field is set.
        */
       public boolean hasModificationTime() {
         return modificationTimeBuilder_ != null || modificationTime_ != null;
       }
       /**
        * <code>.google.protobuf.Timestamp modification_time = 9;</code>
+       * @return The modificationTime.
        */
       public com.google.protobuf.Timestamp getModificationTime() {
         if (modificationTimeBuilder_ == null) {
@@ -8110,12 +8739,16 @@ public final class AnalyticsProtos {
       private boolean isDeleted_ ;
       /**
        * <code>bool is_deleted = 10;</code>
+       * @return The isDeleted.
        */
+      @java.lang.Override
       public boolean getIsDeleted() {
         return isDeleted_;
       }
       /**
        * <code>bool is_deleted = 10;</code>
+       * @param value The isDeleted to set.
+       * @return This builder for chaining.
        */
       public Builder setIsDeleted(boolean value) {
         
@@ -8125,6 +8758,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>bool is_deleted = 10;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIsDeleted() {
         
@@ -8132,11 +8766,13 @@ public final class AnalyticsProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -8158,11 +8794,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<ConnectionEntity>
         PARSER = new com.google.protobuf.AbstractParser<ConnectionEntity>() {
+      @java.lang.Override
       public ConnectionEntity parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ConnectionEntity(input, extensionRegistry);
+        return new ConnectionEntity(input, extensionRegistry);
       }
     };
 
@@ -8175,6 +8812,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -8212,7 +8850,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.GetConnectionsResult}
    */
-  public  static final class GetConnectionsResult extends
+  public static final class GetConnectionsResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.GetConnectionsResult)
       GetConnectionsResultOrBuilder {
@@ -8226,6 +8864,13 @@ public final class AnalyticsProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetConnectionsResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -8235,6 +8880,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -8246,20 +8894,20 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 entity_ = new java.util.ArrayList<com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity>();
                 mutable_bitField0_ |= 0x00000001;
               }
               entity_.add(
                   input.readMessage(com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -8270,7 +8918,7 @@ public final class AnalyticsProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           entity_ = java.util.Collections.unmodifiableList(entity_);
         }
         this.unknownFields = unknownFields.build();
@@ -8282,6 +8930,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetConnectionsResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetConnectionsResult_fieldAccessorTable
@@ -8294,12 +8943,14 @@ public final class AnalyticsProtos {
     /**
      * <code>repeated .Yql.Analytics.ConnectionEntity entity = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity> getEntityList() {
       return entity_;
     }
     /**
      * <code>repeated .Yql.Analytics.ConnectionEntity entity = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntityOrBuilder> 
         getEntityOrBuilderList() {
       return entity_;
@@ -8307,24 +8958,28 @@ public final class AnalyticsProtos {
     /**
      * <code>repeated .Yql.Analytics.ConnectionEntity entity = 1;</code>
      */
+    @java.lang.Override
     public int getEntityCount() {
       return entity_.size();
     }
     /**
      * <code>repeated .Yql.Analytics.ConnectionEntity entity = 1;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity getEntity(int index) {
       return entity_.get(index);
     }
     /**
      * <code>repeated .Yql.Analytics.ConnectionEntity entity = 1;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntityOrBuilder getEntityOrBuilder(
         int index) {
       return entity_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -8334,6 +8989,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < entity_.size(); i++) {
@@ -8342,6 +8998,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -8366,11 +9023,10 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResult other = (com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResult) obj;
 
-      boolean result = true;
-      result = result && getEntityList()
-          .equals(other.getEntityList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getEntityList()
+          .equals(other.getEntityList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -8459,6 +9115,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -8466,6 +9123,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -8489,6 +9147,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetConnectionsResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetConnectionsResult_fieldAccessorTable
@@ -8512,6 +9171,7 @@ public final class AnalyticsProtos {
           getEntityFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (entityBuilder_ == null) {
@@ -8523,15 +9183,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetConnectionsResult_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResult getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResult build() {
         com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -8540,11 +9203,12 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResult buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResult result = new com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResult(this);
         int from_bitField0_ = bitField0_;
         if (entityBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             entity_ = java.util.Collections.unmodifiableList(entity_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -8556,32 +9220,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResult) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResult)other);
@@ -8624,10 +9295,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8650,7 +9323,7 @@ public final class AnalyticsProtos {
       private java.util.List<com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity> entity_ =
         java.util.Collections.emptyList();
       private void ensureEntityIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           entity_ = new java.util.ArrayList<com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity>(entity_);
           bitField0_ |= 0x00000001;
          }
@@ -8879,18 +9552,20 @@ public final class AnalyticsProtos {
           entityBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity, com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity.Builder, com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntityOrBuilder>(
                   entity_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           entity_ = null;
         }
         return entityBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -8912,11 +9587,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<GetConnectionsResult>
         PARSER = new com.google.protobuf.AbstractParser<GetConnectionsResult>() {
+      @java.lang.Override
       public GetConnectionsResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetConnectionsResult(input, extensionRegistry);
+        return new GetConnectionsResult(input, extensionRegistry);
       }
     };
 
@@ -8929,6 +9605,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -8945,6 +9622,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
@@ -8953,6 +9631,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -8967,7 +9646,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.GetConnectionsResponse}
    */
-  public  static final class GetConnectionsResponse extends
+  public static final class GetConnectionsResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.GetConnectionsResponse)
       GetConnectionsResponseOrBuilder {
@@ -8980,6 +9659,13 @@ public final class AnalyticsProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetConnectionsResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -8989,7 +9675,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -9000,13 +9688,6 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -9018,6 +9699,13 @@ public final class AnalyticsProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -9037,6 +9725,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetConnectionsResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetConnectionsResponse_fieldAccessorTable
@@ -9052,7 +9741,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
@@ -9062,7 +9753,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
@@ -9073,11 +9766,13 @@ public final class AnalyticsProtos {
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -9087,6 +9782,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -9095,6 +9791,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -9119,14 +9816,13 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResponse other = (com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -9215,6 +9911,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -9222,6 +9919,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -9245,6 +9943,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetConnectionsResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetConnectionsResponse_fieldAccessorTable
@@ -9267,6 +9966,7 @@ public final class AnalyticsProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -9278,15 +9978,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetConnectionsResponse_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResponse getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResponse build() {
         com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -9295,6 +9998,7 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResponse buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResponse result = new com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResponse(this);
         if (operationBuilder_ == null) {
@@ -9306,32 +10010,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResponse) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResponse)other);
@@ -9351,10 +10062,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -9373,7 +10086,7 @@ public final class AnalyticsProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
@@ -9382,6 +10095,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
@@ -9392,6 +10106,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -9525,11 +10240,13 @@ public final class AnalyticsProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -9551,11 +10268,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<GetConnectionsResponse>
         PARSER = new com.google.protobuf.AbstractParser<GetConnectionsResponse>() {
+      @java.lang.Override
       public GetConnectionsResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetConnectionsResponse(input, extensionRegistry);
+        return new GetConnectionsResponse(input, extensionRegistry);
       }
     };
 
@@ -9568,6 +10286,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetConnectionsResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -9580,10 +10299,12 @@ public final class AnalyticsProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -9617,30 +10338,36 @@ public final class AnalyticsProtos {
 
     /**
      * <code>string cloud_id = 3;</code>
+     * @return The cloudId.
      */
     java.lang.String getCloudId();
     /**
      * <code>string cloud_id = 3;</code>
+     * @return The bytes for cloudId.
      */
     com.google.protobuf.ByteString
         getCloudIdBytes();
 
     /**
      * <code>string folder_id = 4;</code>
+     * @return The folderId.
      */
     java.lang.String getFolderId();
     /**
      * <code>string folder_id = 4;</code>
+     * @return The bytes for folderId.
      */
     com.google.protobuf.ByteString
         getFolderIdBytes();
 
     /**
      * <code>string idempotency_key = 5;</code>
+     * @return The idempotencyKey.
      */
     java.lang.String getIdempotencyKey();
     /**
      * <code>string idempotency_key = 5;</code>
+     * @return The bytes for idempotencyKey.
      */
     com.google.protobuf.ByteString
         getIdempotencyKeyBytes();
@@ -9648,7 +10375,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.ModifyConnectionsRequest}
    */
-  public  static final class ModifyConnectionsRequest extends
+  public static final class ModifyConnectionsRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.ModifyConnectionsRequest)
       ModifyConnectionsRequestOrBuilder {
@@ -9665,6 +10392,13 @@ public final class AnalyticsProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ModifyConnectionsRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -9674,6 +10408,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -9685,13 +10422,6 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -9706,9 +10436,9 @@ public final class AnalyticsProtos {
               break;
             }
             case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 connection_ = new java.util.ArrayList<com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               connection_.add(
                   input.readMessage(com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity.parser(), extensionRegistry));
@@ -9732,6 +10462,13 @@ public final class AnalyticsProtos {
               idempotencyKey_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -9740,7 +10477,7 @@ public final class AnalyticsProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           connection_ = java.util.Collections.unmodifiableList(connection_);
         }
         this.unknownFields = unknownFields.build();
@@ -9752,6 +10489,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyConnectionsRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyConnectionsRequest_fieldAccessorTable
@@ -9759,24 +10497,28 @@ public final class AnalyticsProtos {
               com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsRequest.class, com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -9786,12 +10528,14 @@ public final class AnalyticsProtos {
     /**
      * <code>repeated .Yql.Analytics.ConnectionEntity connection = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity> getConnectionList() {
       return connection_;
     }
     /**
      * <code>repeated .Yql.Analytics.ConnectionEntity connection = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntityOrBuilder> 
         getConnectionOrBuilderList() {
       return connection_;
@@ -9799,18 +10543,21 @@ public final class AnalyticsProtos {
     /**
      * <code>repeated .Yql.Analytics.ConnectionEntity connection = 2;</code>
      */
+    @java.lang.Override
     public int getConnectionCount() {
       return connection_.size();
     }
     /**
      * <code>repeated .Yql.Analytics.ConnectionEntity connection = 2;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity getConnection(int index) {
       return connection_.get(index);
     }
     /**
      * <code>repeated .Yql.Analytics.ConnectionEntity connection = 2;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntityOrBuilder getConnectionOrBuilder(
         int index) {
       return connection_.get(index);
@@ -9820,7 +10567,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object cloudId_;
     /**
      * <code>string cloud_id = 3;</code>
+     * @return The cloudId.
      */
+    @java.lang.Override
     public java.lang.String getCloudId() {
       java.lang.Object ref = cloudId_;
       if (ref instanceof java.lang.String) {
@@ -9835,7 +10584,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string cloud_id = 3;</code>
+     * @return The bytes for cloudId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getCloudIdBytes() {
       java.lang.Object ref = cloudId_;
@@ -9854,7 +10605,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object folderId_;
     /**
      * <code>string folder_id = 4;</code>
+     * @return The folderId.
      */
+    @java.lang.Override
     public java.lang.String getFolderId() {
       java.lang.Object ref = folderId_;
       if (ref instanceof java.lang.String) {
@@ -9869,7 +10622,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string folder_id = 4;</code>
+     * @return The bytes for folderId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getFolderIdBytes() {
       java.lang.Object ref = folderId_;
@@ -9888,7 +10643,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object idempotencyKey_;
     /**
      * <code>string idempotency_key = 5;</code>
+     * @return The idempotencyKey.
      */
+    @java.lang.Override
     public java.lang.String getIdempotencyKey() {
       java.lang.Object ref = idempotencyKey_;
       if (ref instanceof java.lang.String) {
@@ -9903,7 +10660,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string idempotency_key = 5;</code>
+     * @return The bytes for idempotencyKey.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdempotencyKeyBytes() {
       java.lang.Object ref = idempotencyKey_;
@@ -9919,6 +10678,7 @@ public final class AnalyticsProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -9928,6 +10688,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -9948,6 +10709,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -9985,22 +10747,21 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsRequest other = (com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getConnectionList()
-          .equals(other.getConnectionList());
-      result = result && getCloudId()
-          .equals(other.getCloudId());
-      result = result && getFolderId()
-          .equals(other.getFolderId());
-      result = result && getIdempotencyKey()
-          .equals(other.getIdempotencyKey());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getConnectionList()
+          .equals(other.getConnectionList())) return false;
+      if (!getCloudId()
+          .equals(other.getCloudId())) return false;
+      if (!getFolderId()
+          .equals(other.getFolderId())) return false;
+      if (!getIdempotencyKey()
+          .equals(other.getIdempotencyKey())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -10099,6 +10860,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -10106,6 +10868,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -10129,6 +10892,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyConnectionsRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyConnectionsRequest_fieldAccessorTable
@@ -10152,6 +10916,7 @@ public final class AnalyticsProtos {
           getConnectionFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -10162,7 +10927,7 @@ public final class AnalyticsProtos {
         }
         if (connectionBuilder_ == null) {
           connection_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           connectionBuilder_.clear();
         }
@@ -10175,15 +10940,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyConnectionsRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsRequest getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsRequest build() {
         com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -10192,19 +10960,19 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsRequest buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsRequest result = new com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
         } else {
           result.operationParams_ = operationParamsBuilder_.build();
         }
         if (connectionBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             connection_ = java.util.Collections.unmodifiableList(connection_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.connection_ = connection_;
         } else {
@@ -10213,37 +10981,43 @@ public final class AnalyticsProtos {
         result.cloudId_ = cloudId_;
         result.folderId_ = folderId_;
         result.idempotencyKey_ = idempotencyKey_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsRequest) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsRequest)other);
@@ -10262,7 +11036,7 @@ public final class AnalyticsProtos {
           if (!other.connection_.isEmpty()) {
             if (connection_.isEmpty()) {
               connection_ = other.connection_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureConnectionIsMutable();
               connection_.addAll(other.connection_);
@@ -10275,7 +11049,7 @@ public final class AnalyticsProtos {
               connectionBuilder_.dispose();
               connectionBuilder_ = null;
               connection_ = other.connection_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               connectionBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getConnectionFieldBuilder() : null;
@@ -10301,10 +11075,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -10324,17 +11100,19 @@ public final class AnalyticsProtos {
       }
       private int bitField0_;
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -10444,9 +11222,9 @@ public final class AnalyticsProtos {
       private java.util.List<com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity> connection_ =
         java.util.Collections.emptyList();
       private void ensureConnectionIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           connection_ = new java.util.ArrayList<com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity>(connection_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -10596,7 +11374,7 @@ public final class AnalyticsProtos {
       public Builder clearConnection() {
         if (connectionBuilder_ == null) {
           connection_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           connectionBuilder_.clear();
@@ -10673,7 +11451,7 @@ public final class AnalyticsProtos {
           connectionBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity, com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntity.Builder, com.yandex.yql.analytics.AnalyticsProtos.ConnectionEntityOrBuilder>(
                   connection_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           connection_ = null;
@@ -10684,6 +11462,7 @@ public final class AnalyticsProtos {
       private java.lang.Object cloudId_ = "";
       /**
        * <code>string cloud_id = 3;</code>
+       * @return The cloudId.
        */
       public java.lang.String getCloudId() {
         java.lang.Object ref = cloudId_;
@@ -10699,6 +11478,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 3;</code>
+       * @return The bytes for cloudId.
        */
       public com.google.protobuf.ByteString
           getCloudIdBytes() {
@@ -10715,6 +11495,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 3;</code>
+       * @param value The cloudId to set.
+       * @return This builder for chaining.
        */
       public Builder setCloudId(
           java.lang.String value) {
@@ -10728,6 +11510,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCloudId() {
         
@@ -10737,6 +11520,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 3;</code>
+       * @param value The bytes for cloudId to set.
+       * @return This builder for chaining.
        */
       public Builder setCloudIdBytes(
           com.google.protobuf.ByteString value) {
@@ -10753,6 +11538,7 @@ public final class AnalyticsProtos {
       private java.lang.Object folderId_ = "";
       /**
        * <code>string folder_id = 4;</code>
+       * @return The folderId.
        */
       public java.lang.String getFolderId() {
         java.lang.Object ref = folderId_;
@@ -10768,6 +11554,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 4;</code>
+       * @return The bytes for folderId.
        */
       public com.google.protobuf.ByteString
           getFolderIdBytes() {
@@ -10784,6 +11571,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 4;</code>
+       * @param value The folderId to set.
+       * @return This builder for chaining.
        */
       public Builder setFolderId(
           java.lang.String value) {
@@ -10797,6 +11586,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFolderId() {
         
@@ -10806,6 +11596,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 4;</code>
+       * @param value The bytes for folderId to set.
+       * @return This builder for chaining.
        */
       public Builder setFolderIdBytes(
           com.google.protobuf.ByteString value) {
@@ -10822,6 +11614,7 @@ public final class AnalyticsProtos {
       private java.lang.Object idempotencyKey_ = "";
       /**
        * <code>string idempotency_key = 5;</code>
+       * @return The idempotencyKey.
        */
       public java.lang.String getIdempotencyKey() {
         java.lang.Object ref = idempotencyKey_;
@@ -10837,6 +11630,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string idempotency_key = 5;</code>
+       * @return The bytes for idempotencyKey.
        */
       public com.google.protobuf.ByteString
           getIdempotencyKeyBytes() {
@@ -10853,6 +11647,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string idempotency_key = 5;</code>
+       * @param value The idempotencyKey to set.
+       * @return This builder for chaining.
        */
       public Builder setIdempotencyKey(
           java.lang.String value) {
@@ -10866,6 +11662,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string idempotency_key = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIdempotencyKey() {
         
@@ -10875,6 +11672,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string idempotency_key = 5;</code>
+       * @param value The bytes for idempotencyKey to set.
+       * @return This builder for chaining.
        */
       public Builder setIdempotencyKeyBytes(
           com.google.protobuf.ByteString value) {
@@ -10887,11 +11686,13 @@ public final class AnalyticsProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -10913,11 +11714,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<ModifyConnectionsRequest>
         PARSER = new com.google.protobuf.AbstractParser<ModifyConnectionsRequest>() {
+      @java.lang.Override
       public ModifyConnectionsRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ModifyConnectionsRequest(input, extensionRegistry);
+        return new ModifyConnectionsRequest(input, extensionRegistry);
       }
     };
 
@@ -10930,6 +11732,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -10942,19 +11745,25 @@ public final class AnalyticsProtos {
 
     /**
      * <code>repeated string connection_id = 1;</code>
+     * @return A list containing the connectionId.
      */
     java.util.List<java.lang.String>
         getConnectionIdList();
     /**
      * <code>repeated string connection_id = 1;</code>
+     * @return The count of connectionId.
      */
     int getConnectionIdCount();
     /**
      * <code>repeated string connection_id = 1;</code>
+     * @param index The index of the element to return.
+     * @return The connectionId at the given index.
      */
     java.lang.String getConnectionId(int index);
     /**
      * <code>repeated string connection_id = 1;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the connectionId at the given index.
      */
     com.google.protobuf.ByteString
         getConnectionIdBytes(int index);
@@ -10962,7 +11771,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.ModifyConnectionsResult}
    */
-  public  static final class ModifyConnectionsResult extends
+  public static final class ModifyConnectionsResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.ModifyConnectionsResult)
       ModifyConnectionsResultOrBuilder {
@@ -10976,6 +11785,13 @@ public final class AnalyticsProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ModifyConnectionsResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -10985,6 +11801,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -10996,20 +11815,20 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 connectionId_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000001;
               }
               connectionId_.add(s);
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -11020,7 +11839,7 @@ public final class AnalyticsProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           connectionId_ = connectionId_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -11032,6 +11851,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyConnectionsResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyConnectionsResult_fieldAccessorTable
@@ -11043,6 +11863,7 @@ public final class AnalyticsProtos {
     private com.google.protobuf.LazyStringList connectionId_;
     /**
      * <code>repeated string connection_id = 1;</code>
+     * @return A list containing the connectionId.
      */
     public com.google.protobuf.ProtocolStringList
         getConnectionIdList() {
@@ -11050,18 +11871,23 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>repeated string connection_id = 1;</code>
+     * @return The count of connectionId.
      */
     public int getConnectionIdCount() {
       return connectionId_.size();
     }
     /**
      * <code>repeated string connection_id = 1;</code>
+     * @param index The index of the element to return.
+     * @return The connectionId at the given index.
      */
     public java.lang.String getConnectionId(int index) {
       return connectionId_.get(index);
     }
     /**
      * <code>repeated string connection_id = 1;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the connectionId at the given index.
      */
     public com.google.protobuf.ByteString
         getConnectionIdBytes(int index) {
@@ -11069,6 +11895,7 @@ public final class AnalyticsProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -11078,6 +11905,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < connectionId_.size(); i++) {
@@ -11086,6 +11914,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -11114,11 +11943,10 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult other = (com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult) obj;
 
-      boolean result = true;
-      result = result && getConnectionIdList()
-          .equals(other.getConnectionIdList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getConnectionIdList()
+          .equals(other.getConnectionIdList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -11207,6 +12035,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -11214,6 +12043,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -11237,6 +12067,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyConnectionsResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyConnectionsResult_fieldAccessorTable
@@ -11259,6 +12090,7 @@ public final class AnalyticsProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         connectionId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -11266,15 +12098,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyConnectionsResult_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult build() {
         com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -11283,10 +12118,11 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult result = new com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult(this);
         int from_bitField0_ = bitField0_;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           connectionId_ = connectionId_.getUnmodifiableView();
           bitField0_ = (bitField0_ & ~0x00000001);
         }
@@ -11295,32 +12131,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult)other);
@@ -11347,10 +12190,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -11372,13 +12217,14 @@ public final class AnalyticsProtos {
 
       private com.google.protobuf.LazyStringList connectionId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureConnectionIdIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           connectionId_ = new com.google.protobuf.LazyStringArrayList(connectionId_);
           bitField0_ |= 0x00000001;
          }
       }
       /**
        * <code>repeated string connection_id = 1;</code>
+       * @return A list containing the connectionId.
        */
       public com.google.protobuf.ProtocolStringList
           getConnectionIdList() {
@@ -11386,18 +12232,23 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>repeated string connection_id = 1;</code>
+       * @return The count of connectionId.
        */
       public int getConnectionIdCount() {
         return connectionId_.size();
       }
       /**
        * <code>repeated string connection_id = 1;</code>
+       * @param index The index of the element to return.
+       * @return The connectionId at the given index.
        */
       public java.lang.String getConnectionId(int index) {
         return connectionId_.get(index);
       }
       /**
        * <code>repeated string connection_id = 1;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the connectionId at the given index.
        */
       public com.google.protobuf.ByteString
           getConnectionIdBytes(int index) {
@@ -11405,6 +12256,9 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>repeated string connection_id = 1;</code>
+       * @param index The index to set the value at.
+       * @param value The connectionId to set.
+       * @return This builder for chaining.
        */
       public Builder setConnectionId(
           int index, java.lang.String value) {
@@ -11418,6 +12272,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>repeated string connection_id = 1;</code>
+       * @param value The connectionId to add.
+       * @return This builder for chaining.
        */
       public Builder addConnectionId(
           java.lang.String value) {
@@ -11431,6 +12287,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>repeated string connection_id = 1;</code>
+       * @param values The connectionId to add.
+       * @return This builder for chaining.
        */
       public Builder addAllConnectionId(
           java.lang.Iterable<java.lang.String> values) {
@@ -11442,6 +12300,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>repeated string connection_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearConnectionId() {
         connectionId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -11451,6 +12310,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>repeated string connection_id = 1;</code>
+       * @param value The bytes of the connectionId to add.
+       * @return This builder for chaining.
        */
       public Builder addConnectionIdBytes(
           com.google.protobuf.ByteString value) {
@@ -11463,11 +12324,13 @@ public final class AnalyticsProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -11489,11 +12352,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<ModifyConnectionsResult>
         PARSER = new com.google.protobuf.AbstractParser<ModifyConnectionsResult>() {
+      @java.lang.Override
       public ModifyConnectionsResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ModifyConnectionsResult(input, extensionRegistry);
+        return new ModifyConnectionsResult(input, extensionRegistry);
       }
     };
 
@@ -11506,6 +12370,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -11522,6 +12387,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
@@ -11530,6 +12396,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -11544,7 +12411,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.ModifyConnectionsResponse}
    */
-  public  static final class ModifyConnectionsResponse extends
+  public static final class ModifyConnectionsResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.ModifyConnectionsResponse)
       ModifyConnectionsResponseOrBuilder {
@@ -11557,6 +12424,13 @@ public final class AnalyticsProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ModifyConnectionsResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -11566,7 +12440,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -11577,13 +12453,6 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -11595,6 +12464,13 @@ public final class AnalyticsProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -11614,6 +12490,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyConnectionsResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyConnectionsResponse_fieldAccessorTable
@@ -11629,7 +12506,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
@@ -11639,7 +12518,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
@@ -11650,11 +12531,13 @@ public final class AnalyticsProtos {
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -11664,6 +12547,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -11672,6 +12556,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -11696,14 +12581,13 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResponse other = (com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -11792,6 +12676,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -11799,6 +12684,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -11822,6 +12708,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyConnectionsResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyConnectionsResponse_fieldAccessorTable
@@ -11844,6 +12731,7 @@ public final class AnalyticsProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -11855,15 +12743,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyConnectionsResponse_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResponse getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResponse build() {
         com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -11872,6 +12763,7 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResponse buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResponse result = new com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResponse(this);
         if (operationBuilder_ == null) {
@@ -11883,32 +12775,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResponse) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResponse)other);
@@ -11928,10 +12827,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -11950,7 +12851,7 @@ public final class AnalyticsProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
@@ -11959,6 +12860,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
@@ -11969,6 +12871,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -12102,11 +13005,13 @@ public final class AnalyticsProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -12128,11 +13033,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<ModifyConnectionsResponse>
         PARSER = new com.google.protobuf.AbstractParser<ModifyConnectionsResponse>() {
+      @java.lang.Override
       public ModifyConnectionsResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ModifyConnectionsResponse(input, extensionRegistry);
+        return new ModifyConnectionsResponse(input, extensionRegistry);
       }
     };
 
@@ -12145,6 +13051,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ModifyConnectionsResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -12157,45 +13064,54 @@ public final class AnalyticsProtos {
 
     /**
      * <code>string cloud_id = 100;</code>
+     * @return The cloudId.
      */
     java.lang.String getCloudId();
     /**
      * <code>string cloud_id = 100;</code>
+     * @return The bytes for cloudId.
      */
     com.google.protobuf.ByteString
         getCloudIdBytes();
 
     /**
      * <code>string folder_id = 1;</code>
+     * @return The folderId.
      */
     java.lang.String getFolderId();
     /**
      * <code>string folder_id = 1;</code>
+     * @return The bytes for folderId.
      */
     com.google.protobuf.ByteString
         getFolderIdBytes();
 
     /**
      * <code>string continuation_token = 2;</code>
+     * @return The continuationToken.
      */
     java.lang.String getContinuationToken();
     /**
      * <code>string continuation_token = 2;</code>
+     * @return The bytes for continuationToken.
      */
     com.google.protobuf.ByteString
         getContinuationTokenBytes();
 
     /**
      * <code>int32 limit = 3;</code>
+     * @return The limit.
      */
     int getLimit();
 
     /**
      * <code>.Yql.Analytics.GetQueriesRequest.Filter filter = 4;</code>
+     * @return Whether the filter field is set.
      */
     boolean hasFilter();
     /**
      * <code>.Yql.Analytics.GetQueriesRequest.Filter filter = 4;</code>
+     * @return The filter.
      */
     com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter getFilter();
     /**
@@ -12206,7 +13122,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.GetQueriesRequest}
    */
-  public  static final class GetQueriesRequest extends
+  public static final class GetQueriesRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.GetQueriesRequest)
       GetQueriesRequestOrBuilder {
@@ -12219,7 +13135,13 @@ public final class AnalyticsProtos {
       cloudId_ = "";
       folderId_ = "";
       continuationToken_ = "";
-      limit_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetQueriesRequest();
     }
 
     @java.lang.Override
@@ -12232,7 +13154,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -12243,13 +13167,6 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -12286,6 +13203,13 @@ public final class AnalyticsProtos {
               cloudId_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -12303,6 +13227,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetQueriesRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetQueriesRequest_fieldAccessorTable
@@ -12316,10 +13241,12 @@ public final class AnalyticsProtos {
 
       /**
        * <code>string query_id = 1;</code>
+       * @return The queryId.
        */
       java.lang.String getQueryId();
       /**
        * <code>string query_id = 1;</code>
+       * @return The bytes for queryId.
        */
       com.google.protobuf.ByteString
           getQueryIdBytes();
@@ -12330,13 +13257,14 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>int32 field_type = 2;</code>
+       * @return The fieldType.
        */
       int getFieldType();
     }
     /**
      * Protobuf type {@code Yql.Analytics.GetQueriesRequest.Filter}
      */
-    public  static final class Filter extends
+    public static final class Filter extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:Yql.Analytics.GetQueriesRequest.Filter)
         FilterOrBuilder {
@@ -12347,7 +13275,13 @@ public final class AnalyticsProtos {
       }
       private Filter() {
         queryId_ = "";
-        fieldType_ = 0;
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Filter();
       }
 
       @java.lang.Override
@@ -12360,7 +13294,9 @@ public final class AnalyticsProtos {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -12371,13 +13307,6 @@ public final class AnalyticsProtos {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 10: {
                 java.lang.String s = input.readStringRequireUtf8();
 
@@ -12387,6 +13316,13 @@ public final class AnalyticsProtos {
               case 16: {
 
                 fieldType_ = input.readInt32();
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
                 break;
               }
             }
@@ -12406,6 +13342,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetQueriesRequest_Filter_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetQueriesRequest_Filter_fieldAccessorTable
@@ -12417,7 +13354,9 @@ public final class AnalyticsProtos {
       private volatile java.lang.Object queryId_;
       /**
        * <code>string query_id = 1;</code>
+       * @return The queryId.
        */
+      @java.lang.Override
       public java.lang.String getQueryId() {
         java.lang.Object ref = queryId_;
         if (ref instanceof java.lang.String) {
@@ -12432,7 +13371,9 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string query_id = 1;</code>
+       * @return The bytes for queryId.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getQueryIdBytes() {
         java.lang.Object ref = queryId_;
@@ -12455,12 +13396,15 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>int32 field_type = 2;</code>
+       * @return The fieldType.
        */
+      @java.lang.Override
       public int getFieldType() {
         return fieldType_;
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -12470,6 +13414,7 @@ public final class AnalyticsProtos {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (!getQueryIdBytes().isEmpty()) {
@@ -12481,6 +13426,7 @@ public final class AnalyticsProtos {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -12508,13 +13454,12 @@ public final class AnalyticsProtos {
         }
         com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter other = (com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter) obj;
 
-        boolean result = true;
-        result = result && getQueryId()
-            .equals(other.getQueryId());
-        result = result && (getFieldType()
-            == other.getFieldType());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!getQueryId()
+            .equals(other.getQueryId())) return false;
+        if (getFieldType()
+            != other.getFieldType()) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -12603,6 +13548,7 @@ public final class AnalyticsProtos {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -12610,6 +13556,7 @@ public final class AnalyticsProtos {
       public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -12633,6 +13580,7 @@ public final class AnalyticsProtos {
           return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetQueriesRequest_Filter_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetQueriesRequest_Filter_fieldAccessorTable
@@ -12655,6 +13603,7 @@ public final class AnalyticsProtos {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           queryId_ = "";
@@ -12664,15 +13613,18 @@ public final class AnalyticsProtos {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetQueriesRequest_Filter_descriptor;
         }
 
+        @java.lang.Override
         public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter getDefaultInstanceForType() {
           return com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter.getDefaultInstance();
         }
 
+        @java.lang.Override
         public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter build() {
           com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter result = buildPartial();
           if (!result.isInitialized()) {
@@ -12681,6 +13633,7 @@ public final class AnalyticsProtos {
           return result;
         }
 
+        @java.lang.Override
         public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter buildPartial() {
           com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter result = new com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter(this);
           result.queryId_ = queryId_;
@@ -12689,32 +13642,39 @@ public final class AnalyticsProtos {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter) {
             return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter)other);
@@ -12738,10 +13698,12 @@ public final class AnalyticsProtos {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -12763,6 +13725,7 @@ public final class AnalyticsProtos {
         private java.lang.Object queryId_ = "";
         /**
          * <code>string query_id = 1;</code>
+         * @return The queryId.
          */
         public java.lang.String getQueryId() {
           java.lang.Object ref = queryId_;
@@ -12778,6 +13741,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string query_id = 1;</code>
+         * @return The bytes for queryId.
          */
         public com.google.protobuf.ByteString
             getQueryIdBytes() {
@@ -12794,6 +13758,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string query_id = 1;</code>
+         * @param value The queryId to set.
+         * @return This builder for chaining.
          */
         public Builder setQueryId(
             java.lang.String value) {
@@ -12807,6 +13773,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string query_id = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearQueryId() {
           
@@ -12816,6 +13783,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string query_id = 1;</code>
+         * @param value The bytes for queryId to set.
+         * @return This builder for chaining.
          */
         public Builder setQueryIdBytes(
             com.google.protobuf.ByteString value) {
@@ -12836,7 +13805,9 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>int32 field_type = 2;</code>
+         * @return The fieldType.
          */
+        @java.lang.Override
         public int getFieldType() {
           return fieldType_;
         }
@@ -12846,6 +13817,8 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>int32 field_type = 2;</code>
+         * @param value The fieldType to set.
+         * @return This builder for chaining.
          */
         public Builder setFieldType(int value) {
           
@@ -12859,6 +13832,7 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>int32 field_type = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearFieldType() {
           
@@ -12866,11 +13840,13 @@ public final class AnalyticsProtos {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -12892,11 +13868,12 @@ public final class AnalyticsProtos {
 
       private static final com.google.protobuf.Parser<Filter>
           PARSER = new com.google.protobuf.AbstractParser<Filter>() {
+        @java.lang.Override
         public Filter parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Filter(input, extensionRegistry);
+          return new Filter(input, extensionRegistry);
         }
       };
 
@@ -12909,6 +13886,7 @@ public final class AnalyticsProtos {
         return PARSER;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -12919,7 +13897,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object cloudId_;
     /**
      * <code>string cloud_id = 100;</code>
+     * @return The cloudId.
      */
+    @java.lang.Override
     public java.lang.String getCloudId() {
       java.lang.Object ref = cloudId_;
       if (ref instanceof java.lang.String) {
@@ -12934,7 +13914,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string cloud_id = 100;</code>
+     * @return The bytes for cloudId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getCloudIdBytes() {
       java.lang.Object ref = cloudId_;
@@ -12953,7 +13935,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object folderId_;
     /**
      * <code>string folder_id = 1;</code>
+     * @return The folderId.
      */
+    @java.lang.Override
     public java.lang.String getFolderId() {
       java.lang.Object ref = folderId_;
       if (ref instanceof java.lang.String) {
@@ -12968,7 +13952,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string folder_id = 1;</code>
+     * @return The bytes for folderId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getFolderIdBytes() {
       java.lang.Object ref = folderId_;
@@ -12987,7 +13973,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object continuationToken_;
     /**
      * <code>string continuation_token = 2;</code>
+     * @return The continuationToken.
      */
+    @java.lang.Override
     public java.lang.String getContinuationToken() {
       java.lang.Object ref = continuationToken_;
       if (ref instanceof java.lang.String) {
@@ -13002,7 +13990,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string continuation_token = 2;</code>
+     * @return The bytes for continuationToken.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getContinuationTokenBytes() {
       java.lang.Object ref = continuationToken_;
@@ -13021,7 +14011,9 @@ public final class AnalyticsProtos {
     private int limit_;
     /**
      * <code>int32 limit = 3;</code>
+     * @return The limit.
      */
+    @java.lang.Override
     public int getLimit() {
       return limit_;
     }
@@ -13030,24 +14022,30 @@ public final class AnalyticsProtos {
     private com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter filter_;
     /**
      * <code>.Yql.Analytics.GetQueriesRequest.Filter filter = 4;</code>
+     * @return Whether the filter field is set.
      */
+    @java.lang.Override
     public boolean hasFilter() {
       return filter_ != null;
     }
     /**
      * <code>.Yql.Analytics.GetQueriesRequest.Filter filter = 4;</code>
+     * @return The filter.
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter getFilter() {
       return filter_ == null ? com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter.getDefaultInstance() : filter_;
     }
     /**
      * <code>.Yql.Analytics.GetQueriesRequest.Filter filter = 4;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.FilterOrBuilder getFilterOrBuilder() {
       return getFilter();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -13057,6 +14055,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getFolderIdBytes().isEmpty()) {
@@ -13077,6 +14076,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -13114,22 +14114,21 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest other = (com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest) obj;
 
-      boolean result = true;
-      result = result && getCloudId()
-          .equals(other.getCloudId());
-      result = result && getFolderId()
-          .equals(other.getFolderId());
-      result = result && getContinuationToken()
-          .equals(other.getContinuationToken());
-      result = result && (getLimit()
-          == other.getLimit());
-      result = result && (hasFilter() == other.hasFilter());
+      if (!getCloudId()
+          .equals(other.getCloudId())) return false;
+      if (!getFolderId()
+          .equals(other.getFolderId())) return false;
+      if (!getContinuationToken()
+          .equals(other.getContinuationToken())) return false;
+      if (getLimit()
+          != other.getLimit()) return false;
+      if (hasFilter() != other.hasFilter()) return false;
       if (hasFilter()) {
-        result = result && getFilter()
-            .equals(other.getFilter());
+        if (!getFilter()
+            .equals(other.getFilter())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -13226,6 +14225,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -13233,6 +14233,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -13256,6 +14257,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetQueriesRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetQueriesRequest_fieldAccessorTable
@@ -13278,6 +14280,7 @@ public final class AnalyticsProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         cloudId_ = "";
@@ -13297,15 +14300,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetQueriesRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest build() {
         com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -13314,6 +14320,7 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest result = new com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest(this);
         result.cloudId_ = cloudId_;
@@ -13329,32 +14336,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest)other);
@@ -13389,10 +14403,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -13414,6 +14430,7 @@ public final class AnalyticsProtos {
       private java.lang.Object cloudId_ = "";
       /**
        * <code>string cloud_id = 100;</code>
+       * @return The cloudId.
        */
       public java.lang.String getCloudId() {
         java.lang.Object ref = cloudId_;
@@ -13429,6 +14446,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 100;</code>
+       * @return The bytes for cloudId.
        */
       public com.google.protobuf.ByteString
           getCloudIdBytes() {
@@ -13445,6 +14463,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 100;</code>
+       * @param value The cloudId to set.
+       * @return This builder for chaining.
        */
       public Builder setCloudId(
           java.lang.String value) {
@@ -13458,6 +14478,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 100;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCloudId() {
         
@@ -13467,6 +14488,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 100;</code>
+       * @param value The bytes for cloudId to set.
+       * @return This builder for chaining.
        */
       public Builder setCloudIdBytes(
           com.google.protobuf.ByteString value) {
@@ -13483,6 +14506,7 @@ public final class AnalyticsProtos {
       private java.lang.Object folderId_ = "";
       /**
        * <code>string folder_id = 1;</code>
+       * @return The folderId.
        */
       public java.lang.String getFolderId() {
         java.lang.Object ref = folderId_;
@@ -13498,6 +14522,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 1;</code>
+       * @return The bytes for folderId.
        */
       public com.google.protobuf.ByteString
           getFolderIdBytes() {
@@ -13514,6 +14539,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 1;</code>
+       * @param value The folderId to set.
+       * @return This builder for chaining.
        */
       public Builder setFolderId(
           java.lang.String value) {
@@ -13527,6 +14554,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFolderId() {
         
@@ -13536,6 +14564,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 1;</code>
+       * @param value The bytes for folderId to set.
+       * @return This builder for chaining.
        */
       public Builder setFolderIdBytes(
           com.google.protobuf.ByteString value) {
@@ -13552,6 +14582,7 @@ public final class AnalyticsProtos {
       private java.lang.Object continuationToken_ = "";
       /**
        * <code>string continuation_token = 2;</code>
+       * @return The continuationToken.
        */
       public java.lang.String getContinuationToken() {
         java.lang.Object ref = continuationToken_;
@@ -13567,6 +14598,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string continuation_token = 2;</code>
+       * @return The bytes for continuationToken.
        */
       public com.google.protobuf.ByteString
           getContinuationTokenBytes() {
@@ -13583,6 +14615,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string continuation_token = 2;</code>
+       * @param value The continuationToken to set.
+       * @return This builder for chaining.
        */
       public Builder setContinuationToken(
           java.lang.String value) {
@@ -13596,6 +14630,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string continuation_token = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearContinuationToken() {
         
@@ -13605,6 +14640,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string continuation_token = 2;</code>
+       * @param value The bytes for continuationToken to set.
+       * @return This builder for chaining.
        */
       public Builder setContinuationTokenBytes(
           com.google.protobuf.ByteString value) {
@@ -13621,12 +14658,16 @@ public final class AnalyticsProtos {
       private int limit_ ;
       /**
        * <code>int32 limit = 3;</code>
+       * @return The limit.
        */
+      @java.lang.Override
       public int getLimit() {
         return limit_;
       }
       /**
        * <code>int32 limit = 3;</code>
+       * @param value The limit to set.
+       * @return This builder for chaining.
        */
       public Builder setLimit(int value) {
         
@@ -13636,6 +14677,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>int32 limit = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearLimit() {
         
@@ -13644,17 +14686,19 @@ public final class AnalyticsProtos {
         return this;
       }
 
-      private com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter filter_ = null;
+      private com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter filter_;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter, com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter.Builder, com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.FilterOrBuilder> filterBuilder_;
       /**
        * <code>.Yql.Analytics.GetQueriesRequest.Filter filter = 4;</code>
+       * @return Whether the filter field is set.
        */
       public boolean hasFilter() {
         return filterBuilder_ != null || filter_ != null;
       }
       /**
        * <code>.Yql.Analytics.GetQueriesRequest.Filter filter = 4;</code>
+       * @return The filter.
        */
       public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest.Filter getFilter() {
         if (filterBuilder_ == null) {
@@ -13760,11 +14804,13 @@ public final class AnalyticsProtos {
         }
         return filterBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -13786,11 +14832,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<GetQueriesRequest>
         PARSER = new com.google.protobuf.AbstractParser<GetQueriesRequest>() {
+      @java.lang.Override
       public GetQueriesRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetQueriesRequest(input, extensionRegistry);
+        return new GetQueriesRequest(input, extensionRegistry);
       }
     };
 
@@ -13803,6 +14850,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -13839,10 +14887,12 @@ public final class AnalyticsProtos {
 
     /**
      * <code>string continuation_token = 2;</code>
+     * @return The continuationToken.
      */
     java.lang.String getContinuationToken();
     /**
      * <code>string continuation_token = 2;</code>
+     * @return The bytes for continuationToken.
      */
     com.google.protobuf.ByteString
         getContinuationTokenBytes();
@@ -13850,7 +14900,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.GetQueriesResponse}
    */
-  public  static final class GetQueriesResponse extends
+  public static final class GetQueriesResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.GetQueriesResponse)
       GetQueriesResponseOrBuilder {
@@ -13865,6 +14915,13 @@ public final class AnalyticsProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetQueriesResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -13874,6 +14931,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -13885,15 +14945,8 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 queries_ = new java.util.ArrayList<com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity>();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -13907,6 +14960,13 @@ public final class AnalyticsProtos {
               continuationToken_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -13915,7 +14975,7 @@ public final class AnalyticsProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           queries_ = java.util.Collections.unmodifiableList(queries_);
         }
         this.unknownFields = unknownFields.build();
@@ -13927,6 +14987,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetQueriesResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetQueriesResponse_fieldAccessorTable
@@ -13940,10 +15001,12 @@ public final class AnalyticsProtos {
 
       /**
        * <code>string id = 1;</code>
+       * @return The id.
        */
       java.lang.String getId();
       /**
        * <code>string id = 1;</code>
+       * @return The bytes for id.
        */
       com.google.protobuf.ByteString
           getIdBytes();
@@ -13954,6 +15017,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string sql = 2;</code>
+       * @return The sql.
        */
       java.lang.String getSql();
       /**
@@ -13962,66 +15026,79 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string sql = 2;</code>
+       * @return The bytes for sql.
        */
       com.google.protobuf.ByteString
           getSqlBytes();
 
       /**
        * <code>string created_by = 3;</code>
+       * @return The createdBy.
        */
       java.lang.String getCreatedBy();
       /**
        * <code>string created_by = 3;</code>
+       * @return The bytes for createdBy.
        */
       com.google.protobuf.ByteString
           getCreatedByBytes();
 
       /**
        * <code>string modified_by = 4;</code>
+       * @return The modifiedBy.
        */
       java.lang.String getModifiedBy();
       /**
        * <code>string modified_by = 4;</code>
+       * @return The bytes for modifiedBy.
        */
       com.google.protobuf.ByteString
           getModifiedByBytes();
 
       /**
        * <code>string name = 5;</code>
+       * @return The name.
        */
       java.lang.String getName();
       /**
        * <code>string name = 5;</code>
+       * @return The bytes for name.
        */
       com.google.protobuf.ByteString
           getNameBytes();
 
       /**
        * <code>string cloud_id = 100;</code>
+       * @return The cloudId.
        */
       java.lang.String getCloudId();
       /**
        * <code>string cloud_id = 100;</code>
+       * @return The bytes for cloudId.
        */
       com.google.protobuf.ByteString
           getCloudIdBytes();
 
       /**
        * <code>string folder_id = 6;</code>
+       * @return The folderId.
        */
       java.lang.String getFolderId();
       /**
        * <code>string folder_id = 6;</code>
+       * @return The bytes for folderId.
        */
       com.google.protobuf.ByteString
           getFolderIdBytes();
 
       /**
        * <code>.Yql.Analytics.Acl acl = 7;</code>
+       * @return Whether the acl field is set.
        */
       boolean hasAcl();
       /**
        * <code>.Yql.Analytics.Acl acl = 7;</code>
+       * @return The acl.
        */
       com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl();
       /**
@@ -14031,20 +15108,24 @@ public final class AnalyticsProtos {
 
       /**
        * <code>int64 rows_limit = 8;</code>
+       * @return The rowsLimit.
        */
       long getRowsLimit();
 
       /**
        * <code>int64 bytes_limit = 9;</code>
+       * @return The bytesLimit.
        */
       long getBytesLimit();
 
       /**
        * <code>.google.protobuf.Timestamp creation_time = 10;</code>
+       * @return Whether the creationTime field is set.
        */
       boolean hasCreationTime();
       /**
        * <code>.google.protobuf.Timestamp creation_time = 10;</code>
+       * @return The creationTime.
        */
       com.google.protobuf.Timestamp getCreationTime();
       /**
@@ -14054,10 +15135,12 @@ public final class AnalyticsProtos {
 
       /**
        * <code>.google.protobuf.Timestamp modification_time = 11;</code>
+       * @return Whether the modificationTime field is set.
        */
       boolean hasModificationTime();
       /**
        * <code>.google.protobuf.Timestamp modification_time = 11;</code>
+       * @return The modificationTime.
        */
       com.google.protobuf.Timestamp getModificationTime();
       /**
@@ -14068,7 +15151,7 @@ public final class AnalyticsProtos {
     /**
      * Protobuf type {@code Yql.Analytics.GetQueriesResponse.QueryEntity}
      */
-    public  static final class QueryEntity extends
+    public static final class QueryEntity extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:Yql.Analytics.GetQueriesResponse.QueryEntity)
         QueryEntityOrBuilder {
@@ -14085,8 +15168,13 @@ public final class AnalyticsProtos {
         name_ = "";
         cloudId_ = "";
         folderId_ = "";
-        rowsLimit_ = 0L;
-        bytesLimit_ = 0L;
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new QueryEntity();
       }
 
       @java.lang.Override
@@ -14099,7 +15187,9 @@ public final class AnalyticsProtos {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -14110,13 +15200,6 @@ public final class AnalyticsProtos {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 10: {
                 java.lang.String s = input.readStringRequireUtf8();
 
@@ -14208,6 +15291,13 @@ public final class AnalyticsProtos {
                 cloudId_ = s;
                 break;
               }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -14225,6 +15315,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetQueriesResponse_QueryEntity_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetQueriesResponse_QueryEntity_fieldAccessorTable
@@ -14236,7 +15327,9 @@ public final class AnalyticsProtos {
       private volatile java.lang.Object id_;
       /**
        * <code>string id = 1;</code>
+       * @return The id.
        */
+      @java.lang.Override
       public java.lang.String getId() {
         java.lang.Object ref = id_;
         if (ref instanceof java.lang.String) {
@@ -14251,7 +15344,9 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @return The bytes for id.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getIdBytes() {
         java.lang.Object ref = id_;
@@ -14274,7 +15369,9 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string sql = 2;</code>
+       * @return The sql.
        */
+      @java.lang.Override
       public java.lang.String getSql() {
         java.lang.Object ref = sql_;
         if (ref instanceof java.lang.String) {
@@ -14293,7 +15390,9 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string sql = 2;</code>
+       * @return The bytes for sql.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getSqlBytes() {
         java.lang.Object ref = sql_;
@@ -14312,7 +15411,9 @@ public final class AnalyticsProtos {
       private volatile java.lang.Object createdBy_;
       /**
        * <code>string created_by = 3;</code>
+       * @return The createdBy.
        */
+      @java.lang.Override
       public java.lang.String getCreatedBy() {
         java.lang.Object ref = createdBy_;
         if (ref instanceof java.lang.String) {
@@ -14327,7 +15428,9 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string created_by = 3;</code>
+       * @return The bytes for createdBy.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getCreatedByBytes() {
         java.lang.Object ref = createdBy_;
@@ -14346,7 +15449,9 @@ public final class AnalyticsProtos {
       private volatile java.lang.Object modifiedBy_;
       /**
        * <code>string modified_by = 4;</code>
+       * @return The modifiedBy.
        */
+      @java.lang.Override
       public java.lang.String getModifiedBy() {
         java.lang.Object ref = modifiedBy_;
         if (ref instanceof java.lang.String) {
@@ -14361,7 +15466,9 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string modified_by = 4;</code>
+       * @return The bytes for modifiedBy.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getModifiedByBytes() {
         java.lang.Object ref = modifiedBy_;
@@ -14380,7 +15487,9 @@ public final class AnalyticsProtos {
       private volatile java.lang.Object name_;
       /**
        * <code>string name = 5;</code>
+       * @return The name.
        */
+      @java.lang.Override
       public java.lang.String getName() {
         java.lang.Object ref = name_;
         if (ref instanceof java.lang.String) {
@@ -14395,7 +15504,9 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 5;</code>
+       * @return The bytes for name.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getNameBytes() {
         java.lang.Object ref = name_;
@@ -14414,7 +15525,9 @@ public final class AnalyticsProtos {
       private volatile java.lang.Object cloudId_;
       /**
        * <code>string cloud_id = 100;</code>
+       * @return The cloudId.
        */
+      @java.lang.Override
       public java.lang.String getCloudId() {
         java.lang.Object ref = cloudId_;
         if (ref instanceof java.lang.String) {
@@ -14429,7 +15542,9 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 100;</code>
+       * @return The bytes for cloudId.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getCloudIdBytes() {
         java.lang.Object ref = cloudId_;
@@ -14448,7 +15563,9 @@ public final class AnalyticsProtos {
       private volatile java.lang.Object folderId_;
       /**
        * <code>string folder_id = 6;</code>
+       * @return The folderId.
        */
+      @java.lang.Override
       public java.lang.String getFolderId() {
         java.lang.Object ref = folderId_;
         if (ref instanceof java.lang.String) {
@@ -14463,7 +15580,9 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 6;</code>
+       * @return The bytes for folderId.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getFolderIdBytes() {
         java.lang.Object ref = folderId_;
@@ -14482,19 +15601,24 @@ public final class AnalyticsProtos {
       private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_;
       /**
        * <code>.Yql.Analytics.Acl acl = 7;</code>
+       * @return Whether the acl field is set.
        */
+      @java.lang.Override
       public boolean hasAcl() {
         return acl_ != null;
       }
       /**
        * <code>.Yql.Analytics.Acl acl = 7;</code>
+       * @return The acl.
        */
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl() {
         return acl_ == null ? com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance() : acl_;
       }
       /**
        * <code>.Yql.Analytics.Acl acl = 7;</code>
        */
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder getAclOrBuilder() {
         return getAcl();
       }
@@ -14503,7 +15627,9 @@ public final class AnalyticsProtos {
       private long rowsLimit_;
       /**
        * <code>int64 rows_limit = 8;</code>
+       * @return The rowsLimit.
        */
+      @java.lang.Override
       public long getRowsLimit() {
         return rowsLimit_;
       }
@@ -14512,7 +15638,9 @@ public final class AnalyticsProtos {
       private long bytesLimit_;
       /**
        * <code>int64 bytes_limit = 9;</code>
+       * @return The bytesLimit.
        */
+      @java.lang.Override
       public long getBytesLimit() {
         return bytesLimit_;
       }
@@ -14521,19 +15649,24 @@ public final class AnalyticsProtos {
       private com.google.protobuf.Timestamp creationTime_;
       /**
        * <code>.google.protobuf.Timestamp creation_time = 10;</code>
+       * @return Whether the creationTime field is set.
        */
+      @java.lang.Override
       public boolean hasCreationTime() {
         return creationTime_ != null;
       }
       /**
        * <code>.google.protobuf.Timestamp creation_time = 10;</code>
+       * @return The creationTime.
        */
+      @java.lang.Override
       public com.google.protobuf.Timestamp getCreationTime() {
         return creationTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : creationTime_;
       }
       /**
        * <code>.google.protobuf.Timestamp creation_time = 10;</code>
        */
+      @java.lang.Override
       public com.google.protobuf.TimestampOrBuilder getCreationTimeOrBuilder() {
         return getCreationTime();
       }
@@ -14542,24 +15675,30 @@ public final class AnalyticsProtos {
       private com.google.protobuf.Timestamp modificationTime_;
       /**
        * <code>.google.protobuf.Timestamp modification_time = 11;</code>
+       * @return Whether the modificationTime field is set.
        */
+      @java.lang.Override
       public boolean hasModificationTime() {
         return modificationTime_ != null;
       }
       /**
        * <code>.google.protobuf.Timestamp modification_time = 11;</code>
+       * @return The modificationTime.
        */
+      @java.lang.Override
       public com.google.protobuf.Timestamp getModificationTime() {
         return modificationTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : modificationTime_;
       }
       /**
        * <code>.google.protobuf.Timestamp modification_time = 11;</code>
        */
+      @java.lang.Override
       public com.google.protobuf.TimestampOrBuilder getModificationTimeOrBuilder() {
         return getModificationTime();
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -14569,6 +15708,7 @@ public final class AnalyticsProtos {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (!getIdBytes().isEmpty()) {
@@ -14610,6 +15750,7 @@ public final class AnalyticsProtos {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -14671,42 +15812,41 @@ public final class AnalyticsProtos {
         }
         com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity other = (com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity) obj;
 
-        boolean result = true;
-        result = result && getId()
-            .equals(other.getId());
-        result = result && getSql()
-            .equals(other.getSql());
-        result = result && getCreatedBy()
-            .equals(other.getCreatedBy());
-        result = result && getModifiedBy()
-            .equals(other.getModifiedBy());
-        result = result && getName()
-            .equals(other.getName());
-        result = result && getCloudId()
-            .equals(other.getCloudId());
-        result = result && getFolderId()
-            .equals(other.getFolderId());
-        result = result && (hasAcl() == other.hasAcl());
+        if (!getId()
+            .equals(other.getId())) return false;
+        if (!getSql()
+            .equals(other.getSql())) return false;
+        if (!getCreatedBy()
+            .equals(other.getCreatedBy())) return false;
+        if (!getModifiedBy()
+            .equals(other.getModifiedBy())) return false;
+        if (!getName()
+            .equals(other.getName())) return false;
+        if (!getCloudId()
+            .equals(other.getCloudId())) return false;
+        if (!getFolderId()
+            .equals(other.getFolderId())) return false;
+        if (hasAcl() != other.hasAcl()) return false;
         if (hasAcl()) {
-          result = result && getAcl()
-              .equals(other.getAcl());
+          if (!getAcl()
+              .equals(other.getAcl())) return false;
         }
-        result = result && (getRowsLimit()
-            == other.getRowsLimit());
-        result = result && (getBytesLimit()
-            == other.getBytesLimit());
-        result = result && (hasCreationTime() == other.hasCreationTime());
+        if (getRowsLimit()
+            != other.getRowsLimit()) return false;
+        if (getBytesLimit()
+            != other.getBytesLimit()) return false;
+        if (hasCreationTime() != other.hasCreationTime()) return false;
         if (hasCreationTime()) {
-          result = result && getCreationTime()
-              .equals(other.getCreationTime());
+          if (!getCreationTime()
+              .equals(other.getCreationTime())) return false;
         }
-        result = result && (hasModificationTime() == other.hasModificationTime());
+        if (hasModificationTime() != other.hasModificationTime()) return false;
         if (hasModificationTime()) {
-          result = result && getModificationTime()
-              .equals(other.getModificationTime());
+          if (!getModificationTime()
+              .equals(other.getModificationTime())) return false;
         }
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -14823,6 +15963,7 @@ public final class AnalyticsProtos {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -14830,6 +15971,7 @@ public final class AnalyticsProtos {
       public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -14853,6 +15995,7 @@ public final class AnalyticsProtos {
           return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetQueriesResponse_QueryEntity_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetQueriesResponse_QueryEntity_fieldAccessorTable
@@ -14875,6 +16018,7 @@ public final class AnalyticsProtos {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           id_ = "";
@@ -14916,15 +16060,18 @@ public final class AnalyticsProtos {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetQueriesResponse_QueryEntity_descriptor;
         }
 
+        @java.lang.Override
         public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity getDefaultInstanceForType() {
           return com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity.getDefaultInstance();
         }
 
+        @java.lang.Override
         public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity build() {
           com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity result = buildPartial();
           if (!result.isInitialized()) {
@@ -14933,6 +16080,7 @@ public final class AnalyticsProtos {
           return result;
         }
 
+        @java.lang.Override
         public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity buildPartial() {
           com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity result = new com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity(this);
           result.id_ = id_;
@@ -14963,32 +16111,39 @@ public final class AnalyticsProtos {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity) {
             return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity)other);
@@ -15048,10 +16203,12 @@ public final class AnalyticsProtos {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -15073,6 +16230,7 @@ public final class AnalyticsProtos {
         private java.lang.Object id_ = "";
         /**
          * <code>string id = 1;</code>
+         * @return The id.
          */
         public java.lang.String getId() {
           java.lang.Object ref = id_;
@@ -15088,6 +16246,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string id = 1;</code>
+         * @return The bytes for id.
          */
         public com.google.protobuf.ByteString
             getIdBytes() {
@@ -15104,6 +16263,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string id = 1;</code>
+         * @param value The id to set.
+         * @return This builder for chaining.
          */
         public Builder setId(
             java.lang.String value) {
@@ -15117,6 +16278,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string id = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearId() {
           
@@ -15126,6 +16288,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string id = 1;</code>
+         * @param value The bytes for id to set.
+         * @return This builder for chaining.
          */
         public Builder setIdBytes(
             com.google.protobuf.ByteString value) {
@@ -15146,6 +16310,7 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>string sql = 2;</code>
+         * @return The sql.
          */
         public java.lang.String getSql() {
           java.lang.Object ref = sql_;
@@ -15165,6 +16330,7 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>string sql = 2;</code>
+         * @return The bytes for sql.
          */
         public com.google.protobuf.ByteString
             getSqlBytes() {
@@ -15185,6 +16351,8 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>string sql = 2;</code>
+         * @param value The sql to set.
+         * @return This builder for chaining.
          */
         public Builder setSql(
             java.lang.String value) {
@@ -15202,6 +16370,7 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>string sql = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearSql() {
           
@@ -15215,6 +16384,8 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>string sql = 2;</code>
+         * @param value The bytes for sql to set.
+         * @return This builder for chaining.
          */
         public Builder setSqlBytes(
             com.google.protobuf.ByteString value) {
@@ -15231,6 +16402,7 @@ public final class AnalyticsProtos {
         private java.lang.Object createdBy_ = "";
         /**
          * <code>string created_by = 3;</code>
+         * @return The createdBy.
          */
         public java.lang.String getCreatedBy() {
           java.lang.Object ref = createdBy_;
@@ -15246,6 +16418,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string created_by = 3;</code>
+         * @return The bytes for createdBy.
          */
         public com.google.protobuf.ByteString
             getCreatedByBytes() {
@@ -15262,6 +16435,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string created_by = 3;</code>
+         * @param value The createdBy to set.
+         * @return This builder for chaining.
          */
         public Builder setCreatedBy(
             java.lang.String value) {
@@ -15275,6 +16450,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string created_by = 3;</code>
+         * @return This builder for chaining.
          */
         public Builder clearCreatedBy() {
           
@@ -15284,6 +16460,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string created_by = 3;</code>
+         * @param value The bytes for createdBy to set.
+         * @return This builder for chaining.
          */
         public Builder setCreatedByBytes(
             com.google.protobuf.ByteString value) {
@@ -15300,6 +16478,7 @@ public final class AnalyticsProtos {
         private java.lang.Object modifiedBy_ = "";
         /**
          * <code>string modified_by = 4;</code>
+         * @return The modifiedBy.
          */
         public java.lang.String getModifiedBy() {
           java.lang.Object ref = modifiedBy_;
@@ -15315,6 +16494,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string modified_by = 4;</code>
+         * @return The bytes for modifiedBy.
          */
         public com.google.protobuf.ByteString
             getModifiedByBytes() {
@@ -15331,6 +16511,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string modified_by = 4;</code>
+         * @param value The modifiedBy to set.
+         * @return This builder for chaining.
          */
         public Builder setModifiedBy(
             java.lang.String value) {
@@ -15344,6 +16526,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string modified_by = 4;</code>
+         * @return This builder for chaining.
          */
         public Builder clearModifiedBy() {
           
@@ -15353,6 +16536,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string modified_by = 4;</code>
+         * @param value The bytes for modifiedBy to set.
+         * @return This builder for chaining.
          */
         public Builder setModifiedByBytes(
             com.google.protobuf.ByteString value) {
@@ -15369,6 +16554,7 @@ public final class AnalyticsProtos {
         private java.lang.Object name_ = "";
         /**
          * <code>string name = 5;</code>
+         * @return The name.
          */
         public java.lang.String getName() {
           java.lang.Object ref = name_;
@@ -15384,6 +16570,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string name = 5;</code>
+         * @return The bytes for name.
          */
         public com.google.protobuf.ByteString
             getNameBytes() {
@@ -15400,6 +16587,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string name = 5;</code>
+         * @param value The name to set.
+         * @return This builder for chaining.
          */
         public Builder setName(
             java.lang.String value) {
@@ -15413,6 +16602,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string name = 5;</code>
+         * @return This builder for chaining.
          */
         public Builder clearName() {
           
@@ -15422,6 +16612,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string name = 5;</code>
+         * @param value The bytes for name to set.
+         * @return This builder for chaining.
          */
         public Builder setNameBytes(
             com.google.protobuf.ByteString value) {
@@ -15438,6 +16630,7 @@ public final class AnalyticsProtos {
         private java.lang.Object cloudId_ = "";
         /**
          * <code>string cloud_id = 100;</code>
+         * @return The cloudId.
          */
         public java.lang.String getCloudId() {
           java.lang.Object ref = cloudId_;
@@ -15453,6 +16646,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string cloud_id = 100;</code>
+         * @return The bytes for cloudId.
          */
         public com.google.protobuf.ByteString
             getCloudIdBytes() {
@@ -15469,6 +16663,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string cloud_id = 100;</code>
+         * @param value The cloudId to set.
+         * @return This builder for chaining.
          */
         public Builder setCloudId(
             java.lang.String value) {
@@ -15482,6 +16678,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string cloud_id = 100;</code>
+         * @return This builder for chaining.
          */
         public Builder clearCloudId() {
           
@@ -15491,6 +16688,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string cloud_id = 100;</code>
+         * @param value The bytes for cloudId to set.
+         * @return This builder for chaining.
          */
         public Builder setCloudIdBytes(
             com.google.protobuf.ByteString value) {
@@ -15507,6 +16706,7 @@ public final class AnalyticsProtos {
         private java.lang.Object folderId_ = "";
         /**
          * <code>string folder_id = 6;</code>
+         * @return The folderId.
          */
         public java.lang.String getFolderId() {
           java.lang.Object ref = folderId_;
@@ -15522,6 +16722,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string folder_id = 6;</code>
+         * @return The bytes for folderId.
          */
         public com.google.protobuf.ByteString
             getFolderIdBytes() {
@@ -15538,6 +16739,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string folder_id = 6;</code>
+         * @param value The folderId to set.
+         * @return This builder for chaining.
          */
         public Builder setFolderId(
             java.lang.String value) {
@@ -15551,6 +16754,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string folder_id = 6;</code>
+         * @return This builder for chaining.
          */
         public Builder clearFolderId() {
           
@@ -15560,6 +16764,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string folder_id = 6;</code>
+         * @param value The bytes for folderId to set.
+         * @return This builder for chaining.
          */
         public Builder setFolderIdBytes(
             com.google.protobuf.ByteString value) {
@@ -15573,17 +16779,19 @@ public final class AnalyticsProtos {
           return this;
         }
 
-        private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_ = null;
+        private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_;
         private com.google.protobuf.SingleFieldBuilderV3<
             com.yandex.yql.analytics.AnalyticsProtos.Acl, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder, com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder> aclBuilder_;
         /**
          * <code>.Yql.Analytics.Acl acl = 7;</code>
+         * @return Whether the acl field is set.
          */
         public boolean hasAcl() {
           return aclBuilder_ != null || acl_ != null;
         }
         /**
          * <code>.Yql.Analytics.Acl acl = 7;</code>
+         * @return The acl.
          */
         public com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl() {
           if (aclBuilder_ == null) {
@@ -15693,12 +16901,16 @@ public final class AnalyticsProtos {
         private long rowsLimit_ ;
         /**
          * <code>int64 rows_limit = 8;</code>
+         * @return The rowsLimit.
          */
+        @java.lang.Override
         public long getRowsLimit() {
           return rowsLimit_;
         }
         /**
          * <code>int64 rows_limit = 8;</code>
+         * @param value The rowsLimit to set.
+         * @return This builder for chaining.
          */
         public Builder setRowsLimit(long value) {
           
@@ -15708,6 +16920,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>int64 rows_limit = 8;</code>
+         * @return This builder for chaining.
          */
         public Builder clearRowsLimit() {
           
@@ -15719,12 +16932,16 @@ public final class AnalyticsProtos {
         private long bytesLimit_ ;
         /**
          * <code>int64 bytes_limit = 9;</code>
+         * @return The bytesLimit.
          */
+        @java.lang.Override
         public long getBytesLimit() {
           return bytesLimit_;
         }
         /**
          * <code>int64 bytes_limit = 9;</code>
+         * @param value The bytesLimit to set.
+         * @return This builder for chaining.
          */
         public Builder setBytesLimit(long value) {
           
@@ -15734,6 +16951,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>int64 bytes_limit = 9;</code>
+         * @return This builder for chaining.
          */
         public Builder clearBytesLimit() {
           
@@ -15742,17 +16960,19 @@ public final class AnalyticsProtos {
           return this;
         }
 
-        private com.google.protobuf.Timestamp creationTime_ = null;
+        private com.google.protobuf.Timestamp creationTime_;
         private com.google.protobuf.SingleFieldBuilderV3<
             com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> creationTimeBuilder_;
         /**
          * <code>.google.protobuf.Timestamp creation_time = 10;</code>
+         * @return Whether the creationTime field is set.
          */
         public boolean hasCreationTime() {
           return creationTimeBuilder_ != null || creationTime_ != null;
         }
         /**
          * <code>.google.protobuf.Timestamp creation_time = 10;</code>
+         * @return The creationTime.
          */
         public com.google.protobuf.Timestamp getCreationTime() {
           if (creationTimeBuilder_ == null) {
@@ -15859,17 +17079,19 @@ public final class AnalyticsProtos {
           return creationTimeBuilder_;
         }
 
-        private com.google.protobuf.Timestamp modificationTime_ = null;
+        private com.google.protobuf.Timestamp modificationTime_;
         private com.google.protobuf.SingleFieldBuilderV3<
             com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> modificationTimeBuilder_;
         /**
          * <code>.google.protobuf.Timestamp modification_time = 11;</code>
+         * @return Whether the modificationTime field is set.
          */
         public boolean hasModificationTime() {
           return modificationTimeBuilder_ != null || modificationTime_ != null;
         }
         /**
          * <code>.google.protobuf.Timestamp modification_time = 11;</code>
+         * @return The modificationTime.
          */
         public com.google.protobuf.Timestamp getModificationTime() {
           if (modificationTimeBuilder_ == null) {
@@ -15975,11 +17197,13 @@ public final class AnalyticsProtos {
           }
           return modificationTimeBuilder_;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -16001,11 +17225,12 @@ public final class AnalyticsProtos {
 
       private static final com.google.protobuf.Parser<QueryEntity>
           PARSER = new com.google.protobuf.AbstractParser<QueryEntity>() {
+        @java.lang.Override
         public QueryEntity parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new QueryEntity(input, extensionRegistry);
+          return new QueryEntity(input, extensionRegistry);
         }
       };
 
@@ -16018,24 +17243,26 @@ public final class AnalyticsProtos {
         return PARSER;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
     }
 
-    private int bitField0_;
     public static final int QUERIES_FIELD_NUMBER = 1;
     private java.util.List<com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity> queries_;
     /**
      * <code>repeated .Yql.Analytics.GetQueriesResponse.QueryEntity queries = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity> getQueriesList() {
       return queries_;
     }
     /**
      * <code>repeated .Yql.Analytics.GetQueriesResponse.QueryEntity queries = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntityOrBuilder> 
         getQueriesOrBuilderList() {
       return queries_;
@@ -16043,18 +17270,21 @@ public final class AnalyticsProtos {
     /**
      * <code>repeated .Yql.Analytics.GetQueriesResponse.QueryEntity queries = 1;</code>
      */
+    @java.lang.Override
     public int getQueriesCount() {
       return queries_.size();
     }
     /**
      * <code>repeated .Yql.Analytics.GetQueriesResponse.QueryEntity queries = 1;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity getQueries(int index) {
       return queries_.get(index);
     }
     /**
      * <code>repeated .Yql.Analytics.GetQueriesResponse.QueryEntity queries = 1;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntityOrBuilder getQueriesOrBuilder(
         int index) {
       return queries_.get(index);
@@ -16064,7 +17294,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object continuationToken_;
     /**
      * <code>string continuation_token = 2;</code>
+     * @return The continuationToken.
      */
+    @java.lang.Override
     public java.lang.String getContinuationToken() {
       java.lang.Object ref = continuationToken_;
       if (ref instanceof java.lang.String) {
@@ -16079,7 +17311,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string continuation_token = 2;</code>
+     * @return The bytes for continuationToken.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getContinuationTokenBytes() {
       java.lang.Object ref = continuationToken_;
@@ -16095,6 +17329,7 @@ public final class AnalyticsProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -16104,6 +17339,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < queries_.size(); i++) {
@@ -16115,6 +17351,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -16142,13 +17379,12 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse other = (com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse) obj;
 
-      boolean result = true;
-      result = result && getQueriesList()
-          .equals(other.getQueriesList());
-      result = result && getContinuationToken()
-          .equals(other.getContinuationToken());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getQueriesList()
+          .equals(other.getQueriesList())) return false;
+      if (!getContinuationToken()
+          .equals(other.getContinuationToken())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -16239,6 +17475,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -16246,6 +17483,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -16269,6 +17507,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetQueriesResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetQueriesResponse_fieldAccessorTable
@@ -16292,6 +17531,7 @@ public final class AnalyticsProtos {
           getQueriesFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (queriesBuilder_ == null) {
@@ -16305,15 +17545,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetQueriesResponse_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse build() {
         com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -16322,12 +17565,12 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse result = new com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (queriesBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             queries_ = java.util.Collections.unmodifiableList(queries_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -16336,37 +17579,43 @@ public final class AnalyticsProtos {
           result.queries_ = queriesBuilder_.build();
         }
         result.continuationToken_ = continuationToken_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse)other);
@@ -16413,10 +17662,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -16439,7 +17690,7 @@ public final class AnalyticsProtos {
       private java.util.List<com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity> queries_ =
         java.util.Collections.emptyList();
       private void ensureQueriesIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           queries_ = new java.util.ArrayList<com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity>(queries_);
           bitField0_ |= 0x00000001;
          }
@@ -16668,7 +17919,7 @@ public final class AnalyticsProtos {
           queriesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity, com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntity.Builder, com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse.QueryEntityOrBuilder>(
                   queries_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           queries_ = null;
@@ -16679,6 +17930,7 @@ public final class AnalyticsProtos {
       private java.lang.Object continuationToken_ = "";
       /**
        * <code>string continuation_token = 2;</code>
+       * @return The continuationToken.
        */
       public java.lang.String getContinuationToken() {
         java.lang.Object ref = continuationToken_;
@@ -16694,6 +17946,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string continuation_token = 2;</code>
+       * @return The bytes for continuationToken.
        */
       public com.google.protobuf.ByteString
           getContinuationTokenBytes() {
@@ -16710,6 +17963,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string continuation_token = 2;</code>
+       * @param value The continuationToken to set.
+       * @return This builder for chaining.
        */
       public Builder setContinuationToken(
           java.lang.String value) {
@@ -16723,6 +17978,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string continuation_token = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearContinuationToken() {
         
@@ -16732,6 +17988,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string continuation_token = 2;</code>
+       * @param value The bytes for continuationToken to set.
+       * @return This builder for chaining.
        */
       public Builder setContinuationTokenBytes(
           com.google.protobuf.ByteString value) {
@@ -16744,11 +18002,13 @@ public final class AnalyticsProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -16770,11 +18030,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<GetQueriesResponse>
         PARSER = new com.google.protobuf.AbstractParser<GetQueriesResponse>() {
+      @java.lang.Override
       public GetQueriesResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetQueriesResponse(input, extensionRegistry);
+        return new GetQueriesResponse(input, extensionRegistry);
       }
     };
 
@@ -16787,6 +18048,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetQueriesResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -16803,6 +18065,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string id = 1;</code>
+     * @return The id.
      */
     java.lang.String getId();
     /**
@@ -16811,6 +18074,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
@@ -16821,6 +18085,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string cloud_id = 100;</code>
+     * @return The cloudId.
      */
     java.lang.String getCloudId();
     /**
@@ -16829,6 +18094,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string cloud_id = 100;</code>
+     * @return The bytes for cloudId.
      */
     com.google.protobuf.ByteString
         getCloudIdBytes();
@@ -16839,6 +18105,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string folder_id = 2;</code>
+     * @return The folderId.
      */
     java.lang.String getFolderId();
     /**
@@ -16847,36 +18114,43 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string folder_id = 2;</code>
+     * @return The bytes for folderId.
      */
     com.google.protobuf.ByteString
         getFolderIdBytes();
 
     /**
      * <code>string sql = 4;</code>
+     * @return The sql.
      */
     java.lang.String getSql();
     /**
      * <code>string sql = 4;</code>
+     * @return The bytes for sql.
      */
     com.google.protobuf.ByteString
         getSqlBytes();
 
     /**
      * <code>string name = 5;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
      * <code>string name = 5;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
      * <code>.Yql.Analytics.Acl acl = 6;</code>
+     * @return Whether the acl field is set.
      */
     boolean hasAcl();
     /**
      * <code>.Yql.Analytics.Acl acl = 6;</code>
+     * @return The acl.
      */
     com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl();
     /**
@@ -16886,23 +18160,26 @@ public final class AnalyticsProtos {
 
     /**
      * <code>int64 rows_limit = 7;</code>
+     * @return The rowsLimit.
      */
     long getRowsLimit();
 
     /**
      * <code>int64 bytes_limit = 8;</code>
+     * @return The bytesLimit.
      */
     long getBytesLimit();
 
     /**
      * <code>bool is_deleted = 9;</code>
+     * @return The isDeleted.
      */
     boolean getIsDeleted();
   }
   /**
    * Protobuf type {@code Yql.Analytics.ModifyQueryRequest}
    */
-  public  static final class ModifyQueryRequest extends
+  public static final class ModifyQueryRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.ModifyQueryRequest)
       ModifyQueryRequestOrBuilder {
@@ -16917,9 +18194,13 @@ public final class AnalyticsProtos {
       folderId_ = "";
       sql_ = "";
       name_ = "";
-      rowsLimit_ = 0L;
-      bytesLimit_ = 0L;
-      isDeleted_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ModifyQueryRequest();
     }
 
     @java.lang.Override
@@ -16932,7 +18213,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -16943,13 +18226,6 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -17008,6 +18284,13 @@ public final class AnalyticsProtos {
               cloudId_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -17025,6 +18308,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyQueryRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyQueryRequest_fieldAccessorTable
@@ -17040,7 +18324,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string id = 1;</code>
+     * @return The id.
      */
+    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -17059,7 +18345,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -17082,7 +18370,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string cloud_id = 100;</code>
+     * @return The cloudId.
      */
+    @java.lang.Override
     public java.lang.String getCloudId() {
       java.lang.Object ref = cloudId_;
       if (ref instanceof java.lang.String) {
@@ -17101,7 +18391,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string cloud_id = 100;</code>
+     * @return The bytes for cloudId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getCloudIdBytes() {
       java.lang.Object ref = cloudId_;
@@ -17124,7 +18416,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string folder_id = 2;</code>
+     * @return The folderId.
      */
+    @java.lang.Override
     public java.lang.String getFolderId() {
       java.lang.Object ref = folderId_;
       if (ref instanceof java.lang.String) {
@@ -17143,7 +18437,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string folder_id = 2;</code>
+     * @return The bytes for folderId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getFolderIdBytes() {
       java.lang.Object ref = folderId_;
@@ -17162,7 +18458,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object sql_;
     /**
      * <code>string sql = 4;</code>
+     * @return The sql.
      */
+    @java.lang.Override
     public java.lang.String getSql() {
       java.lang.Object ref = sql_;
       if (ref instanceof java.lang.String) {
@@ -17177,7 +18475,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string sql = 4;</code>
+     * @return The bytes for sql.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getSqlBytes() {
       java.lang.Object ref = sql_;
@@ -17196,7 +18496,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object name_;
     /**
      * <code>string name = 5;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -17211,7 +18513,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string name = 5;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -17230,19 +18534,24 @@ public final class AnalyticsProtos {
     private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_;
     /**
      * <code>.Yql.Analytics.Acl acl = 6;</code>
+     * @return Whether the acl field is set.
      */
+    @java.lang.Override
     public boolean hasAcl() {
       return acl_ != null;
     }
     /**
      * <code>.Yql.Analytics.Acl acl = 6;</code>
+     * @return The acl.
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl() {
       return acl_ == null ? com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance() : acl_;
     }
     /**
      * <code>.Yql.Analytics.Acl acl = 6;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder getAclOrBuilder() {
       return getAcl();
     }
@@ -17251,7 +18560,9 @@ public final class AnalyticsProtos {
     private long rowsLimit_;
     /**
      * <code>int64 rows_limit = 7;</code>
+     * @return The rowsLimit.
      */
+    @java.lang.Override
     public long getRowsLimit() {
       return rowsLimit_;
     }
@@ -17260,7 +18571,9 @@ public final class AnalyticsProtos {
     private long bytesLimit_;
     /**
      * <code>int64 bytes_limit = 8;</code>
+     * @return The bytesLimit.
      */
+    @java.lang.Override
     public long getBytesLimit() {
       return bytesLimit_;
     }
@@ -17269,12 +18582,15 @@ public final class AnalyticsProtos {
     private boolean isDeleted_;
     /**
      * <code>bool is_deleted = 9;</code>
+     * @return The isDeleted.
      */
+    @java.lang.Override
     public boolean getIsDeleted() {
       return isDeleted_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -17284,6 +18600,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getIdBytes().isEmpty()) {
@@ -17316,6 +18633,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -17367,30 +18685,29 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest other = (com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest) obj;
 
-      boolean result = true;
-      result = result && getId()
-          .equals(other.getId());
-      result = result && getCloudId()
-          .equals(other.getCloudId());
-      result = result && getFolderId()
-          .equals(other.getFolderId());
-      result = result && getSql()
-          .equals(other.getSql());
-      result = result && getName()
-          .equals(other.getName());
-      result = result && (hasAcl() == other.hasAcl());
+      if (!getId()
+          .equals(other.getId())) return false;
+      if (!getCloudId()
+          .equals(other.getCloudId())) return false;
+      if (!getFolderId()
+          .equals(other.getFolderId())) return false;
+      if (!getSql()
+          .equals(other.getSql())) return false;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (hasAcl() != other.hasAcl()) return false;
       if (hasAcl()) {
-        result = result && getAcl()
-            .equals(other.getAcl());
+        if (!getAcl()
+            .equals(other.getAcl())) return false;
       }
-      result = result && (getRowsLimit()
-          == other.getRowsLimit());
-      result = result && (getBytesLimit()
-          == other.getBytesLimit());
-      result = result && (getIsDeleted()
-          == other.getIsDeleted());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getRowsLimit()
+          != other.getRowsLimit()) return false;
+      if (getBytesLimit()
+          != other.getBytesLimit()) return false;
+      if (getIsDeleted()
+          != other.getIsDeleted()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -17498,6 +18815,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -17505,6 +18823,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -17528,6 +18847,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyQueryRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyQueryRequest_fieldAccessorTable
@@ -17550,6 +18870,7 @@ public final class AnalyticsProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         id_ = "";
@@ -17577,15 +18898,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyQueryRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest build() {
         com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -17594,6 +18918,7 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest result = new com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest(this);
         result.id_ = id_;
@@ -17613,32 +18938,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest)other);
@@ -17687,10 +19019,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -17716,6 +19050,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string id = 1;</code>
+       * @return The id.
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -17735,6 +19070,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string id = 1;</code>
+       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -17755,6 +19091,8 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string id = 1;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -17772,6 +19110,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -17785,6 +19124,8 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string id = 1;</code>
+       * @param value The bytes for id to set.
+       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -17805,6 +19146,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string cloud_id = 100;</code>
+       * @return The cloudId.
        */
       public java.lang.String getCloudId() {
         java.lang.Object ref = cloudId_;
@@ -17824,6 +19166,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string cloud_id = 100;</code>
+       * @return The bytes for cloudId.
        */
       public com.google.protobuf.ByteString
           getCloudIdBytes() {
@@ -17844,6 +19187,8 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string cloud_id = 100;</code>
+       * @param value The cloudId to set.
+       * @return This builder for chaining.
        */
       public Builder setCloudId(
           java.lang.String value) {
@@ -17861,6 +19206,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string cloud_id = 100;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCloudId() {
         
@@ -17874,6 +19220,8 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string cloud_id = 100;</code>
+       * @param value The bytes for cloudId to set.
+       * @return This builder for chaining.
        */
       public Builder setCloudIdBytes(
           com.google.protobuf.ByteString value) {
@@ -17894,6 +19242,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string folder_id = 2;</code>
+       * @return The folderId.
        */
       public java.lang.String getFolderId() {
         java.lang.Object ref = folderId_;
@@ -17913,6 +19262,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string folder_id = 2;</code>
+       * @return The bytes for folderId.
        */
       public com.google.protobuf.ByteString
           getFolderIdBytes() {
@@ -17933,6 +19283,8 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string folder_id = 2;</code>
+       * @param value The folderId to set.
+       * @return This builder for chaining.
        */
       public Builder setFolderId(
           java.lang.String value) {
@@ -17950,6 +19302,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string folder_id = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFolderId() {
         
@@ -17963,6 +19316,8 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string folder_id = 2;</code>
+       * @param value The bytes for folderId to set.
+       * @return This builder for chaining.
        */
       public Builder setFolderIdBytes(
           com.google.protobuf.ByteString value) {
@@ -17979,6 +19334,7 @@ public final class AnalyticsProtos {
       private java.lang.Object sql_ = "";
       /**
        * <code>string sql = 4;</code>
+       * @return The sql.
        */
       public java.lang.String getSql() {
         java.lang.Object ref = sql_;
@@ -17994,6 +19350,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string sql = 4;</code>
+       * @return The bytes for sql.
        */
       public com.google.protobuf.ByteString
           getSqlBytes() {
@@ -18010,6 +19367,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string sql = 4;</code>
+       * @param value The sql to set.
+       * @return This builder for chaining.
        */
       public Builder setSql(
           java.lang.String value) {
@@ -18023,6 +19382,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string sql = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSql() {
         
@@ -18032,6 +19392,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string sql = 4;</code>
+       * @param value The bytes for sql to set.
+       * @return This builder for chaining.
        */
       public Builder setSqlBytes(
           com.google.protobuf.ByteString value) {
@@ -18048,6 +19410,7 @@ public final class AnalyticsProtos {
       private java.lang.Object name_ = "";
       /**
        * <code>string name = 5;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -18063,6 +19426,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 5;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -18079,6 +19443,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 5;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -18092,6 +19458,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -18101,6 +19468,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 5;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -18114,17 +19483,19 @@ public final class AnalyticsProtos {
         return this;
       }
 
-      private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_ = null;
+      private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.yandex.yql.analytics.AnalyticsProtos.Acl, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder, com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder> aclBuilder_;
       /**
        * <code>.Yql.Analytics.Acl acl = 6;</code>
+       * @return Whether the acl field is set.
        */
       public boolean hasAcl() {
         return aclBuilder_ != null || acl_ != null;
       }
       /**
        * <code>.Yql.Analytics.Acl acl = 6;</code>
+       * @return The acl.
        */
       public com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl() {
         if (aclBuilder_ == null) {
@@ -18234,12 +19605,16 @@ public final class AnalyticsProtos {
       private long rowsLimit_ ;
       /**
        * <code>int64 rows_limit = 7;</code>
+       * @return The rowsLimit.
        */
+      @java.lang.Override
       public long getRowsLimit() {
         return rowsLimit_;
       }
       /**
        * <code>int64 rows_limit = 7;</code>
+       * @param value The rowsLimit to set.
+       * @return This builder for chaining.
        */
       public Builder setRowsLimit(long value) {
         
@@ -18249,6 +19624,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>int64 rows_limit = 7;</code>
+       * @return This builder for chaining.
        */
       public Builder clearRowsLimit() {
         
@@ -18260,12 +19636,16 @@ public final class AnalyticsProtos {
       private long bytesLimit_ ;
       /**
        * <code>int64 bytes_limit = 8;</code>
+       * @return The bytesLimit.
        */
+      @java.lang.Override
       public long getBytesLimit() {
         return bytesLimit_;
       }
       /**
        * <code>int64 bytes_limit = 8;</code>
+       * @param value The bytesLimit to set.
+       * @return This builder for chaining.
        */
       public Builder setBytesLimit(long value) {
         
@@ -18275,6 +19655,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>int64 bytes_limit = 8;</code>
+       * @return This builder for chaining.
        */
       public Builder clearBytesLimit() {
         
@@ -18286,12 +19667,16 @@ public final class AnalyticsProtos {
       private boolean isDeleted_ ;
       /**
        * <code>bool is_deleted = 9;</code>
+       * @return The isDeleted.
        */
+      @java.lang.Override
       public boolean getIsDeleted() {
         return isDeleted_;
       }
       /**
        * <code>bool is_deleted = 9;</code>
+       * @param value The isDeleted to set.
+       * @return This builder for chaining.
        */
       public Builder setIsDeleted(boolean value) {
         
@@ -18301,6 +19686,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>bool is_deleted = 9;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIsDeleted() {
         
@@ -18308,11 +19694,13 @@ public final class AnalyticsProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -18334,11 +19722,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<ModifyQueryRequest>
         PARSER = new com.google.protobuf.AbstractParser<ModifyQueryRequest>() {
+      @java.lang.Override
       public ModifyQueryRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ModifyQueryRequest(input, extensionRegistry);
+        return new ModifyQueryRequest(input, extensionRegistry);
       }
     };
 
@@ -18351,6 +19740,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -18364,7 +19754,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.ModifyQueryResponse}
    */
-  public  static final class ModifyQueryResponse extends
+  public static final class ModifyQueryResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.ModifyQueryResponse)
       ModifyQueryResponseOrBuilder {
@@ -18377,6 +19767,13 @@ public final class AnalyticsProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ModifyQueryResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -18386,6 +19783,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -18397,7 +19797,7 @@ public final class AnalyticsProtos {
               done = true;
               break;
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -18420,6 +19820,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyQueryResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyQueryResponse_fieldAccessorTable
@@ -18428,6 +19829,7 @@ public final class AnalyticsProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -18437,11 +19839,13 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -18462,9 +19866,8 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse other = (com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse) obj;
 
-      boolean result = true;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -18549,6 +19952,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -18556,6 +19960,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -18579,6 +19984,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyQueryResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyQueryResponse_fieldAccessorTable
@@ -18601,20 +20007,24 @@ public final class AnalyticsProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyQueryResponse_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse build() {
         com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -18623,38 +20033,46 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse result = new com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse(this);
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse)other);
@@ -18671,10 +20089,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -18692,11 +20112,13 @@ public final class AnalyticsProtos {
         }
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -18718,11 +20140,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<ModifyQueryResponse>
         PARSER = new com.google.protobuf.AbstractParser<ModifyQueryResponse>() {
+      @java.lang.Override
       public ModifyQueryResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ModifyQueryResponse(input, extensionRegistry);
+        return new ModifyQueryResponse(input, extensionRegistry);
       }
     };
 
@@ -18735,6 +20158,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ModifyQueryResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -18747,10 +20171,12 @@ public final class AnalyticsProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -18760,40 +20186,48 @@ public final class AnalyticsProtos {
 
     /**
      * <code>string cloud_id = 100;</code>
+     * @return The cloudId.
      */
     java.lang.String getCloudId();
     /**
      * <code>string cloud_id = 100;</code>
+     * @return The bytes for cloudId.
      */
     com.google.protobuf.ByteString
         getCloudIdBytes();
 
     /**
      * <code>string folder_id = 2;</code>
+     * @return The folderId.
      */
     java.lang.String getFolderId();
     /**
      * <code>string folder_id = 2;</code>
+     * @return The bytes for folderId.
      */
     com.google.protobuf.ByteString
         getFolderIdBytes();
 
     /**
      * <code>string continuation_token = 3;</code>
+     * @return The continuationToken.
      */
     java.lang.String getContinuationToken();
     /**
      * <code>string continuation_token = 3;</code>
+     * @return The bytes for continuationToken.
      */
     com.google.protobuf.ByteString
         getContinuationTokenBytes();
 
     /**
      * <code>.Yql.Analytics.GetHistoryRequest.Filter filter = 4;</code>
+     * @return Whether the filter field is set.
      */
     boolean hasFilter();
     /**
      * <code>.Yql.Analytics.GetHistoryRequest.Filter filter = 4;</code>
+     * @return The filter.
      */
     com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter getFilter();
     /**
@@ -18804,7 +20238,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.GetHistoryRequest}
    */
-  public  static final class GetHistoryRequest extends
+  public static final class GetHistoryRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.GetHistoryRequest)
       GetHistoryRequestOrBuilder {
@@ -18820,6 +20254,13 @@ public final class AnalyticsProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetHistoryRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -18829,7 +20270,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -18840,13 +20283,6 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -18891,6 +20327,13 @@ public final class AnalyticsProtos {
               cloudId_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -18908,6 +20351,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryRequest_fieldAccessorTable
@@ -18921,20 +20365,24 @@ public final class AnalyticsProtos {
 
       /**
        * <code>string query_id = 1;</code>
+       * @return The queryId.
        */
       java.lang.String getQueryId();
       /**
        * <code>string query_id = 1;</code>
+       * @return The bytes for queryId.
        */
       com.google.protobuf.ByteString
           getQueryIdBytes();
 
       /**
        * <code>string history_id = 2;</code>
+       * @return The historyId.
        */
       java.lang.String getHistoryId();
       /**
        * <code>string history_id = 2;</code>
+       * @return The bytes for historyId.
        */
       com.google.protobuf.ByteString
           getHistoryIdBytes();
@@ -18945,13 +20393,14 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>int32 field_type = 3;</code>
+       * @return The fieldType.
        */
       int getFieldType();
     }
     /**
      * Protobuf type {@code Yql.Analytics.GetHistoryRequest.Filter}
      */
-    public  static final class Filter extends
+    public static final class Filter extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:Yql.Analytics.GetHistoryRequest.Filter)
         FilterOrBuilder {
@@ -18963,7 +20412,13 @@ public final class AnalyticsProtos {
       private Filter() {
         queryId_ = "";
         historyId_ = "";
-        fieldType_ = 0;
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Filter();
       }
 
       @java.lang.Override
@@ -18976,7 +20431,9 @@ public final class AnalyticsProtos {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -18987,13 +20444,6 @@ public final class AnalyticsProtos {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 10: {
                 java.lang.String s = input.readStringRequireUtf8();
 
@@ -19009,6 +20459,13 @@ public final class AnalyticsProtos {
               case 24: {
 
                 fieldType_ = input.readInt32();
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
                 break;
               }
             }
@@ -19028,6 +20485,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryRequest_Filter_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryRequest_Filter_fieldAccessorTable
@@ -19039,7 +20497,9 @@ public final class AnalyticsProtos {
       private volatile java.lang.Object queryId_;
       /**
        * <code>string query_id = 1;</code>
+       * @return The queryId.
        */
+      @java.lang.Override
       public java.lang.String getQueryId() {
         java.lang.Object ref = queryId_;
         if (ref instanceof java.lang.String) {
@@ -19054,7 +20514,9 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string query_id = 1;</code>
+       * @return The bytes for queryId.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getQueryIdBytes() {
         java.lang.Object ref = queryId_;
@@ -19073,7 +20535,9 @@ public final class AnalyticsProtos {
       private volatile java.lang.Object historyId_;
       /**
        * <code>string history_id = 2;</code>
+       * @return The historyId.
        */
+      @java.lang.Override
       public java.lang.String getHistoryId() {
         java.lang.Object ref = historyId_;
         if (ref instanceof java.lang.String) {
@@ -19088,7 +20552,9 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string history_id = 2;</code>
+       * @return The bytes for historyId.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getHistoryIdBytes() {
         java.lang.Object ref = historyId_;
@@ -19111,12 +20577,15 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>int32 field_type = 3;</code>
+       * @return The fieldType.
        */
+      @java.lang.Override
       public int getFieldType() {
         return fieldType_;
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -19126,6 +20595,7 @@ public final class AnalyticsProtos {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (!getQueryIdBytes().isEmpty()) {
@@ -19140,6 +20610,7 @@ public final class AnalyticsProtos {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -19170,15 +20641,14 @@ public final class AnalyticsProtos {
         }
         com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter other = (com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter) obj;
 
-        boolean result = true;
-        result = result && getQueryId()
-            .equals(other.getQueryId());
-        result = result && getHistoryId()
-            .equals(other.getHistoryId());
-        result = result && (getFieldType()
-            == other.getFieldType());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!getQueryId()
+            .equals(other.getQueryId())) return false;
+        if (!getHistoryId()
+            .equals(other.getHistoryId())) return false;
+        if (getFieldType()
+            != other.getFieldType()) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -19269,6 +20739,7 @@ public final class AnalyticsProtos {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -19276,6 +20747,7 @@ public final class AnalyticsProtos {
       public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -19299,6 +20771,7 @@ public final class AnalyticsProtos {
           return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryRequest_Filter_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryRequest_Filter_fieldAccessorTable
@@ -19321,6 +20794,7 @@ public final class AnalyticsProtos {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           queryId_ = "";
@@ -19332,15 +20806,18 @@ public final class AnalyticsProtos {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryRequest_Filter_descriptor;
         }
 
+        @java.lang.Override
         public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter getDefaultInstanceForType() {
           return com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter.getDefaultInstance();
         }
 
+        @java.lang.Override
         public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter build() {
           com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter result = buildPartial();
           if (!result.isInitialized()) {
@@ -19349,6 +20826,7 @@ public final class AnalyticsProtos {
           return result;
         }
 
+        @java.lang.Override
         public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter buildPartial() {
           com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter result = new com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter(this);
           result.queryId_ = queryId_;
@@ -19358,32 +20836,39 @@ public final class AnalyticsProtos {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter) {
             return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter)other);
@@ -19411,10 +20896,12 @@ public final class AnalyticsProtos {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -19436,6 +20923,7 @@ public final class AnalyticsProtos {
         private java.lang.Object queryId_ = "";
         /**
          * <code>string query_id = 1;</code>
+         * @return The queryId.
          */
         public java.lang.String getQueryId() {
           java.lang.Object ref = queryId_;
@@ -19451,6 +20939,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string query_id = 1;</code>
+         * @return The bytes for queryId.
          */
         public com.google.protobuf.ByteString
             getQueryIdBytes() {
@@ -19467,6 +20956,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string query_id = 1;</code>
+         * @param value The queryId to set.
+         * @return This builder for chaining.
          */
         public Builder setQueryId(
             java.lang.String value) {
@@ -19480,6 +20971,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string query_id = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearQueryId() {
           
@@ -19489,6 +20981,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string query_id = 1;</code>
+         * @param value The bytes for queryId to set.
+         * @return This builder for chaining.
          */
         public Builder setQueryIdBytes(
             com.google.protobuf.ByteString value) {
@@ -19505,6 +20999,7 @@ public final class AnalyticsProtos {
         private java.lang.Object historyId_ = "";
         /**
          * <code>string history_id = 2;</code>
+         * @return The historyId.
          */
         public java.lang.String getHistoryId() {
           java.lang.Object ref = historyId_;
@@ -19520,6 +21015,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string history_id = 2;</code>
+         * @return The bytes for historyId.
          */
         public com.google.protobuf.ByteString
             getHistoryIdBytes() {
@@ -19536,6 +21032,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string history_id = 2;</code>
+         * @param value The historyId to set.
+         * @return This builder for chaining.
          */
         public Builder setHistoryId(
             java.lang.String value) {
@@ -19549,6 +21047,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string history_id = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearHistoryId() {
           
@@ -19558,6 +21057,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string history_id = 2;</code>
+         * @param value The bytes for historyId to set.
+         * @return This builder for chaining.
          */
         public Builder setHistoryIdBytes(
             com.google.protobuf.ByteString value) {
@@ -19578,7 +21079,9 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>int32 field_type = 3;</code>
+         * @return The fieldType.
          */
+        @java.lang.Override
         public int getFieldType() {
           return fieldType_;
         }
@@ -19588,6 +21091,8 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>int32 field_type = 3;</code>
+         * @param value The fieldType to set.
+         * @return This builder for chaining.
          */
         public Builder setFieldType(int value) {
           
@@ -19601,6 +21106,7 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>int32 field_type = 3;</code>
+         * @return This builder for chaining.
          */
         public Builder clearFieldType() {
           
@@ -19608,11 +21114,13 @@ public final class AnalyticsProtos {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -19634,11 +21142,12 @@ public final class AnalyticsProtos {
 
       private static final com.google.protobuf.Parser<Filter>
           PARSER = new com.google.protobuf.AbstractParser<Filter>() {
+        @java.lang.Override
         public Filter parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Filter(input, extensionRegistry);
+          return new Filter(input, extensionRegistry);
         }
       };
 
@@ -19651,6 +21160,7 @@ public final class AnalyticsProtos {
         return PARSER;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -19661,19 +21171,24 @@ public final class AnalyticsProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -19682,7 +21197,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object cloudId_;
     /**
      * <code>string cloud_id = 100;</code>
+     * @return The cloudId.
      */
+    @java.lang.Override
     public java.lang.String getCloudId() {
       java.lang.Object ref = cloudId_;
       if (ref instanceof java.lang.String) {
@@ -19697,7 +21214,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string cloud_id = 100;</code>
+     * @return The bytes for cloudId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getCloudIdBytes() {
       java.lang.Object ref = cloudId_;
@@ -19716,7 +21235,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object folderId_;
     /**
      * <code>string folder_id = 2;</code>
+     * @return The folderId.
      */
+    @java.lang.Override
     public java.lang.String getFolderId() {
       java.lang.Object ref = folderId_;
       if (ref instanceof java.lang.String) {
@@ -19731,7 +21252,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string folder_id = 2;</code>
+     * @return The bytes for folderId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getFolderIdBytes() {
       java.lang.Object ref = folderId_;
@@ -19750,7 +21273,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object continuationToken_;
     /**
      * <code>string continuation_token = 3;</code>
+     * @return The continuationToken.
      */
+    @java.lang.Override
     public java.lang.String getContinuationToken() {
       java.lang.Object ref = continuationToken_;
       if (ref instanceof java.lang.String) {
@@ -19765,7 +21290,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string continuation_token = 3;</code>
+     * @return The bytes for continuationToken.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getContinuationTokenBytes() {
       java.lang.Object ref = continuationToken_;
@@ -19784,24 +21311,30 @@ public final class AnalyticsProtos {
     private com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter filter_;
     /**
      * <code>.Yql.Analytics.GetHistoryRequest.Filter filter = 4;</code>
+     * @return Whether the filter field is set.
      */
+    @java.lang.Override
     public boolean hasFilter() {
       return filter_ != null;
     }
     /**
      * <code>.Yql.Analytics.GetHistoryRequest.Filter filter = 4;</code>
+     * @return The filter.
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter getFilter() {
       return filter_ == null ? com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter.getDefaultInstance() : filter_;
     }
     /**
      * <code>.Yql.Analytics.GetHistoryRequest.Filter filter = 4;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.FilterOrBuilder getFilterOrBuilder() {
       return getFilter();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -19811,6 +21344,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -19831,6 +21365,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -19868,25 +21403,24 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest other = (com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getCloudId()
-          .equals(other.getCloudId());
-      result = result && getFolderId()
-          .equals(other.getFolderId());
-      result = result && getContinuationToken()
-          .equals(other.getContinuationToken());
-      result = result && (hasFilter() == other.hasFilter());
+      if (!getCloudId()
+          .equals(other.getCloudId())) return false;
+      if (!getFolderId()
+          .equals(other.getFolderId())) return false;
+      if (!getContinuationToken()
+          .equals(other.getContinuationToken())) return false;
+      if (hasFilter() != other.hasFilter()) return false;
       if (hasFilter()) {
-        result = result && getFilter()
-            .equals(other.getFilter());
+        if (!getFilter()
+            .equals(other.getFilter())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -19985,6 +21519,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -19992,6 +21527,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -20015,6 +21551,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryRequest_fieldAccessorTable
@@ -20037,6 +21574,7 @@ public final class AnalyticsProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -20060,15 +21598,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest build() {
         com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -20077,6 +21618,7 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest result = new com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -20096,32 +21638,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest)other);
@@ -20156,10 +21705,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -20178,17 +21729,19 @@ public final class AnalyticsProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -20298,6 +21851,7 @@ public final class AnalyticsProtos {
       private java.lang.Object cloudId_ = "";
       /**
        * <code>string cloud_id = 100;</code>
+       * @return The cloudId.
        */
       public java.lang.String getCloudId() {
         java.lang.Object ref = cloudId_;
@@ -20313,6 +21867,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 100;</code>
+       * @return The bytes for cloudId.
        */
       public com.google.protobuf.ByteString
           getCloudIdBytes() {
@@ -20329,6 +21884,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 100;</code>
+       * @param value The cloudId to set.
+       * @return This builder for chaining.
        */
       public Builder setCloudId(
           java.lang.String value) {
@@ -20342,6 +21899,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 100;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCloudId() {
         
@@ -20351,6 +21909,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 100;</code>
+       * @param value The bytes for cloudId to set.
+       * @return This builder for chaining.
        */
       public Builder setCloudIdBytes(
           com.google.protobuf.ByteString value) {
@@ -20367,6 +21927,7 @@ public final class AnalyticsProtos {
       private java.lang.Object folderId_ = "";
       /**
        * <code>string folder_id = 2;</code>
+       * @return The folderId.
        */
       public java.lang.String getFolderId() {
         java.lang.Object ref = folderId_;
@@ -20382,6 +21943,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 2;</code>
+       * @return The bytes for folderId.
        */
       public com.google.protobuf.ByteString
           getFolderIdBytes() {
@@ -20398,6 +21960,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 2;</code>
+       * @param value The folderId to set.
+       * @return This builder for chaining.
        */
       public Builder setFolderId(
           java.lang.String value) {
@@ -20411,6 +21975,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFolderId() {
         
@@ -20420,6 +21985,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 2;</code>
+       * @param value The bytes for folderId to set.
+       * @return This builder for chaining.
        */
       public Builder setFolderIdBytes(
           com.google.protobuf.ByteString value) {
@@ -20436,6 +22003,7 @@ public final class AnalyticsProtos {
       private java.lang.Object continuationToken_ = "";
       /**
        * <code>string continuation_token = 3;</code>
+       * @return The continuationToken.
        */
       public java.lang.String getContinuationToken() {
         java.lang.Object ref = continuationToken_;
@@ -20451,6 +22019,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string continuation_token = 3;</code>
+       * @return The bytes for continuationToken.
        */
       public com.google.protobuf.ByteString
           getContinuationTokenBytes() {
@@ -20467,6 +22036,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string continuation_token = 3;</code>
+       * @param value The continuationToken to set.
+       * @return This builder for chaining.
        */
       public Builder setContinuationToken(
           java.lang.String value) {
@@ -20480,6 +22051,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string continuation_token = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearContinuationToken() {
         
@@ -20489,6 +22061,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string continuation_token = 3;</code>
+       * @param value The bytes for continuationToken to set.
+       * @return This builder for chaining.
        */
       public Builder setContinuationTokenBytes(
           com.google.protobuf.ByteString value) {
@@ -20502,17 +22076,19 @@ public final class AnalyticsProtos {
         return this;
       }
 
-      private com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter filter_ = null;
+      private com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter filter_;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter, com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter.Builder, com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.FilterOrBuilder> filterBuilder_;
       /**
        * <code>.Yql.Analytics.GetHistoryRequest.Filter filter = 4;</code>
+       * @return Whether the filter field is set.
        */
       public boolean hasFilter() {
         return filterBuilder_ != null || filter_ != null;
       }
       /**
        * <code>.Yql.Analytics.GetHistoryRequest.Filter filter = 4;</code>
+       * @return The filter.
        */
       public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest.Filter getFilter() {
         if (filterBuilder_ == null) {
@@ -20618,11 +22194,13 @@ public final class AnalyticsProtos {
         }
         return filterBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -20644,11 +22222,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<GetHistoryRequest>
         PARSER = new com.google.protobuf.AbstractParser<GetHistoryRequest>() {
+      @java.lang.Override
       public GetHistoryRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetHistoryRequest(input, extensionRegistry);
+        return new GetHistoryRequest(input, extensionRegistry);
       }
     };
 
@@ -20661,6 +22240,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -20673,13 +22253,14 @@ public final class AnalyticsProtos {
 
     /**
      * <code>bytes yson = 1;</code>
+     * @return The yson.
      */
     com.google.protobuf.ByteString getYson();
   }
   /**
    * Protobuf type {@code Yql.Analytics.QueryStatistics}
    */
-  public  static final class QueryStatistics extends
+  public static final class QueryStatistics extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.QueryStatistics)
       QueryStatisticsOrBuilder {
@@ -20693,6 +22274,13 @@ public final class AnalyticsProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new QueryStatistics();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -20702,7 +22290,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -20713,16 +22303,16 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
 
               yson_ = input.readBytes();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -20742,6 +22332,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_QueryStatistics_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_QueryStatistics_fieldAccessorTable
@@ -20753,12 +22344,15 @@ public final class AnalyticsProtos {
     private com.google.protobuf.ByteString yson_;
     /**
      * <code>bytes yson = 1;</code>
+     * @return The yson.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getYson() {
       return yson_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -20768,6 +22362,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!yson_.isEmpty()) {
@@ -20776,6 +22371,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -20800,11 +22396,10 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics other = (com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics) obj;
 
-      boolean result = true;
-      result = result && getYson()
-          .equals(other.getYson());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getYson()
+          .equals(other.getYson())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -20891,6 +22486,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -20898,6 +22494,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -20921,6 +22518,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_QueryStatistics_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_QueryStatistics_fieldAccessorTable
@@ -20943,6 +22541,7 @@ public final class AnalyticsProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         yson_ = com.google.protobuf.ByteString.EMPTY;
@@ -20950,15 +22549,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_QueryStatistics_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics build() {
         com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics result = buildPartial();
         if (!result.isInitialized()) {
@@ -20967,6 +22569,7 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics result = new com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics(this);
         result.yson_ = yson_;
@@ -20974,32 +22577,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics)other);
@@ -21019,10 +22629,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -21044,12 +22656,16 @@ public final class AnalyticsProtos {
       private com.google.protobuf.ByteString yson_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes yson = 1;</code>
+       * @return The yson.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getYson() {
         return yson_;
       }
       /**
        * <code>bytes yson = 1;</code>
+       * @param value The yson to set.
+       * @return This builder for chaining.
        */
       public Builder setYson(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -21062,6 +22678,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>bytes yson = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearYson() {
         
@@ -21069,11 +22686,13 @@ public final class AnalyticsProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -21095,11 +22714,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<QueryStatistics>
         PARSER = new com.google.protobuf.AbstractParser<QueryStatistics>() {
+      @java.lang.Override
       public QueryStatistics parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new QueryStatistics(input, extensionRegistry);
+        return new QueryStatistics(input, extensionRegistry);
       }
     };
 
@@ -21112,6 +22732,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -21128,6 +22749,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
@@ -21136,6 +22758,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -21150,7 +22773,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.GetHistoryResponse}
    */
-  public  static final class GetHistoryResponse extends
+  public static final class GetHistoryResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.GetHistoryResponse)
       GetHistoryResponseOrBuilder {
@@ -21163,6 +22786,13 @@ public final class AnalyticsProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetHistoryResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -21172,7 +22802,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -21183,13 +22815,6 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -21201,6 +22826,13 @@ public final class AnalyticsProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -21220,6 +22852,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryResponse_fieldAccessorTable
@@ -21235,7 +22868,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
@@ -21245,7 +22880,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
@@ -21256,11 +22893,13 @@ public final class AnalyticsProtos {
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -21270,6 +22909,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -21278,6 +22918,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -21302,14 +22943,13 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResponse other = (com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -21398,6 +23038,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -21405,6 +23046,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -21428,6 +23070,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryResponse_fieldAccessorTable
@@ -21450,6 +23093,7 @@ public final class AnalyticsProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -21461,15 +23105,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryResponse_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResponse getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResponse build() {
         com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -21478,6 +23125,7 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResponse buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResponse result = new com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResponse(this);
         if (operationBuilder_ == null) {
@@ -21489,32 +23137,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResponse) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResponse)other);
@@ -21534,10 +23189,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -21556,7 +23213,7 @@ public final class AnalyticsProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
@@ -21565,6 +23222,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
@@ -21575,6 +23233,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -21708,11 +23367,13 @@ public final class AnalyticsProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -21734,11 +23395,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<GetHistoryResponse>
         PARSER = new com.google.protobuf.AbstractParser<GetHistoryResponse>() {
+      @java.lang.Override
       public GetHistoryResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetHistoryResponse(input, extensionRegistry);
+        return new GetHistoryResponse(input, extensionRegistry);
       }
     };
 
@@ -21751,6 +23413,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -21787,10 +23450,12 @@ public final class AnalyticsProtos {
 
     /**
      * <code>string continuation_token = 2;</code>
+     * @return The continuationToken.
      */
     java.lang.String getContinuationToken();
     /**
      * <code>string continuation_token = 2;</code>
+     * @return The bytes for continuationToken.
      */
     com.google.protobuf.ByteString
         getContinuationTokenBytes();
@@ -21798,7 +23463,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.GetHistoryResult}
    */
-  public  static final class GetHistoryResult extends
+  public static final class GetHistoryResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.GetHistoryResult)
       GetHistoryResultOrBuilder {
@@ -21813,6 +23478,13 @@ public final class AnalyticsProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetHistoryResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -21822,6 +23494,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -21833,15 +23508,8 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 history_ = new java.util.ArrayList<com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity>();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -21855,6 +23523,13 @@ public final class AnalyticsProtos {
               continuationToken_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -21863,7 +23538,7 @@ public final class AnalyticsProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           history_ = java.util.Collections.unmodifiableList(history_);
         }
         this.unknownFields = unknownFields.build();
@@ -21875,6 +23550,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryResult_fieldAccessorTable
@@ -21888,10 +23564,12 @@ public final class AnalyticsProtos {
 
       /**
        * <code>string id = 1;</code>
+       * @return The id.
        */
       java.lang.String getId();
       /**
        * <code>string id = 1;</code>
+       * @return The bytes for id.
        */
       com.google.protobuf.ByteString
           getIdBytes();
@@ -21902,6 +23580,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string sql = 2;</code>
+       * @return The sql.
        */
       java.lang.String getSql();
       /**
@@ -21910,66 +23589,79 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string sql = 2;</code>
+       * @return The bytes for sql.
        */
       com.google.protobuf.ByteString
           getSqlBytes();
 
       /**
        * <code>string created_by = 3;</code>
+       * @return The createdBy.
        */
       java.lang.String getCreatedBy();
       /**
        * <code>string created_by = 3;</code>
+       * @return The bytes for createdBy.
        */
       com.google.protobuf.ByteString
           getCreatedByBytes();
 
       /**
        * <code>string modified_by = 4;</code>
+       * @return The modifiedBy.
        */
       java.lang.String getModifiedBy();
       /**
        * <code>string modified_by = 4;</code>
+       * @return The bytes for modifiedBy.
        */
       com.google.protobuf.ByteString
           getModifiedByBytes();
 
       /**
        * <code>string name = 5;</code>
+       * @return The name.
        */
       java.lang.String getName();
       /**
        * <code>string name = 5;</code>
+       * @return The bytes for name.
        */
       com.google.protobuf.ByteString
           getNameBytes();
 
       /**
        * <code>string cloud_id = 100;</code>
+       * @return The cloudId.
        */
       java.lang.String getCloudId();
       /**
        * <code>string cloud_id = 100;</code>
+       * @return The bytes for cloudId.
        */
       com.google.protobuf.ByteString
           getCloudIdBytes();
 
       /**
        * <code>string folder_id = 6;</code>
+       * @return The folderId.
        */
       java.lang.String getFolderId();
       /**
        * <code>string folder_id = 6;</code>
+       * @return The bytes for folderId.
        */
       com.google.protobuf.ByteString
           getFolderIdBytes();
 
       /**
        * <code>.Yql.Analytics.Acl acl = 7;</code>
+       * @return Whether the acl field is set.
        */
       boolean hasAcl();
       /**
        * <code>.Yql.Analytics.Acl acl = 7;</code>
+       * @return The acl.
        */
       com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl();
       /**
@@ -21983,6 +23675,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string query_plan = 8;</code>
+       * @return The queryPlan.
        */
       java.lang.String getQueryPlan();
       /**
@@ -21991,80 +23684,99 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string query_plan = 8;</code>
+       * @return The bytes for queryPlan.
        */
       com.google.protobuf.ByteString
           getQueryPlanBytes();
 
       /**
        * <code>string query_id = 9;</code>
+       * @return The queryId.
        */
       java.lang.String getQueryId();
       /**
        * <code>string query_id = 9;</code>
+       * @return The bytes for queryId.
        */
       com.google.protobuf.ByteString
           getQueryIdBytes();
 
       /**
        * <code>repeated bool truncated = 10;</code>
+       * @return A list containing the truncated.
        */
       java.util.List<java.lang.Boolean> getTruncatedList();
       /**
        * <code>repeated bool truncated = 10;</code>
+       * @return The count of truncated.
        */
       int getTruncatedCount();
       /**
        * <code>repeated bool truncated = 10;</code>
+       * @param index The index of the element to return.
+       * @return The truncated at the given index.
        */
       boolean getTruncated(int index);
 
       /**
-       * <code>repeated int64 rows_count = 11;</code>
+       * <code>repeated uint64 rows_count = 11;</code>
+       * @return A list containing the rowsCount.
        */
       java.util.List<java.lang.Long> getRowsCountList();
       /**
-       * <code>repeated int64 rows_count = 11;</code>
+       * <code>repeated uint64 rows_count = 11;</code>
+       * @return The count of rowsCount.
        */
       int getRowsCountCount();
       /**
-       * <code>repeated int64 rows_count = 11;</code>
+       * <code>repeated uint64 rows_count = 11;</code>
+       * @param index The index of the element to return.
+       * @return The rowsCount at the given index.
        */
       long getRowsCount(int index);
 
       /**
        * <code>.Yql.Analytics.EQueryStatus status = 12;</code>
+       * @return The enum numeric value on the wire for status.
        */
       int getStatusValue();
       /**
        * <code>.Yql.Analytics.EQueryStatus status = 12;</code>
+       * @return The status.
        */
       com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus getStatus();
 
       /**
        * <code>.Yql.Analytics.EExecuteMode execute_mode = 13;</code>
+       * @return The enum numeric value on the wire for executeMode.
        */
       int getExecuteModeValue();
       /**
        * <code>.Yql.Analytics.EExecuteMode execute_mode = 13;</code>
+       * @return The executeMode.
        */
       com.yandex.yql.analytics.AnalyticsProtos.EExecuteMode getExecuteMode();
 
       /**
        * <code>int64 rows_limit = 14;</code>
+       * @return The rowsLimit.
        */
       long getRowsLimit();
 
       /**
        * <code>int64 bytes_limit = 15;</code>
+       * @return The bytesLimit.
        */
       long getBytesLimit();
 
       /**
        * <code>.google.protobuf.Timestamp start_time = 16;</code>
+       * @return Whether the startTime field is set.
        */
       boolean hasStartTime();
       /**
        * <code>.google.protobuf.Timestamp start_time = 16;</code>
+       * @return The startTime.
        */
       com.google.protobuf.Timestamp getStartTime();
       /**
@@ -22074,10 +23786,12 @@ public final class AnalyticsProtos {
 
       /**
        * <code>.google.protobuf.Timestamp finish_time = 17;</code>
+       * @return Whether the finishTime field is set.
        */
       boolean hasFinishTime();
       /**
        * <code>.google.protobuf.Timestamp finish_time = 17;</code>
+       * @return The finishTime.
        */
       com.google.protobuf.Timestamp getFinishTime();
       /**
@@ -22087,10 +23801,12 @@ public final class AnalyticsProtos {
 
       /**
        * <code>.google.protobuf.Timestamp expiration_deadline = 18;</code>
+       * @return Whether the expirationDeadline field is set.
        */
       boolean hasExpirationDeadline();
       /**
        * <code>.google.protobuf.Timestamp expiration_deadline = 18;</code>
+       * @return The expirationDeadline.
        */
       com.google.protobuf.Timestamp getExpirationDeadline();
       /**
@@ -22100,10 +23816,12 @@ public final class AnalyticsProtos {
 
       /**
        * <code>.google.protobuf.Timestamp creation_time = 19;</code>
+       * @return Whether the creationTime field is set.
        */
       boolean hasCreationTime();
       /**
        * <code>.google.protobuf.Timestamp creation_time = 19;</code>
+       * @return The creationTime.
        */
       com.google.protobuf.Timestamp getCreationTime();
       /**
@@ -22113,10 +23831,12 @@ public final class AnalyticsProtos {
 
       /**
        * <code>.google.protobuf.Timestamp modification_time = 20;</code>
+       * @return Whether the modificationTime field is set.
        */
       boolean hasModificationTime();
       /**
        * <code>.google.protobuf.Timestamp modification_time = 20;</code>
+       * @return The modificationTime.
        */
       com.google.protobuf.Timestamp getModificationTime();
       /**
@@ -22126,10 +23846,12 @@ public final class AnalyticsProtos {
 
       /**
        * <code>.Yql.Analytics.QueryStatistics statistics = 21;</code>
+       * @return Whether the statistics field is set.
        */
       boolean hasStatistics();
       /**
        * <code>.Yql.Analytics.QueryStatistics statistics = 21;</code>
+       * @return The statistics.
        */
       com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics getStatistics();
       /**
@@ -22164,7 +23886,7 @@ public final class AnalyticsProtos {
     /**
      * Protobuf type {@code Yql.Analytics.GetHistoryResult.HistoryEntity}
      */
-    public  static final class HistoryEntity extends
+    public static final class HistoryEntity extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:Yql.Analytics.GetHistoryResult.HistoryEntity)
         HistoryEntityOrBuilder {
@@ -22183,13 +23905,18 @@ public final class AnalyticsProtos {
         folderId_ = "";
         queryPlan_ = "";
         queryId_ = "";
-        truncated_ = java.util.Collections.emptyList();
-        rowsCount_ = java.util.Collections.emptyList();
+        truncated_ = emptyBooleanList();
+        rowsCount_ = emptyLongList();
         status_ = 0;
         executeMode_ = 0;
-        rowsLimit_ = 0L;
-        bytesLimit_ = 0L;
         issues_ = java.util.Collections.emptyList();
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new HistoryEntity();
       }
 
       @java.lang.Override
@@ -22202,6 +23929,9 @@ public final class AnalyticsProtos {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         int mutable_bitField0_ = 0;
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -22213,13 +23943,6 @@ public final class AnalyticsProtos {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 10: {
                 java.lang.String s = input.readStringRequireUtf8();
 
@@ -22282,43 +24005,43 @@ public final class AnalyticsProtos {
                 break;
               }
               case 80: {
-                if (!((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
-                  truncated_ = new java.util.ArrayList<java.lang.Boolean>();
-                  mutable_bitField0_ |= 0x00000400;
+                if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                  truncated_ = newBooleanList();
+                  mutable_bitField0_ |= 0x00000001;
                 }
-                truncated_.add(input.readBool());
+                truncated_.addBoolean(input.readBool());
                 break;
               }
               case 82: {
                 int length = input.readRawVarint32();
                 int limit = input.pushLimit(length);
-                if (!((mutable_bitField0_ & 0x00000400) == 0x00000400) && input.getBytesUntilLimit() > 0) {
-                  truncated_ = new java.util.ArrayList<java.lang.Boolean>();
-                  mutable_bitField0_ |= 0x00000400;
+                if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
+                  truncated_ = newBooleanList();
+                  mutable_bitField0_ |= 0x00000001;
                 }
                 while (input.getBytesUntilLimit() > 0) {
-                  truncated_.add(input.readBool());
+                  truncated_.addBoolean(input.readBool());
                 }
                 input.popLimit(limit);
                 break;
               }
               case 88: {
-                if (!((mutable_bitField0_ & 0x00000800) == 0x00000800)) {
-                  rowsCount_ = new java.util.ArrayList<java.lang.Long>();
-                  mutable_bitField0_ |= 0x00000800;
+                if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                  rowsCount_ = newLongList();
+                  mutable_bitField0_ |= 0x00000002;
                 }
-                rowsCount_.add(input.readInt64());
+                rowsCount_.addLong(input.readUInt64());
                 break;
               }
               case 90: {
                 int length = input.readRawVarint32();
                 int limit = input.pushLimit(length);
-                if (!((mutable_bitField0_ & 0x00000800) == 0x00000800) && input.getBytesUntilLimit() > 0) {
-                  rowsCount_ = new java.util.ArrayList<java.lang.Long>();
-                  mutable_bitField0_ |= 0x00000800;
+                if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+                  rowsCount_ = newLongList();
+                  mutable_bitField0_ |= 0x00000002;
                 }
                 while (input.getBytesUntilLimit() > 0) {
-                  rowsCount_.add(input.readInt64());
+                  rowsCount_.addLong(input.readUInt64());
                 }
                 input.popLimit(limit);
                 break;
@@ -22424,9 +24147,9 @@ public final class AnalyticsProtos {
                 break;
               }
               case 178: {
-                if (!((mutable_bitField0_ & 0x00400000) == 0x00400000)) {
+                if (!((mutable_bitField0_ & 0x00000004) != 0)) {
                   issues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>();
-                  mutable_bitField0_ |= 0x00400000;
+                  mutable_bitField0_ |= 0x00000004;
                 }
                 issues_.add(
                     input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
@@ -22438,6 +24161,13 @@ public final class AnalyticsProtos {
                 cloudId_ = s;
                 break;
               }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -22446,13 +24176,13 @@ public final class AnalyticsProtos {
           throw new com.google.protobuf.InvalidProtocolBufferException(
               e).setUnfinishedMessage(this);
         } finally {
-          if (((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
-            truncated_ = java.util.Collections.unmodifiableList(truncated_);
+          if (((mutable_bitField0_ & 0x00000001) != 0)) {
+            truncated_.makeImmutable(); // C
           }
-          if (((mutable_bitField0_ & 0x00000800) == 0x00000800)) {
-            rowsCount_ = java.util.Collections.unmodifiableList(rowsCount_);
+          if (((mutable_bitField0_ & 0x00000002) != 0)) {
+            rowsCount_.makeImmutable(); // C
           }
-          if (((mutable_bitField0_ & 0x00400000) == 0x00400000)) {
+          if (((mutable_bitField0_ & 0x00000004) != 0)) {
             issues_ = java.util.Collections.unmodifiableList(issues_);
           }
           this.unknownFields = unknownFields.build();
@@ -22464,6 +24194,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryResult_HistoryEntity_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryResult_HistoryEntity_fieldAccessorTable
@@ -22471,12 +24202,13 @@ public final class AnalyticsProtos {
                 com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity.class, com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity.Builder.class);
       }
 
-      private int bitField0_;
       public static final int ID_FIELD_NUMBER = 1;
       private volatile java.lang.Object id_;
       /**
        * <code>string id = 1;</code>
+       * @return The id.
        */
+      @java.lang.Override
       public java.lang.String getId() {
         java.lang.Object ref = id_;
         if (ref instanceof java.lang.String) {
@@ -22491,7 +24223,9 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string id = 1;</code>
+       * @return The bytes for id.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getIdBytes() {
         java.lang.Object ref = id_;
@@ -22514,7 +24248,9 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string sql = 2;</code>
+       * @return The sql.
        */
+      @java.lang.Override
       public java.lang.String getSql() {
         java.lang.Object ref = sql_;
         if (ref instanceof java.lang.String) {
@@ -22533,7 +24269,9 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string sql = 2;</code>
+       * @return The bytes for sql.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getSqlBytes() {
         java.lang.Object ref = sql_;
@@ -22552,7 +24290,9 @@ public final class AnalyticsProtos {
       private volatile java.lang.Object createdBy_;
       /**
        * <code>string created_by = 3;</code>
+       * @return The createdBy.
        */
+      @java.lang.Override
       public java.lang.String getCreatedBy() {
         java.lang.Object ref = createdBy_;
         if (ref instanceof java.lang.String) {
@@ -22567,7 +24307,9 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string created_by = 3;</code>
+       * @return The bytes for createdBy.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getCreatedByBytes() {
         java.lang.Object ref = createdBy_;
@@ -22586,7 +24328,9 @@ public final class AnalyticsProtos {
       private volatile java.lang.Object modifiedBy_;
       /**
        * <code>string modified_by = 4;</code>
+       * @return The modifiedBy.
        */
+      @java.lang.Override
       public java.lang.String getModifiedBy() {
         java.lang.Object ref = modifiedBy_;
         if (ref instanceof java.lang.String) {
@@ -22601,7 +24345,9 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string modified_by = 4;</code>
+       * @return The bytes for modifiedBy.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getModifiedByBytes() {
         java.lang.Object ref = modifiedBy_;
@@ -22620,7 +24366,9 @@ public final class AnalyticsProtos {
       private volatile java.lang.Object name_;
       /**
        * <code>string name = 5;</code>
+       * @return The name.
        */
+      @java.lang.Override
       public java.lang.String getName() {
         java.lang.Object ref = name_;
         if (ref instanceof java.lang.String) {
@@ -22635,7 +24383,9 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 5;</code>
+       * @return The bytes for name.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getNameBytes() {
         java.lang.Object ref = name_;
@@ -22654,7 +24404,9 @@ public final class AnalyticsProtos {
       private volatile java.lang.Object cloudId_;
       /**
        * <code>string cloud_id = 100;</code>
+       * @return The cloudId.
        */
+      @java.lang.Override
       public java.lang.String getCloudId() {
         java.lang.Object ref = cloudId_;
         if (ref instanceof java.lang.String) {
@@ -22669,7 +24421,9 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 100;</code>
+       * @return The bytes for cloudId.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getCloudIdBytes() {
         java.lang.Object ref = cloudId_;
@@ -22688,7 +24442,9 @@ public final class AnalyticsProtos {
       private volatile java.lang.Object folderId_;
       /**
        * <code>string folder_id = 6;</code>
+       * @return The folderId.
        */
+      @java.lang.Override
       public java.lang.String getFolderId() {
         java.lang.Object ref = folderId_;
         if (ref instanceof java.lang.String) {
@@ -22703,7 +24459,9 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 6;</code>
+       * @return The bytes for folderId.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getFolderIdBytes() {
         java.lang.Object ref = folderId_;
@@ -22722,19 +24480,24 @@ public final class AnalyticsProtos {
       private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_;
       /**
        * <code>.Yql.Analytics.Acl acl = 7;</code>
+       * @return Whether the acl field is set.
        */
+      @java.lang.Override
       public boolean hasAcl() {
         return acl_ != null;
       }
       /**
        * <code>.Yql.Analytics.Acl acl = 7;</code>
+       * @return The acl.
        */
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl() {
         return acl_ == null ? com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance() : acl_;
       }
       /**
        * <code>.Yql.Analytics.Acl acl = 7;</code>
        */
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder getAclOrBuilder() {
         return getAcl();
       }
@@ -22747,7 +24510,9 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string query_plan = 8;</code>
+       * @return The queryPlan.
        */
+      @java.lang.Override
       public java.lang.String getQueryPlan() {
         java.lang.Object ref = queryPlan_;
         if (ref instanceof java.lang.String) {
@@ -22766,7 +24531,9 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string query_plan = 8;</code>
+       * @return The bytes for queryPlan.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getQueryPlanBytes() {
         java.lang.Object ref = queryPlan_;
@@ -22785,7 +24552,9 @@ public final class AnalyticsProtos {
       private volatile java.lang.Object queryId_;
       /**
        * <code>string query_id = 9;</code>
+       * @return The queryId.
        */
+      @java.lang.Override
       public java.lang.String getQueryId() {
         java.lang.Object ref = queryId_;
         if (ref instanceof java.lang.String) {
@@ -22800,7 +24569,9 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string query_id = 9;</code>
+       * @return The bytes for queryId.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getQueryIdBytes() {
         java.lang.Object ref = queryId_;
@@ -22816,48 +24587,58 @@ public final class AnalyticsProtos {
       }
 
       public static final int TRUNCATED_FIELD_NUMBER = 10;
-      private java.util.List<java.lang.Boolean> truncated_;
+      private com.google.protobuf.Internal.BooleanList truncated_;
       /**
        * <code>repeated bool truncated = 10;</code>
+       * @return A list containing the truncated.
        */
+      @java.lang.Override
       public java.util.List<java.lang.Boolean>
           getTruncatedList() {
         return truncated_;
       }
       /**
        * <code>repeated bool truncated = 10;</code>
+       * @return The count of truncated.
        */
       public int getTruncatedCount() {
         return truncated_.size();
       }
       /**
        * <code>repeated bool truncated = 10;</code>
+       * @param index The index of the element to return.
+       * @return The truncated at the given index.
        */
       public boolean getTruncated(int index) {
-        return truncated_.get(index);
+        return truncated_.getBoolean(index);
       }
       private int truncatedMemoizedSerializedSize = -1;
 
       public static final int ROWS_COUNT_FIELD_NUMBER = 11;
-      private java.util.List<java.lang.Long> rowsCount_;
+      private com.google.protobuf.Internal.LongList rowsCount_;
       /**
-       * <code>repeated int64 rows_count = 11;</code>
+       * <code>repeated uint64 rows_count = 11;</code>
+       * @return A list containing the rowsCount.
        */
+      @java.lang.Override
       public java.util.List<java.lang.Long>
           getRowsCountList() {
         return rowsCount_;
       }
       /**
-       * <code>repeated int64 rows_count = 11;</code>
+       * <code>repeated uint64 rows_count = 11;</code>
+       * @return The count of rowsCount.
        */
       public int getRowsCountCount() {
         return rowsCount_.size();
       }
       /**
-       * <code>repeated int64 rows_count = 11;</code>
+       * <code>repeated uint64 rows_count = 11;</code>
+       * @param index The index of the element to return.
+       * @return The rowsCount at the given index.
        */
       public long getRowsCount(int index) {
-        return rowsCount_.get(index);
+        return rowsCount_.getLong(index);
       }
       private int rowsCountMemoizedSerializedSize = -1;
 
@@ -22865,14 +24646,17 @@ public final class AnalyticsProtos {
       private int status_;
       /**
        * <code>.Yql.Analytics.EQueryStatus status = 12;</code>
+       * @return The enum numeric value on the wire for status.
        */
-      public int getStatusValue() {
+      @java.lang.Override public int getStatusValue() {
         return status_;
       }
       /**
        * <code>.Yql.Analytics.EQueryStatus status = 12;</code>
+       * @return The status.
        */
-      public com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus getStatus() {
+      @java.lang.Override public com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus getStatus() {
+        @SuppressWarnings("deprecation")
         com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus result = com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus.valueOf(status_);
         return result == null ? com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus.UNRECOGNIZED : result;
       }
@@ -22881,14 +24665,17 @@ public final class AnalyticsProtos {
       private int executeMode_;
       /**
        * <code>.Yql.Analytics.EExecuteMode execute_mode = 13;</code>
+       * @return The enum numeric value on the wire for executeMode.
        */
-      public int getExecuteModeValue() {
+      @java.lang.Override public int getExecuteModeValue() {
         return executeMode_;
       }
       /**
        * <code>.Yql.Analytics.EExecuteMode execute_mode = 13;</code>
+       * @return The executeMode.
        */
-      public com.yandex.yql.analytics.AnalyticsProtos.EExecuteMode getExecuteMode() {
+      @java.lang.Override public com.yandex.yql.analytics.AnalyticsProtos.EExecuteMode getExecuteMode() {
+        @SuppressWarnings("deprecation")
         com.yandex.yql.analytics.AnalyticsProtos.EExecuteMode result = com.yandex.yql.analytics.AnalyticsProtos.EExecuteMode.valueOf(executeMode_);
         return result == null ? com.yandex.yql.analytics.AnalyticsProtos.EExecuteMode.UNRECOGNIZED : result;
       }
@@ -22897,7 +24684,9 @@ public final class AnalyticsProtos {
       private long rowsLimit_;
       /**
        * <code>int64 rows_limit = 14;</code>
+       * @return The rowsLimit.
        */
+      @java.lang.Override
       public long getRowsLimit() {
         return rowsLimit_;
       }
@@ -22906,7 +24695,9 @@ public final class AnalyticsProtos {
       private long bytesLimit_;
       /**
        * <code>int64 bytes_limit = 15;</code>
+       * @return The bytesLimit.
        */
+      @java.lang.Override
       public long getBytesLimit() {
         return bytesLimit_;
       }
@@ -22915,19 +24706,24 @@ public final class AnalyticsProtos {
       private com.google.protobuf.Timestamp startTime_;
       /**
        * <code>.google.protobuf.Timestamp start_time = 16;</code>
+       * @return Whether the startTime field is set.
        */
+      @java.lang.Override
       public boolean hasStartTime() {
         return startTime_ != null;
       }
       /**
        * <code>.google.protobuf.Timestamp start_time = 16;</code>
+       * @return The startTime.
        */
+      @java.lang.Override
       public com.google.protobuf.Timestamp getStartTime() {
         return startTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : startTime_;
       }
       /**
        * <code>.google.protobuf.Timestamp start_time = 16;</code>
        */
+      @java.lang.Override
       public com.google.protobuf.TimestampOrBuilder getStartTimeOrBuilder() {
         return getStartTime();
       }
@@ -22936,19 +24732,24 @@ public final class AnalyticsProtos {
       private com.google.protobuf.Timestamp finishTime_;
       /**
        * <code>.google.protobuf.Timestamp finish_time = 17;</code>
+       * @return Whether the finishTime field is set.
        */
+      @java.lang.Override
       public boolean hasFinishTime() {
         return finishTime_ != null;
       }
       /**
        * <code>.google.protobuf.Timestamp finish_time = 17;</code>
+       * @return The finishTime.
        */
+      @java.lang.Override
       public com.google.protobuf.Timestamp getFinishTime() {
         return finishTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : finishTime_;
       }
       /**
        * <code>.google.protobuf.Timestamp finish_time = 17;</code>
        */
+      @java.lang.Override
       public com.google.protobuf.TimestampOrBuilder getFinishTimeOrBuilder() {
         return getFinishTime();
       }
@@ -22957,19 +24758,24 @@ public final class AnalyticsProtos {
       private com.google.protobuf.Timestamp expirationDeadline_;
       /**
        * <code>.google.protobuf.Timestamp expiration_deadline = 18;</code>
+       * @return Whether the expirationDeadline field is set.
        */
+      @java.lang.Override
       public boolean hasExpirationDeadline() {
         return expirationDeadline_ != null;
       }
       /**
        * <code>.google.protobuf.Timestamp expiration_deadline = 18;</code>
+       * @return The expirationDeadline.
        */
+      @java.lang.Override
       public com.google.protobuf.Timestamp getExpirationDeadline() {
         return expirationDeadline_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : expirationDeadline_;
       }
       /**
        * <code>.google.protobuf.Timestamp expiration_deadline = 18;</code>
        */
+      @java.lang.Override
       public com.google.protobuf.TimestampOrBuilder getExpirationDeadlineOrBuilder() {
         return getExpirationDeadline();
       }
@@ -22978,19 +24784,24 @@ public final class AnalyticsProtos {
       private com.google.protobuf.Timestamp creationTime_;
       /**
        * <code>.google.protobuf.Timestamp creation_time = 19;</code>
+       * @return Whether the creationTime field is set.
        */
+      @java.lang.Override
       public boolean hasCreationTime() {
         return creationTime_ != null;
       }
       /**
        * <code>.google.protobuf.Timestamp creation_time = 19;</code>
+       * @return The creationTime.
        */
+      @java.lang.Override
       public com.google.protobuf.Timestamp getCreationTime() {
         return creationTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : creationTime_;
       }
       /**
        * <code>.google.protobuf.Timestamp creation_time = 19;</code>
        */
+      @java.lang.Override
       public com.google.protobuf.TimestampOrBuilder getCreationTimeOrBuilder() {
         return getCreationTime();
       }
@@ -22999,19 +24810,24 @@ public final class AnalyticsProtos {
       private com.google.protobuf.Timestamp modificationTime_;
       /**
        * <code>.google.protobuf.Timestamp modification_time = 20;</code>
+       * @return Whether the modificationTime field is set.
        */
+      @java.lang.Override
       public boolean hasModificationTime() {
         return modificationTime_ != null;
       }
       /**
        * <code>.google.protobuf.Timestamp modification_time = 20;</code>
+       * @return The modificationTime.
        */
+      @java.lang.Override
       public com.google.protobuf.Timestamp getModificationTime() {
         return modificationTime_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : modificationTime_;
       }
       /**
        * <code>.google.protobuf.Timestamp modification_time = 20;</code>
        */
+      @java.lang.Override
       public com.google.protobuf.TimestampOrBuilder getModificationTimeOrBuilder() {
         return getModificationTime();
       }
@@ -23020,19 +24836,24 @@ public final class AnalyticsProtos {
       private com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics statistics_;
       /**
        * <code>.Yql.Analytics.QueryStatistics statistics = 21;</code>
+       * @return Whether the statistics field is set.
        */
+      @java.lang.Override
       public boolean hasStatistics() {
         return statistics_ != null;
       }
       /**
        * <code>.Yql.Analytics.QueryStatistics statistics = 21;</code>
+       * @return The statistics.
        */
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics getStatistics() {
         return statistics_ == null ? com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics.getDefaultInstance() : statistics_;
       }
       /**
        * <code>.Yql.Analytics.QueryStatistics statistics = 21;</code>
        */
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.QueryStatisticsOrBuilder getStatisticsOrBuilder() {
         return getStatistics();
       }
@@ -23042,12 +24863,14 @@ public final class AnalyticsProtos {
       /**
        * <code>repeated .Ydb.Issue.IssueMessage issues = 22;</code>
        */
+      @java.lang.Override
       public java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> getIssuesList() {
         return issues_;
       }
       /**
        * <code>repeated .Ydb.Issue.IssueMessage issues = 22;</code>
        */
+      @java.lang.Override
       public java.util.List<? extends tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
           getIssuesOrBuilderList() {
         return issues_;
@@ -23055,24 +24878,28 @@ public final class AnalyticsProtos {
       /**
        * <code>repeated .Ydb.Issue.IssueMessage issues = 22;</code>
        */
+      @java.lang.Override
       public int getIssuesCount() {
         return issues_.size();
       }
       /**
        * <code>repeated .Ydb.Issue.IssueMessage issues = 22;</code>
        */
+      @java.lang.Override
       public tech.ydb.YdbIssueMessage.IssueMessage getIssues(int index) {
         return issues_.get(index);
       }
       /**
        * <code>repeated .Ydb.Issue.IssueMessage issues = 22;</code>
        */
+      @java.lang.Override
       public tech.ydb.YdbIssueMessage.IssueMessageOrBuilder getIssuesOrBuilder(
           int index) {
         return issues_.get(index);
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -23082,6 +24909,7 @@ public final class AnalyticsProtos {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         getSerializedSize();
@@ -23117,14 +24945,14 @@ public final class AnalyticsProtos {
           output.writeUInt32NoTag(truncatedMemoizedSerializedSize);
         }
         for (int i = 0; i < truncated_.size(); i++) {
-          output.writeBoolNoTag(truncated_.get(i));
+          output.writeBoolNoTag(truncated_.getBoolean(i));
         }
         if (getRowsCountList().size() > 0) {
           output.writeUInt32NoTag(90);
           output.writeUInt32NoTag(rowsCountMemoizedSerializedSize);
         }
         for (int i = 0; i < rowsCount_.size(); i++) {
-          output.writeInt64NoTag(rowsCount_.get(i));
+          output.writeUInt64NoTag(rowsCount_.getLong(i));
         }
         if (status_ != com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus.UNSPECIFIED.getNumber()) {
           output.writeEnum(12, status_);
@@ -23165,6 +24993,7 @@ public final class AnalyticsProtos {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -23213,7 +25042,7 @@ public final class AnalyticsProtos {
           int dataSize = 0;
           for (int i = 0; i < rowsCount_.size(); i++) {
             dataSize += com.google.protobuf.CodedOutputStream
-              .computeInt64SizeNoTag(rowsCount_.get(i));
+              .computeUInt64SizeNoTag(rowsCount_.getLong(i));
           }
           size += dataSize;
           if (!getRowsCountList().isEmpty()) {
@@ -23285,74 +25114,73 @@ public final class AnalyticsProtos {
         }
         com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity other = (com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity) obj;
 
-        boolean result = true;
-        result = result && getId()
-            .equals(other.getId());
-        result = result && getSql()
-            .equals(other.getSql());
-        result = result && getCreatedBy()
-            .equals(other.getCreatedBy());
-        result = result && getModifiedBy()
-            .equals(other.getModifiedBy());
-        result = result && getName()
-            .equals(other.getName());
-        result = result && getCloudId()
-            .equals(other.getCloudId());
-        result = result && getFolderId()
-            .equals(other.getFolderId());
-        result = result && (hasAcl() == other.hasAcl());
+        if (!getId()
+            .equals(other.getId())) return false;
+        if (!getSql()
+            .equals(other.getSql())) return false;
+        if (!getCreatedBy()
+            .equals(other.getCreatedBy())) return false;
+        if (!getModifiedBy()
+            .equals(other.getModifiedBy())) return false;
+        if (!getName()
+            .equals(other.getName())) return false;
+        if (!getCloudId()
+            .equals(other.getCloudId())) return false;
+        if (!getFolderId()
+            .equals(other.getFolderId())) return false;
+        if (hasAcl() != other.hasAcl()) return false;
         if (hasAcl()) {
-          result = result && getAcl()
-              .equals(other.getAcl());
+          if (!getAcl()
+              .equals(other.getAcl())) return false;
         }
-        result = result && getQueryPlan()
-            .equals(other.getQueryPlan());
-        result = result && getQueryId()
-            .equals(other.getQueryId());
-        result = result && getTruncatedList()
-            .equals(other.getTruncatedList());
-        result = result && getRowsCountList()
-            .equals(other.getRowsCountList());
-        result = result && status_ == other.status_;
-        result = result && executeMode_ == other.executeMode_;
-        result = result && (getRowsLimit()
-            == other.getRowsLimit());
-        result = result && (getBytesLimit()
-            == other.getBytesLimit());
-        result = result && (hasStartTime() == other.hasStartTime());
+        if (!getQueryPlan()
+            .equals(other.getQueryPlan())) return false;
+        if (!getQueryId()
+            .equals(other.getQueryId())) return false;
+        if (!getTruncatedList()
+            .equals(other.getTruncatedList())) return false;
+        if (!getRowsCountList()
+            .equals(other.getRowsCountList())) return false;
+        if (status_ != other.status_) return false;
+        if (executeMode_ != other.executeMode_) return false;
+        if (getRowsLimit()
+            != other.getRowsLimit()) return false;
+        if (getBytesLimit()
+            != other.getBytesLimit()) return false;
+        if (hasStartTime() != other.hasStartTime()) return false;
         if (hasStartTime()) {
-          result = result && getStartTime()
-              .equals(other.getStartTime());
+          if (!getStartTime()
+              .equals(other.getStartTime())) return false;
         }
-        result = result && (hasFinishTime() == other.hasFinishTime());
+        if (hasFinishTime() != other.hasFinishTime()) return false;
         if (hasFinishTime()) {
-          result = result && getFinishTime()
-              .equals(other.getFinishTime());
+          if (!getFinishTime()
+              .equals(other.getFinishTime())) return false;
         }
-        result = result && (hasExpirationDeadline() == other.hasExpirationDeadline());
+        if (hasExpirationDeadline() != other.hasExpirationDeadline()) return false;
         if (hasExpirationDeadline()) {
-          result = result && getExpirationDeadline()
-              .equals(other.getExpirationDeadline());
+          if (!getExpirationDeadline()
+              .equals(other.getExpirationDeadline())) return false;
         }
-        result = result && (hasCreationTime() == other.hasCreationTime());
+        if (hasCreationTime() != other.hasCreationTime()) return false;
         if (hasCreationTime()) {
-          result = result && getCreationTime()
-              .equals(other.getCreationTime());
+          if (!getCreationTime()
+              .equals(other.getCreationTime())) return false;
         }
-        result = result && (hasModificationTime() == other.hasModificationTime());
+        if (hasModificationTime() != other.hasModificationTime()) return false;
         if (hasModificationTime()) {
-          result = result && getModificationTime()
-              .equals(other.getModificationTime());
+          if (!getModificationTime()
+              .equals(other.getModificationTime())) return false;
         }
-        result = result && (hasStatistics() == other.hasStatistics());
+        if (hasStatistics() != other.hasStatistics()) return false;
         if (hasStatistics()) {
-          result = result && getStatistics()
-              .equals(other.getStatistics());
+          if (!getStatistics()
+              .equals(other.getStatistics())) return false;
         }
-        result = result && getIssuesList()
-            .equals(other.getIssuesList());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!getIssuesList()
+            .equals(other.getIssuesList())) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -23505,6 +25333,7 @@ public final class AnalyticsProtos {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -23512,6 +25341,7 @@ public final class AnalyticsProtos {
       public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -23535,6 +25365,7 @@ public final class AnalyticsProtos {
           return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryResult_HistoryEntity_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryResult_HistoryEntity_fieldAccessorTable
@@ -23558,6 +25389,7 @@ public final class AnalyticsProtos {
             getIssuesFieldBuilder();
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           id_ = "";
@@ -23584,10 +25416,10 @@ public final class AnalyticsProtos {
 
           queryId_ = "";
 
-          truncated_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000400);
-          rowsCount_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000800);
+          truncated_ = emptyBooleanList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          rowsCount_ = emptyLongList();
+          bitField0_ = (bitField0_ & ~0x00000002);
           status_ = 0;
 
           executeMode_ = 0;
@@ -23634,22 +25466,25 @@ public final class AnalyticsProtos {
           }
           if (issuesBuilder_ == null) {
             issues_ = java.util.Collections.emptyList();
-            bitField0_ = (bitField0_ & ~0x00400000);
+            bitField0_ = (bitField0_ & ~0x00000004);
           } else {
             issuesBuilder_.clear();
           }
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryResult_HistoryEntity_descriptor;
         }
 
+        @java.lang.Override
         public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity getDefaultInstanceForType() {
           return com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity.getDefaultInstance();
         }
 
+        @java.lang.Override
         public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity build() {
           com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity result = buildPartial();
           if (!result.isInitialized()) {
@@ -23658,10 +25493,10 @@ public final class AnalyticsProtos {
           return result;
         }
 
+        @java.lang.Override
         public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity buildPartial() {
           com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity result = new com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity(this);
           int from_bitField0_ = bitField0_;
-          int to_bitField0_ = 0;
           result.id_ = id_;
           result.sql_ = sql_;
           result.createdBy_ = createdBy_;
@@ -23676,14 +25511,14 @@ public final class AnalyticsProtos {
           }
           result.queryPlan_ = queryPlan_;
           result.queryId_ = queryId_;
-          if (((bitField0_ & 0x00000400) == 0x00000400)) {
-            truncated_ = java.util.Collections.unmodifiableList(truncated_);
-            bitField0_ = (bitField0_ & ~0x00000400);
+          if (((bitField0_ & 0x00000001) != 0)) {
+            truncated_.makeImmutable();
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.truncated_ = truncated_;
-          if (((bitField0_ & 0x00000800) == 0x00000800)) {
-            rowsCount_ = java.util.Collections.unmodifiableList(rowsCount_);
-            bitField0_ = (bitField0_ & ~0x00000800);
+          if (((bitField0_ & 0x00000002) != 0)) {
+            rowsCount_.makeImmutable();
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
           result.rowsCount_ = rowsCount_;
           result.status_ = status_;
@@ -23721,45 +25556,51 @@ public final class AnalyticsProtos {
             result.statistics_ = statisticsBuilder_.build();
           }
           if (issuesBuilder_ == null) {
-            if (((bitField0_ & 0x00400000) == 0x00400000)) {
+            if (((bitField0_ & 0x00000004) != 0)) {
               issues_ = java.util.Collections.unmodifiableList(issues_);
-              bitField0_ = (bitField0_ & ~0x00400000);
+              bitField0_ = (bitField0_ & ~0x00000004);
             }
             result.issues_ = issues_;
           } else {
             result.issues_ = issuesBuilder_.build();
           }
-          result.bitField0_ = to_bitField0_;
           onBuilt();
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity) {
             return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity)other);
@@ -23813,7 +25654,7 @@ public final class AnalyticsProtos {
           if (!other.truncated_.isEmpty()) {
             if (truncated_.isEmpty()) {
               truncated_ = other.truncated_;
-              bitField0_ = (bitField0_ & ~0x00000400);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureTruncatedIsMutable();
               truncated_.addAll(other.truncated_);
@@ -23823,7 +25664,7 @@ public final class AnalyticsProtos {
           if (!other.rowsCount_.isEmpty()) {
             if (rowsCount_.isEmpty()) {
               rowsCount_ = other.rowsCount_;
-              bitField0_ = (bitField0_ & ~0x00000800);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensureRowsCountIsMutable();
               rowsCount_.addAll(other.rowsCount_);
@@ -23864,7 +25705,7 @@ public final class AnalyticsProtos {
             if (!other.issues_.isEmpty()) {
               if (issues_.isEmpty()) {
                 issues_ = other.issues_;
-                bitField0_ = (bitField0_ & ~0x00400000);
+                bitField0_ = (bitField0_ & ~0x00000004);
               } else {
                 ensureIssuesIsMutable();
                 issues_.addAll(other.issues_);
@@ -23877,7 +25718,7 @@ public final class AnalyticsProtos {
                 issuesBuilder_.dispose();
                 issuesBuilder_ = null;
                 issues_ = other.issues_;
-                bitField0_ = (bitField0_ & ~0x00400000);
+                bitField0_ = (bitField0_ & ~0x00000004);
                 issuesBuilder_ = 
                   com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                      getIssuesFieldBuilder() : null;
@@ -23891,10 +25732,12 @@ public final class AnalyticsProtos {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -23917,6 +25760,7 @@ public final class AnalyticsProtos {
         private java.lang.Object id_ = "";
         /**
          * <code>string id = 1;</code>
+         * @return The id.
          */
         public java.lang.String getId() {
           java.lang.Object ref = id_;
@@ -23932,6 +25776,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string id = 1;</code>
+         * @return The bytes for id.
          */
         public com.google.protobuf.ByteString
             getIdBytes() {
@@ -23948,6 +25793,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string id = 1;</code>
+         * @param value The id to set.
+         * @return This builder for chaining.
          */
         public Builder setId(
             java.lang.String value) {
@@ -23961,6 +25808,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string id = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearId() {
           
@@ -23970,6 +25818,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string id = 1;</code>
+         * @param value The bytes for id to set.
+         * @return This builder for chaining.
          */
         public Builder setIdBytes(
             com.google.protobuf.ByteString value) {
@@ -23990,6 +25840,7 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>string sql = 2;</code>
+         * @return The sql.
          */
         public java.lang.String getSql() {
           java.lang.Object ref = sql_;
@@ -24009,6 +25860,7 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>string sql = 2;</code>
+         * @return The bytes for sql.
          */
         public com.google.protobuf.ByteString
             getSqlBytes() {
@@ -24029,6 +25881,8 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>string sql = 2;</code>
+         * @param value The sql to set.
+         * @return This builder for chaining.
          */
         public Builder setSql(
             java.lang.String value) {
@@ -24046,6 +25900,7 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>string sql = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearSql() {
           
@@ -24059,6 +25914,8 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>string sql = 2;</code>
+         * @param value The bytes for sql to set.
+         * @return This builder for chaining.
          */
         public Builder setSqlBytes(
             com.google.protobuf.ByteString value) {
@@ -24075,6 +25932,7 @@ public final class AnalyticsProtos {
         private java.lang.Object createdBy_ = "";
         /**
          * <code>string created_by = 3;</code>
+         * @return The createdBy.
          */
         public java.lang.String getCreatedBy() {
           java.lang.Object ref = createdBy_;
@@ -24090,6 +25948,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string created_by = 3;</code>
+         * @return The bytes for createdBy.
          */
         public com.google.protobuf.ByteString
             getCreatedByBytes() {
@@ -24106,6 +25965,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string created_by = 3;</code>
+         * @param value The createdBy to set.
+         * @return This builder for chaining.
          */
         public Builder setCreatedBy(
             java.lang.String value) {
@@ -24119,6 +25980,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string created_by = 3;</code>
+         * @return This builder for chaining.
          */
         public Builder clearCreatedBy() {
           
@@ -24128,6 +25990,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string created_by = 3;</code>
+         * @param value The bytes for createdBy to set.
+         * @return This builder for chaining.
          */
         public Builder setCreatedByBytes(
             com.google.protobuf.ByteString value) {
@@ -24144,6 +26008,7 @@ public final class AnalyticsProtos {
         private java.lang.Object modifiedBy_ = "";
         /**
          * <code>string modified_by = 4;</code>
+         * @return The modifiedBy.
          */
         public java.lang.String getModifiedBy() {
           java.lang.Object ref = modifiedBy_;
@@ -24159,6 +26024,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string modified_by = 4;</code>
+         * @return The bytes for modifiedBy.
          */
         public com.google.protobuf.ByteString
             getModifiedByBytes() {
@@ -24175,6 +26041,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string modified_by = 4;</code>
+         * @param value The modifiedBy to set.
+         * @return This builder for chaining.
          */
         public Builder setModifiedBy(
             java.lang.String value) {
@@ -24188,6 +26056,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string modified_by = 4;</code>
+         * @return This builder for chaining.
          */
         public Builder clearModifiedBy() {
           
@@ -24197,6 +26066,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string modified_by = 4;</code>
+         * @param value The bytes for modifiedBy to set.
+         * @return This builder for chaining.
          */
         public Builder setModifiedByBytes(
             com.google.protobuf.ByteString value) {
@@ -24213,6 +26084,7 @@ public final class AnalyticsProtos {
         private java.lang.Object name_ = "";
         /**
          * <code>string name = 5;</code>
+         * @return The name.
          */
         public java.lang.String getName() {
           java.lang.Object ref = name_;
@@ -24228,6 +26100,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string name = 5;</code>
+         * @return The bytes for name.
          */
         public com.google.protobuf.ByteString
             getNameBytes() {
@@ -24244,6 +26117,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string name = 5;</code>
+         * @param value The name to set.
+         * @return This builder for chaining.
          */
         public Builder setName(
             java.lang.String value) {
@@ -24257,6 +26132,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string name = 5;</code>
+         * @return This builder for chaining.
          */
         public Builder clearName() {
           
@@ -24266,6 +26142,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string name = 5;</code>
+         * @param value The bytes for name to set.
+         * @return This builder for chaining.
          */
         public Builder setNameBytes(
             com.google.protobuf.ByteString value) {
@@ -24282,6 +26160,7 @@ public final class AnalyticsProtos {
         private java.lang.Object cloudId_ = "";
         /**
          * <code>string cloud_id = 100;</code>
+         * @return The cloudId.
          */
         public java.lang.String getCloudId() {
           java.lang.Object ref = cloudId_;
@@ -24297,6 +26176,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string cloud_id = 100;</code>
+         * @return The bytes for cloudId.
          */
         public com.google.protobuf.ByteString
             getCloudIdBytes() {
@@ -24313,6 +26193,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string cloud_id = 100;</code>
+         * @param value The cloudId to set.
+         * @return This builder for chaining.
          */
         public Builder setCloudId(
             java.lang.String value) {
@@ -24326,6 +26208,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string cloud_id = 100;</code>
+         * @return This builder for chaining.
          */
         public Builder clearCloudId() {
           
@@ -24335,6 +26218,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string cloud_id = 100;</code>
+         * @param value The bytes for cloudId to set.
+         * @return This builder for chaining.
          */
         public Builder setCloudIdBytes(
             com.google.protobuf.ByteString value) {
@@ -24351,6 +26236,7 @@ public final class AnalyticsProtos {
         private java.lang.Object folderId_ = "";
         /**
          * <code>string folder_id = 6;</code>
+         * @return The folderId.
          */
         public java.lang.String getFolderId() {
           java.lang.Object ref = folderId_;
@@ -24366,6 +26252,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string folder_id = 6;</code>
+         * @return The bytes for folderId.
          */
         public com.google.protobuf.ByteString
             getFolderIdBytes() {
@@ -24382,6 +26269,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string folder_id = 6;</code>
+         * @param value The folderId to set.
+         * @return This builder for chaining.
          */
         public Builder setFolderId(
             java.lang.String value) {
@@ -24395,6 +26284,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string folder_id = 6;</code>
+         * @return This builder for chaining.
          */
         public Builder clearFolderId() {
           
@@ -24404,6 +26294,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string folder_id = 6;</code>
+         * @param value The bytes for folderId to set.
+         * @return This builder for chaining.
          */
         public Builder setFolderIdBytes(
             com.google.protobuf.ByteString value) {
@@ -24417,17 +26309,19 @@ public final class AnalyticsProtos {
           return this;
         }
 
-        private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_ = null;
+        private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_;
         private com.google.protobuf.SingleFieldBuilderV3<
             com.yandex.yql.analytics.AnalyticsProtos.Acl, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder, com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder> aclBuilder_;
         /**
          * <code>.Yql.Analytics.Acl acl = 7;</code>
+         * @return Whether the acl field is set.
          */
         public boolean hasAcl() {
           return aclBuilder_ != null || acl_ != null;
         }
         /**
          * <code>.Yql.Analytics.Acl acl = 7;</code>
+         * @return The acl.
          */
         public com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl() {
           if (aclBuilder_ == null) {
@@ -24541,6 +26435,7 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>string query_plan = 8;</code>
+         * @return The queryPlan.
          */
         public java.lang.String getQueryPlan() {
           java.lang.Object ref = queryPlan_;
@@ -24560,6 +26455,7 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>string query_plan = 8;</code>
+         * @return The bytes for queryPlan.
          */
         public com.google.protobuf.ByteString
             getQueryPlanBytes() {
@@ -24580,6 +26476,8 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>string query_plan = 8;</code>
+         * @param value The queryPlan to set.
+         * @return This builder for chaining.
          */
         public Builder setQueryPlan(
             java.lang.String value) {
@@ -24597,6 +26495,7 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>string query_plan = 8;</code>
+         * @return This builder for chaining.
          */
         public Builder clearQueryPlan() {
           
@@ -24610,6 +26509,8 @@ public final class AnalyticsProtos {
          * </pre>
          *
          * <code>string query_plan = 8;</code>
+         * @param value The bytes for queryPlan to set.
+         * @return This builder for chaining.
          */
         public Builder setQueryPlanBytes(
             com.google.protobuf.ByteString value) {
@@ -24626,6 +26527,7 @@ public final class AnalyticsProtos {
         private java.lang.Object queryId_ = "";
         /**
          * <code>string query_id = 9;</code>
+         * @return The queryId.
          */
         public java.lang.String getQueryId() {
           java.lang.Object ref = queryId_;
@@ -24641,6 +26543,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string query_id = 9;</code>
+         * @return The bytes for queryId.
          */
         public com.google.protobuf.ByteString
             getQueryIdBytes() {
@@ -24657,6 +26560,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string query_id = 9;</code>
+         * @param value The queryId to set.
+         * @return This builder for chaining.
          */
         public Builder setQueryId(
             java.lang.String value) {
@@ -24670,6 +26575,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string query_id = 9;</code>
+         * @return This builder for chaining.
          */
         public Builder clearQueryId() {
           
@@ -24679,6 +26585,8 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>string query_id = 9;</code>
+         * @param value The bytes for queryId to set.
+         * @return This builder for chaining.
          */
         public Builder setQueryIdBytes(
             com.google.protobuf.ByteString value) {
@@ -24692,53 +26600,65 @@ public final class AnalyticsProtos {
           return this;
         }
 
-        private java.util.List<java.lang.Boolean> truncated_ = java.util.Collections.emptyList();
+        private com.google.protobuf.Internal.BooleanList truncated_ = emptyBooleanList();
         private void ensureTruncatedIsMutable() {
-          if (!((bitField0_ & 0x00000400) == 0x00000400)) {
-            truncated_ = new java.util.ArrayList<java.lang.Boolean>(truncated_);
-            bitField0_ |= 0x00000400;
+          if (!((bitField0_ & 0x00000001) != 0)) {
+            truncated_ = mutableCopy(truncated_);
+            bitField0_ |= 0x00000001;
            }
         }
         /**
          * <code>repeated bool truncated = 10;</code>
+         * @return A list containing the truncated.
          */
         public java.util.List<java.lang.Boolean>
             getTruncatedList() {
-          return java.util.Collections.unmodifiableList(truncated_);
+          return ((bitField0_ & 0x00000001) != 0) ?
+                   java.util.Collections.unmodifiableList(truncated_) : truncated_;
         }
         /**
          * <code>repeated bool truncated = 10;</code>
+         * @return The count of truncated.
          */
         public int getTruncatedCount() {
           return truncated_.size();
         }
         /**
          * <code>repeated bool truncated = 10;</code>
+         * @param index The index of the element to return.
+         * @return The truncated at the given index.
          */
         public boolean getTruncated(int index) {
-          return truncated_.get(index);
+          return truncated_.getBoolean(index);
         }
         /**
          * <code>repeated bool truncated = 10;</code>
+         * @param index The index to set the value at.
+         * @param value The truncated to set.
+         * @return This builder for chaining.
          */
         public Builder setTruncated(
             int index, boolean value) {
           ensureTruncatedIsMutable();
-          truncated_.set(index, value);
+          truncated_.setBoolean(index, value);
           onChanged();
           return this;
         }
         /**
          * <code>repeated bool truncated = 10;</code>
+         * @param value The truncated to add.
+         * @return This builder for chaining.
          */
         public Builder addTruncated(boolean value) {
           ensureTruncatedIsMutable();
-          truncated_.add(value);
+          truncated_.addBoolean(value);
           onChanged();
           return this;
         }
         /**
          * <code>repeated bool truncated = 10;</code>
+         * @param values The truncated to add.
+         * @return This builder for chaining.
          */
         public Builder addAllTruncated(
             java.lang.Iterable<? extends java.lang.Boolean> values) {
@@ -24750,61 +26670,74 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>repeated bool truncated = 10;</code>
+         * @return This builder for chaining.
          */
         public Builder clearTruncated() {
-          truncated_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000400);
+          truncated_ = emptyBooleanList();
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
           return this;
         }
 
-        private java.util.List<java.lang.Long> rowsCount_ = java.util.Collections.emptyList();
+        private com.google.protobuf.Internal.LongList rowsCount_ = emptyLongList();
         private void ensureRowsCountIsMutable() {
-          if (!((bitField0_ & 0x00000800) == 0x00000800)) {
-            rowsCount_ = new java.util.ArrayList<java.lang.Long>(rowsCount_);
-            bitField0_ |= 0x00000800;
+          if (!((bitField0_ & 0x00000002) != 0)) {
+            rowsCount_ = mutableCopy(rowsCount_);
+            bitField0_ |= 0x00000002;
            }
         }
         /**
-         * <code>repeated int64 rows_count = 11;</code>
+         * <code>repeated uint64 rows_count = 11;</code>
+         * @return A list containing the rowsCount.
          */
         public java.util.List<java.lang.Long>
             getRowsCountList() {
-          return java.util.Collections.unmodifiableList(rowsCount_);
+          return ((bitField0_ & 0x00000002) != 0) ?
+                   java.util.Collections.unmodifiableList(rowsCount_) : rowsCount_;
         }
         /**
-         * <code>repeated int64 rows_count = 11;</code>
+         * <code>repeated uint64 rows_count = 11;</code>
+         * @return The count of rowsCount.
          */
         public int getRowsCountCount() {
           return rowsCount_.size();
         }
         /**
-         * <code>repeated int64 rows_count = 11;</code>
+         * <code>repeated uint64 rows_count = 11;</code>
+         * @param index The index of the element to return.
+         * @return The rowsCount at the given index.
          */
         public long getRowsCount(int index) {
-          return rowsCount_.get(index);
+          return rowsCount_.getLong(index);
         }
         /**
-         * <code>repeated int64 rows_count = 11;</code>
+         * <code>repeated uint64 rows_count = 11;</code>
+         * @param index The index to set the value at.
+         * @param value The rowsCount to set.
+         * @return This builder for chaining.
          */
         public Builder setRowsCount(
             int index, long value) {
           ensureRowsCountIsMutable();
-          rowsCount_.set(index, value);
+          rowsCount_.setLong(index, value);
           onChanged();
           return this;
         }
         /**
-         * <code>repeated int64 rows_count = 11;</code>
+         * <code>repeated uint64 rows_count = 11;</code>
+         * @param value The rowsCount to add.
+         * @return This builder for chaining.
          */
         public Builder addRowsCount(long value) {
           ensureRowsCountIsMutable();
-          rowsCount_.add(value);
+          rowsCount_.addLong(value);
           onChanged();
           return this;
         }
         /**
-         * <code>repeated int64 rows_count = 11;</code>
+         * <code>repeated uint64 rows_count = 11;</code>
+         * @param values The rowsCount to add.
+         * @return This builder for chaining.
          */
         public Builder addAllRowsCount(
             java.lang.Iterable<? extends java.lang.Long> values) {
@@ -24815,11 +26748,12 @@ public final class AnalyticsProtos {
           return this;
         }
         /**
-         * <code>repeated int64 rows_count = 11;</code>
+         * <code>repeated uint64 rows_count = 11;</code>
+         * @return This builder for chaining.
          */
         public Builder clearRowsCount() {
-          rowsCount_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000800);
+          rowsCount_ = emptyLongList();
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
           return this;
         }
@@ -24827,27 +26761,36 @@ public final class AnalyticsProtos {
         private int status_ = 0;
         /**
          * <code>.Yql.Analytics.EQueryStatus status = 12;</code>
+         * @return The enum numeric value on the wire for status.
          */
-        public int getStatusValue() {
+        @java.lang.Override public int getStatusValue() {
           return status_;
         }
         /**
          * <code>.Yql.Analytics.EQueryStatus status = 12;</code>
+         * @param value The enum numeric value on the wire for status to set.
+         * @return This builder for chaining.
          */
         public Builder setStatusValue(int value) {
+          
           status_ = value;
           onChanged();
           return this;
         }
         /**
          * <code>.Yql.Analytics.EQueryStatus status = 12;</code>
+         * @return The status.
          */
+        @java.lang.Override
         public com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus getStatus() {
+          @SuppressWarnings("deprecation")
           com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus result = com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus.valueOf(status_);
           return result == null ? com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus.UNRECOGNIZED : result;
         }
         /**
          * <code>.Yql.Analytics.EQueryStatus status = 12;</code>
+         * @param value The status to set.
+         * @return This builder for chaining.
          */
         public Builder setStatus(com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus value) {
           if (value == null) {
@@ -24860,6 +26803,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>.Yql.Analytics.EQueryStatus status = 12;</code>
+         * @return This builder for chaining.
          */
         public Builder clearStatus() {
           
@@ -24871,27 +26815,36 @@ public final class AnalyticsProtos {
         private int executeMode_ = 0;
         /**
          * <code>.Yql.Analytics.EExecuteMode execute_mode = 13;</code>
+         * @return The enum numeric value on the wire for executeMode.
          */
-        public int getExecuteModeValue() {
+        @java.lang.Override public int getExecuteModeValue() {
           return executeMode_;
         }
         /**
          * <code>.Yql.Analytics.EExecuteMode execute_mode = 13;</code>
+         * @param value The enum numeric value on the wire for executeMode to set.
+         * @return This builder for chaining.
          */
         public Builder setExecuteModeValue(int value) {
+          
           executeMode_ = value;
           onChanged();
           return this;
         }
         /**
          * <code>.Yql.Analytics.EExecuteMode execute_mode = 13;</code>
+         * @return The executeMode.
          */
+        @java.lang.Override
         public com.yandex.yql.analytics.AnalyticsProtos.EExecuteMode getExecuteMode() {
+          @SuppressWarnings("deprecation")
           com.yandex.yql.analytics.AnalyticsProtos.EExecuteMode result = com.yandex.yql.analytics.AnalyticsProtos.EExecuteMode.valueOf(executeMode_);
           return result == null ? com.yandex.yql.analytics.AnalyticsProtos.EExecuteMode.UNRECOGNIZED : result;
         }
         /**
          * <code>.Yql.Analytics.EExecuteMode execute_mode = 13;</code>
+         * @param value The executeMode to set.
+         * @return This builder for chaining.
          */
         public Builder setExecuteMode(com.yandex.yql.analytics.AnalyticsProtos.EExecuteMode value) {
           if (value == null) {
@@ -24904,6 +26857,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>.Yql.Analytics.EExecuteMode execute_mode = 13;</code>
+         * @return This builder for chaining.
          */
         public Builder clearExecuteMode() {
           
@@ -24915,12 +26869,16 @@ public final class AnalyticsProtos {
         private long rowsLimit_ ;
         /**
          * <code>int64 rows_limit = 14;</code>
+         * @return The rowsLimit.
          */
+        @java.lang.Override
         public long getRowsLimit() {
           return rowsLimit_;
         }
         /**
          * <code>int64 rows_limit = 14;</code>
+         * @param value The rowsLimit to set.
+         * @return This builder for chaining.
          */
         public Builder setRowsLimit(long value) {
           
@@ -24930,6 +26888,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>int64 rows_limit = 14;</code>
+         * @return This builder for chaining.
          */
         public Builder clearRowsLimit() {
           
@@ -24941,12 +26900,16 @@ public final class AnalyticsProtos {
         private long bytesLimit_ ;
         /**
          * <code>int64 bytes_limit = 15;</code>
+         * @return The bytesLimit.
          */
+        @java.lang.Override
         public long getBytesLimit() {
           return bytesLimit_;
         }
         /**
          * <code>int64 bytes_limit = 15;</code>
+         * @param value The bytesLimit to set.
+         * @return This builder for chaining.
          */
         public Builder setBytesLimit(long value) {
           
@@ -24956,6 +26919,7 @@ public final class AnalyticsProtos {
         }
         /**
          * <code>int64 bytes_limit = 15;</code>
+         * @return This builder for chaining.
          */
         public Builder clearBytesLimit() {
           
@@ -24964,17 +26928,19 @@ public final class AnalyticsProtos {
           return this;
         }
 
-        private com.google.protobuf.Timestamp startTime_ = null;
+        private com.google.protobuf.Timestamp startTime_;
         private com.google.protobuf.SingleFieldBuilderV3<
             com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> startTimeBuilder_;
         /**
          * <code>.google.protobuf.Timestamp start_time = 16;</code>
+         * @return Whether the startTime field is set.
          */
         public boolean hasStartTime() {
           return startTimeBuilder_ != null || startTime_ != null;
         }
         /**
          * <code>.google.protobuf.Timestamp start_time = 16;</code>
+         * @return The startTime.
          */
         public com.google.protobuf.Timestamp getStartTime() {
           if (startTimeBuilder_ == null) {
@@ -25081,17 +27047,19 @@ public final class AnalyticsProtos {
           return startTimeBuilder_;
         }
 
-        private com.google.protobuf.Timestamp finishTime_ = null;
+        private com.google.protobuf.Timestamp finishTime_;
         private com.google.protobuf.SingleFieldBuilderV3<
             com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> finishTimeBuilder_;
         /**
          * <code>.google.protobuf.Timestamp finish_time = 17;</code>
+         * @return Whether the finishTime field is set.
          */
         public boolean hasFinishTime() {
           return finishTimeBuilder_ != null || finishTime_ != null;
         }
         /**
          * <code>.google.protobuf.Timestamp finish_time = 17;</code>
+         * @return The finishTime.
          */
         public com.google.protobuf.Timestamp getFinishTime() {
           if (finishTimeBuilder_ == null) {
@@ -25198,17 +27166,19 @@ public final class AnalyticsProtos {
           return finishTimeBuilder_;
         }
 
-        private com.google.protobuf.Timestamp expirationDeadline_ = null;
+        private com.google.protobuf.Timestamp expirationDeadline_;
         private com.google.protobuf.SingleFieldBuilderV3<
             com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> expirationDeadlineBuilder_;
         /**
          * <code>.google.protobuf.Timestamp expiration_deadline = 18;</code>
+         * @return Whether the expirationDeadline field is set.
          */
         public boolean hasExpirationDeadline() {
           return expirationDeadlineBuilder_ != null || expirationDeadline_ != null;
         }
         /**
          * <code>.google.protobuf.Timestamp expiration_deadline = 18;</code>
+         * @return The expirationDeadline.
          */
         public com.google.protobuf.Timestamp getExpirationDeadline() {
           if (expirationDeadlineBuilder_ == null) {
@@ -25315,17 +27285,19 @@ public final class AnalyticsProtos {
           return expirationDeadlineBuilder_;
         }
 
-        private com.google.protobuf.Timestamp creationTime_ = null;
+        private com.google.protobuf.Timestamp creationTime_;
         private com.google.protobuf.SingleFieldBuilderV3<
             com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> creationTimeBuilder_;
         /**
          * <code>.google.protobuf.Timestamp creation_time = 19;</code>
+         * @return Whether the creationTime field is set.
          */
         public boolean hasCreationTime() {
           return creationTimeBuilder_ != null || creationTime_ != null;
         }
         /**
          * <code>.google.protobuf.Timestamp creation_time = 19;</code>
+         * @return The creationTime.
          */
         public com.google.protobuf.Timestamp getCreationTime() {
           if (creationTimeBuilder_ == null) {
@@ -25432,17 +27404,19 @@ public final class AnalyticsProtos {
           return creationTimeBuilder_;
         }
 
-        private com.google.protobuf.Timestamp modificationTime_ = null;
+        private com.google.protobuf.Timestamp modificationTime_;
         private com.google.protobuf.SingleFieldBuilderV3<
             com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> modificationTimeBuilder_;
         /**
          * <code>.google.protobuf.Timestamp modification_time = 20;</code>
+         * @return Whether the modificationTime field is set.
          */
         public boolean hasModificationTime() {
           return modificationTimeBuilder_ != null || modificationTime_ != null;
         }
         /**
          * <code>.google.protobuf.Timestamp modification_time = 20;</code>
+         * @return The modificationTime.
          */
         public com.google.protobuf.Timestamp getModificationTime() {
           if (modificationTimeBuilder_ == null) {
@@ -25549,17 +27523,19 @@ public final class AnalyticsProtos {
           return modificationTimeBuilder_;
         }
 
-        private com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics statistics_ = null;
+        private com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics statistics_;
         private com.google.protobuf.SingleFieldBuilderV3<
             com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics, com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics.Builder, com.yandex.yql.analytics.AnalyticsProtos.QueryStatisticsOrBuilder> statisticsBuilder_;
         /**
          * <code>.Yql.Analytics.QueryStatistics statistics = 21;</code>
+         * @return Whether the statistics field is set.
          */
         public boolean hasStatistics() {
           return statisticsBuilder_ != null || statistics_ != null;
         }
         /**
          * <code>.Yql.Analytics.QueryStatistics statistics = 21;</code>
+         * @return The statistics.
          */
         public com.yandex.yql.analytics.AnalyticsProtos.QueryStatistics getStatistics() {
           if (statisticsBuilder_ == null) {
@@ -25669,9 +27645,9 @@ public final class AnalyticsProtos {
         private java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> issues_ =
           java.util.Collections.emptyList();
         private void ensureIssuesIsMutable() {
-          if (!((bitField0_ & 0x00400000) == 0x00400000)) {
+          if (!((bitField0_ & 0x00000004) != 0)) {
             issues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>(issues_);
-            bitField0_ |= 0x00400000;
+            bitField0_ |= 0x00000004;
            }
         }
 
@@ -25821,7 +27797,7 @@ public final class AnalyticsProtos {
         public Builder clearIssues() {
           if (issuesBuilder_ == null) {
             issues_ = java.util.Collections.emptyList();
-            bitField0_ = (bitField0_ & ~0x00400000);
+            bitField0_ = (bitField0_ & ~0x00000004);
             onChanged();
           } else {
             issuesBuilder_.clear();
@@ -25898,18 +27874,20 @@ public final class AnalyticsProtos {
             issuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
                 tech.ydb.YdbIssueMessage.IssueMessage, tech.ydb.YdbIssueMessage.IssueMessage.Builder, tech.ydb.YdbIssueMessage.IssueMessageOrBuilder>(
                     issues_,
-                    ((bitField0_ & 0x00400000) == 0x00400000),
+                    ((bitField0_ & 0x00000004) != 0),
                     getParentForChildren(),
                     isClean());
             issues_ = null;
           }
           return issuesBuilder_;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -25931,11 +27909,12 @@ public final class AnalyticsProtos {
 
       private static final com.google.protobuf.Parser<HistoryEntity>
           PARSER = new com.google.protobuf.AbstractParser<HistoryEntity>() {
+        @java.lang.Override
         public HistoryEntity parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new HistoryEntity(input, extensionRegistry);
+          return new HistoryEntity(input, extensionRegistry);
         }
       };
 
@@ -25948,24 +27927,26 @@ public final class AnalyticsProtos {
         return PARSER;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
     }
 
-    private int bitField0_;
     public static final int HISTORY_FIELD_NUMBER = 1;
     private java.util.List<com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity> history_;
     /**
      * <code>repeated .Yql.Analytics.GetHistoryResult.HistoryEntity history = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity> getHistoryList() {
       return history_;
     }
     /**
      * <code>repeated .Yql.Analytics.GetHistoryResult.HistoryEntity history = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntityOrBuilder> 
         getHistoryOrBuilderList() {
       return history_;
@@ -25973,18 +27954,21 @@ public final class AnalyticsProtos {
     /**
      * <code>repeated .Yql.Analytics.GetHistoryResult.HistoryEntity history = 1;</code>
      */
+    @java.lang.Override
     public int getHistoryCount() {
       return history_.size();
     }
     /**
      * <code>repeated .Yql.Analytics.GetHistoryResult.HistoryEntity history = 1;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity getHistory(int index) {
       return history_.get(index);
     }
     /**
      * <code>repeated .Yql.Analytics.GetHistoryResult.HistoryEntity history = 1;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntityOrBuilder getHistoryOrBuilder(
         int index) {
       return history_.get(index);
@@ -25994,7 +27978,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object continuationToken_;
     /**
      * <code>string continuation_token = 2;</code>
+     * @return The continuationToken.
      */
+    @java.lang.Override
     public java.lang.String getContinuationToken() {
       java.lang.Object ref = continuationToken_;
       if (ref instanceof java.lang.String) {
@@ -26009,7 +27995,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string continuation_token = 2;</code>
+     * @return The bytes for continuationToken.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getContinuationTokenBytes() {
       java.lang.Object ref = continuationToken_;
@@ -26025,6 +28013,7 @@ public final class AnalyticsProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -26034,6 +28023,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < history_.size(); i++) {
@@ -26045,6 +28035,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -26072,13 +28063,12 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult other = (com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult) obj;
 
-      boolean result = true;
-      result = result && getHistoryList()
-          .equals(other.getHistoryList());
-      result = result && getContinuationToken()
-          .equals(other.getContinuationToken());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getHistoryList()
+          .equals(other.getHistoryList())) return false;
+      if (!getContinuationToken()
+          .equals(other.getContinuationToken())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -26169,6 +28159,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -26176,6 +28167,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -26199,6 +28191,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryResult_fieldAccessorTable
@@ -26222,6 +28215,7 @@ public final class AnalyticsProtos {
           getHistoryFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (historyBuilder_ == null) {
@@ -26235,15 +28229,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetHistoryResult_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult build() {
         com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -26252,12 +28249,12 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult result = new com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (historyBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             history_ = java.util.Collections.unmodifiableList(history_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -26266,37 +28263,43 @@ public final class AnalyticsProtos {
           result.history_ = historyBuilder_.build();
         }
         result.continuationToken_ = continuationToken_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult)other);
@@ -26343,10 +28346,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -26369,7 +28374,7 @@ public final class AnalyticsProtos {
       private java.util.List<com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity> history_ =
         java.util.Collections.emptyList();
       private void ensureHistoryIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           history_ = new java.util.ArrayList<com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity>(history_);
           bitField0_ |= 0x00000001;
          }
@@ -26598,7 +28603,7 @@ public final class AnalyticsProtos {
           historyBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity, com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntity.Builder, com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult.HistoryEntityOrBuilder>(
                   history_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           history_ = null;
@@ -26609,6 +28614,7 @@ public final class AnalyticsProtos {
       private java.lang.Object continuationToken_ = "";
       /**
        * <code>string continuation_token = 2;</code>
+       * @return The continuationToken.
        */
       public java.lang.String getContinuationToken() {
         java.lang.Object ref = continuationToken_;
@@ -26624,6 +28630,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string continuation_token = 2;</code>
+       * @return The bytes for continuationToken.
        */
       public com.google.protobuf.ByteString
           getContinuationTokenBytes() {
@@ -26640,6 +28647,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string continuation_token = 2;</code>
+       * @param value The continuationToken to set.
+       * @return This builder for chaining.
        */
       public Builder setContinuationToken(
           java.lang.String value) {
@@ -26653,6 +28662,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string continuation_token = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearContinuationToken() {
         
@@ -26662,6 +28672,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string continuation_token = 2;</code>
+       * @param value The bytes for continuationToken to set.
+       * @return This builder for chaining.
        */
       public Builder setContinuationTokenBytes(
           com.google.protobuf.ByteString value) {
@@ -26674,11 +28686,13 @@ public final class AnalyticsProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -26700,11 +28714,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<GetHistoryResult>
         PARSER = new com.google.protobuf.AbstractParser<GetHistoryResult>() {
+      @java.lang.Override
       public GetHistoryResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetHistoryResult(input, extensionRegistry);
+        return new GetHistoryResult(input, extensionRegistry);
       }
     };
 
@@ -26717,6 +28732,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetHistoryResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -26733,6 +28749,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string id = 1;</code>
+     * @return The id.
      */
     java.lang.String getId();
     /**
@@ -26741,6 +28758,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
     com.google.protobuf.ByteString
         getIdBytes();
@@ -26751,6 +28769,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string cloud_id = 100;</code>
+     * @return The cloudId.
      */
     java.lang.String getCloudId();
     /**
@@ -26759,6 +28778,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string cloud_id = 100;</code>
+     * @return The bytes for cloudId.
      */
     com.google.protobuf.ByteString
         getCloudIdBytes();
@@ -26769,6 +28789,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string folder_id = 2;</code>
+     * @return The folderId.
      */
     java.lang.String getFolderId();
     /**
@@ -26777,26 +28798,31 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string folder_id = 2;</code>
+     * @return The bytes for folderId.
      */
     com.google.protobuf.ByteString
         getFolderIdBytes();
 
     /**
      * <code>string name = 4;</code>
+     * @return The name.
      */
     java.lang.String getName();
     /**
      * <code>string name = 4;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
      * <code>.Yql.Analytics.Acl acl = 5;</code>
+     * @return Whether the acl field is set.
      */
     boolean hasAcl();
     /**
      * <code>.Yql.Analytics.Acl acl = 5;</code>
+     * @return The acl.
      */
     com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl();
     /**
@@ -26806,25 +28832,30 @@ public final class AnalyticsProtos {
 
     /**
      * <code>bool is_deleted = 6;</code>
+     * @return The isDeleted.
      */
     boolean getIsDeleted();
 
     /**
      * <code>string yql_text = 7;</code>
+     * @return The yqlText.
      */
     java.lang.String getYqlText();
     /**
      * <code>string yql_text = 7;</code>
+     * @return The bytes for yqlText.
      */
     com.google.protobuf.ByteString
         getYqlTextBytes();
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 9;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 9;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -26834,10 +28865,12 @@ public final class AnalyticsProtos {
 
     /**
      * <code>string idempotency_key = 10;</code>
+     * @return The idempotencyKey.
      */
     java.lang.String getIdempotencyKey();
     /**
      * <code>string idempotency_key = 10;</code>
+     * @return The bytes for idempotencyKey.
      */
     com.google.protobuf.ByteString
         getIdempotencyKeyBytes();
@@ -26845,7 +28878,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.ModifyHistoryRequest}
    */
-  public  static final class ModifyHistoryRequest extends
+  public static final class ModifyHistoryRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.ModifyHistoryRequest)
       ModifyHistoryRequestOrBuilder {
@@ -26859,9 +28892,15 @@ public final class AnalyticsProtos {
       cloudId_ = "";
       folderId_ = "";
       name_ = "";
-      isDeleted_ = false;
       yqlText_ = "";
       idempotencyKey_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ModifyHistoryRequest();
     }
 
     @java.lang.Override
@@ -26874,7 +28913,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -26885,13 +28926,6 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -26959,6 +28993,13 @@ public final class AnalyticsProtos {
               cloudId_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -26976,6 +29017,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyHistoryRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyHistoryRequest_fieldAccessorTable
@@ -26991,7 +29033,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string id = 1;</code>
+     * @return The id.
      */
+    @java.lang.Override
     public java.lang.String getId() {
       java.lang.Object ref = id_;
       if (ref instanceof java.lang.String) {
@@ -27010,7 +29054,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string id = 1;</code>
+     * @return The bytes for id.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdBytes() {
       java.lang.Object ref = id_;
@@ -27033,7 +29079,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string cloud_id = 100;</code>
+     * @return The cloudId.
      */
+    @java.lang.Override
     public java.lang.String getCloudId() {
       java.lang.Object ref = cloudId_;
       if (ref instanceof java.lang.String) {
@@ -27052,7 +29100,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string cloud_id = 100;</code>
+     * @return The bytes for cloudId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getCloudIdBytes() {
       java.lang.Object ref = cloudId_;
@@ -27075,7 +29125,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string folder_id = 2;</code>
+     * @return The folderId.
      */
+    @java.lang.Override
     public java.lang.String getFolderId() {
       java.lang.Object ref = folderId_;
       if (ref instanceof java.lang.String) {
@@ -27094,7 +29146,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>string folder_id = 2;</code>
+     * @return The bytes for folderId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getFolderIdBytes() {
       java.lang.Object ref = folderId_;
@@ -27113,7 +29167,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object name_;
     /**
      * <code>string name = 4;</code>
+     * @return The name.
      */
+    @java.lang.Override
     public java.lang.String getName() {
       java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
@@ -27128,7 +29184,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string name = 4;</code>
+     * @return The bytes for name.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNameBytes() {
       java.lang.Object ref = name_;
@@ -27147,19 +29205,24 @@ public final class AnalyticsProtos {
     private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_;
     /**
      * <code>.Yql.Analytics.Acl acl = 5;</code>
+     * @return Whether the acl field is set.
      */
+    @java.lang.Override
     public boolean hasAcl() {
       return acl_ != null;
     }
     /**
      * <code>.Yql.Analytics.Acl acl = 5;</code>
+     * @return The acl.
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl() {
       return acl_ == null ? com.yandex.yql.analytics.AnalyticsProtos.Acl.getDefaultInstance() : acl_;
     }
     /**
      * <code>.Yql.Analytics.Acl acl = 5;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder getAclOrBuilder() {
       return getAcl();
     }
@@ -27168,7 +29231,9 @@ public final class AnalyticsProtos {
     private boolean isDeleted_;
     /**
      * <code>bool is_deleted = 6;</code>
+     * @return The isDeleted.
      */
+    @java.lang.Override
     public boolean getIsDeleted() {
       return isDeleted_;
     }
@@ -27177,7 +29242,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object yqlText_;
     /**
      * <code>string yql_text = 7;</code>
+     * @return The yqlText.
      */
+    @java.lang.Override
     public java.lang.String getYqlText() {
       java.lang.Object ref = yqlText_;
       if (ref instanceof java.lang.String) {
@@ -27192,7 +29259,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string yql_text = 7;</code>
+     * @return The bytes for yqlText.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getYqlTextBytes() {
       java.lang.Object ref = yqlText_;
@@ -27211,19 +29280,24 @@ public final class AnalyticsProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 9;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 9;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 9;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -27232,7 +29306,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object idempotencyKey_;
     /**
      * <code>string idempotency_key = 10;</code>
+     * @return The idempotencyKey.
      */
+    @java.lang.Override
     public java.lang.String getIdempotencyKey() {
       java.lang.Object ref = idempotencyKey_;
       if (ref instanceof java.lang.String) {
@@ -27247,7 +29323,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string idempotency_key = 10;</code>
+     * @return The bytes for idempotencyKey.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIdempotencyKeyBytes() {
       java.lang.Object ref = idempotencyKey_;
@@ -27263,6 +29341,7 @@ public final class AnalyticsProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -27272,6 +29351,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getIdBytes().isEmpty()) {
@@ -27304,6 +29384,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -27354,33 +29435,32 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest other = (com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest) obj;
 
-      boolean result = true;
-      result = result && getId()
-          .equals(other.getId());
-      result = result && getCloudId()
-          .equals(other.getCloudId());
-      result = result && getFolderId()
-          .equals(other.getFolderId());
-      result = result && getName()
-          .equals(other.getName());
-      result = result && (hasAcl() == other.hasAcl());
+      if (!getId()
+          .equals(other.getId())) return false;
+      if (!getCloudId()
+          .equals(other.getCloudId())) return false;
+      if (!getFolderId()
+          .equals(other.getFolderId())) return false;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (hasAcl() != other.hasAcl()) return false;
       if (hasAcl()) {
-        result = result && getAcl()
-            .equals(other.getAcl());
+        if (!getAcl()
+            .equals(other.getAcl())) return false;
       }
-      result = result && (getIsDeleted()
-          == other.getIsDeleted());
-      result = result && getYqlText()
-          .equals(other.getYqlText());
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (getIsDeleted()
+          != other.getIsDeleted()) return false;
+      if (!getYqlText()
+          .equals(other.getYqlText())) return false;
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getIdempotencyKey()
-          .equals(other.getIdempotencyKey());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getIdempotencyKey()
+          .equals(other.getIdempotencyKey())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -27488,6 +29568,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -27495,6 +29576,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -27518,6 +29600,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyHistoryRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyHistoryRequest_fieldAccessorTable
@@ -27540,6 +29623,7 @@ public final class AnalyticsProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         id_ = "";
@@ -27571,15 +29655,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyHistoryRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest build() {
         com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -27588,6 +29675,7 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest result = new com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest(this);
         result.id_ = id_;
@@ -27611,32 +29699,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest)other);
@@ -27686,10 +29781,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -27715,6 +29812,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string id = 1;</code>
+       * @return The id.
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -27734,6 +29832,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string id = 1;</code>
+       * @return The bytes for id.
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -27754,6 +29853,8 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string id = 1;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
        */
       public Builder setId(
           java.lang.String value) {
@@ -27771,6 +29872,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearId() {
         
@@ -27784,6 +29886,8 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string id = 1;</code>
+       * @param value The bytes for id to set.
+       * @return This builder for chaining.
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -27804,6 +29908,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string cloud_id = 100;</code>
+       * @return The cloudId.
        */
       public java.lang.String getCloudId() {
         java.lang.Object ref = cloudId_;
@@ -27823,6 +29928,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string cloud_id = 100;</code>
+       * @return The bytes for cloudId.
        */
       public com.google.protobuf.ByteString
           getCloudIdBytes() {
@@ -27843,6 +29949,8 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string cloud_id = 100;</code>
+       * @param value The cloudId to set.
+       * @return This builder for chaining.
        */
       public Builder setCloudId(
           java.lang.String value) {
@@ -27860,6 +29968,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string cloud_id = 100;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCloudId() {
         
@@ -27873,6 +29982,8 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string cloud_id = 100;</code>
+       * @param value The bytes for cloudId to set.
+       * @return This builder for chaining.
        */
       public Builder setCloudIdBytes(
           com.google.protobuf.ByteString value) {
@@ -27893,6 +30004,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string folder_id = 2;</code>
+       * @return The folderId.
        */
       public java.lang.String getFolderId() {
         java.lang.Object ref = folderId_;
@@ -27912,6 +30024,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string folder_id = 2;</code>
+       * @return The bytes for folderId.
        */
       public com.google.protobuf.ByteString
           getFolderIdBytes() {
@@ -27932,6 +30045,8 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string folder_id = 2;</code>
+       * @param value The folderId to set.
+       * @return This builder for chaining.
        */
       public Builder setFolderId(
           java.lang.String value) {
@@ -27949,6 +30064,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string folder_id = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFolderId() {
         
@@ -27962,6 +30078,8 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>string folder_id = 2;</code>
+       * @param value The bytes for folderId to set.
+       * @return This builder for chaining.
        */
       public Builder setFolderIdBytes(
           com.google.protobuf.ByteString value) {
@@ -27978,6 +30096,7 @@ public final class AnalyticsProtos {
       private java.lang.Object name_ = "";
       /**
        * <code>string name = 4;</code>
+       * @return The name.
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -27993,6 +30112,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 4;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -28009,6 +30129,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 4;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
        */
       public Builder setName(
           java.lang.String value) {
@@ -28022,6 +30144,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearName() {
         
@@ -28031,6 +30154,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string name = 4;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -28044,17 +30169,19 @@ public final class AnalyticsProtos {
         return this;
       }
 
-      private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_ = null;
+      private com.yandex.yql.analytics.AnalyticsProtos.Acl acl_;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.yandex.yql.analytics.AnalyticsProtos.Acl, com.yandex.yql.analytics.AnalyticsProtos.Acl.Builder, com.yandex.yql.analytics.AnalyticsProtos.AclOrBuilder> aclBuilder_;
       /**
        * <code>.Yql.Analytics.Acl acl = 5;</code>
+       * @return Whether the acl field is set.
        */
       public boolean hasAcl() {
         return aclBuilder_ != null || acl_ != null;
       }
       /**
        * <code>.Yql.Analytics.Acl acl = 5;</code>
+       * @return The acl.
        */
       public com.yandex.yql.analytics.AnalyticsProtos.Acl getAcl() {
         if (aclBuilder_ == null) {
@@ -28164,12 +30291,16 @@ public final class AnalyticsProtos {
       private boolean isDeleted_ ;
       /**
        * <code>bool is_deleted = 6;</code>
+       * @return The isDeleted.
        */
+      @java.lang.Override
       public boolean getIsDeleted() {
         return isDeleted_;
       }
       /**
        * <code>bool is_deleted = 6;</code>
+       * @param value The isDeleted to set.
+       * @return This builder for chaining.
        */
       public Builder setIsDeleted(boolean value) {
         
@@ -28179,6 +30310,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>bool is_deleted = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIsDeleted() {
         
@@ -28190,6 +30322,7 @@ public final class AnalyticsProtos {
       private java.lang.Object yqlText_ = "";
       /**
        * <code>string yql_text = 7;</code>
+       * @return The yqlText.
        */
       public java.lang.String getYqlText() {
         java.lang.Object ref = yqlText_;
@@ -28205,6 +30338,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string yql_text = 7;</code>
+       * @return The bytes for yqlText.
        */
       public com.google.protobuf.ByteString
           getYqlTextBytes() {
@@ -28221,6 +30355,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string yql_text = 7;</code>
+       * @param value The yqlText to set.
+       * @return This builder for chaining.
        */
       public Builder setYqlText(
           java.lang.String value) {
@@ -28234,6 +30370,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string yql_text = 7;</code>
+       * @return This builder for chaining.
        */
       public Builder clearYqlText() {
         
@@ -28243,6 +30380,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string yql_text = 7;</code>
+       * @param value The bytes for yqlText to set.
+       * @return This builder for chaining.
        */
       public Builder setYqlTextBytes(
           com.google.protobuf.ByteString value) {
@@ -28256,17 +30395,19 @@ public final class AnalyticsProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 9;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 9;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -28376,6 +30517,7 @@ public final class AnalyticsProtos {
       private java.lang.Object idempotencyKey_ = "";
       /**
        * <code>string idempotency_key = 10;</code>
+       * @return The idempotencyKey.
        */
       public java.lang.String getIdempotencyKey() {
         java.lang.Object ref = idempotencyKey_;
@@ -28391,6 +30533,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string idempotency_key = 10;</code>
+       * @return The bytes for idempotencyKey.
        */
       public com.google.protobuf.ByteString
           getIdempotencyKeyBytes() {
@@ -28407,6 +30550,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string idempotency_key = 10;</code>
+       * @param value The idempotencyKey to set.
+       * @return This builder for chaining.
        */
       public Builder setIdempotencyKey(
           java.lang.String value) {
@@ -28420,6 +30565,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string idempotency_key = 10;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIdempotencyKey() {
         
@@ -28429,6 +30575,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string idempotency_key = 10;</code>
+       * @param value The bytes for idempotencyKey to set.
+       * @return This builder for chaining.
        */
       public Builder setIdempotencyKeyBytes(
           com.google.protobuf.ByteString value) {
@@ -28441,11 +30589,13 @@ public final class AnalyticsProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -28467,11 +30617,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<ModifyHistoryRequest>
         PARSER = new com.google.protobuf.AbstractParser<ModifyHistoryRequest>() {
+      @java.lang.Override
       public ModifyHistoryRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ModifyHistoryRequest(input, extensionRegistry);
+        return new ModifyHistoryRequest(input, extensionRegistry);
       }
     };
 
@@ -28484,6 +30635,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -28496,10 +30648,12 @@ public final class AnalyticsProtos {
 
     /**
      * <code>string history_id = 1;</code>
+     * @return The historyId.
      */
     java.lang.String getHistoryId();
     /**
      * <code>string history_id = 1;</code>
+     * @return The bytes for historyId.
      */
     com.google.protobuf.ByteString
         getHistoryIdBytes();
@@ -28507,7 +30661,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.ModifyHistoryResult}
    */
-  public  static final class ModifyHistoryResult extends
+  public static final class ModifyHistoryResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.ModifyHistoryResult)
       ModifyHistoryResultOrBuilder {
@@ -28521,6 +30675,13 @@ public final class AnalyticsProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ModifyHistoryResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -28530,7 +30691,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -28541,17 +30704,17 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
               historyId_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -28571,6 +30734,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyHistoryResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyHistoryResult_fieldAccessorTable
@@ -28582,7 +30746,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object historyId_;
     /**
      * <code>string history_id = 1;</code>
+     * @return The historyId.
      */
+    @java.lang.Override
     public java.lang.String getHistoryId() {
       java.lang.Object ref = historyId_;
       if (ref instanceof java.lang.String) {
@@ -28597,7 +30763,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string history_id = 1;</code>
+     * @return The bytes for historyId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getHistoryIdBytes() {
       java.lang.Object ref = historyId_;
@@ -28613,6 +30781,7 @@ public final class AnalyticsProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -28622,6 +30791,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getHistoryIdBytes().isEmpty()) {
@@ -28630,6 +30800,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -28653,11 +30824,10 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult other = (com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult) obj;
 
-      boolean result = true;
-      result = result && getHistoryId()
-          .equals(other.getHistoryId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getHistoryId()
+          .equals(other.getHistoryId())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -28744,6 +30914,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -28751,6 +30922,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -28774,6 +30946,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyHistoryResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyHistoryResult_fieldAccessorTable
@@ -28796,6 +30969,7 @@ public final class AnalyticsProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         historyId_ = "";
@@ -28803,15 +30977,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyHistoryResult_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult build() {
         com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -28820,6 +30997,7 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult result = new com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult(this);
         result.historyId_ = historyId_;
@@ -28827,32 +31005,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult)other);
@@ -28873,10 +31058,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -28898,6 +31085,7 @@ public final class AnalyticsProtos {
       private java.lang.Object historyId_ = "";
       /**
        * <code>string history_id = 1;</code>
+       * @return The historyId.
        */
       public java.lang.String getHistoryId() {
         java.lang.Object ref = historyId_;
@@ -28913,6 +31101,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string history_id = 1;</code>
+       * @return The bytes for historyId.
        */
       public com.google.protobuf.ByteString
           getHistoryIdBytes() {
@@ -28929,6 +31118,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string history_id = 1;</code>
+       * @param value The historyId to set.
+       * @return This builder for chaining.
        */
       public Builder setHistoryId(
           java.lang.String value) {
@@ -28942,6 +31133,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string history_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearHistoryId() {
         
@@ -28951,6 +31143,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string history_id = 1;</code>
+       * @param value The bytes for historyId to set.
+       * @return This builder for chaining.
        */
       public Builder setHistoryIdBytes(
           com.google.protobuf.ByteString value) {
@@ -28963,11 +31157,13 @@ public final class AnalyticsProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -28989,11 +31185,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<ModifyHistoryResult>
         PARSER = new com.google.protobuf.AbstractParser<ModifyHistoryResult>() {
+      @java.lang.Override
       public ModifyHistoryResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ModifyHistoryResult(input, extensionRegistry);
+        return new ModifyHistoryResult(input, extensionRegistry);
       }
     };
 
@@ -29006,6 +31203,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -29022,6 +31220,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
@@ -29030,6 +31229,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -29044,7 +31244,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.ModifyHistoryResponse}
    */
-  public  static final class ModifyHistoryResponse extends
+  public static final class ModifyHistoryResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.ModifyHistoryResponse)
       ModifyHistoryResponseOrBuilder {
@@ -29057,6 +31257,13 @@ public final class AnalyticsProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ModifyHistoryResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -29066,7 +31273,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -29077,13 +31286,6 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -29095,6 +31297,13 @@ public final class AnalyticsProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -29114,6 +31323,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyHistoryResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyHistoryResponse_fieldAccessorTable
@@ -29129,7 +31339,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
@@ -29139,7 +31351,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
@@ -29150,11 +31364,13 @@ public final class AnalyticsProtos {
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -29164,6 +31380,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -29172,6 +31389,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -29196,14 +31414,13 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse other = (com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -29292,6 +31509,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -29299,6 +31517,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -29322,6 +31541,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyHistoryResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyHistoryResponse_fieldAccessorTable
@@ -29344,6 +31564,7 @@ public final class AnalyticsProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -29355,15 +31576,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ModifyHistoryResponse_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse build() {
         com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -29372,6 +31596,7 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse result = new com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse(this);
         if (operationBuilder_ == null) {
@@ -29383,32 +31608,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse)other);
@@ -29428,10 +31660,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -29450,7 +31684,7 @@ public final class AnalyticsProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
@@ -29459,6 +31693,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
@@ -29469,6 +31704,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -29602,11 +31838,13 @@ public final class AnalyticsProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -29628,11 +31866,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<ModifyHistoryResponse>
         PARSER = new com.google.protobuf.AbstractParser<ModifyHistoryResponse>() {
+      @java.lang.Override
       public ModifyHistoryResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ModifyHistoryResponse(input, extensionRegistry);
+        return new ModifyHistoryResponse(input, extensionRegistry);
       }
     };
 
@@ -29645,6 +31884,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ModifyHistoryResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -29657,10 +31897,12 @@ public final class AnalyticsProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -29670,50 +31912,60 @@ public final class AnalyticsProtos {
 
     /**
      * <code>string history_id = 2;</code>
+     * @return The historyId.
      */
     java.lang.String getHistoryId();
     /**
      * <code>string history_id = 2;</code>
+     * @return The bytes for historyId.
      */
     com.google.protobuf.ByteString
         getHistoryIdBytes();
 
     /**
      * <code>uint32 result_set_id = 3;</code>
+     * @return The resultSetId.
      */
     int getResultSetId();
 
     /**
      * <code>uint64 limit = 4;</code>
+     * @return The limit.
      */
     long getLimit();
 
     /**
      * <code>string folder_id = 5;</code>
+     * @return The folderId.
      */
     java.lang.String getFolderId();
     /**
      * <code>string folder_id = 5;</code>
+     * @return The bytes for folderId.
      */
     com.google.protobuf.ByteString
         getFolderIdBytes();
 
     /**
      * <code>string cloud_id = 6;</code>
+     * @return The cloudId.
      */
     java.lang.String getCloudId();
     /**
      * <code>string cloud_id = 6;</code>
+     * @return The bytes for cloudId.
      */
     com.google.protobuf.ByteString
         getCloudIdBytes();
 
     /**
      * <code>string page_token = 7;</code>
+     * @return The pageToken.
      */
     java.lang.String getPageToken();
     /**
      * <code>string page_token = 7;</code>
+     * @return The bytes for pageToken.
      */
     com.google.protobuf.ByteString
         getPageTokenBytes();
@@ -29721,7 +31973,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.GetResultDataRequest}
    */
-  public  static final class GetResultDataRequest extends
+  public static final class GetResultDataRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.GetResultDataRequest)
       GetResultDataRequestOrBuilder {
@@ -29732,11 +31984,16 @@ public final class AnalyticsProtos {
     }
     private GetResultDataRequest() {
       historyId_ = "";
-      resultSetId_ = 0;
-      limit_ = 0L;
       folderId_ = "";
       cloudId_ = "";
       pageToken_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetResultDataRequest();
     }
 
     @java.lang.Override
@@ -29749,7 +32006,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -29760,13 +32019,6 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -29814,6 +32066,13 @@ public final class AnalyticsProtos {
               pageToken_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -29831,6 +32090,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetResultDataRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetResultDataRequest_fieldAccessorTable
@@ -29842,19 +32102,24 @@ public final class AnalyticsProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -29863,7 +32128,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object historyId_;
     /**
      * <code>string history_id = 2;</code>
+     * @return The historyId.
      */
+    @java.lang.Override
     public java.lang.String getHistoryId() {
       java.lang.Object ref = historyId_;
       if (ref instanceof java.lang.String) {
@@ -29878,7 +32145,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string history_id = 2;</code>
+     * @return The bytes for historyId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getHistoryIdBytes() {
       java.lang.Object ref = historyId_;
@@ -29897,7 +32166,9 @@ public final class AnalyticsProtos {
     private int resultSetId_;
     /**
      * <code>uint32 result_set_id = 3;</code>
+     * @return The resultSetId.
      */
+    @java.lang.Override
     public int getResultSetId() {
       return resultSetId_;
     }
@@ -29906,7 +32177,9 @@ public final class AnalyticsProtos {
     private long limit_;
     /**
      * <code>uint64 limit = 4;</code>
+     * @return The limit.
      */
+    @java.lang.Override
     public long getLimit() {
       return limit_;
     }
@@ -29915,7 +32188,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object folderId_;
     /**
      * <code>string folder_id = 5;</code>
+     * @return The folderId.
      */
+    @java.lang.Override
     public java.lang.String getFolderId() {
       java.lang.Object ref = folderId_;
       if (ref instanceof java.lang.String) {
@@ -29930,7 +32205,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string folder_id = 5;</code>
+     * @return The bytes for folderId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getFolderIdBytes() {
       java.lang.Object ref = folderId_;
@@ -29949,7 +32226,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object cloudId_;
     /**
      * <code>string cloud_id = 6;</code>
+     * @return The cloudId.
      */
+    @java.lang.Override
     public java.lang.String getCloudId() {
       java.lang.Object ref = cloudId_;
       if (ref instanceof java.lang.String) {
@@ -29964,7 +32243,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string cloud_id = 6;</code>
+     * @return The bytes for cloudId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getCloudIdBytes() {
       java.lang.Object ref = cloudId_;
@@ -29983,7 +32264,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object pageToken_;
     /**
      * <code>string page_token = 7;</code>
+     * @return The pageToken.
      */
+    @java.lang.Override
     public java.lang.String getPageToken() {
       java.lang.Object ref = pageToken_;
       if (ref instanceof java.lang.String) {
@@ -29998,7 +32281,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string page_token = 7;</code>
+     * @return The bytes for pageToken.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPageTokenBytes() {
       java.lang.Object ref = pageToken_;
@@ -30014,6 +32299,7 @@ public final class AnalyticsProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -30023,6 +32309,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -30049,6 +32336,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -30093,26 +32381,25 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest other = (com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getHistoryId()
-          .equals(other.getHistoryId());
-      result = result && (getResultSetId()
-          == other.getResultSetId());
-      result = result && (getLimit()
-          == other.getLimit());
-      result = result && getFolderId()
-          .equals(other.getFolderId());
-      result = result && getCloudId()
-          .equals(other.getCloudId());
-      result = result && getPageToken()
-          .equals(other.getPageToken());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getHistoryId()
+          .equals(other.getHistoryId())) return false;
+      if (getResultSetId()
+          != other.getResultSetId()) return false;
+      if (getLimit()
+          != other.getLimit()) return false;
+      if (!getFolderId()
+          .equals(other.getFolderId())) return false;
+      if (!getCloudId()
+          .equals(other.getCloudId())) return false;
+      if (!getPageToken()
+          .equals(other.getPageToken())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -30214,6 +32501,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -30221,6 +32509,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -30244,6 +32533,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetResultDataRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetResultDataRequest_fieldAccessorTable
@@ -30266,6 +32556,7 @@ public final class AnalyticsProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -30289,15 +32580,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetResultDataRequest_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest build() {
         com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -30306,6 +32600,7 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest result = new com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -30323,32 +32618,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest)other);
@@ -30390,10 +32692,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -30412,17 +32716,19 @@ public final class AnalyticsProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -30532,6 +32838,7 @@ public final class AnalyticsProtos {
       private java.lang.Object historyId_ = "";
       /**
        * <code>string history_id = 2;</code>
+       * @return The historyId.
        */
       public java.lang.String getHistoryId() {
         java.lang.Object ref = historyId_;
@@ -30547,6 +32854,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string history_id = 2;</code>
+       * @return The bytes for historyId.
        */
       public com.google.protobuf.ByteString
           getHistoryIdBytes() {
@@ -30563,6 +32871,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string history_id = 2;</code>
+       * @param value The historyId to set.
+       * @return This builder for chaining.
        */
       public Builder setHistoryId(
           java.lang.String value) {
@@ -30576,6 +32886,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string history_id = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearHistoryId() {
         
@@ -30585,6 +32896,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string history_id = 2;</code>
+       * @param value The bytes for historyId to set.
+       * @return This builder for chaining.
        */
       public Builder setHistoryIdBytes(
           com.google.protobuf.ByteString value) {
@@ -30601,12 +32914,16 @@ public final class AnalyticsProtos {
       private int resultSetId_ ;
       /**
        * <code>uint32 result_set_id = 3;</code>
+       * @return The resultSetId.
        */
+      @java.lang.Override
       public int getResultSetId() {
         return resultSetId_;
       }
       /**
        * <code>uint32 result_set_id = 3;</code>
+       * @param value The resultSetId to set.
+       * @return This builder for chaining.
        */
       public Builder setResultSetId(int value) {
         
@@ -30616,6 +32933,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>uint32 result_set_id = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearResultSetId() {
         
@@ -30627,12 +32945,16 @@ public final class AnalyticsProtos {
       private long limit_ ;
       /**
        * <code>uint64 limit = 4;</code>
+       * @return The limit.
        */
+      @java.lang.Override
       public long getLimit() {
         return limit_;
       }
       /**
        * <code>uint64 limit = 4;</code>
+       * @param value The limit to set.
+       * @return This builder for chaining.
        */
       public Builder setLimit(long value) {
         
@@ -30642,6 +32964,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>uint64 limit = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearLimit() {
         
@@ -30653,6 +32976,7 @@ public final class AnalyticsProtos {
       private java.lang.Object folderId_ = "";
       /**
        * <code>string folder_id = 5;</code>
+       * @return The folderId.
        */
       public java.lang.String getFolderId() {
         java.lang.Object ref = folderId_;
@@ -30668,6 +32992,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 5;</code>
+       * @return The bytes for folderId.
        */
       public com.google.protobuf.ByteString
           getFolderIdBytes() {
@@ -30684,6 +33009,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 5;</code>
+       * @param value The folderId to set.
+       * @return This builder for chaining.
        */
       public Builder setFolderId(
           java.lang.String value) {
@@ -30697,6 +33024,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearFolderId() {
         
@@ -30706,6 +33034,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string folder_id = 5;</code>
+       * @param value The bytes for folderId to set.
+       * @return This builder for chaining.
        */
       public Builder setFolderIdBytes(
           com.google.protobuf.ByteString value) {
@@ -30722,6 +33052,7 @@ public final class AnalyticsProtos {
       private java.lang.Object cloudId_ = "";
       /**
        * <code>string cloud_id = 6;</code>
+       * @return The cloudId.
        */
       public java.lang.String getCloudId() {
         java.lang.Object ref = cloudId_;
@@ -30737,6 +33068,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 6;</code>
+       * @return The bytes for cloudId.
        */
       public com.google.protobuf.ByteString
           getCloudIdBytes() {
@@ -30753,6 +33085,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 6;</code>
+       * @param value The cloudId to set.
+       * @return This builder for chaining.
        */
       public Builder setCloudId(
           java.lang.String value) {
@@ -30766,6 +33100,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCloudId() {
         
@@ -30775,6 +33110,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string cloud_id = 6;</code>
+       * @param value The bytes for cloudId to set.
+       * @return This builder for chaining.
        */
       public Builder setCloudIdBytes(
           com.google.protobuf.ByteString value) {
@@ -30791,6 +33128,7 @@ public final class AnalyticsProtos {
       private java.lang.Object pageToken_ = "";
       /**
        * <code>string page_token = 7;</code>
+       * @return The pageToken.
        */
       public java.lang.String getPageToken() {
         java.lang.Object ref = pageToken_;
@@ -30806,6 +33144,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string page_token = 7;</code>
+       * @return The bytes for pageToken.
        */
       public com.google.protobuf.ByteString
           getPageTokenBytes() {
@@ -30822,6 +33161,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string page_token = 7;</code>
+       * @param value The pageToken to set.
+       * @return This builder for chaining.
        */
       public Builder setPageToken(
           java.lang.String value) {
@@ -30835,6 +33176,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string page_token = 7;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPageToken() {
         
@@ -30844,6 +33186,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string page_token = 7;</code>
+       * @param value The bytes for pageToken to set.
+       * @return This builder for chaining.
        */
       public Builder setPageTokenBytes(
           com.google.protobuf.ByteString value) {
@@ -30856,11 +33200,13 @@ public final class AnalyticsProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -30882,11 +33228,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<GetResultDataRequest>
         PARSER = new com.google.protobuf.AbstractParser<GetResultDataRequest>() {
+      @java.lang.Override
       public GetResultDataRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetResultDataRequest(input, extensionRegistry);
+        return new GetResultDataRequest(input, extensionRegistry);
       }
     };
 
@@ -30899,6 +33246,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetResultDataRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -30915,6 +33263,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
@@ -30923,6 +33272,7 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -30937,7 +33287,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.GetResultDataResponse}
    */
-  public  static final class GetResultDataResponse extends
+  public static final class GetResultDataResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.GetResultDataResponse)
       GetResultDataResponseOrBuilder {
@@ -30950,6 +33300,13 @@ public final class AnalyticsProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetResultDataResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -30959,7 +33316,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -30970,13 +33329,6 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -30988,6 +33340,13 @@ public final class AnalyticsProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -31007,6 +33366,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetResultDataResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetResultDataResponse_fieldAccessorTable
@@ -31022,7 +33382,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
@@ -31032,7 +33394,9 @@ public final class AnalyticsProtos {
      * </pre>
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
@@ -31043,11 +33407,13 @@ public final class AnalyticsProtos {
      *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -31057,6 +33423,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -31065,6 +33432,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -31089,14 +33457,13 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse other = (com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -31185,6 +33552,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -31192,6 +33560,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -31215,6 +33584,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetResultDataResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetResultDataResponse_fieldAccessorTable
@@ -31237,6 +33607,7 @@ public final class AnalyticsProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -31248,15 +33619,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetResultDataResponse_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse build() {
         com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -31265,6 +33639,7 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse result = new com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse(this);
         if (operationBuilder_ == null) {
@@ -31276,32 +33651,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse)other);
@@ -31321,10 +33703,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -31343,7 +33727,7 @@ public final class AnalyticsProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
@@ -31352,6 +33736,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
@@ -31362,6 +33747,7 @@ public final class AnalyticsProtos {
        * </pre>
        *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -31495,11 +33881,13 @@ public final class AnalyticsProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -31521,11 +33909,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<GetResultDataResponse>
         PARSER = new com.google.protobuf.AbstractParser<GetResultDataResponse>() {
+      @java.lang.Override
       public GetResultDataResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetResultDataResponse(input, extensionRegistry);
+        return new GetResultDataResponse(input, extensionRegistry);
       }
     };
 
@@ -31538,6 +33927,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -31550,10 +33940,12 @@ public final class AnalyticsProtos {
 
     /**
      * <code>.Ydb.ResultSet result_set = 1;</code>
+     * @return Whether the resultSet field is set.
      */
     boolean hasResultSet();
     /**
      * <code>.Ydb.ResultSet result_set = 1;</code>
+     * @return The resultSet.
      */
     tech.ydb.ValueProtos.ResultSet getResultSet();
     /**
@@ -31563,10 +33955,12 @@ public final class AnalyticsProtos {
 
     /**
      * <code>string next_page_token = 2;</code>
+     * @return The nextPageToken.
      */
     java.lang.String getNextPageToken();
     /**
      * <code>string next_page_token = 2;</code>
+     * @return The bytes for nextPageToken.
      */
     com.google.protobuf.ByteString
         getNextPageTokenBytes();
@@ -31574,7 +33968,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.GetResultDataResult}
    */
-  public  static final class GetResultDataResult extends
+  public static final class GetResultDataResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.GetResultDataResult)
       GetResultDataResultOrBuilder {
@@ -31588,6 +33982,13 @@ public final class AnalyticsProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new GetResultDataResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -31597,7 +33998,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -31608,13 +34011,6 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.ValueProtos.ResultSet.Builder subBuilder = null;
               if (resultSet_ != null) {
@@ -31634,6 +34030,13 @@ public final class AnalyticsProtos {
               nextPageToken_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -31651,6 +34054,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetResultDataResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetResultDataResult_fieldAccessorTable
@@ -31662,19 +34066,24 @@ public final class AnalyticsProtos {
     private tech.ydb.ValueProtos.ResultSet resultSet_;
     /**
      * <code>.Ydb.ResultSet result_set = 1;</code>
+     * @return Whether the resultSet field is set.
      */
+    @java.lang.Override
     public boolean hasResultSet() {
       return resultSet_ != null;
     }
     /**
      * <code>.Ydb.ResultSet result_set = 1;</code>
+     * @return The resultSet.
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ResultSet getResultSet() {
       return resultSet_ == null ? tech.ydb.ValueProtos.ResultSet.getDefaultInstance() : resultSet_;
     }
     /**
      * <code>.Ydb.ResultSet result_set = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ResultSetOrBuilder getResultSetOrBuilder() {
       return getResultSet();
     }
@@ -31683,7 +34092,9 @@ public final class AnalyticsProtos {
     private volatile java.lang.Object nextPageToken_;
     /**
      * <code>string next_page_token = 2;</code>
+     * @return The nextPageToken.
      */
+    @java.lang.Override
     public java.lang.String getNextPageToken() {
       java.lang.Object ref = nextPageToken_;
       if (ref instanceof java.lang.String) {
@@ -31698,7 +34109,9 @@ public final class AnalyticsProtos {
     }
     /**
      * <code>string next_page_token = 2;</code>
+     * @return The bytes for nextPageToken.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNextPageTokenBytes() {
       java.lang.Object ref = nextPageToken_;
@@ -31714,6 +34127,7 @@ public final class AnalyticsProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -31723,6 +34137,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (resultSet_ != null) {
@@ -31734,6 +34149,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -31761,16 +34177,15 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResult other = (com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResult) obj;
 
-      boolean result = true;
-      result = result && (hasResultSet() == other.hasResultSet());
+      if (hasResultSet() != other.hasResultSet()) return false;
       if (hasResultSet()) {
-        result = result && getResultSet()
-            .equals(other.getResultSet());
+        if (!getResultSet()
+            .equals(other.getResultSet())) return false;
       }
-      result = result && getNextPageToken()
-          .equals(other.getNextPageToken());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getNextPageToken()
+          .equals(other.getNextPageToken())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -31861,6 +34276,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -31868,6 +34284,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -31891,6 +34308,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetResultDataResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetResultDataResult_fieldAccessorTable
@@ -31913,6 +34331,7 @@ public final class AnalyticsProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (resultSetBuilder_ == null) {
@@ -31926,15 +34345,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_GetResultDataResult_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResult getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResult build() {
         com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -31943,6 +34365,7 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResult buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResult result = new com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResult(this);
         if (resultSetBuilder_ == null) {
@@ -31955,32 +34378,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResult) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResult)other);
@@ -32004,10 +34434,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -32026,17 +34458,19 @@ public final class AnalyticsProtos {
         return this;
       }
 
-      private tech.ydb.ValueProtos.ResultSet resultSet_ = null;
+      private tech.ydb.ValueProtos.ResultSet resultSet_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.ValueProtos.ResultSet, tech.ydb.ValueProtos.ResultSet.Builder, tech.ydb.ValueProtos.ResultSetOrBuilder> resultSetBuilder_;
       /**
        * <code>.Ydb.ResultSet result_set = 1;</code>
+       * @return Whether the resultSet field is set.
        */
       public boolean hasResultSet() {
         return resultSetBuilder_ != null || resultSet_ != null;
       }
       /**
        * <code>.Ydb.ResultSet result_set = 1;</code>
+       * @return The resultSet.
        */
       public tech.ydb.ValueProtos.ResultSet getResultSet() {
         if (resultSetBuilder_ == null) {
@@ -32146,6 +34580,7 @@ public final class AnalyticsProtos {
       private java.lang.Object nextPageToken_ = "";
       /**
        * <code>string next_page_token = 2;</code>
+       * @return The nextPageToken.
        */
       public java.lang.String getNextPageToken() {
         java.lang.Object ref = nextPageToken_;
@@ -32161,6 +34596,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string next_page_token = 2;</code>
+       * @return The bytes for nextPageToken.
        */
       public com.google.protobuf.ByteString
           getNextPageTokenBytes() {
@@ -32177,6 +34613,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string next_page_token = 2;</code>
+       * @param value The nextPageToken to set.
+       * @return This builder for chaining.
        */
       public Builder setNextPageToken(
           java.lang.String value) {
@@ -32190,6 +34628,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string next_page_token = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearNextPageToken() {
         
@@ -32199,6 +34638,8 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>string next_page_token = 2;</code>
+       * @param value The bytes for nextPageToken to set.
+       * @return This builder for chaining.
        */
       public Builder setNextPageTokenBytes(
           com.google.protobuf.ByteString value) {
@@ -32211,11 +34652,13 @@ public final class AnalyticsProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -32237,11 +34680,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<GetResultDataResult>
         PARSER = new com.google.protobuf.AbstractParser<GetResultDataResult>() {
+      @java.lang.Override
       public GetResultDataResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GetResultDataResult(input, extensionRegistry);
+        return new GetResultDataResult(input, extensionRegistry);
       }
     };
 
@@ -32254,6 +34698,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.GetResultDataResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -32290,18 +34735,20 @@ public final class AnalyticsProtos {
 
     /**
      * <code>int64 rows_count = 2;</code>
+     * @return The rowsCount.
      */
     long getRowsCount();
 
     /**
      * <code>bool truncated = 3;</code>
+     * @return The truncated.
      */
     boolean getTruncated();
   }
   /**
    * Protobuf type {@code Yql.Analytics.ResultSetHeader}
    */
-  public  static final class ResultSetHeader extends
+  public static final class ResultSetHeader extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.ResultSetHeader)
       ResultSetHeaderOrBuilder {
@@ -32312,8 +34759,13 @@ public final class AnalyticsProtos {
     }
     private ResultSetHeader() {
       column_ = java.util.Collections.emptyList();
-      rowsCount_ = 0L;
-      truncated_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ResultSetHeader();
     }
 
     @java.lang.Override
@@ -32326,6 +34778,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -32337,15 +34792,8 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 column_ = new java.util.ArrayList<tech.ydb.ValueProtos.Column>();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -32363,6 +34811,13 @@ public final class AnalyticsProtos {
               truncated_ = input.readBool();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -32371,7 +34826,7 @@ public final class AnalyticsProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           column_ = java.util.Collections.unmodifiableList(column_);
         }
         this.unknownFields = unknownFields.build();
@@ -32383,6 +34838,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ResultSetHeader_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ResultSetHeader_fieldAccessorTable
@@ -32390,18 +34846,19 @@ public final class AnalyticsProtos {
               com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.class, com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.Builder.class);
     }
 
-    private int bitField0_;
     public static final int COLUMN_FIELD_NUMBER = 1;
     private java.util.List<tech.ydb.ValueProtos.Column> column_;
     /**
      * <code>repeated .Ydb.Column column = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.ValueProtos.Column> getColumnList() {
       return column_;
     }
     /**
      * <code>repeated .Ydb.Column column = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.ValueProtos.ColumnOrBuilder> 
         getColumnOrBuilderList() {
       return column_;
@@ -32409,18 +34866,21 @@ public final class AnalyticsProtos {
     /**
      * <code>repeated .Ydb.Column column = 1;</code>
      */
+    @java.lang.Override
     public int getColumnCount() {
       return column_.size();
     }
     /**
      * <code>repeated .Ydb.Column column = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.Column getColumn(int index) {
       return column_.get(index);
     }
     /**
      * <code>repeated .Ydb.Column column = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ColumnOrBuilder getColumnOrBuilder(
         int index) {
       return column_.get(index);
@@ -32430,7 +34890,9 @@ public final class AnalyticsProtos {
     private long rowsCount_;
     /**
      * <code>int64 rows_count = 2;</code>
+     * @return The rowsCount.
      */
+    @java.lang.Override
     public long getRowsCount() {
       return rowsCount_;
     }
@@ -32439,12 +34901,15 @@ public final class AnalyticsProtos {
     private boolean truncated_;
     /**
      * <code>bool truncated = 3;</code>
+     * @return The truncated.
      */
+    @java.lang.Override
     public boolean getTruncated() {
       return truncated_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -32454,6 +34919,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < column_.size(); i++) {
@@ -32468,6 +34934,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -32500,15 +34967,14 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader other = (com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader) obj;
 
-      boolean result = true;
-      result = result && getColumnList()
-          .equals(other.getColumnList());
-      result = result && (getRowsCount()
-          == other.getRowsCount());
-      result = result && (getTruncated()
-          == other.getTruncated());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getColumnList()
+          .equals(other.getColumnList())) return false;
+      if (getRowsCount()
+          != other.getRowsCount()) return false;
+      if (getTruncated()
+          != other.getTruncated()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -32603,6 +35069,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -32610,6 +35077,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -32633,6 +35101,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ResultSetHeader_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ResultSetHeader_fieldAccessorTable
@@ -32656,6 +35125,7 @@ public final class AnalyticsProtos {
           getColumnFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (columnBuilder_ == null) {
@@ -32671,15 +35141,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ResultSetHeader_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader build() {
         com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader result = buildPartial();
         if (!result.isInitialized()) {
@@ -32688,12 +35161,12 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader result = new com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (columnBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             column_ = java.util.Collections.unmodifiableList(column_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -32703,37 +35176,43 @@ public final class AnalyticsProtos {
         }
         result.rowsCount_ = rowsCount_;
         result.truncated_ = truncated_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader)other);
@@ -32782,10 +35261,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -32808,7 +35289,7 @@ public final class AnalyticsProtos {
       private java.util.List<tech.ydb.ValueProtos.Column> column_ =
         java.util.Collections.emptyList();
       private void ensureColumnIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           column_ = new java.util.ArrayList<tech.ydb.ValueProtos.Column>(column_);
           bitField0_ |= 0x00000001;
          }
@@ -33037,7 +35518,7 @@ public final class AnalyticsProtos {
           columnBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.ValueProtos.Column, tech.ydb.ValueProtos.Column.Builder, tech.ydb.ValueProtos.ColumnOrBuilder>(
                   column_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           column_ = null;
@@ -33048,12 +35529,16 @@ public final class AnalyticsProtos {
       private long rowsCount_ ;
       /**
        * <code>int64 rows_count = 2;</code>
+       * @return The rowsCount.
        */
+      @java.lang.Override
       public long getRowsCount() {
         return rowsCount_;
       }
       /**
        * <code>int64 rows_count = 2;</code>
+       * @param value The rowsCount to set.
+       * @return This builder for chaining.
        */
       public Builder setRowsCount(long value) {
         
@@ -33063,6 +35548,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>int64 rows_count = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearRowsCount() {
         
@@ -33074,12 +35560,16 @@ public final class AnalyticsProtos {
       private boolean truncated_ ;
       /**
        * <code>bool truncated = 3;</code>
+       * @return The truncated.
        */
+      @java.lang.Override
       public boolean getTruncated() {
         return truncated_;
       }
       /**
        * <code>bool truncated = 3;</code>
+       * @param value The truncated to set.
+       * @return This builder for chaining.
        */
       public Builder setTruncated(boolean value) {
         
@@ -33089,6 +35579,7 @@ public final class AnalyticsProtos {
       }
       /**
        * <code>bool truncated = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTruncated() {
         
@@ -33096,11 +35587,13 @@ public final class AnalyticsProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -33122,11 +35615,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<ResultSetHeader>
         PARSER = new com.google.protobuf.AbstractParser<ResultSetHeader>() {
+      @java.lang.Override
       public ResultSetHeader parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ResultSetHeader(input, extensionRegistry);
+        return new ResultSetHeader(input, extensionRegistry);
       }
     };
 
@@ -33139,6 +35633,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -33176,7 +35671,7 @@ public final class AnalyticsProtos {
   /**
    * Protobuf type {@code Yql.Analytics.ResultSetHeaders}
    */
-  public  static final class ResultSetHeaders extends
+  public static final class ResultSetHeaders extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Yql.Analytics.ResultSetHeaders)
       ResultSetHeadersOrBuilder {
@@ -33190,6 +35685,13 @@ public final class AnalyticsProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ResultSetHeaders();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -33199,6 +35701,9 @@ public final class AnalyticsProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -33210,20 +35715,20 @@ public final class AnalyticsProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 header_ = new java.util.ArrayList<com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader>();
                 mutable_bitField0_ |= 0x00000001;
               }
               header_.add(
                   input.readMessage(com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -33234,7 +35739,7 @@ public final class AnalyticsProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           header_ = java.util.Collections.unmodifiableList(header_);
         }
         this.unknownFields = unknownFields.build();
@@ -33246,6 +35751,7 @@ public final class AnalyticsProtos {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ResultSetHeaders_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ResultSetHeaders_fieldAccessorTable
@@ -33258,12 +35764,14 @@ public final class AnalyticsProtos {
     /**
      * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader> getHeaderList() {
       return header_;
     }
     /**
      * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaderOrBuilder> 
         getHeaderOrBuilderList() {
       return header_;
@@ -33271,24 +35779,28 @@ public final class AnalyticsProtos {
     /**
      * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
      */
+    @java.lang.Override
     public int getHeaderCount() {
       return header_.size();
     }
     /**
      * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader getHeader(int index) {
       return header_.get(index);
     }
     /**
      * <code>repeated .Yql.Analytics.ResultSetHeader header = 1;</code>
      */
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaderOrBuilder getHeaderOrBuilder(
         int index) {
       return header_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -33298,6 +35810,7 @@ public final class AnalyticsProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < header_.size(); i++) {
@@ -33306,6 +35819,7 @@ public final class AnalyticsProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -33330,11 +35844,10 @@ public final class AnalyticsProtos {
       }
       com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders other = (com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders) obj;
 
-      boolean result = true;
-      result = result && getHeaderList()
-          .equals(other.getHeaderList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getHeaderList()
+          .equals(other.getHeaderList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -33423,6 +35936,7 @@ public final class AnalyticsProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -33430,6 +35944,7 @@ public final class AnalyticsProtos {
     public static Builder newBuilder(com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -33453,6 +35968,7 @@ public final class AnalyticsProtos {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ResultSetHeaders_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ResultSetHeaders_fieldAccessorTable
@@ -33476,6 +35992,7 @@ public final class AnalyticsProtos {
           getHeaderFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (headerBuilder_ == null) {
@@ -33487,15 +36004,18 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.internal_static_Yql_Analytics_ResultSetHeaders_descriptor;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders getDefaultInstanceForType() {
         return com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders.getDefaultInstance();
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders build() {
         com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders result = buildPartial();
         if (!result.isInitialized()) {
@@ -33504,11 +36024,12 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders buildPartial() {
         com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders result = new com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders(this);
         int from_bitField0_ = bitField0_;
         if (headerBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             header_ = java.util.Collections.unmodifiableList(header_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -33520,32 +36041,39 @@ public final class AnalyticsProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders) {
           return mergeFrom((com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders)other);
@@ -33588,10 +36116,12 @@ public final class AnalyticsProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -33614,7 +36144,7 @@ public final class AnalyticsProtos {
       private java.util.List<com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader> header_ =
         java.util.Collections.emptyList();
       private void ensureHeaderIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           header_ = new java.util.ArrayList<com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader>(header_);
           bitField0_ |= 0x00000001;
          }
@@ -33843,18 +36373,20 @@ public final class AnalyticsProtos {
           headerBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader, com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeader.Builder, com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaderOrBuilder>(
                   header_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           header_ = null;
         }
         return headerBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -33876,11 +36408,12 @@ public final class AnalyticsProtos {
 
     private static final com.google.protobuf.Parser<ResultSetHeaders>
         PARSER = new com.google.protobuf.AbstractParser<ResultSetHeaders>() {
+      @java.lang.Override
       public ResultSetHeaders parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ResultSetHeaders(input, extensionRegistry);
+        return new ResultSetHeaders(input, extensionRegistry);
       }
     };
 
@@ -33893,6 +36426,7 @@ public final class AnalyticsProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public com.yandex.yql.analytics.AnalyticsProtos.ResultSetHeaders getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -34082,7 +36616,7 @@ public final class AnalyticsProtos {
       "\n\013YdbDatabase\022\020\n\010endpoint\030\001 \001(\t\022\020\n\010datab" +
       "ase\030\002 \001(\t\022\014\n\004name\030\003 \001(\t\022\n\n\002id\030\004 \001(\t\022\016\n\006s" +
       "ecure\030\005 \001(\010\"q\n\021ClickHouseCluster\022\017\n\007clus" +
-      "ter\030\001 \001(\t\022\014\n\004host\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\022\016\n",
+      "ter\030\001 \001(\t\022\014\n\004host\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\022\016\n" +
       "\006secure\030\004 \001(\010\022\r\n\005login\030\005 \001(\t\022\020\n\010password" +
       "\030\006 \001(\t\"\216\001\n\nConnection\0222\n\014ydb_database\030\001 " +
       "\001(\0132\032.Yql.Analytics.YdbDatabaseH\000\022>\n\022cli" +
@@ -34092,7 +36626,7 @@ public final class AnalyticsProtos {
       "\001(\0132\037.Ydb.Operations.OperationParams\022\020\n\010" +
       "cloud_id\030d \001(\t\022\021\n\tfolder_id\030\002 \001(\t\022\014\n\004nam" +
       "e\030\003 \001(\t\022;\n\006filter\030\004 \001(\0132+.Yql.Analytics." +
-      "GetConnectionsRequest.Filter\032\037\n\006Filter\022\025",
+      "GetConnectionsRequest.Filter\032\037\n\006Filter\022\025" +
       "\n\rconnection_id\030\001 \001(\t\"a\n\003Acl\022#\n\003ace\030\001 \003(" +
       "\0132\026.Yql.Analytics.Acl.Ace\022.\n\nvisibility\030" +
       "\002 \001(\0162\032.Yql.Analytics.EVisibility\032\005\n\003Ace" +
@@ -34102,7 +36636,7 @@ public final class AnalyticsProtos {
       "\031.Yql.Analytics.Connection\022\037\n\003acl\030\007 \001(\0132" +
       "\022.Yql.Analytics.Acl\0221\n\rcreation_time\030\010 \001" +
       "(\0132\032.google.protobuf.Timestamp\0225\n\021modifi" +
-      "cation_time\030\t \001(\0132\032.google.protobuf.Time",
+      "cation_time\030\t \001(\0132\032.google.protobuf.Time" +
       "stamp\022\022\n\nis_deleted\030\n \001(\010\"G\n\024GetConnecti" +
       "onsResult\022/\n\006entity\030\001 \003(\0132\037.Yql.Analytic" +
       "s.ConnectionEntity\"F\n\026GetConnectionsResp" +
@@ -34112,7 +36646,7 @@ public final class AnalyticsProtos {
       "ns.OperationParams\0223\n\nconnection\030\002 \003(\0132\037" +
       ".Yql.Analytics.ConnectionEntity\022\020\n\010cloud" +
       "_id\030\003 \001(\t\022\021\n\tfolder_id\030\004 \001(\t\022\027\n\017idempote" +
-      "ncy_key\030\005 \001(\t\"0\n\027ModifyConnectionsResult",
+      "ncy_key\030\005 \001(\t\"0\n\027ModifyConnectionsResult" +
       "\022\025\n\rconnection_id\030\001 \003(\t\"I\n\031ModifyConnect" +
       "ionsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
       "erations.Operation\"\314\001\n\021GetQueriesRequest" +
@@ -34122,7 +36656,7 @@ public final class AnalyticsProtos {
       "iesRequest.Filter\032.\n\006Filter\022\020\n\010query_id\030" +
       "\001 \001(\t\022\022\n\nfield_type\030\002 \001(\005\"\251\003\n\022GetQueries" +
       "Response\022>\n\007queries\030\001 \003(\0132-.Yql.Analytic" +
-      "s.GetQueriesResponse.QueryEntity\022\032\n\022cont",
+      "s.GetQueriesResponse.QueryEntity\022\032\n\022cont" +
       "inuation_token\030\002 \001(\t\032\266\002\n\013QueryEntity\022\n\n\002" +
       "id\030\001 \001(\t\022\013\n\003sql\030\002 \001(\t\022\022\n\ncreated_by\030\003 \001(" +
       "\t\022\023\n\013modified_by\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\022\020\n\010" +
@@ -34132,7 +36666,7 @@ public final class AnalyticsProtos {
       "time\030\n \001(\0132\032.google.protobuf.Timestamp\0225" +
       "\n\021modification_time\030\013 \001(\0132\032.google.proto" +
       "buf.Timestamp\"\276\001\n\022ModifyQueryRequest\022\n\n\002" +
-      "id\030\001 \001(\t\022\020\n\010cloud_id\030d \001(\t\022\021\n\tfolder_id\030",
+      "id\030\001 \001(\t\022\020\n\010cloud_id\030d \001(\t\022\021\n\tfolder_id\030" +
       "\002 \001(\t\022\013\n\003sql\030\004 \001(\t\022\014\n\004name\030\005 \001(\t\022\037\n\003acl\030" +
       "\006 \001(\0132\022.Yql.Analytics.Acl\022\022\n\nrows_limit\030" +
       "\007 \001(\003\022\023\n\013bytes_limit\030\010 \001(\003\022\022\n\nis_deleted" +
@@ -34142,7 +36676,7 @@ public final class AnalyticsProtos {
       "id\030d \001(\t\022\021\n\tfolder_id\030\002 \001(\t\022\032\n\022continuat" +
       "ion_token\030\003 \001(\t\0227\n\006filter\030\004 \001(\0132\'.Yql.An" +
       "alytics.GetHistoryRequest.Filter\032B\n\006Filt" +
-      "er\022\020\n\010query_id\030\001 \001(\t\022\022\n\nhistory_id\030\002 \001(\t",
+      "er\022\020\n\010query_id\030\001 \001(\t\022\022\n\nhistory_id\030\002 \001(\t" +
       "\022\022\n\nfield_type\030\003 \001(\005\"\037\n\017QueryStatistics\022" +
       "\014\n\004yson\030\001 \001(\014\"B\n\022GetHistoryResponse\022,\n\to" +
       "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
@@ -34152,9 +36686,9 @@ public final class AnalyticsProtos {
       "istoryEntity\022\n\n\002id\030\001 \001(\t\022\013\n\003sql\030\002 \001(\t\022\022\n" +
       "\ncreated_by\030\003 \001(\t\022\023\n\013modified_by\030\004 \001(\t\022\014" +
       "\n\004name\030\005 \001(\t\022\020\n\010cloud_id\030d \001(\t\022\021\n\tfolder" +
-      "_id\030\006 \001(\t\022\037\n\003acl\030\007 \001(\0132\022.Yql.Analytics.A",
+      "_id\030\006 \001(\t\022\037\n\003acl\030\007 \001(\0132\022.Yql.Analytics.A" +
       "cl\022\022\n\nquery_plan\030\010 \001(\t\022\020\n\010query_id\030\t \001(\t" +
-      "\022\021\n\ttruncated\030\n \003(\010\022\022\n\nrows_count\030\013 \003(\003\022" +
+      "\022\021\n\ttruncated\030\n \003(\010\022\022\n\nrows_count\030\013 \003(\004\022" +
       "+\n\006status\030\014 \001(\0162\033.Yql.Analytics.EQuerySt" +
       "atus\0221\n\014execute_mode\030\r \001(\0162\033.Yql.Analyti" +
       "cs.EExecuteMode\022\022\n\nrows_limit\030\016 \001(\003\022\023\n\013b" +
@@ -34162,7 +36696,7 @@ public final class AnalyticsProtos {
       "oogle.protobuf.Timestamp\022/\n\013finish_time\030" +
       "\021 \001(\0132\032.google.protobuf.Timestamp\0227\n\023exp" +
       "iration_deadline\030\022 \001(\0132\032.google.protobuf" +
-      ".Timestamp\0221\n\rcreation_time\030\023 \001(\0132\032.goog",
+      ".Timestamp\0221\n\rcreation_time\030\023 \001(\0132\032.goog" +
       "le.protobuf.Timestamp\0225\n\021modification_ti" +
       "me\030\024 \001(\0132\032.google.protobuf.Timestamp\0222\n\n" +
       "statistics\030\025 \001(\0132\036.Yql.Analytics.QuerySt" +
@@ -34172,7 +36706,7 @@ public final class AnalyticsProtos {
       "\001(\t\022\014\n\004name\030\004 \001(\t\022\037\n\003acl\030\005 \001(\0132\022.Yql.Ana" +
       "lytics.Acl\022\022\n\nis_deleted\030\006 \001(\010\022\020\n\010yql_te" +
       "xt\030\007 \001(\t\0229\n\020operation_params\030\t \001(\0132\037.Ydb" +
-      ".Operations.OperationParams\022\027\n\017idempoten",
+      ".Operations.OperationParams\022\027\n\017idempoten" +
       "cy_key\030\n \001(\t\")\n\023ModifyHistoryResult\022\022\n\nh" +
       "istory_id\030\001 \001(\t\"E\n\025ModifyHistoryResponse" +
       "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
@@ -34182,7 +36716,7 @@ public final class AnalyticsProtos {
       "_set_id\030\003 \001(\r\022\r\n\005limit\030\004 \001(\004\022\021\n\tfolder_i" +
       "d\030\005 \001(\t\022\020\n\010cloud_id\030\006 \001(\t\022\022\n\npage_token\030" +
       "\007 \001(\t\"E\n\025GetResultDataResponse\022,\n\toperat" +
-      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"R\n\023",
+      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"R\n\023" +
       "GetResultDataResult\022\"\n\nresult_set\030\001 \001(\0132" +
       "\016.Ydb.ResultSet\022\027\n\017next_page_token\030\002 \001(\t" +
       "\"U\n\017ResultSetHeader\022\033\n\006column\030\001 \003(\0132\013.Yd" +
@@ -34192,7 +36726,7 @@ public final class AnalyticsProtos {
       "Visibility\022\023\n\017VISIBILITY_NONE\020\000\022\025\n\021VISIB" +
       "ILITY_PUBLIC\020\001\022\024\n\020VISIBILITY_CLOUD\020\002\022\025\n\021" +
       "VISIBILITY_FOLDER\020\003*/\n\nEFieldType\022\010\n\004NON" +
-      "E\020\000\022\007\n\003SQL\020\001\022\016\n\nQUERY_PLAN\020\002*S\n\014EExecute",
+      "E\020\000\022\007\n\003SQL\020\001\022\016\n\nQUERY_PLAN\020\002*S\n\014EExecute" +
       "Mode\022\024\n\020MODE_UNSPECIFIED\020\000\022\007\n\003RUN\020\001\022\013\n\007E" +
       "XPLAIN\020\002\022\014\n\010VALIDATE\020\003\022\t\n\005PARSE\020\004*Q\n\014EQu" +
       "eryStatus\022\017\n\013UNSPECIFIED\020\000\022\t\n\005SAVED\020\001\022\013\n" +
@@ -34200,22 +36734,14 @@ public final class AnalyticsProtos {
       "com.yandex.yql.analyticsB\017AnalyticsProto" +
       "s\370\001\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.OperationProtos.getDescriptor(),
           tech.ydb.ValueProtos.getDescriptor(),
           tech.ydb.YdbIssueMessage.getDescriptor(),
           com.google.protobuf.TimestampProto.getDescriptor(),
-        }, assigner);
+        });
     internal_static_Yql_Analytics_YdbDatabase_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Yql_Analytics_YdbDatabase_fieldAccessorTable = new

@@ -217,7 +217,7 @@ public final class CoordinationProtos {
       "db_scheme.proto\"\r\n\013Unsupported\"\262\002\n\006Confi" +
       "g\022\014\n\004path\030\001 \001(\t\022 \n\030self_check_period_mil" +
       "lis\030\002 \001(\r\022#\n\033session_grace_period_millis" +
-      "\030\003 \001(\r\022@\n\025read_consistency_mode\030\004 \001(\0162!.",
+      "\030\003 \001(\r\022@\n\025read_consistency_mode\030\004 \001(\0162!." +
       "Ydb.Coordination.ConsistencyMode\022B\n\027atta" +
       "ch_consistency_mode\030\005 \001(\0162!.Ydb.Coordina" +
       "tion.ConsistencyMode\022M\n\032rate_limiter_cou" +
@@ -227,7 +227,7 @@ public final class CoordinationProtos {
       "\002 \001(\004\022\023\n\013description\030\003 \001(\t\022\020\n\010attached\030\004" +
       " \001(\010\"m\n\020SemaphoreSession\022\020\n\010order_id\030\005 \001" +
       "(\004\022\022\n\nsession_id\030\001 \001(\004\022\026\n\016timeout_millis" +
-      "\030\002 \001(\004\022\r\n\005count\030\003 \001(\004\022\014\n\004data\030\004 \001(\014\"\314\001\n\024",
+      "\030\002 \001(\004\022\r\n\005count\030\003 \001(\004\022\014\n\004data\030\004 \001(\014\"\314\001\n\024" +
       "SemaphoreDescription\022\014\n\004name\030\001 \001(\t\022\014\n\004da" +
       "ta\030\002 \001(\014\022\r\n\005count\030\007 \001(\004\022\r\n\005limit\030\003 \001(\004\022\021" +
       "\n\tephemeral\030\004 \001(\010\0222\n\006owners\030\005 \003(\0132\".Ydb." +
@@ -237,7 +237,7 @@ public final class CoordinationProtos {
       "b.Coordination.SessionRequest.PingPongH\000" +
       "\0229\n\004pong\030\002 \001(\0132).Ydb.Coordination.Sessio" +
       "nRequest.PingPongH\000\022F\n\rsession_start\030\003 \001" +
-      "(\0132-.Ydb.Coordination.SessionRequest.Ses",
+      "(\0132-.Ydb.Coordination.SessionRequest.Ses" +
       "sionStartH\000\022D\n\014session_stop\030\004 \001(\0132,.Ydb." +
       "Coordination.SessionRequest.SessionStopH" +
       "\000\0226\n\runsupported_5\030\005 \001(\0132\035.Ydb.Coordinat" +
@@ -247,7 +247,7 @@ public final class CoordinationProtos {
       "SessionRequest.AcquireSemaphoreH\000\022N\n\021rel" +
       "ease_semaphore\030\010 \001(\01321.Ydb.Coordination." +
       "SessionRequest.ReleaseSemaphoreH\000\022P\n\022des" +
-      "cribe_semaphore\030\t \001(\01322.Ydb.Coordination",
+      "cribe_semaphore\030\t \001(\01322.Ydb.Coordination" +
       ".SessionRequest.DescribeSemaphoreH\000\022L\n\020c" +
       "reate_semaphore\030\n \001(\01320.Ydb.Coordination" +
       ".SessionRequest.CreateSemaphoreH\000\022L\n\020upd" +
@@ -257,7 +257,7 @@ public final class CoordinationProtos {
       "sionRequest.DeleteSemaphoreH\000\0227\n\016unsuppo" +
       "rted_13\030\r \001(\0132\035.Ydb.Coordination.Unsuppo" +
       "rtedH\000\0227\n\016unsupported_14\030\016 \001(\0132\035.Ydb.Coo" +
-      "rdination.UnsupportedH\000\0227\n\016unsupported_1",
+      "rdination.UnsupportedH\000\0227\n\016unsupported_1" +
       "5\030\017 \001(\0132\035.Ydb.Coordination.UnsupportedH\000" +
       "\032\032\n\010PingPong\022\016\n\006opaque\030\001 \001(\004\032\205\001\n\014Session" +
       "Start\022\014\n\004path\030\001 \001(\t\022\022\n\nsession_id\030\002 \001(\004\022" +
@@ -267,7 +267,7 @@ public final class CoordinationProtos {
       "\016\n\006req_id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\026\n\016timeout" +
       "_millis\030\003 \001(\004\022\r\n\005count\030\004 \001(\004\022\014\n\004data\030\005 \001" +
       "(\014\022\021\n\tephemeral\030\006 \001(\010\0320\n\020ReleaseSemaphor" +
-      "e\022\016\n\006req_id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\032\214\001\n\021Desc",
+      "e\022\016\n\006req_id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\032\214\001\n\021Desc" +
       "ribeSemaphore\022\016\n\006req_id\030\001 \001(\004\022\014\n\004name\030\002 " +
       "\001(\t\022\026\n\016include_owners\030\003 \001(\010\022\027\n\017include_w" +
       "aiters\030\004 \001(\010\022\022\n\nwatch_data\030\005 \001(\010\022\024\n\014watc" +
@@ -277,7 +277,7 @@ public final class CoordinationProtos {
       "d\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\014\n\004data\030\003 \001(\014\032>\n\017D" +
       "eleteSemaphore\022\016\n\006req_id\030\001 \001(\004\022\014\n\004name\030\002" +
       " \001(\t\022\r\n\005force\030\003 \001(\010B\t\n\007request\"\323\024\n\017Sessi" +
-      "onResponse\022:\n\004ping\030\001 \001(\0132*.Ydb.Coordinat",
+      "onResponse\022:\n\004ping\030\001 \001(\0132*.Ydb.Coordinat" +
       "ion.SessionResponse.PingPongH\000\022:\n\004pong\030\002" +
       " \001(\0132*.Ydb.Coordination.SessionResponse." +
       "PingPongH\000\022<\n\007failure\030\003 \001(\0132).Ydb.Coordi" +
@@ -287,7 +287,7 @@ public final class CoordinationProtos {
       "_stopped\030\005 \001(\01320.Ydb.Coordination.Sessio" +
       "nResponse.SessionStoppedH\000\0226\n\runsupporte" +
       "d_6\030\006 \001(\0132\035.Ydb.Coordination.Unsupported" +
-      "H\000\0226\n\runsupported_7\030\007 \001(\0132\035.Ydb.Coordina",
+      "H\000\0226\n\runsupported_7\030\007 \001(\0132\035.Ydb.Coordina" +
       "tion.UnsupportedH\000\022^\n\031acquire_semaphore_" +
       "pending\030\010 \001(\01329.Ydb.Coordination.Session" +
       "Response.AcquireSemaphorePendingH\000\022\\\n\030ac" +
@@ -297,7 +297,7 @@ public final class CoordinationProtos {
       "(\01328.Ydb.Coordination.SessionResponse.Re" +
       "leaseSemaphoreResultH\000\022^\n\031describe_semap" +
       "hore_result\030\013 \001(\01329.Ydb.Coordination.Ses" +
-      "sionResponse.DescribeSemaphoreResultH\000\022`",
+      "sionResponse.DescribeSemaphoreResultH\000\022`" +
       "\n\032describe_semaphore_changed\030\014 \001(\0132:.Ydb" +
       ".Coordination.SessionResponse.DescribeSe" +
       "maphoreChangedH\000\022Z\n\027create_semaphore_res" +
@@ -307,7 +307,7 @@ public final class CoordinationProtos {
       ".SessionResponse.UpdateSemaphoreResultH\000" +
       "\022Z\n\027delete_semaphore_result\030\017 \001(\01327.Ydb." +
       "Coordination.SessionResponse.DeleteSemap" +
-      "horeResultH\000\0227\n\016unsupported_16\030\020 \001(\0132\035.Y",
+      "horeResultH\000\0227\n\016unsupported_16\030\020 \001(\0132\035.Y" +
       "db.Coordination.UnsupportedH\000\0227\n\016unsuppo" +
       "rted_17\030\021 \001(\0132\035.Ydb.Coordination.Unsuppo" +
       "rtedH\000\0227\n\016unsupported_18\030\022 \001(\0132\035.Ydb.Coo" +
@@ -317,7 +317,7 @@ public final class CoordinationProtos {
       "\0132\027.Ydb.Issue.IssueMessage\032<\n\016SessionSta" +
       "rted\022\022\n\nsession_id\030\001 \001(\004\022\026\n\016timeout_mill" +
       "is\030\002 \001(\004\032$\n\016SessionStopped\022\022\n\nsession_id" +
-      "\030\001 \001(\004\032)\n\027AcquireSemaphorePending\022\016\n\006req",
+      "\030\001 \001(\004\032)\n\027AcquireSemaphorePending\022\016\n\006req" +
       "_id\030\001 \001(\004\032\216\001\n\026AcquireSemaphoreResult\022\016\n\006" +
       "req_id\030\001 \001(\004\022)\n\006status\030\002 \001(\0162\031.Ydb.Statu" +
       "sIds.StatusCode\022\'\n\006issues\030\003 \003(\0132\027.Ydb.Is" +
@@ -327,7 +327,7 @@ public final class CoordinationProtos {
       "\022\'\n\006issues\030\003 \003(\0132\027.Ydb.Issue.IssueMessag" +
       "e\022\020\n\010released\030\004 \001(\010\032\331\001\n\027DescribeSemaphor" +
       "eResult\022\016\n\006req_id\030\001 \001(\004\022)\n\006status\030\002 \001(\0162" +
-      "\031.Ydb.StatusIds.StatusCode\022\'\n\006issues\030\003 \003",
+      "\031.Ydb.StatusIds.StatusCode\022\'\n\006issues\030\003 \003" +
       "(\0132\027.Ydb.Issue.IssueMessage\022E\n\025semaphore" +
       "_description\030\004 \001(\0132&.Ydb.Coordination.Se" +
       "maphoreDescription\022\023\n\013watch_added\030\005 \001(\010\032" +
@@ -337,7 +337,7 @@ public final class CoordinationProtos {
       "q_id\030\001 \001(\004\022)\n\006status\030\002 \001(\0162\031.Ydb.StatusI" +
       "ds.StatusCode\022\'\n\006issues\030\003 \003(\0132\027.Ydb.Issu" +
       "e.IssueMessage\032{\n\025UpdateSemaphoreResult\022" +
-      "\016\n\006req_id\030\001 \001(\004\022)\n\006status\030\002 \001(\0162\031.Ydb.St",
+      "\016\n\006req_id\030\001 \001(\004\022)\n\006status\030\002 \001(\0162\031.Ydb.St" +
       "atusIds.StatusCode\022\'\n\006issues\030\003 \003(\0132\027.Ydb" +
       ".Issue.IssueMessage\032{\n\025DeleteSemaphoreRe" +
       "sult\022\016\n\006req_id\030\001 \001(\004\022)\n\006status\030\002 \001(\0162\031.Y" +
@@ -347,7 +347,7 @@ public final class CoordinationProtos {
       "ig\030\002 \001(\0132\030.Ydb.Coordination.Config\0229\n\020op" +
       "eration_params\030\003 \001(\0132\037.Ydb.Operations.Op" +
       "erationParams\"B\n\022CreateNodeResponse\022,\n\to" +
-      "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio",
+      "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
       "n\"\205\001\n\020AlterNodeRequest\022\014\n\004path\030\001 \001(\t\022(\n\006" +
       "config\030\002 \001(\0132\030.Ydb.Coordination.Config\0229" +
       "\n\020operation_params\030\003 \001(\0132\037.Ydb.Operation" +
@@ -357,7 +357,7 @@ public final class CoordinationProtos {
       "\020operation_params\030\002 \001(\0132\037.Ydb.Operations" +
       ".OperationParams\"@\n\020DropNodeResponse\022,\n\t" +
       "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
-      "on\"^\n\023DescribeNodeRequest\022\014\n\004path\030\001 \001(\t\022",
+      "on\"^\n\023DescribeNodeRequest\022\014\n\004path\030\001 \001(\t\022" +
       "9\n\020operation_params\030\002 \001(\0132\037.Ydb.Operatio" +
       "ns.OperationParams\"D\n\024DescribeNodeRespon" +
       "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
@@ -367,28 +367,20 @@ public final class CoordinationProtos {
       "Mode\022\032\n\026CONSISTENCY_MODE_UNSET\020\000\022\033\n\027CONS" +
       "ISTENCY_MODE_STRICT\020\001\022\034\n\030CONSISTENCY_MOD" +
       "E_RELAXED\020\002*\223\001\n\027RateLimiterCountersMode\022" +
-      "$\n RATE_LIMITER_COUNTERS_MODE_UNSET\020\000\022)\n",
+      "$\n RATE_LIMITER_COUNTERS_MODE_UNSET\020\000\022)\n" +
       "%RATE_LIMITER_COUNTERS_MODE_AGGREGATED\020\001" +
       "\022\'\n#RATE_LIMITER_COUNTERS_MODE_DETAILED\020" +
       "\002B6\n\033tech.ydb.coordinationB\022Coordi" +
       "nationProtosP\001\370\001\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.OperationProtos.getDescriptor(),
           tech.ydb.StatusCodesProtos.getDescriptor(),
           tech.ydb.YdbIssueMessage.getDescriptor(),
           tech.ydb.scheme.SchemeOperationProtos.getDescriptor(),
-        }, assigner);
+        });
     internal_static_Ydb_Coordination_Unsupported_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_Coordination_Unsupported_fieldAccessorTable = new

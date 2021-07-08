@@ -9,10 +9,12 @@ public interface SessionResponseOrBuilder extends
 
   /**
    * <code>.Ydb.Coordination.SessionResponse.PingPong ping = 1;</code>
+   * @return Whether the ping field is set.
    */
   boolean hasPing();
   /**
    * <code>.Ydb.Coordination.SessionResponse.PingPong ping = 1;</code>
+   * @return The ping.
    */
   tech.ydb.coordination.SessionResponse.PingPong getPing();
   /**
@@ -22,10 +24,12 @@ public interface SessionResponseOrBuilder extends
 
   /**
    * <code>.Ydb.Coordination.SessionResponse.PingPong pong = 2;</code>
+   * @return Whether the pong field is set.
    */
   boolean hasPong();
   /**
    * <code>.Ydb.Coordination.SessionResponse.PingPong pong = 2;</code>
+   * @return The pong.
    */
   tech.ydb.coordination.SessionResponse.PingPong getPong();
   /**
@@ -35,10 +39,12 @@ public interface SessionResponseOrBuilder extends
 
   /**
    * <code>.Ydb.Coordination.SessionResponse.Failure failure = 3;</code>
+   * @return Whether the failure field is set.
    */
   boolean hasFailure();
   /**
    * <code>.Ydb.Coordination.SessionResponse.Failure failure = 3;</code>
+   * @return The failure.
    */
   tech.ydb.coordination.SessionResponse.Failure getFailure();
   /**
@@ -48,10 +54,12 @@ public interface SessionResponseOrBuilder extends
 
   /**
    * <code>.Ydb.Coordination.SessionResponse.SessionStarted session_started = 4;</code>
+   * @return Whether the sessionStarted field is set.
    */
   boolean hasSessionStarted();
   /**
    * <code>.Ydb.Coordination.SessionResponse.SessionStarted session_started = 4;</code>
+   * @return The sessionStarted.
    */
   tech.ydb.coordination.SessionResponse.SessionStarted getSessionStarted();
   /**
@@ -61,10 +69,12 @@ public interface SessionResponseOrBuilder extends
 
   /**
    * <code>.Ydb.Coordination.SessionResponse.SessionStopped session_stopped = 5;</code>
+   * @return Whether the sessionStopped field is set.
    */
   boolean hasSessionStopped();
   /**
    * <code>.Ydb.Coordination.SessionResponse.SessionStopped session_stopped = 5;</code>
+   * @return The sessionStopped.
    */
   tech.ydb.coordination.SessionResponse.SessionStopped getSessionStopped();
   /**
@@ -74,10 +84,12 @@ public interface SessionResponseOrBuilder extends
 
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_6 = 6;</code>
+   * @return Whether the unsupported6 field is set.
    */
   boolean hasUnsupported6();
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_6 = 6;</code>
+   * @return The unsupported6.
    */
   tech.ydb.coordination.Unsupported getUnsupported6();
   /**
@@ -87,10 +99,12 @@ public interface SessionResponseOrBuilder extends
 
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_7 = 7;</code>
+   * @return Whether the unsupported7 field is set.
    */
   boolean hasUnsupported7();
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_7 = 7;</code>
+   * @return The unsupported7.
    */
   tech.ydb.coordination.Unsupported getUnsupported7();
   /**
@@ -100,10 +114,12 @@ public interface SessionResponseOrBuilder extends
 
   /**
    * <code>.Ydb.Coordination.SessionResponse.AcquireSemaphorePending acquire_semaphore_pending = 8;</code>
+   * @return Whether the acquireSemaphorePending field is set.
    */
   boolean hasAcquireSemaphorePending();
   /**
    * <code>.Ydb.Coordination.SessionResponse.AcquireSemaphorePending acquire_semaphore_pending = 8;</code>
+   * @return The acquireSemaphorePending.
    */
   tech.ydb.coordination.SessionResponse.AcquireSemaphorePending getAcquireSemaphorePending();
   /**
@@ -113,10 +129,12 @@ public interface SessionResponseOrBuilder extends
 
   /**
    * <code>.Ydb.Coordination.SessionResponse.AcquireSemaphoreResult acquire_semaphore_result = 9;</code>
+   * @return Whether the acquireSemaphoreResult field is set.
    */
   boolean hasAcquireSemaphoreResult();
   /**
    * <code>.Ydb.Coordination.SessionResponse.AcquireSemaphoreResult acquire_semaphore_result = 9;</code>
+   * @return The acquireSemaphoreResult.
    */
   tech.ydb.coordination.SessionResponse.AcquireSemaphoreResult getAcquireSemaphoreResult();
   /**
@@ -126,10 +144,12 @@ public interface SessionResponseOrBuilder extends
 
   /**
    * <code>.Ydb.Coordination.SessionResponse.ReleaseSemaphoreResult release_semaphore_result = 10;</code>
+   * @return Whether the releaseSemaphoreResult field is set.
    */
   boolean hasReleaseSemaphoreResult();
   /**
    * <code>.Ydb.Coordination.SessionResponse.ReleaseSemaphoreResult release_semaphore_result = 10;</code>
+   * @return The releaseSemaphoreResult.
    */
   tech.ydb.coordination.SessionResponse.ReleaseSemaphoreResult getReleaseSemaphoreResult();
   /**
@@ -139,10 +159,12 @@ public interface SessionResponseOrBuilder extends
 
   /**
    * <code>.Ydb.Coordination.SessionResponse.DescribeSemaphoreResult describe_semaphore_result = 11;</code>
+   * @return Whether the describeSemaphoreResult field is set.
    */
   boolean hasDescribeSemaphoreResult();
   /**
    * <code>.Ydb.Coordination.SessionResponse.DescribeSemaphoreResult describe_semaphore_result = 11;</code>
+   * @return The describeSemaphoreResult.
    */
   tech.ydb.coordination.SessionResponse.DescribeSemaphoreResult getDescribeSemaphoreResult();
   /**
@@ -152,10 +174,12 @@ public interface SessionResponseOrBuilder extends
 
   /**
    * <code>.Ydb.Coordination.SessionResponse.DescribeSemaphoreChanged describe_semaphore_changed = 12;</code>
+   * @return Whether the describeSemaphoreChanged field is set.
    */
   boolean hasDescribeSemaphoreChanged();
   /**
    * <code>.Ydb.Coordination.SessionResponse.DescribeSemaphoreChanged describe_semaphore_changed = 12;</code>
+   * @return The describeSemaphoreChanged.
    */
   tech.ydb.coordination.SessionResponse.DescribeSemaphoreChanged getDescribeSemaphoreChanged();
   /**
@@ -165,10 +189,12 @@ public interface SessionResponseOrBuilder extends
 
   /**
    * <code>.Ydb.Coordination.SessionResponse.CreateSemaphoreResult create_semaphore_result = 13;</code>
+   * @return Whether the createSemaphoreResult field is set.
    */
   boolean hasCreateSemaphoreResult();
   /**
    * <code>.Ydb.Coordination.SessionResponse.CreateSemaphoreResult create_semaphore_result = 13;</code>
+   * @return The createSemaphoreResult.
    */
   tech.ydb.coordination.SessionResponse.CreateSemaphoreResult getCreateSemaphoreResult();
   /**
@@ -178,10 +204,12 @@ public interface SessionResponseOrBuilder extends
 
   /**
    * <code>.Ydb.Coordination.SessionResponse.UpdateSemaphoreResult update_semaphore_result = 14;</code>
+   * @return Whether the updateSemaphoreResult field is set.
    */
   boolean hasUpdateSemaphoreResult();
   /**
    * <code>.Ydb.Coordination.SessionResponse.UpdateSemaphoreResult update_semaphore_result = 14;</code>
+   * @return The updateSemaphoreResult.
    */
   tech.ydb.coordination.SessionResponse.UpdateSemaphoreResult getUpdateSemaphoreResult();
   /**
@@ -191,10 +219,12 @@ public interface SessionResponseOrBuilder extends
 
   /**
    * <code>.Ydb.Coordination.SessionResponse.DeleteSemaphoreResult delete_semaphore_result = 15;</code>
+   * @return Whether the deleteSemaphoreResult field is set.
    */
   boolean hasDeleteSemaphoreResult();
   /**
    * <code>.Ydb.Coordination.SessionResponse.DeleteSemaphoreResult delete_semaphore_result = 15;</code>
+   * @return The deleteSemaphoreResult.
    */
   tech.ydb.coordination.SessionResponse.DeleteSemaphoreResult getDeleteSemaphoreResult();
   /**
@@ -204,10 +234,12 @@ public interface SessionResponseOrBuilder extends
 
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_16 = 16;</code>
+   * @return Whether the unsupported16 field is set.
    */
   boolean hasUnsupported16();
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_16 = 16;</code>
+   * @return The unsupported16.
    */
   tech.ydb.coordination.Unsupported getUnsupported16();
   /**
@@ -217,10 +249,12 @@ public interface SessionResponseOrBuilder extends
 
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_17 = 17;</code>
+   * @return Whether the unsupported17 field is set.
    */
   boolean hasUnsupported17();
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_17 = 17;</code>
+   * @return The unsupported17.
    */
   tech.ydb.coordination.Unsupported getUnsupported17();
   /**
@@ -230,10 +264,12 @@ public interface SessionResponseOrBuilder extends
 
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_18 = 18;</code>
+   * @return Whether the unsupported18 field is set.
    */
   boolean hasUnsupported18();
   /**
    * <code>.Ydb.Coordination.Unsupported unsupported_18 = 18;</code>
+   * @return The unsupported18.
    */
   tech.ydb.coordination.Unsupported getUnsupported18();
   /**

@@ -9,20 +9,24 @@ public interface AlterNodeRequestOrBuilder extends
 
   /**
    * <code>string path = 1;</code>
+   * @return The path.
    */
   java.lang.String getPath();
   /**
    * <code>string path = 1;</code>
+   * @return The bytes for path.
    */
   com.google.protobuf.ByteString
       getPathBytes();
 
   /**
    * <code>.Ydb.Coordination.Config config = 2;</code>
+   * @return Whether the config field is set.
    */
   boolean hasConfig();
   /**
    * <code>.Ydb.Coordination.Config config = 2;</code>
+   * @return The config.
    */
   tech.ydb.coordination.Config getConfig();
   /**
@@ -32,10 +36,12 @@ public interface AlterNodeRequestOrBuilder extends
 
   /**
    * <code>.Ydb.Operations.OperationParams operation_params = 3;</code>
+   * @return Whether the operationParams field is set.
    */
   boolean hasOperationParams();
   /**
    * <code>.Ydb.Operations.OperationParams operation_params = 3;</code>
+   * @return The operationParams.
    */
   tech.ydb.OperationProtos.OperationParams getOperationParams();
   /**

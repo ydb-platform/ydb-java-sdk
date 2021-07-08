@@ -32,19 +32,11 @@ public final class PersqueueGrpc {
       "\032\030.NPersQueue.ReadResponse(\0010\001B%\n\024com.ya" +
       "ndex.persqueueB\rPersqueueGrpcb\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.persqueue.Persqueue.getDescriptor(),
-        }, assigner);
+        });
     tech.ydb.persqueue.Persqueue.getDescriptor();
   }
 

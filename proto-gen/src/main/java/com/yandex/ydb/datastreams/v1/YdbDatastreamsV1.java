@@ -32,7 +32,7 @@ public final class YdbDatastreamsV1 {
       "esponse\022^\n\013ListStreams\022&.Ydb.DataStreams" +
       ".V1.ListStreamsRequest\032\'.Ydb.DataStreams" +
       ".V1.ListStreamsResponse\022a\n\014DeleteStream\022" +
-      "\'.Ydb.DataStreams.V1.DeleteStreamRequest",
+      "\'.Ydb.DataStreams.V1.DeleteStreamRequest" +
       "\032(.Ydb.DataStreams.V1.DeleteStreamRespon" +
       "se\022g\n\016DescribeStream\022).Ydb.DataStreams.V" +
       "1.DescribeStreamRequest\032*.Ydb.DataStream" +
@@ -42,7 +42,7 @@ public final class YdbDatastreamsV1 {
       "\022d\n\rSetWriteQuota\022(.Ydb.DataStreams.V1.S" +
       "etWriteQuotaRequest\032).Ydb.DataStreams.V1" +
       ".SetWriteQuotaResponse\022a\n\014UpdateStream\022\'" +
-      ".Ydb.DataStreams.V1.UpdateStreamRequest\032",
+      ".Ydb.DataStreams.V1.UpdateStreamRequest\032" +
       "(.Ydb.DataStreams.V1.UpdateStreamRespons" +
       "e\022X\n\tPutRecord\022$.Ydb.DataStreams.V1.PutR" +
       "ecordRequest\032%.Ydb.DataStreams.V1.PutRec" +
@@ -52,7 +52,7 @@ public final class YdbDatastreamsV1 {
       ".Ydb.DataStreams.V1.GetRecordsRequest\032&." +
       "Ydb.DataStreams.V1.GetRecordsResponse\022m\n" +
       "\020GetShardIterator\022+.Ydb.DataStreams.V1.G" +
-      "etShardIteratorRequest\032,.Ydb.DataStreams",
+      "etShardIteratorRequest\032,.Ydb.DataStreams" +
       ".V1.GetShardIteratorResponse\022o\n\020Subscrib" +
       "eToShard\022+.Ydb.DataStreams.V1.SubscribeT" +
       "oShardRequest\032,.Ydb.DataStreams.V1.Subsc" +
@@ -62,7 +62,7 @@ public final class YdbDatastreamsV1 {
       "sponse\022|\n\025DescribeStreamSummary\0220.Ydb.Da" +
       "taStreams.V1.DescribeStreamSummaryReques" +
       "t\0321.Ydb.DataStreams.V1.DescribeStreamSum" +
-      "maryResponse\022\224\001\n\035DecreaseStreamRetention",
+      "maryResponse\022\224\001\n\035DecreaseStreamRetention" +
       "Period\0228.Ydb.DataStreams.V1.DecreaseStre" +
       "amRetentionPeriodRequest\0329.Ydb.DataStrea" +
       "ms.V1.DecreaseStreamRetentionPeriodRespo" +
@@ -72,7 +72,7 @@ public final class YdbDatastreamsV1 {
       "reaseStreamRetentionPeriodResponse\022m\n\020Up" +
       "dateShardCount\022+.Ydb.DataStreams.V1.Upda" +
       "teShardCountRequest\032,.Ydb.DataStreams.V1" +
-      ".UpdateShardCountResponse\022\177\n\026RegisterStr",
+      ".UpdateShardCountResponse\022\177\n\026RegisterStr" +
       "eamConsumer\0221.Ydb.DataStreams.V1.Registe" +
       "rStreamConsumerRequest\0322.Ydb.DataStreams" +
       ".V1.RegisterStreamConsumerResponse\022\205\001\n\030D" +
@@ -82,7 +82,7 @@ public final class YdbDatastreamsV1 {
       "erResponse\022\177\n\026DescribeStreamConsumer\0221.Y" +
       "db.DataStreams.V1.DescribeStreamConsumer" +
       "Request\0322.Ydb.DataStreams.V1.DescribeStr" +
-      "eamConsumerResponse\022v\n\023ListStreamConsume",
+      "eamConsumerResponse\022v\n\023ListStreamConsume" +
       "rs\022..Ydb.DataStreams.V1.ListStreamConsum" +
       "ersRequest\032/.Ydb.DataStreams.V1.ListStre" +
       "amConsumersResponse\022j\n\017AddTagsToStream\022*" +
@@ -92,7 +92,7 @@ public final class YdbDatastreamsV1 {
       "Ydb.DataStreams.V1.DisableEnhancedMonito" +
       "ringRequest\0325.Ydb.DataStreams.V1.Disable" +
       "EnhancedMonitoringResponse\022\205\001\n\030EnableEnh" +
-      "ancedMonitoring\0223.Ydb.DataStreams.V1.Ena",
+      "ancedMonitoring\0223.Ydb.DataStreams.V1.Ena" +
       "bleEnhancedMonitoringRequest\0324.Ydb.DataS" +
       "treams.V1.EnableEnhancedMonitoringRespon" +
       "se\022p\n\021ListTagsForStream\022,.Ydb.DataStream" +
@@ -102,7 +102,7 @@ public final class YdbDatastreamsV1 {
       "ardsRequest\032\'.Ydb.DataStreams.V1.MergeSh" +
       "ardsResponse\022y\n\024RemoveTagsFromStream\022/.Y" +
       "db.DataStreams.V1.RemoveTagsFromStreamRe" +
-      "quest\0320.Ydb.DataStreams.V1.RemoveTagsFro",
+      "quest\0320.Ydb.DataStreams.V1.RemoveTagsFro" +
       "mStreamResponse\022[\n\nSplitShard\022%.Ydb.Data" +
       "Streams.V1.SplitShardRequest\032&.Ydb.DataS" +
       "treams.V1.SplitShardResponse\022|\n\025StartStr" +
@@ -112,22 +112,14 @@ public final class YdbDatastreamsV1 {
       "opStreamEncryption\022/.Ydb.DataStreams.V1." +
       "StopStreamEncryptionRequest\0320.Ydb.DataSt" +
       "reams.V1.StopStreamEncryptionResponseB\"\n" +
-      "\035tech.ydb.datastreams.v1\370\001\001b\006proto",
+      "\035tech.ydb.datastreams.v1\370\001\001b\006proto" +
       "3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.datastreams.v1.Datastreams.getDescriptor(),
-        }, assigner);
+        });
     tech.ydb.datastreams.v1.Datastreams.getDescriptor();
   }
 

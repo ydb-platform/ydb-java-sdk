@@ -13,6 +13,7 @@ public interface SessionDescriptionOrBuilder extends
    * </pre>
    *
    * <code>uint64 session_id = 1;</code>
+   * @return The sessionId.
    */
   long getSessionId();
 
@@ -22,6 +23,7 @@ public interface SessionDescriptionOrBuilder extends
    * </pre>
    *
    * <code>uint64 timeout_millis = 2;</code>
+   * @return The timeoutMillis.
    */
   long getTimeoutMillis();
 
@@ -31,6 +33,7 @@ public interface SessionDescriptionOrBuilder extends
    * </pre>
    *
    * <code>string description = 3;</code>
+   * @return The description.
    */
   java.lang.String getDescription();
   /**
@@ -39,6 +42,7 @@ public interface SessionDescriptionOrBuilder extends
    * </pre>
    *
    * <code>string description = 3;</code>
+   * @return The bytes for description.
    */
   com.google.protobuf.ByteString
       getDescriptionBytes();
@@ -49,6 +53,7 @@ public interface SessionDescriptionOrBuilder extends
    * </pre>
    *
    * <code>bool attached = 4;</code>
+   * @return The attached.
    */
   boolean getAttached();
 }

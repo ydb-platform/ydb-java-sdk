@@ -6,7 +6,7 @@ package tech.ydb.coordination;
 /**
  * Protobuf type {@code Ydb.Coordination.CreateNodeRequest}
  */
-public  final class CreateNodeRequest extends
+public final class CreateNodeRequest extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:Ydb.Coordination.CreateNodeRequest)
     CreateNodeRequestOrBuilder {
@@ -20,6 +20,13 @@ private static final long serialVersionUID = 0L;
   }
 
   @java.lang.Override
+  @SuppressWarnings({"unused"})
+  protected java.lang.Object newInstance(
+      UnusedPrivateParameter unused) {
+    return new CreateNodeRequest();
+  }
+
+  @java.lang.Override
   public final com.google.protobuf.UnknownFieldSet
   getUnknownFields() {
     return this.unknownFields;
@@ -29,7 +36,9 @@ private static final long serialVersionUID = 0L;
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     this();
-    int mutable_bitField0_ = 0;
+    if (extensionRegistry == null) {
+      throw new java.lang.NullPointerException();
+    }
     com.google.protobuf.UnknownFieldSet.Builder unknownFields =
         com.google.protobuf.UnknownFieldSet.newBuilder();
     try {
@@ -40,13 +49,6 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          default: {
-            if (!parseUnknownFieldProto3(
-                input, unknownFields, extensionRegistry, tag)) {
-              done = true;
-            }
-            break;
-          }
           case 10: {
             java.lang.String s = input.readStringRequireUtf8();
 
@@ -79,6 +81,13 @@ private static final long serialVersionUID = 0L;
 
             break;
           }
+          default: {
+            if (!parseUnknownField(
+                input, unknownFields, extensionRegistry, tag)) {
+              done = true;
+            }
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -96,6 +105,7 @@ private static final long serialVersionUID = 0L;
     return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_CreateNodeRequest_descriptor;
   }
 
+  @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_CreateNodeRequest_fieldAccessorTable
@@ -107,7 +117,9 @@ private static final long serialVersionUID = 0L;
   private volatile java.lang.Object path_;
   /**
    * <code>string path = 1;</code>
+   * @return The path.
    */
+  @java.lang.Override
   public java.lang.String getPath() {
     java.lang.Object ref = path_;
     if (ref instanceof java.lang.String) {
@@ -122,7 +134,9 @@ private static final long serialVersionUID = 0L;
   }
   /**
    * <code>string path = 1;</code>
+   * @return The bytes for path.
    */
+  @java.lang.Override
   public com.google.protobuf.ByteString
       getPathBytes() {
     java.lang.Object ref = path_;
@@ -141,19 +155,24 @@ private static final long serialVersionUID = 0L;
   private tech.ydb.coordination.Config config_;
   /**
    * <code>.Ydb.Coordination.Config config = 2;</code>
+   * @return Whether the config field is set.
    */
+  @java.lang.Override
   public boolean hasConfig() {
     return config_ != null;
   }
   /**
    * <code>.Ydb.Coordination.Config config = 2;</code>
+   * @return The config.
    */
+  @java.lang.Override
   public tech.ydb.coordination.Config getConfig() {
     return config_ == null ? tech.ydb.coordination.Config.getDefaultInstance() : config_;
   }
   /**
    * <code>.Ydb.Coordination.Config config = 2;</code>
    */
+  @java.lang.Override
   public tech.ydb.coordination.ConfigOrBuilder getConfigOrBuilder() {
     return getConfig();
   }
@@ -162,24 +181,30 @@ private static final long serialVersionUID = 0L;
   private tech.ydb.OperationProtos.OperationParams operationParams_;
   /**
    * <code>.Ydb.Operations.OperationParams operation_params = 3;</code>
+   * @return Whether the operationParams field is set.
    */
+  @java.lang.Override
   public boolean hasOperationParams() {
     return operationParams_ != null;
   }
   /**
    * <code>.Ydb.Operations.OperationParams operation_params = 3;</code>
+   * @return The operationParams.
    */
+  @java.lang.Override
   public tech.ydb.OperationProtos.OperationParams getOperationParams() {
     return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
   }
   /**
    * <code>.Ydb.Operations.OperationParams operation_params = 3;</code>
    */
+  @java.lang.Override
   public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
     return getOperationParams();
   }
 
   private byte memoizedIsInitialized = -1;
+  @java.lang.Override
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
     if (isInitialized == 1) return true;
@@ -189,6 +214,7 @@ private static final long serialVersionUID = 0L;
     return true;
   }
 
+  @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     if (!getPathBytes().isEmpty()) {
@@ -203,6 +229,7 @@ private static final long serialVersionUID = 0L;
     unknownFields.writeTo(output);
   }
 
+  @java.lang.Override
   public int getSerializedSize() {
     int size = memoizedSize;
     if (size != -1) return size;
@@ -234,21 +261,20 @@ private static final long serialVersionUID = 0L;
     }
     tech.ydb.coordination.CreateNodeRequest other = (tech.ydb.coordination.CreateNodeRequest) obj;
 
-    boolean result = true;
-    result = result && getPath()
-        .equals(other.getPath());
-    result = result && (hasConfig() == other.hasConfig());
+    if (!getPath()
+        .equals(other.getPath())) return false;
+    if (hasConfig() != other.hasConfig()) return false;
     if (hasConfig()) {
-      result = result && getConfig()
-          .equals(other.getConfig());
+      if (!getConfig()
+          .equals(other.getConfig())) return false;
     }
-    result = result && (hasOperationParams() == other.hasOperationParams());
+    if (hasOperationParams() != other.hasOperationParams()) return false;
     if (hasOperationParams()) {
-      result = result && getOperationParams()
-          .equals(other.getOperationParams());
+      if (!getOperationParams()
+          .equals(other.getOperationParams())) return false;
     }
-    result = result && unknownFields.equals(other.unknownFields);
-    return result;
+    if (!unknownFields.equals(other.unknownFields)) return false;
+    return true;
   }
 
   @java.lang.Override
@@ -343,6 +369,7 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
+  @java.lang.Override
   public Builder newBuilderForType() { return newBuilder(); }
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
@@ -350,6 +377,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder(tech.ydb.coordination.CreateNodeRequest prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
+  @java.lang.Override
   public Builder toBuilder() {
     return this == DEFAULT_INSTANCE
         ? new Builder() : new Builder().mergeFrom(this);
@@ -373,6 +401,7 @@ private static final long serialVersionUID = 0L;
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_CreateNodeRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_CreateNodeRequest_fieldAccessorTable
@@ -395,6 +424,7 @@ private static final long serialVersionUID = 0L;
               .alwaysUseFieldBuilders) {
       }
     }
+    @java.lang.Override
     public Builder clear() {
       super.clear();
       path_ = "";
@@ -414,15 +444,18 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
+    @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_CreateNodeRequest_descriptor;
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.CreateNodeRequest getDefaultInstanceForType() {
       return tech.ydb.coordination.CreateNodeRequest.getDefaultInstance();
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.CreateNodeRequest build() {
       tech.ydb.coordination.CreateNodeRequest result = buildPartial();
       if (!result.isInitialized()) {
@@ -431,6 +464,7 @@ private static final long serialVersionUID = 0L;
       return result;
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.CreateNodeRequest buildPartial() {
       tech.ydb.coordination.CreateNodeRequest result = new tech.ydb.coordination.CreateNodeRequest(this);
       result.path_ = path_;
@@ -448,32 +482,39 @@ private static final long serialVersionUID = 0L;
       return result;
     }
 
+    @java.lang.Override
     public Builder clone() {
-      return (Builder) super.clone();
+      return super.clone();
     }
+    @java.lang.Override
     public Builder setField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         java.lang.Object value) {
-      return (Builder) super.setField(field, value);
+      return super.setField(field, value);
     }
+    @java.lang.Override
     public Builder clearField(
         com.google.protobuf.Descriptors.FieldDescriptor field) {
-      return (Builder) super.clearField(field);
+      return super.clearField(field);
     }
+    @java.lang.Override
     public Builder clearOneof(
         com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-      return (Builder) super.clearOneof(oneof);
+      return super.clearOneof(oneof);
     }
+    @java.lang.Override
     public Builder setRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         int index, java.lang.Object value) {
-      return (Builder) super.setRepeatedField(field, index, value);
+      return super.setRepeatedField(field, index, value);
     }
+    @java.lang.Override
     public Builder addRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         java.lang.Object value) {
-      return (Builder) super.addRepeatedField(field, value);
+      return super.addRepeatedField(field, value);
     }
+    @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof tech.ydb.coordination.CreateNodeRequest) {
         return mergeFrom((tech.ydb.coordination.CreateNodeRequest)other);
@@ -500,10 +541,12 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
+    @java.lang.Override
     public final boolean isInitialized() {
       return true;
     }
 
+    @java.lang.Override
     public Builder mergeFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -525,6 +568,7 @@ private static final long serialVersionUID = 0L;
     private java.lang.Object path_ = "";
     /**
      * <code>string path = 1;</code>
+     * @return The path.
      */
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
@@ -540,6 +584,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <code>string path = 1;</code>
+     * @return The bytes for path.
      */
     public com.google.protobuf.ByteString
         getPathBytes() {
@@ -556,6 +601,8 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <code>string path = 1;</code>
+     * @param value The path to set.
+     * @return This builder for chaining.
      */
     public Builder setPath(
         java.lang.String value) {
@@ -569,6 +616,7 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <code>string path = 1;</code>
+     * @return This builder for chaining.
      */
     public Builder clearPath() {
       
@@ -578,6 +626,8 @@ private static final long serialVersionUID = 0L;
     }
     /**
      * <code>string path = 1;</code>
+     * @param value The bytes for path to set.
+     * @return This builder for chaining.
      */
     public Builder setPathBytes(
         com.google.protobuf.ByteString value) {
@@ -591,17 +641,19 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private tech.ydb.coordination.Config config_ = null;
+    private tech.ydb.coordination.Config config_;
     private com.google.protobuf.SingleFieldBuilderV3<
         tech.ydb.coordination.Config, tech.ydb.coordination.Config.Builder, tech.ydb.coordination.ConfigOrBuilder> configBuilder_;
     /**
      * <code>.Ydb.Coordination.Config config = 2;</code>
+     * @return Whether the config field is set.
      */
     public boolean hasConfig() {
       return configBuilder_ != null || config_ != null;
     }
     /**
      * <code>.Ydb.Coordination.Config config = 2;</code>
+     * @return The config.
      */
     public tech.ydb.coordination.Config getConfig() {
       if (configBuilder_ == null) {
@@ -708,17 +760,19 @@ private static final long serialVersionUID = 0L;
       return configBuilder_;
     }
 
-    private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
     private com.google.protobuf.SingleFieldBuilderV3<
         tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 3;</code>
+     * @return Whether the operationParams field is set.
      */
     public boolean hasOperationParams() {
       return operationParamsBuilder_ != null || operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 3;</code>
+     * @return The operationParams.
      */
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       if (operationParamsBuilder_ == null) {
@@ -824,11 +878,13 @@ private static final long serialVersionUID = 0L;
       }
       return operationParamsBuilder_;
     }
+    @java.lang.Override
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return super.setUnknownFieldsProto3(unknownFields);
+      return super.setUnknownFields(unknownFields);
     }
 
+    @java.lang.Override
     public final Builder mergeUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
       return super.mergeUnknownFields(unknownFields);
@@ -850,11 +906,12 @@ private static final long serialVersionUID = 0L;
 
   private static final com.google.protobuf.Parser<CreateNodeRequest>
       PARSER = new com.google.protobuf.AbstractParser<CreateNodeRequest>() {
+    @java.lang.Override
     public CreateNodeRequest parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new CreateNodeRequest(input, extensionRegistry);
+      return new CreateNodeRequest(input, extensionRegistry);
     }
   };
 
@@ -867,6 +924,7 @@ private static final long serialVersionUID = 0L;
     return PARSER;
   }
 
+  @java.lang.Override
   public tech.ydb.coordination.CreateNodeRequest getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }

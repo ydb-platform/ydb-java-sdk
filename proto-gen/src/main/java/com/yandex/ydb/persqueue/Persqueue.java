@@ -82,6 +82,8 @@ public final class Persqueue {
     }
 
     /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
@@ -89,6 +91,10 @@ public final class Persqueue {
       return forNumber(value);
     }
 
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
     public static ECodec forNumber(int value) {
       switch (value) {
         case 0: return RAW;
@@ -114,6 +120,10 @@ public final class Persqueue {
 
     public final com.google.protobuf.Descriptors.EnumValueDescriptor
         getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
       return getDescriptor().getValues().get(ordinal());
     }
     public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -158,6 +168,7 @@ public final class Persqueue {
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The path.
      */
     java.lang.String getPath();
     /**
@@ -166,6 +177,7 @@ public final class Persqueue {
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The bytes for path.
      */
     com.google.protobuf.ByteString
         getPathBytes();
@@ -173,7 +185,7 @@ public final class Persqueue {
   /**
    * Protobuf type {@code NPersQueue.Path}
    */
-  public  static final class Path extends
+  public static final class Path extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NPersQueue.Path)
       PathOrBuilder {
@@ -187,6 +199,13 @@ public final class Persqueue {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Path();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -196,7 +215,9 @@ public final class Persqueue {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -207,17 +228,17 @@ public final class Persqueue {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
               path_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -237,6 +258,7 @@ public final class Persqueue {
       return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_Path_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_Path_fieldAccessorTable
@@ -252,7 +274,9 @@ public final class Persqueue {
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The path.
      */
+    @java.lang.Override
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
       if (ref instanceof java.lang.String) {
@@ -271,7 +295,9 @@ public final class Persqueue {
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The bytes for path.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getPathBytes() {
       java.lang.Object ref = path_;
@@ -287,6 +313,7 @@ public final class Persqueue {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -296,6 +323,7 @@ public final class Persqueue {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getPathBytes().isEmpty()) {
@@ -304,6 +332,7 @@ public final class Persqueue {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -327,11 +356,10 @@ public final class Persqueue {
       }
       tech.ydb.persqueue.Persqueue.Path other = (tech.ydb.persqueue.Persqueue.Path) obj;
 
-      boolean result = true;
-      result = result && getPath()
-          .equals(other.getPath());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getPath()
+          .equals(other.getPath())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -418,6 +446,7 @@ public final class Persqueue {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -425,6 +454,7 @@ public final class Persqueue {
     public static Builder newBuilder(tech.ydb.persqueue.Persqueue.Path prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -448,6 +478,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_Path_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_Path_fieldAccessorTable
@@ -470,6 +501,7 @@ public final class Persqueue {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         path_ = "";
@@ -477,15 +509,18 @@ public final class Persqueue {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_Path_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.Path getDefaultInstanceForType() {
         return tech.ydb.persqueue.Persqueue.Path.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.Path build() {
         tech.ydb.persqueue.Persqueue.Path result = buildPartial();
         if (!result.isInitialized()) {
@@ -494,6 +529,7 @@ public final class Persqueue {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.Path buildPartial() {
         tech.ydb.persqueue.Persqueue.Path result = new tech.ydb.persqueue.Persqueue.Path(this);
         result.path_ = path_;
@@ -501,32 +537,39 @@ public final class Persqueue {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.persqueue.Persqueue.Path) {
           return mergeFrom((tech.ydb.persqueue.Persqueue.Path)other);
@@ -547,10 +590,12 @@ public final class Persqueue {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -576,6 +621,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @return The path.
        */
       public java.lang.String getPath() {
         java.lang.Object ref = path_;
@@ -595,6 +641,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @return The bytes for path.
        */
       public com.google.protobuf.ByteString
           getPathBytes() {
@@ -615,6 +662,8 @@ public final class Persqueue {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
        */
       public Builder setPath(
           java.lang.String value) {
@@ -632,6 +681,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPath() {
         
@@ -645,6 +695,8 @@ public final class Persqueue {
        * </pre>
        *
        * <code>string path = 1;</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
        */
       public Builder setPathBytes(
           com.google.protobuf.ByteString value) {
@@ -657,11 +709,13 @@ public final class Persqueue {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -683,11 +737,12 @@ public final class Persqueue {
 
     private static final com.google.protobuf.Parser<Path>
         PARSER = new com.google.protobuf.AbstractParser<Path>() {
+      @java.lang.Override
       public Path parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Path(input, extensionRegistry);
+        return new Path(input, extensionRegistry);
       }
     };
 
@@ -700,6 +755,7 @@ public final class Persqueue {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.Path getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -712,19 +768,23 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.NErrorCode.EErrorCode code = 1;</code>
+     * @return The enum numeric value on the wire for code.
      */
     int getCodeValue();
     /**
      * <code>.NPersQueue.NErrorCode.EErrorCode code = 1;</code>
+     * @return The code.
      */
     tech.ydb.persqueue.PersqueueErrorCodes.EErrorCode getCode();
 
     /**
      * <code>string description = 2;</code>
+     * @return The description.
      */
     java.lang.String getDescription();
     /**
      * <code>string description = 2;</code>
+     * @return The bytes for description.
      */
     com.google.protobuf.ByteString
         getDescriptionBytes();
@@ -736,7 +796,7 @@ public final class Persqueue {
    *
    * Protobuf type {@code NPersQueue.Error}
    */
-  public  static final class Error extends
+  public static final class Error extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NPersQueue.Error)
       ErrorOrBuilder {
@@ -751,6 +811,13 @@ public final class Persqueue {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Error();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -760,7 +827,9 @@ public final class Persqueue {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -771,13 +840,6 @@ public final class Persqueue {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               int rawValue = input.readEnum();
 
@@ -788,6 +850,13 @@ public final class Persqueue {
               java.lang.String s = input.readStringRequireUtf8();
 
               description_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -807,6 +876,7 @@ public final class Persqueue {
       return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_Error_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_Error_fieldAccessorTable
@@ -818,14 +888,17 @@ public final class Persqueue {
     private int code_;
     /**
      * <code>.NPersQueue.NErrorCode.EErrorCode code = 1;</code>
+     * @return The enum numeric value on the wire for code.
      */
-    public int getCodeValue() {
+    @java.lang.Override public int getCodeValue() {
       return code_;
     }
     /**
      * <code>.NPersQueue.NErrorCode.EErrorCode code = 1;</code>
+     * @return The code.
      */
-    public tech.ydb.persqueue.PersqueueErrorCodes.EErrorCode getCode() {
+    @java.lang.Override public tech.ydb.persqueue.PersqueueErrorCodes.EErrorCode getCode() {
+      @SuppressWarnings("deprecation")
       tech.ydb.persqueue.PersqueueErrorCodes.EErrorCode result = tech.ydb.persqueue.PersqueueErrorCodes.EErrorCode.valueOf(code_);
       return result == null ? tech.ydb.persqueue.PersqueueErrorCodes.EErrorCode.UNRECOGNIZED : result;
     }
@@ -834,7 +907,9 @@ public final class Persqueue {
     private volatile java.lang.Object description_;
     /**
      * <code>string description = 2;</code>
+     * @return The description.
      */
+    @java.lang.Override
     public java.lang.String getDescription() {
       java.lang.Object ref = description_;
       if (ref instanceof java.lang.String) {
@@ -849,7 +924,9 @@ public final class Persqueue {
     }
     /**
      * <code>string description = 2;</code>
+     * @return The bytes for description.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getDescriptionBytes() {
       java.lang.Object ref = description_;
@@ -865,6 +942,7 @@ public final class Persqueue {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -874,6 +952,7 @@ public final class Persqueue {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (code_ != tech.ydb.persqueue.PersqueueErrorCodes.EErrorCode.OK.getNumber()) {
@@ -885,6 +964,7 @@ public final class Persqueue {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -912,12 +992,11 @@ public final class Persqueue {
       }
       tech.ydb.persqueue.Persqueue.Error other = (tech.ydb.persqueue.Persqueue.Error) obj;
 
-      boolean result = true;
-      result = result && code_ == other.code_;
-      result = result && getDescription()
-          .equals(other.getDescription());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (code_ != other.code_) return false;
+      if (!getDescription()
+          .equals(other.getDescription())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1006,6 +1085,7 @@ public final class Persqueue {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1013,6 +1093,7 @@ public final class Persqueue {
     public static Builder newBuilder(tech.ydb.persqueue.Persqueue.Error prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1040,6 +1121,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_Error_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_Error_fieldAccessorTable
@@ -1062,6 +1144,7 @@ public final class Persqueue {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         code_ = 0;
@@ -1071,15 +1154,18 @@ public final class Persqueue {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_Error_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.Error getDefaultInstanceForType() {
         return tech.ydb.persqueue.Persqueue.Error.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.Error build() {
         tech.ydb.persqueue.Persqueue.Error result = buildPartial();
         if (!result.isInitialized()) {
@@ -1088,6 +1174,7 @@ public final class Persqueue {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.Error buildPartial() {
         tech.ydb.persqueue.Persqueue.Error result = new tech.ydb.persqueue.Persqueue.Error(this);
         result.code_ = code_;
@@ -1096,32 +1183,39 @@ public final class Persqueue {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.persqueue.Persqueue.Error) {
           return mergeFrom((tech.ydb.persqueue.Persqueue.Error)other);
@@ -1145,10 +1239,12 @@ public final class Persqueue {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1170,27 +1266,36 @@ public final class Persqueue {
       private int code_ = 0;
       /**
        * <code>.NPersQueue.NErrorCode.EErrorCode code = 1;</code>
+       * @return The enum numeric value on the wire for code.
        */
-      public int getCodeValue() {
+      @java.lang.Override public int getCodeValue() {
         return code_;
       }
       /**
        * <code>.NPersQueue.NErrorCode.EErrorCode code = 1;</code>
+       * @param value The enum numeric value on the wire for code to set.
+       * @return This builder for chaining.
        */
       public Builder setCodeValue(int value) {
+        
         code_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.NPersQueue.NErrorCode.EErrorCode code = 1;</code>
+       * @return The code.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.PersqueueErrorCodes.EErrorCode getCode() {
+        @SuppressWarnings("deprecation")
         tech.ydb.persqueue.PersqueueErrorCodes.EErrorCode result = tech.ydb.persqueue.PersqueueErrorCodes.EErrorCode.valueOf(code_);
         return result == null ? tech.ydb.persqueue.PersqueueErrorCodes.EErrorCode.UNRECOGNIZED : result;
       }
       /**
        * <code>.NPersQueue.NErrorCode.EErrorCode code = 1;</code>
+       * @param value The code to set.
+       * @return This builder for chaining.
        */
       public Builder setCode(tech.ydb.persqueue.PersqueueErrorCodes.EErrorCode value) {
         if (value == null) {
@@ -1203,6 +1308,7 @@ public final class Persqueue {
       }
       /**
        * <code>.NPersQueue.NErrorCode.EErrorCode code = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCode() {
         
@@ -1214,6 +1320,7 @@ public final class Persqueue {
       private java.lang.Object description_ = "";
       /**
        * <code>string description = 2;</code>
+       * @return The description.
        */
       public java.lang.String getDescription() {
         java.lang.Object ref = description_;
@@ -1229,6 +1336,7 @@ public final class Persqueue {
       }
       /**
        * <code>string description = 2;</code>
+       * @return The bytes for description.
        */
       public com.google.protobuf.ByteString
           getDescriptionBytes() {
@@ -1245,6 +1353,8 @@ public final class Persqueue {
       }
       /**
        * <code>string description = 2;</code>
+       * @param value The description to set.
+       * @return This builder for chaining.
        */
       public Builder setDescription(
           java.lang.String value) {
@@ -1258,6 +1368,7 @@ public final class Persqueue {
       }
       /**
        * <code>string description = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDescription() {
         
@@ -1267,6 +1378,8 @@ public final class Persqueue {
       }
       /**
        * <code>string description = 2;</code>
+       * @param value The bytes for description to set.
+       * @return This builder for chaining.
        */
       public Builder setDescriptionBytes(
           com.google.protobuf.ByteString value) {
@@ -1279,11 +1392,13 @@ public final class Persqueue {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1305,11 +1420,12 @@ public final class Persqueue {
 
     private static final com.google.protobuf.Parser<Error>
         PARSER = new com.google.protobuf.AbstractParser<Error>() {
+      @java.lang.Override
       public Error parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Error(input, extensionRegistry);
+        return new Error(input, extensionRegistry);
       }
     };
 
@@ -1322,6 +1438,7 @@ public final class Persqueue {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.Error getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1334,20 +1451,24 @@ public final class Persqueue {
 
     /**
      * <code>string key = 1;</code>
+     * @return The key.
      */
     java.lang.String getKey();
     /**
      * <code>string key = 1;</code>
+     * @return The bytes for key.
      */
     com.google.protobuf.ByteString
         getKeyBytes();
 
     /**
      * <code>string value = 2;</code>
+     * @return The value.
      */
     java.lang.String getValue();
     /**
      * <code>string value = 2;</code>
+     * @return The bytes for value.
      */
     com.google.protobuf.ByteString
         getValueBytes();
@@ -1355,7 +1476,7 @@ public final class Persqueue {
   /**
    * Protobuf type {@code NPersQueue.KeyValue}
    */
-  public  static final class KeyValue extends
+  public static final class KeyValue extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NPersQueue.KeyValue)
       KeyValueOrBuilder {
@@ -1370,6 +1491,13 @@ public final class Persqueue {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new KeyValue();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -1379,7 +1507,9 @@ public final class Persqueue {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1390,13 +1520,6 @@ public final class Persqueue {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -1407,6 +1530,13 @@ public final class Persqueue {
               java.lang.String s = input.readStringRequireUtf8();
 
               value_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -1426,6 +1556,7 @@ public final class Persqueue {
       return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_KeyValue_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_KeyValue_fieldAccessorTable
@@ -1437,7 +1568,9 @@ public final class Persqueue {
     private volatile java.lang.Object key_;
     /**
      * <code>string key = 1;</code>
+     * @return The key.
      */
+    @java.lang.Override
     public java.lang.String getKey() {
       java.lang.Object ref = key_;
       if (ref instanceof java.lang.String) {
@@ -1452,7 +1585,9 @@ public final class Persqueue {
     }
     /**
      * <code>string key = 1;</code>
+     * @return The bytes for key.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getKeyBytes() {
       java.lang.Object ref = key_;
@@ -1471,7 +1606,9 @@ public final class Persqueue {
     private volatile java.lang.Object value_;
     /**
      * <code>string value = 2;</code>
+     * @return The value.
      */
+    @java.lang.Override
     public java.lang.String getValue() {
       java.lang.Object ref = value_;
       if (ref instanceof java.lang.String) {
@@ -1486,7 +1623,9 @@ public final class Persqueue {
     }
     /**
      * <code>string value = 2;</code>
+     * @return The bytes for value.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getValueBytes() {
       java.lang.Object ref = value_;
@@ -1502,6 +1641,7 @@ public final class Persqueue {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1511,6 +1651,7 @@ public final class Persqueue {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getKeyBytes().isEmpty()) {
@@ -1522,6 +1663,7 @@ public final class Persqueue {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1548,13 +1690,12 @@ public final class Persqueue {
       }
       tech.ydb.persqueue.Persqueue.KeyValue other = (tech.ydb.persqueue.Persqueue.KeyValue) obj;
 
-      boolean result = true;
-      result = result && getKey()
-          .equals(other.getKey());
-      result = result && getValue()
-          .equals(other.getValue());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getKey()
+          .equals(other.getKey())) return false;
+      if (!getValue()
+          .equals(other.getValue())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1643,6 +1784,7 @@ public final class Persqueue {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1650,6 +1792,7 @@ public final class Persqueue {
     public static Builder newBuilder(tech.ydb.persqueue.Persqueue.KeyValue prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1673,6 +1816,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_KeyValue_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_KeyValue_fieldAccessorTable
@@ -1695,6 +1839,7 @@ public final class Persqueue {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         key_ = "";
@@ -1704,15 +1849,18 @@ public final class Persqueue {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_KeyValue_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.KeyValue getDefaultInstanceForType() {
         return tech.ydb.persqueue.Persqueue.KeyValue.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.KeyValue build() {
         tech.ydb.persqueue.Persqueue.KeyValue result = buildPartial();
         if (!result.isInitialized()) {
@@ -1721,6 +1869,7 @@ public final class Persqueue {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.KeyValue buildPartial() {
         tech.ydb.persqueue.Persqueue.KeyValue result = new tech.ydb.persqueue.Persqueue.KeyValue(this);
         result.key_ = key_;
@@ -1729,32 +1878,39 @@ public final class Persqueue {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.persqueue.Persqueue.KeyValue) {
           return mergeFrom((tech.ydb.persqueue.Persqueue.KeyValue)other);
@@ -1779,10 +1935,12 @@ public final class Persqueue {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1804,6 +1962,7 @@ public final class Persqueue {
       private java.lang.Object key_ = "";
       /**
        * <code>string key = 1;</code>
+       * @return The key.
        */
       public java.lang.String getKey() {
         java.lang.Object ref = key_;
@@ -1819,6 +1978,7 @@ public final class Persqueue {
       }
       /**
        * <code>string key = 1;</code>
+       * @return The bytes for key.
        */
       public com.google.protobuf.ByteString
           getKeyBytes() {
@@ -1835,6 +1995,8 @@ public final class Persqueue {
       }
       /**
        * <code>string key = 1;</code>
+       * @param value The key to set.
+       * @return This builder for chaining.
        */
       public Builder setKey(
           java.lang.String value) {
@@ -1848,6 +2010,7 @@ public final class Persqueue {
       }
       /**
        * <code>string key = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearKey() {
         
@@ -1857,6 +2020,8 @@ public final class Persqueue {
       }
       /**
        * <code>string key = 1;</code>
+       * @param value The bytes for key to set.
+       * @return This builder for chaining.
        */
       public Builder setKeyBytes(
           com.google.protobuf.ByteString value) {
@@ -1873,6 +2038,7 @@ public final class Persqueue {
       private java.lang.Object value_ = "";
       /**
        * <code>string value = 2;</code>
+       * @return The value.
        */
       public java.lang.String getValue() {
         java.lang.Object ref = value_;
@@ -1888,6 +2054,7 @@ public final class Persqueue {
       }
       /**
        * <code>string value = 2;</code>
+       * @return The bytes for value.
        */
       public com.google.protobuf.ByteString
           getValueBytes() {
@@ -1904,6 +2071,8 @@ public final class Persqueue {
       }
       /**
        * <code>string value = 2;</code>
+       * @param value The value to set.
+       * @return This builder for chaining.
        */
       public Builder setValue(
           java.lang.String value) {
@@ -1917,6 +2086,7 @@ public final class Persqueue {
       }
       /**
        * <code>string value = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearValue() {
         
@@ -1926,6 +2096,8 @@ public final class Persqueue {
       }
       /**
        * <code>string value = 2;</code>
+       * @param value The bytes for value to set.
+       * @return This builder for chaining.
        */
       public Builder setValueBytes(
           com.google.protobuf.ByteString value) {
@@ -1938,11 +2110,13 @@ public final class Persqueue {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1964,11 +2138,12 @@ public final class Persqueue {
 
     private static final com.google.protobuf.Parser<KeyValue>
         PARSER = new com.google.protobuf.AbstractParser<KeyValue>() {
+      @java.lang.Override
       public KeyValue parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new KeyValue(input, extensionRegistry);
+        return new KeyValue(input, extensionRegistry);
       }
     };
 
@@ -1981,6 +2156,7 @@ public final class Persqueue {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.KeyValue getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2018,7 +2194,7 @@ public final class Persqueue {
   /**
    * Protobuf type {@code NPersQueue.MapType}
    */
-  public  static final class MapType extends
+  public static final class MapType extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NPersQueue.MapType)
       MapTypeOrBuilder {
@@ -2032,6 +2208,13 @@ public final class Persqueue {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new MapType();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2041,6 +2224,9 @@ public final class Persqueue {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -2052,20 +2238,20 @@ public final class Persqueue {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 items_ = new java.util.ArrayList<tech.ydb.persqueue.Persqueue.KeyValue>();
                 mutable_bitField0_ |= 0x00000001;
               }
               items_.add(
                   input.readMessage(tech.ydb.persqueue.Persqueue.KeyValue.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -2076,7 +2262,7 @@ public final class Persqueue {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           items_ = java.util.Collections.unmodifiableList(items_);
         }
         this.unknownFields = unknownFields.build();
@@ -2088,6 +2274,7 @@ public final class Persqueue {
       return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_MapType_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_MapType_fieldAccessorTable
@@ -2100,12 +2287,14 @@ public final class Persqueue {
     /**
      * <code>repeated .NPersQueue.KeyValue items = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.persqueue.Persqueue.KeyValue> getItemsList() {
       return items_;
     }
     /**
      * <code>repeated .NPersQueue.KeyValue items = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.persqueue.Persqueue.KeyValueOrBuilder> 
         getItemsOrBuilderList() {
       return items_;
@@ -2113,24 +2302,28 @@ public final class Persqueue {
     /**
      * <code>repeated .NPersQueue.KeyValue items = 1;</code>
      */
+    @java.lang.Override
     public int getItemsCount() {
       return items_.size();
     }
     /**
      * <code>repeated .NPersQueue.KeyValue items = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.KeyValue getItems(int index) {
       return items_.get(index);
     }
     /**
      * <code>repeated .NPersQueue.KeyValue items = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.KeyValueOrBuilder getItemsOrBuilder(
         int index) {
       return items_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2140,6 +2333,7 @@ public final class Persqueue {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < items_.size(); i++) {
@@ -2148,6 +2342,7 @@ public final class Persqueue {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2172,11 +2367,10 @@ public final class Persqueue {
       }
       tech.ydb.persqueue.Persqueue.MapType other = (tech.ydb.persqueue.Persqueue.MapType) obj;
 
-      boolean result = true;
-      result = result && getItemsList()
-          .equals(other.getItemsList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getItemsList()
+          .equals(other.getItemsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2265,6 +2459,7 @@ public final class Persqueue {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2272,6 +2467,7 @@ public final class Persqueue {
     public static Builder newBuilder(tech.ydb.persqueue.Persqueue.MapType prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2295,6 +2491,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_MapType_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_MapType_fieldAccessorTable
@@ -2318,6 +2515,7 @@ public final class Persqueue {
           getItemsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (itemsBuilder_ == null) {
@@ -2329,15 +2527,18 @@ public final class Persqueue {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_MapType_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.MapType getDefaultInstanceForType() {
         return tech.ydb.persqueue.Persqueue.MapType.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.MapType build() {
         tech.ydb.persqueue.Persqueue.MapType result = buildPartial();
         if (!result.isInitialized()) {
@@ -2346,11 +2547,12 @@ public final class Persqueue {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.MapType buildPartial() {
         tech.ydb.persqueue.Persqueue.MapType result = new tech.ydb.persqueue.Persqueue.MapType(this);
         int from_bitField0_ = bitField0_;
         if (itemsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             items_ = java.util.Collections.unmodifiableList(items_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -2362,32 +2564,39 @@ public final class Persqueue {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.persqueue.Persqueue.MapType) {
           return mergeFrom((tech.ydb.persqueue.Persqueue.MapType)other);
@@ -2430,10 +2639,12 @@ public final class Persqueue {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2456,7 +2667,7 @@ public final class Persqueue {
       private java.util.List<tech.ydb.persqueue.Persqueue.KeyValue> items_ =
         java.util.Collections.emptyList();
       private void ensureItemsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           items_ = new java.util.ArrayList<tech.ydb.persqueue.Persqueue.KeyValue>(items_);
           bitField0_ |= 0x00000001;
          }
@@ -2685,18 +2896,20 @@ public final class Persqueue {
           itemsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.persqueue.Persqueue.KeyValue, tech.ydb.persqueue.Persqueue.KeyValue.Builder, tech.ydb.persqueue.Persqueue.KeyValueOrBuilder>(
                   items_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           items_ = null;
         }
         return itemsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2718,11 +2931,12 @@ public final class Persqueue {
 
     private static final com.google.protobuf.Parser<MapType>
         PARSER = new com.google.protobuf.AbstractParser<MapType>() {
+      @java.lang.Override
       public MapType parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new MapType(input, extensionRegistry);
+        return new MapType(input, extensionRegistry);
       }
     };
 
@@ -2735,6 +2949,7 @@ public final class Persqueue {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.MapType getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2747,11 +2962,23 @@ public final class Persqueue {
 
     /**
      * <code>bytes tvm_service_ticket = 1;</code>
+     * @return Whether the tvmServiceTicket field is set.
+     */
+    boolean hasTvmServiceTicket();
+    /**
+     * <code>bytes tvm_service_ticket = 1;</code>
+     * @return The tvmServiceTicket.
      */
     com.google.protobuf.ByteString getTvmServiceTicket();
 
     /**
      * <code>bytes oauth_token = 2;</code>
+     * @return Whether the oauthToken field is set.
+     */
+    boolean hasOauthToken();
+    /**
+     * <code>bytes oauth_token = 2;</code>
+     * @return The oauthToken.
      */
     com.google.protobuf.ByteString getOauthToken();
 
@@ -2760,7 +2987,7 @@ public final class Persqueue {
   /**
    * Protobuf type {@code NPersQueue.Credentials}
    */
-  public  static final class Credentials extends
+  public static final class Credentials extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NPersQueue.Credentials)
       CredentialsOrBuilder {
@@ -2773,6 +3000,13 @@ public final class Persqueue {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Credentials();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2782,7 +3016,9 @@ public final class Persqueue {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2793,13 +3029,6 @@ public final class Persqueue {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               credentialsCase_ = 1;
               credentials_ = input.readBytes();
@@ -2808,6 +3037,13 @@ public final class Persqueue {
             case 18: {
               credentialsCase_ = 2;
               credentials_ = input.readBytes();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -2827,6 +3063,7 @@ public final class Persqueue {
       return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_Credentials_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_Credentials_fieldAccessorTable
@@ -2837,7 +3074,8 @@ public final class Persqueue {
     private int credentialsCase_ = 0;
     private java.lang.Object credentials_;
     public enum CredentialsCase
-        implements com.google.protobuf.Internal.EnumLite {
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       TVM_SERVICE_TICKET(1),
       OAUTH_TOKEN(2),
       CREDENTIALS_NOT_SET(0);
@@ -2846,6 +3084,8 @@ public final class Persqueue {
         this.value = value;
       }
       /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -2875,7 +3115,17 @@ public final class Persqueue {
     public static final int TVM_SERVICE_TICKET_FIELD_NUMBER = 1;
     /**
      * <code>bytes tvm_service_ticket = 1;</code>
+     * @return Whether the tvmServiceTicket field is set.
      */
+    @java.lang.Override
+    public boolean hasTvmServiceTicket() {
+      return credentialsCase_ == 1;
+    }
+    /**
+     * <code>bytes tvm_service_ticket = 1;</code>
+     * @return The tvmServiceTicket.
+     */
+    @java.lang.Override
     public com.google.protobuf.ByteString getTvmServiceTicket() {
       if (credentialsCase_ == 1) {
         return (com.google.protobuf.ByteString) credentials_;
@@ -2886,7 +3136,17 @@ public final class Persqueue {
     public static final int OAUTH_TOKEN_FIELD_NUMBER = 2;
     /**
      * <code>bytes oauth_token = 2;</code>
+     * @return Whether the oauthToken field is set.
      */
+    @java.lang.Override
+    public boolean hasOauthToken() {
+      return credentialsCase_ == 2;
+    }
+    /**
+     * <code>bytes oauth_token = 2;</code>
+     * @return The oauthToken.
+     */
+    @java.lang.Override
     public com.google.protobuf.ByteString getOauthToken() {
       if (credentialsCase_ == 2) {
         return (com.google.protobuf.ByteString) credentials_;
@@ -2895,6 +3155,7 @@ public final class Persqueue {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2904,6 +3165,7 @@ public final class Persqueue {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (credentialsCase_ == 1) {
@@ -2917,6 +3179,7 @@ public final class Persqueue {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2947,24 +3210,21 @@ public final class Persqueue {
       }
       tech.ydb.persqueue.Persqueue.Credentials other = (tech.ydb.persqueue.Persqueue.Credentials) obj;
 
-      boolean result = true;
-      result = result && getCredentialsCase().equals(
-          other.getCredentialsCase());
-      if (!result) return false;
+      if (!getCredentialsCase().equals(other.getCredentialsCase())) return false;
       switch (credentialsCase_) {
         case 1:
-          result = result && getTvmServiceTicket()
-              .equals(other.getTvmServiceTicket());
+          if (!getTvmServiceTicket()
+              .equals(other.getTvmServiceTicket())) return false;
           break;
         case 2:
-          result = result && getOauthToken()
-              .equals(other.getOauthToken());
+          if (!getOauthToken()
+              .equals(other.getOauthToken())) return false;
           break;
         case 0:
         default:
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3061,6 +3321,7 @@ public final class Persqueue {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3068,6 +3329,7 @@ public final class Persqueue {
     public static Builder newBuilder(tech.ydb.persqueue.Persqueue.Credentials prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3091,6 +3353,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_Credentials_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_Credentials_fieldAccessorTable
@@ -3113,6 +3376,7 @@ public final class Persqueue {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         credentialsCase_ = 0;
@@ -3120,15 +3384,18 @@ public final class Persqueue {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_Credentials_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.Credentials getDefaultInstanceForType() {
         return tech.ydb.persqueue.Persqueue.Credentials.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.Credentials build() {
         tech.ydb.persqueue.Persqueue.Credentials result = buildPartial();
         if (!result.isInitialized()) {
@@ -3137,6 +3404,7 @@ public final class Persqueue {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.Credentials buildPartial() {
         tech.ydb.persqueue.Persqueue.Credentials result = new tech.ydb.persqueue.Persqueue.Credentials(this);
         if (credentialsCase_ == 1) {
@@ -3150,32 +3418,39 @@ public final class Persqueue {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.persqueue.Persqueue.Credentials) {
           return mergeFrom((tech.ydb.persqueue.Persqueue.Credentials)other);
@@ -3205,10 +3480,12 @@ public final class Persqueue {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3244,6 +3521,14 @@ public final class Persqueue {
 
       /**
        * <code>bytes tvm_service_ticket = 1;</code>
+       * @return Whether the tvmServiceTicket field is set.
+       */
+      public boolean hasTvmServiceTicket() {
+        return credentialsCase_ == 1;
+      }
+      /**
+       * <code>bytes tvm_service_ticket = 1;</code>
+       * @return The tvmServiceTicket.
        */
       public com.google.protobuf.ByteString getTvmServiceTicket() {
         if (credentialsCase_ == 1) {
@@ -3253,6 +3538,8 @@ public final class Persqueue {
       }
       /**
        * <code>bytes tvm_service_ticket = 1;</code>
+       * @param value The tvmServiceTicket to set.
+       * @return This builder for chaining.
        */
       public Builder setTvmServiceTicket(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -3265,6 +3552,7 @@ public final class Persqueue {
       }
       /**
        * <code>bytes tvm_service_ticket = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTvmServiceTicket() {
         if (credentialsCase_ == 1) {
@@ -3277,6 +3565,14 @@ public final class Persqueue {
 
       /**
        * <code>bytes oauth_token = 2;</code>
+       * @return Whether the oauthToken field is set.
+       */
+      public boolean hasOauthToken() {
+        return credentialsCase_ == 2;
+      }
+      /**
+       * <code>bytes oauth_token = 2;</code>
+       * @return The oauthToken.
        */
       public com.google.protobuf.ByteString getOauthToken() {
         if (credentialsCase_ == 2) {
@@ -3286,6 +3582,8 @@ public final class Persqueue {
       }
       /**
        * <code>bytes oauth_token = 2;</code>
+       * @param value The oauthToken to set.
+       * @return This builder for chaining.
        */
       public Builder setOauthToken(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -3298,6 +3596,7 @@ public final class Persqueue {
       }
       /**
        * <code>bytes oauth_token = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearOauthToken() {
         if (credentialsCase_ == 2) {
@@ -3307,11 +3606,13 @@ public final class Persqueue {
         }
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3333,11 +3634,12 @@ public final class Persqueue {
 
     private static final com.google.protobuf.Parser<Credentials>
         PARSER = new com.google.protobuf.AbstractParser<Credentials>() {
+      @java.lang.Override
       public Credentials parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Credentials(input, extensionRegistry);
+        return new Credentials(input, extensionRegistry);
       }
     };
 
@@ -3350,6 +3652,7 @@ public final class Persqueue {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.Credentials getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3366,6 +3669,7 @@ public final class Persqueue {
      * </pre>
      *
      * <code>.NPersQueue.WriteRequest.Init init = 1;</code>
+     * @return Whether the init field is set.
      */
     boolean hasInit();
     /**
@@ -3374,6 +3678,7 @@ public final class Persqueue {
      * </pre>
      *
      * <code>.NPersQueue.WriteRequest.Init init = 1;</code>
+     * @return The init.
      */
     tech.ydb.persqueue.Persqueue.WriteRequest.Init getInit();
     /**
@@ -3387,10 +3692,12 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.WriteRequest.Data data = 2;</code>
+     * @return Whether the data field is set.
      */
     boolean hasData();
     /**
      * <code>.NPersQueue.WriteRequest.Data data = 2;</code>
+     * @return The data.
      */
     tech.ydb.persqueue.Persqueue.WriteRequest.Data getData();
     /**
@@ -3400,10 +3707,12 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.WriteRequest.DataBatch data_batch = 3;</code>
+     * @return Whether the dataBatch field is set.
      */
     boolean hasDataBatch();
     /**
      * <code>.NPersQueue.WriteRequest.DataBatch data_batch = 3;</code>
+     * @return The dataBatch.
      */
     tech.ydb.persqueue.Persqueue.WriteRequest.DataBatch getDataBatch();
     /**
@@ -3413,10 +3722,12 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.Credentials credentials = 20;</code>
+     * @return Whether the credentials field is set.
      */
     boolean hasCredentials();
     /**
      * <code>.NPersQueue.Credentials credentials = 20;</code>
+     * @return The credentials.
      */
     tech.ydb.persqueue.Persqueue.Credentials getCredentials();
     /**
@@ -3437,7 +3748,7 @@ public final class Persqueue {
    *
    * Protobuf type {@code NPersQueue.WriteRequest}
    */
-  public  static final class WriteRequest extends
+  public static final class WriteRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NPersQueue.WriteRequest)
       WriteRequestOrBuilder {
@@ -3450,6 +3761,13 @@ public final class Persqueue {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new WriteRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3459,7 +3777,9 @@ public final class Persqueue {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3470,13 +3790,6 @@ public final class Persqueue {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.persqueue.Persqueue.WriteRequest.Init.Builder subBuilder = null;
               if (requestCase_ == 1) {
@@ -3532,6 +3845,13 @@ public final class Persqueue {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3549,6 +3869,7 @@ public final class Persqueue {
       return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteRequest_fieldAccessorTable
@@ -3562,16 +3883,19 @@ public final class Persqueue {
 
       /**
        * <code>string topic = 1;</code>
+       * @return The topic.
        */
       java.lang.String getTopic();
       /**
        * <code>string topic = 1;</code>
+       * @return The bytes for topic.
        */
       com.google.protobuf.ByteString
           getTopicBytes();
 
       /**
        * <code>bytes source_id = 2;</code>
+       * @return The sourceId.
        */
       com.google.protobuf.ByteString getSourceId();
 
@@ -3581,6 +3905,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>.NPersQueue.MapType extra_fields = 7;</code>
+       * @return Whether the extraFields field is set.
        */
       boolean hasExtraFields();
       /**
@@ -3589,6 +3914,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>.NPersQueue.MapType extra_fields = 7;</code>
+       * @return The extraFields.
        */
       tech.ydb.persqueue.Persqueue.MapType getExtraFields();
       /**
@@ -3606,6 +3932,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 proxy_cookie = 8;</code>
+       * @return The proxyCookie.
        */
       long getProxyCookie();
 
@@ -3615,6 +3942,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint32 partition_group = 12;</code>
+       * @return The partitionGroup.
        */
       int getPartitionGroup();
 
@@ -3624,6 +3952,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>string version = 999;</code>
+       * @return The version.
        */
       java.lang.String getVersion();
       /**
@@ -3632,6 +3961,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>string version = 999;</code>
+       * @return The bytes for version.
        */
       com.google.protobuf.ByteString
           getVersionBytes();
@@ -3639,7 +3969,7 @@ public final class Persqueue {
     /**
      * Protobuf type {@code NPersQueue.WriteRequest.Init}
      */
-    public  static final class Init extends
+    public static final class Init extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NPersQueue.WriteRequest.Init)
         InitOrBuilder {
@@ -3651,9 +3981,14 @@ public final class Persqueue {
       private Init() {
         topic_ = "";
         sourceId_ = com.google.protobuf.ByteString.EMPTY;
-        proxyCookie_ = 0L;
-        partitionGroup_ = 0;
         version_ = "";
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Init();
       }
 
       @java.lang.Override
@@ -3666,7 +4001,9 @@ public final class Persqueue {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -3677,13 +4014,6 @@ public final class Persqueue {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 10: {
                 java.lang.String s = input.readStringRequireUtf8();
 
@@ -3724,6 +4054,13 @@ public final class Persqueue {
                 version_ = s;
                 break;
               }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3741,6 +4078,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteRequest_Init_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteRequest_Init_fieldAccessorTable
@@ -3752,7 +4090,9 @@ public final class Persqueue {
       private volatile java.lang.Object topic_;
       /**
        * <code>string topic = 1;</code>
+       * @return The topic.
        */
+      @java.lang.Override
       public java.lang.String getTopic() {
         java.lang.Object ref = topic_;
         if (ref instanceof java.lang.String) {
@@ -3767,7 +4107,9 @@ public final class Persqueue {
       }
       /**
        * <code>string topic = 1;</code>
+       * @return The bytes for topic.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getTopicBytes() {
         java.lang.Object ref = topic_;
@@ -3786,7 +4128,9 @@ public final class Persqueue {
       private com.google.protobuf.ByteString sourceId_;
       /**
        * <code>bytes source_id = 2;</code>
+       * @return The sourceId.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getSourceId() {
         return sourceId_;
       }
@@ -3799,7 +4143,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>.NPersQueue.MapType extra_fields = 7;</code>
+       * @return Whether the extraFields field is set.
        */
+      @java.lang.Override
       public boolean hasExtraFields() {
         return extraFields_ != null;
       }
@@ -3809,7 +4155,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>.NPersQueue.MapType extra_fields = 7;</code>
+       * @return The extraFields.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.MapType getExtraFields() {
         return extraFields_ == null ? tech.ydb.persqueue.Persqueue.MapType.getDefaultInstance() : extraFields_;
       }
@@ -3820,6 +4168,7 @@ public final class Persqueue {
        *
        * <code>.NPersQueue.MapType extra_fields = 7;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.MapTypeOrBuilder getExtraFieldsOrBuilder() {
         return getExtraFields();
       }
@@ -3832,7 +4181,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 proxy_cookie = 8;</code>
+       * @return The proxyCookie.
        */
+      @java.lang.Override
       public long getProxyCookie() {
         return proxyCookie_;
       }
@@ -3845,7 +4196,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint32 partition_group = 12;</code>
+       * @return The partitionGroup.
        */
+      @java.lang.Override
       public int getPartitionGroup() {
         return partitionGroup_;
       }
@@ -3858,7 +4211,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>string version = 999;</code>
+       * @return The version.
        */
+      @java.lang.Override
       public java.lang.String getVersion() {
         java.lang.Object ref = version_;
         if (ref instanceof java.lang.String) {
@@ -3877,7 +4232,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>string version = 999;</code>
+       * @return The bytes for version.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getVersionBytes() {
         java.lang.Object ref = version_;
@@ -3893,6 +4250,7 @@ public final class Persqueue {
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -3902,6 +4260,7 @@ public final class Persqueue {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (!getTopicBytes().isEmpty()) {
@@ -3925,6 +4284,7 @@ public final class Persqueue {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -3967,24 +4327,23 @@ public final class Persqueue {
         }
         tech.ydb.persqueue.Persqueue.WriteRequest.Init other = (tech.ydb.persqueue.Persqueue.WriteRequest.Init) obj;
 
-        boolean result = true;
-        result = result && getTopic()
-            .equals(other.getTopic());
-        result = result && getSourceId()
-            .equals(other.getSourceId());
-        result = result && (hasExtraFields() == other.hasExtraFields());
+        if (!getTopic()
+            .equals(other.getTopic())) return false;
+        if (!getSourceId()
+            .equals(other.getSourceId())) return false;
+        if (hasExtraFields() != other.hasExtraFields()) return false;
         if (hasExtraFields()) {
-          result = result && getExtraFields()
-              .equals(other.getExtraFields());
+          if (!getExtraFields()
+              .equals(other.getExtraFields())) return false;
         }
-        result = result && (getProxyCookie()
-            == other.getProxyCookie());
-        result = result && (getPartitionGroup()
-            == other.getPartitionGroup());
-        result = result && getVersion()
-            .equals(other.getVersion());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (getProxyCookie()
+            != other.getProxyCookie()) return false;
+        if (getPartitionGroup()
+            != other.getPartitionGroup()) return false;
+        if (!getVersion()
+            .equals(other.getVersion())) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -4084,6 +4443,7 @@ public final class Persqueue {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -4091,6 +4451,7 @@ public final class Persqueue {
       public static Builder newBuilder(tech.ydb.persqueue.Persqueue.WriteRequest.Init prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -4114,6 +4475,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteRequest_Init_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteRequest_Init_fieldAccessorTable
@@ -4136,6 +4498,7 @@ public final class Persqueue {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           topic_ = "";
@@ -4157,15 +4520,18 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteRequest_Init_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteRequest.Init getDefaultInstanceForType() {
           return tech.ydb.persqueue.Persqueue.WriteRequest.Init.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteRequest.Init build() {
           tech.ydb.persqueue.Persqueue.WriteRequest.Init result = buildPartial();
           if (!result.isInitialized()) {
@@ -4174,6 +4540,7 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteRequest.Init buildPartial() {
           tech.ydb.persqueue.Persqueue.WriteRequest.Init result = new tech.ydb.persqueue.Persqueue.WriteRequest.Init(this);
           result.topic_ = topic_;
@@ -4190,32 +4557,39 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.persqueue.Persqueue.WriteRequest.Init) {
             return mergeFrom((tech.ydb.persqueue.Persqueue.WriteRequest.Init)other);
@@ -4252,10 +4626,12 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4277,6 +4653,7 @@ public final class Persqueue {
         private java.lang.Object topic_ = "";
         /**
          * <code>string topic = 1;</code>
+         * @return The topic.
          */
         public java.lang.String getTopic() {
           java.lang.Object ref = topic_;
@@ -4292,6 +4669,7 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 1;</code>
+         * @return The bytes for topic.
          */
         public com.google.protobuf.ByteString
             getTopicBytes() {
@@ -4308,6 +4686,8 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 1;</code>
+         * @param value The topic to set.
+         * @return This builder for chaining.
          */
         public Builder setTopic(
             java.lang.String value) {
@@ -4321,6 +4701,7 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearTopic() {
           
@@ -4330,6 +4711,8 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 1;</code>
+         * @param value The bytes for topic to set.
+         * @return This builder for chaining.
          */
         public Builder setTopicBytes(
             com.google.protobuf.ByteString value) {
@@ -4346,12 +4729,16 @@ public final class Persqueue {
         private com.google.protobuf.ByteString sourceId_ = com.google.protobuf.ByteString.EMPTY;
         /**
          * <code>bytes source_id = 2;</code>
+         * @return The sourceId.
          */
+        @java.lang.Override
         public com.google.protobuf.ByteString getSourceId() {
           return sourceId_;
         }
         /**
          * <code>bytes source_id = 2;</code>
+         * @param value The sourceId to set.
+         * @return This builder for chaining.
          */
         public Builder setSourceId(com.google.protobuf.ByteString value) {
           if (value == null) {
@@ -4364,6 +4751,7 @@ public final class Persqueue {
         }
         /**
          * <code>bytes source_id = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearSourceId() {
           
@@ -4372,7 +4760,7 @@ public final class Persqueue {
           return this;
         }
 
-        private tech.ydb.persqueue.Persqueue.MapType extraFields_ = null;
+        private tech.ydb.persqueue.Persqueue.MapType extraFields_;
         private com.google.protobuf.SingleFieldBuilderV3<
             tech.ydb.persqueue.Persqueue.MapType, tech.ydb.persqueue.Persqueue.MapType.Builder, tech.ydb.persqueue.Persqueue.MapTypeOrBuilder> extraFieldsBuilder_;
         /**
@@ -4381,6 +4769,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>.NPersQueue.MapType extra_fields = 7;</code>
+         * @return Whether the extraFields field is set.
          */
         public boolean hasExtraFields() {
           return extraFieldsBuilder_ != null || extraFields_ != null;
@@ -4391,6 +4780,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>.NPersQueue.MapType extra_fields = 7;</code>
+         * @return The extraFields.
          */
         public tech.ydb.persqueue.Persqueue.MapType getExtraFields() {
           if (extraFieldsBuilder_ == null) {
@@ -4532,7 +4922,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 proxy_cookie = 8;</code>
+         * @return The proxyCookie.
          */
+        @java.lang.Override
         public long getProxyCookie() {
           return proxyCookie_;
         }
@@ -4542,6 +4934,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 proxy_cookie = 8;</code>
+         * @param value The proxyCookie to set.
+         * @return This builder for chaining.
          */
         public Builder setProxyCookie(long value) {
           
@@ -4555,6 +4949,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 proxy_cookie = 8;</code>
+         * @return This builder for chaining.
          */
         public Builder clearProxyCookie() {
           
@@ -4570,7 +4965,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 partition_group = 12;</code>
+         * @return The partitionGroup.
          */
+        @java.lang.Override
         public int getPartitionGroup() {
           return partitionGroup_;
         }
@@ -4580,6 +4977,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 partition_group = 12;</code>
+         * @param value The partitionGroup to set.
+         * @return This builder for chaining.
          */
         public Builder setPartitionGroup(int value) {
           
@@ -4593,6 +4992,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 partition_group = 12;</code>
+         * @return This builder for chaining.
          */
         public Builder clearPartitionGroup() {
           
@@ -4608,6 +5008,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>string version = 999;</code>
+         * @return The version.
          */
         public java.lang.String getVersion() {
           java.lang.Object ref = version_;
@@ -4627,6 +5028,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>string version = 999;</code>
+         * @return The bytes for version.
          */
         public com.google.protobuf.ByteString
             getVersionBytes() {
@@ -4647,6 +5049,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>string version = 999;</code>
+         * @param value The version to set.
+         * @return This builder for chaining.
          */
         public Builder setVersion(
             java.lang.String value) {
@@ -4664,6 +5068,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>string version = 999;</code>
+         * @return This builder for chaining.
          */
         public Builder clearVersion() {
           
@@ -4677,6 +5082,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>string version = 999;</code>
+         * @param value The bytes for version to set.
+         * @return This builder for chaining.
          */
         public Builder setVersionBytes(
             com.google.protobuf.ByteString value) {
@@ -4689,11 +5096,13 @@ public final class Persqueue {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -4715,11 +5124,12 @@ public final class Persqueue {
 
       private static final com.google.protobuf.Parser<Init>
           PARSER = new com.google.protobuf.AbstractParser<Init>() {
+        @java.lang.Override
         public Init parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Init(input, extensionRegistry);
+          return new Init(input, extensionRegistry);
         }
       };
 
@@ -4732,6 +5142,7 @@ public final class Persqueue {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteRequest.Init getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -4744,11 +5155,13 @@ public final class Persqueue {
 
       /**
        * <code>uint64 seq_no = 1;</code>
+       * @return The seqNo.
        */
       long getSeqNo();
 
       /**
        * <code>bytes data = 2;</code>
+       * @return The data.
        */
       com.google.protobuf.ByteString getData();
 
@@ -4758,27 +5171,31 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 create_time_ms = 3;</code>
+       * @return The createTimeMs.
        */
       long getCreateTimeMs();
 
       /**
        * <code>.NPersQueue.ECodec codec = 4;</code>
+       * @return The enum numeric value on the wire for codec.
        */
       int getCodecValue();
       /**
        * <code>.NPersQueue.ECodec codec = 4;</code>
+       * @return The codec.
        */
       tech.ydb.persqueue.Persqueue.ECodec getCodec();
 
       /**
        * <code>uint32 uncompressed_size = 5;</code>
+       * @return The uncompressedSize.
        */
       int getUncompressedSize();
     }
     /**
      * Protobuf type {@code NPersQueue.WriteRequest.Data}
      */
-    public  static final class Data extends
+    public static final class Data extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NPersQueue.WriteRequest.Data)
         DataOrBuilder {
@@ -4788,11 +5205,15 @@ public final class Persqueue {
         super(builder);
       }
       private Data() {
-        seqNo_ = 0L;
         data_ = com.google.protobuf.ByteString.EMPTY;
-        createTimeMs_ = 0L;
         codec_ = 0;
-        uncompressedSize_ = 0;
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Data();
       }
 
       @java.lang.Override
@@ -4805,7 +5226,9 @@ public final class Persqueue {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -4816,13 +5239,6 @@ public final class Persqueue {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 8: {
 
                 seqNo_ = input.readUInt64();
@@ -4849,6 +5265,13 @@ public final class Persqueue {
                 uncompressedSize_ = input.readUInt32();
                 break;
               }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -4866,6 +5289,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteRequest_Data_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteRequest_Data_fieldAccessorTable
@@ -4877,7 +5301,9 @@ public final class Persqueue {
       private long seqNo_;
       /**
        * <code>uint64 seq_no = 1;</code>
+       * @return The seqNo.
        */
+      @java.lang.Override
       public long getSeqNo() {
         return seqNo_;
       }
@@ -4886,7 +5312,9 @@ public final class Persqueue {
       private com.google.protobuf.ByteString data_;
       /**
        * <code>bytes data = 2;</code>
+       * @return The data.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getData() {
         return data_;
       }
@@ -4899,7 +5327,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 create_time_ms = 3;</code>
+       * @return The createTimeMs.
        */
+      @java.lang.Override
       public long getCreateTimeMs() {
         return createTimeMs_;
       }
@@ -4908,14 +5338,17 @@ public final class Persqueue {
       private int codec_;
       /**
        * <code>.NPersQueue.ECodec codec = 4;</code>
+       * @return The enum numeric value on the wire for codec.
        */
-      public int getCodecValue() {
+      @java.lang.Override public int getCodecValue() {
         return codec_;
       }
       /**
        * <code>.NPersQueue.ECodec codec = 4;</code>
+       * @return The codec.
        */
-      public tech.ydb.persqueue.Persqueue.ECodec getCodec() {
+      @java.lang.Override public tech.ydb.persqueue.Persqueue.ECodec getCodec() {
+        @SuppressWarnings("deprecation")
         tech.ydb.persqueue.Persqueue.ECodec result = tech.ydb.persqueue.Persqueue.ECodec.valueOf(codec_);
         return result == null ? tech.ydb.persqueue.Persqueue.ECodec.UNRECOGNIZED : result;
       }
@@ -4924,12 +5357,15 @@ public final class Persqueue {
       private int uncompressedSize_;
       /**
        * <code>uint32 uncompressed_size = 5;</code>
+       * @return The uncompressedSize.
        */
+      @java.lang.Override
       public int getUncompressedSize() {
         return uncompressedSize_;
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -4939,6 +5375,7 @@ public final class Persqueue {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (seqNo_ != 0L) {
@@ -4959,6 +5396,7 @@ public final class Persqueue {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -4999,18 +5437,17 @@ public final class Persqueue {
         }
         tech.ydb.persqueue.Persqueue.WriteRequest.Data other = (tech.ydb.persqueue.Persqueue.WriteRequest.Data) obj;
 
-        boolean result = true;
-        result = result && (getSeqNo()
-            == other.getSeqNo());
-        result = result && getData()
-            .equals(other.getData());
-        result = result && (getCreateTimeMs()
-            == other.getCreateTimeMs());
-        result = result && codec_ == other.codec_;
-        result = result && (getUncompressedSize()
-            == other.getUncompressedSize());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (getSeqNo()
+            != other.getSeqNo()) return false;
+        if (!getData()
+            .equals(other.getData())) return false;
+        if (getCreateTimeMs()
+            != other.getCreateTimeMs()) return false;
+        if (codec_ != other.codec_) return false;
+        if (getUncompressedSize()
+            != other.getUncompressedSize()) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -5107,6 +5544,7 @@ public final class Persqueue {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -5114,6 +5552,7 @@ public final class Persqueue {
       public static Builder newBuilder(tech.ydb.persqueue.Persqueue.WriteRequest.Data prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -5137,6 +5576,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteRequest_Data_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteRequest_Data_fieldAccessorTable
@@ -5159,6 +5599,7 @@ public final class Persqueue {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           seqNo_ = 0L;
@@ -5174,15 +5615,18 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteRequest_Data_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteRequest.Data getDefaultInstanceForType() {
           return tech.ydb.persqueue.Persqueue.WriteRequest.Data.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteRequest.Data build() {
           tech.ydb.persqueue.Persqueue.WriteRequest.Data result = buildPartial();
           if (!result.isInitialized()) {
@@ -5191,6 +5635,7 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteRequest.Data buildPartial() {
           tech.ydb.persqueue.Persqueue.WriteRequest.Data result = new tech.ydb.persqueue.Persqueue.WriteRequest.Data(this);
           result.seqNo_ = seqNo_;
@@ -5202,32 +5647,39 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.persqueue.Persqueue.WriteRequest.Data) {
             return mergeFrom((tech.ydb.persqueue.Persqueue.WriteRequest.Data)other);
@@ -5259,10 +5711,12 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5284,12 +5738,16 @@ public final class Persqueue {
         private long seqNo_ ;
         /**
          * <code>uint64 seq_no = 1;</code>
+         * @return The seqNo.
          */
+        @java.lang.Override
         public long getSeqNo() {
           return seqNo_;
         }
         /**
          * <code>uint64 seq_no = 1;</code>
+         * @param value The seqNo to set.
+         * @return This builder for chaining.
          */
         public Builder setSeqNo(long value) {
           
@@ -5299,6 +5757,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint64 seq_no = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearSeqNo() {
           
@@ -5310,12 +5769,16 @@ public final class Persqueue {
         private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
         /**
          * <code>bytes data = 2;</code>
+         * @return The data.
          */
+        @java.lang.Override
         public com.google.protobuf.ByteString getData() {
           return data_;
         }
         /**
          * <code>bytes data = 2;</code>
+         * @param value The data to set.
+         * @return This builder for chaining.
          */
         public Builder setData(com.google.protobuf.ByteString value) {
           if (value == null) {
@@ -5328,6 +5791,7 @@ public final class Persqueue {
         }
         /**
          * <code>bytes data = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearData() {
           
@@ -5343,7 +5807,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 create_time_ms = 3;</code>
+         * @return The createTimeMs.
          */
+        @java.lang.Override
         public long getCreateTimeMs() {
           return createTimeMs_;
         }
@@ -5353,6 +5819,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 create_time_ms = 3;</code>
+         * @param value The createTimeMs to set.
+         * @return This builder for chaining.
          */
         public Builder setCreateTimeMs(long value) {
           
@@ -5366,6 +5834,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 create_time_ms = 3;</code>
+         * @return This builder for chaining.
          */
         public Builder clearCreateTimeMs() {
           
@@ -5377,27 +5846,36 @@ public final class Persqueue {
         private int codec_ = 0;
         /**
          * <code>.NPersQueue.ECodec codec = 4;</code>
+         * @return The enum numeric value on the wire for codec.
          */
-        public int getCodecValue() {
+        @java.lang.Override public int getCodecValue() {
           return codec_;
         }
         /**
          * <code>.NPersQueue.ECodec codec = 4;</code>
+         * @param value The enum numeric value on the wire for codec to set.
+         * @return This builder for chaining.
          */
         public Builder setCodecValue(int value) {
+          
           codec_ = value;
           onChanged();
           return this;
         }
         /**
          * <code>.NPersQueue.ECodec codec = 4;</code>
+         * @return The codec.
          */
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ECodec getCodec() {
+          @SuppressWarnings("deprecation")
           tech.ydb.persqueue.Persqueue.ECodec result = tech.ydb.persqueue.Persqueue.ECodec.valueOf(codec_);
           return result == null ? tech.ydb.persqueue.Persqueue.ECodec.UNRECOGNIZED : result;
         }
         /**
          * <code>.NPersQueue.ECodec codec = 4;</code>
+         * @param value The codec to set.
+         * @return This builder for chaining.
          */
         public Builder setCodec(tech.ydb.persqueue.Persqueue.ECodec value) {
           if (value == null) {
@@ -5410,6 +5888,7 @@ public final class Persqueue {
         }
         /**
          * <code>.NPersQueue.ECodec codec = 4;</code>
+         * @return This builder for chaining.
          */
         public Builder clearCodec() {
           
@@ -5421,12 +5900,16 @@ public final class Persqueue {
         private int uncompressedSize_ ;
         /**
          * <code>uint32 uncompressed_size = 5;</code>
+         * @return The uncompressedSize.
          */
+        @java.lang.Override
         public int getUncompressedSize() {
           return uncompressedSize_;
         }
         /**
          * <code>uint32 uncompressed_size = 5;</code>
+         * @param value The uncompressedSize to set.
+         * @return This builder for chaining.
          */
         public Builder setUncompressedSize(int value) {
           
@@ -5436,6 +5919,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint32 uncompressed_size = 5;</code>
+         * @return This builder for chaining.
          */
         public Builder clearUncompressedSize() {
           
@@ -5443,11 +5927,13 @@ public final class Persqueue {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -5469,11 +5955,12 @@ public final class Persqueue {
 
       private static final com.google.protobuf.Parser<Data>
           PARSER = new com.google.protobuf.AbstractParser<Data>() {
+        @java.lang.Override
         public Data parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Data(input, extensionRegistry);
+          return new Data(input, extensionRegistry);
         }
       };
 
@@ -5486,6 +5973,7 @@ public final class Persqueue {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteRequest.Data getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -5523,7 +6011,7 @@ public final class Persqueue {
     /**
      * Protobuf type {@code NPersQueue.WriteRequest.DataBatch}
      */
-    public  static final class DataBatch extends
+    public static final class DataBatch extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NPersQueue.WriteRequest.DataBatch)
         DataBatchOrBuilder {
@@ -5537,6 +6025,13 @@ public final class Persqueue {
       }
 
       @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new DataBatch();
+      }
+
+      @java.lang.Override
       public final com.google.protobuf.UnknownFieldSet
       getUnknownFields() {
         return this.unknownFields;
@@ -5546,6 +6041,9 @@ public final class Persqueue {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         int mutable_bitField0_ = 0;
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -5557,20 +6055,20 @@ public final class Persqueue {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 10: {
-                if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                   data_ = new java.util.ArrayList<tech.ydb.persqueue.Persqueue.WriteRequest.Data>();
                   mutable_bitField0_ |= 0x00000001;
                 }
                 data_.add(
                     input.readMessage(tech.ydb.persqueue.Persqueue.WriteRequest.Data.parser(), extensionRegistry));
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
                 break;
               }
             }
@@ -5581,7 +6079,7 @@ public final class Persqueue {
           throw new com.google.protobuf.InvalidProtocolBufferException(
               e).setUnfinishedMessage(this);
         } finally {
-          if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((mutable_bitField0_ & 0x00000001) != 0)) {
             data_ = java.util.Collections.unmodifiableList(data_);
           }
           this.unknownFields = unknownFields.build();
@@ -5593,6 +6091,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteRequest_DataBatch_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteRequest_DataBatch_fieldAccessorTable
@@ -5605,12 +6104,14 @@ public final class Persqueue {
       /**
        * <code>repeated .NPersQueue.WriteRequest.Data data = 1;</code>
        */
+      @java.lang.Override
       public java.util.List<tech.ydb.persqueue.Persqueue.WriteRequest.Data> getDataList() {
         return data_;
       }
       /**
        * <code>repeated .NPersQueue.WriteRequest.Data data = 1;</code>
        */
+      @java.lang.Override
       public java.util.List<? extends tech.ydb.persqueue.Persqueue.WriteRequest.DataOrBuilder> 
           getDataOrBuilderList() {
         return data_;
@@ -5618,24 +6119,28 @@ public final class Persqueue {
       /**
        * <code>repeated .NPersQueue.WriteRequest.Data data = 1;</code>
        */
+      @java.lang.Override
       public int getDataCount() {
         return data_.size();
       }
       /**
        * <code>repeated .NPersQueue.WriteRequest.Data data = 1;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteRequest.Data getData(int index) {
         return data_.get(index);
       }
       /**
        * <code>repeated .NPersQueue.WriteRequest.Data data = 1;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteRequest.DataOrBuilder getDataOrBuilder(
           int index) {
         return data_.get(index);
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -5645,6 +6150,7 @@ public final class Persqueue {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         for (int i = 0; i < data_.size(); i++) {
@@ -5653,6 +6159,7 @@ public final class Persqueue {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -5677,11 +6184,10 @@ public final class Persqueue {
         }
         tech.ydb.persqueue.Persqueue.WriteRequest.DataBatch other = (tech.ydb.persqueue.Persqueue.WriteRequest.DataBatch) obj;
 
-        boolean result = true;
-        result = result && getDataList()
-            .equals(other.getDataList());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!getDataList()
+            .equals(other.getDataList())) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -5770,6 +6276,7 @@ public final class Persqueue {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -5777,6 +6284,7 @@ public final class Persqueue {
       public static Builder newBuilder(tech.ydb.persqueue.Persqueue.WriteRequest.DataBatch prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -5800,6 +6308,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteRequest_DataBatch_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteRequest_DataBatch_fieldAccessorTable
@@ -5823,6 +6332,7 @@ public final class Persqueue {
             getDataFieldBuilder();
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           if (dataBuilder_ == null) {
@@ -5834,15 +6344,18 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteRequest_DataBatch_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteRequest.DataBatch getDefaultInstanceForType() {
           return tech.ydb.persqueue.Persqueue.WriteRequest.DataBatch.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteRequest.DataBatch build() {
           tech.ydb.persqueue.Persqueue.WriteRequest.DataBatch result = buildPartial();
           if (!result.isInitialized()) {
@@ -5851,11 +6364,12 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteRequest.DataBatch buildPartial() {
           tech.ydb.persqueue.Persqueue.WriteRequest.DataBatch result = new tech.ydb.persqueue.Persqueue.WriteRequest.DataBatch(this);
           int from_bitField0_ = bitField0_;
           if (dataBuilder_ == null) {
-            if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            if (((bitField0_ & 0x00000001) != 0)) {
               data_ = java.util.Collections.unmodifiableList(data_);
               bitField0_ = (bitField0_ & ~0x00000001);
             }
@@ -5867,32 +6381,39 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.persqueue.Persqueue.WriteRequest.DataBatch) {
             return mergeFrom((tech.ydb.persqueue.Persqueue.WriteRequest.DataBatch)other);
@@ -5935,10 +6456,12 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5961,7 +6484,7 @@ public final class Persqueue {
         private java.util.List<tech.ydb.persqueue.Persqueue.WriteRequest.Data> data_ =
           java.util.Collections.emptyList();
         private void ensureDataIsMutable() {
-          if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (!((bitField0_ & 0x00000001) != 0)) {
             data_ = new java.util.ArrayList<tech.ydb.persqueue.Persqueue.WriteRequest.Data>(data_);
             bitField0_ |= 0x00000001;
            }
@@ -6190,18 +6713,20 @@ public final class Persqueue {
             dataBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
                 tech.ydb.persqueue.Persqueue.WriteRequest.Data, tech.ydb.persqueue.Persqueue.WriteRequest.Data.Builder, tech.ydb.persqueue.Persqueue.WriteRequest.DataOrBuilder>(
                     data_,
-                    ((bitField0_ & 0x00000001) == 0x00000001),
+                    ((bitField0_ & 0x00000001) != 0),
                     getParentForChildren(),
                     isClean());
             data_ = null;
           }
           return dataBuilder_;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -6223,11 +6748,12 @@ public final class Persqueue {
 
       private static final com.google.protobuf.Parser<DataBatch>
           PARSER = new com.google.protobuf.AbstractParser<DataBatch>() {
+        @java.lang.Override
         public DataBatch parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new DataBatch(input, extensionRegistry);
+          return new DataBatch(input, extensionRegistry);
         }
       };
 
@@ -6240,6 +6766,7 @@ public final class Persqueue {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteRequest.DataBatch getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -6249,7 +6776,8 @@ public final class Persqueue {
     private int requestCase_ = 0;
     private java.lang.Object request_;
     public enum RequestCase
-        implements com.google.protobuf.Internal.EnumLite {
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       INIT(1),
       DATA(2),
       DATA_BATCH(3),
@@ -6259,6 +6787,8 @@ public final class Persqueue {
         this.value = value;
       }
       /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -6293,7 +6823,9 @@ public final class Persqueue {
      * </pre>
      *
      * <code>.NPersQueue.WriteRequest.Init init = 1;</code>
+     * @return Whether the init field is set.
      */
+    @java.lang.Override
     public boolean hasInit() {
       return requestCase_ == 1;
     }
@@ -6303,7 +6835,9 @@ public final class Persqueue {
      * </pre>
      *
      * <code>.NPersQueue.WriteRequest.Init init = 1;</code>
+     * @return The init.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.WriteRequest.Init getInit() {
       if (requestCase_ == 1) {
          return (tech.ydb.persqueue.Persqueue.WriteRequest.Init) request_;
@@ -6317,6 +6851,7 @@ public final class Persqueue {
      *
      * <code>.NPersQueue.WriteRequest.Init init = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.WriteRequest.InitOrBuilder getInitOrBuilder() {
       if (requestCase_ == 1) {
          return (tech.ydb.persqueue.Persqueue.WriteRequest.Init) request_;
@@ -6327,13 +6862,17 @@ public final class Persqueue {
     public static final int DATA_FIELD_NUMBER = 2;
     /**
      * <code>.NPersQueue.WriteRequest.Data data = 2;</code>
+     * @return Whether the data field is set.
      */
+    @java.lang.Override
     public boolean hasData() {
       return requestCase_ == 2;
     }
     /**
      * <code>.NPersQueue.WriteRequest.Data data = 2;</code>
+     * @return The data.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.WriteRequest.Data getData() {
       if (requestCase_ == 2) {
          return (tech.ydb.persqueue.Persqueue.WriteRequest.Data) request_;
@@ -6343,6 +6882,7 @@ public final class Persqueue {
     /**
      * <code>.NPersQueue.WriteRequest.Data data = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.WriteRequest.DataOrBuilder getDataOrBuilder() {
       if (requestCase_ == 2) {
          return (tech.ydb.persqueue.Persqueue.WriteRequest.Data) request_;
@@ -6353,13 +6893,17 @@ public final class Persqueue {
     public static final int DATA_BATCH_FIELD_NUMBER = 3;
     /**
      * <code>.NPersQueue.WriteRequest.DataBatch data_batch = 3;</code>
+     * @return Whether the dataBatch field is set.
      */
+    @java.lang.Override
     public boolean hasDataBatch() {
       return requestCase_ == 3;
     }
     /**
      * <code>.NPersQueue.WriteRequest.DataBatch data_batch = 3;</code>
+     * @return The dataBatch.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.WriteRequest.DataBatch getDataBatch() {
       if (requestCase_ == 3) {
          return (tech.ydb.persqueue.Persqueue.WriteRequest.DataBatch) request_;
@@ -6369,6 +6913,7 @@ public final class Persqueue {
     /**
      * <code>.NPersQueue.WriteRequest.DataBatch data_batch = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.WriteRequest.DataBatchOrBuilder getDataBatchOrBuilder() {
       if (requestCase_ == 3) {
          return (tech.ydb.persqueue.Persqueue.WriteRequest.DataBatch) request_;
@@ -6380,24 +6925,30 @@ public final class Persqueue {
     private tech.ydb.persqueue.Persqueue.Credentials credentials_;
     /**
      * <code>.NPersQueue.Credentials credentials = 20;</code>
+     * @return Whether the credentials field is set.
      */
+    @java.lang.Override
     public boolean hasCredentials() {
       return credentials_ != null;
     }
     /**
      * <code>.NPersQueue.Credentials credentials = 20;</code>
+     * @return The credentials.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.Credentials getCredentials() {
       return credentials_ == null ? tech.ydb.persqueue.Persqueue.Credentials.getDefaultInstance() : credentials_;
     }
     /**
      * <code>.NPersQueue.Credentials credentials = 20;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.CredentialsOrBuilder getCredentialsOrBuilder() {
       return getCredentials();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6407,6 +6958,7 @@ public final class Persqueue {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (requestCase_ == 1) {
@@ -6424,6 +6976,7 @@ public final class Persqueue {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -6460,33 +7013,30 @@ public final class Persqueue {
       }
       tech.ydb.persqueue.Persqueue.WriteRequest other = (tech.ydb.persqueue.Persqueue.WriteRequest) obj;
 
-      boolean result = true;
-      result = result && (hasCredentials() == other.hasCredentials());
+      if (hasCredentials() != other.hasCredentials()) return false;
       if (hasCredentials()) {
-        result = result && getCredentials()
-            .equals(other.getCredentials());
+        if (!getCredentials()
+            .equals(other.getCredentials())) return false;
       }
-      result = result && getRequestCase().equals(
-          other.getRequestCase());
-      if (!result) return false;
+      if (!getRequestCase().equals(other.getRequestCase())) return false;
       switch (requestCase_) {
         case 1:
-          result = result && getInit()
-              .equals(other.getInit());
+          if (!getInit()
+              .equals(other.getInit())) return false;
           break;
         case 2:
-          result = result && getData()
-              .equals(other.getData());
+          if (!getData()
+              .equals(other.getData())) return false;
           break;
         case 3:
-          result = result && getDataBatch()
-              .equals(other.getDataBatch());
+          if (!getDataBatch()
+              .equals(other.getDataBatch())) return false;
           break;
         case 0:
         default:
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -6591,6 +7141,7 @@ public final class Persqueue {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -6598,6 +7149,7 @@ public final class Persqueue {
     public static Builder newBuilder(tech.ydb.persqueue.Persqueue.WriteRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -6629,6 +7181,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteRequest_fieldAccessorTable
@@ -6651,6 +7204,7 @@ public final class Persqueue {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (credentialsBuilder_ == null) {
@@ -6664,15 +7218,18 @@ public final class Persqueue {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteRequest getDefaultInstanceForType() {
         return tech.ydb.persqueue.Persqueue.WriteRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteRequest build() {
         tech.ydb.persqueue.Persqueue.WriteRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -6681,6 +7238,7 @@ public final class Persqueue {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteRequest buildPartial() {
         tech.ydb.persqueue.Persqueue.WriteRequest result = new tech.ydb.persqueue.Persqueue.WriteRequest(this);
         if (requestCase_ == 1) {
@@ -6714,32 +7272,39 @@ public final class Persqueue {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.persqueue.Persqueue.WriteRequest) {
           return mergeFrom((tech.ydb.persqueue.Persqueue.WriteRequest)other);
@@ -6776,10 +7341,12 @@ public final class Persqueue {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6821,7 +7388,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>.NPersQueue.WriteRequest.Init init = 1;</code>
+       * @return Whether the init field is set.
        */
+      @java.lang.Override
       public boolean hasInit() {
         return requestCase_ == 1;
       }
@@ -6831,7 +7400,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>.NPersQueue.WriteRequest.Init init = 1;</code>
+       * @return The init.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteRequest.Init getInit() {
         if (initBuilder_ == null) {
           if (requestCase_ == 1) {
@@ -6949,6 +7520,7 @@ public final class Persqueue {
        *
        * <code>.NPersQueue.WriteRequest.Init init = 1;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteRequest.InitOrBuilder getInitOrBuilder() {
         if ((requestCase_ == 1) && (initBuilder_ != null)) {
           return initBuilder_.getMessageOrBuilder();
@@ -6989,13 +7561,17 @@ public final class Persqueue {
           tech.ydb.persqueue.Persqueue.WriteRequest.Data, tech.ydb.persqueue.Persqueue.WriteRequest.Data.Builder, tech.ydb.persqueue.Persqueue.WriteRequest.DataOrBuilder> dataBuilder_;
       /**
        * <code>.NPersQueue.WriteRequest.Data data = 2;</code>
+       * @return Whether the data field is set.
        */
+      @java.lang.Override
       public boolean hasData() {
         return requestCase_ == 2;
       }
       /**
        * <code>.NPersQueue.WriteRequest.Data data = 2;</code>
+       * @return The data.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteRequest.Data getData() {
         if (dataBuilder_ == null) {
           if (requestCase_ == 2) {
@@ -7089,6 +7665,7 @@ public final class Persqueue {
       /**
        * <code>.NPersQueue.WriteRequest.Data data = 2;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteRequest.DataOrBuilder getDataOrBuilder() {
         if ((requestCase_ == 2) && (dataBuilder_ != null)) {
           return dataBuilder_.getMessageOrBuilder();
@@ -7125,13 +7702,17 @@ public final class Persqueue {
           tech.ydb.persqueue.Persqueue.WriteRequest.DataBatch, tech.ydb.persqueue.Persqueue.WriteRequest.DataBatch.Builder, tech.ydb.persqueue.Persqueue.WriteRequest.DataBatchOrBuilder> dataBatchBuilder_;
       /**
        * <code>.NPersQueue.WriteRequest.DataBatch data_batch = 3;</code>
+       * @return Whether the dataBatch field is set.
        */
+      @java.lang.Override
       public boolean hasDataBatch() {
         return requestCase_ == 3;
       }
       /**
        * <code>.NPersQueue.WriteRequest.DataBatch data_batch = 3;</code>
+       * @return The dataBatch.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteRequest.DataBatch getDataBatch() {
         if (dataBatchBuilder_ == null) {
           if (requestCase_ == 3) {
@@ -7225,6 +7806,7 @@ public final class Persqueue {
       /**
        * <code>.NPersQueue.WriteRequest.DataBatch data_batch = 3;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteRequest.DataBatchOrBuilder getDataBatchOrBuilder() {
         if ((requestCase_ == 3) && (dataBatchBuilder_ != null)) {
           return dataBatchBuilder_.getMessageOrBuilder();
@@ -7257,17 +7839,19 @@ public final class Persqueue {
         return dataBatchBuilder_;
       }
 
-      private tech.ydb.persqueue.Persqueue.Credentials credentials_ = null;
+      private tech.ydb.persqueue.Persqueue.Credentials credentials_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.persqueue.Persqueue.Credentials, tech.ydb.persqueue.Persqueue.Credentials.Builder, tech.ydb.persqueue.Persqueue.CredentialsOrBuilder> credentialsBuilder_;
       /**
        * <code>.NPersQueue.Credentials credentials = 20;</code>
+       * @return Whether the credentials field is set.
        */
       public boolean hasCredentials() {
         return credentialsBuilder_ != null || credentials_ != null;
       }
       /**
        * <code>.NPersQueue.Credentials credentials = 20;</code>
+       * @return The credentials.
        */
       public tech.ydb.persqueue.Persqueue.Credentials getCredentials() {
         if (credentialsBuilder_ == null) {
@@ -7373,11 +7957,13 @@ public final class Persqueue {
         }
         return credentialsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -7399,11 +7985,12 @@ public final class Persqueue {
 
     private static final com.google.protobuf.Parser<WriteRequest>
         PARSER = new com.google.protobuf.AbstractParser<WriteRequest>() {
+      @java.lang.Override
       public WriteRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new WriteRequest(input, extensionRegistry);
+        return new WriteRequest(input, extensionRegistry);
       }
     };
 
@@ -7416,6 +8003,7 @@ public final class Persqueue {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.WriteRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -7428,10 +8016,12 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.WriteResponse.Init init = 1;</code>
+     * @return Whether the init field is set.
      */
     boolean hasInit();
     /**
      * <code>.NPersQueue.WriteResponse.Init init = 1;</code>
+     * @return The init.
      */
     tech.ydb.persqueue.Persqueue.WriteResponse.Init getInit();
     /**
@@ -7441,10 +8031,12 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.WriteResponse.Ack ack = 2;</code>
+     * @return Whether the ack field is set.
      */
     boolean hasAck();
     /**
      * <code>.NPersQueue.WriteResponse.Ack ack = 2;</code>
+     * @return The ack.
      */
     tech.ydb.persqueue.Persqueue.WriteResponse.Ack getAck();
     /**
@@ -7454,10 +8046,12 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.WriteResponse.AckBatch ack_batch = 4;</code>
+     * @return Whether the ackBatch field is set.
      */
     boolean hasAckBatch();
     /**
      * <code>.NPersQueue.WriteResponse.AckBatch ack_batch = 4;</code>
+     * @return The ackBatch.
      */
     tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch getAckBatch();
     /**
@@ -7467,10 +8061,12 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.Error error = 3;</code>
+     * @return Whether the error field is set.
      */
     boolean hasError();
     /**
      * <code>.NPersQueue.Error error = 3;</code>
+     * @return The error.
      */
     tech.ydb.persqueue.Persqueue.Error getError();
     /**
@@ -7492,7 +8088,7 @@ public final class Persqueue {
    *
    * Protobuf type {@code NPersQueue.WriteResponse}
    */
-  public  static final class WriteResponse extends
+  public static final class WriteResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NPersQueue.WriteResponse)
       WriteResponseOrBuilder {
@@ -7505,6 +8101,13 @@ public final class Persqueue {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new WriteResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -7514,7 +8117,9 @@ public final class Persqueue {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -7525,13 +8130,6 @@ public final class Persqueue {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.persqueue.Persqueue.WriteResponse.Init.Builder subBuilder = null;
               if (responseCase_ == 1) {
@@ -7588,6 +8186,13 @@ public final class Persqueue {
               responseCase_ = 4;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -7605,6 +8210,7 @@ public final class Persqueue {
       return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_fieldAccessorTable
@@ -7618,30 +8224,36 @@ public final class Persqueue {
 
       /**
        * <code>uint64 max_seq_no = 1;</code>
+       * @return The maxSeqNo.
        */
       long getMaxSeqNo();
 
       /**
        * <code>string session_id = 2;</code>
+       * @return The sessionId.
        */
       java.lang.String getSessionId();
       /**
        * <code>string session_id = 2;</code>
+       * @return The bytes for sessionId.
        */
       com.google.protobuf.ByteString
           getSessionIdBytes();
 
       /**
        * <code>uint32 partition = 3;</code>
+       * @return The partition.
        */
       int getPartition();
 
       /**
        * <code>string topic = 4;</code>
+       * @return The topic.
        */
       java.lang.String getTopic();
       /**
        * <code>string topic = 4;</code>
+       * @return The bytes for topic.
        */
       com.google.protobuf.ByteString
           getTopicBytes();
@@ -7649,7 +8261,7 @@ public final class Persqueue {
     /**
      * Protobuf type {@code NPersQueue.WriteResponse.Init}
      */
-    public  static final class Init extends
+    public static final class Init extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NPersQueue.WriteResponse.Init)
         InitOrBuilder {
@@ -7659,10 +8271,15 @@ public final class Persqueue {
         super(builder);
       }
       private Init() {
-        maxSeqNo_ = 0L;
         sessionId_ = "";
-        partition_ = 0;
         topic_ = "";
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Init();
       }
 
       @java.lang.Override
@@ -7675,7 +8292,9 @@ public final class Persqueue {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -7686,13 +8305,6 @@ public final class Persqueue {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 8: {
 
                 maxSeqNo_ = input.readUInt64();
@@ -7715,6 +8327,13 @@ public final class Persqueue {
                 topic_ = s;
                 break;
               }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -7732,6 +8351,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_Init_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_Init_fieldAccessorTable
@@ -7743,7 +8363,9 @@ public final class Persqueue {
       private long maxSeqNo_;
       /**
        * <code>uint64 max_seq_no = 1;</code>
+       * @return The maxSeqNo.
        */
+      @java.lang.Override
       public long getMaxSeqNo() {
         return maxSeqNo_;
       }
@@ -7752,7 +8374,9 @@ public final class Persqueue {
       private volatile java.lang.Object sessionId_;
       /**
        * <code>string session_id = 2;</code>
+       * @return The sessionId.
        */
+      @java.lang.Override
       public java.lang.String getSessionId() {
         java.lang.Object ref = sessionId_;
         if (ref instanceof java.lang.String) {
@@ -7767,7 +8391,9 @@ public final class Persqueue {
       }
       /**
        * <code>string session_id = 2;</code>
+       * @return The bytes for sessionId.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getSessionIdBytes() {
         java.lang.Object ref = sessionId_;
@@ -7786,7 +8412,9 @@ public final class Persqueue {
       private int partition_;
       /**
        * <code>uint32 partition = 3;</code>
+       * @return The partition.
        */
+      @java.lang.Override
       public int getPartition() {
         return partition_;
       }
@@ -7795,7 +8423,9 @@ public final class Persqueue {
       private volatile java.lang.Object topic_;
       /**
        * <code>string topic = 4;</code>
+       * @return The topic.
        */
+      @java.lang.Override
       public java.lang.String getTopic() {
         java.lang.Object ref = topic_;
         if (ref instanceof java.lang.String) {
@@ -7810,7 +8440,9 @@ public final class Persqueue {
       }
       /**
        * <code>string topic = 4;</code>
+       * @return The bytes for topic.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getTopicBytes() {
         java.lang.Object ref = topic_;
@@ -7826,6 +8458,7 @@ public final class Persqueue {
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -7835,6 +8468,7 @@ public final class Persqueue {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (maxSeqNo_ != 0L) {
@@ -7852,6 +8486,7 @@ public final class Persqueue {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -7886,17 +8521,16 @@ public final class Persqueue {
         }
         tech.ydb.persqueue.Persqueue.WriteResponse.Init other = (tech.ydb.persqueue.Persqueue.WriteResponse.Init) obj;
 
-        boolean result = true;
-        result = result && (getMaxSeqNo()
-            == other.getMaxSeqNo());
-        result = result && getSessionId()
-            .equals(other.getSessionId());
-        result = result && (getPartition()
-            == other.getPartition());
-        result = result && getTopic()
-            .equals(other.getTopic());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (getMaxSeqNo()
+            != other.getMaxSeqNo()) return false;
+        if (!getSessionId()
+            .equals(other.getSessionId())) return false;
+        if (getPartition()
+            != other.getPartition()) return false;
+        if (!getTopic()
+            .equals(other.getTopic())) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -7990,6 +8624,7 @@ public final class Persqueue {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -7997,6 +8632,7 @@ public final class Persqueue {
       public static Builder newBuilder(tech.ydb.persqueue.Persqueue.WriteResponse.Init prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -8020,6 +8656,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_Init_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_Init_fieldAccessorTable
@@ -8042,6 +8679,7 @@ public final class Persqueue {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           maxSeqNo_ = 0L;
@@ -8055,15 +8693,18 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_Init_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteResponse.Init getDefaultInstanceForType() {
           return tech.ydb.persqueue.Persqueue.WriteResponse.Init.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteResponse.Init build() {
           tech.ydb.persqueue.Persqueue.WriteResponse.Init result = buildPartial();
           if (!result.isInitialized()) {
@@ -8072,6 +8713,7 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteResponse.Init buildPartial() {
           tech.ydb.persqueue.Persqueue.WriteResponse.Init result = new tech.ydb.persqueue.Persqueue.WriteResponse.Init(this);
           result.maxSeqNo_ = maxSeqNo_;
@@ -8082,32 +8724,39 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.persqueue.Persqueue.WriteResponse.Init) {
             return mergeFrom((tech.ydb.persqueue.Persqueue.WriteResponse.Init)other);
@@ -8138,10 +8787,12 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8163,12 +8814,16 @@ public final class Persqueue {
         private long maxSeqNo_ ;
         /**
          * <code>uint64 max_seq_no = 1;</code>
+         * @return The maxSeqNo.
          */
+        @java.lang.Override
         public long getMaxSeqNo() {
           return maxSeqNo_;
         }
         /**
          * <code>uint64 max_seq_no = 1;</code>
+         * @param value The maxSeqNo to set.
+         * @return This builder for chaining.
          */
         public Builder setMaxSeqNo(long value) {
           
@@ -8178,6 +8833,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint64 max_seq_no = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearMaxSeqNo() {
           
@@ -8189,6 +8845,7 @@ public final class Persqueue {
         private java.lang.Object sessionId_ = "";
         /**
          * <code>string session_id = 2;</code>
+         * @return The sessionId.
          */
         public java.lang.String getSessionId() {
           java.lang.Object ref = sessionId_;
@@ -8204,6 +8861,7 @@ public final class Persqueue {
         }
         /**
          * <code>string session_id = 2;</code>
+         * @return The bytes for sessionId.
          */
         public com.google.protobuf.ByteString
             getSessionIdBytes() {
@@ -8220,6 +8878,8 @@ public final class Persqueue {
         }
         /**
          * <code>string session_id = 2;</code>
+         * @param value The sessionId to set.
+         * @return This builder for chaining.
          */
         public Builder setSessionId(
             java.lang.String value) {
@@ -8233,6 +8893,7 @@ public final class Persqueue {
         }
         /**
          * <code>string session_id = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearSessionId() {
           
@@ -8242,6 +8903,8 @@ public final class Persqueue {
         }
         /**
          * <code>string session_id = 2;</code>
+         * @param value The bytes for sessionId to set.
+         * @return This builder for chaining.
          */
         public Builder setSessionIdBytes(
             com.google.protobuf.ByteString value) {
@@ -8258,12 +8921,16 @@ public final class Persqueue {
         private int partition_ ;
         /**
          * <code>uint32 partition = 3;</code>
+         * @return The partition.
          */
+        @java.lang.Override
         public int getPartition() {
           return partition_;
         }
         /**
          * <code>uint32 partition = 3;</code>
+         * @param value The partition to set.
+         * @return This builder for chaining.
          */
         public Builder setPartition(int value) {
           
@@ -8273,6 +8940,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint32 partition = 3;</code>
+         * @return This builder for chaining.
          */
         public Builder clearPartition() {
           
@@ -8284,6 +8952,7 @@ public final class Persqueue {
         private java.lang.Object topic_ = "";
         /**
          * <code>string topic = 4;</code>
+         * @return The topic.
          */
         public java.lang.String getTopic() {
           java.lang.Object ref = topic_;
@@ -8299,6 +8968,7 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 4;</code>
+         * @return The bytes for topic.
          */
         public com.google.protobuf.ByteString
             getTopicBytes() {
@@ -8315,6 +8985,8 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 4;</code>
+         * @param value The topic to set.
+         * @return This builder for chaining.
          */
         public Builder setTopic(
             java.lang.String value) {
@@ -8328,6 +9000,7 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 4;</code>
+         * @return This builder for chaining.
          */
         public Builder clearTopic() {
           
@@ -8337,6 +9010,8 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 4;</code>
+         * @param value The bytes for topic to set.
+         * @return This builder for chaining.
          */
         public Builder setTopicBytes(
             com.google.protobuf.ByteString value) {
@@ -8349,11 +9024,13 @@ public final class Persqueue {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -8375,11 +9052,12 @@ public final class Persqueue {
 
       private static final com.google.protobuf.Parser<Init>
           PARSER = new com.google.protobuf.AbstractParser<Init>() {
+        @java.lang.Override
         public Init parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Init(input, extensionRegistry);
+          return new Init(input, extensionRegistry);
         }
       };
 
@@ -8392,6 +9070,7 @@ public final class Persqueue {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteResponse.Init getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -8404,28 +9083,32 @@ public final class Persqueue {
 
       /**
        * <code>uint32 write_time_ms = 1;</code>
+       * @return The writeTimeMs.
        */
       int getWriteTimeMs();
 
       /**
        * <code>uint32 total_time_in_partition_queue_ms = 2;</code>
+       * @return The totalTimeInPartitionQueueMs.
        */
       int getTotalTimeInPartitionQueueMs();
 
       /**
        * <code>uint32 partition_quoted_time_ms = 3;</code>
+       * @return The partitionQuotedTimeMs.
        */
       int getPartitionQuotedTimeMs();
 
       /**
        * <code>uint32 topic_quoted_time_ms = 4;</code>
+       * @return The topicQuotedTimeMs.
        */
       int getTopicQuotedTimeMs();
     }
     /**
      * Protobuf type {@code NPersQueue.WriteResponse.Stat}
      */
-    public  static final class Stat extends
+    public static final class Stat extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NPersQueue.WriteResponse.Stat)
         StatOrBuilder {
@@ -8435,10 +9118,13 @@ public final class Persqueue {
         super(builder);
       }
       private Stat() {
-        writeTimeMs_ = 0;
-        totalTimeInPartitionQueueMs_ = 0;
-        partitionQuotedTimeMs_ = 0;
-        topicQuotedTimeMs_ = 0;
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Stat();
       }
 
       @java.lang.Override
@@ -8451,7 +9137,9 @@ public final class Persqueue {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -8462,13 +9150,6 @@ public final class Persqueue {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 8: {
 
                 writeTimeMs_ = input.readUInt32();
@@ -8489,6 +9170,13 @@ public final class Persqueue {
                 topicQuotedTimeMs_ = input.readUInt32();
                 break;
               }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -8506,6 +9194,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_Stat_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_Stat_fieldAccessorTable
@@ -8517,7 +9206,9 @@ public final class Persqueue {
       private int writeTimeMs_;
       /**
        * <code>uint32 write_time_ms = 1;</code>
+       * @return The writeTimeMs.
        */
+      @java.lang.Override
       public int getWriteTimeMs() {
         return writeTimeMs_;
       }
@@ -8526,7 +9217,9 @@ public final class Persqueue {
       private int totalTimeInPartitionQueueMs_;
       /**
        * <code>uint32 total_time_in_partition_queue_ms = 2;</code>
+       * @return The totalTimeInPartitionQueueMs.
        */
+      @java.lang.Override
       public int getTotalTimeInPartitionQueueMs() {
         return totalTimeInPartitionQueueMs_;
       }
@@ -8535,7 +9228,9 @@ public final class Persqueue {
       private int partitionQuotedTimeMs_;
       /**
        * <code>uint32 partition_quoted_time_ms = 3;</code>
+       * @return The partitionQuotedTimeMs.
        */
+      @java.lang.Override
       public int getPartitionQuotedTimeMs() {
         return partitionQuotedTimeMs_;
       }
@@ -8544,12 +9239,15 @@ public final class Persqueue {
       private int topicQuotedTimeMs_;
       /**
        * <code>uint32 topic_quoted_time_ms = 4;</code>
+       * @return The topicQuotedTimeMs.
        */
+      @java.lang.Override
       public int getTopicQuotedTimeMs() {
         return topicQuotedTimeMs_;
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -8559,6 +9257,7 @@ public final class Persqueue {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (writeTimeMs_ != 0) {
@@ -8576,6 +9275,7 @@ public final class Persqueue {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -8612,17 +9312,16 @@ public final class Persqueue {
         }
         tech.ydb.persqueue.Persqueue.WriteResponse.Stat other = (tech.ydb.persqueue.Persqueue.WriteResponse.Stat) obj;
 
-        boolean result = true;
-        result = result && (getWriteTimeMs()
-            == other.getWriteTimeMs());
-        result = result && (getTotalTimeInPartitionQueueMs()
-            == other.getTotalTimeInPartitionQueueMs());
-        result = result && (getPartitionQuotedTimeMs()
-            == other.getPartitionQuotedTimeMs());
-        result = result && (getTopicQuotedTimeMs()
-            == other.getTopicQuotedTimeMs());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (getWriteTimeMs()
+            != other.getWriteTimeMs()) return false;
+        if (getTotalTimeInPartitionQueueMs()
+            != other.getTotalTimeInPartitionQueueMs()) return false;
+        if (getPartitionQuotedTimeMs()
+            != other.getPartitionQuotedTimeMs()) return false;
+        if (getTopicQuotedTimeMs()
+            != other.getTopicQuotedTimeMs()) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -8715,6 +9414,7 @@ public final class Persqueue {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -8722,6 +9422,7 @@ public final class Persqueue {
       public static Builder newBuilder(tech.ydb.persqueue.Persqueue.WriteResponse.Stat prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -8745,6 +9446,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_Stat_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_Stat_fieldAccessorTable
@@ -8767,6 +9469,7 @@ public final class Persqueue {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           writeTimeMs_ = 0;
@@ -8780,15 +9483,18 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_Stat_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteResponse.Stat getDefaultInstanceForType() {
           return tech.ydb.persqueue.Persqueue.WriteResponse.Stat.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteResponse.Stat build() {
           tech.ydb.persqueue.Persqueue.WriteResponse.Stat result = buildPartial();
           if (!result.isInitialized()) {
@@ -8797,6 +9503,7 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteResponse.Stat buildPartial() {
           tech.ydb.persqueue.Persqueue.WriteResponse.Stat result = new tech.ydb.persqueue.Persqueue.WriteResponse.Stat(this);
           result.writeTimeMs_ = writeTimeMs_;
@@ -8807,32 +9514,39 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.persqueue.Persqueue.WriteResponse.Stat) {
             return mergeFrom((tech.ydb.persqueue.Persqueue.WriteResponse.Stat)other);
@@ -8861,10 +9575,12 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8886,12 +9602,16 @@ public final class Persqueue {
         private int writeTimeMs_ ;
         /**
          * <code>uint32 write_time_ms = 1;</code>
+         * @return The writeTimeMs.
          */
+        @java.lang.Override
         public int getWriteTimeMs() {
           return writeTimeMs_;
         }
         /**
          * <code>uint32 write_time_ms = 1;</code>
+         * @param value The writeTimeMs to set.
+         * @return This builder for chaining.
          */
         public Builder setWriteTimeMs(int value) {
           
@@ -8901,6 +9621,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint32 write_time_ms = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearWriteTimeMs() {
           
@@ -8912,12 +9633,16 @@ public final class Persqueue {
         private int totalTimeInPartitionQueueMs_ ;
         /**
          * <code>uint32 total_time_in_partition_queue_ms = 2;</code>
+         * @return The totalTimeInPartitionQueueMs.
          */
+        @java.lang.Override
         public int getTotalTimeInPartitionQueueMs() {
           return totalTimeInPartitionQueueMs_;
         }
         /**
          * <code>uint32 total_time_in_partition_queue_ms = 2;</code>
+         * @param value The totalTimeInPartitionQueueMs to set.
+         * @return This builder for chaining.
          */
         public Builder setTotalTimeInPartitionQueueMs(int value) {
           
@@ -8927,6 +9652,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint32 total_time_in_partition_queue_ms = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearTotalTimeInPartitionQueueMs() {
           
@@ -8938,12 +9664,16 @@ public final class Persqueue {
         private int partitionQuotedTimeMs_ ;
         /**
          * <code>uint32 partition_quoted_time_ms = 3;</code>
+         * @return The partitionQuotedTimeMs.
          */
+        @java.lang.Override
         public int getPartitionQuotedTimeMs() {
           return partitionQuotedTimeMs_;
         }
         /**
          * <code>uint32 partition_quoted_time_ms = 3;</code>
+         * @param value The partitionQuotedTimeMs to set.
+         * @return This builder for chaining.
          */
         public Builder setPartitionQuotedTimeMs(int value) {
           
@@ -8953,6 +9683,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint32 partition_quoted_time_ms = 3;</code>
+         * @return This builder for chaining.
          */
         public Builder clearPartitionQuotedTimeMs() {
           
@@ -8964,12 +9695,16 @@ public final class Persqueue {
         private int topicQuotedTimeMs_ ;
         /**
          * <code>uint32 topic_quoted_time_ms = 4;</code>
+         * @return The topicQuotedTimeMs.
          */
+        @java.lang.Override
         public int getTopicQuotedTimeMs() {
           return topicQuotedTimeMs_;
         }
         /**
          * <code>uint32 topic_quoted_time_ms = 4;</code>
+         * @param value The topicQuotedTimeMs to set.
+         * @return This builder for chaining.
          */
         public Builder setTopicQuotedTimeMs(int value) {
           
@@ -8979,6 +9714,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint32 topic_quoted_time_ms = 4;</code>
+         * @return This builder for chaining.
          */
         public Builder clearTopicQuotedTimeMs() {
           
@@ -8986,11 +9722,13 @@ public final class Persqueue {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -9012,11 +9750,12 @@ public final class Persqueue {
 
       private static final com.google.protobuf.Parser<Stat>
           PARSER = new com.google.protobuf.AbstractParser<Stat>() {
+        @java.lang.Override
         public Stat parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Stat(input, extensionRegistry);
+          return new Stat(input, extensionRegistry);
         }
       };
 
@@ -9029,6 +9768,7 @@ public final class Persqueue {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteResponse.Stat getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -9041,16 +9781,19 @@ public final class Persqueue {
 
       /**
        * <code>uint64 seq_no = 1;</code>
+       * @return The seqNo.
        */
       long getSeqNo();
 
       /**
        * <code>uint64 offset = 2;</code>
+       * @return The offset.
        */
       long getOffset();
 
       /**
        * <code>bool already_written = 3;</code>
+       * @return The alreadyWritten.
        */
       boolean getAlreadyWritten();
 
@@ -9060,6 +9803,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>.NPersQueue.WriteResponse.Stat stat = 4;</code>
+       * @return Whether the stat field is set.
        */
       boolean hasStat();
       /**
@@ -9068,6 +9812,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>.NPersQueue.WriteResponse.Stat stat = 4;</code>
+       * @return The stat.
        */
       tech.ydb.persqueue.Persqueue.WriteResponse.Stat getStat();
       /**
@@ -9082,7 +9827,7 @@ public final class Persqueue {
     /**
      * Protobuf type {@code NPersQueue.WriteResponse.Ack}
      */
-    public  static final class Ack extends
+    public static final class Ack extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NPersQueue.WriteResponse.Ack)
         AckOrBuilder {
@@ -9092,9 +9837,13 @@ public final class Persqueue {
         super(builder);
       }
       private Ack() {
-        seqNo_ = 0L;
-        offset_ = 0L;
-        alreadyWritten_ = false;
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Ack();
       }
 
       @java.lang.Override
@@ -9107,7 +9856,9 @@ public final class Persqueue {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -9118,13 +9869,6 @@ public final class Persqueue {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 8: {
 
                 seqNo_ = input.readUInt64();
@@ -9153,6 +9897,13 @@ public final class Persqueue {
 
                 break;
               }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -9170,6 +9921,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_Ack_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_Ack_fieldAccessorTable
@@ -9181,7 +9933,9 @@ public final class Persqueue {
       private long seqNo_;
       /**
        * <code>uint64 seq_no = 1;</code>
+       * @return The seqNo.
        */
+      @java.lang.Override
       public long getSeqNo() {
         return seqNo_;
       }
@@ -9190,7 +9944,9 @@ public final class Persqueue {
       private long offset_;
       /**
        * <code>uint64 offset = 2;</code>
+       * @return The offset.
        */
+      @java.lang.Override
       public long getOffset() {
         return offset_;
       }
@@ -9199,7 +9955,9 @@ public final class Persqueue {
       private boolean alreadyWritten_;
       /**
        * <code>bool already_written = 3;</code>
+       * @return The alreadyWritten.
        */
+      @java.lang.Override
       public boolean getAlreadyWritten() {
         return alreadyWritten_;
       }
@@ -9212,7 +9970,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>.NPersQueue.WriteResponse.Stat stat = 4;</code>
+       * @return Whether the stat field is set.
        */
+      @java.lang.Override
       public boolean hasStat() {
         return stat_ != null;
       }
@@ -9222,7 +9982,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>.NPersQueue.WriteResponse.Stat stat = 4;</code>
+       * @return The stat.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteResponse.Stat getStat() {
         return stat_ == null ? tech.ydb.persqueue.Persqueue.WriteResponse.Stat.getDefaultInstance() : stat_;
       }
@@ -9233,11 +9995,13 @@ public final class Persqueue {
        *
        * <code>.NPersQueue.WriteResponse.Stat stat = 4;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteResponse.StatOrBuilder getStatOrBuilder() {
         return getStat();
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -9247,6 +10011,7 @@ public final class Persqueue {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (seqNo_ != 0L) {
@@ -9264,6 +10029,7 @@ public final class Persqueue {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -9300,20 +10066,19 @@ public final class Persqueue {
         }
         tech.ydb.persqueue.Persqueue.WriteResponse.Ack other = (tech.ydb.persqueue.Persqueue.WriteResponse.Ack) obj;
 
-        boolean result = true;
-        result = result && (getSeqNo()
-            == other.getSeqNo());
-        result = result && (getOffset()
-            == other.getOffset());
-        result = result && (getAlreadyWritten()
-            == other.getAlreadyWritten());
-        result = result && (hasStat() == other.hasStat());
+        if (getSeqNo()
+            != other.getSeqNo()) return false;
+        if (getOffset()
+            != other.getOffset()) return false;
+        if (getAlreadyWritten()
+            != other.getAlreadyWritten()) return false;
+        if (hasStat() != other.hasStat()) return false;
         if (hasStat()) {
-          result = result && getStat()
-              .equals(other.getStat());
+          if (!getStat()
+              .equals(other.getStat())) return false;
         }
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -9411,6 +10176,7 @@ public final class Persqueue {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -9418,6 +10184,7 @@ public final class Persqueue {
       public static Builder newBuilder(tech.ydb.persqueue.Persqueue.WriteResponse.Ack prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -9441,6 +10208,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_Ack_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_Ack_fieldAccessorTable
@@ -9463,6 +10231,7 @@ public final class Persqueue {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           seqNo_ = 0L;
@@ -9480,15 +10249,18 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_Ack_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteResponse.Ack getDefaultInstanceForType() {
           return tech.ydb.persqueue.Persqueue.WriteResponse.Ack.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteResponse.Ack build() {
           tech.ydb.persqueue.Persqueue.WriteResponse.Ack result = buildPartial();
           if (!result.isInitialized()) {
@@ -9497,6 +10269,7 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteResponse.Ack buildPartial() {
           tech.ydb.persqueue.Persqueue.WriteResponse.Ack result = new tech.ydb.persqueue.Persqueue.WriteResponse.Ack(this);
           result.seqNo_ = seqNo_;
@@ -9511,32 +10284,39 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.persqueue.Persqueue.WriteResponse.Ack) {
             return mergeFrom((tech.ydb.persqueue.Persqueue.WriteResponse.Ack)other);
@@ -9565,10 +10345,12 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -9590,12 +10372,16 @@ public final class Persqueue {
         private long seqNo_ ;
         /**
          * <code>uint64 seq_no = 1;</code>
+         * @return The seqNo.
          */
+        @java.lang.Override
         public long getSeqNo() {
           return seqNo_;
         }
         /**
          * <code>uint64 seq_no = 1;</code>
+         * @param value The seqNo to set.
+         * @return This builder for chaining.
          */
         public Builder setSeqNo(long value) {
           
@@ -9605,6 +10391,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint64 seq_no = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearSeqNo() {
           
@@ -9616,12 +10403,16 @@ public final class Persqueue {
         private long offset_ ;
         /**
          * <code>uint64 offset = 2;</code>
+         * @return The offset.
          */
+        @java.lang.Override
         public long getOffset() {
           return offset_;
         }
         /**
          * <code>uint64 offset = 2;</code>
+         * @param value The offset to set.
+         * @return This builder for chaining.
          */
         public Builder setOffset(long value) {
           
@@ -9631,6 +10422,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint64 offset = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearOffset() {
           
@@ -9642,12 +10434,16 @@ public final class Persqueue {
         private boolean alreadyWritten_ ;
         /**
          * <code>bool already_written = 3;</code>
+         * @return The alreadyWritten.
          */
+        @java.lang.Override
         public boolean getAlreadyWritten() {
           return alreadyWritten_;
         }
         /**
          * <code>bool already_written = 3;</code>
+         * @param value The alreadyWritten to set.
+         * @return This builder for chaining.
          */
         public Builder setAlreadyWritten(boolean value) {
           
@@ -9657,6 +10453,7 @@ public final class Persqueue {
         }
         /**
          * <code>bool already_written = 3;</code>
+         * @return This builder for chaining.
          */
         public Builder clearAlreadyWritten() {
           
@@ -9665,7 +10462,7 @@ public final class Persqueue {
           return this;
         }
 
-        private tech.ydb.persqueue.Persqueue.WriteResponse.Stat stat_ = null;
+        private tech.ydb.persqueue.Persqueue.WriteResponse.Stat stat_;
         private com.google.protobuf.SingleFieldBuilderV3<
             tech.ydb.persqueue.Persqueue.WriteResponse.Stat, tech.ydb.persqueue.Persqueue.WriteResponse.Stat.Builder, tech.ydb.persqueue.Persqueue.WriteResponse.StatOrBuilder> statBuilder_;
         /**
@@ -9674,6 +10471,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>.NPersQueue.WriteResponse.Stat stat = 4;</code>
+         * @return Whether the stat field is set.
          */
         public boolean hasStat() {
           return statBuilder_ != null || stat_ != null;
@@ -9684,6 +10482,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>.NPersQueue.WriteResponse.Stat stat = 4;</code>
+         * @return The stat.
          */
         public tech.ydb.persqueue.Persqueue.WriteResponse.Stat getStat() {
           if (statBuilder_ == null) {
@@ -9817,11 +10616,13 @@ public final class Persqueue {
           }
           return statBuilder_;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -9843,11 +10644,12 @@ public final class Persqueue {
 
       private static final com.google.protobuf.Parser<Ack>
           PARSER = new com.google.protobuf.AbstractParser<Ack>() {
+        @java.lang.Override
         public Ack parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Ack(input, extensionRegistry);
+          return new Ack(input, extensionRegistry);
         }
       };
 
@@ -9860,6 +10662,7 @@ public final class Persqueue {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteResponse.Ack getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -9876,6 +10679,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>.NPersQueue.WriteResponse.Stat stat = 2;</code>
+       * @return Whether the stat field is set.
        */
       boolean hasStat();
       /**
@@ -9884,6 +10688,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>.NPersQueue.WriteResponse.Stat stat = 2;</code>
+       * @return The stat.
        */
       tech.ydb.persqueue.Persqueue.WriteResponse.Stat getStat();
       /**
@@ -9922,7 +10727,7 @@ public final class Persqueue {
     /**
      * Protobuf type {@code NPersQueue.WriteResponse.AckBatch}
      */
-    public  static final class AckBatch extends
+    public static final class AckBatch extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NPersQueue.WriteResponse.AckBatch)
         AckBatchOrBuilder {
@@ -9936,6 +10741,13 @@ public final class Persqueue {
       }
 
       @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new AckBatch();
+      }
+
+      @java.lang.Override
       public final com.google.protobuf.UnknownFieldSet
       getUnknownFields() {
         return this.unknownFields;
@@ -9945,6 +10757,9 @@ public final class Persqueue {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         int mutable_bitField0_ = 0;
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -9956,17 +10771,10 @@ public final class Persqueue {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 10: {
-                if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                   ack_ = new java.util.ArrayList<tech.ydb.persqueue.Persqueue.WriteResponse.Ack>();
-                  mutable_bitField0_ |= 0x00000002;
+                  mutable_bitField0_ |= 0x00000001;
                 }
                 ack_.add(
                     input.readMessage(tech.ydb.persqueue.Persqueue.WriteResponse.Ack.parser(), extensionRegistry));
@@ -9985,6 +10793,13 @@ public final class Persqueue {
 
                 break;
               }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -9993,7 +10808,7 @@ public final class Persqueue {
           throw new com.google.protobuf.InvalidProtocolBufferException(
               e).setUnfinishedMessage(this);
         } finally {
-          if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((mutable_bitField0_ & 0x00000001) != 0)) {
             ack_ = java.util.Collections.unmodifiableList(ack_);
           }
           this.unknownFields = unknownFields.build();
@@ -10005,6 +10820,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_AckBatch_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_AckBatch_fieldAccessorTable
@@ -10012,7 +10828,6 @@ public final class Persqueue {
                 tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch.class, tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch.Builder.class);
       }
 
-      private int bitField0_;
       public static final int STAT_FIELD_NUMBER = 2;
       private tech.ydb.persqueue.Persqueue.WriteResponse.Stat stat_;
       /**
@@ -10021,7 +10836,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>.NPersQueue.WriteResponse.Stat stat = 2;</code>
+       * @return Whether the stat field is set.
        */
+      @java.lang.Override
       public boolean hasStat() {
         return stat_ != null;
       }
@@ -10031,7 +10848,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>.NPersQueue.WriteResponse.Stat stat = 2;</code>
+       * @return The stat.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteResponse.Stat getStat() {
         return stat_ == null ? tech.ydb.persqueue.Persqueue.WriteResponse.Stat.getDefaultInstance() : stat_;
       }
@@ -10042,6 +10861,7 @@ public final class Persqueue {
        *
        * <code>.NPersQueue.WriteResponse.Stat stat = 2;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteResponse.StatOrBuilder getStatOrBuilder() {
         return getStat();
       }
@@ -10051,12 +10871,14 @@ public final class Persqueue {
       /**
        * <code>repeated .NPersQueue.WriteResponse.Ack ack = 1;</code>
        */
+      @java.lang.Override
       public java.util.List<tech.ydb.persqueue.Persqueue.WriteResponse.Ack> getAckList() {
         return ack_;
       }
       /**
        * <code>repeated .NPersQueue.WriteResponse.Ack ack = 1;</code>
        */
+      @java.lang.Override
       public java.util.List<? extends tech.ydb.persqueue.Persqueue.WriteResponse.AckOrBuilder> 
           getAckOrBuilderList() {
         return ack_;
@@ -10064,24 +10886,28 @@ public final class Persqueue {
       /**
        * <code>repeated .NPersQueue.WriteResponse.Ack ack = 1;</code>
        */
+      @java.lang.Override
       public int getAckCount() {
         return ack_.size();
       }
       /**
        * <code>repeated .NPersQueue.WriteResponse.Ack ack = 1;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteResponse.Ack getAck(int index) {
         return ack_.get(index);
       }
       /**
        * <code>repeated .NPersQueue.WriteResponse.Ack ack = 1;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteResponse.AckOrBuilder getAckOrBuilder(
           int index) {
         return ack_.get(index);
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -10091,6 +10917,7 @@ public final class Persqueue {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         for (int i = 0; i < ack_.size(); i++) {
@@ -10102,6 +10929,7 @@ public final class Persqueue {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -10130,16 +10958,15 @@ public final class Persqueue {
         }
         tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch other = (tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch) obj;
 
-        boolean result = true;
-        result = result && (hasStat() == other.hasStat());
+        if (hasStat() != other.hasStat()) return false;
         if (hasStat()) {
-          result = result && getStat()
-              .equals(other.getStat());
+          if (!getStat()
+              .equals(other.getStat())) return false;
         }
-        result = result && getAckList()
-            .equals(other.getAckList());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!getAckList()
+            .equals(other.getAckList())) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -10232,6 +11059,7 @@ public final class Persqueue {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -10239,6 +11067,7 @@ public final class Persqueue {
       public static Builder newBuilder(tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -10262,6 +11091,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_AckBatch_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_AckBatch_fieldAccessorTable
@@ -10285,6 +11115,7 @@ public final class Persqueue {
             getAckFieldBuilder();
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           if (statBuilder_ == null) {
@@ -10295,22 +11126,25 @@ public final class Persqueue {
           }
           if (ackBuilder_ == null) {
             ack_ = java.util.Collections.emptyList();
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ackBuilder_.clear();
           }
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_AckBatch_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch getDefaultInstanceForType() {
           return tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch build() {
           tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch result = buildPartial();
           if (!result.isInitialized()) {
@@ -10319,55 +11153,61 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch buildPartial() {
           tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch result = new tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch(this);
           int from_bitField0_ = bitField0_;
-          int to_bitField0_ = 0;
           if (statBuilder_ == null) {
             result.stat_ = stat_;
           } else {
             result.stat_ = statBuilder_.build();
           }
           if (ackBuilder_ == null) {
-            if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            if (((bitField0_ & 0x00000001) != 0)) {
               ack_ = java.util.Collections.unmodifiableList(ack_);
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             }
             result.ack_ = ack_;
           } else {
             result.ack_ = ackBuilder_.build();
           }
-          result.bitField0_ = to_bitField0_;
           onBuilt();
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch) {
             return mergeFrom((tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch)other);
@@ -10386,7 +11226,7 @@ public final class Persqueue {
             if (!other.ack_.isEmpty()) {
               if (ack_.isEmpty()) {
                 ack_ = other.ack_;
-                bitField0_ = (bitField0_ & ~0x00000002);
+                bitField0_ = (bitField0_ & ~0x00000001);
               } else {
                 ensureAckIsMutable();
                 ack_.addAll(other.ack_);
@@ -10399,7 +11239,7 @@ public final class Persqueue {
                 ackBuilder_.dispose();
                 ackBuilder_ = null;
                 ack_ = other.ack_;
-                bitField0_ = (bitField0_ & ~0x00000002);
+                bitField0_ = (bitField0_ & ~0x00000001);
                 ackBuilder_ = 
                   com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                      getAckFieldBuilder() : null;
@@ -10413,10 +11253,12 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -10436,7 +11278,7 @@ public final class Persqueue {
         }
         private int bitField0_;
 
-        private tech.ydb.persqueue.Persqueue.WriteResponse.Stat stat_ = null;
+        private tech.ydb.persqueue.Persqueue.WriteResponse.Stat stat_;
         private com.google.protobuf.SingleFieldBuilderV3<
             tech.ydb.persqueue.Persqueue.WriteResponse.Stat, tech.ydb.persqueue.Persqueue.WriteResponse.Stat.Builder, tech.ydb.persqueue.Persqueue.WriteResponse.StatOrBuilder> statBuilder_;
         /**
@@ -10445,6 +11287,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>.NPersQueue.WriteResponse.Stat stat = 2;</code>
+         * @return Whether the stat field is set.
          */
         public boolean hasStat() {
           return statBuilder_ != null || stat_ != null;
@@ -10455,6 +11298,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>.NPersQueue.WriteResponse.Stat stat = 2;</code>
+         * @return The stat.
          */
         public tech.ydb.persqueue.Persqueue.WriteResponse.Stat getStat() {
           if (statBuilder_ == null) {
@@ -10592,9 +11436,9 @@ public final class Persqueue {
         private java.util.List<tech.ydb.persqueue.Persqueue.WriteResponse.Ack> ack_ =
           java.util.Collections.emptyList();
         private void ensureAckIsMutable() {
-          if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (!((bitField0_ & 0x00000001) != 0)) {
             ack_ = new java.util.ArrayList<tech.ydb.persqueue.Persqueue.WriteResponse.Ack>(ack_);
-            bitField0_ |= 0x00000002;
+            bitField0_ |= 0x00000001;
            }
         }
 
@@ -10744,7 +11588,7 @@ public final class Persqueue {
         public Builder clearAck() {
           if (ackBuilder_ == null) {
             ack_ = java.util.Collections.emptyList();
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
             onChanged();
           } else {
             ackBuilder_.clear();
@@ -10821,18 +11665,20 @@ public final class Persqueue {
             ackBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
                 tech.ydb.persqueue.Persqueue.WriteResponse.Ack, tech.ydb.persqueue.Persqueue.WriteResponse.Ack.Builder, tech.ydb.persqueue.Persqueue.WriteResponse.AckOrBuilder>(
                     ack_,
-                    ((bitField0_ & 0x00000002) == 0x00000002),
+                    ((bitField0_ & 0x00000001) != 0),
                     getParentForChildren(),
                     isClean());
             ack_ = null;
           }
           return ackBuilder_;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -10854,11 +11700,12 @@ public final class Persqueue {
 
       private static final com.google.protobuf.Parser<AckBatch>
           PARSER = new com.google.protobuf.AbstractParser<AckBatch>() {
+        @java.lang.Override
         public AckBatch parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new AckBatch(input, extensionRegistry);
+          return new AckBatch(input, extensionRegistry);
         }
       };
 
@@ -10871,6 +11718,7 @@ public final class Persqueue {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -10880,7 +11728,8 @@ public final class Persqueue {
     private int responseCase_ = 0;
     private java.lang.Object response_;
     public enum ResponseCase
-        implements com.google.protobuf.Internal.EnumLite {
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       INIT(1),
       ACK(2),
       ACK_BATCH(4),
@@ -10891,6 +11740,8 @@ public final class Persqueue {
         this.value = value;
       }
       /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -10922,13 +11773,17 @@ public final class Persqueue {
     public static final int INIT_FIELD_NUMBER = 1;
     /**
      * <code>.NPersQueue.WriteResponse.Init init = 1;</code>
+     * @return Whether the init field is set.
      */
+    @java.lang.Override
     public boolean hasInit() {
       return responseCase_ == 1;
     }
     /**
      * <code>.NPersQueue.WriteResponse.Init init = 1;</code>
+     * @return The init.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.WriteResponse.Init getInit() {
       if (responseCase_ == 1) {
          return (tech.ydb.persqueue.Persqueue.WriteResponse.Init) response_;
@@ -10938,6 +11793,7 @@ public final class Persqueue {
     /**
      * <code>.NPersQueue.WriteResponse.Init init = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.WriteResponse.InitOrBuilder getInitOrBuilder() {
       if (responseCase_ == 1) {
          return (tech.ydb.persqueue.Persqueue.WriteResponse.Init) response_;
@@ -10948,13 +11804,17 @@ public final class Persqueue {
     public static final int ACK_FIELD_NUMBER = 2;
     /**
      * <code>.NPersQueue.WriteResponse.Ack ack = 2;</code>
+     * @return Whether the ack field is set.
      */
+    @java.lang.Override
     public boolean hasAck() {
       return responseCase_ == 2;
     }
     /**
      * <code>.NPersQueue.WriteResponse.Ack ack = 2;</code>
+     * @return The ack.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.WriteResponse.Ack getAck() {
       if (responseCase_ == 2) {
          return (tech.ydb.persqueue.Persqueue.WriteResponse.Ack) response_;
@@ -10964,6 +11824,7 @@ public final class Persqueue {
     /**
      * <code>.NPersQueue.WriteResponse.Ack ack = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.WriteResponse.AckOrBuilder getAckOrBuilder() {
       if (responseCase_ == 2) {
          return (tech.ydb.persqueue.Persqueue.WriteResponse.Ack) response_;
@@ -10974,13 +11835,17 @@ public final class Persqueue {
     public static final int ACK_BATCH_FIELD_NUMBER = 4;
     /**
      * <code>.NPersQueue.WriteResponse.AckBatch ack_batch = 4;</code>
+     * @return Whether the ackBatch field is set.
      */
+    @java.lang.Override
     public boolean hasAckBatch() {
       return responseCase_ == 4;
     }
     /**
      * <code>.NPersQueue.WriteResponse.AckBatch ack_batch = 4;</code>
+     * @return The ackBatch.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch getAckBatch() {
       if (responseCase_ == 4) {
          return (tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch) response_;
@@ -10990,6 +11855,7 @@ public final class Persqueue {
     /**
      * <code>.NPersQueue.WriteResponse.AckBatch ack_batch = 4;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.WriteResponse.AckBatchOrBuilder getAckBatchOrBuilder() {
       if (responseCase_ == 4) {
          return (tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch) response_;
@@ -11000,13 +11866,17 @@ public final class Persqueue {
     public static final int ERROR_FIELD_NUMBER = 3;
     /**
      * <code>.NPersQueue.Error error = 3;</code>
+     * @return Whether the error field is set.
      */
+    @java.lang.Override
     public boolean hasError() {
       return responseCase_ == 3;
     }
     /**
      * <code>.NPersQueue.Error error = 3;</code>
+     * @return The error.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.Error getError() {
       if (responseCase_ == 3) {
          return (tech.ydb.persqueue.Persqueue.Error) response_;
@@ -11016,6 +11886,7 @@ public final class Persqueue {
     /**
      * <code>.NPersQueue.Error error = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ErrorOrBuilder getErrorOrBuilder() {
       if (responseCase_ == 3) {
          return (tech.ydb.persqueue.Persqueue.Error) response_;
@@ -11024,6 +11895,7 @@ public final class Persqueue {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -11033,6 +11905,7 @@ public final class Persqueue {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (responseCase_ == 1) {
@@ -11050,6 +11923,7 @@ public final class Persqueue {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -11086,32 +11960,29 @@ public final class Persqueue {
       }
       tech.ydb.persqueue.Persqueue.WriteResponse other = (tech.ydb.persqueue.Persqueue.WriteResponse) obj;
 
-      boolean result = true;
-      result = result && getResponseCase().equals(
-          other.getResponseCase());
-      if (!result) return false;
+      if (!getResponseCase().equals(other.getResponseCase())) return false;
       switch (responseCase_) {
         case 1:
-          result = result && getInit()
-              .equals(other.getInit());
+          if (!getInit()
+              .equals(other.getInit())) return false;
           break;
         case 2:
-          result = result && getAck()
-              .equals(other.getAck());
+          if (!getAck()
+              .equals(other.getAck())) return false;
           break;
         case 4:
-          result = result && getAckBatch()
-              .equals(other.getAckBatch());
+          if (!getAckBatch()
+              .equals(other.getAckBatch())) return false;
           break;
         case 3:
-          result = result && getError()
-              .equals(other.getError());
+          if (!getError()
+              .equals(other.getError())) return false;
           break;
         case 0:
         default:
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -11216,6 +12087,7 @@ public final class Persqueue {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -11223,6 +12095,7 @@ public final class Persqueue {
     public static Builder newBuilder(tech.ydb.persqueue.Persqueue.WriteResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -11255,6 +12128,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_fieldAccessorTable
@@ -11277,6 +12151,7 @@ public final class Persqueue {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         responseCase_ = 0;
@@ -11284,15 +12159,18 @@ public final class Persqueue {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_WriteResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteResponse getDefaultInstanceForType() {
         return tech.ydb.persqueue.Persqueue.WriteResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteResponse build() {
         tech.ydb.persqueue.Persqueue.WriteResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -11301,6 +12179,7 @@ public final class Persqueue {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteResponse buildPartial() {
         tech.ydb.persqueue.Persqueue.WriteResponse result = new tech.ydb.persqueue.Persqueue.WriteResponse(this);
         if (responseCase_ == 1) {
@@ -11336,32 +12215,39 @@ public final class Persqueue {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.persqueue.Persqueue.WriteResponse) {
           return mergeFrom((tech.ydb.persqueue.Persqueue.WriteResponse)other);
@@ -11399,10 +12285,12 @@ public final class Persqueue {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -11440,13 +12328,17 @@ public final class Persqueue {
           tech.ydb.persqueue.Persqueue.WriteResponse.Init, tech.ydb.persqueue.Persqueue.WriteResponse.Init.Builder, tech.ydb.persqueue.Persqueue.WriteResponse.InitOrBuilder> initBuilder_;
       /**
        * <code>.NPersQueue.WriteResponse.Init init = 1;</code>
+       * @return Whether the init field is set.
        */
+      @java.lang.Override
       public boolean hasInit() {
         return responseCase_ == 1;
       }
       /**
        * <code>.NPersQueue.WriteResponse.Init init = 1;</code>
+       * @return The init.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteResponse.Init getInit() {
         if (initBuilder_ == null) {
           if (responseCase_ == 1) {
@@ -11540,6 +12432,7 @@ public final class Persqueue {
       /**
        * <code>.NPersQueue.WriteResponse.Init init = 1;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteResponse.InitOrBuilder getInitOrBuilder() {
         if ((responseCase_ == 1) && (initBuilder_ != null)) {
           return initBuilder_.getMessageOrBuilder();
@@ -11576,13 +12469,17 @@ public final class Persqueue {
           tech.ydb.persqueue.Persqueue.WriteResponse.Ack, tech.ydb.persqueue.Persqueue.WriteResponse.Ack.Builder, tech.ydb.persqueue.Persqueue.WriteResponse.AckOrBuilder> ackBuilder_;
       /**
        * <code>.NPersQueue.WriteResponse.Ack ack = 2;</code>
+       * @return Whether the ack field is set.
        */
+      @java.lang.Override
       public boolean hasAck() {
         return responseCase_ == 2;
       }
       /**
        * <code>.NPersQueue.WriteResponse.Ack ack = 2;</code>
+       * @return The ack.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteResponse.Ack getAck() {
         if (ackBuilder_ == null) {
           if (responseCase_ == 2) {
@@ -11676,6 +12573,7 @@ public final class Persqueue {
       /**
        * <code>.NPersQueue.WriteResponse.Ack ack = 2;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteResponse.AckOrBuilder getAckOrBuilder() {
         if ((responseCase_ == 2) && (ackBuilder_ != null)) {
           return ackBuilder_.getMessageOrBuilder();
@@ -11712,13 +12610,17 @@ public final class Persqueue {
           tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch, tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch.Builder, tech.ydb.persqueue.Persqueue.WriteResponse.AckBatchOrBuilder> ackBatchBuilder_;
       /**
        * <code>.NPersQueue.WriteResponse.AckBatch ack_batch = 4;</code>
+       * @return Whether the ackBatch field is set.
        */
+      @java.lang.Override
       public boolean hasAckBatch() {
         return responseCase_ == 4;
       }
       /**
        * <code>.NPersQueue.WriteResponse.AckBatch ack_batch = 4;</code>
+       * @return The ackBatch.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteResponse.AckBatch getAckBatch() {
         if (ackBatchBuilder_ == null) {
           if (responseCase_ == 4) {
@@ -11812,6 +12714,7 @@ public final class Persqueue {
       /**
        * <code>.NPersQueue.WriteResponse.AckBatch ack_batch = 4;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.WriteResponse.AckBatchOrBuilder getAckBatchOrBuilder() {
         if ((responseCase_ == 4) && (ackBatchBuilder_ != null)) {
           return ackBatchBuilder_.getMessageOrBuilder();
@@ -11848,13 +12751,17 @@ public final class Persqueue {
           tech.ydb.persqueue.Persqueue.Error, tech.ydb.persqueue.Persqueue.Error.Builder, tech.ydb.persqueue.Persqueue.ErrorOrBuilder> errorBuilder_;
       /**
        * <code>.NPersQueue.Error error = 3;</code>
+       * @return Whether the error field is set.
        */
+      @java.lang.Override
       public boolean hasError() {
         return responseCase_ == 3;
       }
       /**
        * <code>.NPersQueue.Error error = 3;</code>
+       * @return The error.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.Error getError() {
         if (errorBuilder_ == null) {
           if (responseCase_ == 3) {
@@ -11948,6 +12855,7 @@ public final class Persqueue {
       /**
        * <code>.NPersQueue.Error error = 3;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ErrorOrBuilder getErrorOrBuilder() {
         if ((responseCase_ == 3) && (errorBuilder_ != null)) {
           return errorBuilder_.getMessageOrBuilder();
@@ -11979,11 +12887,13 @@ public final class Persqueue {
         onChanged();;
         return errorBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -12005,11 +12915,12 @@ public final class Persqueue {
 
     private static final com.google.protobuf.Parser<WriteResponse>
         PARSER = new com.google.protobuf.AbstractParser<WriteResponse>() {
+      @java.lang.Override
       public WriteResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new WriteResponse(input, extensionRegistry);
+        return new WriteResponse(input, extensionRegistry);
       }
     };
 
@@ -12022,6 +12933,7 @@ public final class Persqueue {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.WriteResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -12038,6 +12950,7 @@ public final class Persqueue {
      * </pre>
      *
      * <code>.NPersQueue.ReadRequest.Init init = 1;</code>
+     * @return Whether the init field is set.
      */
     boolean hasInit();
     /**
@@ -12046,6 +12959,7 @@ public final class Persqueue {
      * </pre>
      *
      * <code>.NPersQueue.ReadRequest.Init init = 1;</code>
+     * @return The init.
      */
     tech.ydb.persqueue.Persqueue.ReadRequest.Init getInit();
     /**
@@ -12059,10 +12973,12 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.ReadRequest.Read read = 2;</code>
+     * @return Whether the read field is set.
      */
     boolean hasRead();
     /**
      * <code>.NPersQueue.ReadRequest.Read read = 2;</code>
+     * @return The read.
      */
     tech.ydb.persqueue.Persqueue.ReadRequest.Read getRead();
     /**
@@ -12072,10 +12988,12 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.ReadRequest.StartRead start_read = 3;</code>
+     * @return Whether the startRead field is set.
      */
     boolean hasStartRead();
     /**
      * <code>.NPersQueue.ReadRequest.StartRead start_read = 3;</code>
+     * @return The startRead.
      */
     tech.ydb.persqueue.Persqueue.ReadRequest.StartRead getStartRead();
     /**
@@ -12085,10 +13003,12 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.ReadRequest.Commit commit = 4;</code>
+     * @return Whether the commit field is set.
      */
     boolean hasCommit();
     /**
      * <code>.NPersQueue.ReadRequest.Commit commit = 4;</code>
+     * @return The commit.
      */
     tech.ydb.persqueue.Persqueue.ReadRequest.Commit getCommit();
     /**
@@ -12098,10 +13018,12 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+     * @return Whether the status field is set.
      */
     boolean hasStatus();
     /**
      * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+     * @return The status.
      */
     tech.ydb.persqueue.Persqueue.ReadRequest.Status getStatus();
     /**
@@ -12111,10 +13033,12 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.Credentials credentials = 20;</code>
+     * @return Whether the credentials field is set.
      */
     boolean hasCredentials();
     /**
      * <code>.NPersQueue.Credentials credentials = 20;</code>
+     * @return The credentials.
      */
     tech.ydb.persqueue.Persqueue.Credentials getCredentials();
     /**
@@ -12136,7 +13060,7 @@ public final class Persqueue {
    *
    * Protobuf type {@code NPersQueue.ReadRequest}
    */
-  public  static final class ReadRequest extends
+  public static final class ReadRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NPersQueue.ReadRequest)
       ReadRequestOrBuilder {
@@ -12149,6 +13073,13 @@ public final class Persqueue {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ReadRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -12158,7 +13089,9 @@ public final class Persqueue {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -12169,13 +13102,6 @@ public final class Persqueue {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.persqueue.Persqueue.ReadRequest.Init.Builder subBuilder = null;
               if (requestCase_ == 1) {
@@ -12259,6 +13185,13 @@ public final class Persqueue {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -12276,6 +13209,7 @@ public final class Persqueue {
       return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_fieldAccessorTable
@@ -12350,6 +13284,8 @@ public final class Persqueue {
       }
 
       /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -12357,6 +13293,10 @@ public final class Persqueue {
         return forNumber(value);
       }
 
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
       public static EProtocolVersion forNumber(int value) {
         switch (value) {
           case 0: return Base;
@@ -12380,6 +13320,10 @@ public final class Persqueue {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -12420,19 +13364,25 @@ public final class Persqueue {
 
       /**
        * <code>repeated string topics = 1;</code>
+       * @return A list containing the topics.
        */
       java.util.List<java.lang.String>
           getTopicsList();
       /**
        * <code>repeated string topics = 1;</code>
+       * @return The count of topics.
        */
       int getTopicsCount();
       /**
        * <code>repeated string topics = 1;</code>
+       * @param index The index of the element to return.
+       * @return The topics at the given index.
        */
       java.lang.String getTopics(int index);
       /**
        * <code>repeated string topics = 1;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the topics at the given index.
        */
       com.google.protobuf.ByteString
           getTopicsBytes(int index);
@@ -12443,15 +13393,18 @@ public final class Persqueue {
        * </pre>
        *
        * <code>bool read_only_local = 2;</code>
+       * @return The readOnlyLocal.
        */
       boolean getReadOnlyLocal();
 
       /**
        * <code>string client_id = 4;</code>
+       * @return The clientId.
        */
       java.lang.String getClientId();
       /**
        * <code>string client_id = 4;</code>
+       * @return The bytes for clientId.
        */
       com.google.protobuf.ByteString
           getClientIdBytes();
@@ -12462,6 +13415,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>bool clientside_locks_allowed = 5;</code>
+       * @return The clientsideLocksAllowed.
        */
       boolean getClientsideLocksAllowed();
 
@@ -12471,6 +13425,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 proxy_cookie = 6;</code>
+       * @return The proxyCookie.
        */
       long getProxyCookie();
 
@@ -12480,6 +13435,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>bool balance_partition_right_now = 8;</code>
+       * @return The balancePartitionRightNow.
        */
       boolean getBalancePartitionRightNow();
 
@@ -12489,6 +13445,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>repeated uint32 partition_groups = 9;</code>
+       * @return A list containing the partitionGroups.
        */
       java.util.List<java.lang.Integer> getPartitionGroupsList();
       /**
@@ -12497,6 +13454,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>repeated uint32 partition_groups = 9;</code>
+       * @return The count of partitionGroups.
        */
       int getPartitionGroupsCount();
       /**
@@ -12505,6 +13463,8 @@ public final class Persqueue {
        * </pre>
        *
        * <code>repeated uint32 partition_groups = 9;</code>
+       * @param index The index of the element to return.
+       * @return The partitionGroups at the given index.
        */
       int getPartitionGroups(int index);
 
@@ -12514,6 +13474,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint32 idle_timeout_sec = 10;</code>
+       * @return The idleTimeoutSec.
        */
       int getIdleTimeoutSec();
 
@@ -12523,6 +13484,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint32 commit_interval_ms = 12;</code>
+       * @return The commitIntervalMs.
        */
       int getCommitIntervalMs();
 
@@ -12532,6 +13494,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint32 max_read_messages_count = 14;</code>
+       * @return The maxReadMessagesCount.
        */
       int getMaxReadMessagesCount();
 
@@ -12541,6 +13504,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint32 max_read_size = 15;</code>
+       * @return The maxReadSize.
        */
       int getMaxReadSize();
 
@@ -12550,6 +13514,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint32 max_read_partitions_count = 16;</code>
+       * @return The maxReadPartitionsCount.
        */
       int getMaxReadPartitionsCount();
 
@@ -12559,6 +13524,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint32 max_time_lag_ms = 17;</code>
+       * @return The maxTimeLagMs.
        */
       int getMaxTimeLagMs();
 
@@ -12568,6 +13534,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 read_timestamp_ms = 18;</code>
+       * @return The readTimestampMs.
        */
       long getReadTimestampMs();
 
@@ -12577,6 +13544,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>bool commits_disabled = 19;</code>
+       * @return The commitsDisabled.
        */
       boolean getCommitsDisabled();
 
@@ -12586,6 +13554,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>string version = 999;</code>
+       * @return The version.
        */
       java.lang.String getVersion();
       /**
@@ -12594,6 +13563,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>string version = 999;</code>
+       * @return The bytes for version.
        */
       com.google.protobuf.ByteString
           getVersionBytes();
@@ -12604,13 +13574,14 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint32 protocol_version = 13;</code>
+       * @return The protocolVersion.
        */
       int getProtocolVersion();
     }
     /**
      * Protobuf type {@code NPersQueue.ReadRequest.Init}
      */
-    public  static final class Init extends
+    public static final class Init extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NPersQueue.ReadRequest.Init)
         InitOrBuilder {
@@ -12621,22 +13592,16 @@ public final class Persqueue {
       }
       private Init() {
         topics_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        readOnlyLocal_ = false;
         clientId_ = "";
-        clientsideLocksAllowed_ = false;
-        proxyCookie_ = 0L;
-        balancePartitionRightNow_ = false;
-        partitionGroups_ = java.util.Collections.emptyList();
-        idleTimeoutSec_ = 0;
-        commitIntervalMs_ = 0;
-        maxReadMessagesCount_ = 0;
-        maxReadSize_ = 0;
-        maxReadPartitionsCount_ = 0;
-        maxTimeLagMs_ = 0;
-        readTimestampMs_ = 0L;
-        commitsDisabled_ = false;
+        partitionGroups_ = emptyIntList();
         version_ = "";
-        protocolVersion_ = 0;
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Init();
       }
 
       @java.lang.Override
@@ -12649,6 +13614,9 @@ public final class Persqueue {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         int mutable_bitField0_ = 0;
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -12660,16 +13628,9 @@ public final class Persqueue {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 10: {
                 java.lang.String s = input.readStringRequireUtf8();
-                if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                   topics_ = new com.google.protobuf.LazyStringArrayList();
                   mutable_bitField0_ |= 0x00000001;
                 }
@@ -12703,22 +13664,22 @@ public final class Persqueue {
                 break;
               }
               case 72: {
-                if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
-                  partitionGroups_ = new java.util.ArrayList<java.lang.Integer>();
-                  mutable_bitField0_ |= 0x00000040;
+                if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                  partitionGroups_ = newIntList();
+                  mutable_bitField0_ |= 0x00000002;
                 }
-                partitionGroups_.add(input.readUInt32());
+                partitionGroups_.addInt(input.readUInt32());
                 break;
               }
               case 74: {
                 int length = input.readRawVarint32();
                 int limit = input.pushLimit(length);
-                if (!((mutable_bitField0_ & 0x00000040) == 0x00000040) && input.getBytesUntilLimit() > 0) {
-                  partitionGroups_ = new java.util.ArrayList<java.lang.Integer>();
-                  mutable_bitField0_ |= 0x00000040;
+                if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+                  partitionGroups_ = newIntList();
+                  mutable_bitField0_ |= 0x00000002;
                 }
                 while (input.getBytesUntilLimit() > 0) {
-                  partitionGroups_.add(input.readUInt32());
+                  partitionGroups_.addInt(input.readUInt32());
                 }
                 input.popLimit(limit);
                 break;
@@ -12774,6 +13735,13 @@ public final class Persqueue {
                 version_ = s;
                 break;
               }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -12782,11 +13750,11 @@ public final class Persqueue {
           throw new com.google.protobuf.InvalidProtocolBufferException(
               e).setUnfinishedMessage(this);
         } finally {
-          if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((mutable_bitField0_ & 0x00000001) != 0)) {
             topics_ = topics_.getUnmodifiableView();
           }
-          if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
-            partitionGroups_ = java.util.Collections.unmodifiableList(partitionGroups_);
+          if (((mutable_bitField0_ & 0x00000002) != 0)) {
+            partitionGroups_.makeImmutable(); // C
           }
           this.unknownFields = unknownFields.build();
           makeExtensionsImmutable();
@@ -12797,6 +13765,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Init_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Init_fieldAccessorTable
@@ -12804,11 +13773,11 @@ public final class Persqueue {
                 tech.ydb.persqueue.Persqueue.ReadRequest.Init.class, tech.ydb.persqueue.Persqueue.ReadRequest.Init.Builder.class);
       }
 
-      private int bitField0_;
       public static final int TOPICS_FIELD_NUMBER = 1;
       private com.google.protobuf.LazyStringList topics_;
       /**
        * <code>repeated string topics = 1;</code>
+       * @return A list containing the topics.
        */
       public com.google.protobuf.ProtocolStringList
           getTopicsList() {
@@ -12816,18 +13785,23 @@ public final class Persqueue {
       }
       /**
        * <code>repeated string topics = 1;</code>
+       * @return The count of topics.
        */
       public int getTopicsCount() {
         return topics_.size();
       }
       /**
        * <code>repeated string topics = 1;</code>
+       * @param index The index of the element to return.
+       * @return The topics at the given index.
        */
       public java.lang.String getTopics(int index) {
         return topics_.get(index);
       }
       /**
        * <code>repeated string topics = 1;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the topics at the given index.
        */
       public com.google.protobuf.ByteString
           getTopicsBytes(int index) {
@@ -12842,7 +13816,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>bool read_only_local = 2;</code>
+       * @return The readOnlyLocal.
        */
+      @java.lang.Override
       public boolean getReadOnlyLocal() {
         return readOnlyLocal_;
       }
@@ -12851,7 +13827,9 @@ public final class Persqueue {
       private volatile java.lang.Object clientId_;
       /**
        * <code>string client_id = 4;</code>
+       * @return The clientId.
        */
+      @java.lang.Override
       public java.lang.String getClientId() {
         java.lang.Object ref = clientId_;
         if (ref instanceof java.lang.String) {
@@ -12866,7 +13844,9 @@ public final class Persqueue {
       }
       /**
        * <code>string client_id = 4;</code>
+       * @return The bytes for clientId.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getClientIdBytes() {
         java.lang.Object ref = clientId_;
@@ -12889,7 +13869,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>bool clientside_locks_allowed = 5;</code>
+       * @return The clientsideLocksAllowed.
        */
+      @java.lang.Override
       public boolean getClientsideLocksAllowed() {
         return clientsideLocksAllowed_;
       }
@@ -12902,7 +13884,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 proxy_cookie = 6;</code>
+       * @return The proxyCookie.
        */
+      @java.lang.Override
       public long getProxyCookie() {
         return proxyCookie_;
       }
@@ -12915,20 +13899,24 @@ public final class Persqueue {
        * </pre>
        *
        * <code>bool balance_partition_right_now = 8;</code>
+       * @return The balancePartitionRightNow.
        */
+      @java.lang.Override
       public boolean getBalancePartitionRightNow() {
         return balancePartitionRightNow_;
       }
 
       public static final int PARTITION_GROUPS_FIELD_NUMBER = 9;
-      private java.util.List<java.lang.Integer> partitionGroups_;
+      private com.google.protobuf.Internal.IntList partitionGroups_;
       /**
        * <pre>
        *Groups to be read - if empty then read from all of them
        * </pre>
        *
        * <code>repeated uint32 partition_groups = 9;</code>
+       * @return A list containing the partitionGroups.
        */
+      @java.lang.Override
       public java.util.List<java.lang.Integer>
           getPartitionGroupsList() {
         return partitionGroups_;
@@ -12939,6 +13927,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>repeated uint32 partition_groups = 9;</code>
+       * @return The count of partitionGroups.
        */
       public int getPartitionGroupsCount() {
         return partitionGroups_.size();
@@ -12949,9 +13938,11 @@ public final class Persqueue {
        * </pre>
        *
        * <code>repeated uint32 partition_groups = 9;</code>
+       * @param index The index of the element to return.
+       * @return The partitionGroups at the given index.
        */
       public int getPartitionGroups(int index) {
-        return partitionGroups_.get(index);
+        return partitionGroups_.getInt(index);
       }
       private int partitionGroupsMemoizedSerializedSize = -1;
 
@@ -12963,7 +13954,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint32 idle_timeout_sec = 10;</code>
+       * @return The idleTimeoutSec.
        */
+      @java.lang.Override
       public int getIdleTimeoutSec() {
         return idleTimeoutSec_;
       }
@@ -12976,7 +13969,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint32 commit_interval_ms = 12;</code>
+       * @return The commitIntervalMs.
        */
+      @java.lang.Override
       public int getCommitIntervalMs() {
         return commitIntervalMs_;
       }
@@ -12989,7 +13984,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint32 max_read_messages_count = 14;</code>
+       * @return The maxReadMessagesCount.
        */
+      @java.lang.Override
       public int getMaxReadMessagesCount() {
         return maxReadMessagesCount_;
       }
@@ -13002,7 +13999,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint32 max_read_size = 15;</code>
+       * @return The maxReadSize.
        */
+      @java.lang.Override
       public int getMaxReadSize() {
         return maxReadSize_;
       }
@@ -13015,7 +14014,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint32 max_read_partitions_count = 16;</code>
+       * @return The maxReadPartitionsCount.
        */
+      @java.lang.Override
       public int getMaxReadPartitionsCount() {
         return maxReadPartitionsCount_;
       }
@@ -13028,7 +14029,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint32 max_time_lag_ms = 17;</code>
+       * @return The maxTimeLagMs.
        */
+      @java.lang.Override
       public int getMaxTimeLagMs() {
         return maxTimeLagMs_;
       }
@@ -13041,7 +14044,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 read_timestamp_ms = 18;</code>
+       * @return The readTimestampMs.
        */
+      @java.lang.Override
       public long getReadTimestampMs() {
         return readTimestampMs_;
       }
@@ -13054,7 +14059,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>bool commits_disabled = 19;</code>
+       * @return The commitsDisabled.
        */
+      @java.lang.Override
       public boolean getCommitsDisabled() {
         return commitsDisabled_;
       }
@@ -13067,7 +14074,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>string version = 999;</code>
+       * @return The version.
        */
+      @java.lang.Override
       public java.lang.String getVersion() {
         java.lang.Object ref = version_;
         if (ref instanceof java.lang.String) {
@@ -13086,7 +14095,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>string version = 999;</code>
+       * @return The bytes for version.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getVersionBytes() {
         java.lang.Object ref = version_;
@@ -13109,12 +14120,15 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint32 protocol_version = 13;</code>
+       * @return The protocolVersion.
        */
+      @java.lang.Override
       public int getProtocolVersion() {
         return protocolVersion_;
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -13124,6 +14138,7 @@ public final class Persqueue {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         getSerializedSize();
@@ -13150,7 +14165,7 @@ public final class Persqueue {
           output.writeUInt32NoTag(partitionGroupsMemoizedSerializedSize);
         }
         for (int i = 0; i < partitionGroups_.size(); i++) {
-          output.writeUInt32NoTag(partitionGroups_.get(i));
+          output.writeUInt32NoTag(partitionGroups_.getInt(i));
         }
         if (idleTimeoutSec_ != 0) {
           output.writeUInt32(10, idleTimeoutSec_);
@@ -13185,6 +14200,7 @@ public final class Persqueue {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -13221,7 +14237,7 @@ public final class Persqueue {
           int dataSize = 0;
           for (int i = 0; i < partitionGroups_.size(); i++) {
             dataSize += com.google.protobuf.CodedOutputStream
-              .computeUInt32SizeNoTag(partitionGroups_.get(i));
+              .computeUInt32SizeNoTag(partitionGroups_.getInt(i));
           }
           size += dataSize;
           if (!getPartitionGroupsList().isEmpty()) {
@@ -13285,43 +14301,42 @@ public final class Persqueue {
         }
         tech.ydb.persqueue.Persqueue.ReadRequest.Init other = (tech.ydb.persqueue.Persqueue.ReadRequest.Init) obj;
 
-        boolean result = true;
-        result = result && getTopicsList()
-            .equals(other.getTopicsList());
-        result = result && (getReadOnlyLocal()
-            == other.getReadOnlyLocal());
-        result = result && getClientId()
-            .equals(other.getClientId());
-        result = result && (getClientsideLocksAllowed()
-            == other.getClientsideLocksAllowed());
-        result = result && (getProxyCookie()
-            == other.getProxyCookie());
-        result = result && (getBalancePartitionRightNow()
-            == other.getBalancePartitionRightNow());
-        result = result && getPartitionGroupsList()
-            .equals(other.getPartitionGroupsList());
-        result = result && (getIdleTimeoutSec()
-            == other.getIdleTimeoutSec());
-        result = result && (getCommitIntervalMs()
-            == other.getCommitIntervalMs());
-        result = result && (getMaxReadMessagesCount()
-            == other.getMaxReadMessagesCount());
-        result = result && (getMaxReadSize()
-            == other.getMaxReadSize());
-        result = result && (getMaxReadPartitionsCount()
-            == other.getMaxReadPartitionsCount());
-        result = result && (getMaxTimeLagMs()
-            == other.getMaxTimeLagMs());
-        result = result && (getReadTimestampMs()
-            == other.getReadTimestampMs());
-        result = result && (getCommitsDisabled()
-            == other.getCommitsDisabled());
-        result = result && getVersion()
-            .equals(other.getVersion());
-        result = result && (getProtocolVersion()
-            == other.getProtocolVersion());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!getTopicsList()
+            .equals(other.getTopicsList())) return false;
+        if (getReadOnlyLocal()
+            != other.getReadOnlyLocal()) return false;
+        if (!getClientId()
+            .equals(other.getClientId())) return false;
+        if (getClientsideLocksAllowed()
+            != other.getClientsideLocksAllowed()) return false;
+        if (getProxyCookie()
+            != other.getProxyCookie()) return false;
+        if (getBalancePartitionRightNow()
+            != other.getBalancePartitionRightNow()) return false;
+        if (!getPartitionGroupsList()
+            .equals(other.getPartitionGroupsList())) return false;
+        if (getIdleTimeoutSec()
+            != other.getIdleTimeoutSec()) return false;
+        if (getCommitIntervalMs()
+            != other.getCommitIntervalMs()) return false;
+        if (getMaxReadMessagesCount()
+            != other.getMaxReadMessagesCount()) return false;
+        if (getMaxReadSize()
+            != other.getMaxReadSize()) return false;
+        if (getMaxReadPartitionsCount()
+            != other.getMaxReadPartitionsCount()) return false;
+        if (getMaxTimeLagMs()
+            != other.getMaxTimeLagMs()) return false;
+        if (getReadTimestampMs()
+            != other.getReadTimestampMs()) return false;
+        if (getCommitsDisabled()
+            != other.getCommitsDisabled()) return false;
+        if (!getVersion()
+            .equals(other.getVersion())) return false;
+        if (getProtocolVersion()
+            != other.getProtocolVersion()) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -13450,6 +14465,7 @@ public final class Persqueue {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -13457,6 +14473,7 @@ public final class Persqueue {
       public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadRequest.Init prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -13480,6 +14497,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Init_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Init_fieldAccessorTable
@@ -13502,6 +14520,7 @@ public final class Persqueue {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           topics_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -13516,8 +14535,8 @@ public final class Persqueue {
 
           balancePartitionRightNow_ = false;
 
-          partitionGroups_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000040);
+          partitionGroups_ = emptyIntList();
+          bitField0_ = (bitField0_ & ~0x00000002);
           idleTimeoutSec_ = 0;
 
           commitIntervalMs_ = 0;
@@ -13541,15 +14560,18 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Init_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadRequest.Init getDefaultInstanceForType() {
           return tech.ydb.persqueue.Persqueue.ReadRequest.Init.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadRequest.Init build() {
           tech.ydb.persqueue.Persqueue.ReadRequest.Init result = buildPartial();
           if (!result.isInitialized()) {
@@ -13558,11 +14580,11 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadRequest.Init buildPartial() {
           tech.ydb.persqueue.Persqueue.ReadRequest.Init result = new tech.ydb.persqueue.Persqueue.ReadRequest.Init(this);
           int from_bitField0_ = bitField0_;
-          int to_bitField0_ = 0;
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             topics_ = topics_.getUnmodifiableView();
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -13572,9 +14594,9 @@ public final class Persqueue {
           result.clientsideLocksAllowed_ = clientsideLocksAllowed_;
           result.proxyCookie_ = proxyCookie_;
           result.balancePartitionRightNow_ = balancePartitionRightNow_;
-          if (((bitField0_ & 0x00000040) == 0x00000040)) {
-            partitionGroups_ = java.util.Collections.unmodifiableList(partitionGroups_);
-            bitField0_ = (bitField0_ & ~0x00000040);
+          if (((bitField0_ & 0x00000002) != 0)) {
+            partitionGroups_.makeImmutable();
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
           result.partitionGroups_ = partitionGroups_;
           result.idleTimeoutSec_ = idleTimeoutSec_;
@@ -13587,37 +14609,43 @@ public final class Persqueue {
           result.commitsDisabled_ = commitsDisabled_;
           result.version_ = version_;
           result.protocolVersion_ = protocolVersion_;
-          result.bitField0_ = to_bitField0_;
           onBuilt();
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.persqueue.Persqueue.ReadRequest.Init) {
             return mergeFrom((tech.ydb.persqueue.Persqueue.ReadRequest.Init)other);
@@ -13658,7 +14686,7 @@ public final class Persqueue {
           if (!other.partitionGroups_.isEmpty()) {
             if (partitionGroups_.isEmpty()) {
               partitionGroups_ = other.partitionGroups_;
-              bitField0_ = (bitField0_ & ~0x00000040);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensurePartitionGroupsIsMutable();
               partitionGroups_.addAll(other.partitionGroups_);
@@ -13701,10 +14729,12 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -13726,13 +14756,14 @@ public final class Persqueue {
 
         private com.google.protobuf.LazyStringList topics_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         private void ensureTopicsIsMutable() {
-          if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (!((bitField0_ & 0x00000001) != 0)) {
             topics_ = new com.google.protobuf.LazyStringArrayList(topics_);
             bitField0_ |= 0x00000001;
            }
         }
         /**
          * <code>repeated string topics = 1;</code>
+         * @return A list containing the topics.
          */
         public com.google.protobuf.ProtocolStringList
             getTopicsList() {
@@ -13740,18 +14771,23 @@ public final class Persqueue {
         }
         /**
          * <code>repeated string topics = 1;</code>
+         * @return The count of topics.
          */
         public int getTopicsCount() {
           return topics_.size();
         }
         /**
          * <code>repeated string topics = 1;</code>
+         * @param index The index of the element to return.
+         * @return The topics at the given index.
          */
         public java.lang.String getTopics(int index) {
           return topics_.get(index);
         }
         /**
          * <code>repeated string topics = 1;</code>
+         * @param index The index of the value to return.
+         * @return The bytes of the topics at the given index.
          */
         public com.google.protobuf.ByteString
             getTopicsBytes(int index) {
@@ -13759,6 +14795,9 @@ public final class Persqueue {
         }
         /**
          * <code>repeated string topics = 1;</code>
+         * @param index The index to set the value at.
+         * @param value The topics to set.
+         * @return This builder for chaining.
          */
         public Builder setTopics(
             int index, java.lang.String value) {
@@ -13772,6 +14811,8 @@ public final class Persqueue {
         }
         /**
          * <code>repeated string topics = 1;</code>
+         * @param value The topics to add.
+         * @return This builder for chaining.
          */
         public Builder addTopics(
             java.lang.String value) {
@@ -13785,6 +14826,8 @@ public final class Persqueue {
         }
         /**
          * <code>repeated string topics = 1;</code>
+         * @param values The topics to add.
+         * @return This builder for chaining.
          */
         public Builder addAllTopics(
             java.lang.Iterable<java.lang.String> values) {
@@ -13796,6 +14839,7 @@ public final class Persqueue {
         }
         /**
          * <code>repeated string topics = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearTopics() {
           topics_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -13805,6 +14849,8 @@ public final class Persqueue {
         }
         /**
          * <code>repeated string topics = 1;</code>
+         * @param value The bytes of the topics to add.
+         * @return This builder for chaining.
          */
         public Builder addTopicsBytes(
             com.google.protobuf.ByteString value) {
@@ -13825,7 +14871,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>bool read_only_local = 2;</code>
+         * @return The readOnlyLocal.
          */
+        @java.lang.Override
         public boolean getReadOnlyLocal() {
           return readOnlyLocal_;
         }
@@ -13835,6 +14883,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>bool read_only_local = 2;</code>
+         * @param value The readOnlyLocal to set.
+         * @return This builder for chaining.
          */
         public Builder setReadOnlyLocal(boolean value) {
           
@@ -13848,6 +14898,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>bool read_only_local = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearReadOnlyLocal() {
           
@@ -13859,6 +14910,7 @@ public final class Persqueue {
         private java.lang.Object clientId_ = "";
         /**
          * <code>string client_id = 4;</code>
+         * @return The clientId.
          */
         public java.lang.String getClientId() {
           java.lang.Object ref = clientId_;
@@ -13874,6 +14926,7 @@ public final class Persqueue {
         }
         /**
          * <code>string client_id = 4;</code>
+         * @return The bytes for clientId.
          */
         public com.google.protobuf.ByteString
             getClientIdBytes() {
@@ -13890,6 +14943,8 @@ public final class Persqueue {
         }
         /**
          * <code>string client_id = 4;</code>
+         * @param value The clientId to set.
+         * @return This builder for chaining.
          */
         public Builder setClientId(
             java.lang.String value) {
@@ -13903,6 +14958,7 @@ public final class Persqueue {
         }
         /**
          * <code>string client_id = 4;</code>
+         * @return This builder for chaining.
          */
         public Builder clearClientId() {
           
@@ -13912,6 +14968,8 @@ public final class Persqueue {
         }
         /**
          * <code>string client_id = 4;</code>
+         * @param value The bytes for clientId to set.
+         * @return This builder for chaining.
          */
         public Builder setClientIdBytes(
             com.google.protobuf.ByteString value) {
@@ -13932,7 +14990,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>bool clientside_locks_allowed = 5;</code>
+         * @return The clientsideLocksAllowed.
          */
+        @java.lang.Override
         public boolean getClientsideLocksAllowed() {
           return clientsideLocksAllowed_;
         }
@@ -13942,6 +15002,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>bool clientside_locks_allowed = 5;</code>
+         * @param value The clientsideLocksAllowed to set.
+         * @return This builder for chaining.
          */
         public Builder setClientsideLocksAllowed(boolean value) {
           
@@ -13955,6 +15017,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>bool clientside_locks_allowed = 5;</code>
+         * @return This builder for chaining.
          */
         public Builder clearClientsideLocksAllowed() {
           
@@ -13970,7 +15033,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 proxy_cookie = 6;</code>
+         * @return The proxyCookie.
          */
+        @java.lang.Override
         public long getProxyCookie() {
           return proxyCookie_;
         }
@@ -13980,6 +15045,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 proxy_cookie = 6;</code>
+         * @param value The proxyCookie to set.
+         * @return This builder for chaining.
          */
         public Builder setProxyCookie(long value) {
           
@@ -13993,6 +15060,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 proxy_cookie = 6;</code>
+         * @return This builder for chaining.
          */
         public Builder clearProxyCookie() {
           
@@ -14008,7 +15076,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>bool balance_partition_right_now = 8;</code>
+         * @return The balancePartitionRightNow.
          */
+        @java.lang.Override
         public boolean getBalancePartitionRightNow() {
           return balancePartitionRightNow_;
         }
@@ -14018,6 +15088,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>bool balance_partition_right_now = 8;</code>
+         * @param value The balancePartitionRightNow to set.
+         * @return This builder for chaining.
          */
         public Builder setBalancePartitionRightNow(boolean value) {
           
@@ -14031,6 +15103,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>bool balance_partition_right_now = 8;</code>
+         * @return This builder for chaining.
          */
         public Builder clearBalancePartitionRightNow() {
           
@@ -14039,11 +15112,11 @@ public final class Persqueue {
           return this;
         }
 
-        private java.util.List<java.lang.Integer> partitionGroups_ = java.util.Collections.emptyList();
+        private com.google.protobuf.Internal.IntList partitionGroups_ = emptyIntList();
         private void ensurePartitionGroupsIsMutable() {
-          if (!((bitField0_ & 0x00000040) == 0x00000040)) {
-            partitionGroups_ = new java.util.ArrayList<java.lang.Integer>(partitionGroups_);
-            bitField0_ |= 0x00000040;
+          if (!((bitField0_ & 0x00000002) != 0)) {
+            partitionGroups_ = mutableCopy(partitionGroups_);
+            bitField0_ |= 0x00000002;
            }
         }
         /**
@@ -14052,10 +15125,12 @@ public final class Persqueue {
          * </pre>
          *
          * <code>repeated uint32 partition_groups = 9;</code>
+         * @return A list containing the partitionGroups.
          */
         public java.util.List<java.lang.Integer>
             getPartitionGroupsList() {
-          return java.util.Collections.unmodifiableList(partitionGroups_);
+          return ((bitField0_ & 0x00000002) != 0) ?
+                   java.util.Collections.unmodifiableList(partitionGroups_) : partitionGroups_;
         }
         /**
          * <pre>
@@ -14063,6 +15138,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>repeated uint32 partition_groups = 9;</code>
+         * @return The count of partitionGroups.
          */
         public int getPartitionGroupsCount() {
           return partitionGroups_.size();
@@ -14073,9 +15149,11 @@ public final class Persqueue {
          * </pre>
          *
          * <code>repeated uint32 partition_groups = 9;</code>
+         * @param index The index of the element to return.
+         * @return The partitionGroups at the given index.
          */
         public int getPartitionGroups(int index) {
-          return partitionGroups_.get(index);
+          return partitionGroups_.getInt(index);
         }
         /**
          * <pre>
@@ -14083,11 +15161,14 @@ public final class Persqueue {
          * </pre>
          *
          * <code>repeated uint32 partition_groups = 9;</code>
+         * @param index The index to set the value at.
+         * @param value The partitionGroups to set.
+         * @return This builder for chaining.
          */
         public Builder setPartitionGroups(
             int index, int value) {
           ensurePartitionGroupsIsMutable();
-          partitionGroups_.set(index, value);
+          partitionGroups_.setInt(index, value);
           onChanged();
           return this;
         }
@@ -14097,10 +15178,12 @@ public final class Persqueue {
          * </pre>
          *
          * <code>repeated uint32 partition_groups = 9;</code>
+         * @param value The partitionGroups to add.
+         * @return This builder for chaining.
          */
         public Builder addPartitionGroups(int value) {
           ensurePartitionGroupsIsMutable();
-          partitionGroups_.add(value);
+          partitionGroups_.addInt(value);
           onChanged();
           return this;
         }
@@ -14110,6 +15193,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>repeated uint32 partition_groups = 9;</code>
+         * @param values The partitionGroups to add.
+         * @return This builder for chaining.
          */
         public Builder addAllPartitionGroups(
             java.lang.Iterable<? extends java.lang.Integer> values) {
@@ -14125,10 +15210,11 @@ public final class Persqueue {
          * </pre>
          *
          * <code>repeated uint32 partition_groups = 9;</code>
+         * @return This builder for chaining.
          */
         public Builder clearPartitionGroups() {
-          partitionGroups_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000040);
+          partitionGroups_ = emptyIntList();
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
           return this;
         }
@@ -14140,7 +15226,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 idle_timeout_sec = 10;</code>
+         * @return The idleTimeoutSec.
          */
+        @java.lang.Override
         public int getIdleTimeoutSec() {
           return idleTimeoutSec_;
         }
@@ -14150,6 +15238,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 idle_timeout_sec = 10;</code>
+         * @param value The idleTimeoutSec to set.
+         * @return This builder for chaining.
          */
         public Builder setIdleTimeoutSec(int value) {
           
@@ -14163,6 +15253,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 idle_timeout_sec = 10;</code>
+         * @return This builder for chaining.
          */
         public Builder clearIdleTimeoutSec() {
           
@@ -14178,7 +15269,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 commit_interval_ms = 12;</code>
+         * @return The commitIntervalMs.
          */
+        @java.lang.Override
         public int getCommitIntervalMs() {
           return commitIntervalMs_;
         }
@@ -14188,6 +15281,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 commit_interval_ms = 12;</code>
+         * @param value The commitIntervalMs to set.
+         * @return This builder for chaining.
          */
         public Builder setCommitIntervalMs(int value) {
           
@@ -14201,6 +15296,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 commit_interval_ms = 12;</code>
+         * @return This builder for chaining.
          */
         public Builder clearCommitIntervalMs() {
           
@@ -14216,7 +15312,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 max_read_messages_count = 14;</code>
+         * @return The maxReadMessagesCount.
          */
+        @java.lang.Override
         public int getMaxReadMessagesCount() {
           return maxReadMessagesCount_;
         }
@@ -14226,6 +15324,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 max_read_messages_count = 14;</code>
+         * @param value The maxReadMessagesCount to set.
+         * @return This builder for chaining.
          */
         public Builder setMaxReadMessagesCount(int value) {
           
@@ -14239,6 +15339,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 max_read_messages_count = 14;</code>
+         * @return This builder for chaining.
          */
         public Builder clearMaxReadMessagesCount() {
           
@@ -14254,7 +15355,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 max_read_size = 15;</code>
+         * @return The maxReadSize.
          */
+        @java.lang.Override
         public int getMaxReadSize() {
           return maxReadSize_;
         }
@@ -14264,6 +15367,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 max_read_size = 15;</code>
+         * @param value The maxReadSize to set.
+         * @return This builder for chaining.
          */
         public Builder setMaxReadSize(int value) {
           
@@ -14277,6 +15382,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 max_read_size = 15;</code>
+         * @return This builder for chaining.
          */
         public Builder clearMaxReadSize() {
           
@@ -14292,7 +15398,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 max_read_partitions_count = 16;</code>
+         * @return The maxReadPartitionsCount.
          */
+        @java.lang.Override
         public int getMaxReadPartitionsCount() {
           return maxReadPartitionsCount_;
         }
@@ -14302,6 +15410,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 max_read_partitions_count = 16;</code>
+         * @param value The maxReadPartitionsCount to set.
+         * @return This builder for chaining.
          */
         public Builder setMaxReadPartitionsCount(int value) {
           
@@ -14315,6 +15425,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 max_read_partitions_count = 16;</code>
+         * @return This builder for chaining.
          */
         public Builder clearMaxReadPartitionsCount() {
           
@@ -14330,7 +15441,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 max_time_lag_ms = 17;</code>
+         * @return The maxTimeLagMs.
          */
+        @java.lang.Override
         public int getMaxTimeLagMs() {
           return maxTimeLagMs_;
         }
@@ -14340,6 +15453,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 max_time_lag_ms = 17;</code>
+         * @param value The maxTimeLagMs to set.
+         * @return This builder for chaining.
          */
         public Builder setMaxTimeLagMs(int value) {
           
@@ -14353,6 +15468,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 max_time_lag_ms = 17;</code>
+         * @return This builder for chaining.
          */
         public Builder clearMaxTimeLagMs() {
           
@@ -14368,7 +15484,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 read_timestamp_ms = 18;</code>
+         * @return The readTimestampMs.
          */
+        @java.lang.Override
         public long getReadTimestampMs() {
           return readTimestampMs_;
         }
@@ -14378,6 +15496,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 read_timestamp_ms = 18;</code>
+         * @param value The readTimestampMs to set.
+         * @return This builder for chaining.
          */
         public Builder setReadTimestampMs(long value) {
           
@@ -14391,6 +15511,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 read_timestamp_ms = 18;</code>
+         * @return This builder for chaining.
          */
         public Builder clearReadTimestampMs() {
           
@@ -14406,7 +15527,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>bool commits_disabled = 19;</code>
+         * @return The commitsDisabled.
          */
+        @java.lang.Override
         public boolean getCommitsDisabled() {
           return commitsDisabled_;
         }
@@ -14416,6 +15539,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>bool commits_disabled = 19;</code>
+         * @param value The commitsDisabled to set.
+         * @return This builder for chaining.
          */
         public Builder setCommitsDisabled(boolean value) {
           
@@ -14429,6 +15554,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>bool commits_disabled = 19;</code>
+         * @return This builder for chaining.
          */
         public Builder clearCommitsDisabled() {
           
@@ -14444,6 +15570,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>string version = 999;</code>
+         * @return The version.
          */
         public java.lang.String getVersion() {
           java.lang.Object ref = version_;
@@ -14463,6 +15590,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>string version = 999;</code>
+         * @return The bytes for version.
          */
         public com.google.protobuf.ByteString
             getVersionBytes() {
@@ -14483,6 +15611,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>string version = 999;</code>
+         * @param value The version to set.
+         * @return This builder for chaining.
          */
         public Builder setVersion(
             java.lang.String value) {
@@ -14500,6 +15630,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>string version = 999;</code>
+         * @return This builder for chaining.
          */
         public Builder clearVersion() {
           
@@ -14513,6 +15644,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>string version = 999;</code>
+         * @param value The bytes for version to set.
+         * @return This builder for chaining.
          */
         public Builder setVersionBytes(
             com.google.protobuf.ByteString value) {
@@ -14533,7 +15666,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 protocol_version = 13;</code>
+         * @return The protocolVersion.
          */
+        @java.lang.Override
         public int getProtocolVersion() {
           return protocolVersion_;
         }
@@ -14543,6 +15678,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 protocol_version = 13;</code>
+         * @param value The protocolVersion to set.
+         * @return This builder for chaining.
          */
         public Builder setProtocolVersion(int value) {
           
@@ -14556,6 +15693,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 protocol_version = 13;</code>
+         * @return This builder for chaining.
          */
         public Builder clearProtocolVersion() {
           
@@ -14563,11 +15701,13 @@ public final class Persqueue {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -14589,11 +15729,12 @@ public final class Persqueue {
 
       private static final com.google.protobuf.Parser<Init>
           PARSER = new com.google.protobuf.AbstractParser<Init>() {
+        @java.lang.Override
         public Init parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Init(input, extensionRegistry);
+          return new Init(input, extensionRegistry);
         }
       };
 
@@ -14606,6 +15747,7 @@ public final class Persqueue {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadRequest.Init getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -14623,11 +15765,13 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint32 max_count = 1;</code>
+       * @return The maxCount.
        */
       int getMaxCount();
 
       /**
        * <code>uint32 max_size = 2;</code>
+       * @return The maxSize.
        */
       int getMaxSize();
 
@@ -14637,11 +15781,13 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint32 partitions_at_once = 3;</code>
+       * @return The partitionsAtOnce.
        */
       int getPartitionsAtOnce();
 
       /**
        * <code>uint32 max_time_lag_ms = 5;</code>
+       * @return The maxTimeLagMs.
        */
       int getMaxTimeLagMs();
 
@@ -14651,13 +15797,14 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 read_timestamp_ms = 6;</code>
+       * @return The readTimestampMs.
        */
       long getReadTimestampMs();
     }
     /**
      * Protobuf type {@code NPersQueue.ReadRequest.Read}
      */
-    public  static final class Read extends
+    public static final class Read extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NPersQueue.ReadRequest.Read)
         ReadOrBuilder {
@@ -14667,11 +15814,13 @@ public final class Persqueue {
         super(builder);
       }
       private Read() {
-        maxCount_ = 0;
-        maxSize_ = 0;
-        partitionsAtOnce_ = 0;
-        maxTimeLagMs_ = 0;
-        readTimestampMs_ = 0L;
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Read();
       }
 
       @java.lang.Override
@@ -14684,7 +15833,9 @@ public final class Persqueue {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -14695,13 +15846,6 @@ public final class Persqueue {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 8: {
 
                 maxCount_ = input.readUInt32();
@@ -14727,6 +15871,13 @@ public final class Persqueue {
                 readTimestampMs_ = input.readUInt64();
                 break;
               }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -14744,6 +15895,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Read_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Read_fieldAccessorTable
@@ -14760,7 +15912,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint32 max_count = 1;</code>
+       * @return The maxCount.
        */
+      @java.lang.Override
       public int getMaxCount() {
         return maxCount_;
       }
@@ -14769,7 +15923,9 @@ public final class Persqueue {
       private int maxSize_;
       /**
        * <code>uint32 max_size = 2;</code>
+       * @return The maxSize.
        */
+      @java.lang.Override
       public int getMaxSize() {
         return maxSize_;
       }
@@ -14782,7 +15938,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint32 partitions_at_once = 3;</code>
+       * @return The partitionsAtOnce.
        */
+      @java.lang.Override
       public int getPartitionsAtOnce() {
         return partitionsAtOnce_;
       }
@@ -14791,7 +15949,9 @@ public final class Persqueue {
       private int maxTimeLagMs_;
       /**
        * <code>uint32 max_time_lag_ms = 5;</code>
+       * @return The maxTimeLagMs.
        */
+      @java.lang.Override
       public int getMaxTimeLagMs() {
         return maxTimeLagMs_;
       }
@@ -14804,12 +15964,15 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 read_timestamp_ms = 6;</code>
+       * @return The readTimestampMs.
        */
+      @java.lang.Override
       public long getReadTimestampMs() {
         return readTimestampMs_;
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -14819,6 +15982,7 @@ public final class Persqueue {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (maxCount_ != 0) {
@@ -14839,6 +16003,7 @@ public final class Persqueue {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -14879,19 +16044,18 @@ public final class Persqueue {
         }
         tech.ydb.persqueue.Persqueue.ReadRequest.Read other = (tech.ydb.persqueue.Persqueue.ReadRequest.Read) obj;
 
-        boolean result = true;
-        result = result && (getMaxCount()
-            == other.getMaxCount());
-        result = result && (getMaxSize()
-            == other.getMaxSize());
-        result = result && (getPartitionsAtOnce()
-            == other.getPartitionsAtOnce());
-        result = result && (getMaxTimeLagMs()
-            == other.getMaxTimeLagMs());
-        result = result && (getReadTimestampMs()
-            == other.getReadTimestampMs());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (getMaxCount()
+            != other.getMaxCount()) return false;
+        if (getMaxSize()
+            != other.getMaxSize()) return false;
+        if (getPartitionsAtOnce()
+            != other.getPartitionsAtOnce()) return false;
+        if (getMaxTimeLagMs()
+            != other.getMaxTimeLagMs()) return false;
+        if (getReadTimestampMs()
+            != other.getReadTimestampMs()) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -14987,6 +16151,7 @@ public final class Persqueue {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -14994,6 +16159,7 @@ public final class Persqueue {
       public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadRequest.Read prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -15017,6 +16183,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Read_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Read_fieldAccessorTable
@@ -15039,6 +16206,7 @@ public final class Persqueue {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           maxCount_ = 0;
@@ -15054,15 +16222,18 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Read_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadRequest.Read getDefaultInstanceForType() {
           return tech.ydb.persqueue.Persqueue.ReadRequest.Read.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadRequest.Read build() {
           tech.ydb.persqueue.Persqueue.ReadRequest.Read result = buildPartial();
           if (!result.isInitialized()) {
@@ -15071,6 +16242,7 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadRequest.Read buildPartial() {
           tech.ydb.persqueue.Persqueue.ReadRequest.Read result = new tech.ydb.persqueue.Persqueue.ReadRequest.Read(this);
           result.maxCount_ = maxCount_;
@@ -15082,32 +16254,39 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.persqueue.Persqueue.ReadRequest.Read) {
             return mergeFrom((tech.ydb.persqueue.Persqueue.ReadRequest.Read)other);
@@ -15139,10 +16318,12 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -15169,7 +16350,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 max_count = 1;</code>
+         * @return The maxCount.
          */
+        @java.lang.Override
         public int getMaxCount() {
           return maxCount_;
         }
@@ -15180,6 +16363,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 max_count = 1;</code>
+         * @param value The maxCount to set.
+         * @return This builder for chaining.
          */
         public Builder setMaxCount(int value) {
           
@@ -15194,6 +16379,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 max_count = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearMaxCount() {
           
@@ -15205,12 +16391,16 @@ public final class Persqueue {
         private int maxSize_ ;
         /**
          * <code>uint32 max_size = 2;</code>
+         * @return The maxSize.
          */
+        @java.lang.Override
         public int getMaxSize() {
           return maxSize_;
         }
         /**
          * <code>uint32 max_size = 2;</code>
+         * @param value The maxSize to set.
+         * @return This builder for chaining.
          */
         public Builder setMaxSize(int value) {
           
@@ -15220,6 +16410,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint32 max_size = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearMaxSize() {
           
@@ -15235,7 +16426,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 partitions_at_once = 3;</code>
+         * @return The partitionsAtOnce.
          */
+        @java.lang.Override
         public int getPartitionsAtOnce() {
           return partitionsAtOnce_;
         }
@@ -15245,6 +16438,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 partitions_at_once = 3;</code>
+         * @param value The partitionsAtOnce to set.
+         * @return This builder for chaining.
          */
         public Builder setPartitionsAtOnce(int value) {
           
@@ -15258,6 +16453,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint32 partitions_at_once = 3;</code>
+         * @return This builder for chaining.
          */
         public Builder clearPartitionsAtOnce() {
           
@@ -15269,12 +16465,16 @@ public final class Persqueue {
         private int maxTimeLagMs_ ;
         /**
          * <code>uint32 max_time_lag_ms = 5;</code>
+         * @return The maxTimeLagMs.
          */
+        @java.lang.Override
         public int getMaxTimeLagMs() {
           return maxTimeLagMs_;
         }
         /**
          * <code>uint32 max_time_lag_ms = 5;</code>
+         * @param value The maxTimeLagMs to set.
+         * @return This builder for chaining.
          */
         public Builder setMaxTimeLagMs(int value) {
           
@@ -15284,6 +16484,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint32 max_time_lag_ms = 5;</code>
+         * @return This builder for chaining.
          */
         public Builder clearMaxTimeLagMs() {
           
@@ -15299,7 +16500,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 read_timestamp_ms = 6;</code>
+         * @return The readTimestampMs.
          */
+        @java.lang.Override
         public long getReadTimestampMs() {
           return readTimestampMs_;
         }
@@ -15309,6 +16512,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 read_timestamp_ms = 6;</code>
+         * @param value The readTimestampMs to set.
+         * @return This builder for chaining.
          */
         public Builder setReadTimestampMs(long value) {
           
@@ -15322,6 +16527,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 read_timestamp_ms = 6;</code>
+         * @return This builder for chaining.
          */
         public Builder clearReadTimestampMs() {
           
@@ -15329,11 +16535,13 @@ public final class Persqueue {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -15355,11 +16563,12 @@ public final class Persqueue {
 
       private static final com.google.protobuf.Parser<Read>
           PARSER = new com.google.protobuf.AbstractParser<Read>() {
+        @java.lang.Override
         public Read parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Read(input, extensionRegistry);
+          return new Read(input, extensionRegistry);
         }
       };
 
@@ -15372,6 +16581,7 @@ public final class Persqueue {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadRequest.Read getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -15384,16 +16594,19 @@ public final class Persqueue {
 
       /**
        * <code>string topic = 1;</code>
+       * @return The topic.
        */
       java.lang.String getTopic();
       /**
        * <code>string topic = 1;</code>
+       * @return The bytes for topic.
        */
       com.google.protobuf.ByteString
           getTopicBytes();
 
       /**
        * <code>uint32 partition = 2;</code>
+       * @return The partition.
        */
       int getPartition();
 
@@ -15403,6 +16616,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 read_offset = 3;</code>
+       * @return The readOffset.
        */
       long getReadOffset();
 
@@ -15412,11 +16626,13 @@ public final class Persqueue {
        * </pre>
        *
        * <code>bool verify_read_offset = 4;</code>
+       * @return The verifyReadOffset.
        */
       boolean getVerifyReadOffset();
 
       /**
        * <code>uint64 generation = 5;</code>
+       * @return The generation.
        */
       long getGeneration();
 
@@ -15426,13 +16642,14 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 commit_offset = 6;</code>
+       * @return The commitOffset.
        */
       long getCommitOffset();
     }
     /**
      * Protobuf type {@code NPersQueue.ReadRequest.StartRead}
      */
-    public  static final class StartRead extends
+    public static final class StartRead extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NPersQueue.ReadRequest.StartRead)
         StartReadOrBuilder {
@@ -15443,11 +16660,13 @@ public final class Persqueue {
       }
       private StartRead() {
         topic_ = "";
-        partition_ = 0;
-        readOffset_ = 0L;
-        verifyReadOffset_ = false;
-        generation_ = 0L;
-        commitOffset_ = 0L;
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new StartRead();
       }
 
       @java.lang.Override
@@ -15460,7 +16679,9 @@ public final class Persqueue {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -15471,13 +16692,6 @@ public final class Persqueue {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 10: {
                 java.lang.String s = input.readStringRequireUtf8();
 
@@ -15509,6 +16723,13 @@ public final class Persqueue {
                 commitOffset_ = input.readUInt64();
                 break;
               }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -15526,6 +16747,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_StartRead_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_StartRead_fieldAccessorTable
@@ -15537,7 +16759,9 @@ public final class Persqueue {
       private volatile java.lang.Object topic_;
       /**
        * <code>string topic = 1;</code>
+       * @return The topic.
        */
+      @java.lang.Override
       public java.lang.String getTopic() {
         java.lang.Object ref = topic_;
         if (ref instanceof java.lang.String) {
@@ -15552,7 +16776,9 @@ public final class Persqueue {
       }
       /**
        * <code>string topic = 1;</code>
+       * @return The bytes for topic.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getTopicBytes() {
         java.lang.Object ref = topic_;
@@ -15571,7 +16797,9 @@ public final class Persqueue {
       private int partition_;
       /**
        * <code>uint32 partition = 2;</code>
+       * @return The partition.
        */
+      @java.lang.Override
       public int getPartition() {
         return partition_;
       }
@@ -15584,7 +16812,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 read_offset = 3;</code>
+       * @return The readOffset.
        */
+      @java.lang.Override
       public long getReadOffset() {
         return readOffset_;
       }
@@ -15597,7 +16827,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>bool verify_read_offset = 4;</code>
+       * @return The verifyReadOffset.
        */
+      @java.lang.Override
       public boolean getVerifyReadOffset() {
         return verifyReadOffset_;
       }
@@ -15606,7 +16838,9 @@ public final class Persqueue {
       private long generation_;
       /**
        * <code>uint64 generation = 5;</code>
+       * @return The generation.
        */
+      @java.lang.Override
       public long getGeneration() {
         return generation_;
       }
@@ -15619,12 +16853,15 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 commit_offset = 6;</code>
+       * @return The commitOffset.
        */
+      @java.lang.Override
       public long getCommitOffset() {
         return commitOffset_;
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -15634,6 +16871,7 @@ public final class Persqueue {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (!getTopicBytes().isEmpty()) {
@@ -15657,6 +16895,7 @@ public final class Persqueue {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -15700,21 +16939,20 @@ public final class Persqueue {
         }
         tech.ydb.persqueue.Persqueue.ReadRequest.StartRead other = (tech.ydb.persqueue.Persqueue.ReadRequest.StartRead) obj;
 
-        boolean result = true;
-        result = result && getTopic()
-            .equals(other.getTopic());
-        result = result && (getPartition()
-            == other.getPartition());
-        result = result && (getReadOffset()
-            == other.getReadOffset());
-        result = result && (getVerifyReadOffset()
-            == other.getVerifyReadOffset());
-        result = result && (getGeneration()
-            == other.getGeneration());
-        result = result && (getCommitOffset()
-            == other.getCommitOffset());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!getTopic()
+            .equals(other.getTopic())) return false;
+        if (getPartition()
+            != other.getPartition()) return false;
+        if (getReadOffset()
+            != other.getReadOffset()) return false;
+        if (getVerifyReadOffset()
+            != other.getVerifyReadOffset()) return false;
+        if (getGeneration()
+            != other.getGeneration()) return false;
+        if (getCommitOffset()
+            != other.getCommitOffset()) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -15815,6 +17053,7 @@ public final class Persqueue {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -15822,6 +17061,7 @@ public final class Persqueue {
       public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadRequest.StartRead prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -15845,6 +17085,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_StartRead_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_StartRead_fieldAccessorTable
@@ -15867,6 +17108,7 @@ public final class Persqueue {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           topic_ = "";
@@ -15884,15 +17126,18 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_StartRead_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadRequest.StartRead getDefaultInstanceForType() {
           return tech.ydb.persqueue.Persqueue.ReadRequest.StartRead.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadRequest.StartRead build() {
           tech.ydb.persqueue.Persqueue.ReadRequest.StartRead result = buildPartial();
           if (!result.isInitialized()) {
@@ -15901,6 +17146,7 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadRequest.StartRead buildPartial() {
           tech.ydb.persqueue.Persqueue.ReadRequest.StartRead result = new tech.ydb.persqueue.Persqueue.ReadRequest.StartRead(this);
           result.topic_ = topic_;
@@ -15913,32 +17159,39 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.persqueue.Persqueue.ReadRequest.StartRead) {
             return mergeFrom((tech.ydb.persqueue.Persqueue.ReadRequest.StartRead)other);
@@ -15974,10 +17227,12 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -15999,6 +17254,7 @@ public final class Persqueue {
         private java.lang.Object topic_ = "";
         /**
          * <code>string topic = 1;</code>
+         * @return The topic.
          */
         public java.lang.String getTopic() {
           java.lang.Object ref = topic_;
@@ -16014,6 +17270,7 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 1;</code>
+         * @return The bytes for topic.
          */
         public com.google.protobuf.ByteString
             getTopicBytes() {
@@ -16030,6 +17287,8 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 1;</code>
+         * @param value The topic to set.
+         * @return This builder for chaining.
          */
         public Builder setTopic(
             java.lang.String value) {
@@ -16043,6 +17302,7 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearTopic() {
           
@@ -16052,6 +17312,8 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 1;</code>
+         * @param value The bytes for topic to set.
+         * @return This builder for chaining.
          */
         public Builder setTopicBytes(
             com.google.protobuf.ByteString value) {
@@ -16068,12 +17330,16 @@ public final class Persqueue {
         private int partition_ ;
         /**
          * <code>uint32 partition = 2;</code>
+         * @return The partition.
          */
+        @java.lang.Override
         public int getPartition() {
           return partition_;
         }
         /**
          * <code>uint32 partition = 2;</code>
+         * @param value The partition to set.
+         * @return This builder for chaining.
          */
         public Builder setPartition(int value) {
           
@@ -16083,6 +17349,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint32 partition = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearPartition() {
           
@@ -16098,7 +17365,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 read_offset = 3;</code>
+         * @return The readOffset.
          */
+        @java.lang.Override
         public long getReadOffset() {
           return readOffset_;
         }
@@ -16108,6 +17377,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 read_offset = 3;</code>
+         * @param value The readOffset to set.
+         * @return This builder for chaining.
          */
         public Builder setReadOffset(long value) {
           
@@ -16121,6 +17392,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 read_offset = 3;</code>
+         * @return This builder for chaining.
          */
         public Builder clearReadOffset() {
           
@@ -16136,7 +17408,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>bool verify_read_offset = 4;</code>
+         * @return The verifyReadOffset.
          */
+        @java.lang.Override
         public boolean getVerifyReadOffset() {
           return verifyReadOffset_;
         }
@@ -16146,6 +17420,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>bool verify_read_offset = 4;</code>
+         * @param value The verifyReadOffset to set.
+         * @return This builder for chaining.
          */
         public Builder setVerifyReadOffset(boolean value) {
           
@@ -16159,6 +17435,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>bool verify_read_offset = 4;</code>
+         * @return This builder for chaining.
          */
         public Builder clearVerifyReadOffset() {
           
@@ -16170,12 +17447,16 @@ public final class Persqueue {
         private long generation_ ;
         /**
          * <code>uint64 generation = 5;</code>
+         * @return The generation.
          */
+        @java.lang.Override
         public long getGeneration() {
           return generation_;
         }
         /**
          * <code>uint64 generation = 5;</code>
+         * @param value The generation to set.
+         * @return This builder for chaining.
          */
         public Builder setGeneration(long value) {
           
@@ -16185,6 +17466,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint64 generation = 5;</code>
+         * @return This builder for chaining.
          */
         public Builder clearGeneration() {
           
@@ -16200,7 +17482,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 commit_offset = 6;</code>
+         * @return The commitOffset.
          */
+        @java.lang.Override
         public long getCommitOffset() {
           return commitOffset_;
         }
@@ -16210,6 +17494,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 commit_offset = 6;</code>
+         * @param value The commitOffset to set.
+         * @return This builder for chaining.
          */
         public Builder setCommitOffset(long value) {
           
@@ -16223,6 +17509,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 commit_offset = 6;</code>
+         * @return This builder for chaining.
          */
         public Builder clearCommitOffset() {
           
@@ -16230,11 +17517,13 @@ public final class Persqueue {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -16256,11 +17545,12 @@ public final class Persqueue {
 
       private static final com.google.protobuf.Parser<StartRead>
           PARSER = new com.google.protobuf.AbstractParser<StartRead>() {
+        @java.lang.Override
         public StartRead parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new StartRead(input, extensionRegistry);
+          return new StartRead(input, extensionRegistry);
         }
       };
 
@@ -16273,6 +17563,7 @@ public final class Persqueue {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadRequest.StartRead getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -16285,21 +17576,25 @@ public final class Persqueue {
 
       /**
        * <code>repeated uint64 cookie = 1;</code>
+       * @return A list containing the cookie.
        */
       java.util.List<java.lang.Long> getCookieList();
       /**
        * <code>repeated uint64 cookie = 1;</code>
+       * @return The count of cookie.
        */
       int getCookieCount();
       /**
        * <code>repeated uint64 cookie = 1;</code>
+       * @param index The index of the element to return.
+       * @return The cookie at the given index.
        */
       long getCookie(int index);
     }
     /**
      * Protobuf type {@code NPersQueue.ReadRequest.Commit}
      */
-    public  static final class Commit extends
+    public static final class Commit extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NPersQueue.ReadRequest.Commit)
         CommitOrBuilder {
@@ -16309,7 +17604,14 @@ public final class Persqueue {
         super(builder);
       }
       private Commit() {
-        cookie_ = java.util.Collections.emptyList();
+        cookie_ = emptyLongList();
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Commit();
       }
 
       @java.lang.Override
@@ -16322,6 +17624,9 @@ public final class Persqueue {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         int mutable_bitField0_ = 0;
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -16333,32 +17638,32 @@ public final class Persqueue {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 8: {
-                if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                  cookie_ = new java.util.ArrayList<java.lang.Long>();
+                if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                  cookie_ = newLongList();
                   mutable_bitField0_ |= 0x00000001;
                 }
-                cookie_.add(input.readUInt64());
+                cookie_.addLong(input.readUInt64());
                 break;
               }
               case 10: {
                 int length = input.readRawVarint32();
                 int limit = input.pushLimit(length);
-                if (!((mutable_bitField0_ & 0x00000001) == 0x00000001) && input.getBytesUntilLimit() > 0) {
-                  cookie_ = new java.util.ArrayList<java.lang.Long>();
+                if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
+                  cookie_ = newLongList();
                   mutable_bitField0_ |= 0x00000001;
                 }
                 while (input.getBytesUntilLimit() > 0) {
-                  cookie_.add(input.readUInt64());
+                  cookie_.addLong(input.readUInt64());
                 }
                 input.popLimit(limit);
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
                 break;
               }
             }
@@ -16369,8 +17674,8 @@ public final class Persqueue {
           throw new com.google.protobuf.InvalidProtocolBufferException(
               e).setUnfinishedMessage(this);
         } finally {
-          if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-            cookie_ = java.util.Collections.unmodifiableList(cookie_);
+          if (((mutable_bitField0_ & 0x00000001) != 0)) {
+            cookie_.makeImmutable(); // C
           }
           this.unknownFields = unknownFields.build();
           makeExtensionsImmutable();
@@ -16381,6 +17686,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Commit_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Commit_fieldAccessorTable
@@ -16389,29 +17695,35 @@ public final class Persqueue {
       }
 
       public static final int COOKIE_FIELD_NUMBER = 1;
-      private java.util.List<java.lang.Long> cookie_;
+      private com.google.protobuf.Internal.LongList cookie_;
       /**
        * <code>repeated uint64 cookie = 1;</code>
+       * @return A list containing the cookie.
        */
+      @java.lang.Override
       public java.util.List<java.lang.Long>
           getCookieList() {
         return cookie_;
       }
       /**
        * <code>repeated uint64 cookie = 1;</code>
+       * @return The count of cookie.
        */
       public int getCookieCount() {
         return cookie_.size();
       }
       /**
        * <code>repeated uint64 cookie = 1;</code>
+       * @param index The index of the element to return.
+       * @return The cookie at the given index.
        */
       public long getCookie(int index) {
-        return cookie_.get(index);
+        return cookie_.getLong(index);
       }
       private int cookieMemoizedSerializedSize = -1;
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -16421,6 +17733,7 @@ public final class Persqueue {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         getSerializedSize();
@@ -16429,11 +17742,12 @@ public final class Persqueue {
           output.writeUInt32NoTag(cookieMemoizedSerializedSize);
         }
         for (int i = 0; i < cookie_.size(); i++) {
-          output.writeUInt64NoTag(cookie_.get(i));
+          output.writeUInt64NoTag(cookie_.getLong(i));
         }
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -16443,7 +17757,7 @@ public final class Persqueue {
           int dataSize = 0;
           for (int i = 0; i < cookie_.size(); i++) {
             dataSize += com.google.protobuf.CodedOutputStream
-              .computeUInt64SizeNoTag(cookie_.get(i));
+              .computeUInt64SizeNoTag(cookie_.getLong(i));
           }
           size += dataSize;
           if (!getCookieList().isEmpty()) {
@@ -16468,11 +17782,10 @@ public final class Persqueue {
         }
         tech.ydb.persqueue.Persqueue.ReadRequest.Commit other = (tech.ydb.persqueue.Persqueue.ReadRequest.Commit) obj;
 
-        boolean result = true;
-        result = result && getCookieList()
-            .equals(other.getCookieList());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!getCookieList()
+            .equals(other.getCookieList())) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -16561,6 +17874,7 @@ public final class Persqueue {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -16568,6 +17882,7 @@ public final class Persqueue {
       public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadRequest.Commit prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -16591,6 +17906,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Commit_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Commit_fieldAccessorTable
@@ -16613,22 +17929,26 @@ public final class Persqueue {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
-          cookie_ = java.util.Collections.emptyList();
+          cookie_ = emptyLongList();
           bitField0_ = (bitField0_ & ~0x00000001);
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Commit_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadRequest.Commit getDefaultInstanceForType() {
           return tech.ydb.persqueue.Persqueue.ReadRequest.Commit.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadRequest.Commit build() {
           tech.ydb.persqueue.Persqueue.ReadRequest.Commit result = buildPartial();
           if (!result.isInitialized()) {
@@ -16637,11 +17957,12 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadRequest.Commit buildPartial() {
           tech.ydb.persqueue.Persqueue.ReadRequest.Commit result = new tech.ydb.persqueue.Persqueue.ReadRequest.Commit(this);
           int from_bitField0_ = bitField0_;
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
-            cookie_ = java.util.Collections.unmodifiableList(cookie_);
+          if (((bitField0_ & 0x00000001) != 0)) {
+            cookie_.makeImmutable();
             bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.cookie_ = cookie_;
@@ -16649,32 +17970,39 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.persqueue.Persqueue.ReadRequest.Commit) {
             return mergeFrom((tech.ydb.persqueue.Persqueue.ReadRequest.Commit)other);
@@ -16701,10 +18029,12 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -16724,53 +18054,65 @@ public final class Persqueue {
         }
         private int bitField0_;
 
-        private java.util.List<java.lang.Long> cookie_ = java.util.Collections.emptyList();
+        private com.google.protobuf.Internal.LongList cookie_ = emptyLongList();
         private void ensureCookieIsMutable() {
-          if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-            cookie_ = new java.util.ArrayList<java.lang.Long>(cookie_);
+          if (!((bitField0_ & 0x00000001) != 0)) {
+            cookie_ = mutableCopy(cookie_);
             bitField0_ |= 0x00000001;
            }
         }
         /**
          * <code>repeated uint64 cookie = 1;</code>
+         * @return A list containing the cookie.
          */
         public java.util.List<java.lang.Long>
             getCookieList() {
-          return java.util.Collections.unmodifiableList(cookie_);
+          return ((bitField0_ & 0x00000001) != 0) ?
+                   java.util.Collections.unmodifiableList(cookie_) : cookie_;
         }
         /**
          * <code>repeated uint64 cookie = 1;</code>
+         * @return The count of cookie.
          */
         public int getCookieCount() {
           return cookie_.size();
         }
         /**
          * <code>repeated uint64 cookie = 1;</code>
+         * @param index The index of the element to return.
+         * @return The cookie at the given index.
          */
         public long getCookie(int index) {
-          return cookie_.get(index);
+          return cookie_.getLong(index);
         }
         /**
          * <code>repeated uint64 cookie = 1;</code>
+         * @param index The index to set the value at.
+         * @param value The cookie to set.
+         * @return This builder for chaining.
          */
         public Builder setCookie(
             int index, long value) {
           ensureCookieIsMutable();
-          cookie_.set(index, value);
+          cookie_.setLong(index, value);
           onChanged();
           return this;
         }
         /**
          * <code>repeated uint64 cookie = 1;</code>
+         * @param value The cookie to add.
+         * @return This builder for chaining.
          */
         public Builder addCookie(long value) {
           ensureCookieIsMutable();
-          cookie_.add(value);
+          cookie_.addLong(value);
           onChanged();
           return this;
         }
         /**
          * <code>repeated uint64 cookie = 1;</code>
+         * @param values The cookie to add.
+         * @return This builder for chaining.
          */
         public Builder addAllCookie(
             java.lang.Iterable<? extends java.lang.Long> values) {
@@ -16782,18 +18124,21 @@ public final class Persqueue {
         }
         /**
          * <code>repeated uint64 cookie = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearCookie() {
-          cookie_ = java.util.Collections.emptyList();
+          cookie_ = emptyLongList();
           bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -16815,11 +18160,12 @@ public final class Persqueue {
 
       private static final com.google.protobuf.Parser<Commit>
           PARSER = new com.google.protobuf.AbstractParser<Commit>() {
+        @java.lang.Override
         public Commit parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Commit(input, extensionRegistry);
+          return new Commit(input, extensionRegistry);
         }
       };
 
@@ -16832,6 +18178,7 @@ public final class Persqueue {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadRequest.Commit getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -16844,28 +18191,32 @@ public final class Persqueue {
 
       /**
        * <code>uint64 generation = 1;</code>
+       * @return The generation.
        */
       long getGeneration();
 
       /**
        * <code>string topic = 2;</code>
+       * @return The topic.
        */
       java.lang.String getTopic();
       /**
        * <code>string topic = 2;</code>
+       * @return The bytes for topic.
        */
       com.google.protobuf.ByteString
           getTopicBytes();
 
       /**
        * <code>uint32 partition = 3;</code>
+       * @return The partition.
        */
       int getPartition();
     }
     /**
      * Protobuf type {@code NPersQueue.ReadRequest.Status}
      */
-    public  static final class Status extends
+    public static final class Status extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NPersQueue.ReadRequest.Status)
         StatusOrBuilder {
@@ -16875,9 +18226,14 @@ public final class Persqueue {
         super(builder);
       }
       private Status() {
-        generation_ = 0L;
         topic_ = "";
-        partition_ = 0;
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Status();
       }
 
       @java.lang.Override
@@ -16890,7 +18246,9 @@ public final class Persqueue {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -16901,13 +18259,6 @@ public final class Persqueue {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 8: {
 
                 generation_ = input.readUInt64();
@@ -16922,6 +18273,13 @@ public final class Persqueue {
               case 24: {
 
                 partition_ = input.readUInt32();
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
                 break;
               }
             }
@@ -16941,6 +18299,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Status_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Status_fieldAccessorTable
@@ -16952,7 +18311,9 @@ public final class Persqueue {
       private long generation_;
       /**
        * <code>uint64 generation = 1;</code>
+       * @return The generation.
        */
+      @java.lang.Override
       public long getGeneration() {
         return generation_;
       }
@@ -16961,7 +18322,9 @@ public final class Persqueue {
       private volatile java.lang.Object topic_;
       /**
        * <code>string topic = 2;</code>
+       * @return The topic.
        */
+      @java.lang.Override
       public java.lang.String getTopic() {
         java.lang.Object ref = topic_;
         if (ref instanceof java.lang.String) {
@@ -16976,7 +18339,9 @@ public final class Persqueue {
       }
       /**
        * <code>string topic = 2;</code>
+       * @return The bytes for topic.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getTopicBytes() {
         java.lang.Object ref = topic_;
@@ -16995,12 +18360,15 @@ public final class Persqueue {
       private int partition_;
       /**
        * <code>uint32 partition = 3;</code>
+       * @return The partition.
        */
+      @java.lang.Override
       public int getPartition() {
         return partition_;
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -17010,6 +18378,7 @@ public final class Persqueue {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (generation_ != 0L) {
@@ -17024,6 +18393,7 @@ public final class Persqueue {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -17055,15 +18425,14 @@ public final class Persqueue {
         }
         tech.ydb.persqueue.Persqueue.ReadRequest.Status other = (tech.ydb.persqueue.Persqueue.ReadRequest.Status) obj;
 
-        boolean result = true;
-        result = result && (getGeneration()
-            == other.getGeneration());
-        result = result && getTopic()
-            .equals(other.getTopic());
-        result = result && (getPartition()
-            == other.getPartition());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (getGeneration()
+            != other.getGeneration()) return false;
+        if (!getTopic()
+            .equals(other.getTopic())) return false;
+        if (getPartition()
+            != other.getPartition()) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -17155,6 +18524,7 @@ public final class Persqueue {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -17162,6 +18532,7 @@ public final class Persqueue {
       public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadRequest.Status prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -17185,6 +18556,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Status_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Status_fieldAccessorTable
@@ -17207,6 +18579,7 @@ public final class Persqueue {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           generation_ = 0L;
@@ -17218,15 +18591,18 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_Status_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadRequest.Status getDefaultInstanceForType() {
           return tech.ydb.persqueue.Persqueue.ReadRequest.Status.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadRequest.Status build() {
           tech.ydb.persqueue.Persqueue.ReadRequest.Status result = buildPartial();
           if (!result.isInitialized()) {
@@ -17235,6 +18611,7 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadRequest.Status buildPartial() {
           tech.ydb.persqueue.Persqueue.ReadRequest.Status result = new tech.ydb.persqueue.Persqueue.ReadRequest.Status(this);
           result.generation_ = generation_;
@@ -17244,32 +18621,39 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.persqueue.Persqueue.ReadRequest.Status) {
             return mergeFrom((tech.ydb.persqueue.Persqueue.ReadRequest.Status)other);
@@ -17296,10 +18680,12 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -17321,12 +18707,16 @@ public final class Persqueue {
         private long generation_ ;
         /**
          * <code>uint64 generation = 1;</code>
+         * @return The generation.
          */
+        @java.lang.Override
         public long getGeneration() {
           return generation_;
         }
         /**
          * <code>uint64 generation = 1;</code>
+         * @param value The generation to set.
+         * @return This builder for chaining.
          */
         public Builder setGeneration(long value) {
           
@@ -17336,6 +18726,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint64 generation = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearGeneration() {
           
@@ -17347,6 +18738,7 @@ public final class Persqueue {
         private java.lang.Object topic_ = "";
         /**
          * <code>string topic = 2;</code>
+         * @return The topic.
          */
         public java.lang.String getTopic() {
           java.lang.Object ref = topic_;
@@ -17362,6 +18754,7 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 2;</code>
+         * @return The bytes for topic.
          */
         public com.google.protobuf.ByteString
             getTopicBytes() {
@@ -17378,6 +18771,8 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 2;</code>
+         * @param value The topic to set.
+         * @return This builder for chaining.
          */
         public Builder setTopic(
             java.lang.String value) {
@@ -17391,6 +18786,7 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearTopic() {
           
@@ -17400,6 +18796,8 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 2;</code>
+         * @param value The bytes for topic to set.
+         * @return This builder for chaining.
          */
         public Builder setTopicBytes(
             com.google.protobuf.ByteString value) {
@@ -17416,12 +18814,16 @@ public final class Persqueue {
         private int partition_ ;
         /**
          * <code>uint32 partition = 3;</code>
+         * @return The partition.
          */
+        @java.lang.Override
         public int getPartition() {
           return partition_;
         }
         /**
          * <code>uint32 partition = 3;</code>
+         * @param value The partition to set.
+         * @return This builder for chaining.
          */
         public Builder setPartition(int value) {
           
@@ -17431,6 +18833,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint32 partition = 3;</code>
+         * @return This builder for chaining.
          */
         public Builder clearPartition() {
           
@@ -17438,11 +18841,13 @@ public final class Persqueue {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -17464,11 +18869,12 @@ public final class Persqueue {
 
       private static final com.google.protobuf.Parser<Status>
           PARSER = new com.google.protobuf.AbstractParser<Status>() {
+        @java.lang.Override
         public Status parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Status(input, extensionRegistry);
+          return new Status(input, extensionRegistry);
         }
       };
 
@@ -17481,6 +18887,7 @@ public final class Persqueue {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadRequest.Status getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -17490,7 +18897,8 @@ public final class Persqueue {
     private int requestCase_ = 0;
     private java.lang.Object request_;
     public enum RequestCase
-        implements com.google.protobuf.Internal.EnumLite {
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       INIT(1),
       READ(2),
       START_READ(3),
@@ -17502,6 +18910,8 @@ public final class Persqueue {
         this.value = value;
       }
       /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -17538,7 +18948,9 @@ public final class Persqueue {
      * </pre>
      *
      * <code>.NPersQueue.ReadRequest.Init init = 1;</code>
+     * @return Whether the init field is set.
      */
+    @java.lang.Override
     public boolean hasInit() {
       return requestCase_ == 1;
     }
@@ -17548,7 +18960,9 @@ public final class Persqueue {
      * </pre>
      *
      * <code>.NPersQueue.ReadRequest.Init init = 1;</code>
+     * @return The init.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadRequest.Init getInit() {
       if (requestCase_ == 1) {
          return (tech.ydb.persqueue.Persqueue.ReadRequest.Init) request_;
@@ -17562,6 +18976,7 @@ public final class Persqueue {
      *
      * <code>.NPersQueue.ReadRequest.Init init = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadRequest.InitOrBuilder getInitOrBuilder() {
       if (requestCase_ == 1) {
          return (tech.ydb.persqueue.Persqueue.ReadRequest.Init) request_;
@@ -17572,13 +18987,17 @@ public final class Persqueue {
     public static final int READ_FIELD_NUMBER = 2;
     /**
      * <code>.NPersQueue.ReadRequest.Read read = 2;</code>
+     * @return Whether the read field is set.
      */
+    @java.lang.Override
     public boolean hasRead() {
       return requestCase_ == 2;
     }
     /**
      * <code>.NPersQueue.ReadRequest.Read read = 2;</code>
+     * @return The read.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadRequest.Read getRead() {
       if (requestCase_ == 2) {
          return (tech.ydb.persqueue.Persqueue.ReadRequest.Read) request_;
@@ -17588,6 +19007,7 @@ public final class Persqueue {
     /**
      * <code>.NPersQueue.ReadRequest.Read read = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadRequest.ReadOrBuilder getReadOrBuilder() {
       if (requestCase_ == 2) {
          return (tech.ydb.persqueue.Persqueue.ReadRequest.Read) request_;
@@ -17598,13 +19018,17 @@ public final class Persqueue {
     public static final int START_READ_FIELD_NUMBER = 3;
     /**
      * <code>.NPersQueue.ReadRequest.StartRead start_read = 3;</code>
+     * @return Whether the startRead field is set.
      */
+    @java.lang.Override
     public boolean hasStartRead() {
       return requestCase_ == 3;
     }
     /**
      * <code>.NPersQueue.ReadRequest.StartRead start_read = 3;</code>
+     * @return The startRead.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadRequest.StartRead getStartRead() {
       if (requestCase_ == 3) {
          return (tech.ydb.persqueue.Persqueue.ReadRequest.StartRead) request_;
@@ -17614,6 +19038,7 @@ public final class Persqueue {
     /**
      * <code>.NPersQueue.ReadRequest.StartRead start_read = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadRequest.StartReadOrBuilder getStartReadOrBuilder() {
       if (requestCase_ == 3) {
          return (tech.ydb.persqueue.Persqueue.ReadRequest.StartRead) request_;
@@ -17624,13 +19049,17 @@ public final class Persqueue {
     public static final int COMMIT_FIELD_NUMBER = 4;
     /**
      * <code>.NPersQueue.ReadRequest.Commit commit = 4;</code>
+     * @return Whether the commit field is set.
      */
+    @java.lang.Override
     public boolean hasCommit() {
       return requestCase_ == 4;
     }
     /**
      * <code>.NPersQueue.ReadRequest.Commit commit = 4;</code>
+     * @return The commit.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadRequest.Commit getCommit() {
       if (requestCase_ == 4) {
          return (tech.ydb.persqueue.Persqueue.ReadRequest.Commit) request_;
@@ -17640,6 +19069,7 @@ public final class Persqueue {
     /**
      * <code>.NPersQueue.ReadRequest.Commit commit = 4;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadRequest.CommitOrBuilder getCommitOrBuilder() {
       if (requestCase_ == 4) {
          return (tech.ydb.persqueue.Persqueue.ReadRequest.Commit) request_;
@@ -17650,13 +19080,17 @@ public final class Persqueue {
     public static final int STATUS_FIELD_NUMBER = 5;
     /**
      * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+     * @return Whether the status field is set.
      */
+    @java.lang.Override
     public boolean hasStatus() {
       return requestCase_ == 5;
     }
     /**
      * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+     * @return The status.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadRequest.Status getStatus() {
       if (requestCase_ == 5) {
          return (tech.ydb.persqueue.Persqueue.ReadRequest.Status) request_;
@@ -17666,6 +19100,7 @@ public final class Persqueue {
     /**
      * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadRequest.StatusOrBuilder getStatusOrBuilder() {
       if (requestCase_ == 5) {
          return (tech.ydb.persqueue.Persqueue.ReadRequest.Status) request_;
@@ -17677,24 +19112,30 @@ public final class Persqueue {
     private tech.ydb.persqueue.Persqueue.Credentials credentials_;
     /**
      * <code>.NPersQueue.Credentials credentials = 20;</code>
+     * @return Whether the credentials field is set.
      */
+    @java.lang.Override
     public boolean hasCredentials() {
       return credentials_ != null;
     }
     /**
      * <code>.NPersQueue.Credentials credentials = 20;</code>
+     * @return The credentials.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.Credentials getCredentials() {
       return credentials_ == null ? tech.ydb.persqueue.Persqueue.Credentials.getDefaultInstance() : credentials_;
     }
     /**
      * <code>.NPersQueue.Credentials credentials = 20;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.CredentialsOrBuilder getCredentialsOrBuilder() {
       return getCredentials();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -17704,6 +19145,7 @@ public final class Persqueue {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (requestCase_ == 1) {
@@ -17727,6 +19169,7 @@ public final class Persqueue {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -17771,41 +19214,38 @@ public final class Persqueue {
       }
       tech.ydb.persqueue.Persqueue.ReadRequest other = (tech.ydb.persqueue.Persqueue.ReadRequest) obj;
 
-      boolean result = true;
-      result = result && (hasCredentials() == other.hasCredentials());
+      if (hasCredentials() != other.hasCredentials()) return false;
       if (hasCredentials()) {
-        result = result && getCredentials()
-            .equals(other.getCredentials());
+        if (!getCredentials()
+            .equals(other.getCredentials())) return false;
       }
-      result = result && getRequestCase().equals(
-          other.getRequestCase());
-      if (!result) return false;
+      if (!getRequestCase().equals(other.getRequestCase())) return false;
       switch (requestCase_) {
         case 1:
-          result = result && getInit()
-              .equals(other.getInit());
+          if (!getInit()
+              .equals(other.getInit())) return false;
           break;
         case 2:
-          result = result && getRead()
-              .equals(other.getRead());
+          if (!getRead()
+              .equals(other.getRead())) return false;
           break;
         case 3:
-          result = result && getStartRead()
-              .equals(other.getStartRead());
+          if (!getStartRead()
+              .equals(other.getStartRead())) return false;
           break;
         case 4:
-          result = result && getCommit()
-              .equals(other.getCommit());
+          if (!getCommit()
+              .equals(other.getCommit())) return false;
           break;
         case 5:
-          result = result && getStatus()
-              .equals(other.getStatus());
+          if (!getStatus()
+              .equals(other.getStatus())) return false;
           break;
         case 0:
         default:
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -17918,6 +19358,7 @@ public final class Persqueue {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -17925,6 +19366,7 @@ public final class Persqueue {
     public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -17957,6 +19399,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_fieldAccessorTable
@@ -17979,6 +19422,7 @@ public final class Persqueue {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (credentialsBuilder_ == null) {
@@ -17992,15 +19436,18 @@ public final class Persqueue {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadRequest getDefaultInstanceForType() {
         return tech.ydb.persqueue.Persqueue.ReadRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadRequest build() {
         tech.ydb.persqueue.Persqueue.ReadRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -18009,6 +19456,7 @@ public final class Persqueue {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadRequest buildPartial() {
         tech.ydb.persqueue.Persqueue.ReadRequest result = new tech.ydb.persqueue.Persqueue.ReadRequest(this);
         if (requestCase_ == 1) {
@@ -18056,32 +19504,39 @@ public final class Persqueue {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.persqueue.Persqueue.ReadRequest) {
           return mergeFrom((tech.ydb.persqueue.Persqueue.ReadRequest)other);
@@ -18126,10 +19581,12 @@ public final class Persqueue {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -18171,7 +19628,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>.NPersQueue.ReadRequest.Init init = 1;</code>
+       * @return Whether the init field is set.
        */
+      @java.lang.Override
       public boolean hasInit() {
         return requestCase_ == 1;
       }
@@ -18181,7 +19640,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>.NPersQueue.ReadRequest.Init init = 1;</code>
+       * @return The init.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadRequest.Init getInit() {
         if (initBuilder_ == null) {
           if (requestCase_ == 1) {
@@ -18299,6 +19760,7 @@ public final class Persqueue {
        *
        * <code>.NPersQueue.ReadRequest.Init init = 1;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadRequest.InitOrBuilder getInitOrBuilder() {
         if ((requestCase_ == 1) && (initBuilder_ != null)) {
           return initBuilder_.getMessageOrBuilder();
@@ -18339,13 +19801,17 @@ public final class Persqueue {
           tech.ydb.persqueue.Persqueue.ReadRequest.Read, tech.ydb.persqueue.Persqueue.ReadRequest.Read.Builder, tech.ydb.persqueue.Persqueue.ReadRequest.ReadOrBuilder> readBuilder_;
       /**
        * <code>.NPersQueue.ReadRequest.Read read = 2;</code>
+       * @return Whether the read field is set.
        */
+      @java.lang.Override
       public boolean hasRead() {
         return requestCase_ == 2;
       }
       /**
        * <code>.NPersQueue.ReadRequest.Read read = 2;</code>
+       * @return The read.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadRequest.Read getRead() {
         if (readBuilder_ == null) {
           if (requestCase_ == 2) {
@@ -18439,6 +19905,7 @@ public final class Persqueue {
       /**
        * <code>.NPersQueue.ReadRequest.Read read = 2;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadRequest.ReadOrBuilder getReadOrBuilder() {
         if ((requestCase_ == 2) && (readBuilder_ != null)) {
           return readBuilder_.getMessageOrBuilder();
@@ -18475,13 +19942,17 @@ public final class Persqueue {
           tech.ydb.persqueue.Persqueue.ReadRequest.StartRead, tech.ydb.persqueue.Persqueue.ReadRequest.StartRead.Builder, tech.ydb.persqueue.Persqueue.ReadRequest.StartReadOrBuilder> startReadBuilder_;
       /**
        * <code>.NPersQueue.ReadRequest.StartRead start_read = 3;</code>
+       * @return Whether the startRead field is set.
        */
+      @java.lang.Override
       public boolean hasStartRead() {
         return requestCase_ == 3;
       }
       /**
        * <code>.NPersQueue.ReadRequest.StartRead start_read = 3;</code>
+       * @return The startRead.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadRequest.StartRead getStartRead() {
         if (startReadBuilder_ == null) {
           if (requestCase_ == 3) {
@@ -18575,6 +20046,7 @@ public final class Persqueue {
       /**
        * <code>.NPersQueue.ReadRequest.StartRead start_read = 3;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadRequest.StartReadOrBuilder getStartReadOrBuilder() {
         if ((requestCase_ == 3) && (startReadBuilder_ != null)) {
           return startReadBuilder_.getMessageOrBuilder();
@@ -18611,13 +20083,17 @@ public final class Persqueue {
           tech.ydb.persqueue.Persqueue.ReadRequest.Commit, tech.ydb.persqueue.Persqueue.ReadRequest.Commit.Builder, tech.ydb.persqueue.Persqueue.ReadRequest.CommitOrBuilder> commitBuilder_;
       /**
        * <code>.NPersQueue.ReadRequest.Commit commit = 4;</code>
+       * @return Whether the commit field is set.
        */
+      @java.lang.Override
       public boolean hasCommit() {
         return requestCase_ == 4;
       }
       /**
        * <code>.NPersQueue.ReadRequest.Commit commit = 4;</code>
+       * @return The commit.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadRequest.Commit getCommit() {
         if (commitBuilder_ == null) {
           if (requestCase_ == 4) {
@@ -18711,6 +20187,7 @@ public final class Persqueue {
       /**
        * <code>.NPersQueue.ReadRequest.Commit commit = 4;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadRequest.CommitOrBuilder getCommitOrBuilder() {
         if ((requestCase_ == 4) && (commitBuilder_ != null)) {
           return commitBuilder_.getMessageOrBuilder();
@@ -18747,13 +20224,17 @@ public final class Persqueue {
           tech.ydb.persqueue.Persqueue.ReadRequest.Status, tech.ydb.persqueue.Persqueue.ReadRequest.Status.Builder, tech.ydb.persqueue.Persqueue.ReadRequest.StatusOrBuilder> statusBuilder_;
       /**
        * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+       * @return Whether the status field is set.
        */
+      @java.lang.Override
       public boolean hasStatus() {
         return requestCase_ == 5;
       }
       /**
        * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
+       * @return The status.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadRequest.Status getStatus() {
         if (statusBuilder_ == null) {
           if (requestCase_ == 5) {
@@ -18847,6 +20328,7 @@ public final class Persqueue {
       /**
        * <code>.NPersQueue.ReadRequest.Status status = 5;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadRequest.StatusOrBuilder getStatusOrBuilder() {
         if ((requestCase_ == 5) && (statusBuilder_ != null)) {
           return statusBuilder_.getMessageOrBuilder();
@@ -18879,17 +20361,19 @@ public final class Persqueue {
         return statusBuilder_;
       }
 
-      private tech.ydb.persqueue.Persqueue.Credentials credentials_ = null;
+      private tech.ydb.persqueue.Persqueue.Credentials credentials_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.persqueue.Persqueue.Credentials, tech.ydb.persqueue.Persqueue.Credentials.Builder, tech.ydb.persqueue.Persqueue.CredentialsOrBuilder> credentialsBuilder_;
       /**
        * <code>.NPersQueue.Credentials credentials = 20;</code>
+       * @return Whether the credentials field is set.
        */
       public boolean hasCredentials() {
         return credentialsBuilder_ != null || credentials_ != null;
       }
       /**
        * <code>.NPersQueue.Credentials credentials = 20;</code>
+       * @return The credentials.
        */
       public tech.ydb.persqueue.Persqueue.Credentials getCredentials() {
         if (credentialsBuilder_ == null) {
@@ -18995,11 +20479,13 @@ public final class Persqueue {
         }
         return credentialsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -19021,11 +20507,12 @@ public final class Persqueue {
 
     private static final com.google.protobuf.Parser<ReadRequest>
         PARSER = new com.google.protobuf.AbstractParser<ReadRequest>() {
+      @java.lang.Override
       public ReadRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ReadRequest(input, extensionRegistry);
+        return new ReadRequest(input, extensionRegistry);
       }
     };
 
@@ -19038,6 +20525,7 @@ public final class Persqueue {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -19050,30 +20538,36 @@ public final class Persqueue {
 
     /**
      * <code>bytes source_id = 1;</code>
+     * @return The sourceId.
      */
     com.google.protobuf.ByteString getSourceId();
 
     /**
      * <code>uint64 seq_no = 2;</code>
+     * @return The seqNo.
      */
     long getSeqNo();
 
     /**
      * <code>uint64 create_time_ms = 3;</code>
+     * @return The createTimeMs.
      */
     long getCreateTimeMs();
 
     /**
      * <code>uint64 write_time_ms = 4;</code>
+     * @return The writeTimeMs.
      */
     long getWriteTimeMs();
 
     /**
      * <code>.NPersQueue.MapType extra_fields = 7;</code>
+     * @return Whether the extraFields field is set.
      */
     boolean hasExtraFields();
     /**
      * <code>.NPersQueue.MapType extra_fields = 7;</code>
+     * @return The extraFields.
      */
     tech.ydb.persqueue.Persqueue.MapType getExtraFields();
     /**
@@ -19083,32 +20577,37 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.ECodec codec = 8;</code>
+     * @return The enum numeric value on the wire for codec.
      */
     int getCodecValue();
     /**
      * <code>.NPersQueue.ECodec codec = 8;</code>
+     * @return The codec.
      */
     tech.ydb.persqueue.Persqueue.ECodec getCodec();
 
     /**
      * <code>string ip = 9;</code>
+     * @return The ip.
      */
     java.lang.String getIp();
     /**
      * <code>string ip = 9;</code>
+     * @return The bytes for ip.
      */
     com.google.protobuf.ByteString
         getIpBytes();
 
     /**
      * <code>uint32 uncompressed_size = 10;</code>
+     * @return The uncompressedSize.
      */
     int getUncompressedSize();
   }
   /**
    * Protobuf type {@code NPersQueue.MessageMeta}
    */
-  public  static final class MessageMeta extends
+  public static final class MessageMeta extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NPersQueue.MessageMeta)
       MessageMetaOrBuilder {
@@ -19119,12 +20618,15 @@ public final class Persqueue {
     }
     private MessageMeta() {
       sourceId_ = com.google.protobuf.ByteString.EMPTY;
-      seqNo_ = 0L;
-      createTimeMs_ = 0L;
-      writeTimeMs_ = 0L;
       codec_ = 0;
       ip_ = "";
-      uncompressedSize_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new MessageMeta();
     }
 
     @java.lang.Override
@@ -19137,7 +20639,9 @@ public final class Persqueue {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -19148,13 +20652,6 @@ public final class Persqueue {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
 
               sourceId_ = input.readBytes();
@@ -19205,6 +20702,13 @@ public final class Persqueue {
               uncompressedSize_ = input.readUInt32();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -19222,6 +20726,7 @@ public final class Persqueue {
       return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_MessageMeta_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_MessageMeta_fieldAccessorTable
@@ -19233,7 +20738,9 @@ public final class Persqueue {
     private com.google.protobuf.ByteString sourceId_;
     /**
      * <code>bytes source_id = 1;</code>
+     * @return The sourceId.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString getSourceId() {
       return sourceId_;
     }
@@ -19242,7 +20749,9 @@ public final class Persqueue {
     private long seqNo_;
     /**
      * <code>uint64 seq_no = 2;</code>
+     * @return The seqNo.
      */
+    @java.lang.Override
     public long getSeqNo() {
       return seqNo_;
     }
@@ -19251,7 +20760,9 @@ public final class Persqueue {
     private long createTimeMs_;
     /**
      * <code>uint64 create_time_ms = 3;</code>
+     * @return The createTimeMs.
      */
+    @java.lang.Override
     public long getCreateTimeMs() {
       return createTimeMs_;
     }
@@ -19260,7 +20771,9 @@ public final class Persqueue {
     private long writeTimeMs_;
     /**
      * <code>uint64 write_time_ms = 4;</code>
+     * @return The writeTimeMs.
      */
+    @java.lang.Override
     public long getWriteTimeMs() {
       return writeTimeMs_;
     }
@@ -19269,19 +20782,24 @@ public final class Persqueue {
     private tech.ydb.persqueue.Persqueue.MapType extraFields_;
     /**
      * <code>.NPersQueue.MapType extra_fields = 7;</code>
+     * @return Whether the extraFields field is set.
      */
+    @java.lang.Override
     public boolean hasExtraFields() {
       return extraFields_ != null;
     }
     /**
      * <code>.NPersQueue.MapType extra_fields = 7;</code>
+     * @return The extraFields.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.MapType getExtraFields() {
       return extraFields_ == null ? tech.ydb.persqueue.Persqueue.MapType.getDefaultInstance() : extraFields_;
     }
     /**
      * <code>.NPersQueue.MapType extra_fields = 7;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.MapTypeOrBuilder getExtraFieldsOrBuilder() {
       return getExtraFields();
     }
@@ -19290,14 +20808,17 @@ public final class Persqueue {
     private int codec_;
     /**
      * <code>.NPersQueue.ECodec codec = 8;</code>
+     * @return The enum numeric value on the wire for codec.
      */
-    public int getCodecValue() {
+    @java.lang.Override public int getCodecValue() {
       return codec_;
     }
     /**
      * <code>.NPersQueue.ECodec codec = 8;</code>
+     * @return The codec.
      */
-    public tech.ydb.persqueue.Persqueue.ECodec getCodec() {
+    @java.lang.Override public tech.ydb.persqueue.Persqueue.ECodec getCodec() {
+      @SuppressWarnings("deprecation")
       tech.ydb.persqueue.Persqueue.ECodec result = tech.ydb.persqueue.Persqueue.ECodec.valueOf(codec_);
       return result == null ? tech.ydb.persqueue.Persqueue.ECodec.UNRECOGNIZED : result;
     }
@@ -19306,7 +20827,9 @@ public final class Persqueue {
     private volatile java.lang.Object ip_;
     /**
      * <code>string ip = 9;</code>
+     * @return The ip.
      */
+    @java.lang.Override
     public java.lang.String getIp() {
       java.lang.Object ref = ip_;
       if (ref instanceof java.lang.String) {
@@ -19321,7 +20844,9 @@ public final class Persqueue {
     }
     /**
      * <code>string ip = 9;</code>
+     * @return The bytes for ip.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getIpBytes() {
       java.lang.Object ref = ip_;
@@ -19340,12 +20865,15 @@ public final class Persqueue {
     private int uncompressedSize_;
     /**
      * <code>uint32 uncompressed_size = 10;</code>
+     * @return The uncompressedSize.
      */
+    @java.lang.Override
     public int getUncompressedSize() {
       return uncompressedSize_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -19355,6 +20883,7 @@ public final class Persqueue {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!sourceId_.isEmpty()) {
@@ -19384,6 +20913,7 @@ public final class Persqueue {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -19435,27 +20965,26 @@ public final class Persqueue {
       }
       tech.ydb.persqueue.Persqueue.MessageMeta other = (tech.ydb.persqueue.Persqueue.MessageMeta) obj;
 
-      boolean result = true;
-      result = result && getSourceId()
-          .equals(other.getSourceId());
-      result = result && (getSeqNo()
-          == other.getSeqNo());
-      result = result && (getCreateTimeMs()
-          == other.getCreateTimeMs());
-      result = result && (getWriteTimeMs()
-          == other.getWriteTimeMs());
-      result = result && (hasExtraFields() == other.hasExtraFields());
+      if (!getSourceId()
+          .equals(other.getSourceId())) return false;
+      if (getSeqNo()
+          != other.getSeqNo()) return false;
+      if (getCreateTimeMs()
+          != other.getCreateTimeMs()) return false;
+      if (getWriteTimeMs()
+          != other.getWriteTimeMs()) return false;
+      if (hasExtraFields() != other.hasExtraFields()) return false;
       if (hasExtraFields()) {
-        result = result && getExtraFields()
-            .equals(other.getExtraFields());
+        if (!getExtraFields()
+            .equals(other.getExtraFields())) return false;
       }
-      result = result && codec_ == other.codec_;
-      result = result && getIp()
-          .equals(other.getIp());
-      result = result && (getUncompressedSize()
-          == other.getUncompressedSize());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (codec_ != other.codec_) return false;
+      if (!getIp()
+          .equals(other.getIp())) return false;
+      if (getUncompressedSize()
+          != other.getUncompressedSize()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -19561,6 +21090,7 @@ public final class Persqueue {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -19568,6 +21098,7 @@ public final class Persqueue {
     public static Builder newBuilder(tech.ydb.persqueue.Persqueue.MessageMeta prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -19591,6 +21122,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_MessageMeta_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_MessageMeta_fieldAccessorTable
@@ -19613,6 +21145,7 @@ public final class Persqueue {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         sourceId_ = com.google.protobuf.ByteString.EMPTY;
@@ -19638,15 +21171,18 @@ public final class Persqueue {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_MessageMeta_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.MessageMeta getDefaultInstanceForType() {
         return tech.ydb.persqueue.Persqueue.MessageMeta.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.MessageMeta build() {
         tech.ydb.persqueue.Persqueue.MessageMeta result = buildPartial();
         if (!result.isInitialized()) {
@@ -19655,6 +21191,7 @@ public final class Persqueue {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.MessageMeta buildPartial() {
         tech.ydb.persqueue.Persqueue.MessageMeta result = new tech.ydb.persqueue.Persqueue.MessageMeta(this);
         result.sourceId_ = sourceId_;
@@ -19673,32 +21210,39 @@ public final class Persqueue {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.persqueue.Persqueue.MessageMeta) {
           return mergeFrom((tech.ydb.persqueue.Persqueue.MessageMeta)other);
@@ -19740,10 +21284,12 @@ public final class Persqueue {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -19765,12 +21311,16 @@ public final class Persqueue {
       private com.google.protobuf.ByteString sourceId_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>bytes source_id = 1;</code>
+       * @return The sourceId.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString getSourceId() {
         return sourceId_;
       }
       /**
        * <code>bytes source_id = 1;</code>
+       * @param value The sourceId to set.
+       * @return This builder for chaining.
        */
       public Builder setSourceId(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -19783,6 +21333,7 @@ public final class Persqueue {
       }
       /**
        * <code>bytes source_id = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSourceId() {
         
@@ -19794,12 +21345,16 @@ public final class Persqueue {
       private long seqNo_ ;
       /**
        * <code>uint64 seq_no = 2;</code>
+       * @return The seqNo.
        */
+      @java.lang.Override
       public long getSeqNo() {
         return seqNo_;
       }
       /**
        * <code>uint64 seq_no = 2;</code>
+       * @param value The seqNo to set.
+       * @return This builder for chaining.
        */
       public Builder setSeqNo(long value) {
         
@@ -19809,6 +21364,7 @@ public final class Persqueue {
       }
       /**
        * <code>uint64 seq_no = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSeqNo() {
         
@@ -19820,12 +21376,16 @@ public final class Persqueue {
       private long createTimeMs_ ;
       /**
        * <code>uint64 create_time_ms = 3;</code>
+       * @return The createTimeMs.
        */
+      @java.lang.Override
       public long getCreateTimeMs() {
         return createTimeMs_;
       }
       /**
        * <code>uint64 create_time_ms = 3;</code>
+       * @param value The createTimeMs to set.
+       * @return This builder for chaining.
        */
       public Builder setCreateTimeMs(long value) {
         
@@ -19835,6 +21395,7 @@ public final class Persqueue {
       }
       /**
        * <code>uint64 create_time_ms = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCreateTimeMs() {
         
@@ -19846,12 +21407,16 @@ public final class Persqueue {
       private long writeTimeMs_ ;
       /**
        * <code>uint64 write_time_ms = 4;</code>
+       * @return The writeTimeMs.
        */
+      @java.lang.Override
       public long getWriteTimeMs() {
         return writeTimeMs_;
       }
       /**
        * <code>uint64 write_time_ms = 4;</code>
+       * @param value The writeTimeMs to set.
+       * @return This builder for chaining.
        */
       public Builder setWriteTimeMs(long value) {
         
@@ -19861,6 +21426,7 @@ public final class Persqueue {
       }
       /**
        * <code>uint64 write_time_ms = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearWriteTimeMs() {
         
@@ -19869,17 +21435,19 @@ public final class Persqueue {
         return this;
       }
 
-      private tech.ydb.persqueue.Persqueue.MapType extraFields_ = null;
+      private tech.ydb.persqueue.Persqueue.MapType extraFields_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.persqueue.Persqueue.MapType, tech.ydb.persqueue.Persqueue.MapType.Builder, tech.ydb.persqueue.Persqueue.MapTypeOrBuilder> extraFieldsBuilder_;
       /**
        * <code>.NPersQueue.MapType extra_fields = 7;</code>
+       * @return Whether the extraFields field is set.
        */
       public boolean hasExtraFields() {
         return extraFieldsBuilder_ != null || extraFields_ != null;
       }
       /**
        * <code>.NPersQueue.MapType extra_fields = 7;</code>
+       * @return The extraFields.
        */
       public tech.ydb.persqueue.Persqueue.MapType getExtraFields() {
         if (extraFieldsBuilder_ == null) {
@@ -19989,27 +21557,36 @@ public final class Persqueue {
       private int codec_ = 0;
       /**
        * <code>.NPersQueue.ECodec codec = 8;</code>
+       * @return The enum numeric value on the wire for codec.
        */
-      public int getCodecValue() {
+      @java.lang.Override public int getCodecValue() {
         return codec_;
       }
       /**
        * <code>.NPersQueue.ECodec codec = 8;</code>
+       * @param value The enum numeric value on the wire for codec to set.
+       * @return This builder for chaining.
        */
       public Builder setCodecValue(int value) {
+        
         codec_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.NPersQueue.ECodec codec = 8;</code>
+       * @return The codec.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ECodec getCodec() {
+        @SuppressWarnings("deprecation")
         tech.ydb.persqueue.Persqueue.ECodec result = tech.ydb.persqueue.Persqueue.ECodec.valueOf(codec_);
         return result == null ? tech.ydb.persqueue.Persqueue.ECodec.UNRECOGNIZED : result;
       }
       /**
        * <code>.NPersQueue.ECodec codec = 8;</code>
+       * @param value The codec to set.
+       * @return This builder for chaining.
        */
       public Builder setCodec(tech.ydb.persqueue.Persqueue.ECodec value) {
         if (value == null) {
@@ -20022,6 +21599,7 @@ public final class Persqueue {
       }
       /**
        * <code>.NPersQueue.ECodec codec = 8;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCodec() {
         
@@ -20033,6 +21611,7 @@ public final class Persqueue {
       private java.lang.Object ip_ = "";
       /**
        * <code>string ip = 9;</code>
+       * @return The ip.
        */
       public java.lang.String getIp() {
         java.lang.Object ref = ip_;
@@ -20048,6 +21627,7 @@ public final class Persqueue {
       }
       /**
        * <code>string ip = 9;</code>
+       * @return The bytes for ip.
        */
       public com.google.protobuf.ByteString
           getIpBytes() {
@@ -20064,6 +21644,8 @@ public final class Persqueue {
       }
       /**
        * <code>string ip = 9;</code>
+       * @param value The ip to set.
+       * @return This builder for chaining.
        */
       public Builder setIp(
           java.lang.String value) {
@@ -20077,6 +21659,7 @@ public final class Persqueue {
       }
       /**
        * <code>string ip = 9;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIp() {
         
@@ -20086,6 +21669,8 @@ public final class Persqueue {
       }
       /**
        * <code>string ip = 9;</code>
+       * @param value The bytes for ip to set.
+       * @return This builder for chaining.
        */
       public Builder setIpBytes(
           com.google.protobuf.ByteString value) {
@@ -20102,12 +21687,16 @@ public final class Persqueue {
       private int uncompressedSize_ ;
       /**
        * <code>uint32 uncompressed_size = 10;</code>
+       * @return The uncompressedSize.
        */
+      @java.lang.Override
       public int getUncompressedSize() {
         return uncompressedSize_;
       }
       /**
        * <code>uint32 uncompressed_size = 10;</code>
+       * @param value The uncompressedSize to set.
+       * @return This builder for chaining.
        */
       public Builder setUncompressedSize(int value) {
         
@@ -20117,6 +21706,7 @@ public final class Persqueue {
       }
       /**
        * <code>uint32 uncompressed_size = 10;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUncompressedSize() {
         
@@ -20124,11 +21714,13 @@ public final class Persqueue {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -20150,11 +21742,12 @@ public final class Persqueue {
 
     private static final com.google.protobuf.Parser<MessageMeta>
         PARSER = new com.google.protobuf.AbstractParser<MessageMeta>() {
+      @java.lang.Override
       public MessageMeta parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new MessageMeta(input, extensionRegistry);
+        return new MessageMeta(input, extensionRegistry);
       }
     };
 
@@ -20167,6 +21760,7 @@ public final class Persqueue {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.MessageMeta getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -20179,10 +21773,12 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.ReadResponse.Init init = 1;</code>
+     * @return Whether the init field is set.
      */
     boolean hasInit();
     /**
      * <code>.NPersQueue.ReadResponse.Init init = 1;</code>
+     * @return The init.
      */
     tech.ydb.persqueue.Persqueue.ReadResponse.Init getInit();
     /**
@@ -20192,10 +21788,12 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.ReadResponse.Data data = 2;</code>
+     * @return Whether the data field is set.
      */
     boolean hasData();
     /**
      * <code>.NPersQueue.ReadResponse.Data data = 2;</code>
+     * @return The data.
      */
     tech.ydb.persqueue.Persqueue.ReadResponse.Data getData();
     /**
@@ -20205,10 +21803,12 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.ReadResponse.BatchedData batched_data = 7;</code>
+     * @return Whether the batchedData field is set.
      */
     boolean hasBatchedData();
     /**
      * <code>.NPersQueue.ReadResponse.BatchedData batched_data = 7;</code>
+     * @return The batchedData.
      */
     tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData getBatchedData();
     /**
@@ -20218,10 +21818,12 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.Error error = 3;</code>
+     * @return Whether the error field is set.
      */
     boolean hasError();
     /**
      * <code>.NPersQueue.Error error = 3;</code>
+     * @return The error.
      */
     tech.ydb.persqueue.Persqueue.Error getError();
     /**
@@ -20231,10 +21833,12 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.ReadResponse.Lock lock = 4;</code>
+     * @return Whether the lock field is set.
      */
     boolean hasLock();
     /**
      * <code>.NPersQueue.ReadResponse.Lock lock = 4;</code>
+     * @return The lock.
      */
     tech.ydb.persqueue.Persqueue.ReadResponse.Lock getLock();
     /**
@@ -20244,10 +21848,12 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.ReadResponse.Release release = 5;</code>
+     * @return Whether the release field is set.
      */
     boolean hasRelease();
     /**
      * <code>.NPersQueue.ReadResponse.Release release = 5;</code>
+     * @return The release.
      */
     tech.ydb.persqueue.Persqueue.ReadResponse.Release getRelease();
     /**
@@ -20257,10 +21863,12 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.ReadResponse.Commit commit = 6;</code>
+     * @return Whether the commit field is set.
      */
     boolean hasCommit();
     /**
      * <code>.NPersQueue.ReadResponse.Commit commit = 6;</code>
+     * @return The commit.
      */
     tech.ydb.persqueue.Persqueue.ReadResponse.Commit getCommit();
     /**
@@ -20270,10 +21878,12 @@ public final class Persqueue {
 
     /**
      * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+     * @return Whether the partitionStatus field is set.
      */
     boolean hasPartitionStatus();
     /**
      * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+     * @return The partitionStatus.
      */
     tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus getPartitionStatus();
     /**
@@ -20286,7 +21896,7 @@ public final class Persqueue {
   /**
    * Protobuf type {@code NPersQueue.ReadResponse}
    */
-  public  static final class ReadResponse extends
+  public static final class ReadResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:NPersQueue.ReadResponse)
       ReadResponseOrBuilder {
@@ -20299,6 +21909,13 @@ public final class Persqueue {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ReadResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -20308,7 +21925,9 @@ public final class Persqueue {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -20319,13 +21938,6 @@ public final class Persqueue {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.persqueue.Persqueue.ReadResponse.Init.Builder subBuilder = null;
               if (responseCase_ == 1) {
@@ -20438,6 +22050,13 @@ public final class Persqueue {
               responseCase_ = 8;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -20455,6 +22074,7 @@ public final class Persqueue {
       return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_fieldAccessorTable
@@ -20472,6 +22092,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>string session_id = 2;</code>
+       * @return The sessionId.
        */
       java.lang.String getSessionId();
       /**
@@ -20480,6 +22101,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>string session_id = 2;</code>
+       * @return The bytes for sessionId.
        */
       com.google.protobuf.ByteString
           getSessionIdBytes();
@@ -20487,7 +22109,7 @@ public final class Persqueue {
     /**
      * Protobuf type {@code NPersQueue.ReadResponse.Init}
      */
-    public  static final class Init extends
+    public static final class Init extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NPersQueue.ReadResponse.Init)
         InitOrBuilder {
@@ -20501,6 +22123,13 @@ public final class Persqueue {
       }
 
       @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Init();
+      }
+
+      @java.lang.Override
       public final com.google.protobuf.UnknownFieldSet
       getUnknownFields() {
         return this.unknownFields;
@@ -20510,7 +22139,9 @@ public final class Persqueue {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -20521,17 +22152,17 @@ public final class Persqueue {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 18: {
                 java.lang.String s = input.readStringRequireUtf8();
 
                 sessionId_ = s;
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
                 break;
               }
             }
@@ -20551,6 +22182,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Init_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Init_fieldAccessorTable
@@ -20566,7 +22198,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>string session_id = 2;</code>
+       * @return The sessionId.
        */
+      @java.lang.Override
       public java.lang.String getSessionId() {
         java.lang.Object ref = sessionId_;
         if (ref instanceof java.lang.String) {
@@ -20585,7 +22219,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>string session_id = 2;</code>
+       * @return The bytes for sessionId.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getSessionIdBytes() {
         java.lang.Object ref = sessionId_;
@@ -20601,6 +22237,7 @@ public final class Persqueue {
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -20610,6 +22247,7 @@ public final class Persqueue {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (!getSessionIdBytes().isEmpty()) {
@@ -20618,6 +22256,7 @@ public final class Persqueue {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -20641,11 +22280,10 @@ public final class Persqueue {
         }
         tech.ydb.persqueue.Persqueue.ReadResponse.Init other = (tech.ydb.persqueue.Persqueue.ReadResponse.Init) obj;
 
-        boolean result = true;
-        result = result && getSessionId()
-            .equals(other.getSessionId());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!getSessionId()
+            .equals(other.getSessionId())) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -20732,6 +22370,7 @@ public final class Persqueue {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -20739,6 +22378,7 @@ public final class Persqueue {
       public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadResponse.Init prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -20762,6 +22402,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Init_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Init_fieldAccessorTable
@@ -20784,6 +22425,7 @@ public final class Persqueue {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           sessionId_ = "";
@@ -20791,15 +22433,18 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Init_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.Init getDefaultInstanceForType() {
           return tech.ydb.persqueue.Persqueue.ReadResponse.Init.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.Init build() {
           tech.ydb.persqueue.Persqueue.ReadResponse.Init result = buildPartial();
           if (!result.isInitialized()) {
@@ -20808,6 +22453,7 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.Init buildPartial() {
           tech.ydb.persqueue.Persqueue.ReadResponse.Init result = new tech.ydb.persqueue.Persqueue.ReadResponse.Init(this);
           result.sessionId_ = sessionId_;
@@ -20815,32 +22461,39 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.persqueue.Persqueue.ReadResponse.Init) {
             return mergeFrom((tech.ydb.persqueue.Persqueue.ReadResponse.Init)other);
@@ -20861,10 +22514,12 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -20890,6 +22545,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>string session_id = 2;</code>
+         * @return The sessionId.
          */
         public java.lang.String getSessionId() {
           java.lang.Object ref = sessionId_;
@@ -20909,6 +22565,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>string session_id = 2;</code>
+         * @return The bytes for sessionId.
          */
         public com.google.protobuf.ByteString
             getSessionIdBytes() {
@@ -20929,6 +22586,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>string session_id = 2;</code>
+         * @param value The sessionId to set.
+         * @return This builder for chaining.
          */
         public Builder setSessionId(
             java.lang.String value) {
@@ -20946,6 +22605,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>string session_id = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearSessionId() {
           
@@ -20959,6 +22619,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>string session_id = 2;</code>
+         * @param value The bytes for sessionId to set.
+         * @return This builder for chaining.
          */
         public Builder setSessionIdBytes(
             com.google.protobuf.ByteString value) {
@@ -20971,11 +22633,13 @@ public final class Persqueue {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -20997,11 +22661,12 @@ public final class Persqueue {
 
       private static final com.google.protobuf.Parser<Init>
           PARSER = new com.google.protobuf.AbstractParser<Init>() {
+        @java.lang.Override
         public Init parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Init(input, extensionRegistry);
+          return new Init(input, extensionRegistry);
         }
       };
 
@@ -21014,6 +22679,7 @@ public final class Persqueue {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.Init getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -21054,13 +22720,14 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 cookie = 2;</code>
+       * @return The cookie.
        */
       long getCookie();
     }
     /**
      * Protobuf type {@code NPersQueue.ReadResponse.Data}
      */
-    public  static final class Data extends
+    public static final class Data extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NPersQueue.ReadResponse.Data)
         DataOrBuilder {
@@ -21071,7 +22738,13 @@ public final class Persqueue {
       }
       private Data() {
         messageBatch_ = java.util.Collections.emptyList();
-        cookie_ = 0L;
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Data();
       }
 
       @java.lang.Override
@@ -21084,6 +22757,9 @@ public final class Persqueue {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         int mutable_bitField0_ = 0;
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -21095,15 +22771,8 @@ public final class Persqueue {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 10: {
-                if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                   messageBatch_ = new java.util.ArrayList<tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch>();
                   mutable_bitField0_ |= 0x00000001;
                 }
@@ -21116,6 +22785,13 @@ public final class Persqueue {
                 cookie_ = input.readUInt64();
                 break;
               }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -21124,7 +22800,7 @@ public final class Persqueue {
           throw new com.google.protobuf.InvalidProtocolBufferException(
               e).setUnfinishedMessage(this);
         } finally {
-          if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((mutable_bitField0_ & 0x00000001) != 0)) {
             messageBatch_ = java.util.Collections.unmodifiableList(messageBatch_);
           }
           this.unknownFields = unknownFields.build();
@@ -21136,6 +22812,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Data_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Data_fieldAccessorTable
@@ -21153,6 +22830,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>.NPersQueue.MessageMeta meta = 1;</code>
+         * @return Whether the meta field is set.
          */
         boolean hasMeta();
         /**
@@ -21161,6 +22839,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>.NPersQueue.MessageMeta meta = 1;</code>
+         * @return The meta.
          */
         tech.ydb.persqueue.Persqueue.MessageMeta getMeta();
         /**
@@ -21174,6 +22853,7 @@ public final class Persqueue {
 
         /**
          * <code>bytes data = 2;</code>
+         * @return The data.
          */
         com.google.protobuf.ByteString getData();
 
@@ -21183,6 +22863,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 offset = 3;</code>
+         * @return The offset.
          */
         long getOffset();
 
@@ -21192,13 +22873,14 @@ public final class Persqueue {
          * </pre>
          *
          * <code>bytes broken_packed_data = 4;</code>
+         * @return The brokenPackedData.
          */
         com.google.protobuf.ByteString getBrokenPackedData();
       }
       /**
        * Protobuf type {@code NPersQueue.ReadResponse.Data.Message}
        */
-      public  static final class Message extends
+      public static final class Message extends
           com.google.protobuf.GeneratedMessageV3 implements
           // @@protoc_insertion_point(message_implements:NPersQueue.ReadResponse.Data.Message)
           MessageOrBuilder {
@@ -21209,8 +22891,14 @@ public final class Persqueue {
         }
         private Message() {
           data_ = com.google.protobuf.ByteString.EMPTY;
-          offset_ = 0L;
           brokenPackedData_ = com.google.protobuf.ByteString.EMPTY;
+        }
+
+        @java.lang.Override
+        @SuppressWarnings({"unused"})
+        protected java.lang.Object newInstance(
+            UnusedPrivateParameter unused) {
+          return new Message();
         }
 
         @java.lang.Override
@@ -21223,7 +22911,9 @@ public final class Persqueue {
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
           this();
-          int mutable_bitField0_ = 0;
+          if (extensionRegistry == null) {
+            throw new java.lang.NullPointerException();
+          }
           com.google.protobuf.UnknownFieldSet.Builder unknownFields =
               com.google.protobuf.UnknownFieldSet.newBuilder();
           try {
@@ -21234,13 +22924,6 @@ public final class Persqueue {
                 case 0:
                   done = true;
                   break;
-                default: {
-                  if (!parseUnknownFieldProto3(
-                      input, unknownFields, extensionRegistry, tag)) {
-                    done = true;
-                  }
-                  break;
-                }
                 case 10: {
                   tech.ydb.persqueue.Persqueue.MessageMeta.Builder subBuilder = null;
                   if (meta_ != null) {
@@ -21269,6 +22952,13 @@ public final class Persqueue {
                   brokenPackedData_ = input.readBytes();
                   break;
                 }
+                default: {
+                  if (!parseUnknownField(
+                      input, unknownFields, extensionRegistry, tag)) {
+                    done = true;
+                  }
+                  break;
+                }
               }
             }
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -21286,6 +22976,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Data_Message_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Data_Message_fieldAccessorTable
@@ -21301,7 +22992,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>.NPersQueue.MessageMeta meta = 1;</code>
+         * @return Whether the meta field is set.
          */
+        @java.lang.Override
         public boolean hasMeta() {
           return meta_ != null;
         }
@@ -21311,7 +23004,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>.NPersQueue.MessageMeta meta = 1;</code>
+         * @return The meta.
          */
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.MessageMeta getMeta() {
           return meta_ == null ? tech.ydb.persqueue.Persqueue.MessageMeta.getDefaultInstance() : meta_;
         }
@@ -21322,6 +23017,7 @@ public final class Persqueue {
          *
          * <code>.NPersQueue.MessageMeta meta = 1;</code>
          */
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.MessageMetaOrBuilder getMetaOrBuilder() {
           return getMeta();
         }
@@ -21330,7 +23026,9 @@ public final class Persqueue {
         private com.google.protobuf.ByteString data_;
         /**
          * <code>bytes data = 2;</code>
+         * @return The data.
          */
+        @java.lang.Override
         public com.google.protobuf.ByteString getData() {
           return data_;
         }
@@ -21343,7 +23041,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 offset = 3;</code>
+         * @return The offset.
          */
+        @java.lang.Override
         public long getOffset() {
           return offset_;
         }
@@ -21356,12 +23056,15 @@ public final class Persqueue {
          * </pre>
          *
          * <code>bytes broken_packed_data = 4;</code>
+         * @return The brokenPackedData.
          */
+        @java.lang.Override
         public com.google.protobuf.ByteString getBrokenPackedData() {
           return brokenPackedData_;
         }
 
         private byte memoizedIsInitialized = -1;
+        @java.lang.Override
         public final boolean isInitialized() {
           byte isInitialized = memoizedIsInitialized;
           if (isInitialized == 1) return true;
@@ -21371,6 +23074,7 @@ public final class Persqueue {
           return true;
         }
 
+        @java.lang.Override
         public void writeTo(com.google.protobuf.CodedOutputStream output)
                             throws java.io.IOException {
           if (meta_ != null) {
@@ -21388,6 +23092,7 @@ public final class Persqueue {
           unknownFields.writeTo(output);
         }
 
+        @java.lang.Override
         public int getSerializedSize() {
           int size = memoizedSize;
           if (size != -1) return size;
@@ -21424,20 +23129,19 @@ public final class Persqueue {
           }
           tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message other = (tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message) obj;
 
-          boolean result = true;
-          result = result && (hasMeta() == other.hasMeta());
+          if (hasMeta() != other.hasMeta()) return false;
           if (hasMeta()) {
-            result = result && getMeta()
-                .equals(other.getMeta());
+            if (!getMeta()
+                .equals(other.getMeta())) return false;
           }
-          result = result && getData()
-              .equals(other.getData());
-          result = result && (getOffset()
-              == other.getOffset());
-          result = result && getBrokenPackedData()
-              .equals(other.getBrokenPackedData());
-          result = result && unknownFields.equals(other.unknownFields);
-          return result;
+          if (!getData()
+              .equals(other.getData())) return false;
+          if (getOffset()
+              != other.getOffset()) return false;
+          if (!getBrokenPackedData()
+              .equals(other.getBrokenPackedData())) return false;
+          if (!unknownFields.equals(other.unknownFields)) return false;
+          return true;
         }
 
         @java.lang.Override
@@ -21533,6 +23237,7 @@ public final class Persqueue {
               .parseWithIOException(PARSER, input, extensionRegistry);
         }
 
+        @java.lang.Override
         public Builder newBuilderForType() { return newBuilder(); }
         public static Builder newBuilder() {
           return DEFAULT_INSTANCE.toBuilder();
@@ -21540,6 +23245,7 @@ public final class Persqueue {
         public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message prototype) {
           return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
         }
+        @java.lang.Override
         public Builder toBuilder() {
           return this == DEFAULT_INSTANCE
               ? new Builder() : new Builder().mergeFrom(this);
@@ -21563,6 +23269,7 @@ public final class Persqueue {
             return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Data_Message_descriptor;
           }
 
+          @java.lang.Override
           protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
               internalGetFieldAccessorTable() {
             return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Data_Message_fieldAccessorTable
@@ -21585,6 +23292,7 @@ public final class Persqueue {
                     .alwaysUseFieldBuilders) {
             }
           }
+          @java.lang.Override
           public Builder clear() {
             super.clear();
             if (metaBuilder_ == null) {
@@ -21602,15 +23310,18 @@ public final class Persqueue {
             return this;
           }
 
+          @java.lang.Override
           public com.google.protobuf.Descriptors.Descriptor
               getDescriptorForType() {
             return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Data_Message_descriptor;
           }
 
+          @java.lang.Override
           public tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message getDefaultInstanceForType() {
             return tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message.getDefaultInstance();
           }
 
+          @java.lang.Override
           public tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message build() {
             tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message result = buildPartial();
             if (!result.isInitialized()) {
@@ -21619,6 +23330,7 @@ public final class Persqueue {
             return result;
           }
 
+          @java.lang.Override
           public tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message buildPartial() {
             tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message result = new tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message(this);
             if (metaBuilder_ == null) {
@@ -21633,32 +23345,39 @@ public final class Persqueue {
             return result;
           }
 
+          @java.lang.Override
           public Builder clone() {
-            return (Builder) super.clone();
+            return super.clone();
           }
+          @java.lang.Override
           public Builder setField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
-            return (Builder) super.setField(field, value);
+            return super.setField(field, value);
           }
+          @java.lang.Override
           public Builder clearField(
               com.google.protobuf.Descriptors.FieldDescriptor field) {
-            return (Builder) super.clearField(field);
+            return super.clearField(field);
           }
+          @java.lang.Override
           public Builder clearOneof(
               com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-            return (Builder) super.clearOneof(oneof);
+            return super.clearOneof(oneof);
           }
+          @java.lang.Override
           public Builder setRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               int index, java.lang.Object value) {
-            return (Builder) super.setRepeatedField(field, index, value);
+            return super.setRepeatedField(field, index, value);
           }
+          @java.lang.Override
           public Builder addRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
-            return (Builder) super.addRepeatedField(field, value);
+            return super.addRepeatedField(field, value);
           }
+          @java.lang.Override
           public Builder mergeFrom(com.google.protobuf.Message other) {
             if (other instanceof tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message) {
               return mergeFrom((tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message)other);
@@ -21687,10 +23406,12 @@ public final class Persqueue {
             return this;
           }
 
+          @java.lang.Override
           public final boolean isInitialized() {
             return true;
           }
 
+          @java.lang.Override
           public Builder mergeFrom(
               com.google.protobuf.CodedInputStream input,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -21709,7 +23430,7 @@ public final class Persqueue {
             return this;
           }
 
-          private tech.ydb.persqueue.Persqueue.MessageMeta meta_ = null;
+          private tech.ydb.persqueue.Persqueue.MessageMeta meta_;
           private com.google.protobuf.SingleFieldBuilderV3<
               tech.ydb.persqueue.Persqueue.MessageMeta, tech.ydb.persqueue.Persqueue.MessageMeta.Builder, tech.ydb.persqueue.Persqueue.MessageMetaOrBuilder> metaBuilder_;
           /**
@@ -21718,6 +23439,7 @@ public final class Persqueue {
            * </pre>
            *
            * <code>.NPersQueue.MessageMeta meta = 1;</code>
+           * @return Whether the meta field is set.
            */
           public boolean hasMeta() {
             return metaBuilder_ != null || meta_ != null;
@@ -21728,6 +23450,7 @@ public final class Persqueue {
            * </pre>
            *
            * <code>.NPersQueue.MessageMeta meta = 1;</code>
+           * @return The meta.
            */
           public tech.ydb.persqueue.Persqueue.MessageMeta getMeta() {
             if (metaBuilder_ == null) {
@@ -21865,12 +23588,16 @@ public final class Persqueue {
           private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
           /**
            * <code>bytes data = 2;</code>
+           * @return The data.
            */
+          @java.lang.Override
           public com.google.protobuf.ByteString getData() {
             return data_;
           }
           /**
            * <code>bytes data = 2;</code>
+           * @param value The data to set.
+           * @return This builder for chaining.
            */
           public Builder setData(com.google.protobuf.ByteString value) {
             if (value == null) {
@@ -21883,6 +23610,7 @@ public final class Persqueue {
           }
           /**
            * <code>bytes data = 2;</code>
+           * @return This builder for chaining.
            */
           public Builder clearData() {
             
@@ -21898,7 +23626,9 @@ public final class Persqueue {
            * </pre>
            *
            * <code>uint64 offset = 3;</code>
+           * @return The offset.
            */
+          @java.lang.Override
           public long getOffset() {
             return offset_;
           }
@@ -21908,6 +23638,8 @@ public final class Persqueue {
            * </pre>
            *
            * <code>uint64 offset = 3;</code>
+           * @param value The offset to set.
+           * @return This builder for chaining.
            */
           public Builder setOffset(long value) {
             
@@ -21921,6 +23653,7 @@ public final class Persqueue {
            * </pre>
            *
            * <code>uint64 offset = 3;</code>
+           * @return This builder for chaining.
            */
           public Builder clearOffset() {
             
@@ -21936,7 +23669,9 @@ public final class Persqueue {
            * </pre>
            *
            * <code>bytes broken_packed_data = 4;</code>
+           * @return The brokenPackedData.
            */
+          @java.lang.Override
           public com.google.protobuf.ByteString getBrokenPackedData() {
             return brokenPackedData_;
           }
@@ -21946,6 +23681,8 @@ public final class Persqueue {
            * </pre>
            *
            * <code>bytes broken_packed_data = 4;</code>
+           * @param value The brokenPackedData to set.
+           * @return This builder for chaining.
            */
           public Builder setBrokenPackedData(com.google.protobuf.ByteString value) {
             if (value == null) {
@@ -21962,6 +23699,7 @@ public final class Persqueue {
            * </pre>
            *
            * <code>bytes broken_packed_data = 4;</code>
+           * @return This builder for chaining.
            */
           public Builder clearBrokenPackedData() {
             
@@ -21969,11 +23707,13 @@ public final class Persqueue {
             onChanged();
             return this;
           }
+          @java.lang.Override
           public final Builder setUnknownFields(
               final com.google.protobuf.UnknownFieldSet unknownFields) {
-            return super.setUnknownFieldsProto3(unknownFields);
+            return super.setUnknownFields(unknownFields);
           }
 
+          @java.lang.Override
           public final Builder mergeUnknownFields(
               final com.google.protobuf.UnknownFieldSet unknownFields) {
             return super.mergeUnknownFields(unknownFields);
@@ -21995,11 +23735,12 @@ public final class Persqueue {
 
         private static final com.google.protobuf.Parser<Message>
             PARSER = new com.google.protobuf.AbstractParser<Message>() {
+          @java.lang.Override
           public Message parsePartialFrom(
               com.google.protobuf.CodedInputStream input,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws com.google.protobuf.InvalidProtocolBufferException {
-              return new Message(input, extensionRegistry);
+            return new Message(input, extensionRegistry);
           }
         };
 
@@ -22012,6 +23753,7 @@ public final class Persqueue {
           return PARSER;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message getDefaultInstanceForType() {
           return DEFAULT_INSTANCE;
         }
@@ -22024,16 +23766,19 @@ public final class Persqueue {
 
         /**
          * <code>string topic = 1;</code>
+         * @return The topic.
          */
         java.lang.String getTopic();
         /**
          * <code>string topic = 1;</code>
+         * @return The bytes for topic.
          */
         com.google.protobuf.ByteString
             getTopicBytes();
 
         /**
          * <code>uint32 partition = 2;</code>
+         * @return The partition.
          */
         int getPartition();
 
@@ -22064,7 +23809,7 @@ public final class Persqueue {
       /**
        * Protobuf type {@code NPersQueue.ReadResponse.Data.MessageBatch}
        */
-      public  static final class MessageBatch extends
+      public static final class MessageBatch extends
           com.google.protobuf.GeneratedMessageV3 implements
           // @@protoc_insertion_point(message_implements:NPersQueue.ReadResponse.Data.MessageBatch)
           MessageBatchOrBuilder {
@@ -22075,8 +23820,14 @@ public final class Persqueue {
         }
         private MessageBatch() {
           topic_ = "";
-          partition_ = 0;
           message_ = java.util.Collections.emptyList();
+        }
+
+        @java.lang.Override
+        @SuppressWarnings({"unused"})
+        protected java.lang.Object newInstance(
+            UnusedPrivateParameter unused) {
+          return new MessageBatch();
         }
 
         @java.lang.Override
@@ -22089,6 +23840,9 @@ public final class Persqueue {
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
           this();
+          if (extensionRegistry == null) {
+            throw new java.lang.NullPointerException();
+          }
           int mutable_bitField0_ = 0;
           com.google.protobuf.UnknownFieldSet.Builder unknownFields =
               com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -22100,13 +23854,6 @@ public final class Persqueue {
                 case 0:
                   done = true;
                   break;
-                default: {
-                  if (!parseUnknownFieldProto3(
-                      input, unknownFields, extensionRegistry, tag)) {
-                    done = true;
-                  }
-                  break;
-                }
                 case 10: {
                   java.lang.String s = input.readStringRequireUtf8();
 
@@ -22119,12 +23866,19 @@ public final class Persqueue {
                   break;
                 }
                 case 26: {
-                  if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                  if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                     message_ = new java.util.ArrayList<tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message>();
-                    mutable_bitField0_ |= 0x00000004;
+                    mutable_bitField0_ |= 0x00000001;
                   }
                   message_.add(
                       input.readMessage(tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message.parser(), extensionRegistry));
+                  break;
+                }
+                default: {
+                  if (!parseUnknownField(
+                      input, unknownFields, extensionRegistry, tag)) {
+                    done = true;
+                  }
                   break;
                 }
               }
@@ -22135,7 +23889,7 @@ public final class Persqueue {
             throw new com.google.protobuf.InvalidProtocolBufferException(
                 e).setUnfinishedMessage(this);
           } finally {
-            if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+            if (((mutable_bitField0_ & 0x00000001) != 0)) {
               message_ = java.util.Collections.unmodifiableList(message_);
             }
             this.unknownFields = unknownFields.build();
@@ -22147,6 +23901,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Data_MessageBatch_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Data_MessageBatch_fieldAccessorTable
@@ -22154,12 +23909,13 @@ public final class Persqueue {
                   tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch.class, tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch.Builder.class);
         }
 
-        private int bitField0_;
         public static final int TOPIC_FIELD_NUMBER = 1;
         private volatile java.lang.Object topic_;
         /**
          * <code>string topic = 1;</code>
+         * @return The topic.
          */
+        @java.lang.Override
         public java.lang.String getTopic() {
           java.lang.Object ref = topic_;
           if (ref instanceof java.lang.String) {
@@ -22174,7 +23930,9 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 1;</code>
+         * @return The bytes for topic.
          */
+        @java.lang.Override
         public com.google.protobuf.ByteString
             getTopicBytes() {
           java.lang.Object ref = topic_;
@@ -22193,7 +23951,9 @@ public final class Persqueue {
         private int partition_;
         /**
          * <code>uint32 partition = 2;</code>
+         * @return The partition.
          */
+        @java.lang.Override
         public int getPartition() {
           return partition_;
         }
@@ -22203,12 +23963,14 @@ public final class Persqueue {
         /**
          * <code>repeated .NPersQueue.ReadResponse.Data.Message message = 3;</code>
          */
+        @java.lang.Override
         public java.util.List<tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message> getMessageList() {
           return message_;
         }
         /**
          * <code>repeated .NPersQueue.ReadResponse.Data.Message message = 3;</code>
          */
+        @java.lang.Override
         public java.util.List<? extends tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageOrBuilder> 
             getMessageOrBuilderList() {
           return message_;
@@ -22216,24 +23978,28 @@ public final class Persqueue {
         /**
          * <code>repeated .NPersQueue.ReadResponse.Data.Message message = 3;</code>
          */
+        @java.lang.Override
         public int getMessageCount() {
           return message_.size();
         }
         /**
          * <code>repeated .NPersQueue.ReadResponse.Data.Message message = 3;</code>
          */
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message getMessage(int index) {
           return message_.get(index);
         }
         /**
          * <code>repeated .NPersQueue.ReadResponse.Data.Message message = 3;</code>
          */
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageOrBuilder getMessageOrBuilder(
             int index) {
           return message_.get(index);
         }
 
         private byte memoizedIsInitialized = -1;
+        @java.lang.Override
         public final boolean isInitialized() {
           byte isInitialized = memoizedIsInitialized;
           if (isInitialized == 1) return true;
@@ -22243,6 +24009,7 @@ public final class Persqueue {
           return true;
         }
 
+        @java.lang.Override
         public void writeTo(com.google.protobuf.CodedOutputStream output)
                             throws java.io.IOException {
           if (!getTopicBytes().isEmpty()) {
@@ -22257,6 +24024,7 @@ public final class Persqueue {
           unknownFields.writeTo(output);
         }
 
+        @java.lang.Override
         public int getSerializedSize() {
           int size = memoizedSize;
           if (size != -1) return size;
@@ -22288,15 +24056,14 @@ public final class Persqueue {
           }
           tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch other = (tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch) obj;
 
-          boolean result = true;
-          result = result && getTopic()
-              .equals(other.getTopic());
-          result = result && (getPartition()
-              == other.getPartition());
-          result = result && getMessageList()
-              .equals(other.getMessageList());
-          result = result && unknownFields.equals(other.unknownFields);
-          return result;
+          if (!getTopic()
+              .equals(other.getTopic())) return false;
+          if (getPartition()
+              != other.getPartition()) return false;
+          if (!getMessageList()
+              .equals(other.getMessageList())) return false;
+          if (!unknownFields.equals(other.unknownFields)) return false;
+          return true;
         }
 
         @java.lang.Override
@@ -22389,6 +24156,7 @@ public final class Persqueue {
               .parseWithIOException(PARSER, input, extensionRegistry);
         }
 
+        @java.lang.Override
         public Builder newBuilderForType() { return newBuilder(); }
         public static Builder newBuilder() {
           return DEFAULT_INSTANCE.toBuilder();
@@ -22396,6 +24164,7 @@ public final class Persqueue {
         public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch prototype) {
           return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
         }
+        @java.lang.Override
         public Builder toBuilder() {
           return this == DEFAULT_INSTANCE
               ? new Builder() : new Builder().mergeFrom(this);
@@ -22419,6 +24188,7 @@ public final class Persqueue {
             return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Data_MessageBatch_descriptor;
           }
 
+          @java.lang.Override
           protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
               internalGetFieldAccessorTable() {
             return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Data_MessageBatch_fieldAccessorTable
@@ -22442,6 +24212,7 @@ public final class Persqueue {
               getMessageFieldBuilder();
             }
           }
+          @java.lang.Override
           public Builder clear() {
             super.clear();
             topic_ = "";
@@ -22450,22 +24221,25 @@ public final class Persqueue {
 
             if (messageBuilder_ == null) {
               message_ = java.util.Collections.emptyList();
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               messageBuilder_.clear();
             }
             return this;
           }
 
+          @java.lang.Override
           public com.google.protobuf.Descriptors.Descriptor
               getDescriptorForType() {
             return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Data_MessageBatch_descriptor;
           }
 
+          @java.lang.Override
           public tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch getDefaultInstanceForType() {
             return tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch.getDefaultInstance();
           }
 
+          @java.lang.Override
           public tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch build() {
             tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch result = buildPartial();
             if (!result.isInitialized()) {
@@ -22474,52 +24248,58 @@ public final class Persqueue {
             return result;
           }
 
+          @java.lang.Override
           public tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch buildPartial() {
             tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch result = new tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch(this);
             int from_bitField0_ = bitField0_;
-            int to_bitField0_ = 0;
             result.topic_ = topic_;
             result.partition_ = partition_;
             if (messageBuilder_ == null) {
-              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+              if (((bitField0_ & 0x00000001) != 0)) {
                 message_ = java.util.Collections.unmodifiableList(message_);
-                bitField0_ = (bitField0_ & ~0x00000004);
+                bitField0_ = (bitField0_ & ~0x00000001);
               }
               result.message_ = message_;
             } else {
               result.message_ = messageBuilder_.build();
             }
-            result.bitField0_ = to_bitField0_;
             onBuilt();
             return result;
           }
 
+          @java.lang.Override
           public Builder clone() {
-            return (Builder) super.clone();
+            return super.clone();
           }
+          @java.lang.Override
           public Builder setField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
-            return (Builder) super.setField(field, value);
+            return super.setField(field, value);
           }
+          @java.lang.Override
           public Builder clearField(
               com.google.protobuf.Descriptors.FieldDescriptor field) {
-            return (Builder) super.clearField(field);
+            return super.clearField(field);
           }
+          @java.lang.Override
           public Builder clearOneof(
               com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-            return (Builder) super.clearOneof(oneof);
+            return super.clearOneof(oneof);
           }
+          @java.lang.Override
           public Builder setRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               int index, java.lang.Object value) {
-            return (Builder) super.setRepeatedField(field, index, value);
+            return super.setRepeatedField(field, index, value);
           }
+          @java.lang.Override
           public Builder addRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
-            return (Builder) super.addRepeatedField(field, value);
+            return super.addRepeatedField(field, value);
           }
+          @java.lang.Override
           public Builder mergeFrom(com.google.protobuf.Message other) {
             if (other instanceof tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch) {
               return mergeFrom((tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch)other);
@@ -22542,7 +24322,7 @@ public final class Persqueue {
               if (!other.message_.isEmpty()) {
                 if (message_.isEmpty()) {
                   message_ = other.message_;
-                  bitField0_ = (bitField0_ & ~0x00000004);
+                  bitField0_ = (bitField0_ & ~0x00000001);
                 } else {
                   ensureMessageIsMutable();
                   message_.addAll(other.message_);
@@ -22555,7 +24335,7 @@ public final class Persqueue {
                   messageBuilder_.dispose();
                   messageBuilder_ = null;
                   message_ = other.message_;
-                  bitField0_ = (bitField0_ & ~0x00000004);
+                  bitField0_ = (bitField0_ & ~0x00000001);
                   messageBuilder_ = 
                     com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                        getMessageFieldBuilder() : null;
@@ -22569,10 +24349,12 @@ public final class Persqueue {
             return this;
           }
 
+          @java.lang.Override
           public final boolean isInitialized() {
             return true;
           }
 
+          @java.lang.Override
           public Builder mergeFrom(
               com.google.protobuf.CodedInputStream input,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -22595,6 +24377,7 @@ public final class Persqueue {
           private java.lang.Object topic_ = "";
           /**
            * <code>string topic = 1;</code>
+           * @return The topic.
            */
           public java.lang.String getTopic() {
             java.lang.Object ref = topic_;
@@ -22610,6 +24393,7 @@ public final class Persqueue {
           }
           /**
            * <code>string topic = 1;</code>
+           * @return The bytes for topic.
            */
           public com.google.protobuf.ByteString
               getTopicBytes() {
@@ -22626,6 +24410,8 @@ public final class Persqueue {
           }
           /**
            * <code>string topic = 1;</code>
+           * @param value The topic to set.
+           * @return This builder for chaining.
            */
           public Builder setTopic(
               java.lang.String value) {
@@ -22639,6 +24425,7 @@ public final class Persqueue {
           }
           /**
            * <code>string topic = 1;</code>
+           * @return This builder for chaining.
            */
           public Builder clearTopic() {
             
@@ -22648,6 +24435,8 @@ public final class Persqueue {
           }
           /**
            * <code>string topic = 1;</code>
+           * @param value The bytes for topic to set.
+           * @return This builder for chaining.
            */
           public Builder setTopicBytes(
               com.google.protobuf.ByteString value) {
@@ -22664,12 +24453,16 @@ public final class Persqueue {
           private int partition_ ;
           /**
            * <code>uint32 partition = 2;</code>
+           * @return The partition.
            */
+          @java.lang.Override
           public int getPartition() {
             return partition_;
           }
           /**
            * <code>uint32 partition = 2;</code>
+           * @param value The partition to set.
+           * @return This builder for chaining.
            */
           public Builder setPartition(int value) {
             
@@ -22679,6 +24472,7 @@ public final class Persqueue {
           }
           /**
            * <code>uint32 partition = 2;</code>
+           * @return This builder for chaining.
            */
           public Builder clearPartition() {
             
@@ -22690,9 +24484,9 @@ public final class Persqueue {
           private java.util.List<tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message> message_ =
             java.util.Collections.emptyList();
           private void ensureMessageIsMutable() {
-            if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+            if (!((bitField0_ & 0x00000001) != 0)) {
               message_ = new java.util.ArrayList<tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message>(message_);
-              bitField0_ |= 0x00000004;
+              bitField0_ |= 0x00000001;
              }
           }
 
@@ -22842,7 +24636,7 @@ public final class Persqueue {
           public Builder clearMessage() {
             if (messageBuilder_ == null) {
               message_ = java.util.Collections.emptyList();
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000001);
               onChanged();
             } else {
               messageBuilder_.clear();
@@ -22919,18 +24713,20 @@ public final class Persqueue {
               messageBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
                   tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message, tech.ydb.persqueue.Persqueue.ReadResponse.Data.Message.Builder, tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageOrBuilder>(
                       message_,
-                      ((bitField0_ & 0x00000004) == 0x00000004),
+                      ((bitField0_ & 0x00000001) != 0),
                       getParentForChildren(),
                       isClean());
               message_ = null;
             }
             return messageBuilder_;
           }
+          @java.lang.Override
           public final Builder setUnknownFields(
               final com.google.protobuf.UnknownFieldSet unknownFields) {
-            return super.setUnknownFieldsProto3(unknownFields);
+            return super.setUnknownFields(unknownFields);
           }
 
+          @java.lang.Override
           public final Builder mergeUnknownFields(
               final com.google.protobuf.UnknownFieldSet unknownFields) {
             return super.mergeUnknownFields(unknownFields);
@@ -22952,11 +24748,12 @@ public final class Persqueue {
 
         private static final com.google.protobuf.Parser<MessageBatch>
             PARSER = new com.google.protobuf.AbstractParser<MessageBatch>() {
+          @java.lang.Override
           public MessageBatch parsePartialFrom(
               com.google.protobuf.CodedInputStream input,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws com.google.protobuf.InvalidProtocolBufferException {
-              return new MessageBatch(input, extensionRegistry);
+            return new MessageBatch(input, extensionRegistry);
           }
         };
 
@@ -22969,24 +24766,26 @@ public final class Persqueue {
           return PARSER;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch getDefaultInstanceForType() {
           return DEFAULT_INSTANCE;
         }
 
       }
 
-      private int bitField0_;
       public static final int MESSAGE_BATCH_FIELD_NUMBER = 1;
       private java.util.List<tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch> messageBatch_;
       /**
        * <code>repeated .NPersQueue.ReadResponse.Data.MessageBatch message_batch = 1;</code>
        */
+      @java.lang.Override
       public java.util.List<tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch> getMessageBatchList() {
         return messageBatch_;
       }
       /**
        * <code>repeated .NPersQueue.ReadResponse.Data.MessageBatch message_batch = 1;</code>
        */
+      @java.lang.Override
       public java.util.List<? extends tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatchOrBuilder> 
           getMessageBatchOrBuilderList() {
         return messageBatch_;
@@ -22994,18 +24793,21 @@ public final class Persqueue {
       /**
        * <code>repeated .NPersQueue.ReadResponse.Data.MessageBatch message_batch = 1;</code>
        */
+      @java.lang.Override
       public int getMessageBatchCount() {
         return messageBatch_.size();
       }
       /**
        * <code>repeated .NPersQueue.ReadResponse.Data.MessageBatch message_batch = 1;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch getMessageBatch(int index) {
         return messageBatch_.get(index);
       }
       /**
        * <code>repeated .NPersQueue.ReadResponse.Data.MessageBatch message_batch = 1;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatchOrBuilder getMessageBatchOrBuilder(
           int index) {
         return messageBatch_.get(index);
@@ -23019,12 +24821,15 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 cookie = 2;</code>
+       * @return The cookie.
        */
+      @java.lang.Override
       public long getCookie() {
         return cookie_;
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -23034,6 +24839,7 @@ public final class Persqueue {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         for (int i = 0; i < messageBatch_.size(); i++) {
@@ -23045,6 +24851,7 @@ public final class Persqueue {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -23073,13 +24880,12 @@ public final class Persqueue {
         }
         tech.ydb.persqueue.Persqueue.ReadResponse.Data other = (tech.ydb.persqueue.Persqueue.ReadResponse.Data) obj;
 
-        boolean result = true;
-        result = result && getMessageBatchList()
-            .equals(other.getMessageBatchList());
-        result = result && (getCookie()
-            == other.getCookie());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!getMessageBatchList()
+            .equals(other.getMessageBatchList())) return false;
+        if (getCookie()
+            != other.getCookie()) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -23171,6 +24977,7 @@ public final class Persqueue {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -23178,6 +24985,7 @@ public final class Persqueue {
       public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadResponse.Data prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -23201,6 +25009,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Data_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Data_fieldAccessorTable
@@ -23224,6 +25033,7 @@ public final class Persqueue {
             getMessageBatchFieldBuilder();
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           if (messageBatchBuilder_ == null) {
@@ -23237,15 +25047,18 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Data_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.Data getDefaultInstanceForType() {
           return tech.ydb.persqueue.Persqueue.ReadResponse.Data.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.Data build() {
           tech.ydb.persqueue.Persqueue.ReadResponse.Data result = buildPartial();
           if (!result.isInitialized()) {
@@ -23254,12 +25067,12 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.Data buildPartial() {
           tech.ydb.persqueue.Persqueue.ReadResponse.Data result = new tech.ydb.persqueue.Persqueue.ReadResponse.Data(this);
           int from_bitField0_ = bitField0_;
-          int to_bitField0_ = 0;
           if (messageBatchBuilder_ == null) {
-            if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            if (((bitField0_ & 0x00000001) != 0)) {
               messageBatch_ = java.util.Collections.unmodifiableList(messageBatch_);
               bitField0_ = (bitField0_ & ~0x00000001);
             }
@@ -23268,37 +25081,43 @@ public final class Persqueue {
             result.messageBatch_ = messageBatchBuilder_.build();
           }
           result.cookie_ = cookie_;
-          result.bitField0_ = to_bitField0_;
           onBuilt();
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.persqueue.Persqueue.ReadResponse.Data) {
             return mergeFrom((tech.ydb.persqueue.Persqueue.ReadResponse.Data)other);
@@ -23344,10 +25163,12 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -23370,7 +25191,7 @@ public final class Persqueue {
         private java.util.List<tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch> messageBatch_ =
           java.util.Collections.emptyList();
         private void ensureMessageBatchIsMutable() {
-          if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (!((bitField0_ & 0x00000001) != 0)) {
             messageBatch_ = new java.util.ArrayList<tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch>(messageBatch_);
             bitField0_ |= 0x00000001;
            }
@@ -23599,7 +25420,7 @@ public final class Persqueue {
             messageBatchBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
                 tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch, tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatch.Builder, tech.ydb.persqueue.Persqueue.ReadResponse.Data.MessageBatchOrBuilder>(
                     messageBatch_,
-                    ((bitField0_ & 0x00000001) == 0x00000001),
+                    ((bitField0_ & 0x00000001) != 0),
                     getParentForChildren(),
                     isClean());
             messageBatch_ = null;
@@ -23614,7 +25435,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 cookie = 2;</code>
+         * @return The cookie.
          */
+        @java.lang.Override
         public long getCookie() {
           return cookie_;
         }
@@ -23624,6 +25447,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 cookie = 2;</code>
+         * @param value The cookie to set.
+         * @return This builder for chaining.
          */
         public Builder setCookie(long value) {
           
@@ -23637,6 +25462,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 cookie = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearCookie() {
           
@@ -23644,11 +25470,13 @@ public final class Persqueue {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -23670,11 +25498,12 @@ public final class Persqueue {
 
       private static final com.google.protobuf.Parser<Data>
           PARSER = new com.google.protobuf.AbstractParser<Data>() {
+        @java.lang.Override
         public Data parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Data(input, extensionRegistry);
+          return new Data(input, extensionRegistry);
         }
       };
 
@@ -23687,6 +25516,7 @@ public final class Persqueue {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.Data getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -23703,6 +25533,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 cookie = 2;</code>
+       * @return The cookie.
        */
       long getCookie();
 
@@ -23753,7 +25584,7 @@ public final class Persqueue {
     /**
      * Protobuf type {@code NPersQueue.ReadResponse.BatchedData}
      */
-    public  static final class BatchedData extends
+    public static final class BatchedData extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NPersQueue.ReadResponse.BatchedData)
         BatchedDataOrBuilder {
@@ -23763,8 +25594,14 @@ public final class Persqueue {
         super(builder);
       }
       private BatchedData() {
-        cookie_ = 0L;
         partitionData_ = java.util.Collections.emptyList();
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new BatchedData();
       }
 
       @java.lang.Override
@@ -23777,6 +25614,9 @@ public final class Persqueue {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         int mutable_bitField0_ = 0;
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -23788,17 +25628,10 @@ public final class Persqueue {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 10: {
-                if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                   partitionData_ = new java.util.ArrayList<tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData>();
-                  mutable_bitField0_ |= 0x00000002;
+                  mutable_bitField0_ |= 0x00000001;
                 }
                 partitionData_.add(
                     input.readMessage(tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData.parser(), extensionRegistry));
@@ -23809,6 +25642,13 @@ public final class Persqueue {
                 cookie_ = input.readUInt64();
                 break;
               }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -23817,7 +25657,7 @@ public final class Persqueue {
           throw new com.google.protobuf.InvalidProtocolBufferException(
               e).setUnfinishedMessage(this);
         } finally {
-          if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((mutable_bitField0_ & 0x00000001) != 0)) {
             partitionData_ = java.util.Collections.unmodifiableList(partitionData_);
           }
           this.unknownFields = unknownFields.build();
@@ -23829,6 +25669,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_BatchedData_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_BatchedData_fieldAccessorTable
@@ -23842,10 +25683,12 @@ public final class Persqueue {
 
         /**
          * <code>.NPersQueue.ECodec codec = 2;</code>
+         * @return The enum numeric value on the wire for codec.
          */
         int getCodecValue();
         /**
          * <code>.NPersQueue.ECodec codec = 2;</code>
+         * @return The codec.
          */
         tech.ydb.persqueue.Persqueue.ECodec getCodec();
 
@@ -23855,33 +25698,38 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 offset = 3;</code>
+         * @return The offset.
          */
         long getOffset();
 
         /**
          * <code>uint64 seq_no = 4;</code>
+         * @return The seqNo.
          */
         long getSeqNo();
 
         /**
          * <code>uint64 create_time_ms = 5;</code>
+         * @return The createTimeMs.
          */
         long getCreateTimeMs();
 
         /**
          * <code>uint64 uncompressed_size = 6;</code>
+         * @return The uncompressedSize.
          */
         long getUncompressedSize();
 
         /**
          * <code>bytes data = 1;</code>
+         * @return The data.
          */
         com.google.protobuf.ByteString getData();
       }
       /**
        * Protobuf type {@code NPersQueue.ReadResponse.BatchedData.MessageData}
        */
-      public  static final class MessageData extends
+      public static final class MessageData extends
           com.google.protobuf.GeneratedMessageV3 implements
           // @@protoc_insertion_point(message_implements:NPersQueue.ReadResponse.BatchedData.MessageData)
           MessageDataOrBuilder {
@@ -23892,11 +25740,14 @@ public final class Persqueue {
         }
         private MessageData() {
           codec_ = 0;
-          offset_ = 0L;
-          seqNo_ = 0L;
-          createTimeMs_ = 0L;
-          uncompressedSize_ = 0L;
           data_ = com.google.protobuf.ByteString.EMPTY;
+        }
+
+        @java.lang.Override
+        @SuppressWarnings({"unused"})
+        protected java.lang.Object newInstance(
+            UnusedPrivateParameter unused) {
+          return new MessageData();
         }
 
         @java.lang.Override
@@ -23909,7 +25760,9 @@ public final class Persqueue {
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
           this();
-          int mutable_bitField0_ = 0;
+          if (extensionRegistry == null) {
+            throw new java.lang.NullPointerException();
+          }
           com.google.protobuf.UnknownFieldSet.Builder unknownFields =
               com.google.protobuf.UnknownFieldSet.newBuilder();
           try {
@@ -23920,13 +25773,6 @@ public final class Persqueue {
                 case 0:
                   done = true;
                   break;
-                default: {
-                  if (!parseUnknownFieldProto3(
-                      input, unknownFields, extensionRegistry, tag)) {
-                    done = true;
-                  }
-                  break;
-                }
                 case 10: {
 
                   data_ = input.readBytes();
@@ -23958,6 +25804,13 @@ public final class Persqueue {
                   uncompressedSize_ = input.readUInt64();
                   break;
                 }
+                default: {
+                  if (!parseUnknownField(
+                      input, unknownFields, extensionRegistry, tag)) {
+                    done = true;
+                  }
+                  break;
+                }
               }
             }
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -23975,6 +25828,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_BatchedData_MessageData_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_BatchedData_MessageData_fieldAccessorTable
@@ -23986,14 +25840,17 @@ public final class Persqueue {
         private int codec_;
         /**
          * <code>.NPersQueue.ECodec codec = 2;</code>
+         * @return The enum numeric value on the wire for codec.
          */
-        public int getCodecValue() {
+        @java.lang.Override public int getCodecValue() {
           return codec_;
         }
         /**
          * <code>.NPersQueue.ECodec codec = 2;</code>
+         * @return The codec.
          */
-        public tech.ydb.persqueue.Persqueue.ECodec getCodec() {
+        @java.lang.Override public tech.ydb.persqueue.Persqueue.ECodec getCodec() {
+          @SuppressWarnings("deprecation")
           tech.ydb.persqueue.Persqueue.ECodec result = tech.ydb.persqueue.Persqueue.ECodec.valueOf(codec_);
           return result == null ? tech.ydb.persqueue.Persqueue.ECodec.UNRECOGNIZED : result;
         }
@@ -24006,7 +25863,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 offset = 3;</code>
+         * @return The offset.
          */
+        @java.lang.Override
         public long getOffset() {
           return offset_;
         }
@@ -24015,7 +25874,9 @@ public final class Persqueue {
         private long seqNo_;
         /**
          * <code>uint64 seq_no = 4;</code>
+         * @return The seqNo.
          */
+        @java.lang.Override
         public long getSeqNo() {
           return seqNo_;
         }
@@ -24024,7 +25885,9 @@ public final class Persqueue {
         private long createTimeMs_;
         /**
          * <code>uint64 create_time_ms = 5;</code>
+         * @return The createTimeMs.
          */
+        @java.lang.Override
         public long getCreateTimeMs() {
           return createTimeMs_;
         }
@@ -24033,7 +25896,9 @@ public final class Persqueue {
         private long uncompressedSize_;
         /**
          * <code>uint64 uncompressed_size = 6;</code>
+         * @return The uncompressedSize.
          */
+        @java.lang.Override
         public long getUncompressedSize() {
           return uncompressedSize_;
         }
@@ -24042,12 +25907,15 @@ public final class Persqueue {
         private com.google.protobuf.ByteString data_;
         /**
          * <code>bytes data = 1;</code>
+         * @return The data.
          */
+        @java.lang.Override
         public com.google.protobuf.ByteString getData() {
           return data_;
         }
 
         private byte memoizedIsInitialized = -1;
+        @java.lang.Override
         public final boolean isInitialized() {
           byte isInitialized = memoizedIsInitialized;
           if (isInitialized == 1) return true;
@@ -24057,6 +25925,7 @@ public final class Persqueue {
           return true;
         }
 
+        @java.lang.Override
         public void writeTo(com.google.protobuf.CodedOutputStream output)
                             throws java.io.IOException {
           if (!data_.isEmpty()) {
@@ -24080,6 +25949,7 @@ public final class Persqueue {
           unknownFields.writeTo(output);
         }
 
+        @java.lang.Override
         public int getSerializedSize() {
           int size = memoizedSize;
           if (size != -1) return size;
@@ -24124,20 +25994,19 @@ public final class Persqueue {
           }
           tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData other = (tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData) obj;
 
-          boolean result = true;
-          result = result && codec_ == other.codec_;
-          result = result && (getOffset()
-              == other.getOffset());
-          result = result && (getSeqNo()
-              == other.getSeqNo());
-          result = result && (getCreateTimeMs()
-              == other.getCreateTimeMs());
-          result = result && (getUncompressedSize()
-              == other.getUncompressedSize());
-          result = result && getData()
-              .equals(other.getData());
-          result = result && unknownFields.equals(other.unknownFields);
-          return result;
+          if (codec_ != other.codec_) return false;
+          if (getOffset()
+              != other.getOffset()) return false;
+          if (getSeqNo()
+              != other.getSeqNo()) return false;
+          if (getCreateTimeMs()
+              != other.getCreateTimeMs()) return false;
+          if (getUncompressedSize()
+              != other.getUncompressedSize()) return false;
+          if (!getData()
+              .equals(other.getData())) return false;
+          if (!unknownFields.equals(other.unknownFields)) return false;
+          return true;
         }
 
         @java.lang.Override
@@ -24238,6 +26107,7 @@ public final class Persqueue {
               .parseWithIOException(PARSER, input, extensionRegistry);
         }
 
+        @java.lang.Override
         public Builder newBuilderForType() { return newBuilder(); }
         public static Builder newBuilder() {
           return DEFAULT_INSTANCE.toBuilder();
@@ -24245,6 +26115,7 @@ public final class Persqueue {
         public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData prototype) {
           return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
         }
+        @java.lang.Override
         public Builder toBuilder() {
           return this == DEFAULT_INSTANCE
               ? new Builder() : new Builder().mergeFrom(this);
@@ -24268,6 +26139,7 @@ public final class Persqueue {
             return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_BatchedData_MessageData_descriptor;
           }
 
+          @java.lang.Override
           protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
               internalGetFieldAccessorTable() {
             return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_BatchedData_MessageData_fieldAccessorTable
@@ -24290,6 +26162,7 @@ public final class Persqueue {
                     .alwaysUseFieldBuilders) {
             }
           }
+          @java.lang.Override
           public Builder clear() {
             super.clear();
             codec_ = 0;
@@ -24307,15 +26180,18 @@ public final class Persqueue {
             return this;
           }
 
+          @java.lang.Override
           public com.google.protobuf.Descriptors.Descriptor
               getDescriptorForType() {
             return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_BatchedData_MessageData_descriptor;
           }
 
+          @java.lang.Override
           public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData getDefaultInstanceForType() {
             return tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData.getDefaultInstance();
           }
 
+          @java.lang.Override
           public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData build() {
             tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData result = buildPartial();
             if (!result.isInitialized()) {
@@ -24324,6 +26200,7 @@ public final class Persqueue {
             return result;
           }
 
+          @java.lang.Override
           public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData buildPartial() {
             tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData result = new tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData(this);
             result.codec_ = codec_;
@@ -24336,32 +26213,39 @@ public final class Persqueue {
             return result;
           }
 
+          @java.lang.Override
           public Builder clone() {
-            return (Builder) super.clone();
+            return super.clone();
           }
+          @java.lang.Override
           public Builder setField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
-            return (Builder) super.setField(field, value);
+            return super.setField(field, value);
           }
+          @java.lang.Override
           public Builder clearField(
               com.google.protobuf.Descriptors.FieldDescriptor field) {
-            return (Builder) super.clearField(field);
+            return super.clearField(field);
           }
+          @java.lang.Override
           public Builder clearOneof(
               com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-            return (Builder) super.clearOneof(oneof);
+            return super.clearOneof(oneof);
           }
+          @java.lang.Override
           public Builder setRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               int index, java.lang.Object value) {
-            return (Builder) super.setRepeatedField(field, index, value);
+            return super.setRepeatedField(field, index, value);
           }
+          @java.lang.Override
           public Builder addRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
-            return (Builder) super.addRepeatedField(field, value);
+            return super.addRepeatedField(field, value);
           }
+          @java.lang.Override
           public Builder mergeFrom(com.google.protobuf.Message other) {
             if (other instanceof tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData) {
               return mergeFrom((tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData)other);
@@ -24396,10 +26280,12 @@ public final class Persqueue {
             return this;
           }
 
+          @java.lang.Override
           public final boolean isInitialized() {
             return true;
           }
 
+          @java.lang.Override
           public Builder mergeFrom(
               com.google.protobuf.CodedInputStream input,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -24421,27 +26307,36 @@ public final class Persqueue {
           private int codec_ = 0;
           /**
            * <code>.NPersQueue.ECodec codec = 2;</code>
+           * @return The enum numeric value on the wire for codec.
            */
-          public int getCodecValue() {
+          @java.lang.Override public int getCodecValue() {
             return codec_;
           }
           /**
            * <code>.NPersQueue.ECodec codec = 2;</code>
+           * @param value The enum numeric value on the wire for codec to set.
+           * @return This builder for chaining.
            */
           public Builder setCodecValue(int value) {
+            
             codec_ = value;
             onChanged();
             return this;
           }
           /**
            * <code>.NPersQueue.ECodec codec = 2;</code>
+           * @return The codec.
            */
+          @java.lang.Override
           public tech.ydb.persqueue.Persqueue.ECodec getCodec() {
+            @SuppressWarnings("deprecation")
             tech.ydb.persqueue.Persqueue.ECodec result = tech.ydb.persqueue.Persqueue.ECodec.valueOf(codec_);
             return result == null ? tech.ydb.persqueue.Persqueue.ECodec.UNRECOGNIZED : result;
           }
           /**
            * <code>.NPersQueue.ECodec codec = 2;</code>
+           * @param value The codec to set.
+           * @return This builder for chaining.
            */
           public Builder setCodec(tech.ydb.persqueue.Persqueue.ECodec value) {
             if (value == null) {
@@ -24454,6 +26349,7 @@ public final class Persqueue {
           }
           /**
            * <code>.NPersQueue.ECodec codec = 2;</code>
+           * @return This builder for chaining.
            */
           public Builder clearCodec() {
             
@@ -24469,7 +26365,9 @@ public final class Persqueue {
            * </pre>
            *
            * <code>uint64 offset = 3;</code>
+           * @return The offset.
            */
+          @java.lang.Override
           public long getOffset() {
             return offset_;
           }
@@ -24479,6 +26377,8 @@ public final class Persqueue {
            * </pre>
            *
            * <code>uint64 offset = 3;</code>
+           * @param value The offset to set.
+           * @return This builder for chaining.
            */
           public Builder setOffset(long value) {
             
@@ -24492,6 +26392,7 @@ public final class Persqueue {
            * </pre>
            *
            * <code>uint64 offset = 3;</code>
+           * @return This builder for chaining.
            */
           public Builder clearOffset() {
             
@@ -24503,12 +26404,16 @@ public final class Persqueue {
           private long seqNo_ ;
           /**
            * <code>uint64 seq_no = 4;</code>
+           * @return The seqNo.
            */
+          @java.lang.Override
           public long getSeqNo() {
             return seqNo_;
           }
           /**
            * <code>uint64 seq_no = 4;</code>
+           * @param value The seqNo to set.
+           * @return This builder for chaining.
            */
           public Builder setSeqNo(long value) {
             
@@ -24518,6 +26423,7 @@ public final class Persqueue {
           }
           /**
            * <code>uint64 seq_no = 4;</code>
+           * @return This builder for chaining.
            */
           public Builder clearSeqNo() {
             
@@ -24529,12 +26435,16 @@ public final class Persqueue {
           private long createTimeMs_ ;
           /**
            * <code>uint64 create_time_ms = 5;</code>
+           * @return The createTimeMs.
            */
+          @java.lang.Override
           public long getCreateTimeMs() {
             return createTimeMs_;
           }
           /**
            * <code>uint64 create_time_ms = 5;</code>
+           * @param value The createTimeMs to set.
+           * @return This builder for chaining.
            */
           public Builder setCreateTimeMs(long value) {
             
@@ -24544,6 +26454,7 @@ public final class Persqueue {
           }
           /**
            * <code>uint64 create_time_ms = 5;</code>
+           * @return This builder for chaining.
            */
           public Builder clearCreateTimeMs() {
             
@@ -24555,12 +26466,16 @@ public final class Persqueue {
           private long uncompressedSize_ ;
           /**
            * <code>uint64 uncompressed_size = 6;</code>
+           * @return The uncompressedSize.
            */
+          @java.lang.Override
           public long getUncompressedSize() {
             return uncompressedSize_;
           }
           /**
            * <code>uint64 uncompressed_size = 6;</code>
+           * @param value The uncompressedSize to set.
+           * @return This builder for chaining.
            */
           public Builder setUncompressedSize(long value) {
             
@@ -24570,6 +26485,7 @@ public final class Persqueue {
           }
           /**
            * <code>uint64 uncompressed_size = 6;</code>
+           * @return This builder for chaining.
            */
           public Builder clearUncompressedSize() {
             
@@ -24581,12 +26497,16 @@ public final class Persqueue {
           private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
           /**
            * <code>bytes data = 1;</code>
+           * @return The data.
            */
+          @java.lang.Override
           public com.google.protobuf.ByteString getData() {
             return data_;
           }
           /**
            * <code>bytes data = 1;</code>
+           * @param value The data to set.
+           * @return This builder for chaining.
            */
           public Builder setData(com.google.protobuf.ByteString value) {
             if (value == null) {
@@ -24599,6 +26519,7 @@ public final class Persqueue {
           }
           /**
            * <code>bytes data = 1;</code>
+           * @return This builder for chaining.
            */
           public Builder clearData() {
             
@@ -24606,11 +26527,13 @@ public final class Persqueue {
             onChanged();
             return this;
           }
+          @java.lang.Override
           public final Builder setUnknownFields(
               final com.google.protobuf.UnknownFieldSet unknownFields) {
-            return super.setUnknownFieldsProto3(unknownFields);
+            return super.setUnknownFields(unknownFields);
           }
 
+          @java.lang.Override
           public final Builder mergeUnknownFields(
               final com.google.protobuf.UnknownFieldSet unknownFields) {
             return super.mergeUnknownFields(unknownFields);
@@ -24632,11 +26555,12 @@ public final class Persqueue {
 
         private static final com.google.protobuf.Parser<MessageData>
             PARSER = new com.google.protobuf.AbstractParser<MessageData>() {
+          @java.lang.Override
           public MessageData parsePartialFrom(
               com.google.protobuf.CodedInputStream input,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws com.google.protobuf.InvalidProtocolBufferException {
-              return new MessageData(input, extensionRegistry);
+            return new MessageData(input, extensionRegistry);
           }
         };
 
@@ -24649,6 +26573,7 @@ public final class Persqueue {
           return PARSER;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData getDefaultInstanceForType() {
           return DEFAULT_INSTANCE;
         }
@@ -24661,15 +26586,18 @@ public final class Persqueue {
 
         /**
          * <code>bytes source_id = 2;</code>
+         * @return The sourceId.
          */
         com.google.protobuf.ByteString getSourceId();
 
         /**
          * <code>.NPersQueue.MapType extra_fields = 3;</code>
+         * @return Whether the extraFields field is set.
          */
         boolean hasExtraFields();
         /**
          * <code>.NPersQueue.MapType extra_fields = 3;</code>
+         * @return The extraFields.
          */
         tech.ydb.persqueue.Persqueue.MapType getExtraFields();
         /**
@@ -24679,15 +26607,18 @@ public final class Persqueue {
 
         /**
          * <code>uint64 write_time_ms = 4;</code>
+         * @return The writeTimeMs.
          */
         long getWriteTimeMs();
 
         /**
          * <code>string ip = 5;</code>
+         * @return The ip.
          */
         java.lang.String getIp();
         /**
          * <code>string ip = 5;</code>
+         * @return The bytes for ip.
          */
         com.google.protobuf.ByteString
             getIpBytes();
@@ -24719,7 +26650,7 @@ public final class Persqueue {
       /**
        * Protobuf type {@code NPersQueue.ReadResponse.BatchedData.Batch}
        */
-      public  static final class Batch extends
+      public static final class Batch extends
           com.google.protobuf.GeneratedMessageV3 implements
           // @@protoc_insertion_point(message_implements:NPersQueue.ReadResponse.BatchedData.Batch)
           BatchOrBuilder {
@@ -24730,9 +26661,15 @@ public final class Persqueue {
         }
         private Batch() {
           sourceId_ = com.google.protobuf.ByteString.EMPTY;
-          writeTimeMs_ = 0L;
           ip_ = "";
           messageData_ = java.util.Collections.emptyList();
+        }
+
+        @java.lang.Override
+        @SuppressWarnings({"unused"})
+        protected java.lang.Object newInstance(
+            UnusedPrivateParameter unused) {
+          return new Batch();
         }
 
         @java.lang.Override
@@ -24745,6 +26682,9 @@ public final class Persqueue {
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
           this();
+          if (extensionRegistry == null) {
+            throw new java.lang.NullPointerException();
+          }
           int mutable_bitField0_ = 0;
           com.google.protobuf.UnknownFieldSet.Builder unknownFields =
               com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -24756,17 +26696,10 @@ public final class Persqueue {
                 case 0:
                   done = true;
                   break;
-                default: {
-                  if (!parseUnknownFieldProto3(
-                      input, unknownFields, extensionRegistry, tag)) {
-                    done = true;
-                  }
-                  break;
-                }
                 case 10: {
-                  if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+                  if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                     messageData_ = new java.util.ArrayList<tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData>();
-                    mutable_bitField0_ |= 0x00000010;
+                    mutable_bitField0_ |= 0x00000001;
                   }
                   messageData_.add(
                       input.readMessage(tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData.parser(), extensionRegistry));
@@ -24801,6 +26734,13 @@ public final class Persqueue {
                   ip_ = s;
                   break;
                 }
+                default: {
+                  if (!parseUnknownField(
+                      input, unknownFields, extensionRegistry, tag)) {
+                    done = true;
+                  }
+                  break;
+                }
               }
             }
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -24809,7 +26749,7 @@ public final class Persqueue {
             throw new com.google.protobuf.InvalidProtocolBufferException(
                 e).setUnfinishedMessage(this);
           } finally {
-            if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+            if (((mutable_bitField0_ & 0x00000001) != 0)) {
               messageData_ = java.util.Collections.unmodifiableList(messageData_);
             }
             this.unknownFields = unknownFields.build();
@@ -24821,6 +26761,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_BatchedData_Batch_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_BatchedData_Batch_fieldAccessorTable
@@ -24828,12 +26769,13 @@ public final class Persqueue {
                   tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch.class, tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch.Builder.class);
         }
 
-        private int bitField0_;
         public static final int SOURCE_ID_FIELD_NUMBER = 2;
         private com.google.protobuf.ByteString sourceId_;
         /**
          * <code>bytes source_id = 2;</code>
+         * @return The sourceId.
          */
+        @java.lang.Override
         public com.google.protobuf.ByteString getSourceId() {
           return sourceId_;
         }
@@ -24842,19 +26784,24 @@ public final class Persqueue {
         private tech.ydb.persqueue.Persqueue.MapType extraFields_;
         /**
          * <code>.NPersQueue.MapType extra_fields = 3;</code>
+         * @return Whether the extraFields field is set.
          */
+        @java.lang.Override
         public boolean hasExtraFields() {
           return extraFields_ != null;
         }
         /**
          * <code>.NPersQueue.MapType extra_fields = 3;</code>
+         * @return The extraFields.
          */
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.MapType getExtraFields() {
           return extraFields_ == null ? tech.ydb.persqueue.Persqueue.MapType.getDefaultInstance() : extraFields_;
         }
         /**
          * <code>.NPersQueue.MapType extra_fields = 3;</code>
          */
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.MapTypeOrBuilder getExtraFieldsOrBuilder() {
           return getExtraFields();
         }
@@ -24863,7 +26810,9 @@ public final class Persqueue {
         private long writeTimeMs_;
         /**
          * <code>uint64 write_time_ms = 4;</code>
+         * @return The writeTimeMs.
          */
+        @java.lang.Override
         public long getWriteTimeMs() {
           return writeTimeMs_;
         }
@@ -24872,7 +26821,9 @@ public final class Persqueue {
         private volatile java.lang.Object ip_;
         /**
          * <code>string ip = 5;</code>
+         * @return The ip.
          */
+        @java.lang.Override
         public java.lang.String getIp() {
           java.lang.Object ref = ip_;
           if (ref instanceof java.lang.String) {
@@ -24887,7 +26838,9 @@ public final class Persqueue {
         }
         /**
          * <code>string ip = 5;</code>
+         * @return The bytes for ip.
          */
+        @java.lang.Override
         public com.google.protobuf.ByteString
             getIpBytes() {
           java.lang.Object ref = ip_;
@@ -24907,12 +26860,14 @@ public final class Persqueue {
         /**
          * <code>repeated .NPersQueue.ReadResponse.BatchedData.MessageData message_data = 1;</code>
          */
+        @java.lang.Override
         public java.util.List<tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData> getMessageDataList() {
           return messageData_;
         }
         /**
          * <code>repeated .NPersQueue.ReadResponse.BatchedData.MessageData message_data = 1;</code>
          */
+        @java.lang.Override
         public java.util.List<? extends tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageDataOrBuilder> 
             getMessageDataOrBuilderList() {
           return messageData_;
@@ -24920,24 +26875,28 @@ public final class Persqueue {
         /**
          * <code>repeated .NPersQueue.ReadResponse.BatchedData.MessageData message_data = 1;</code>
          */
+        @java.lang.Override
         public int getMessageDataCount() {
           return messageData_.size();
         }
         /**
          * <code>repeated .NPersQueue.ReadResponse.BatchedData.MessageData message_data = 1;</code>
          */
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData getMessageData(int index) {
           return messageData_.get(index);
         }
         /**
          * <code>repeated .NPersQueue.ReadResponse.BatchedData.MessageData message_data = 1;</code>
          */
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageDataOrBuilder getMessageDataOrBuilder(
             int index) {
           return messageData_.get(index);
         }
 
         private byte memoizedIsInitialized = -1;
+        @java.lang.Override
         public final boolean isInitialized() {
           byte isInitialized = memoizedIsInitialized;
           if (isInitialized == 1) return true;
@@ -24947,6 +26906,7 @@ public final class Persqueue {
           return true;
         }
 
+        @java.lang.Override
         public void writeTo(com.google.protobuf.CodedOutputStream output)
                             throws java.io.IOException {
           for (int i = 0; i < messageData_.size(); i++) {
@@ -24967,6 +26927,7 @@ public final class Persqueue {
           unknownFields.writeTo(output);
         }
 
+        @java.lang.Override
         public int getSerializedSize() {
           int size = memoizedSize;
           if (size != -1) return size;
@@ -25006,22 +26967,21 @@ public final class Persqueue {
           }
           tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch other = (tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch) obj;
 
-          boolean result = true;
-          result = result && getSourceId()
-              .equals(other.getSourceId());
-          result = result && (hasExtraFields() == other.hasExtraFields());
+          if (!getSourceId()
+              .equals(other.getSourceId())) return false;
+          if (hasExtraFields() != other.hasExtraFields()) return false;
           if (hasExtraFields()) {
-            result = result && getExtraFields()
-                .equals(other.getExtraFields());
+            if (!getExtraFields()
+                .equals(other.getExtraFields())) return false;
           }
-          result = result && (getWriteTimeMs()
-              == other.getWriteTimeMs());
-          result = result && getIp()
-              .equals(other.getIp());
-          result = result && getMessageDataList()
-              .equals(other.getMessageDataList());
-          result = result && unknownFields.equals(other.unknownFields);
-          return result;
+          if (getWriteTimeMs()
+              != other.getWriteTimeMs()) return false;
+          if (!getIp()
+              .equals(other.getIp())) return false;
+          if (!getMessageDataList()
+              .equals(other.getMessageDataList())) return false;
+          if (!unknownFields.equals(other.unknownFields)) return false;
+          return true;
         }
 
         @java.lang.Override
@@ -25121,6 +27081,7 @@ public final class Persqueue {
               .parseWithIOException(PARSER, input, extensionRegistry);
         }
 
+        @java.lang.Override
         public Builder newBuilderForType() { return newBuilder(); }
         public static Builder newBuilder() {
           return DEFAULT_INSTANCE.toBuilder();
@@ -25128,6 +27089,7 @@ public final class Persqueue {
         public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch prototype) {
           return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
         }
+        @java.lang.Override
         public Builder toBuilder() {
           return this == DEFAULT_INSTANCE
               ? new Builder() : new Builder().mergeFrom(this);
@@ -25151,6 +27113,7 @@ public final class Persqueue {
             return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_BatchedData_Batch_descriptor;
           }
 
+          @java.lang.Override
           protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
               internalGetFieldAccessorTable() {
             return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_BatchedData_Batch_fieldAccessorTable
@@ -25174,6 +27137,7 @@ public final class Persqueue {
               getMessageDataFieldBuilder();
             }
           }
+          @java.lang.Override
           public Builder clear() {
             super.clear();
             sourceId_ = com.google.protobuf.ByteString.EMPTY;
@@ -25190,22 +27154,25 @@ public final class Persqueue {
 
             if (messageDataBuilder_ == null) {
               messageData_ = java.util.Collections.emptyList();
-              bitField0_ = (bitField0_ & ~0x00000010);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               messageDataBuilder_.clear();
             }
             return this;
           }
 
+          @java.lang.Override
           public com.google.protobuf.Descriptors.Descriptor
               getDescriptorForType() {
             return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_BatchedData_Batch_descriptor;
           }
 
+          @java.lang.Override
           public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch getDefaultInstanceForType() {
             return tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch.getDefaultInstance();
           }
 
+          @java.lang.Override
           public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch build() {
             tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch result = buildPartial();
             if (!result.isInitialized()) {
@@ -25214,10 +27181,10 @@ public final class Persqueue {
             return result;
           }
 
+          @java.lang.Override
           public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch buildPartial() {
             tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch result = new tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch(this);
             int from_bitField0_ = bitField0_;
-            int to_bitField0_ = 0;
             result.sourceId_ = sourceId_;
             if (extraFieldsBuilder_ == null) {
               result.extraFields_ = extraFields_;
@@ -25227,45 +27194,51 @@ public final class Persqueue {
             result.writeTimeMs_ = writeTimeMs_;
             result.ip_ = ip_;
             if (messageDataBuilder_ == null) {
-              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+              if (((bitField0_ & 0x00000001) != 0)) {
                 messageData_ = java.util.Collections.unmodifiableList(messageData_);
-                bitField0_ = (bitField0_ & ~0x00000010);
+                bitField0_ = (bitField0_ & ~0x00000001);
               }
               result.messageData_ = messageData_;
             } else {
               result.messageData_ = messageDataBuilder_.build();
             }
-            result.bitField0_ = to_bitField0_;
             onBuilt();
             return result;
           }
 
+          @java.lang.Override
           public Builder clone() {
-            return (Builder) super.clone();
+            return super.clone();
           }
+          @java.lang.Override
           public Builder setField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
-            return (Builder) super.setField(field, value);
+            return super.setField(field, value);
           }
+          @java.lang.Override
           public Builder clearField(
               com.google.protobuf.Descriptors.FieldDescriptor field) {
-            return (Builder) super.clearField(field);
+            return super.clearField(field);
           }
+          @java.lang.Override
           public Builder clearOneof(
               com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-            return (Builder) super.clearOneof(oneof);
+            return super.clearOneof(oneof);
           }
+          @java.lang.Override
           public Builder setRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               int index, java.lang.Object value) {
-            return (Builder) super.setRepeatedField(field, index, value);
+            return super.setRepeatedField(field, index, value);
           }
+          @java.lang.Override
           public Builder addRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
-            return (Builder) super.addRepeatedField(field, value);
+            return super.addRepeatedField(field, value);
           }
+          @java.lang.Override
           public Builder mergeFrom(com.google.protobuf.Message other) {
             if (other instanceof tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch) {
               return mergeFrom((tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch)other);
@@ -25294,7 +27267,7 @@ public final class Persqueue {
               if (!other.messageData_.isEmpty()) {
                 if (messageData_.isEmpty()) {
                   messageData_ = other.messageData_;
-                  bitField0_ = (bitField0_ & ~0x00000010);
+                  bitField0_ = (bitField0_ & ~0x00000001);
                 } else {
                   ensureMessageDataIsMutable();
                   messageData_.addAll(other.messageData_);
@@ -25307,7 +27280,7 @@ public final class Persqueue {
                   messageDataBuilder_.dispose();
                   messageDataBuilder_ = null;
                   messageData_ = other.messageData_;
-                  bitField0_ = (bitField0_ & ~0x00000010);
+                  bitField0_ = (bitField0_ & ~0x00000001);
                   messageDataBuilder_ = 
                     com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                        getMessageDataFieldBuilder() : null;
@@ -25321,10 +27294,12 @@ public final class Persqueue {
             return this;
           }
 
+          @java.lang.Override
           public final boolean isInitialized() {
             return true;
           }
 
+          @java.lang.Override
           public Builder mergeFrom(
               com.google.protobuf.CodedInputStream input,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -25347,12 +27322,16 @@ public final class Persqueue {
           private com.google.protobuf.ByteString sourceId_ = com.google.protobuf.ByteString.EMPTY;
           /**
            * <code>bytes source_id = 2;</code>
+           * @return The sourceId.
            */
+          @java.lang.Override
           public com.google.protobuf.ByteString getSourceId() {
             return sourceId_;
           }
           /**
            * <code>bytes source_id = 2;</code>
+           * @param value The sourceId to set.
+           * @return This builder for chaining.
            */
           public Builder setSourceId(com.google.protobuf.ByteString value) {
             if (value == null) {
@@ -25365,6 +27344,7 @@ public final class Persqueue {
           }
           /**
            * <code>bytes source_id = 2;</code>
+           * @return This builder for chaining.
            */
           public Builder clearSourceId() {
             
@@ -25373,17 +27353,19 @@ public final class Persqueue {
             return this;
           }
 
-          private tech.ydb.persqueue.Persqueue.MapType extraFields_ = null;
+          private tech.ydb.persqueue.Persqueue.MapType extraFields_;
           private com.google.protobuf.SingleFieldBuilderV3<
               tech.ydb.persqueue.Persqueue.MapType, tech.ydb.persqueue.Persqueue.MapType.Builder, tech.ydb.persqueue.Persqueue.MapTypeOrBuilder> extraFieldsBuilder_;
           /**
            * <code>.NPersQueue.MapType extra_fields = 3;</code>
+           * @return Whether the extraFields field is set.
            */
           public boolean hasExtraFields() {
             return extraFieldsBuilder_ != null || extraFields_ != null;
           }
           /**
            * <code>.NPersQueue.MapType extra_fields = 3;</code>
+           * @return The extraFields.
            */
           public tech.ydb.persqueue.Persqueue.MapType getExtraFields() {
             if (extraFieldsBuilder_ == null) {
@@ -25493,12 +27475,16 @@ public final class Persqueue {
           private long writeTimeMs_ ;
           /**
            * <code>uint64 write_time_ms = 4;</code>
+           * @return The writeTimeMs.
            */
+          @java.lang.Override
           public long getWriteTimeMs() {
             return writeTimeMs_;
           }
           /**
            * <code>uint64 write_time_ms = 4;</code>
+           * @param value The writeTimeMs to set.
+           * @return This builder for chaining.
            */
           public Builder setWriteTimeMs(long value) {
             
@@ -25508,6 +27494,7 @@ public final class Persqueue {
           }
           /**
            * <code>uint64 write_time_ms = 4;</code>
+           * @return This builder for chaining.
            */
           public Builder clearWriteTimeMs() {
             
@@ -25519,6 +27506,7 @@ public final class Persqueue {
           private java.lang.Object ip_ = "";
           /**
            * <code>string ip = 5;</code>
+           * @return The ip.
            */
           public java.lang.String getIp() {
             java.lang.Object ref = ip_;
@@ -25534,6 +27522,7 @@ public final class Persqueue {
           }
           /**
            * <code>string ip = 5;</code>
+           * @return The bytes for ip.
            */
           public com.google.protobuf.ByteString
               getIpBytes() {
@@ -25550,6 +27539,8 @@ public final class Persqueue {
           }
           /**
            * <code>string ip = 5;</code>
+           * @param value The ip to set.
+           * @return This builder for chaining.
            */
           public Builder setIp(
               java.lang.String value) {
@@ -25563,6 +27554,7 @@ public final class Persqueue {
           }
           /**
            * <code>string ip = 5;</code>
+           * @return This builder for chaining.
            */
           public Builder clearIp() {
             
@@ -25572,6 +27564,8 @@ public final class Persqueue {
           }
           /**
            * <code>string ip = 5;</code>
+           * @param value The bytes for ip to set.
+           * @return This builder for chaining.
            */
           public Builder setIpBytes(
               com.google.protobuf.ByteString value) {
@@ -25588,9 +27582,9 @@ public final class Persqueue {
           private java.util.List<tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData> messageData_ =
             java.util.Collections.emptyList();
           private void ensureMessageDataIsMutable() {
-            if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+            if (!((bitField0_ & 0x00000001) != 0)) {
               messageData_ = new java.util.ArrayList<tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData>(messageData_);
-              bitField0_ |= 0x00000010;
+              bitField0_ |= 0x00000001;
              }
           }
 
@@ -25740,7 +27734,7 @@ public final class Persqueue {
           public Builder clearMessageData() {
             if (messageDataBuilder_ == null) {
               messageData_ = java.util.Collections.emptyList();
-              bitField0_ = (bitField0_ & ~0x00000010);
+              bitField0_ = (bitField0_ & ~0x00000001);
               onChanged();
             } else {
               messageDataBuilder_.clear();
@@ -25817,18 +27811,20 @@ public final class Persqueue {
               messageDataBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
                   tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData, tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageData.Builder, tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.MessageDataOrBuilder>(
                       messageData_,
-                      ((bitField0_ & 0x00000010) == 0x00000010),
+                      ((bitField0_ & 0x00000001) != 0),
                       getParentForChildren(),
                       isClean());
               messageData_ = null;
             }
             return messageDataBuilder_;
           }
+          @java.lang.Override
           public final Builder setUnknownFields(
               final com.google.protobuf.UnknownFieldSet unknownFields) {
-            return super.setUnknownFieldsProto3(unknownFields);
+            return super.setUnknownFields(unknownFields);
           }
 
+          @java.lang.Override
           public final Builder mergeUnknownFields(
               final com.google.protobuf.UnknownFieldSet unknownFields) {
             return super.mergeUnknownFields(unknownFields);
@@ -25850,11 +27846,12 @@ public final class Persqueue {
 
         private static final com.google.protobuf.Parser<Batch>
             PARSER = new com.google.protobuf.AbstractParser<Batch>() {
+          @java.lang.Override
           public Batch parsePartialFrom(
               com.google.protobuf.CodedInputStream input,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws com.google.protobuf.InvalidProtocolBufferException {
-              return new Batch(input, extensionRegistry);
+            return new Batch(input, extensionRegistry);
           }
         };
 
@@ -25867,6 +27864,7 @@ public final class Persqueue {
           return PARSER;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch getDefaultInstanceForType() {
           return DEFAULT_INSTANCE;
         }
@@ -25879,16 +27877,19 @@ public final class Persqueue {
 
         /**
          * <code>string topic = 2;</code>
+         * @return The topic.
          */
         java.lang.String getTopic();
         /**
          * <code>string topic = 2;</code>
+         * @return The bytes for topic.
          */
         com.google.protobuf.ByteString
             getTopicBytes();
 
         /**
          * <code>uint32 partition = 3;</code>
+         * @return The partition.
          */
         int getPartition();
 
@@ -25919,7 +27920,7 @@ public final class Persqueue {
       /**
        * Protobuf type {@code NPersQueue.ReadResponse.BatchedData.PartitionData}
        */
-      public  static final class PartitionData extends
+      public static final class PartitionData extends
           com.google.protobuf.GeneratedMessageV3 implements
           // @@protoc_insertion_point(message_implements:NPersQueue.ReadResponse.BatchedData.PartitionData)
           PartitionDataOrBuilder {
@@ -25930,8 +27931,14 @@ public final class Persqueue {
         }
         private PartitionData() {
           topic_ = "";
-          partition_ = 0;
           batch_ = java.util.Collections.emptyList();
+        }
+
+        @java.lang.Override
+        @SuppressWarnings({"unused"})
+        protected java.lang.Object newInstance(
+            UnusedPrivateParameter unused) {
+          return new PartitionData();
         }
 
         @java.lang.Override
@@ -25944,6 +27951,9 @@ public final class Persqueue {
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
           this();
+          if (extensionRegistry == null) {
+            throw new java.lang.NullPointerException();
+          }
           int mutable_bitField0_ = 0;
           com.google.protobuf.UnknownFieldSet.Builder unknownFields =
               com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -25955,17 +27965,10 @@ public final class Persqueue {
                 case 0:
                   done = true;
                   break;
-                default: {
-                  if (!parseUnknownFieldProto3(
-                      input, unknownFields, extensionRegistry, tag)) {
-                    done = true;
-                  }
-                  break;
-                }
                 case 10: {
-                  if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                  if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                     batch_ = new java.util.ArrayList<tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch>();
-                    mutable_bitField0_ |= 0x00000004;
+                    mutable_bitField0_ |= 0x00000001;
                   }
                   batch_.add(
                       input.readMessage(tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch.parser(), extensionRegistry));
@@ -25982,6 +27985,13 @@ public final class Persqueue {
                   partition_ = input.readUInt32();
                   break;
                 }
+                default: {
+                  if (!parseUnknownField(
+                      input, unknownFields, extensionRegistry, tag)) {
+                    done = true;
+                  }
+                  break;
+                }
               }
             }
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -25990,7 +28000,7 @@ public final class Persqueue {
             throw new com.google.protobuf.InvalidProtocolBufferException(
                 e).setUnfinishedMessage(this);
           } finally {
-            if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+            if (((mutable_bitField0_ & 0x00000001) != 0)) {
               batch_ = java.util.Collections.unmodifiableList(batch_);
             }
             this.unknownFields = unknownFields.build();
@@ -26002,6 +28012,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_BatchedData_PartitionData_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_BatchedData_PartitionData_fieldAccessorTable
@@ -26009,12 +28020,13 @@ public final class Persqueue {
                   tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData.class, tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData.Builder.class);
         }
 
-        private int bitField0_;
         public static final int TOPIC_FIELD_NUMBER = 2;
         private volatile java.lang.Object topic_;
         /**
          * <code>string topic = 2;</code>
+         * @return The topic.
          */
+        @java.lang.Override
         public java.lang.String getTopic() {
           java.lang.Object ref = topic_;
           if (ref instanceof java.lang.String) {
@@ -26029,7 +28041,9 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 2;</code>
+         * @return The bytes for topic.
          */
+        @java.lang.Override
         public com.google.protobuf.ByteString
             getTopicBytes() {
           java.lang.Object ref = topic_;
@@ -26048,7 +28062,9 @@ public final class Persqueue {
         private int partition_;
         /**
          * <code>uint32 partition = 3;</code>
+         * @return The partition.
          */
+        @java.lang.Override
         public int getPartition() {
           return partition_;
         }
@@ -26058,12 +28074,14 @@ public final class Persqueue {
         /**
          * <code>repeated .NPersQueue.ReadResponse.BatchedData.Batch batch = 1;</code>
          */
+        @java.lang.Override
         public java.util.List<tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch> getBatchList() {
           return batch_;
         }
         /**
          * <code>repeated .NPersQueue.ReadResponse.BatchedData.Batch batch = 1;</code>
          */
+        @java.lang.Override
         public java.util.List<? extends tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.BatchOrBuilder> 
             getBatchOrBuilderList() {
           return batch_;
@@ -26071,24 +28089,28 @@ public final class Persqueue {
         /**
          * <code>repeated .NPersQueue.ReadResponse.BatchedData.Batch batch = 1;</code>
          */
+        @java.lang.Override
         public int getBatchCount() {
           return batch_.size();
         }
         /**
          * <code>repeated .NPersQueue.ReadResponse.BatchedData.Batch batch = 1;</code>
          */
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch getBatch(int index) {
           return batch_.get(index);
         }
         /**
          * <code>repeated .NPersQueue.ReadResponse.BatchedData.Batch batch = 1;</code>
          */
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.BatchOrBuilder getBatchOrBuilder(
             int index) {
           return batch_.get(index);
         }
 
         private byte memoizedIsInitialized = -1;
+        @java.lang.Override
         public final boolean isInitialized() {
           byte isInitialized = memoizedIsInitialized;
           if (isInitialized == 1) return true;
@@ -26098,6 +28120,7 @@ public final class Persqueue {
           return true;
         }
 
+        @java.lang.Override
         public void writeTo(com.google.protobuf.CodedOutputStream output)
                             throws java.io.IOException {
           for (int i = 0; i < batch_.size(); i++) {
@@ -26112,6 +28135,7 @@ public final class Persqueue {
           unknownFields.writeTo(output);
         }
 
+        @java.lang.Override
         public int getSerializedSize() {
           int size = memoizedSize;
           if (size != -1) return size;
@@ -26143,15 +28167,14 @@ public final class Persqueue {
           }
           tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData other = (tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData) obj;
 
-          boolean result = true;
-          result = result && getTopic()
-              .equals(other.getTopic());
-          result = result && (getPartition()
-              == other.getPartition());
-          result = result && getBatchList()
-              .equals(other.getBatchList());
-          result = result && unknownFields.equals(other.unknownFields);
-          return result;
+          if (!getTopic()
+              .equals(other.getTopic())) return false;
+          if (getPartition()
+              != other.getPartition()) return false;
+          if (!getBatchList()
+              .equals(other.getBatchList())) return false;
+          if (!unknownFields.equals(other.unknownFields)) return false;
+          return true;
         }
 
         @java.lang.Override
@@ -26244,6 +28267,7 @@ public final class Persqueue {
               .parseWithIOException(PARSER, input, extensionRegistry);
         }
 
+        @java.lang.Override
         public Builder newBuilderForType() { return newBuilder(); }
         public static Builder newBuilder() {
           return DEFAULT_INSTANCE.toBuilder();
@@ -26251,6 +28275,7 @@ public final class Persqueue {
         public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData prototype) {
           return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
         }
+        @java.lang.Override
         public Builder toBuilder() {
           return this == DEFAULT_INSTANCE
               ? new Builder() : new Builder().mergeFrom(this);
@@ -26274,6 +28299,7 @@ public final class Persqueue {
             return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_BatchedData_PartitionData_descriptor;
           }
 
+          @java.lang.Override
           protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
               internalGetFieldAccessorTable() {
             return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_BatchedData_PartitionData_fieldAccessorTable
@@ -26297,6 +28323,7 @@ public final class Persqueue {
               getBatchFieldBuilder();
             }
           }
+          @java.lang.Override
           public Builder clear() {
             super.clear();
             topic_ = "";
@@ -26305,22 +28332,25 @@ public final class Persqueue {
 
             if (batchBuilder_ == null) {
               batch_ = java.util.Collections.emptyList();
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               batchBuilder_.clear();
             }
             return this;
           }
 
+          @java.lang.Override
           public com.google.protobuf.Descriptors.Descriptor
               getDescriptorForType() {
             return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_BatchedData_PartitionData_descriptor;
           }
 
+          @java.lang.Override
           public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData getDefaultInstanceForType() {
             return tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData.getDefaultInstance();
           }
 
+          @java.lang.Override
           public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData build() {
             tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData result = buildPartial();
             if (!result.isInitialized()) {
@@ -26329,52 +28359,58 @@ public final class Persqueue {
             return result;
           }
 
+          @java.lang.Override
           public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData buildPartial() {
             tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData result = new tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData(this);
             int from_bitField0_ = bitField0_;
-            int to_bitField0_ = 0;
             result.topic_ = topic_;
             result.partition_ = partition_;
             if (batchBuilder_ == null) {
-              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+              if (((bitField0_ & 0x00000001) != 0)) {
                 batch_ = java.util.Collections.unmodifiableList(batch_);
-                bitField0_ = (bitField0_ & ~0x00000004);
+                bitField0_ = (bitField0_ & ~0x00000001);
               }
               result.batch_ = batch_;
             } else {
               result.batch_ = batchBuilder_.build();
             }
-            result.bitField0_ = to_bitField0_;
             onBuilt();
             return result;
           }
 
+          @java.lang.Override
           public Builder clone() {
-            return (Builder) super.clone();
+            return super.clone();
           }
+          @java.lang.Override
           public Builder setField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
-            return (Builder) super.setField(field, value);
+            return super.setField(field, value);
           }
+          @java.lang.Override
           public Builder clearField(
               com.google.protobuf.Descriptors.FieldDescriptor field) {
-            return (Builder) super.clearField(field);
+            return super.clearField(field);
           }
+          @java.lang.Override
           public Builder clearOneof(
               com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-            return (Builder) super.clearOneof(oneof);
+            return super.clearOneof(oneof);
           }
+          @java.lang.Override
           public Builder setRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               int index, java.lang.Object value) {
-            return (Builder) super.setRepeatedField(field, index, value);
+            return super.setRepeatedField(field, index, value);
           }
+          @java.lang.Override
           public Builder addRepeatedField(
               com.google.protobuf.Descriptors.FieldDescriptor field,
               java.lang.Object value) {
-            return (Builder) super.addRepeatedField(field, value);
+            return super.addRepeatedField(field, value);
           }
+          @java.lang.Override
           public Builder mergeFrom(com.google.protobuf.Message other) {
             if (other instanceof tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData) {
               return mergeFrom((tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData)other);
@@ -26397,7 +28433,7 @@ public final class Persqueue {
               if (!other.batch_.isEmpty()) {
                 if (batch_.isEmpty()) {
                   batch_ = other.batch_;
-                  bitField0_ = (bitField0_ & ~0x00000004);
+                  bitField0_ = (bitField0_ & ~0x00000001);
                 } else {
                   ensureBatchIsMutable();
                   batch_.addAll(other.batch_);
@@ -26410,7 +28446,7 @@ public final class Persqueue {
                   batchBuilder_.dispose();
                   batchBuilder_ = null;
                   batch_ = other.batch_;
-                  bitField0_ = (bitField0_ & ~0x00000004);
+                  bitField0_ = (bitField0_ & ~0x00000001);
                   batchBuilder_ = 
                     com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                        getBatchFieldBuilder() : null;
@@ -26424,10 +28460,12 @@ public final class Persqueue {
             return this;
           }
 
+          @java.lang.Override
           public final boolean isInitialized() {
             return true;
           }
 
+          @java.lang.Override
           public Builder mergeFrom(
               com.google.protobuf.CodedInputStream input,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -26450,6 +28488,7 @@ public final class Persqueue {
           private java.lang.Object topic_ = "";
           /**
            * <code>string topic = 2;</code>
+           * @return The topic.
            */
           public java.lang.String getTopic() {
             java.lang.Object ref = topic_;
@@ -26465,6 +28504,7 @@ public final class Persqueue {
           }
           /**
            * <code>string topic = 2;</code>
+           * @return The bytes for topic.
            */
           public com.google.protobuf.ByteString
               getTopicBytes() {
@@ -26481,6 +28521,8 @@ public final class Persqueue {
           }
           /**
            * <code>string topic = 2;</code>
+           * @param value The topic to set.
+           * @return This builder for chaining.
            */
           public Builder setTopic(
               java.lang.String value) {
@@ -26494,6 +28536,7 @@ public final class Persqueue {
           }
           /**
            * <code>string topic = 2;</code>
+           * @return This builder for chaining.
            */
           public Builder clearTopic() {
             
@@ -26503,6 +28546,8 @@ public final class Persqueue {
           }
           /**
            * <code>string topic = 2;</code>
+           * @param value The bytes for topic to set.
+           * @return This builder for chaining.
            */
           public Builder setTopicBytes(
               com.google.protobuf.ByteString value) {
@@ -26519,12 +28564,16 @@ public final class Persqueue {
           private int partition_ ;
           /**
            * <code>uint32 partition = 3;</code>
+           * @return The partition.
            */
+          @java.lang.Override
           public int getPartition() {
             return partition_;
           }
           /**
            * <code>uint32 partition = 3;</code>
+           * @param value The partition to set.
+           * @return This builder for chaining.
            */
           public Builder setPartition(int value) {
             
@@ -26534,6 +28583,7 @@ public final class Persqueue {
           }
           /**
            * <code>uint32 partition = 3;</code>
+           * @return This builder for chaining.
            */
           public Builder clearPartition() {
             
@@ -26545,9 +28595,9 @@ public final class Persqueue {
           private java.util.List<tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch> batch_ =
             java.util.Collections.emptyList();
           private void ensureBatchIsMutable() {
-            if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+            if (!((bitField0_ & 0x00000001) != 0)) {
               batch_ = new java.util.ArrayList<tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch>(batch_);
-              bitField0_ |= 0x00000004;
+              bitField0_ |= 0x00000001;
              }
           }
 
@@ -26697,7 +28747,7 @@ public final class Persqueue {
           public Builder clearBatch() {
             if (batchBuilder_ == null) {
               batch_ = java.util.Collections.emptyList();
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000001);
               onChanged();
             } else {
               batchBuilder_.clear();
@@ -26774,18 +28824,20 @@ public final class Persqueue {
               batchBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
                   tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch, tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Batch.Builder, tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.BatchOrBuilder>(
                       batch_,
-                      ((bitField0_ & 0x00000004) == 0x00000004),
+                      ((bitField0_ & 0x00000001) != 0),
                       getParentForChildren(),
                       isClean());
               batch_ = null;
             }
             return batchBuilder_;
           }
+          @java.lang.Override
           public final Builder setUnknownFields(
               final com.google.protobuf.UnknownFieldSet unknownFields) {
-            return super.setUnknownFieldsProto3(unknownFields);
+            return super.setUnknownFields(unknownFields);
           }
 
+          @java.lang.Override
           public final Builder mergeUnknownFields(
               final com.google.protobuf.UnknownFieldSet unknownFields) {
             return super.mergeUnknownFields(unknownFields);
@@ -26807,11 +28859,12 @@ public final class Persqueue {
 
         private static final com.google.protobuf.Parser<PartitionData>
             PARSER = new com.google.protobuf.AbstractParser<PartitionData>() {
+          @java.lang.Override
           public PartitionData parsePartialFrom(
               com.google.protobuf.CodedInputStream input,
               com.google.protobuf.ExtensionRegistryLite extensionRegistry)
               throws com.google.protobuf.InvalidProtocolBufferException {
-              return new PartitionData(input, extensionRegistry);
+            return new PartitionData(input, extensionRegistry);
           }
         };
 
@@ -26824,13 +28877,13 @@ public final class Persqueue {
           return PARSER;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData getDefaultInstanceForType() {
           return DEFAULT_INSTANCE;
         }
 
       }
 
-      private int bitField0_;
       public static final int COOKIE_FIELD_NUMBER = 2;
       private long cookie_;
       /**
@@ -26839,7 +28892,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 cookie = 2;</code>
+       * @return The cookie.
        */
+      @java.lang.Override
       public long getCookie() {
         return cookie_;
       }
@@ -26853,6 +28908,7 @@ public final class Persqueue {
        *
        * <code>repeated .NPersQueue.ReadResponse.BatchedData.PartitionData partition_data = 1;</code>
        */
+      @java.lang.Override
       public java.util.List<tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData> getPartitionDataList() {
         return partitionData_;
       }
@@ -26863,6 +28919,7 @@ public final class Persqueue {
        *
        * <code>repeated .NPersQueue.ReadResponse.BatchedData.PartitionData partition_data = 1;</code>
        */
+      @java.lang.Override
       public java.util.List<? extends tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionDataOrBuilder> 
           getPartitionDataOrBuilderList() {
         return partitionData_;
@@ -26874,6 +28931,7 @@ public final class Persqueue {
        *
        * <code>repeated .NPersQueue.ReadResponse.BatchedData.PartitionData partition_data = 1;</code>
        */
+      @java.lang.Override
       public int getPartitionDataCount() {
         return partitionData_.size();
       }
@@ -26884,6 +28942,7 @@ public final class Persqueue {
        *
        * <code>repeated .NPersQueue.ReadResponse.BatchedData.PartitionData partition_data = 1;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData getPartitionData(int index) {
         return partitionData_.get(index);
       }
@@ -26894,12 +28953,14 @@ public final class Persqueue {
        *
        * <code>repeated .NPersQueue.ReadResponse.BatchedData.PartitionData partition_data = 1;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionDataOrBuilder getPartitionDataOrBuilder(
           int index) {
         return partitionData_.get(index);
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -26909,6 +28970,7 @@ public final class Persqueue {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         for (int i = 0; i < partitionData_.size(); i++) {
@@ -26920,6 +28982,7 @@ public final class Persqueue {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -26948,13 +29011,12 @@ public final class Persqueue {
         }
         tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData other = (tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData) obj;
 
-        boolean result = true;
-        result = result && (getCookie()
-            == other.getCookie());
-        result = result && getPartitionDataList()
-            .equals(other.getPartitionDataList());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (getCookie()
+            != other.getCookie()) return false;
+        if (!getPartitionDataList()
+            .equals(other.getPartitionDataList())) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -27046,6 +29108,7 @@ public final class Persqueue {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -27053,6 +29116,7 @@ public final class Persqueue {
       public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -27076,6 +29140,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_BatchedData_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_BatchedData_fieldAccessorTable
@@ -27099,28 +29164,32 @@ public final class Persqueue {
             getPartitionDataFieldBuilder();
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           cookie_ = 0L;
 
           if (partitionDataBuilder_ == null) {
             partitionData_ = java.util.Collections.emptyList();
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             partitionDataBuilder_.clear();
           }
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_BatchedData_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData getDefaultInstanceForType() {
           return tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData build() {
           tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData result = buildPartial();
           if (!result.isInitialized()) {
@@ -27129,51 +29198,57 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData buildPartial() {
           tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData result = new tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData(this);
           int from_bitField0_ = bitField0_;
-          int to_bitField0_ = 0;
           result.cookie_ = cookie_;
           if (partitionDataBuilder_ == null) {
-            if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            if (((bitField0_ & 0x00000001) != 0)) {
               partitionData_ = java.util.Collections.unmodifiableList(partitionData_);
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             }
             result.partitionData_ = partitionData_;
           } else {
             result.partitionData_ = partitionDataBuilder_.build();
           }
-          result.bitField0_ = to_bitField0_;
           onBuilt();
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData) {
             return mergeFrom((tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData)other);
@@ -27192,7 +29267,7 @@ public final class Persqueue {
             if (!other.partitionData_.isEmpty()) {
               if (partitionData_.isEmpty()) {
                 partitionData_ = other.partitionData_;
-                bitField0_ = (bitField0_ & ~0x00000002);
+                bitField0_ = (bitField0_ & ~0x00000001);
               } else {
                 ensurePartitionDataIsMutable();
                 partitionData_.addAll(other.partitionData_);
@@ -27205,7 +29280,7 @@ public final class Persqueue {
                 partitionDataBuilder_.dispose();
                 partitionDataBuilder_ = null;
                 partitionData_ = other.partitionData_;
-                bitField0_ = (bitField0_ & ~0x00000002);
+                bitField0_ = (bitField0_ & ~0x00000001);
                 partitionDataBuilder_ = 
                   com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                      getPartitionDataFieldBuilder() : null;
@@ -27219,10 +29294,12 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -27249,7 +29326,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 cookie = 2;</code>
+         * @return The cookie.
          */
+        @java.lang.Override
         public long getCookie() {
           return cookie_;
         }
@@ -27259,6 +29338,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 cookie = 2;</code>
+         * @param value The cookie to set.
+         * @return This builder for chaining.
          */
         public Builder setCookie(long value) {
           
@@ -27272,6 +29353,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 cookie = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearCookie() {
           
@@ -27283,9 +29365,9 @@ public final class Persqueue {
         private java.util.List<tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData> partitionData_ =
           java.util.Collections.emptyList();
         private void ensurePartitionDataIsMutable() {
-          if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (!((bitField0_ & 0x00000001) != 0)) {
             partitionData_ = new java.util.ArrayList<tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData>(partitionData_);
-            bitField0_ |= 0x00000002;
+            bitField0_ |= 0x00000001;
            }
         }
 
@@ -27479,7 +29561,7 @@ public final class Persqueue {
         public Builder clearPartitionData() {
           if (partitionDataBuilder_ == null) {
             partitionData_ = java.util.Collections.emptyList();
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
             onChanged();
           } else {
             partitionDataBuilder_.clear();
@@ -27584,18 +29666,20 @@ public final class Persqueue {
             partitionDataBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
                 tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData, tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionData.Builder, tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.PartitionDataOrBuilder>(
                     partitionData_,
-                    ((bitField0_ & 0x00000002) == 0x00000002),
+                    ((bitField0_ & 0x00000001) != 0),
                     getParentForChildren(),
                     isClean());
             partitionData_ = null;
           }
           return partitionDataBuilder_;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -27617,11 +29701,12 @@ public final class Persqueue {
 
       private static final com.google.protobuf.Parser<BatchedData>
           PARSER = new com.google.protobuf.AbstractParser<BatchedData>() {
+        @java.lang.Override
         public BatchedData parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new BatchedData(input, extensionRegistry);
+          return new BatchedData(input, extensionRegistry);
         }
       };
 
@@ -27634,6 +29719,7 @@ public final class Persqueue {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -27646,16 +29732,19 @@ public final class Persqueue {
 
       /**
        * <code>string topic = 1;</code>
+       * @return The topic.
        */
       java.lang.String getTopic();
       /**
        * <code>string topic = 1;</code>
+       * @return The bytes for topic.
        */
       com.google.protobuf.ByteString
           getTopicBytes();
 
       /**
        * <code>uint32 partition = 2;</code>
+       * @return The partition.
        */
       int getPartition();
 
@@ -27665,6 +29754,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 read_offset = 3;</code>
+       * @return The readOffset.
        */
       long getReadOffset();
 
@@ -27674,18 +29764,20 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 end_offset = 4;</code>
+       * @return The endOffset.
        */
       long getEndOffset();
 
       /**
        * <code>uint64 generation = 5;</code>
+       * @return The generation.
        */
       long getGeneration();
     }
     /**
      * Protobuf type {@code NPersQueue.ReadResponse.Lock}
      */
-    public  static final class Lock extends
+    public static final class Lock extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NPersQueue.ReadResponse.Lock)
         LockOrBuilder {
@@ -27696,10 +29788,13 @@ public final class Persqueue {
       }
       private Lock() {
         topic_ = "";
-        partition_ = 0;
-        readOffset_ = 0L;
-        endOffset_ = 0L;
-        generation_ = 0L;
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Lock();
       }
 
       @java.lang.Override
@@ -27712,7 +29807,9 @@ public final class Persqueue {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -27723,13 +29820,6 @@ public final class Persqueue {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 10: {
                 java.lang.String s = input.readStringRequireUtf8();
 
@@ -27756,6 +29846,13 @@ public final class Persqueue {
                 generation_ = input.readUInt64();
                 break;
               }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -27773,6 +29870,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Lock_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Lock_fieldAccessorTable
@@ -27784,7 +29882,9 @@ public final class Persqueue {
       private volatile java.lang.Object topic_;
       /**
        * <code>string topic = 1;</code>
+       * @return The topic.
        */
+      @java.lang.Override
       public java.lang.String getTopic() {
         java.lang.Object ref = topic_;
         if (ref instanceof java.lang.String) {
@@ -27799,7 +29899,9 @@ public final class Persqueue {
       }
       /**
        * <code>string topic = 1;</code>
+       * @return The bytes for topic.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getTopicBytes() {
         java.lang.Object ref = topic_;
@@ -27818,7 +29920,9 @@ public final class Persqueue {
       private int partition_;
       /**
        * <code>uint32 partition = 2;</code>
+       * @return The partition.
        */
+      @java.lang.Override
       public int getPartition() {
         return partition_;
       }
@@ -27831,7 +29935,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 read_offset = 3;</code>
+       * @return The readOffset.
        */
+      @java.lang.Override
       public long getReadOffset() {
         return readOffset_;
       }
@@ -27844,7 +29950,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 end_offset = 4;</code>
+       * @return The endOffset.
        */
+      @java.lang.Override
       public long getEndOffset() {
         return endOffset_;
       }
@@ -27853,12 +29961,15 @@ public final class Persqueue {
       private long generation_;
       /**
        * <code>uint64 generation = 5;</code>
+       * @return The generation.
        */
+      @java.lang.Override
       public long getGeneration() {
         return generation_;
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -27868,6 +29979,7 @@ public final class Persqueue {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (!getTopicBytes().isEmpty()) {
@@ -27888,6 +30000,7 @@ public final class Persqueue {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -27927,19 +30040,18 @@ public final class Persqueue {
         }
         tech.ydb.persqueue.Persqueue.ReadResponse.Lock other = (tech.ydb.persqueue.Persqueue.ReadResponse.Lock) obj;
 
-        boolean result = true;
-        result = result && getTopic()
-            .equals(other.getTopic());
-        result = result && (getPartition()
-            == other.getPartition());
-        result = result && (getReadOffset()
-            == other.getReadOffset());
-        result = result && (getEndOffset()
-            == other.getEndOffset());
-        result = result && (getGeneration()
-            == other.getGeneration());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!getTopic()
+            .equals(other.getTopic())) return false;
+        if (getPartition()
+            != other.getPartition()) return false;
+        if (getReadOffset()
+            != other.getReadOffset()) return false;
+        if (getEndOffset()
+            != other.getEndOffset()) return false;
+        if (getGeneration()
+            != other.getGeneration()) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -28037,6 +30149,7 @@ public final class Persqueue {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -28044,6 +30157,7 @@ public final class Persqueue {
       public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadResponse.Lock prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -28067,6 +30181,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Lock_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Lock_fieldAccessorTable
@@ -28089,6 +30204,7 @@ public final class Persqueue {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           topic_ = "";
@@ -28104,15 +30220,18 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Lock_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.Lock getDefaultInstanceForType() {
           return tech.ydb.persqueue.Persqueue.ReadResponse.Lock.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.Lock build() {
           tech.ydb.persqueue.Persqueue.ReadResponse.Lock result = buildPartial();
           if (!result.isInitialized()) {
@@ -28121,6 +30240,7 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.Lock buildPartial() {
           tech.ydb.persqueue.Persqueue.ReadResponse.Lock result = new tech.ydb.persqueue.Persqueue.ReadResponse.Lock(this);
           result.topic_ = topic_;
@@ -28132,32 +30252,39 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.persqueue.Persqueue.ReadResponse.Lock) {
             return mergeFrom((tech.ydb.persqueue.Persqueue.ReadResponse.Lock)other);
@@ -28190,10 +30317,12 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -28215,6 +30344,7 @@ public final class Persqueue {
         private java.lang.Object topic_ = "";
         /**
          * <code>string topic = 1;</code>
+         * @return The topic.
          */
         public java.lang.String getTopic() {
           java.lang.Object ref = topic_;
@@ -28230,6 +30360,7 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 1;</code>
+         * @return The bytes for topic.
          */
         public com.google.protobuf.ByteString
             getTopicBytes() {
@@ -28246,6 +30377,8 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 1;</code>
+         * @param value The topic to set.
+         * @return This builder for chaining.
          */
         public Builder setTopic(
             java.lang.String value) {
@@ -28259,6 +30392,7 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearTopic() {
           
@@ -28268,6 +30402,8 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 1;</code>
+         * @param value The bytes for topic to set.
+         * @return This builder for chaining.
          */
         public Builder setTopicBytes(
             com.google.protobuf.ByteString value) {
@@ -28284,12 +30420,16 @@ public final class Persqueue {
         private int partition_ ;
         /**
          * <code>uint32 partition = 2;</code>
+         * @return The partition.
          */
+        @java.lang.Override
         public int getPartition() {
           return partition_;
         }
         /**
          * <code>uint32 partition = 2;</code>
+         * @param value The partition to set.
+         * @return This builder for chaining.
          */
         public Builder setPartition(int value) {
           
@@ -28299,6 +30439,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint32 partition = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearPartition() {
           
@@ -28314,7 +30455,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 read_offset = 3;</code>
+         * @return The readOffset.
          */
+        @java.lang.Override
         public long getReadOffset() {
           return readOffset_;
         }
@@ -28324,6 +30467,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 read_offset = 3;</code>
+         * @param value The readOffset to set.
+         * @return This builder for chaining.
          */
         public Builder setReadOffset(long value) {
           
@@ -28337,6 +30482,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 read_offset = 3;</code>
+         * @return This builder for chaining.
          */
         public Builder clearReadOffset() {
           
@@ -28352,7 +30498,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 end_offset = 4;</code>
+         * @return The endOffset.
          */
+        @java.lang.Override
         public long getEndOffset() {
           return endOffset_;
         }
@@ -28362,6 +30510,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 end_offset = 4;</code>
+         * @param value The endOffset to set.
+         * @return This builder for chaining.
          */
         public Builder setEndOffset(long value) {
           
@@ -28375,6 +30525,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 end_offset = 4;</code>
+         * @return This builder for chaining.
          */
         public Builder clearEndOffset() {
           
@@ -28386,12 +30537,16 @@ public final class Persqueue {
         private long generation_ ;
         /**
          * <code>uint64 generation = 5;</code>
+         * @return The generation.
          */
+        @java.lang.Override
         public long getGeneration() {
           return generation_;
         }
         /**
          * <code>uint64 generation = 5;</code>
+         * @param value The generation to set.
+         * @return This builder for chaining.
          */
         public Builder setGeneration(long value) {
           
@@ -28401,6 +30556,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint64 generation = 5;</code>
+         * @return This builder for chaining.
          */
         public Builder clearGeneration() {
           
@@ -28408,11 +30564,13 @@ public final class Persqueue {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -28434,11 +30592,12 @@ public final class Persqueue {
 
       private static final com.google.protobuf.Parser<Lock>
           PARSER = new com.google.protobuf.AbstractParser<Lock>() {
+        @java.lang.Override
         public Lock parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Lock(input, extensionRegistry);
+          return new Lock(input, extensionRegistry);
         }
       };
 
@@ -28451,6 +30610,7 @@ public final class Persqueue {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.Lock getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -28463,16 +30623,19 @@ public final class Persqueue {
 
       /**
        * <code>string topic = 1;</code>
+       * @return The topic.
        */
       java.lang.String getTopic();
       /**
        * <code>string topic = 1;</code>
+       * @return The bytes for topic.
        */
       com.google.protobuf.ByteString
           getTopicBytes();
 
       /**
        * <code>uint32 partition = 2;</code>
+       * @return The partition.
        */
       int getPartition();
 
@@ -28482,6 +30645,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>bool can_commit = 3;</code>
+       * @return The canCommit.
        */
       boolean getCanCommit();
 
@@ -28494,13 +30658,14 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 generation = 4;</code>
+       * @return The generation.
        */
       long getGeneration();
     }
     /**
      * Protobuf type {@code NPersQueue.ReadResponse.Release}
      */
-    public  static final class Release extends
+    public static final class Release extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NPersQueue.ReadResponse.Release)
         ReleaseOrBuilder {
@@ -28511,9 +30676,13 @@ public final class Persqueue {
       }
       private Release() {
         topic_ = "";
-        partition_ = 0;
-        canCommit_ = false;
-        generation_ = 0L;
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Release();
       }
 
       @java.lang.Override
@@ -28526,7 +30695,9 @@ public final class Persqueue {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -28537,13 +30708,6 @@ public final class Persqueue {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 10: {
                 java.lang.String s = input.readStringRequireUtf8();
 
@@ -28565,6 +30729,13 @@ public final class Persqueue {
                 generation_ = input.readUInt64();
                 break;
               }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -28582,6 +30753,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Release_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Release_fieldAccessorTable
@@ -28593,7 +30765,9 @@ public final class Persqueue {
       private volatile java.lang.Object topic_;
       /**
        * <code>string topic = 1;</code>
+       * @return The topic.
        */
+      @java.lang.Override
       public java.lang.String getTopic() {
         java.lang.Object ref = topic_;
         if (ref instanceof java.lang.String) {
@@ -28608,7 +30782,9 @@ public final class Persqueue {
       }
       /**
        * <code>string topic = 1;</code>
+       * @return The bytes for topic.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getTopicBytes() {
         java.lang.Object ref = topic_;
@@ -28627,7 +30803,9 @@ public final class Persqueue {
       private int partition_;
       /**
        * <code>uint32 partition = 2;</code>
+       * @return The partition.
        */
+      @java.lang.Override
       public int getPartition() {
         return partition_;
       }
@@ -28640,7 +30818,9 @@ public final class Persqueue {
        * </pre>
        *
        * <code>bool can_commit = 3;</code>
+       * @return The canCommit.
        */
+      @java.lang.Override
       public boolean getCanCommit() {
         return canCommit_;
       }
@@ -28656,12 +30836,15 @@ public final class Persqueue {
        * </pre>
        *
        * <code>uint64 generation = 4;</code>
+       * @return The generation.
        */
+      @java.lang.Override
       public long getGeneration() {
         return generation_;
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -28671,6 +30854,7 @@ public final class Persqueue {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (!getTopicBytes().isEmpty()) {
@@ -28688,6 +30872,7 @@ public final class Persqueue {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -28723,17 +30908,16 @@ public final class Persqueue {
         }
         tech.ydb.persqueue.Persqueue.ReadResponse.Release other = (tech.ydb.persqueue.Persqueue.ReadResponse.Release) obj;
 
-        boolean result = true;
-        result = result && getTopic()
-            .equals(other.getTopic());
-        result = result && (getPartition()
-            == other.getPartition());
-        result = result && (getCanCommit()
-            == other.getCanCommit());
-        result = result && (getGeneration()
-            == other.getGeneration());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!getTopic()
+            .equals(other.getTopic())) return false;
+        if (getPartition()
+            != other.getPartition()) return false;
+        if (getCanCommit()
+            != other.getCanCommit()) return false;
+        if (getGeneration()
+            != other.getGeneration()) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -28828,6 +31012,7 @@ public final class Persqueue {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -28835,6 +31020,7 @@ public final class Persqueue {
       public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadResponse.Release prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -28858,6 +31044,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Release_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Release_fieldAccessorTable
@@ -28880,6 +31067,7 @@ public final class Persqueue {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           topic_ = "";
@@ -28893,15 +31081,18 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Release_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.Release getDefaultInstanceForType() {
           return tech.ydb.persqueue.Persqueue.ReadResponse.Release.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.Release build() {
           tech.ydb.persqueue.Persqueue.ReadResponse.Release result = buildPartial();
           if (!result.isInitialized()) {
@@ -28910,6 +31101,7 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.Release buildPartial() {
           tech.ydb.persqueue.Persqueue.ReadResponse.Release result = new tech.ydb.persqueue.Persqueue.ReadResponse.Release(this);
           result.topic_ = topic_;
@@ -28920,32 +31112,39 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.persqueue.Persqueue.ReadResponse.Release) {
             return mergeFrom((tech.ydb.persqueue.Persqueue.ReadResponse.Release)other);
@@ -28975,10 +31174,12 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -29000,6 +31201,7 @@ public final class Persqueue {
         private java.lang.Object topic_ = "";
         /**
          * <code>string topic = 1;</code>
+         * @return The topic.
          */
         public java.lang.String getTopic() {
           java.lang.Object ref = topic_;
@@ -29015,6 +31217,7 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 1;</code>
+         * @return The bytes for topic.
          */
         public com.google.protobuf.ByteString
             getTopicBytes() {
@@ -29031,6 +31234,8 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 1;</code>
+         * @param value The topic to set.
+         * @return This builder for chaining.
          */
         public Builder setTopic(
             java.lang.String value) {
@@ -29044,6 +31249,7 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearTopic() {
           
@@ -29053,6 +31259,8 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 1;</code>
+         * @param value The bytes for topic to set.
+         * @return This builder for chaining.
          */
         public Builder setTopicBytes(
             com.google.protobuf.ByteString value) {
@@ -29069,12 +31277,16 @@ public final class Persqueue {
         private int partition_ ;
         /**
          * <code>uint32 partition = 2;</code>
+         * @return The partition.
          */
+        @java.lang.Override
         public int getPartition() {
           return partition_;
         }
         /**
          * <code>uint32 partition = 2;</code>
+         * @param value The partition to set.
+         * @return This builder for chaining.
          */
         public Builder setPartition(int value) {
           
@@ -29084,6 +31296,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint32 partition = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearPartition() {
           
@@ -29099,7 +31312,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>bool can_commit = 3;</code>
+         * @return The canCommit.
          */
+        @java.lang.Override
         public boolean getCanCommit() {
           return canCommit_;
         }
@@ -29109,6 +31324,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>bool can_commit = 3;</code>
+         * @param value The canCommit to set.
+         * @return This builder for chaining.
          */
         public Builder setCanCommit(boolean value) {
           
@@ -29122,6 +31339,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>bool can_commit = 3;</code>
+         * @return This builder for chaining.
          */
         public Builder clearCanCommit() {
           
@@ -29140,7 +31358,9 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 generation = 4;</code>
+         * @return The generation.
          */
+        @java.lang.Override
         public long getGeneration() {
           return generation_;
         }
@@ -29153,6 +31373,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 generation = 4;</code>
+         * @param value The generation to set.
+         * @return This builder for chaining.
          */
         public Builder setGeneration(long value) {
           
@@ -29169,6 +31391,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>uint64 generation = 4;</code>
+         * @return This builder for chaining.
          */
         public Builder clearGeneration() {
           
@@ -29176,11 +31399,13 @@ public final class Persqueue {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -29202,11 +31427,12 @@ public final class Persqueue {
 
       private static final com.google.protobuf.Parser<Release>
           PARSER = new com.google.protobuf.AbstractParser<Release>() {
+        @java.lang.Override
         public Release parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Release(input, extensionRegistry);
+          return new Release(input, extensionRegistry);
         }
       };
 
@@ -29219,6 +31445,7 @@ public final class Persqueue {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.Release getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -29235,6 +31462,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>repeated uint64 cookie = 1;</code>
+       * @return A list containing the cookie.
        */
       java.util.List<java.lang.Long> getCookieList();
       /**
@@ -29243,6 +31471,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>repeated uint64 cookie = 1;</code>
+       * @return The count of cookie.
        */
       int getCookieCount();
       /**
@@ -29251,13 +31480,15 @@ public final class Persqueue {
        * </pre>
        *
        * <code>repeated uint64 cookie = 1;</code>
+       * @param index The index of the element to return.
+       * @return The cookie at the given index.
        */
       long getCookie(int index);
     }
     /**
      * Protobuf type {@code NPersQueue.ReadResponse.Commit}
      */
-    public  static final class Commit extends
+    public static final class Commit extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NPersQueue.ReadResponse.Commit)
         CommitOrBuilder {
@@ -29267,7 +31498,14 @@ public final class Persqueue {
         super(builder);
       }
       private Commit() {
-        cookie_ = java.util.Collections.emptyList();
+        cookie_ = emptyLongList();
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Commit();
       }
 
       @java.lang.Override
@@ -29280,6 +31518,9 @@ public final class Persqueue {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         int mutable_bitField0_ = 0;
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -29291,32 +31532,32 @@ public final class Persqueue {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 8: {
-                if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                  cookie_ = new java.util.ArrayList<java.lang.Long>();
+                if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                  cookie_ = newLongList();
                   mutable_bitField0_ |= 0x00000001;
                 }
-                cookie_.add(input.readUInt64());
+                cookie_.addLong(input.readUInt64());
                 break;
               }
               case 10: {
                 int length = input.readRawVarint32();
                 int limit = input.pushLimit(length);
-                if (!((mutable_bitField0_ & 0x00000001) == 0x00000001) && input.getBytesUntilLimit() > 0) {
-                  cookie_ = new java.util.ArrayList<java.lang.Long>();
+                if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
+                  cookie_ = newLongList();
                   mutable_bitField0_ |= 0x00000001;
                 }
                 while (input.getBytesUntilLimit() > 0) {
-                  cookie_.add(input.readUInt64());
+                  cookie_.addLong(input.readUInt64());
                 }
                 input.popLimit(limit);
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
                 break;
               }
             }
@@ -29327,8 +31568,8 @@ public final class Persqueue {
           throw new com.google.protobuf.InvalidProtocolBufferException(
               e).setUnfinishedMessage(this);
         } finally {
-          if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-            cookie_ = java.util.Collections.unmodifiableList(cookie_);
+          if (((mutable_bitField0_ & 0x00000001) != 0)) {
+            cookie_.makeImmutable(); // C
           }
           this.unknownFields = unknownFields.build();
           makeExtensionsImmutable();
@@ -29339,6 +31580,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Commit_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Commit_fieldAccessorTable
@@ -29347,14 +31589,16 @@ public final class Persqueue {
       }
 
       public static final int COOKIE_FIELD_NUMBER = 1;
-      private java.util.List<java.lang.Long> cookie_;
+      private com.google.protobuf.Internal.LongList cookie_;
       /**
        * <pre>
        *for debug purposes only
        * </pre>
        *
        * <code>repeated uint64 cookie = 1;</code>
+       * @return A list containing the cookie.
        */
+      @java.lang.Override
       public java.util.List<java.lang.Long>
           getCookieList() {
         return cookie_;
@@ -29365,6 +31609,7 @@ public final class Persqueue {
        * </pre>
        *
        * <code>repeated uint64 cookie = 1;</code>
+       * @return The count of cookie.
        */
       public int getCookieCount() {
         return cookie_.size();
@@ -29375,13 +31620,16 @@ public final class Persqueue {
        * </pre>
        *
        * <code>repeated uint64 cookie = 1;</code>
+       * @param index The index of the element to return.
+       * @return The cookie at the given index.
        */
       public long getCookie(int index) {
-        return cookie_.get(index);
+        return cookie_.getLong(index);
       }
       private int cookieMemoizedSerializedSize = -1;
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -29391,6 +31639,7 @@ public final class Persqueue {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         getSerializedSize();
@@ -29399,11 +31648,12 @@ public final class Persqueue {
           output.writeUInt32NoTag(cookieMemoizedSerializedSize);
         }
         for (int i = 0; i < cookie_.size(); i++) {
-          output.writeUInt64NoTag(cookie_.get(i));
+          output.writeUInt64NoTag(cookie_.getLong(i));
         }
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -29413,7 +31663,7 @@ public final class Persqueue {
           int dataSize = 0;
           for (int i = 0; i < cookie_.size(); i++) {
             dataSize += com.google.protobuf.CodedOutputStream
-              .computeUInt64SizeNoTag(cookie_.get(i));
+              .computeUInt64SizeNoTag(cookie_.getLong(i));
           }
           size += dataSize;
           if (!getCookieList().isEmpty()) {
@@ -29438,11 +31688,10 @@ public final class Persqueue {
         }
         tech.ydb.persqueue.Persqueue.ReadResponse.Commit other = (tech.ydb.persqueue.Persqueue.ReadResponse.Commit) obj;
 
-        boolean result = true;
-        result = result && getCookieList()
-            .equals(other.getCookieList());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (!getCookieList()
+            .equals(other.getCookieList())) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -29531,6 +31780,7 @@ public final class Persqueue {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -29538,6 +31788,7 @@ public final class Persqueue {
       public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadResponse.Commit prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -29561,6 +31812,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Commit_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Commit_fieldAccessorTable
@@ -29583,22 +31835,26 @@ public final class Persqueue {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
-          cookie_ = java.util.Collections.emptyList();
+          cookie_ = emptyLongList();
           bitField0_ = (bitField0_ & ~0x00000001);
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_Commit_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.Commit getDefaultInstanceForType() {
           return tech.ydb.persqueue.Persqueue.ReadResponse.Commit.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.Commit build() {
           tech.ydb.persqueue.Persqueue.ReadResponse.Commit result = buildPartial();
           if (!result.isInitialized()) {
@@ -29607,11 +31863,12 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.Commit buildPartial() {
           tech.ydb.persqueue.Persqueue.ReadResponse.Commit result = new tech.ydb.persqueue.Persqueue.ReadResponse.Commit(this);
           int from_bitField0_ = bitField0_;
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
-            cookie_ = java.util.Collections.unmodifiableList(cookie_);
+          if (((bitField0_ & 0x00000001) != 0)) {
+            cookie_.makeImmutable();
             bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.cookie_ = cookie_;
@@ -29619,32 +31876,39 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.persqueue.Persqueue.ReadResponse.Commit) {
             return mergeFrom((tech.ydb.persqueue.Persqueue.ReadResponse.Commit)other);
@@ -29671,10 +31935,12 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -29694,10 +31960,10 @@ public final class Persqueue {
         }
         private int bitField0_;
 
-        private java.util.List<java.lang.Long> cookie_ = java.util.Collections.emptyList();
+        private com.google.protobuf.Internal.LongList cookie_ = emptyLongList();
         private void ensureCookieIsMutable() {
-          if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-            cookie_ = new java.util.ArrayList<java.lang.Long>(cookie_);
+          if (!((bitField0_ & 0x00000001) != 0)) {
+            cookie_ = mutableCopy(cookie_);
             bitField0_ |= 0x00000001;
            }
         }
@@ -29707,10 +31973,12 @@ public final class Persqueue {
          * </pre>
          *
          * <code>repeated uint64 cookie = 1;</code>
+         * @return A list containing the cookie.
          */
         public java.util.List<java.lang.Long>
             getCookieList() {
-          return java.util.Collections.unmodifiableList(cookie_);
+          return ((bitField0_ & 0x00000001) != 0) ?
+                   java.util.Collections.unmodifiableList(cookie_) : cookie_;
         }
         /**
          * <pre>
@@ -29718,6 +31986,7 @@ public final class Persqueue {
          * </pre>
          *
          * <code>repeated uint64 cookie = 1;</code>
+         * @return The count of cookie.
          */
         public int getCookieCount() {
           return cookie_.size();
@@ -29728,9 +31997,11 @@ public final class Persqueue {
          * </pre>
          *
          * <code>repeated uint64 cookie = 1;</code>
+         * @param index The index of the element to return.
+         * @return The cookie at the given index.
          */
         public long getCookie(int index) {
-          return cookie_.get(index);
+          return cookie_.getLong(index);
         }
         /**
          * <pre>
@@ -29738,11 +32009,14 @@ public final class Persqueue {
          * </pre>
          *
          * <code>repeated uint64 cookie = 1;</code>
+         * @param index The index to set the value at.
+         * @param value The cookie to set.
+         * @return This builder for chaining.
          */
         public Builder setCookie(
             int index, long value) {
           ensureCookieIsMutable();
-          cookie_.set(index, value);
+          cookie_.setLong(index, value);
           onChanged();
           return this;
         }
@@ -29752,10 +32026,12 @@ public final class Persqueue {
          * </pre>
          *
          * <code>repeated uint64 cookie = 1;</code>
+         * @param value The cookie to add.
+         * @return This builder for chaining.
          */
         public Builder addCookie(long value) {
           ensureCookieIsMutable();
-          cookie_.add(value);
+          cookie_.addLong(value);
           onChanged();
           return this;
         }
@@ -29765,6 +32041,8 @@ public final class Persqueue {
          * </pre>
          *
          * <code>repeated uint64 cookie = 1;</code>
+         * @param values The cookie to add.
+         * @return This builder for chaining.
          */
         public Builder addAllCookie(
             java.lang.Iterable<? extends java.lang.Long> values) {
@@ -29780,18 +32058,21 @@ public final class Persqueue {
          * </pre>
          *
          * <code>repeated uint64 cookie = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearCookie() {
-          cookie_ = java.util.Collections.emptyList();
+          cookie_ = emptyLongList();
           bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -29813,11 +32094,12 @@ public final class Persqueue {
 
       private static final com.google.protobuf.Parser<Commit>
           PARSER = new com.google.protobuf.AbstractParser<Commit>() {
+        @java.lang.Override
         public Commit parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Commit(input, extensionRegistry);
+          return new Commit(input, extensionRegistry);
         }
       };
 
@@ -29830,6 +32112,7 @@ public final class Persqueue {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.Commit getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -29842,36 +32125,43 @@ public final class Persqueue {
 
       /**
        * <code>uint64 generation = 1;</code>
+       * @return The generation.
        */
       long getGeneration();
 
       /**
        * <code>string topic = 2;</code>
+       * @return The topic.
        */
       java.lang.String getTopic();
       /**
        * <code>string topic = 2;</code>
+       * @return The bytes for topic.
        */
       com.google.protobuf.ByteString
           getTopicBytes();
 
       /**
        * <code>uint32 partition = 3;</code>
+       * @return The partition.
        */
       int getPartition();
 
       /**
        * <code>uint64 committed_offset = 4;</code>
+       * @return The committedOffset.
        */
       long getCommittedOffset();
 
       /**
        * <code>uint64 end_offset = 5;</code>
+       * @return The endOffset.
        */
       long getEndOffset();
 
       /**
        * <code>uint64 write_watermark_ms = 6;</code>
+       * @return The writeWatermarkMs.
        */
       long getWriteWatermarkMs();
     }
@@ -29882,7 +32172,7 @@ public final class Persqueue {
      *
      * Protobuf type {@code NPersQueue.ReadResponse.PartitionStatus}
      */
-    public  static final class PartitionStatus extends
+    public static final class PartitionStatus extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:NPersQueue.ReadResponse.PartitionStatus)
         PartitionStatusOrBuilder {
@@ -29892,12 +32182,14 @@ public final class Persqueue {
         super(builder);
       }
       private PartitionStatus() {
-        generation_ = 0L;
         topic_ = "";
-        partition_ = 0;
-        committedOffset_ = 0L;
-        endOffset_ = 0L;
-        writeWatermarkMs_ = 0L;
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new PartitionStatus();
       }
 
       @java.lang.Override
@@ -29910,7 +32202,9 @@ public final class Persqueue {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -29921,13 +32215,6 @@ public final class Persqueue {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 8: {
 
                 generation_ = input.readUInt64();
@@ -29959,6 +32246,13 @@ public final class Persqueue {
                 writeWatermarkMs_ = input.readUInt64();
                 break;
               }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -29976,6 +32270,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_PartitionStatus_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_PartitionStatus_fieldAccessorTable
@@ -29987,7 +32282,9 @@ public final class Persqueue {
       private long generation_;
       /**
        * <code>uint64 generation = 1;</code>
+       * @return The generation.
        */
+      @java.lang.Override
       public long getGeneration() {
         return generation_;
       }
@@ -29996,7 +32293,9 @@ public final class Persqueue {
       private volatile java.lang.Object topic_;
       /**
        * <code>string topic = 2;</code>
+       * @return The topic.
        */
+      @java.lang.Override
       public java.lang.String getTopic() {
         java.lang.Object ref = topic_;
         if (ref instanceof java.lang.String) {
@@ -30011,7 +32310,9 @@ public final class Persqueue {
       }
       /**
        * <code>string topic = 2;</code>
+       * @return The bytes for topic.
        */
+      @java.lang.Override
       public com.google.protobuf.ByteString
           getTopicBytes() {
         java.lang.Object ref = topic_;
@@ -30030,7 +32331,9 @@ public final class Persqueue {
       private int partition_;
       /**
        * <code>uint32 partition = 3;</code>
+       * @return The partition.
        */
+      @java.lang.Override
       public int getPartition() {
         return partition_;
       }
@@ -30039,7 +32342,9 @@ public final class Persqueue {
       private long committedOffset_;
       /**
        * <code>uint64 committed_offset = 4;</code>
+       * @return The committedOffset.
        */
+      @java.lang.Override
       public long getCommittedOffset() {
         return committedOffset_;
       }
@@ -30048,7 +32353,9 @@ public final class Persqueue {
       private long endOffset_;
       /**
        * <code>uint64 end_offset = 5;</code>
+       * @return The endOffset.
        */
+      @java.lang.Override
       public long getEndOffset() {
         return endOffset_;
       }
@@ -30057,12 +32364,15 @@ public final class Persqueue {
       private long writeWatermarkMs_;
       /**
        * <code>uint64 write_watermark_ms = 6;</code>
+       * @return The writeWatermarkMs.
        */
+      @java.lang.Override
       public long getWriteWatermarkMs() {
         return writeWatermarkMs_;
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -30072,6 +32382,7 @@ public final class Persqueue {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (generation_ != 0L) {
@@ -30095,6 +32406,7 @@ public final class Persqueue {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -30138,21 +32450,20 @@ public final class Persqueue {
         }
         tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus other = (tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus) obj;
 
-        boolean result = true;
-        result = result && (getGeneration()
-            == other.getGeneration());
-        result = result && getTopic()
-            .equals(other.getTopic());
-        result = result && (getPartition()
-            == other.getPartition());
-        result = result && (getCommittedOffset()
-            == other.getCommittedOffset());
-        result = result && (getEndOffset()
-            == other.getEndOffset());
-        result = result && (getWriteWatermarkMs()
-            == other.getWriteWatermarkMs());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (getGeneration()
+            != other.getGeneration()) return false;
+        if (!getTopic()
+            .equals(other.getTopic())) return false;
+        if (getPartition()
+            != other.getPartition()) return false;
+        if (getCommittedOffset()
+            != other.getCommittedOffset()) return false;
+        if (getEndOffset()
+            != other.getEndOffset()) return false;
+        if (getWriteWatermarkMs()
+            != other.getWriteWatermarkMs()) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -30253,6 +32564,7 @@ public final class Persqueue {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -30260,6 +32572,7 @@ public final class Persqueue {
       public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -30287,6 +32600,7 @@ public final class Persqueue {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_PartitionStatus_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_PartitionStatus_fieldAccessorTable
@@ -30309,6 +32623,7 @@ public final class Persqueue {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           generation_ = 0L;
@@ -30326,15 +32641,18 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_PartitionStatus_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus getDefaultInstanceForType() {
           return tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus build() {
           tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus result = buildPartial();
           if (!result.isInitialized()) {
@@ -30343,6 +32661,7 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus buildPartial() {
           tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus result = new tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus(this);
           result.generation_ = generation_;
@@ -30355,32 +32674,39 @@ public final class Persqueue {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus) {
             return mergeFrom((tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus)other);
@@ -30416,10 +32742,12 @@ public final class Persqueue {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -30441,12 +32769,16 @@ public final class Persqueue {
         private long generation_ ;
         /**
          * <code>uint64 generation = 1;</code>
+         * @return The generation.
          */
+        @java.lang.Override
         public long getGeneration() {
           return generation_;
         }
         /**
          * <code>uint64 generation = 1;</code>
+         * @param value The generation to set.
+         * @return This builder for chaining.
          */
         public Builder setGeneration(long value) {
           
@@ -30456,6 +32788,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint64 generation = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearGeneration() {
           
@@ -30467,6 +32800,7 @@ public final class Persqueue {
         private java.lang.Object topic_ = "";
         /**
          * <code>string topic = 2;</code>
+         * @return The topic.
          */
         public java.lang.String getTopic() {
           java.lang.Object ref = topic_;
@@ -30482,6 +32816,7 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 2;</code>
+         * @return The bytes for topic.
          */
         public com.google.protobuf.ByteString
             getTopicBytes() {
@@ -30498,6 +32833,8 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 2;</code>
+         * @param value The topic to set.
+         * @return This builder for chaining.
          */
         public Builder setTopic(
             java.lang.String value) {
@@ -30511,6 +32848,7 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearTopic() {
           
@@ -30520,6 +32858,8 @@ public final class Persqueue {
         }
         /**
          * <code>string topic = 2;</code>
+         * @param value The bytes for topic to set.
+         * @return This builder for chaining.
          */
         public Builder setTopicBytes(
             com.google.protobuf.ByteString value) {
@@ -30536,12 +32876,16 @@ public final class Persqueue {
         private int partition_ ;
         /**
          * <code>uint32 partition = 3;</code>
+         * @return The partition.
          */
+        @java.lang.Override
         public int getPartition() {
           return partition_;
         }
         /**
          * <code>uint32 partition = 3;</code>
+         * @param value The partition to set.
+         * @return This builder for chaining.
          */
         public Builder setPartition(int value) {
           
@@ -30551,6 +32895,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint32 partition = 3;</code>
+         * @return This builder for chaining.
          */
         public Builder clearPartition() {
           
@@ -30562,12 +32907,16 @@ public final class Persqueue {
         private long committedOffset_ ;
         /**
          * <code>uint64 committed_offset = 4;</code>
+         * @return The committedOffset.
          */
+        @java.lang.Override
         public long getCommittedOffset() {
           return committedOffset_;
         }
         /**
          * <code>uint64 committed_offset = 4;</code>
+         * @param value The committedOffset to set.
+         * @return This builder for chaining.
          */
         public Builder setCommittedOffset(long value) {
           
@@ -30577,6 +32926,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint64 committed_offset = 4;</code>
+         * @return This builder for chaining.
          */
         public Builder clearCommittedOffset() {
           
@@ -30588,12 +32938,16 @@ public final class Persqueue {
         private long endOffset_ ;
         /**
          * <code>uint64 end_offset = 5;</code>
+         * @return The endOffset.
          */
+        @java.lang.Override
         public long getEndOffset() {
           return endOffset_;
         }
         /**
          * <code>uint64 end_offset = 5;</code>
+         * @param value The endOffset to set.
+         * @return This builder for chaining.
          */
         public Builder setEndOffset(long value) {
           
@@ -30603,6 +32957,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint64 end_offset = 5;</code>
+         * @return This builder for chaining.
          */
         public Builder clearEndOffset() {
           
@@ -30614,12 +32969,16 @@ public final class Persqueue {
         private long writeWatermarkMs_ ;
         /**
          * <code>uint64 write_watermark_ms = 6;</code>
+         * @return The writeWatermarkMs.
          */
+        @java.lang.Override
         public long getWriteWatermarkMs() {
           return writeWatermarkMs_;
         }
         /**
          * <code>uint64 write_watermark_ms = 6;</code>
+         * @param value The writeWatermarkMs to set.
+         * @return This builder for chaining.
          */
         public Builder setWriteWatermarkMs(long value) {
           
@@ -30629,6 +32988,7 @@ public final class Persqueue {
         }
         /**
          * <code>uint64 write_watermark_ms = 6;</code>
+         * @return This builder for chaining.
          */
         public Builder clearWriteWatermarkMs() {
           
@@ -30636,11 +32996,13 @@ public final class Persqueue {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -30662,11 +33024,12 @@ public final class Persqueue {
 
       private static final com.google.protobuf.Parser<PartitionStatus>
           PARSER = new com.google.protobuf.AbstractParser<PartitionStatus>() {
+        @java.lang.Override
         public PartitionStatus parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new PartitionStatus(input, extensionRegistry);
+          return new PartitionStatus(input, extensionRegistry);
         }
       };
 
@@ -30679,6 +33042,7 @@ public final class Persqueue {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -30688,7 +33052,8 @@ public final class Persqueue {
     private int responseCase_ = 0;
     private java.lang.Object response_;
     public enum ResponseCase
-        implements com.google.protobuf.Internal.EnumLite {
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       INIT(1),
       DATA(2),
       BATCHED_DATA(7),
@@ -30703,6 +33068,8 @@ public final class Persqueue {
         this.value = value;
       }
       /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -30738,13 +33105,17 @@ public final class Persqueue {
     public static final int INIT_FIELD_NUMBER = 1;
     /**
      * <code>.NPersQueue.ReadResponse.Init init = 1;</code>
+     * @return Whether the init field is set.
      */
+    @java.lang.Override
     public boolean hasInit() {
       return responseCase_ == 1;
     }
     /**
      * <code>.NPersQueue.ReadResponse.Init init = 1;</code>
+     * @return The init.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadResponse.Init getInit() {
       if (responseCase_ == 1) {
          return (tech.ydb.persqueue.Persqueue.ReadResponse.Init) response_;
@@ -30754,6 +33125,7 @@ public final class Persqueue {
     /**
      * <code>.NPersQueue.ReadResponse.Init init = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadResponse.InitOrBuilder getInitOrBuilder() {
       if (responseCase_ == 1) {
          return (tech.ydb.persqueue.Persqueue.ReadResponse.Init) response_;
@@ -30764,13 +33136,17 @@ public final class Persqueue {
     public static final int DATA_FIELD_NUMBER = 2;
     /**
      * <code>.NPersQueue.ReadResponse.Data data = 2;</code>
+     * @return Whether the data field is set.
      */
+    @java.lang.Override
     public boolean hasData() {
       return responseCase_ == 2;
     }
     /**
      * <code>.NPersQueue.ReadResponse.Data data = 2;</code>
+     * @return The data.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadResponse.Data getData() {
       if (responseCase_ == 2) {
          return (tech.ydb.persqueue.Persqueue.ReadResponse.Data) response_;
@@ -30780,6 +33156,7 @@ public final class Persqueue {
     /**
      * <code>.NPersQueue.ReadResponse.Data data = 2;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadResponse.DataOrBuilder getDataOrBuilder() {
       if (responseCase_ == 2) {
          return (tech.ydb.persqueue.Persqueue.ReadResponse.Data) response_;
@@ -30790,13 +33167,17 @@ public final class Persqueue {
     public static final int BATCHED_DATA_FIELD_NUMBER = 7;
     /**
      * <code>.NPersQueue.ReadResponse.BatchedData batched_data = 7;</code>
+     * @return Whether the batchedData field is set.
      */
+    @java.lang.Override
     public boolean hasBatchedData() {
       return responseCase_ == 7;
     }
     /**
      * <code>.NPersQueue.ReadResponse.BatchedData batched_data = 7;</code>
+     * @return The batchedData.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData getBatchedData() {
       if (responseCase_ == 7) {
          return (tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData) response_;
@@ -30806,6 +33187,7 @@ public final class Persqueue {
     /**
      * <code>.NPersQueue.ReadResponse.BatchedData batched_data = 7;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedDataOrBuilder getBatchedDataOrBuilder() {
       if (responseCase_ == 7) {
          return (tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData) response_;
@@ -30816,13 +33198,17 @@ public final class Persqueue {
     public static final int ERROR_FIELD_NUMBER = 3;
     /**
      * <code>.NPersQueue.Error error = 3;</code>
+     * @return Whether the error field is set.
      */
+    @java.lang.Override
     public boolean hasError() {
       return responseCase_ == 3;
     }
     /**
      * <code>.NPersQueue.Error error = 3;</code>
+     * @return The error.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.Error getError() {
       if (responseCase_ == 3) {
          return (tech.ydb.persqueue.Persqueue.Error) response_;
@@ -30832,6 +33218,7 @@ public final class Persqueue {
     /**
      * <code>.NPersQueue.Error error = 3;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ErrorOrBuilder getErrorOrBuilder() {
       if (responseCase_ == 3) {
          return (tech.ydb.persqueue.Persqueue.Error) response_;
@@ -30842,13 +33229,17 @@ public final class Persqueue {
     public static final int LOCK_FIELD_NUMBER = 4;
     /**
      * <code>.NPersQueue.ReadResponse.Lock lock = 4;</code>
+     * @return Whether the lock field is set.
      */
+    @java.lang.Override
     public boolean hasLock() {
       return responseCase_ == 4;
     }
     /**
      * <code>.NPersQueue.ReadResponse.Lock lock = 4;</code>
+     * @return The lock.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadResponse.Lock getLock() {
       if (responseCase_ == 4) {
          return (tech.ydb.persqueue.Persqueue.ReadResponse.Lock) response_;
@@ -30858,6 +33249,7 @@ public final class Persqueue {
     /**
      * <code>.NPersQueue.ReadResponse.Lock lock = 4;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadResponse.LockOrBuilder getLockOrBuilder() {
       if (responseCase_ == 4) {
          return (tech.ydb.persqueue.Persqueue.ReadResponse.Lock) response_;
@@ -30868,13 +33260,17 @@ public final class Persqueue {
     public static final int RELEASE_FIELD_NUMBER = 5;
     /**
      * <code>.NPersQueue.ReadResponse.Release release = 5;</code>
+     * @return Whether the release field is set.
      */
+    @java.lang.Override
     public boolean hasRelease() {
       return responseCase_ == 5;
     }
     /**
      * <code>.NPersQueue.ReadResponse.Release release = 5;</code>
+     * @return The release.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadResponse.Release getRelease() {
       if (responseCase_ == 5) {
          return (tech.ydb.persqueue.Persqueue.ReadResponse.Release) response_;
@@ -30884,6 +33280,7 @@ public final class Persqueue {
     /**
      * <code>.NPersQueue.ReadResponse.Release release = 5;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadResponse.ReleaseOrBuilder getReleaseOrBuilder() {
       if (responseCase_ == 5) {
          return (tech.ydb.persqueue.Persqueue.ReadResponse.Release) response_;
@@ -30894,13 +33291,17 @@ public final class Persqueue {
     public static final int COMMIT_FIELD_NUMBER = 6;
     /**
      * <code>.NPersQueue.ReadResponse.Commit commit = 6;</code>
+     * @return Whether the commit field is set.
      */
+    @java.lang.Override
     public boolean hasCommit() {
       return responseCase_ == 6;
     }
     /**
      * <code>.NPersQueue.ReadResponse.Commit commit = 6;</code>
+     * @return The commit.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadResponse.Commit getCommit() {
       if (responseCase_ == 6) {
          return (tech.ydb.persqueue.Persqueue.ReadResponse.Commit) response_;
@@ -30910,6 +33311,7 @@ public final class Persqueue {
     /**
      * <code>.NPersQueue.ReadResponse.Commit commit = 6;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadResponse.CommitOrBuilder getCommitOrBuilder() {
       if (responseCase_ == 6) {
          return (tech.ydb.persqueue.Persqueue.ReadResponse.Commit) response_;
@@ -30920,13 +33322,17 @@ public final class Persqueue {
     public static final int PARTITION_STATUS_FIELD_NUMBER = 8;
     /**
      * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+     * @return Whether the partitionStatus field is set.
      */
+    @java.lang.Override
     public boolean hasPartitionStatus() {
       return responseCase_ == 8;
     }
     /**
      * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+     * @return The partitionStatus.
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus getPartitionStatus() {
       if (responseCase_ == 8) {
          return (tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus) response_;
@@ -30936,6 +33342,7 @@ public final class Persqueue {
     /**
      * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
      */
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatusOrBuilder getPartitionStatusOrBuilder() {
       if (responseCase_ == 8) {
          return (tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus) response_;
@@ -30944,6 +33351,7 @@ public final class Persqueue {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -30953,6 +33361,7 @@ public final class Persqueue {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (responseCase_ == 1) {
@@ -30982,6 +33391,7 @@ public final class Persqueue {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -31034,48 +33444,45 @@ public final class Persqueue {
       }
       tech.ydb.persqueue.Persqueue.ReadResponse other = (tech.ydb.persqueue.Persqueue.ReadResponse) obj;
 
-      boolean result = true;
-      result = result && getResponseCase().equals(
-          other.getResponseCase());
-      if (!result) return false;
+      if (!getResponseCase().equals(other.getResponseCase())) return false;
       switch (responseCase_) {
         case 1:
-          result = result && getInit()
-              .equals(other.getInit());
+          if (!getInit()
+              .equals(other.getInit())) return false;
           break;
         case 2:
-          result = result && getData()
-              .equals(other.getData());
+          if (!getData()
+              .equals(other.getData())) return false;
           break;
         case 7:
-          result = result && getBatchedData()
-              .equals(other.getBatchedData());
+          if (!getBatchedData()
+              .equals(other.getBatchedData())) return false;
           break;
         case 3:
-          result = result && getError()
-              .equals(other.getError());
+          if (!getError()
+              .equals(other.getError())) return false;
           break;
         case 4:
-          result = result && getLock()
-              .equals(other.getLock());
+          if (!getLock()
+              .equals(other.getLock())) return false;
           break;
         case 5:
-          result = result && getRelease()
-              .equals(other.getRelease());
+          if (!getRelease()
+              .equals(other.getRelease())) return false;
           break;
         case 6:
-          result = result && getCommit()
-              .equals(other.getCommit());
+          if (!getCommit()
+              .equals(other.getCommit())) return false;
           break;
         case 8:
-          result = result && getPartitionStatus()
-              .equals(other.getPartitionStatus());
+          if (!getPartitionStatus()
+              .equals(other.getPartitionStatus())) return false;
           break;
         case 0:
         default:
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -31196,6 +33603,7 @@ public final class Persqueue {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -31203,6 +33611,7 @@ public final class Persqueue {
     public static Builder newBuilder(tech.ydb.persqueue.Persqueue.ReadResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -31226,6 +33635,7 @@ public final class Persqueue {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_fieldAccessorTable
@@ -31248,6 +33658,7 @@ public final class Persqueue {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         responseCase_ = 0;
@@ -31255,15 +33666,18 @@ public final class Persqueue {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.persqueue.Persqueue.internal_static_NPersQueue_ReadResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse getDefaultInstanceForType() {
         return tech.ydb.persqueue.Persqueue.ReadResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse build() {
         tech.ydb.persqueue.Persqueue.ReadResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -31272,6 +33686,7 @@ public final class Persqueue {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse buildPartial() {
         tech.ydb.persqueue.Persqueue.ReadResponse result = new tech.ydb.persqueue.Persqueue.ReadResponse(this);
         if (responseCase_ == 1) {
@@ -31335,32 +33750,39 @@ public final class Persqueue {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.persqueue.Persqueue.ReadResponse) {
           return mergeFrom((tech.ydb.persqueue.Persqueue.ReadResponse)other);
@@ -31414,10 +33836,12 @@ public final class Persqueue {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -31455,13 +33879,17 @@ public final class Persqueue {
           tech.ydb.persqueue.Persqueue.ReadResponse.Init, tech.ydb.persqueue.Persqueue.ReadResponse.Init.Builder, tech.ydb.persqueue.Persqueue.ReadResponse.InitOrBuilder> initBuilder_;
       /**
        * <code>.NPersQueue.ReadResponse.Init init = 1;</code>
+       * @return Whether the init field is set.
        */
+      @java.lang.Override
       public boolean hasInit() {
         return responseCase_ == 1;
       }
       /**
        * <code>.NPersQueue.ReadResponse.Init init = 1;</code>
+       * @return The init.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.Init getInit() {
         if (initBuilder_ == null) {
           if (responseCase_ == 1) {
@@ -31555,6 +33983,7 @@ public final class Persqueue {
       /**
        * <code>.NPersQueue.ReadResponse.Init init = 1;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.InitOrBuilder getInitOrBuilder() {
         if ((responseCase_ == 1) && (initBuilder_ != null)) {
           return initBuilder_.getMessageOrBuilder();
@@ -31591,13 +34020,17 @@ public final class Persqueue {
           tech.ydb.persqueue.Persqueue.ReadResponse.Data, tech.ydb.persqueue.Persqueue.ReadResponse.Data.Builder, tech.ydb.persqueue.Persqueue.ReadResponse.DataOrBuilder> dataBuilder_;
       /**
        * <code>.NPersQueue.ReadResponse.Data data = 2;</code>
+       * @return Whether the data field is set.
        */
+      @java.lang.Override
       public boolean hasData() {
         return responseCase_ == 2;
       }
       /**
        * <code>.NPersQueue.ReadResponse.Data data = 2;</code>
+       * @return The data.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.Data getData() {
         if (dataBuilder_ == null) {
           if (responseCase_ == 2) {
@@ -31691,6 +34124,7 @@ public final class Persqueue {
       /**
        * <code>.NPersQueue.ReadResponse.Data data = 2;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.DataOrBuilder getDataOrBuilder() {
         if ((responseCase_ == 2) && (dataBuilder_ != null)) {
           return dataBuilder_.getMessageOrBuilder();
@@ -31727,13 +34161,17 @@ public final class Persqueue {
           tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData, tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData.Builder, tech.ydb.persqueue.Persqueue.ReadResponse.BatchedDataOrBuilder> batchedDataBuilder_;
       /**
        * <code>.NPersQueue.ReadResponse.BatchedData batched_data = 7;</code>
+       * @return Whether the batchedData field is set.
        */
+      @java.lang.Override
       public boolean hasBatchedData() {
         return responseCase_ == 7;
       }
       /**
        * <code>.NPersQueue.ReadResponse.BatchedData batched_data = 7;</code>
+       * @return The batchedData.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedData getBatchedData() {
         if (batchedDataBuilder_ == null) {
           if (responseCase_ == 7) {
@@ -31827,6 +34265,7 @@ public final class Persqueue {
       /**
        * <code>.NPersQueue.ReadResponse.BatchedData batched_data = 7;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.BatchedDataOrBuilder getBatchedDataOrBuilder() {
         if ((responseCase_ == 7) && (batchedDataBuilder_ != null)) {
           return batchedDataBuilder_.getMessageOrBuilder();
@@ -31863,13 +34302,17 @@ public final class Persqueue {
           tech.ydb.persqueue.Persqueue.Error, tech.ydb.persqueue.Persqueue.Error.Builder, tech.ydb.persqueue.Persqueue.ErrorOrBuilder> errorBuilder_;
       /**
        * <code>.NPersQueue.Error error = 3;</code>
+       * @return Whether the error field is set.
        */
+      @java.lang.Override
       public boolean hasError() {
         return responseCase_ == 3;
       }
       /**
        * <code>.NPersQueue.Error error = 3;</code>
+       * @return The error.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.Error getError() {
         if (errorBuilder_ == null) {
           if (responseCase_ == 3) {
@@ -31963,6 +34406,7 @@ public final class Persqueue {
       /**
        * <code>.NPersQueue.Error error = 3;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ErrorOrBuilder getErrorOrBuilder() {
         if ((responseCase_ == 3) && (errorBuilder_ != null)) {
           return errorBuilder_.getMessageOrBuilder();
@@ -31999,13 +34443,17 @@ public final class Persqueue {
           tech.ydb.persqueue.Persqueue.ReadResponse.Lock, tech.ydb.persqueue.Persqueue.ReadResponse.Lock.Builder, tech.ydb.persqueue.Persqueue.ReadResponse.LockOrBuilder> lockBuilder_;
       /**
        * <code>.NPersQueue.ReadResponse.Lock lock = 4;</code>
+       * @return Whether the lock field is set.
        */
+      @java.lang.Override
       public boolean hasLock() {
         return responseCase_ == 4;
       }
       /**
        * <code>.NPersQueue.ReadResponse.Lock lock = 4;</code>
+       * @return The lock.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.Lock getLock() {
         if (lockBuilder_ == null) {
           if (responseCase_ == 4) {
@@ -32099,6 +34547,7 @@ public final class Persqueue {
       /**
        * <code>.NPersQueue.ReadResponse.Lock lock = 4;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.LockOrBuilder getLockOrBuilder() {
         if ((responseCase_ == 4) && (lockBuilder_ != null)) {
           return lockBuilder_.getMessageOrBuilder();
@@ -32135,13 +34584,17 @@ public final class Persqueue {
           tech.ydb.persqueue.Persqueue.ReadResponse.Release, tech.ydb.persqueue.Persqueue.ReadResponse.Release.Builder, tech.ydb.persqueue.Persqueue.ReadResponse.ReleaseOrBuilder> releaseBuilder_;
       /**
        * <code>.NPersQueue.ReadResponse.Release release = 5;</code>
+       * @return Whether the release field is set.
        */
+      @java.lang.Override
       public boolean hasRelease() {
         return responseCase_ == 5;
       }
       /**
        * <code>.NPersQueue.ReadResponse.Release release = 5;</code>
+       * @return The release.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.Release getRelease() {
         if (releaseBuilder_ == null) {
           if (responseCase_ == 5) {
@@ -32235,6 +34688,7 @@ public final class Persqueue {
       /**
        * <code>.NPersQueue.ReadResponse.Release release = 5;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.ReleaseOrBuilder getReleaseOrBuilder() {
         if ((responseCase_ == 5) && (releaseBuilder_ != null)) {
           return releaseBuilder_.getMessageOrBuilder();
@@ -32271,13 +34725,17 @@ public final class Persqueue {
           tech.ydb.persqueue.Persqueue.ReadResponse.Commit, tech.ydb.persqueue.Persqueue.ReadResponse.Commit.Builder, tech.ydb.persqueue.Persqueue.ReadResponse.CommitOrBuilder> commitBuilder_;
       /**
        * <code>.NPersQueue.ReadResponse.Commit commit = 6;</code>
+       * @return Whether the commit field is set.
        */
+      @java.lang.Override
       public boolean hasCommit() {
         return responseCase_ == 6;
       }
       /**
        * <code>.NPersQueue.ReadResponse.Commit commit = 6;</code>
+       * @return The commit.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.Commit getCommit() {
         if (commitBuilder_ == null) {
           if (responseCase_ == 6) {
@@ -32371,6 +34829,7 @@ public final class Persqueue {
       /**
        * <code>.NPersQueue.ReadResponse.Commit commit = 6;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.CommitOrBuilder getCommitOrBuilder() {
         if ((responseCase_ == 6) && (commitBuilder_ != null)) {
           return commitBuilder_.getMessageOrBuilder();
@@ -32407,13 +34866,17 @@ public final class Persqueue {
           tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus, tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus.Builder, tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatusOrBuilder> partitionStatusBuilder_;
       /**
        * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+       * @return Whether the partitionStatus field is set.
        */
+      @java.lang.Override
       public boolean hasPartitionStatus() {
         return responseCase_ == 8;
       }
       /**
        * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
+       * @return The partitionStatus.
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatus getPartitionStatus() {
         if (partitionStatusBuilder_ == null) {
           if (responseCase_ == 8) {
@@ -32507,6 +34970,7 @@ public final class Persqueue {
       /**
        * <code>.NPersQueue.ReadResponse.PartitionStatus partition_status = 8;</code>
        */
+      @java.lang.Override
       public tech.ydb.persqueue.Persqueue.ReadResponse.PartitionStatusOrBuilder getPartitionStatusOrBuilder() {
         if ((responseCase_ == 8) && (partitionStatusBuilder_ != null)) {
           return partitionStatusBuilder_.getMessageOrBuilder();
@@ -32538,11 +35002,13 @@ public final class Persqueue {
         onChanged();;
         return partitionStatusBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -32564,11 +35030,12 @@ public final class Persqueue {
 
     private static final com.google.protobuf.Parser<ReadResponse>
         PARSER = new com.google.protobuf.AbstractParser<ReadResponse>() {
+      @java.lang.Override
       public ReadResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ReadResponse(input, extensionRegistry);
+        return new ReadResponse(input, extensionRegistry);
       }
     };
 
@@ -32581,6 +35048,7 @@ public final class Persqueue {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.persqueue.Persqueue.ReadResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -32786,7 +35254,7 @@ public final class Persqueue {
       "scription\030\002 \001(\t\"&\n\010KeyValue\022\013\n\003key\030\001 \001(\t" +
       "\022\r\n\005value\030\002 \001(\t\".\n\007MapType\022#\n\005items\030\001 \003(" +
       "\0132\024.NPersQueue.KeyValue\"Q\n\013Credentials\022\034" +
-      "\n\022tvm_service_ticket\030\001 \001(\014H\000\022\025\n\013oauth_to",
+      "\n\022tvm_service_ticket\030\001 \001(\014H\000\022\025\n\013oauth_to" +
       "ken\030\002 \001(\014H\000B\r\n\013credentials\"\254\004\n\014WriteRequ" +
       "est\022-\n\004init\030\001 \001(\0132\035.NPersQueue.WriteRequ" +
       "est.InitH\000\022-\n\004data\030\002 \001(\0132\035.NPersQueue.Wr" +
@@ -32796,7 +35264,7 @@ public final class Persqueue {
       "s\032\224\001\n\004Init\022\r\n\005topic\030\001 \001(\t\022\021\n\tsource_id\030\002" +
       " \001(\014\022)\n\014extra_fields\030\007 \001(\0132\023.NPersQueue." +
       "MapType\022\024\n\014proxy_cookie\030\010 \001(\004\022\027\n\017partiti" +
-      "on_group\030\014 \001(\r\022\020\n\007version\030\347\007 \001(\t\032z\n\004Data",
+      "on_group\030\014 \001(\r\022\020\n\007version\030\347\007 \001(\t\032z\n\004Data" +
       "\022\016\n\006seq_no\030\001 \001(\004\022\014\n\004data\030\002 \001(\014\022\026\n\016create" +
       "_time_ms\030\003 \001(\004\022!\n\005codec\030\004 \001(\0162\022.NPersQue" +
       "ue.ECodec\022\031\n\021uncompressed_size\030\005 \001(\r\0328\n\t" +
@@ -32806,7 +35274,7 @@ public final class Persqueue {
       "onse.InitH\000\022,\n\003ack\030\002 \001(\0132\035.NPersQueue.Wr" +
       "iteResponse.AckH\000\0227\n\tack_batch\030\004 \001(\0132\".N" +
       "PersQueue.WriteResponse.AckBatchH\000\022\"\n\005er" +
-      "ror\030\003 \001(\0132\021.NPersQueue.ErrorH\000\032P\n\004Init\022\022",
+      "ror\030\003 \001(\0132\021.NPersQueue.ErrorH\000\032P\n\004Init\022\022" +
       "\n\nmax_seq_no\030\001 \001(\004\022\022\n\nsession_id\030\002 \001(\t\022\021" +
       "\n\tpartition\030\003 \001(\r\022\r\n\005topic\030\004 \001(\t\032\207\001\n\004Sta" +
       "t\022\025\n\rwrite_time_ms\030\001 \001(\r\022(\n total_time_i" +
@@ -32816,7 +35284,7 @@ public final class Persqueue {
       "set\030\002 \001(\004\022\027\n\017already_written\030\003 \001(\010\022,\n\004st" +
       "at\030\004 \001(\0132\036.NPersQueue.WriteResponse.Stat" +
       "\032d\n\010AckBatch\022,\n\004stat\030\002 \001(\0132\036.NPersQueue." +
-      "WriteResponse.Stat\022*\n\003ack\030\001 \003(\0132\035.NPersQ",
+      "WriteResponse.Stat\022*\n\003ack\030\001 \003(\0132\035.NPersQ" +
       "ueue.WriteResponse.AckB\n\n\010response\"\253\t\n\013R" +
       "eadRequest\022,\n\004init\030\001 \001(\0132\034.NPersQueue.Re" +
       "adRequest.InitH\000\022,\n\004read\030\002 \001(\0132\034.NPersQu" +
@@ -32826,7 +35294,7 @@ public final class Persqueue {
       ".CommitH\000\0220\n\006status\030\005 \001(\0132\036.NPersQueue.R" +
       "eadRequest.StatusH\000\022,\n\013credentials\030\024 \001(\013" +
       "2\027.NPersQueue.Credentials\032\304\003\n\004Init\022\016\n\006to" +
-      "pics\030\001 \003(\t\022\027\n\017read_only_local\030\002 \001(\010\022\021\n\tc",
+      "pics\030\001 \003(\t\022\027\n\017read_only_local\030\002 \001(\010\022\021\n\tc" +
       "lient_id\030\004 \001(\t\022 \n\030clientside_locks_allow" +
       "ed\030\005 \001(\010\022\024\n\014proxy_cookie\030\006 \001(\004\022#\n\033balanc" +
       "e_partition_right_now\030\010 \001(\010\022\030\n\020partition" +
@@ -32836,7 +35304,7 @@ public final class Persqueue {
       "\001(\r\022!\n\031max_read_partitions_count\030\020 \001(\r\022\027" +
       "\n\017max_time_lag_ms\030\021 \001(\r\022\031\n\021read_timestam" +
       "p_ms\030\022 \001(\004\022\030\n\020commits_disabled\030\023 \001(\010\022\020\n\007" +
-      "version\030\347\007 \001(\t\022\030\n\020protocol_version\030\r \001(\r",
+      "version\030\347\007 \001(\t\022\030\n\020protocol_version\030\r \001(\r" +
       "\032{\n\004Read\022\021\n\tmax_count\030\001 \001(\r\022\020\n\010max_size\030" +
       "\002 \001(\r\022\032\n\022partitions_at_once\030\003 \001(\r\022\027\n\017max" +
       "_time_lag_ms\030\005 \001(\r\022\031\n\021read_timestamp_ms\030" +
@@ -32846,7 +35314,7 @@ public final class Persqueue {
       "(\004\022\025\n\rcommit_offset\030\006 \001(\004\032\030\n\006Commit\022\016\n\006c" +
       "ookie\030\001 \003(\004\032>\n\006Status\022\022\n\ngeneration\030\001 \001(" +
       "\004\022\r\n\005topic\030\002 \001(\t\022\021\n\tpartition\030\003 \001(\r\"@\n\020E" +
-      "ProtocolVersion\022\010\n\004Base\020\000\022\014\n\010Batching\020\001\022",
+      "ProtocolVersion\022\010\n\004Base\020\000\022\014\n\010Batching\020\001\022" +
       "\024\n\020ReadParamsInInit\020\002B\t\n\007request\"\324\001\n\013Mes" +
       "sageMeta\022\021\n\tsource_id\030\001 \001(\014\022\016\n\006seq_no\030\002 " +
       "\001(\004\022\026\n\016create_time_ms\030\003 \001(\004\022\025\n\rwrite_tim" +
@@ -32856,7 +35324,7 @@ public final class Persqueue {
       "e\030\n \001(\r\"\220\r\n\014ReadResponse\022-\n\004init\030\001 \001(\0132\035" +
       ".NPersQueue.ReadResponse.InitH\000\022-\n\004data\030" +
       "\002 \001(\0132\035.NPersQueue.ReadResponse.DataH\000\022<" +
-      "\n\014batched_data\030\007 \001(\0132$.NPersQueue.ReadRe",
+      "\n\014batched_data\030\007 \001(\0132$.NPersQueue.ReadRe" +
       "sponse.BatchedDataH\000\022\"\n\005error\030\003 \001(\0132\021.NP" +
       "ersQueue.ErrorH\000\022-\n\004lock\030\004 \001(\0132\035.NPersQu" +
       "eue.ReadResponse.LockH\000\0223\n\007release\030\005 \001(\013" +
@@ -32866,7 +35334,7 @@ public final class Persqueue {
       "sQueue.ReadResponse.PartitionStatusH\000\032\032\n" +
       "\004Init\022\022\n\nsession_id\030\002 \001(\t\032\257\002\n\004Data\022A\n\rme" +
       "ssage_batch\030\001 \003(\0132*.NPersQueue.ReadRespo" +
-      "nse.Data.MessageBatch\022\016\n\006cookie\030\002 \001(\004\032j\n",
+      "nse.Data.MessageBatch\022\016\n\006cookie\030\002 \001(\004\032j\n" +
       "\007Message\022%\n\004meta\030\001 \001(\0132\027.NPersQueue.Mess" +
       "ageMeta\022\014\n\004data\030\002 \001(\014\022\016\n\006offset\030\003 \001(\004\022\032\n" +
       "\022broken_packed_data\030\004 \001(\014\032h\n\014MessageBatc" +
@@ -32876,7 +35344,7 @@ public final class Persqueue {
       "\001(\004\022J\n\016partition_data\030\001 \003(\01322.NPersQueue" +
       ".ReadResponse.BatchedData.PartitionData\032" +
       "\221\001\n\013MessageData\022!\n\005codec\030\002 \001(\0162\022.NPersQu" +
-      "eue.ECodec\022\016\n\006offset\030\003 \001(\004\022\016\n\006seq_no\030\004 \001",
+      "eue.ECodec\022\016\n\006offset\030\003 \001(\004\022\016\n\006seq_no\030\004 \001" +
       "(\004\022\026\n\016create_time_ms\030\005 \001(\004\022\031\n\021uncompress" +
       "ed_size\030\006 \001(\004\022\014\n\004data\030\001 \001(\014\032\260\001\n\005Batch\022\021\n" +
       "\tsource_id\030\002 \001(\014\022)\n\014extra_fields\030\003 \001(\0132\023" +
@@ -32886,7 +35354,7 @@ public final class Persqueue {
       "geData\032l\n\rPartitionData\022\r\n\005topic\030\002 \001(\t\022\021" +
       "\n\tpartition\030\003 \001(\r\0229\n\005batch\030\001 \003(\0132*.NPers" +
       "Queue.ReadResponse.BatchedData.Batch\032e\n\004" +
-      "Lock\022\r\n\005topic\030\001 \001(\t\022\021\n\tpartition\030\002 \001(\r\022\023",
+      "Lock\022\r\n\005topic\030\001 \001(\t\022\021\n\tpartition\030\002 \001(\r\022\023" +
       "\n\013read_offset\030\003 \001(\004\022\022\n\nend_offset\030\004 \001(\004\022" +
       "\022\n\ngeneration\030\005 \001(\004\032S\n\007Release\022\r\n\005topic\030" +
       "\001 \001(\t\022\021\n\tpartition\030\002 \001(\r\022\022\n\ncan_commit\030\003" +
@@ -32896,25 +35364,17 @@ public final class Persqueue {
       " \001(\r\022\030\n\020committed_offset\030\004 \001(\004\022\022\n\nend_of" +
       "fset\030\005 \001(\004\022\032\n\022write_watermark_ms\030\006 \001(\004B\n" +
       "\n\010response*<\n\006ECodec\022\007\n\003RAW\020\000\022\010\n\004GZIP\020\001\022" +
-      "\010\n\004LZOP\020\002\022\010\n\004ZSTD\020\003\022\013\n\007DEFAULT\020d:7\n\017Gene",
+      "\010\n\004LZOP\020\002\022\010\n\004ZSTD\020\003\022\013\n\007DEFAULT\020d:7\n\017Gene" +
       "rateYaStyle\022\034.google.protobuf.FileOption" +
       "s\030\365\210\004 \001(\010B\035\n\030tech.ydb.persqueue\370\001\001" +
       "b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.google.protobuf.DescriptorProtos.getDescriptor(),
           tech.ydb.persqueue.PersqueueErrorCodes.getDescriptor(),
-        }, assigner);
+        });
     internal_static_NPersQueue_Path_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_NPersQueue_Path_fieldAccessorTable = new

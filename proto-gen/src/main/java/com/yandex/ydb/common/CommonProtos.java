@@ -21,7 +21,7 @@ public final class CommonProtos {
   /**
    * Protobuf type {@code Ydb.FeatureFlag}
    */
-  public  static final class FeatureFlag extends
+  public static final class FeatureFlag extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.FeatureFlag)
       FeatureFlagOrBuilder {
@@ -34,6 +34,13 @@ public final class CommonProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new FeatureFlag();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -43,6 +50,9 @@ public final class CommonProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -54,7 +64,7 @@ public final class CommonProtos {
               done = true;
               break;
             default: {
-              if (!parseUnknownFieldProto3(
+              if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
                 done = true;
               }
@@ -77,6 +87,7 @@ public final class CommonProtos {
       return tech.ydb.common.CommonProtos.internal_static_Ydb_FeatureFlag_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.common.CommonProtos.internal_static_Ydb_FeatureFlag_fieldAccessorTable
@@ -127,6 +138,8 @@ public final class CommonProtos {
       }
 
       /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -134,6 +147,10 @@ public final class CommonProtos {
         return forNumber(value);
       }
 
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
       public static Status forNumber(int value) {
         switch (value) {
           case 0: return STATUS_UNSPECIFIED;
@@ -157,6 +174,10 @@ public final class CommonProtos {
 
       public final com.google.protobuf.Descriptors.EnumValueDescriptor
           getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
         return getDescriptor().getValues().get(ordinal());
       }
       public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -192,6 +213,7 @@ public final class CommonProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -201,11 +223,13 @@ public final class CommonProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -226,9 +250,8 @@ public final class CommonProtos {
       }
       tech.ydb.common.CommonProtos.FeatureFlag other = (tech.ydb.common.CommonProtos.FeatureFlag) obj;
 
-      boolean result = true;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -313,6 +336,7 @@ public final class CommonProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -320,6 +344,7 @@ public final class CommonProtos {
     public static Builder newBuilder(tech.ydb.common.CommonProtos.FeatureFlag prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -343,6 +368,7 @@ public final class CommonProtos {
         return tech.ydb.common.CommonProtos.internal_static_Ydb_FeatureFlag_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.common.CommonProtos.internal_static_Ydb_FeatureFlag_fieldAccessorTable
@@ -365,20 +391,24 @@ public final class CommonProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.common.CommonProtos.internal_static_Ydb_FeatureFlag_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.common.CommonProtos.FeatureFlag getDefaultInstanceForType() {
         return tech.ydb.common.CommonProtos.FeatureFlag.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.common.CommonProtos.FeatureFlag build() {
         tech.ydb.common.CommonProtos.FeatureFlag result = buildPartial();
         if (!result.isInitialized()) {
@@ -387,38 +417,46 @@ public final class CommonProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.common.CommonProtos.FeatureFlag buildPartial() {
         tech.ydb.common.CommonProtos.FeatureFlag result = new tech.ydb.common.CommonProtos.FeatureFlag(this);
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.common.CommonProtos.FeatureFlag) {
           return mergeFrom((tech.ydb.common.CommonProtos.FeatureFlag)other);
@@ -435,10 +473,12 @@ public final class CommonProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -456,11 +496,13 @@ public final class CommonProtos {
         }
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -482,11 +524,12 @@ public final class CommonProtos {
 
     private static final com.google.protobuf.Parser<FeatureFlag>
         PARSER = new com.google.protobuf.AbstractParser<FeatureFlag>() {
+      @java.lang.Override
       public FeatureFlag parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new FeatureFlag(input, extensionRegistry);
+        return new FeatureFlag(input, extensionRegistry);
       }
     };
 
@@ -499,6 +542,7 @@ public final class CommonProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.common.CommonProtos.FeatureFlag getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -515,13 +559,14 @@ public final class CommonProtos {
      * </pre>
      *
      * <code>double consumed_units = 1;</code>
+     * @return The consumedUnits.
      */
     double getConsumedUnits();
   }
   /**
    * Protobuf type {@code Ydb.CostInfo}
    */
-  public  static final class CostInfo extends
+  public static final class CostInfo extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.CostInfo)
       CostInfoOrBuilder {
@@ -531,7 +576,13 @@ public final class CommonProtos {
       super(builder);
     }
     private CostInfo() {
-      consumedUnits_ = 0D;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new CostInfo();
     }
 
     @java.lang.Override
@@ -544,7 +595,9 @@ public final class CommonProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -555,16 +608,16 @@ public final class CommonProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 9: {
 
               consumedUnits_ = input.readDouble();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -584,6 +637,7 @@ public final class CommonProtos {
       return tech.ydb.common.CommonProtos.internal_static_Ydb_CostInfo_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.common.CommonProtos.internal_static_Ydb_CostInfo_fieldAccessorTable
@@ -599,12 +653,15 @@ public final class CommonProtos {
      * </pre>
      *
      * <code>double consumed_units = 1;</code>
+     * @return The consumedUnits.
      */
+    @java.lang.Override
     public double getConsumedUnits() {
       return consumedUnits_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -614,6 +671,7 @@ public final class CommonProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (consumedUnits_ != 0D) {
@@ -622,6 +680,7 @@ public final class CommonProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -646,13 +705,11 @@ public final class CommonProtos {
       }
       tech.ydb.common.CommonProtos.CostInfo other = (tech.ydb.common.CommonProtos.CostInfo) obj;
 
-      boolean result = true;
-      result = result && (
-          java.lang.Double.doubleToLongBits(getConsumedUnits())
-          == java.lang.Double.doubleToLongBits(
-              other.getConsumedUnits()));
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (java.lang.Double.doubleToLongBits(getConsumedUnits())
+          != java.lang.Double.doubleToLongBits(
+              other.getConsumedUnits())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -740,6 +797,7 @@ public final class CommonProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -747,6 +805,7 @@ public final class CommonProtos {
     public static Builder newBuilder(tech.ydb.common.CommonProtos.CostInfo prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -770,6 +829,7 @@ public final class CommonProtos {
         return tech.ydb.common.CommonProtos.internal_static_Ydb_CostInfo_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.common.CommonProtos.internal_static_Ydb_CostInfo_fieldAccessorTable
@@ -792,6 +852,7 @@ public final class CommonProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         consumedUnits_ = 0D;
@@ -799,15 +860,18 @@ public final class CommonProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.common.CommonProtos.internal_static_Ydb_CostInfo_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.common.CommonProtos.CostInfo getDefaultInstanceForType() {
         return tech.ydb.common.CommonProtos.CostInfo.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.common.CommonProtos.CostInfo build() {
         tech.ydb.common.CommonProtos.CostInfo result = buildPartial();
         if (!result.isInitialized()) {
@@ -816,6 +880,7 @@ public final class CommonProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.common.CommonProtos.CostInfo buildPartial() {
         tech.ydb.common.CommonProtos.CostInfo result = new tech.ydb.common.CommonProtos.CostInfo(this);
         result.consumedUnits_ = consumedUnits_;
@@ -823,32 +888,39 @@ public final class CommonProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.common.CommonProtos.CostInfo) {
           return mergeFrom((tech.ydb.common.CommonProtos.CostInfo)other);
@@ -868,10 +940,12 @@ public final class CommonProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -897,7 +971,9 @@ public final class CommonProtos {
        * </pre>
        *
        * <code>double consumed_units = 1;</code>
+       * @return The consumedUnits.
        */
+      @java.lang.Override
       public double getConsumedUnits() {
         return consumedUnits_;
       }
@@ -907,6 +983,8 @@ public final class CommonProtos {
        * </pre>
        *
        * <code>double consumed_units = 1;</code>
+       * @param value The consumedUnits to set.
+       * @return This builder for chaining.
        */
       public Builder setConsumedUnits(double value) {
         
@@ -920,6 +998,7 @@ public final class CommonProtos {
        * </pre>
        *
        * <code>double consumed_units = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearConsumedUnits() {
         
@@ -927,11 +1006,13 @@ public final class CommonProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -953,11 +1034,12 @@ public final class CommonProtos {
 
     private static final com.google.protobuf.Parser<CostInfo>
         PARSER = new com.google.protobuf.AbstractParser<CostInfo>() {
+      @java.lang.Override
       public CostInfo parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new CostInfo(input, extensionRegistry);
+        return new CostInfo(input, extensionRegistry);
       }
     };
 
@@ -970,6 +1052,7 @@ public final class CommonProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.common.CommonProtos.CostInfo getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1002,18 +1085,10 @@ public final class CommonProtos {
       "B(\n\025tech.ydb.commonB\014CommonProtos\370" +
       "\001\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
+        });
     internal_static_Ydb_FeatureFlag_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_FeatureFlag_fieldAccessorTable = new

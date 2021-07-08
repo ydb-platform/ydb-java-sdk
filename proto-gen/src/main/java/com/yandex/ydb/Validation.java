@@ -25,10 +25,12 @@ public final class Validation {
 
     /**
      * <code>.Ydb.Limit.Range range = 1;</code>
+     * @return Whether the range field is set.
      */
     boolean hasRange();
     /**
      * <code>.Ydb.Limit.Range range = 1;</code>
+     * @return The range.
      */
     tech.ydb.Validation.Limit.Range getRange();
     /**
@@ -38,26 +40,56 @@ public final class Validation {
 
     /**
      * <code>uint32 lt = 2;</code>
+     * @return Whether the lt field is set.
+     */
+    boolean hasLt();
+    /**
+     * <code>uint32 lt = 2;</code>
+     * @return The lt.
      */
     int getLt();
 
     /**
      * <code>uint32 le = 3;</code>
+     * @return Whether the le field is set.
+     */
+    boolean hasLe();
+    /**
+     * <code>uint32 le = 3;</code>
+     * @return The le.
      */
     int getLe();
 
     /**
      * <code>uint32 eq = 4;</code>
+     * @return Whether the eq field is set.
+     */
+    boolean hasEq();
+    /**
+     * <code>uint32 eq = 4;</code>
+     * @return The eq.
      */
     int getEq();
 
     /**
      * <code>uint32 ge = 5;</code>
+     * @return Whether the ge field is set.
+     */
+    boolean hasGe();
+    /**
+     * <code>uint32 ge = 5;</code>
+     * @return The ge.
      */
     int getGe();
 
     /**
      * <code>uint32 gt = 6;</code>
+     * @return Whether the gt field is set.
+     */
+    boolean hasGt();
+    /**
+     * <code>uint32 gt = 6;</code>
+     * @return The gt.
      */
     int getGt();
 
@@ -66,7 +98,7 @@ public final class Validation {
   /**
    * Protobuf type {@code Ydb.Limit}
    */
-  public  static final class Limit extends
+  public static final class Limit extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Limit)
       LimitOrBuilder {
@@ -79,6 +111,13 @@ public final class Validation {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Limit();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -88,7 +127,9 @@ public final class Validation {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -99,13 +140,6 @@ public final class Validation {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.Validation.Limit.Range.Builder subBuilder = null;
               if (kindCase_ == 1) {
@@ -145,6 +179,13 @@ public final class Validation {
               kind_ = input.readUInt32();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -162,6 +203,7 @@ public final class Validation {
       return tech.ydb.Validation.internal_static_Ydb_Limit_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.Validation.internal_static_Ydb_Limit_fieldAccessorTable
@@ -175,18 +217,20 @@ public final class Validation {
 
       /**
        * <code>uint32 min = 1;</code>
+       * @return The min.
        */
       int getMin();
 
       /**
        * <code>uint32 max = 2;</code>
+       * @return The max.
        */
       int getMax();
     }
     /**
      * Protobuf type {@code Ydb.Limit.Range}
      */
-    public  static final class Range extends
+    public static final class Range extends
         com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:Ydb.Limit.Range)
         RangeOrBuilder {
@@ -196,8 +240,13 @@ public final class Validation {
         super(builder);
       }
       private Range() {
-        min_ = 0;
-        max_ = 0;
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Range();
       }
 
       @java.lang.Override
@@ -210,7 +259,9 @@ public final class Validation {
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         this();
-        int mutable_bitField0_ = 0;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -221,13 +272,6 @@ public final class Validation {
               case 0:
                 done = true;
                 break;
-              default: {
-                if (!parseUnknownFieldProto3(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
               case 8: {
 
                 min_ = input.readUInt32();
@@ -236,6 +280,13 @@ public final class Validation {
               case 16: {
 
                 max_ = input.readUInt32();
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
                 break;
               }
             }
@@ -255,6 +306,7 @@ public final class Validation {
         return tech.ydb.Validation.internal_static_Ydb_Limit_Range_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.Validation.internal_static_Ydb_Limit_Range_fieldAccessorTable
@@ -266,7 +318,9 @@ public final class Validation {
       private int min_;
       /**
        * <code>uint32 min = 1;</code>
+       * @return The min.
        */
+      @java.lang.Override
       public int getMin() {
         return min_;
       }
@@ -275,12 +329,15 @@ public final class Validation {
       private int max_;
       /**
        * <code>uint32 max = 2;</code>
+       * @return The max.
        */
+      @java.lang.Override
       public int getMax() {
         return max_;
       }
 
       private byte memoizedIsInitialized = -1;
+      @java.lang.Override
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized == 1) return true;
@@ -290,6 +347,7 @@ public final class Validation {
         return true;
       }
 
+      @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (min_ != 0) {
@@ -301,6 +359,7 @@ public final class Validation {
         unknownFields.writeTo(output);
       }
 
+      @java.lang.Override
       public int getSerializedSize() {
         int size = memoizedSize;
         if (size != -1) return size;
@@ -329,13 +388,12 @@ public final class Validation {
         }
         tech.ydb.Validation.Limit.Range other = (tech.ydb.Validation.Limit.Range) obj;
 
-        boolean result = true;
-        result = result && (getMin()
-            == other.getMin());
-        result = result && (getMax()
-            == other.getMax());
-        result = result && unknownFields.equals(other.unknownFields);
-        return result;
+        if (getMin()
+            != other.getMin()) return false;
+        if (getMax()
+            != other.getMax()) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
       }
 
       @java.lang.Override
@@ -424,6 +482,7 @@ public final class Validation {
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
+      @java.lang.Override
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
@@ -431,6 +490,7 @@ public final class Validation {
       public static Builder newBuilder(tech.ydb.Validation.Limit.Range prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
+      @java.lang.Override
       public Builder toBuilder() {
         return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
@@ -454,6 +514,7 @@ public final class Validation {
           return tech.ydb.Validation.internal_static_Ydb_Limit_Range_descriptor;
         }
 
+        @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return tech.ydb.Validation.internal_static_Ydb_Limit_Range_fieldAccessorTable
@@ -476,6 +537,7 @@ public final class Validation {
                   .alwaysUseFieldBuilders) {
           }
         }
+        @java.lang.Override
         public Builder clear() {
           super.clear();
           min_ = 0;
@@ -485,15 +547,18 @@ public final class Validation {
           return this;
         }
 
+        @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
           return tech.ydb.Validation.internal_static_Ydb_Limit_Range_descriptor;
         }
 
+        @java.lang.Override
         public tech.ydb.Validation.Limit.Range getDefaultInstanceForType() {
           return tech.ydb.Validation.Limit.Range.getDefaultInstance();
         }
 
+        @java.lang.Override
         public tech.ydb.Validation.Limit.Range build() {
           tech.ydb.Validation.Limit.Range result = buildPartial();
           if (!result.isInitialized()) {
@@ -502,6 +567,7 @@ public final class Validation {
           return result;
         }
 
+        @java.lang.Override
         public tech.ydb.Validation.Limit.Range buildPartial() {
           tech.ydb.Validation.Limit.Range result = new tech.ydb.Validation.Limit.Range(this);
           result.min_ = min_;
@@ -510,32 +576,39 @@ public final class Validation {
           return result;
         }
 
+        @java.lang.Override
         public Builder clone() {
-          return (Builder) super.clone();
+          return super.clone();
         }
+        @java.lang.Override
         public Builder setField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.setField(field, value);
+          return super.setField(field, value);
         }
+        @java.lang.Override
         public Builder clearField(
             com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return (Builder) super.clearField(field);
+          return super.clearField(field);
         }
+        @java.lang.Override
         public Builder clearOneof(
             com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return (Builder) super.clearOneof(oneof);
+          return super.clearOneof(oneof);
         }
+        @java.lang.Override
         public Builder setRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             int index, java.lang.Object value) {
-          return (Builder) super.setRepeatedField(field, index, value);
+          return super.setRepeatedField(field, index, value);
         }
+        @java.lang.Override
         public Builder addRepeatedField(
             com.google.protobuf.Descriptors.FieldDescriptor field,
             java.lang.Object value) {
-          return (Builder) super.addRepeatedField(field, value);
+          return super.addRepeatedField(field, value);
         }
+        @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof tech.ydb.Validation.Limit.Range) {
             return mergeFrom((tech.ydb.Validation.Limit.Range)other);
@@ -558,10 +631,12 @@ public final class Validation {
           return this;
         }
 
+        @java.lang.Override
         public final boolean isInitialized() {
           return true;
         }
 
+        @java.lang.Override
         public Builder mergeFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -583,12 +658,16 @@ public final class Validation {
         private int min_ ;
         /**
          * <code>uint32 min = 1;</code>
+         * @return The min.
          */
+        @java.lang.Override
         public int getMin() {
           return min_;
         }
         /**
          * <code>uint32 min = 1;</code>
+         * @param value The min to set.
+         * @return This builder for chaining.
          */
         public Builder setMin(int value) {
           
@@ -598,6 +677,7 @@ public final class Validation {
         }
         /**
          * <code>uint32 min = 1;</code>
+         * @return This builder for chaining.
          */
         public Builder clearMin() {
           
@@ -609,12 +689,16 @@ public final class Validation {
         private int max_ ;
         /**
          * <code>uint32 max = 2;</code>
+         * @return The max.
          */
+        @java.lang.Override
         public int getMax() {
           return max_;
         }
         /**
          * <code>uint32 max = 2;</code>
+         * @param value The max to set.
+         * @return This builder for chaining.
          */
         public Builder setMax(int value) {
           
@@ -624,6 +708,7 @@ public final class Validation {
         }
         /**
          * <code>uint32 max = 2;</code>
+         * @return This builder for chaining.
          */
         public Builder clearMax() {
           
@@ -631,11 +716,13 @@ public final class Validation {
           onChanged();
           return this;
         }
+        @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFieldsProto3(unknownFields);
+          return super.setUnknownFields(unknownFields);
         }
 
+        @java.lang.Override
         public final Builder mergeUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
           return super.mergeUnknownFields(unknownFields);
@@ -657,11 +744,12 @@ public final class Validation {
 
       private static final com.google.protobuf.Parser<Range>
           PARSER = new com.google.protobuf.AbstractParser<Range>() {
+        @java.lang.Override
         public Range parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-            return new Range(input, extensionRegistry);
+          return new Range(input, extensionRegistry);
         }
       };
 
@@ -674,6 +762,7 @@ public final class Validation {
         return PARSER;
       }
 
+      @java.lang.Override
       public tech.ydb.Validation.Limit.Range getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
@@ -683,7 +772,8 @@ public final class Validation {
     private int kindCase_ = 0;
     private java.lang.Object kind_;
     public enum KindCase
-        implements com.google.protobuf.Internal.EnumLite {
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       RANGE(1),
       LT(2),
       LE(3),
@@ -696,6 +786,8 @@ public final class Validation {
         this.value = value;
       }
       /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
@@ -729,13 +821,17 @@ public final class Validation {
     public static final int RANGE_FIELD_NUMBER = 1;
     /**
      * <code>.Ydb.Limit.Range range = 1;</code>
+     * @return Whether the range field is set.
      */
+    @java.lang.Override
     public boolean hasRange() {
       return kindCase_ == 1;
     }
     /**
      * <code>.Ydb.Limit.Range range = 1;</code>
+     * @return The range.
      */
+    @java.lang.Override
     public tech.ydb.Validation.Limit.Range getRange() {
       if (kindCase_ == 1) {
          return (tech.ydb.Validation.Limit.Range) kind_;
@@ -745,6 +841,7 @@ public final class Validation {
     /**
      * <code>.Ydb.Limit.Range range = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.Validation.Limit.RangeOrBuilder getRangeOrBuilder() {
       if (kindCase_ == 1) {
          return (tech.ydb.Validation.Limit.Range) kind_;
@@ -755,7 +852,17 @@ public final class Validation {
     public static final int LT_FIELD_NUMBER = 2;
     /**
      * <code>uint32 lt = 2;</code>
+     * @return Whether the lt field is set.
      */
+    @java.lang.Override
+    public boolean hasLt() {
+      return kindCase_ == 2;
+    }
+    /**
+     * <code>uint32 lt = 2;</code>
+     * @return The lt.
+     */
+    @java.lang.Override
     public int getLt() {
       if (kindCase_ == 2) {
         return (java.lang.Integer) kind_;
@@ -766,7 +873,17 @@ public final class Validation {
     public static final int LE_FIELD_NUMBER = 3;
     /**
      * <code>uint32 le = 3;</code>
+     * @return Whether the le field is set.
      */
+    @java.lang.Override
+    public boolean hasLe() {
+      return kindCase_ == 3;
+    }
+    /**
+     * <code>uint32 le = 3;</code>
+     * @return The le.
+     */
+    @java.lang.Override
     public int getLe() {
       if (kindCase_ == 3) {
         return (java.lang.Integer) kind_;
@@ -777,7 +894,17 @@ public final class Validation {
     public static final int EQ_FIELD_NUMBER = 4;
     /**
      * <code>uint32 eq = 4;</code>
+     * @return Whether the eq field is set.
      */
+    @java.lang.Override
+    public boolean hasEq() {
+      return kindCase_ == 4;
+    }
+    /**
+     * <code>uint32 eq = 4;</code>
+     * @return The eq.
+     */
+    @java.lang.Override
     public int getEq() {
       if (kindCase_ == 4) {
         return (java.lang.Integer) kind_;
@@ -788,7 +915,17 @@ public final class Validation {
     public static final int GE_FIELD_NUMBER = 5;
     /**
      * <code>uint32 ge = 5;</code>
+     * @return Whether the ge field is set.
      */
+    @java.lang.Override
+    public boolean hasGe() {
+      return kindCase_ == 5;
+    }
+    /**
+     * <code>uint32 ge = 5;</code>
+     * @return The ge.
+     */
+    @java.lang.Override
     public int getGe() {
       if (kindCase_ == 5) {
         return (java.lang.Integer) kind_;
@@ -799,7 +936,17 @@ public final class Validation {
     public static final int GT_FIELD_NUMBER = 6;
     /**
      * <code>uint32 gt = 6;</code>
+     * @return Whether the gt field is set.
      */
+    @java.lang.Override
+    public boolean hasGt() {
+      return kindCase_ == 6;
+    }
+    /**
+     * <code>uint32 gt = 6;</code>
+     * @return The gt.
+     */
+    @java.lang.Override
     public int getGt() {
       if (kindCase_ == 6) {
         return (java.lang.Integer) kind_;
@@ -808,6 +955,7 @@ public final class Validation {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -817,6 +965,7 @@ public final class Validation {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (kindCase_ == 1) {
@@ -845,6 +994,7 @@ public final class Validation {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -894,40 +1044,37 @@ public final class Validation {
       }
       tech.ydb.Validation.Limit other = (tech.ydb.Validation.Limit) obj;
 
-      boolean result = true;
-      result = result && getKindCase().equals(
-          other.getKindCase());
-      if (!result) return false;
+      if (!getKindCase().equals(other.getKindCase())) return false;
       switch (kindCase_) {
         case 1:
-          result = result && getRange()
-              .equals(other.getRange());
+          if (!getRange()
+              .equals(other.getRange())) return false;
           break;
         case 2:
-          result = result && (getLt()
-              == other.getLt());
+          if (getLt()
+              != other.getLt()) return false;
           break;
         case 3:
-          result = result && (getLe()
-              == other.getLe());
+          if (getLe()
+              != other.getLe()) return false;
           break;
         case 4:
-          result = result && (getEq()
-              == other.getEq());
+          if (getEq()
+              != other.getEq()) return false;
           break;
         case 5:
-          result = result && (getGe()
-              == other.getGe());
+          if (getGe()
+              != other.getGe()) return false;
           break;
         case 6:
-          result = result && (getGt()
-              == other.getGt());
+          if (getGt()
+              != other.getGt()) return false;
           break;
         case 0:
         default:
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1040,6 +1187,7 @@ public final class Validation {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1047,6 +1195,7 @@ public final class Validation {
     public static Builder newBuilder(tech.ydb.Validation.Limit prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1070,6 +1219,7 @@ public final class Validation {
         return tech.ydb.Validation.internal_static_Ydb_Limit_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.Validation.internal_static_Ydb_Limit_fieldAccessorTable
@@ -1092,6 +1242,7 @@ public final class Validation {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         kindCase_ = 0;
@@ -1099,15 +1250,18 @@ public final class Validation {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.Validation.internal_static_Ydb_Limit_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.Validation.Limit getDefaultInstanceForType() {
         return tech.ydb.Validation.Limit.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.Validation.Limit build() {
         tech.ydb.Validation.Limit result = buildPartial();
         if (!result.isInitialized()) {
@@ -1116,6 +1270,7 @@ public final class Validation {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.Validation.Limit buildPartial() {
         tech.ydb.Validation.Limit result = new tech.ydb.Validation.Limit(this);
         if (kindCase_ == 1) {
@@ -1145,32 +1300,39 @@ public final class Validation {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.Validation.Limit) {
           return mergeFrom((tech.ydb.Validation.Limit)other);
@@ -1216,10 +1378,12 @@ public final class Validation {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1257,13 +1421,17 @@ public final class Validation {
           tech.ydb.Validation.Limit.Range, tech.ydb.Validation.Limit.Range.Builder, tech.ydb.Validation.Limit.RangeOrBuilder> rangeBuilder_;
       /**
        * <code>.Ydb.Limit.Range range = 1;</code>
+       * @return Whether the range field is set.
        */
+      @java.lang.Override
       public boolean hasRange() {
         return kindCase_ == 1;
       }
       /**
        * <code>.Ydb.Limit.Range range = 1;</code>
+       * @return The range.
        */
+      @java.lang.Override
       public tech.ydb.Validation.Limit.Range getRange() {
         if (rangeBuilder_ == null) {
           if (kindCase_ == 1) {
@@ -1357,6 +1525,7 @@ public final class Validation {
       /**
        * <code>.Ydb.Limit.Range range = 1;</code>
        */
+      @java.lang.Override
       public tech.ydb.Validation.Limit.RangeOrBuilder getRangeOrBuilder() {
         if ((kindCase_ == 1) && (rangeBuilder_ != null)) {
           return rangeBuilder_.getMessageOrBuilder();
@@ -1391,6 +1560,14 @@ public final class Validation {
 
       /**
        * <code>uint32 lt = 2;</code>
+       * @return Whether the lt field is set.
+       */
+      public boolean hasLt() {
+        return kindCase_ == 2;
+      }
+      /**
+       * <code>uint32 lt = 2;</code>
+       * @return The lt.
        */
       public int getLt() {
         if (kindCase_ == 2) {
@@ -1400,6 +1577,8 @@ public final class Validation {
       }
       /**
        * <code>uint32 lt = 2;</code>
+       * @param value The lt to set.
+       * @return This builder for chaining.
        */
       public Builder setLt(int value) {
         kindCase_ = 2;
@@ -1409,6 +1588,7 @@ public final class Validation {
       }
       /**
        * <code>uint32 lt = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearLt() {
         if (kindCase_ == 2) {
@@ -1421,6 +1601,14 @@ public final class Validation {
 
       /**
        * <code>uint32 le = 3;</code>
+       * @return Whether the le field is set.
+       */
+      public boolean hasLe() {
+        return kindCase_ == 3;
+      }
+      /**
+       * <code>uint32 le = 3;</code>
+       * @return The le.
        */
       public int getLe() {
         if (kindCase_ == 3) {
@@ -1430,6 +1618,8 @@ public final class Validation {
       }
       /**
        * <code>uint32 le = 3;</code>
+       * @param value The le to set.
+       * @return This builder for chaining.
        */
       public Builder setLe(int value) {
         kindCase_ = 3;
@@ -1439,6 +1629,7 @@ public final class Validation {
       }
       /**
        * <code>uint32 le = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearLe() {
         if (kindCase_ == 3) {
@@ -1451,6 +1642,14 @@ public final class Validation {
 
       /**
        * <code>uint32 eq = 4;</code>
+       * @return Whether the eq field is set.
+       */
+      public boolean hasEq() {
+        return kindCase_ == 4;
+      }
+      /**
+       * <code>uint32 eq = 4;</code>
+       * @return The eq.
        */
       public int getEq() {
         if (kindCase_ == 4) {
@@ -1460,6 +1659,8 @@ public final class Validation {
       }
       /**
        * <code>uint32 eq = 4;</code>
+       * @param value The eq to set.
+       * @return This builder for chaining.
        */
       public Builder setEq(int value) {
         kindCase_ = 4;
@@ -1469,6 +1670,7 @@ public final class Validation {
       }
       /**
        * <code>uint32 eq = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearEq() {
         if (kindCase_ == 4) {
@@ -1481,6 +1683,14 @@ public final class Validation {
 
       /**
        * <code>uint32 ge = 5;</code>
+       * @return Whether the ge field is set.
+       */
+      public boolean hasGe() {
+        return kindCase_ == 5;
+      }
+      /**
+       * <code>uint32 ge = 5;</code>
+       * @return The ge.
        */
       public int getGe() {
         if (kindCase_ == 5) {
@@ -1490,6 +1700,8 @@ public final class Validation {
       }
       /**
        * <code>uint32 ge = 5;</code>
+       * @param value The ge to set.
+       * @return This builder for chaining.
        */
       public Builder setGe(int value) {
         kindCase_ = 5;
@@ -1499,6 +1711,7 @@ public final class Validation {
       }
       /**
        * <code>uint32 ge = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearGe() {
         if (kindCase_ == 5) {
@@ -1511,6 +1724,14 @@ public final class Validation {
 
       /**
        * <code>uint32 gt = 6;</code>
+       * @return Whether the gt field is set.
+       */
+      public boolean hasGt() {
+        return kindCase_ == 6;
+      }
+      /**
+       * <code>uint32 gt = 6;</code>
+       * @return The gt.
        */
       public int getGt() {
         if (kindCase_ == 6) {
@@ -1520,6 +1741,8 @@ public final class Validation {
       }
       /**
        * <code>uint32 gt = 6;</code>
+       * @param value The gt to set.
+       * @return This builder for chaining.
        */
       public Builder setGt(int value) {
         kindCase_ = 6;
@@ -1529,6 +1752,7 @@ public final class Validation {
       }
       /**
        * <code>uint32 gt = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearGt() {
         if (kindCase_ == 6) {
@@ -1538,11 +1762,13 @@ public final class Validation {
         }
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1564,11 +1790,12 @@ public final class Validation {
 
     private static final com.google.protobuf.Parser<Limit>
         PARSER = new com.google.protobuf.AbstractParser<Limit>() {
+      @java.lang.Override
       public Limit parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Limit(input, extensionRegistry);
+        return new Limit(input, extensionRegistry);
       }
     };
 
@@ -1581,6 +1808,7 @@ public final class Validation {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.Validation.Limit getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1593,10 +1821,12 @@ public final class Validation {
 
     /**
      * <code>.Ydb.Limit length = 1;</code>
+     * @return Whether the length field is set.
      */
     boolean hasLength();
     /**
      * <code>.Ydb.Limit length = 1;</code>
+     * @return The length.
      */
     tech.ydb.Validation.Limit getLength();
     /**
@@ -1606,10 +1836,12 @@ public final class Validation {
 
     /**
      * <code>string value = 2;</code>
+     * @return The value.
      */
     java.lang.String getValue();
     /**
      * <code>string value = 2;</code>
+     * @return The bytes for value.
      */
     com.google.protobuf.ByteString
         getValueBytes();
@@ -1617,7 +1849,7 @@ public final class Validation {
   /**
    * Protobuf type {@code Ydb.MapKey}
    */
-  public  static final class MapKey extends
+  public static final class MapKey extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.MapKey)
       MapKeyOrBuilder {
@@ -1631,6 +1863,13 @@ public final class Validation {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new MapKey();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -1640,7 +1879,9 @@ public final class Validation {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1651,13 +1892,6 @@ public final class Validation {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.Validation.Limit.Builder subBuilder = null;
               if (length_ != null) {
@@ -1677,6 +1911,13 @@ public final class Validation {
               value_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1694,6 +1935,7 @@ public final class Validation {
       return tech.ydb.Validation.internal_static_Ydb_MapKey_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.Validation.internal_static_Ydb_MapKey_fieldAccessorTable
@@ -1705,19 +1947,24 @@ public final class Validation {
     private tech.ydb.Validation.Limit length_;
     /**
      * <code>.Ydb.Limit length = 1;</code>
+     * @return Whether the length field is set.
      */
+    @java.lang.Override
     public boolean hasLength() {
       return length_ != null;
     }
     /**
      * <code>.Ydb.Limit length = 1;</code>
+     * @return The length.
      */
+    @java.lang.Override
     public tech.ydb.Validation.Limit getLength() {
       return length_ == null ? tech.ydb.Validation.Limit.getDefaultInstance() : length_;
     }
     /**
      * <code>.Ydb.Limit length = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.Validation.LimitOrBuilder getLengthOrBuilder() {
       return getLength();
     }
@@ -1726,7 +1973,9 @@ public final class Validation {
     private volatile java.lang.Object value_;
     /**
      * <code>string value = 2;</code>
+     * @return The value.
      */
+    @java.lang.Override
     public java.lang.String getValue() {
       java.lang.Object ref = value_;
       if (ref instanceof java.lang.String) {
@@ -1741,7 +1990,9 @@ public final class Validation {
     }
     /**
      * <code>string value = 2;</code>
+     * @return The bytes for value.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getValueBytes() {
       java.lang.Object ref = value_;
@@ -1757,6 +2008,7 @@ public final class Validation {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1766,6 +2018,7 @@ public final class Validation {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (length_ != null) {
@@ -1777,6 +2030,7 @@ public final class Validation {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1804,16 +2058,15 @@ public final class Validation {
       }
       tech.ydb.Validation.MapKey other = (tech.ydb.Validation.MapKey) obj;
 
-      boolean result = true;
-      result = result && (hasLength() == other.hasLength());
+      if (hasLength() != other.hasLength()) return false;
       if (hasLength()) {
-        result = result && getLength()
-            .equals(other.getLength());
+        if (!getLength()
+            .equals(other.getLength())) return false;
       }
-      result = result && getValue()
-          .equals(other.getValue());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getValue()
+          .equals(other.getValue())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1904,6 +2157,7 @@ public final class Validation {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1911,6 +2165,7 @@ public final class Validation {
     public static Builder newBuilder(tech.ydb.Validation.MapKey prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1934,6 +2189,7 @@ public final class Validation {
         return tech.ydb.Validation.internal_static_Ydb_MapKey_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.Validation.internal_static_Ydb_MapKey_fieldAccessorTable
@@ -1956,6 +2212,7 @@ public final class Validation {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (lengthBuilder_ == null) {
@@ -1969,15 +2226,18 @@ public final class Validation {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.Validation.internal_static_Ydb_MapKey_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.Validation.MapKey getDefaultInstanceForType() {
         return tech.ydb.Validation.MapKey.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.Validation.MapKey build() {
         tech.ydb.Validation.MapKey result = buildPartial();
         if (!result.isInitialized()) {
@@ -1986,6 +2246,7 @@ public final class Validation {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.Validation.MapKey buildPartial() {
         tech.ydb.Validation.MapKey result = new tech.ydb.Validation.MapKey(this);
         if (lengthBuilder_ == null) {
@@ -1998,32 +2259,39 @@ public final class Validation {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.Validation.MapKey) {
           return mergeFrom((tech.ydb.Validation.MapKey)other);
@@ -2047,10 +2315,12 @@ public final class Validation {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2069,17 +2339,19 @@ public final class Validation {
         return this;
       }
 
-      private tech.ydb.Validation.Limit length_ = null;
+      private tech.ydb.Validation.Limit length_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.Validation.Limit, tech.ydb.Validation.Limit.Builder, tech.ydb.Validation.LimitOrBuilder> lengthBuilder_;
       /**
        * <code>.Ydb.Limit length = 1;</code>
+       * @return Whether the length field is set.
        */
       public boolean hasLength() {
         return lengthBuilder_ != null || length_ != null;
       }
       /**
        * <code>.Ydb.Limit length = 1;</code>
+       * @return The length.
        */
       public tech.ydb.Validation.Limit getLength() {
         if (lengthBuilder_ == null) {
@@ -2189,6 +2461,7 @@ public final class Validation {
       private java.lang.Object value_ = "";
       /**
        * <code>string value = 2;</code>
+       * @return The value.
        */
       public java.lang.String getValue() {
         java.lang.Object ref = value_;
@@ -2204,6 +2477,7 @@ public final class Validation {
       }
       /**
        * <code>string value = 2;</code>
+       * @return The bytes for value.
        */
       public com.google.protobuf.ByteString
           getValueBytes() {
@@ -2220,6 +2494,8 @@ public final class Validation {
       }
       /**
        * <code>string value = 2;</code>
+       * @param value The value to set.
+       * @return This builder for chaining.
        */
       public Builder setValue(
           java.lang.String value) {
@@ -2233,6 +2509,7 @@ public final class Validation {
       }
       /**
        * <code>string value = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearValue() {
         
@@ -2242,6 +2519,8 @@ public final class Validation {
       }
       /**
        * <code>string value = 2;</code>
+       * @param value The bytes for value to set.
+       * @return This builder for chaining.
        */
       public Builder setValueBytes(
           com.google.protobuf.ByteString value) {
@@ -2254,11 +2533,13 @@ public final class Validation {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2280,11 +2561,12 @@ public final class Validation {
 
     private static final com.google.protobuf.Parser<MapKey>
         PARSER = new com.google.protobuf.AbstractParser<MapKey>() {
+      @java.lang.Override
       public MapKey parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new MapKey(input, extensionRegistry);
+        return new MapKey(input, extensionRegistry);
       }
     };
 
@@ -2297,6 +2579,7 @@ public final class Validation {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.Validation.MapKey getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2391,7 +2674,7 @@ public final class Validation {
       "\001(\rB\006\n\004kind\"3\n\006MapKey\022\032\n\006length\030\001 \001(\0132\n." +
       "Ydb.Limit\022\r\n\005value\030\002 \001(\t:1\n\010required\022\035.g" +
       "oogle.protobuf.FieldOptions\030\342\254\005 \001(\010:9\n\004s" +
-      "ize\022\035.google.protobuf.FieldOptions\030\343\254\005 \001",
+      "ize\022\035.google.protobuf.FieldOptions\030\343\254\005 \001" +
       "(\0132\n.Ydb.Limit:;\n\006length\022\035.google.protob" +
       "uf.FieldOptions\030\344\254\005 \001(\0132\n.Ydb.Limit:=\n\007m" +
       "ap_key\022\035.google.protobuf.FieldOptions\030\345\254" +
@@ -2399,19 +2682,11 @@ public final class Validation {
       "tobuf.FieldOptions\030\346\254\005 \001(\tB\023\n\016com.yandex" +
       ".ydb\370\001\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.google.protobuf.DescriptorProtos.getDescriptor(),
-        }, assigner);
+        });
     internal_static_Ydb_Limit_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_Limit_fieldAccessorTable = new

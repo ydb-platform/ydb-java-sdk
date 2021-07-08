@@ -16,6 +16,7 @@ public interface HierarchicalDrrSettingsOrBuilder extends
    * </pre>
    *
    * <code>double max_units_per_second = 1;</code>
+   * @return The maxUnitsPerSecond.
    */
   double getMaxUnitsPerSecond();
 
@@ -30,6 +31,7 @@ public interface HierarchicalDrrSettingsOrBuilder extends
    * </pre>
    *
    * <code>double max_burst_size_coefficient = 2;</code>
+   * @return The maxBurstSizeCoefficient.
    */
   double getMaxBurstSizeCoefficient();
 
@@ -42,6 +44,7 @@ public interface HierarchicalDrrSettingsOrBuilder extends
    * </pre>
    *
    * <code>double prefetch_coefficient = 3;</code>
+   * @return The prefetchCoefficient.
    */
   double getPrefetchCoefficient();
 
@@ -53,6 +56,7 @@ public interface HierarchicalDrrSettingsOrBuilder extends
    * </pre>
    *
    * <code>double prefetch_watermark = 4;</code>
+   * @return The prefetchWatermark.
    */
   double getPrefetchWatermark();
 }

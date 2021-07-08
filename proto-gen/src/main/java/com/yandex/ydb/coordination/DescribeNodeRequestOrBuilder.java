@@ -9,20 +9,24 @@ public interface DescribeNodeRequestOrBuilder extends
 
   /**
    * <code>string path = 1;</code>
+   * @return The path.
    */
   java.lang.String getPath();
   /**
    * <code>string path = 1;</code>
+   * @return The bytes for path.
    */
   com.google.protobuf.ByteString
       getPathBytes();
 
   /**
    * <code>.Ydb.Operations.OperationParams operation_params = 2;</code>
+   * @return Whether the operationParams field is set.
    */
   boolean hasOperationParams();
   /**
    * <code>.Ydb.Operations.OperationParams operation_params = 2;</code>
+   * @return The operationParams.
    */
   tech.ydb.OperationProtos.OperationParams getOperationParams();
   /**

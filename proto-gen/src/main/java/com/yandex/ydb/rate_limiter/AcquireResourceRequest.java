@@ -6,7 +6,7 @@ package tech.ydb.rate_limiter;
 /**
  * Protobuf type {@code Ydb.RateLimiter.AcquireResourceRequest}
  */
-public  final class AcquireResourceRequest extends
+public final class AcquireResourceRequest extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:Ydb.RateLimiter.AcquireResourceRequest)
     AcquireResourceRequestOrBuilder {
@@ -21,6 +21,13 @@ private static final long serialVersionUID = 0L;
   }
 
   @java.lang.Override
+  @SuppressWarnings({"unused"})
+  protected java.lang.Object newInstance(
+      UnusedPrivateParameter unused) {
+    return new AcquireResourceRequest();
+  }
+
+  @java.lang.Override
   public final com.google.protobuf.UnknownFieldSet
   getUnknownFields() {
     return this.unknownFields;
@@ -30,7 +37,9 @@ private static final long serialVersionUID = 0L;
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     this();
-    int mutable_bitField0_ = 0;
+    if (extensionRegistry == null) {
+      throw new java.lang.NullPointerException();
+    }
     com.google.protobuf.UnknownFieldSet.Builder unknownFields =
         com.google.protobuf.UnknownFieldSet.newBuilder();
     try {
@@ -41,13 +50,6 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          default: {
-            if (!parseUnknownFieldProto3(
-                input, unknownFields, extensionRegistry, tag)) {
-              done = true;
-            }
-            break;
-          }
           case 10: {
             tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
             if (operationParams_ != null) {
@@ -83,6 +85,13 @@ private static final long serialVersionUID = 0L;
             units_ = input.readUInt64();
             break;
           }
+          default: {
+            if (!parseUnknownField(
+                input, unknownFields, extensionRegistry, tag)) {
+              done = true;
+            }
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -100,6 +109,7 @@ private static final long serialVersionUID = 0L;
     return tech.ydb.rate_limiter.RateLimiterProtos.internal_static_Ydb_RateLimiter_AcquireResourceRequest_descriptor;
   }
 
+  @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return tech.ydb.rate_limiter.RateLimiterProtos.internal_static_Ydb_RateLimiter_AcquireResourceRequest_fieldAccessorTable
@@ -110,7 +120,8 @@ private static final long serialVersionUID = 0L;
   private int unitsCase_ = 0;
   private java.lang.Object units_;
   public enum UnitsCase
-      implements com.google.protobuf.Internal.EnumLite {
+      implements com.google.protobuf.Internal.EnumLite,
+          com.google.protobuf.AbstractMessage.InternalOneOfEnum {
     REQUIRED(4),
     USED(5),
     UNITS_NOT_SET(0);
@@ -119,6 +130,8 @@ private static final long serialVersionUID = 0L;
       this.value = value;
     }
     /**
+     * @param value The number of the enum to look for.
+     * @return The enum associated with the given number.
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
@@ -149,19 +162,24 @@ private static final long serialVersionUID = 0L;
   private tech.ydb.OperationProtos.OperationParams operationParams_;
   /**
    * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+   * @return Whether the operationParams field is set.
    */
+  @java.lang.Override
   public boolean hasOperationParams() {
     return operationParams_ != null;
   }
   /**
    * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+   * @return The operationParams.
    */
+  @java.lang.Override
   public tech.ydb.OperationProtos.OperationParams getOperationParams() {
     return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
   }
   /**
    * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
    */
+  @java.lang.Override
   public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
     return getOperationParams();
   }
@@ -174,7 +192,9 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>string coordination_node_path = 2;</code>
+   * @return The coordinationNodePath.
    */
+  @java.lang.Override
   public java.lang.String getCoordinationNodePath() {
     java.lang.Object ref = coordinationNodePath_;
     if (ref instanceof java.lang.String) {
@@ -193,7 +213,9 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>string coordination_node_path = 2;</code>
+   * @return The bytes for coordinationNodePath.
    */
+  @java.lang.Override
   public com.google.protobuf.ByteString
       getCoordinationNodePathBytes() {
     java.lang.Object ref = coordinationNodePath_;
@@ -216,7 +238,9 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>string resource_path = 3;</code>
+   * @return The resourcePath.
    */
+  @java.lang.Override
   public java.lang.String getResourcePath() {
     java.lang.Object ref = resourcePath_;
     if (ref instanceof java.lang.String) {
@@ -235,7 +259,9 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>string resource_path = 3;</code>
+   * @return The bytes for resourcePath.
    */
+  @java.lang.Override
   public com.google.protobuf.ByteString
       getResourcePathBytes() {
     java.lang.Object ref = resourcePath_;
@@ -257,7 +283,21 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>uint64 required = 4;</code>
+   * @return Whether the required field is set.
    */
+  @java.lang.Override
+  public boolean hasRequired() {
+    return unitsCase_ == 4;
+  }
+  /**
+   * <pre>
+   * Request resource's units for usage.
+   * </pre>
+   *
+   * <code>uint64 required = 4;</code>
+   * @return The required.
+   */
+  @java.lang.Override
   public long getRequired() {
     if (unitsCase_ == 4) {
       return (java.lang.Long) units_;
@@ -272,7 +312,21 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>uint64 used = 5;</code>
+   * @return Whether the used field is set.
    */
+  @java.lang.Override
+  public boolean hasUsed() {
+    return unitsCase_ == 5;
+  }
+  /**
+   * <pre>
+   * Actually used resource's units by client.
+   * </pre>
+   *
+   * <code>uint64 used = 5;</code>
+   * @return The used.
+   */
+  @java.lang.Override
   public long getUsed() {
     if (unitsCase_ == 5) {
       return (java.lang.Long) units_;
@@ -281,6 +335,7 @@ private static final long serialVersionUID = 0L;
   }
 
   private byte memoizedIsInitialized = -1;
+  @java.lang.Override
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
     if (isInitialized == 1) return true;
@@ -290,6 +345,7 @@ private static final long serialVersionUID = 0L;
     return true;
   }
 
+  @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     if (operationParams_ != null) {
@@ -312,6 +368,7 @@ private static final long serialVersionUID = 0L;
     unknownFields.writeTo(output);
   }
 
+  @java.lang.Override
   public int getSerializedSize() {
     int size = memoizedSize;
     if (size != -1) return size;
@@ -352,33 +409,30 @@ private static final long serialVersionUID = 0L;
     }
     tech.ydb.rate_limiter.AcquireResourceRequest other = (tech.ydb.rate_limiter.AcquireResourceRequest) obj;
 
-    boolean result = true;
-    result = result && (hasOperationParams() == other.hasOperationParams());
+    if (hasOperationParams() != other.hasOperationParams()) return false;
     if (hasOperationParams()) {
-      result = result && getOperationParams()
-          .equals(other.getOperationParams());
+      if (!getOperationParams()
+          .equals(other.getOperationParams())) return false;
     }
-    result = result && getCoordinationNodePath()
-        .equals(other.getCoordinationNodePath());
-    result = result && getResourcePath()
-        .equals(other.getResourcePath());
-    result = result && getUnitsCase().equals(
-        other.getUnitsCase());
-    if (!result) return false;
+    if (!getCoordinationNodePath()
+        .equals(other.getCoordinationNodePath())) return false;
+    if (!getResourcePath()
+        .equals(other.getResourcePath())) return false;
+    if (!getUnitsCase().equals(other.getUnitsCase())) return false;
     switch (unitsCase_) {
       case 4:
-        result = result && (getRequired()
-            == other.getRequired());
+        if (getRequired()
+            != other.getRequired()) return false;
         break;
       case 5:
-        result = result && (getUsed()
-            == other.getUsed());
+        if (getUsed()
+            != other.getUsed()) return false;
         break;
       case 0:
       default:
     }
-    result = result && unknownFields.equals(other.unknownFields);
-    return result;
+    if (!unknownFields.equals(other.unknownFields)) return false;
+    return true;
   }
 
   @java.lang.Override
@@ -485,6 +539,7 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
+  @java.lang.Override
   public Builder newBuilderForType() { return newBuilder(); }
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
@@ -492,6 +547,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder(tech.ydb.rate_limiter.AcquireResourceRequest prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
+  @java.lang.Override
   public Builder toBuilder() {
     return this == DEFAULT_INSTANCE
         ? new Builder() : new Builder().mergeFrom(this);
@@ -515,6 +571,7 @@ private static final long serialVersionUID = 0L;
       return tech.ydb.rate_limiter.RateLimiterProtos.internal_static_Ydb_RateLimiter_AcquireResourceRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.rate_limiter.RateLimiterProtos.internal_static_Ydb_RateLimiter_AcquireResourceRequest_fieldAccessorTable
@@ -537,6 +594,7 @@ private static final long serialVersionUID = 0L;
               .alwaysUseFieldBuilders) {
       }
     }
+    @java.lang.Override
     public Builder clear() {
       super.clear();
       if (operationParamsBuilder_ == null) {
@@ -554,15 +612,18 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
+    @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
       return tech.ydb.rate_limiter.RateLimiterProtos.internal_static_Ydb_RateLimiter_AcquireResourceRequest_descriptor;
     }
 
+    @java.lang.Override
     public tech.ydb.rate_limiter.AcquireResourceRequest getDefaultInstanceForType() {
       return tech.ydb.rate_limiter.AcquireResourceRequest.getDefaultInstance();
     }
 
+    @java.lang.Override
     public tech.ydb.rate_limiter.AcquireResourceRequest build() {
       tech.ydb.rate_limiter.AcquireResourceRequest result = buildPartial();
       if (!result.isInitialized()) {
@@ -571,6 +632,7 @@ private static final long serialVersionUID = 0L;
       return result;
     }
 
+    @java.lang.Override
     public tech.ydb.rate_limiter.AcquireResourceRequest buildPartial() {
       tech.ydb.rate_limiter.AcquireResourceRequest result = new tech.ydb.rate_limiter.AcquireResourceRequest(this);
       if (operationParamsBuilder_ == null) {
@@ -591,32 +653,39 @@ private static final long serialVersionUID = 0L;
       return result;
     }
 
+    @java.lang.Override
     public Builder clone() {
-      return (Builder) super.clone();
+      return super.clone();
     }
+    @java.lang.Override
     public Builder setField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         java.lang.Object value) {
-      return (Builder) super.setField(field, value);
+      return super.setField(field, value);
     }
+    @java.lang.Override
     public Builder clearField(
         com.google.protobuf.Descriptors.FieldDescriptor field) {
-      return (Builder) super.clearField(field);
+      return super.clearField(field);
     }
+    @java.lang.Override
     public Builder clearOneof(
         com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-      return (Builder) super.clearOneof(oneof);
+      return super.clearOneof(oneof);
     }
+    @java.lang.Override
     public Builder setRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         int index, java.lang.Object value) {
-      return (Builder) super.setRepeatedField(field, index, value);
+      return super.setRepeatedField(field, index, value);
     }
+    @java.lang.Override
     public Builder addRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         java.lang.Object value) {
-      return (Builder) super.addRepeatedField(field, value);
+      return super.addRepeatedField(field, value);
     }
+    @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof tech.ydb.rate_limiter.AcquireResourceRequest) {
         return mergeFrom((tech.ydb.rate_limiter.AcquireResourceRequest)other);
@@ -657,10 +726,12 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
+    @java.lang.Override
     public final boolean isInitialized() {
       return true;
     }
 
+    @java.lang.Override
     public Builder mergeFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -694,17 +765,19 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
     private com.google.protobuf.SingleFieldBuilderV3<
         tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     public boolean hasOperationParams() {
       return operationParamsBuilder_ != null || operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       if (operationParamsBuilder_ == null) {
@@ -818,6 +891,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string coordination_node_path = 2;</code>
+     * @return The coordinationNodePath.
      */
     public java.lang.String getCoordinationNodePath() {
       java.lang.Object ref = coordinationNodePath_;
@@ -837,6 +911,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string coordination_node_path = 2;</code>
+     * @return The bytes for coordinationNodePath.
      */
     public com.google.protobuf.ByteString
         getCoordinationNodePathBytes() {
@@ -857,6 +932,8 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string coordination_node_path = 2;</code>
+     * @param value The coordinationNodePath to set.
+     * @return This builder for chaining.
      */
     public Builder setCoordinationNodePath(
         java.lang.String value) {
@@ -874,6 +951,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string coordination_node_path = 2;</code>
+     * @return This builder for chaining.
      */
     public Builder clearCoordinationNodePath() {
       
@@ -887,6 +965,8 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string coordination_node_path = 2;</code>
+     * @param value The bytes for coordinationNodePath to set.
+     * @return This builder for chaining.
      */
     public Builder setCoordinationNodePathBytes(
         com.google.protobuf.ByteString value) {
@@ -907,6 +987,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string resource_path = 3;</code>
+     * @return The resourcePath.
      */
     public java.lang.String getResourcePath() {
       java.lang.Object ref = resourcePath_;
@@ -926,6 +1007,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string resource_path = 3;</code>
+     * @return The bytes for resourcePath.
      */
     public com.google.protobuf.ByteString
         getResourcePathBytes() {
@@ -946,6 +1028,8 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string resource_path = 3;</code>
+     * @param value The resourcePath to set.
+     * @return This builder for chaining.
      */
     public Builder setResourcePath(
         java.lang.String value) {
@@ -963,6 +1047,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string resource_path = 3;</code>
+     * @return This builder for chaining.
      */
     public Builder clearResourcePath() {
       
@@ -976,6 +1061,8 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string resource_path = 3;</code>
+     * @param value The bytes for resourcePath to set.
+     * @return This builder for chaining.
      */
     public Builder setResourcePathBytes(
         com.google.protobuf.ByteString value) {
@@ -995,6 +1082,18 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 required = 4;</code>
+     * @return Whether the required field is set.
+     */
+    public boolean hasRequired() {
+      return unitsCase_ == 4;
+    }
+    /**
+     * <pre>
+     * Request resource's units for usage.
+     * </pre>
+     *
+     * <code>uint64 required = 4;</code>
+     * @return The required.
      */
     public long getRequired() {
       if (unitsCase_ == 4) {
@@ -1008,6 +1107,8 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 required = 4;</code>
+     * @param value The required to set.
+     * @return This builder for chaining.
      */
     public Builder setRequired(long value) {
       unitsCase_ = 4;
@@ -1021,6 +1122,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 required = 4;</code>
+     * @return This builder for chaining.
      */
     public Builder clearRequired() {
       if (unitsCase_ == 4) {
@@ -1037,6 +1139,18 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 used = 5;</code>
+     * @return Whether the used field is set.
+     */
+    public boolean hasUsed() {
+      return unitsCase_ == 5;
+    }
+    /**
+     * <pre>
+     * Actually used resource's units by client.
+     * </pre>
+     *
+     * <code>uint64 used = 5;</code>
+     * @return The used.
      */
     public long getUsed() {
       if (unitsCase_ == 5) {
@@ -1050,6 +1164,8 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 used = 5;</code>
+     * @param value The used to set.
+     * @return This builder for chaining.
      */
     public Builder setUsed(long value) {
       unitsCase_ = 5;
@@ -1063,6 +1179,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint64 used = 5;</code>
+     * @return This builder for chaining.
      */
     public Builder clearUsed() {
       if (unitsCase_ == 5) {
@@ -1072,11 +1189,13 @@ private static final long serialVersionUID = 0L;
       }
       return this;
     }
+    @java.lang.Override
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return super.setUnknownFieldsProto3(unknownFields);
+      return super.setUnknownFields(unknownFields);
     }
 
+    @java.lang.Override
     public final Builder mergeUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
       return super.mergeUnknownFields(unknownFields);
@@ -1098,11 +1217,12 @@ private static final long serialVersionUID = 0L;
 
   private static final com.google.protobuf.Parser<AcquireResourceRequest>
       PARSER = new com.google.protobuf.AbstractParser<AcquireResourceRequest>() {
+    @java.lang.Override
     public AcquireResourceRequest parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new AcquireResourceRequest(input, extensionRegistry);
+      return new AcquireResourceRequest(input, extensionRegistry);
     }
   };
 
@@ -1115,6 +1235,7 @@ private static final long serialVersionUID = 0L;
     return PARSER;
   }
 
+  @java.lang.Override
   public tech.ydb.rate_limiter.AcquireResourceRequest getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }

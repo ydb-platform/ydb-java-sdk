@@ -20,26 +20,30 @@ public final class YqlInternalProtos {
 
     /**
      * <code>.Ydb.FeatureFlag.Status strict_dml = 1;</code>
+     * @return The enum numeric value on the wire for strictDml.
      */
     int getStrictDmlValue();
     /**
      * <code>.Ydb.FeatureFlag.Status strict_dml = 1;</code>
+     * @return The strictDml.
      */
     tech.ydb.common.CommonProtos.FeatureFlag.Status getStrictDml();
 
     /**
      * <code>.Ydb.FeatureFlag.Status use_new_engine = 2;</code>
+     * @return The enum numeric value on the wire for useNewEngine.
      */
     int getUseNewEngineValue();
     /**
      * <code>.Ydb.FeatureFlag.Status use_new_engine = 2;</code>
+     * @return The useNewEngine.
      */
     tech.ydb.common.CommonProtos.FeatureFlag.Status getUseNewEngine();
   }
   /**
    * Protobuf type {@code Ydb.YqlInternal.ExecQuerySettings}
    */
-  public  static final class ExecQuerySettings extends
+  public static final class ExecQuerySettings extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.YqlInternal.ExecQuerySettings)
       ExecQuerySettingsOrBuilder {
@@ -54,6 +58,13 @@ public final class YqlInternalProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExecQuerySettings();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -63,7 +74,9 @@ public final class YqlInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -74,13 +87,6 @@ public final class YqlInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
               int rawValue = input.readEnum();
 
@@ -91,6 +97,13 @@ public final class YqlInternalProtos {
               int rawValue = input.readEnum();
 
               useNewEngine_ = rawValue;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -110,6 +123,7 @@ public final class YqlInternalProtos {
       return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExecQuerySettings_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExecQuerySettings_fieldAccessorTable
@@ -121,14 +135,17 @@ public final class YqlInternalProtos {
     private int strictDml_;
     /**
      * <code>.Ydb.FeatureFlag.Status strict_dml = 1;</code>
+     * @return The enum numeric value on the wire for strictDml.
      */
-    public int getStrictDmlValue() {
+    @java.lang.Override public int getStrictDmlValue() {
       return strictDml_;
     }
     /**
      * <code>.Ydb.FeatureFlag.Status strict_dml = 1;</code>
+     * @return The strictDml.
      */
-    public tech.ydb.common.CommonProtos.FeatureFlag.Status getStrictDml() {
+    @java.lang.Override public tech.ydb.common.CommonProtos.FeatureFlag.Status getStrictDml() {
+      @SuppressWarnings("deprecation")
       tech.ydb.common.CommonProtos.FeatureFlag.Status result = tech.ydb.common.CommonProtos.FeatureFlag.Status.valueOf(strictDml_);
       return result == null ? tech.ydb.common.CommonProtos.FeatureFlag.Status.UNRECOGNIZED : result;
     }
@@ -137,19 +154,23 @@ public final class YqlInternalProtos {
     private int useNewEngine_;
     /**
      * <code>.Ydb.FeatureFlag.Status use_new_engine = 2;</code>
+     * @return The enum numeric value on the wire for useNewEngine.
      */
-    public int getUseNewEngineValue() {
+    @java.lang.Override public int getUseNewEngineValue() {
       return useNewEngine_;
     }
     /**
      * <code>.Ydb.FeatureFlag.Status use_new_engine = 2;</code>
+     * @return The useNewEngine.
      */
-    public tech.ydb.common.CommonProtos.FeatureFlag.Status getUseNewEngine() {
+    @java.lang.Override public tech.ydb.common.CommonProtos.FeatureFlag.Status getUseNewEngine() {
+      @SuppressWarnings("deprecation")
       tech.ydb.common.CommonProtos.FeatureFlag.Status result = tech.ydb.common.CommonProtos.FeatureFlag.Status.valueOf(useNewEngine_);
       return result == null ? tech.ydb.common.CommonProtos.FeatureFlag.Status.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -159,6 +180,7 @@ public final class YqlInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (strictDml_ != tech.ydb.common.CommonProtos.FeatureFlag.Status.STATUS_UNSPECIFIED.getNumber()) {
@@ -170,6 +192,7 @@ public final class YqlInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -198,11 +221,10 @@ public final class YqlInternalProtos {
       }
       tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings other = (tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings) obj;
 
-      boolean result = true;
-      result = result && strictDml_ == other.strictDml_;
-      result = result && useNewEngine_ == other.useNewEngine_;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (strictDml_ != other.strictDml_) return false;
+      if (useNewEngine_ != other.useNewEngine_) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -291,6 +313,7 @@ public final class YqlInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -298,6 +321,7 @@ public final class YqlInternalProtos {
     public static Builder newBuilder(tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -321,6 +345,7 @@ public final class YqlInternalProtos {
         return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExecQuerySettings_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExecQuerySettings_fieldAccessorTable
@@ -343,6 +368,7 @@ public final class YqlInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         strictDml_ = 0;
@@ -352,15 +378,18 @@ public final class YqlInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExecQuerySettings_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings getDefaultInstanceForType() {
         return tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings build() {
         tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings result = buildPartial();
         if (!result.isInitialized()) {
@@ -369,6 +398,7 @@ public final class YqlInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings buildPartial() {
         tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings result = new tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings(this);
         result.strictDml_ = strictDml_;
@@ -377,32 +407,39 @@ public final class YqlInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings) {
           return mergeFrom((tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings)other);
@@ -425,10 +462,12 @@ public final class YqlInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -450,27 +489,36 @@ public final class YqlInternalProtos {
       private int strictDml_ = 0;
       /**
        * <code>.Ydb.FeatureFlag.Status strict_dml = 1;</code>
+       * @return The enum numeric value on the wire for strictDml.
        */
-      public int getStrictDmlValue() {
+      @java.lang.Override public int getStrictDmlValue() {
         return strictDml_;
       }
       /**
        * <code>.Ydb.FeatureFlag.Status strict_dml = 1;</code>
+       * @param value The enum numeric value on the wire for strictDml to set.
+       * @return This builder for chaining.
        */
       public Builder setStrictDmlValue(int value) {
+        
         strictDml_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.FeatureFlag.Status strict_dml = 1;</code>
+       * @return The strictDml.
        */
+      @java.lang.Override
       public tech.ydb.common.CommonProtos.FeatureFlag.Status getStrictDml() {
+        @SuppressWarnings("deprecation")
         tech.ydb.common.CommonProtos.FeatureFlag.Status result = tech.ydb.common.CommonProtos.FeatureFlag.Status.valueOf(strictDml_);
         return result == null ? tech.ydb.common.CommonProtos.FeatureFlag.Status.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.FeatureFlag.Status strict_dml = 1;</code>
+       * @param value The strictDml to set.
+       * @return This builder for chaining.
        */
       public Builder setStrictDml(tech.ydb.common.CommonProtos.FeatureFlag.Status value) {
         if (value == null) {
@@ -483,6 +531,7 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>.Ydb.FeatureFlag.Status strict_dml = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearStrictDml() {
         
@@ -494,27 +543,36 @@ public final class YqlInternalProtos {
       private int useNewEngine_ = 0;
       /**
        * <code>.Ydb.FeatureFlag.Status use_new_engine = 2;</code>
+       * @return The enum numeric value on the wire for useNewEngine.
        */
-      public int getUseNewEngineValue() {
+      @java.lang.Override public int getUseNewEngineValue() {
         return useNewEngine_;
       }
       /**
        * <code>.Ydb.FeatureFlag.Status use_new_engine = 2;</code>
+       * @param value The enum numeric value on the wire for useNewEngine to set.
+       * @return This builder for chaining.
        */
       public Builder setUseNewEngineValue(int value) {
+        
         useNewEngine_ = value;
         onChanged();
         return this;
       }
       /**
        * <code>.Ydb.FeatureFlag.Status use_new_engine = 2;</code>
+       * @return The useNewEngine.
        */
+      @java.lang.Override
       public tech.ydb.common.CommonProtos.FeatureFlag.Status getUseNewEngine() {
+        @SuppressWarnings("deprecation")
         tech.ydb.common.CommonProtos.FeatureFlag.Status result = tech.ydb.common.CommonProtos.FeatureFlag.Status.valueOf(useNewEngine_);
         return result == null ? tech.ydb.common.CommonProtos.FeatureFlag.Status.UNRECOGNIZED : result;
       }
       /**
        * <code>.Ydb.FeatureFlag.Status use_new_engine = 2;</code>
+       * @param value The useNewEngine to set.
+       * @return This builder for chaining.
        */
       public Builder setUseNewEngine(tech.ydb.common.CommonProtos.FeatureFlag.Status value) {
         if (value == null) {
@@ -527,6 +585,7 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>.Ydb.FeatureFlag.Status use_new_engine = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUseNewEngine() {
         
@@ -534,11 +593,13 @@ public final class YqlInternalProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -560,11 +621,12 @@ public final class YqlInternalProtos {
 
     private static final com.google.protobuf.Parser<ExecQuerySettings>
         PARSER = new com.google.protobuf.AbstractParser<ExecQuerySettings>() {
+      @java.lang.Override
       public ExecQuerySettings parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExecQuerySettings(input, extensionRegistry);
+        return new ExecQuerySettings(input, extensionRegistry);
       }
     };
 
@@ -577,6 +639,7 @@ public final class YqlInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -589,10 +652,12 @@ public final class YqlInternalProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -602,20 +667,24 @@ public final class YqlInternalProtos {
 
     /**
      * <code>string cluster_name = 2;</code>
+     * @return The clusterName.
      */
     java.lang.String getClusterName();
     /**
      * <code>string cluster_name = 2;</code>
+     * @return The bytes for clusterName.
      */
     com.google.protobuf.ByteString
         getClusterNameBytes();
 
     /**
      * <code>string query_ast = 3;</code>
+     * @return The queryAst.
      */
     java.lang.String getQueryAst();
     /**
      * <code>string query_ast = 3;</code>
+     * @return The bytes for queryAst.
      */
     com.google.protobuf.ByteString
         getQueryAstBytes();
@@ -656,10 +725,12 @@ public final class YqlInternalProtos {
 
     /**
      * <code>.Ydb.Table.TransactionSettings tx_settings = 5;</code>
+     * @return Whether the txSettings field is set.
      */
     boolean hasTxSettings();
     /**
      * <code>.Ydb.Table.TransactionSettings tx_settings = 5;</code>
+     * @return The txSettings.
      */
     tech.ydb.table.YdbTable.TransactionSettings getTxSettings();
     /**
@@ -669,10 +740,12 @@ public final class YqlInternalProtos {
 
     /**
      * <code>.Ydb.YqlInternal.ExecQuerySettings settings = 6;</code>
+     * @return Whether the settings field is set.
      */
     boolean hasSettings();
     /**
      * <code>.Ydb.YqlInternal.ExecQuerySettings settings = 6;</code>
+     * @return The settings.
      */
     tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings getSettings();
     /**
@@ -683,7 +756,7 @@ public final class YqlInternalProtos {
   /**
    * Protobuf type {@code Ydb.YqlInternal.ExecDataQueryAstRequest}
    */
-  public  static final class ExecDataQueryAstRequest extends
+  public static final class ExecDataQueryAstRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.YqlInternal.ExecDataQueryAstRequest)
       ExecDataQueryAstRequestOrBuilder {
@@ -698,6 +771,13 @@ public final class YqlInternalProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExecDataQueryAstRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -707,6 +787,9 @@ public final class YqlInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -718,13 +801,6 @@ public final class YqlInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -751,10 +827,10 @@ public final class YqlInternalProtos {
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 parameters_ = com.google.protobuf.MapField.newMapField(
                     ParametersDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000001;
               }
               com.google.protobuf.MapEntry<java.lang.String, tech.ydb.ValueProtos.TypedValue>
               parameters__ = input.readMessage(
@@ -789,6 +865,13 @@ public final class YqlInternalProtos {
 
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -807,6 +890,7 @@ public final class YqlInternalProtos {
     }
 
     @SuppressWarnings({"rawtypes"})
+    @java.lang.Override
     protected com.google.protobuf.MapField internalGetMapField(
         int number) {
       switch (number) {
@@ -817,6 +901,7 @@ public final class YqlInternalProtos {
               "Invalid map field number: " + number);
       }
     }
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExecDataQueryAstRequest_fieldAccessorTable
@@ -824,24 +909,28 @@ public final class YqlInternalProtos {
               tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstRequest.class, tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -850,7 +939,9 @@ public final class YqlInternalProtos {
     private volatile java.lang.Object clusterName_;
     /**
      * <code>string cluster_name = 2;</code>
+     * @return The clusterName.
      */
+    @java.lang.Override
     public java.lang.String getClusterName() {
       java.lang.Object ref = clusterName_;
       if (ref instanceof java.lang.String) {
@@ -865,7 +956,9 @@ public final class YqlInternalProtos {
     }
     /**
      * <code>string cluster_name = 2;</code>
+     * @return The bytes for clusterName.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getClusterNameBytes() {
       java.lang.Object ref = clusterName_;
@@ -884,7 +977,9 @@ public final class YqlInternalProtos {
     private volatile java.lang.Object queryAst_;
     /**
      * <code>string query_ast = 3;</code>
+     * @return The queryAst.
      */
+    @java.lang.Override
     public java.lang.String getQueryAst() {
       java.lang.Object ref = queryAst_;
       if (ref instanceof java.lang.String) {
@@ -899,7 +994,9 @@ public final class YqlInternalProtos {
     }
     /**
      * <code>string query_ast = 3;</code>
+     * @return The bytes for queryAst.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getQueryAstBytes() {
       java.lang.Object ref = queryAst_;
@@ -944,6 +1041,7 @@ public final class YqlInternalProtos {
      * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 4;</code>
      */
 
+    @java.lang.Override
     public boolean containsParameters(
         java.lang.String key) {
       if (key == null) { throw new java.lang.NullPointerException(); }
@@ -952,6 +1050,7 @@ public final class YqlInternalProtos {
     /**
      * Use {@link #getParametersMap()} instead.
      */
+    @java.lang.Override
     @java.lang.Deprecated
     public java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue> getParameters() {
       return getParametersMap();
@@ -959,6 +1058,7 @@ public final class YqlInternalProtos {
     /**
      * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 4;</code>
      */
+    @java.lang.Override
 
     public java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue> getParametersMap() {
       return internalGetParameters().getMap();
@@ -966,6 +1066,7 @@ public final class YqlInternalProtos {
     /**
      * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 4;</code>
      */
+    @java.lang.Override
 
     public tech.ydb.ValueProtos.TypedValue getParametersOrDefault(
         java.lang.String key,
@@ -978,6 +1079,7 @@ public final class YqlInternalProtos {
     /**
      * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 4;</code>
      */
+    @java.lang.Override
 
     public tech.ydb.ValueProtos.TypedValue getParametersOrThrow(
         java.lang.String key) {
@@ -994,19 +1096,24 @@ public final class YqlInternalProtos {
     private tech.ydb.table.YdbTable.TransactionSettings txSettings_;
     /**
      * <code>.Ydb.Table.TransactionSettings tx_settings = 5;</code>
+     * @return Whether the txSettings field is set.
      */
+    @java.lang.Override
     public boolean hasTxSettings() {
       return txSettings_ != null;
     }
     /**
      * <code>.Ydb.Table.TransactionSettings tx_settings = 5;</code>
+     * @return The txSettings.
      */
+    @java.lang.Override
     public tech.ydb.table.YdbTable.TransactionSettings getTxSettings() {
       return txSettings_ == null ? tech.ydb.table.YdbTable.TransactionSettings.getDefaultInstance() : txSettings_;
     }
     /**
      * <code>.Ydb.Table.TransactionSettings tx_settings = 5;</code>
      */
+    @java.lang.Override
     public tech.ydb.table.YdbTable.TransactionSettingsOrBuilder getTxSettingsOrBuilder() {
       return getTxSettings();
     }
@@ -1015,24 +1122,30 @@ public final class YqlInternalProtos {
     private tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings settings_;
     /**
      * <code>.Ydb.YqlInternal.ExecQuerySettings settings = 6;</code>
+     * @return Whether the settings field is set.
      */
+    @java.lang.Override
     public boolean hasSettings() {
       return settings_ != null;
     }
     /**
      * <code>.Ydb.YqlInternal.ExecQuerySettings settings = 6;</code>
+     * @return The settings.
      */
+    @java.lang.Override
     public tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings getSettings() {
       return settings_ == null ? tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings.getDefaultInstance() : settings_;
     }
     /**
      * <code>.Ydb.YqlInternal.ExecQuerySettings settings = 6;</code>
      */
+    @java.lang.Override
     public tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettingsOrBuilder getSettingsOrBuilder() {
       return getSettings();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1042,6 +1155,7 @@ public final class YqlInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -1068,6 +1182,7 @@ public final class YqlInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1116,30 +1231,29 @@ public final class YqlInternalProtos {
       }
       tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstRequest other = (tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getClusterName()
-          .equals(other.getClusterName());
-      result = result && getQueryAst()
-          .equals(other.getQueryAst());
-      result = result && internalGetParameters().equals(
-          other.internalGetParameters());
-      result = result && (hasTxSettings() == other.hasTxSettings());
+      if (!getClusterName()
+          .equals(other.getClusterName())) return false;
+      if (!getQueryAst()
+          .equals(other.getQueryAst())) return false;
+      if (!internalGetParameters().equals(
+          other.internalGetParameters())) return false;
+      if (hasTxSettings() != other.hasTxSettings()) return false;
       if (hasTxSettings()) {
-        result = result && getTxSettings()
-            .equals(other.getTxSettings());
+        if (!getTxSettings()
+            .equals(other.getTxSettings())) return false;
       }
-      result = result && (hasSettings() == other.hasSettings());
+      if (hasSettings() != other.hasSettings()) return false;
       if (hasSettings()) {
-        result = result && getSettings()
-            .equals(other.getSettings());
+        if (!getSettings()
+            .equals(other.getSettings())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1244,6 +1358,7 @@ public final class YqlInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1251,6 +1366,7 @@ public final class YqlInternalProtos {
     public static Builder newBuilder(tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1296,6 +1412,7 @@ public final class YqlInternalProtos {
                 "Invalid map field number: " + number);
         }
       }
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExecDataQueryAstRequest_fieldAccessorTable
@@ -1318,6 +1435,7 @@ public final class YqlInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -1346,15 +1464,18 @@ public final class YqlInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExecDataQueryAstRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstRequest getDefaultInstanceForType() {
         return tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstRequest build() {
         tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -1363,10 +1484,10 @@ public final class YqlInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstRequest buildPartial() {
         tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstRequest result = new tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
         } else {
@@ -1386,37 +1507,43 @@ public final class YqlInternalProtos {
         } else {
           result.settings_ = settingsBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstRequest) {
           return mergeFrom((tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstRequest)other);
@@ -1452,10 +1579,12 @@ public final class YqlInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1475,17 +1604,19 @@ public final class YqlInternalProtos {
       }
       private int bitField0_;
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -1595,6 +1726,7 @@ public final class YqlInternalProtos {
       private java.lang.Object clusterName_ = "";
       /**
        * <code>string cluster_name = 2;</code>
+       * @return The clusterName.
        */
       public java.lang.String getClusterName() {
         java.lang.Object ref = clusterName_;
@@ -1610,6 +1742,7 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string cluster_name = 2;</code>
+       * @return The bytes for clusterName.
        */
       public com.google.protobuf.ByteString
           getClusterNameBytes() {
@@ -1626,6 +1759,8 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string cluster_name = 2;</code>
+       * @param value The clusterName to set.
+       * @return This builder for chaining.
        */
       public Builder setClusterName(
           java.lang.String value) {
@@ -1639,6 +1774,7 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string cluster_name = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearClusterName() {
         
@@ -1648,6 +1784,8 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string cluster_name = 2;</code>
+       * @param value The bytes for clusterName to set.
+       * @return This builder for chaining.
        */
       public Builder setClusterNameBytes(
           com.google.protobuf.ByteString value) {
@@ -1664,6 +1802,7 @@ public final class YqlInternalProtos {
       private java.lang.Object queryAst_ = "";
       /**
        * <code>string query_ast = 3;</code>
+       * @return The queryAst.
        */
       public java.lang.String getQueryAst() {
         java.lang.Object ref = queryAst_;
@@ -1679,6 +1818,7 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_ast = 3;</code>
+       * @return The bytes for queryAst.
        */
       public com.google.protobuf.ByteString
           getQueryAstBytes() {
@@ -1695,6 +1835,8 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_ast = 3;</code>
+       * @param value The queryAst to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryAst(
           java.lang.String value) {
@@ -1708,6 +1850,7 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_ast = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearQueryAst() {
         
@@ -1717,6 +1860,8 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_ast = 3;</code>
+       * @param value The bytes for queryAst to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryAstBytes(
           com.google.protobuf.ByteString value) {
@@ -1760,6 +1905,7 @@ public final class YqlInternalProtos {
        * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 4;</code>
        */
 
+      @java.lang.Override
       public boolean containsParameters(
           java.lang.String key) {
         if (key == null) { throw new java.lang.NullPointerException(); }
@@ -1768,6 +1914,7 @@ public final class YqlInternalProtos {
       /**
        * Use {@link #getParametersMap()} instead.
        */
+      @java.lang.Override
       @java.lang.Deprecated
       public java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue> getParameters() {
         return getParametersMap();
@@ -1775,6 +1922,7 @@ public final class YqlInternalProtos {
       /**
        * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 4;</code>
        */
+      @java.lang.Override
 
       public java.util.Map<java.lang.String, tech.ydb.ValueProtos.TypedValue> getParametersMap() {
         return internalGetParameters().getMap();
@@ -1782,6 +1930,7 @@ public final class YqlInternalProtos {
       /**
        * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 4;</code>
        */
+      @java.lang.Override
 
       public tech.ydb.ValueProtos.TypedValue getParametersOrDefault(
           java.lang.String key,
@@ -1794,6 +1943,7 @@ public final class YqlInternalProtos {
       /**
        * <code>map&lt;string, .Ydb.TypedValue&gt; parameters = 4;</code>
        */
+      @java.lang.Override
 
       public tech.ydb.ValueProtos.TypedValue getParametersOrThrow(
           java.lang.String key) {
@@ -1853,17 +2003,19 @@ public final class YqlInternalProtos {
         return this;
       }
 
-      private tech.ydb.table.YdbTable.TransactionSettings txSettings_ = null;
+      private tech.ydb.table.YdbTable.TransactionSettings txSettings_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.table.YdbTable.TransactionSettings, tech.ydb.table.YdbTable.TransactionSettings.Builder, tech.ydb.table.YdbTable.TransactionSettingsOrBuilder> txSettingsBuilder_;
       /**
        * <code>.Ydb.Table.TransactionSettings tx_settings = 5;</code>
+       * @return Whether the txSettings field is set.
        */
       public boolean hasTxSettings() {
         return txSettingsBuilder_ != null || txSettings_ != null;
       }
       /**
        * <code>.Ydb.Table.TransactionSettings tx_settings = 5;</code>
+       * @return The txSettings.
        */
       public tech.ydb.table.YdbTable.TransactionSettings getTxSettings() {
         if (txSettingsBuilder_ == null) {
@@ -1970,17 +2122,19 @@ public final class YqlInternalProtos {
         return txSettingsBuilder_;
       }
 
-      private tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings settings_ = null;
+      private tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings settings_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings, tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings.Builder, tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettingsOrBuilder> settingsBuilder_;
       /**
        * <code>.Ydb.YqlInternal.ExecQuerySettings settings = 6;</code>
+       * @return Whether the settings field is set.
        */
       public boolean hasSettings() {
         return settingsBuilder_ != null || settings_ != null;
       }
       /**
        * <code>.Ydb.YqlInternal.ExecQuerySettings settings = 6;</code>
+       * @return The settings.
        */
       public tech.ydb.yql_internal.YqlInternalProtos.ExecQuerySettings getSettings() {
         if (settingsBuilder_ == null) {
@@ -2086,11 +2240,13 @@ public final class YqlInternalProtos {
         }
         return settingsBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2112,11 +2268,12 @@ public final class YqlInternalProtos {
 
     private static final com.google.protobuf.Parser<ExecDataQueryAstRequest>
         PARSER = new com.google.protobuf.AbstractParser<ExecDataQueryAstRequest>() {
+      @java.lang.Override
       public ExecDataQueryAstRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExecDataQueryAstRequest(input, extensionRegistry);
+        return new ExecDataQueryAstRequest(input, extensionRegistry);
       }
     };
 
@@ -2129,6 +2286,7 @@ public final class YqlInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2141,10 +2299,12 @@ public final class YqlInternalProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -2155,7 +2315,7 @@ public final class YqlInternalProtos {
   /**
    * Protobuf type {@code Ydb.YqlInternal.ExecDataQueryAstResponse}
    */
-  public  static final class ExecDataQueryAstResponse extends
+  public static final class ExecDataQueryAstResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.YqlInternal.ExecDataQueryAstResponse)
       ExecDataQueryAstResponseOrBuilder {
@@ -2168,6 +2328,13 @@ public final class YqlInternalProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExecDataQueryAstResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2177,7 +2344,9 @@ public final class YqlInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2188,13 +2357,6 @@ public final class YqlInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -2206,6 +2368,13 @@ public final class YqlInternalProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -2225,6 +2394,7 @@ public final class YqlInternalProtos {
       return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExecDataQueryAstResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExecDataQueryAstResponse_fieldAccessorTable
@@ -2236,24 +2406,30 @@ public final class YqlInternalProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2263,6 +2439,7 @@ public final class YqlInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -2271,6 +2448,7 @@ public final class YqlInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2295,14 +2473,13 @@ public final class YqlInternalProtos {
       }
       tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResponse other = (tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2391,6 +2568,7 @@ public final class YqlInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2398,6 +2576,7 @@ public final class YqlInternalProtos {
     public static Builder newBuilder(tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2421,6 +2600,7 @@ public final class YqlInternalProtos {
         return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExecDataQueryAstResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExecDataQueryAstResponse_fieldAccessorTable
@@ -2443,6 +2623,7 @@ public final class YqlInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -2454,15 +2635,18 @@ public final class YqlInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExecDataQueryAstResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResponse getDefaultInstanceForType() {
         return tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResponse build() {
         tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -2471,6 +2655,7 @@ public final class YqlInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResponse buildPartial() {
         tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResponse result = new tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResponse(this);
         if (operationBuilder_ == null) {
@@ -2482,32 +2667,39 @@ public final class YqlInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResponse) {
           return mergeFrom((tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResponse)other);
@@ -2527,10 +2719,12 @@ public final class YqlInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2549,17 +2743,19 @@ public final class YqlInternalProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -2665,11 +2861,13 @@ public final class YqlInternalProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2691,11 +2889,12 @@ public final class YqlInternalProtos {
 
     private static final com.google.protobuf.Parser<ExecDataQueryAstResponse>
         PARSER = new com.google.protobuf.AbstractParser<ExecDataQueryAstResponse>() {
+      @java.lang.Override
       public ExecDataQueryAstResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExecDataQueryAstResponse(input, extensionRegistry);
+        return new ExecDataQueryAstResponse(input, extensionRegistry);
       }
     };
 
@@ -2708,6 +2907,7 @@ public final class YqlInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2744,20 +2944,24 @@ public final class YqlInternalProtos {
 
     /**
      * <code>string query_ast = 2;</code>
+     * @return The queryAst.
      */
     java.lang.String getQueryAst();
     /**
      * <code>string query_ast = 2;</code>
+     * @return The bytes for queryAst.
      */
     com.google.protobuf.ByteString
         getQueryAstBytes();
 
     /**
      * <code>string query_plan = 3;</code>
+     * @return The queryPlan.
      */
     java.lang.String getQueryPlan();
     /**
      * <code>string query_plan = 3;</code>
+     * @return The bytes for queryPlan.
      */
     com.google.protobuf.ByteString
         getQueryPlanBytes();
@@ -2765,7 +2969,7 @@ public final class YqlInternalProtos {
   /**
    * Protobuf type {@code Ydb.YqlInternal.ExecDataQueryAstResult}
    */
-  public  static final class ExecDataQueryAstResult extends
+  public static final class ExecDataQueryAstResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.YqlInternal.ExecDataQueryAstResult)
       ExecDataQueryAstResultOrBuilder {
@@ -2781,6 +2985,13 @@ public final class YqlInternalProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExecDataQueryAstResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2790,6 +3001,9 @@ public final class YqlInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -2801,15 +3015,8 @@ public final class YqlInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 resultSets_ = new java.util.ArrayList<tech.ydb.ValueProtos.ResultSet>();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -2829,6 +3036,13 @@ public final class YqlInternalProtos {
               queryPlan_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2837,7 +3051,7 @@ public final class YqlInternalProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           resultSets_ = java.util.Collections.unmodifiableList(resultSets_);
         }
         this.unknownFields = unknownFields.build();
@@ -2849,6 +3063,7 @@ public final class YqlInternalProtos {
       return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExecDataQueryAstResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExecDataQueryAstResult_fieldAccessorTable
@@ -2856,18 +3071,19 @@ public final class YqlInternalProtos {
               tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResult.class, tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResult.Builder.class);
     }
 
-    private int bitField0_;
     public static final int RESULT_SETS_FIELD_NUMBER = 1;
     private java.util.List<tech.ydb.ValueProtos.ResultSet> resultSets_;
     /**
      * <code>repeated .Ydb.ResultSet result_sets = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.ValueProtos.ResultSet> getResultSetsList() {
       return resultSets_;
     }
     /**
      * <code>repeated .Ydb.ResultSet result_sets = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.ValueProtos.ResultSetOrBuilder> 
         getResultSetsOrBuilderList() {
       return resultSets_;
@@ -2875,18 +3091,21 @@ public final class YqlInternalProtos {
     /**
      * <code>repeated .Ydb.ResultSet result_sets = 1;</code>
      */
+    @java.lang.Override
     public int getResultSetsCount() {
       return resultSets_.size();
     }
     /**
      * <code>repeated .Ydb.ResultSet result_sets = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ResultSet getResultSets(int index) {
       return resultSets_.get(index);
     }
     /**
      * <code>repeated .Ydb.ResultSet result_sets = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.ValueProtos.ResultSetOrBuilder getResultSetsOrBuilder(
         int index) {
       return resultSets_.get(index);
@@ -2896,7 +3115,9 @@ public final class YqlInternalProtos {
     private volatile java.lang.Object queryAst_;
     /**
      * <code>string query_ast = 2;</code>
+     * @return The queryAst.
      */
+    @java.lang.Override
     public java.lang.String getQueryAst() {
       java.lang.Object ref = queryAst_;
       if (ref instanceof java.lang.String) {
@@ -2911,7 +3132,9 @@ public final class YqlInternalProtos {
     }
     /**
      * <code>string query_ast = 2;</code>
+     * @return The bytes for queryAst.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getQueryAstBytes() {
       java.lang.Object ref = queryAst_;
@@ -2930,7 +3153,9 @@ public final class YqlInternalProtos {
     private volatile java.lang.Object queryPlan_;
     /**
      * <code>string query_plan = 3;</code>
+     * @return The queryPlan.
      */
+    @java.lang.Override
     public java.lang.String getQueryPlan() {
       java.lang.Object ref = queryPlan_;
       if (ref instanceof java.lang.String) {
@@ -2945,7 +3170,9 @@ public final class YqlInternalProtos {
     }
     /**
      * <code>string query_plan = 3;</code>
+     * @return The bytes for queryPlan.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getQueryPlanBytes() {
       java.lang.Object ref = queryPlan_;
@@ -2961,6 +3188,7 @@ public final class YqlInternalProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2970,6 +3198,7 @@ public final class YqlInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < resultSets_.size(); i++) {
@@ -2984,6 +3213,7 @@ public final class YqlInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3014,15 +3244,14 @@ public final class YqlInternalProtos {
       }
       tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResult other = (tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResult) obj;
 
-      boolean result = true;
-      result = result && getResultSetsList()
-          .equals(other.getResultSetsList());
-      result = result && getQueryAst()
-          .equals(other.getQueryAst());
-      result = result && getQueryPlan()
-          .equals(other.getQueryPlan());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getResultSetsList()
+          .equals(other.getResultSetsList())) return false;
+      if (!getQueryAst()
+          .equals(other.getQueryAst())) return false;
+      if (!getQueryPlan()
+          .equals(other.getQueryPlan())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3115,6 +3344,7 @@ public final class YqlInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3122,6 +3352,7 @@ public final class YqlInternalProtos {
     public static Builder newBuilder(tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3145,6 +3376,7 @@ public final class YqlInternalProtos {
         return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExecDataQueryAstResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExecDataQueryAstResult_fieldAccessorTable
@@ -3168,6 +3400,7 @@ public final class YqlInternalProtos {
           getResultSetsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (resultSetsBuilder_ == null) {
@@ -3183,15 +3416,18 @@ public final class YqlInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExecDataQueryAstResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResult getDefaultInstanceForType() {
         return tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResult build() {
         tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -3200,12 +3436,12 @@ public final class YqlInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResult buildPartial() {
         tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResult result = new tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResult(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (resultSetsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             resultSets_ = java.util.Collections.unmodifiableList(resultSets_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -3215,37 +3451,43 @@ public final class YqlInternalProtos {
         }
         result.queryAst_ = queryAst_;
         result.queryPlan_ = queryPlan_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResult) {
           return mergeFrom((tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResult)other);
@@ -3296,10 +3538,12 @@ public final class YqlInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3322,7 +3566,7 @@ public final class YqlInternalProtos {
       private java.util.List<tech.ydb.ValueProtos.ResultSet> resultSets_ =
         java.util.Collections.emptyList();
       private void ensureResultSetsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           resultSets_ = new java.util.ArrayList<tech.ydb.ValueProtos.ResultSet>(resultSets_);
           bitField0_ |= 0x00000001;
          }
@@ -3551,7 +3795,7 @@ public final class YqlInternalProtos {
           resultSetsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.ValueProtos.ResultSet, tech.ydb.ValueProtos.ResultSet.Builder, tech.ydb.ValueProtos.ResultSetOrBuilder>(
                   resultSets_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           resultSets_ = null;
@@ -3562,6 +3806,7 @@ public final class YqlInternalProtos {
       private java.lang.Object queryAst_ = "";
       /**
        * <code>string query_ast = 2;</code>
+       * @return The queryAst.
        */
       public java.lang.String getQueryAst() {
         java.lang.Object ref = queryAst_;
@@ -3577,6 +3822,7 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_ast = 2;</code>
+       * @return The bytes for queryAst.
        */
       public com.google.protobuf.ByteString
           getQueryAstBytes() {
@@ -3593,6 +3839,8 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_ast = 2;</code>
+       * @param value The queryAst to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryAst(
           java.lang.String value) {
@@ -3606,6 +3854,7 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_ast = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearQueryAst() {
         
@@ -3615,6 +3864,8 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_ast = 2;</code>
+       * @param value The bytes for queryAst to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryAstBytes(
           com.google.protobuf.ByteString value) {
@@ -3631,6 +3882,7 @@ public final class YqlInternalProtos {
       private java.lang.Object queryPlan_ = "";
       /**
        * <code>string query_plan = 3;</code>
+       * @return The queryPlan.
        */
       public java.lang.String getQueryPlan() {
         java.lang.Object ref = queryPlan_;
@@ -3646,6 +3898,7 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_plan = 3;</code>
+       * @return The bytes for queryPlan.
        */
       public com.google.protobuf.ByteString
           getQueryPlanBytes() {
@@ -3662,6 +3915,8 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_plan = 3;</code>
+       * @param value The queryPlan to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryPlan(
           java.lang.String value) {
@@ -3675,6 +3930,7 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_plan = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearQueryPlan() {
         
@@ -3684,6 +3940,8 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_plan = 3;</code>
+       * @param value The bytes for queryPlan to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryPlanBytes(
           com.google.protobuf.ByteString value) {
@@ -3696,11 +3954,13 @@ public final class YqlInternalProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3722,11 +3982,12 @@ public final class YqlInternalProtos {
 
     private static final com.google.protobuf.Parser<ExecDataQueryAstResult>
         PARSER = new com.google.protobuf.AbstractParser<ExecDataQueryAstResult>() {
+      @java.lang.Override
       public ExecDataQueryAstResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExecDataQueryAstResult(input, extensionRegistry);
+        return new ExecDataQueryAstResult(input, extensionRegistry);
       }
     };
 
@@ -3739,6 +4000,7 @@ public final class YqlInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.yql_internal.YqlInternalProtos.ExecDataQueryAstResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3751,10 +4013,12 @@ public final class YqlInternalProtos {
 
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
@@ -3764,20 +4028,24 @@ public final class YqlInternalProtos {
 
     /**
      * <code>string cluster_name = 2;</code>
+     * @return The clusterName.
      */
     java.lang.String getClusterName();
     /**
      * <code>string cluster_name = 2;</code>
+     * @return The bytes for clusterName.
      */
     com.google.protobuf.ByteString
         getClusterNameBytes();
 
     /**
      * <code>string query_ast = 3;</code>
+     * @return The queryAst.
      */
     java.lang.String getQueryAst();
     /**
      * <code>string query_ast = 3;</code>
+     * @return The bytes for queryAst.
      */
     com.google.protobuf.ByteString
         getQueryAstBytes();
@@ -3785,7 +4053,7 @@ public final class YqlInternalProtos {
   /**
    * Protobuf type {@code Ydb.YqlInternal.ExplainDataQueryAstRequest}
    */
-  public  static final class ExplainDataQueryAstRequest extends
+  public static final class ExplainDataQueryAstRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.YqlInternal.ExplainDataQueryAstRequest)
       ExplainDataQueryAstRequestOrBuilder {
@@ -3800,6 +4068,13 @@ public final class YqlInternalProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExplainDataQueryAstRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3809,7 +4084,9 @@ public final class YqlInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3820,13 +4097,6 @@ public final class YqlInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
               if (operationParams_ != null) {
@@ -3852,6 +4122,13 @@ public final class YqlInternalProtos {
               queryAst_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3869,6 +4146,7 @@ public final class YqlInternalProtos {
       return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExplainDataQueryAstRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExplainDataQueryAstRequest_fieldAccessorTable
@@ -3880,19 +4158,24 @@ public final class YqlInternalProtos {
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
      */
+    @java.lang.Override
     public boolean hasOperationParams() {
       return operationParams_ != null;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParams getOperationParams() {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
       return getOperationParams();
     }
@@ -3901,7 +4184,9 @@ public final class YqlInternalProtos {
     private volatile java.lang.Object clusterName_;
     /**
      * <code>string cluster_name = 2;</code>
+     * @return The clusterName.
      */
+    @java.lang.Override
     public java.lang.String getClusterName() {
       java.lang.Object ref = clusterName_;
       if (ref instanceof java.lang.String) {
@@ -3916,7 +4201,9 @@ public final class YqlInternalProtos {
     }
     /**
      * <code>string cluster_name = 2;</code>
+     * @return The bytes for clusterName.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getClusterNameBytes() {
       java.lang.Object ref = clusterName_;
@@ -3935,7 +4222,9 @@ public final class YqlInternalProtos {
     private volatile java.lang.Object queryAst_;
     /**
      * <code>string query_ast = 3;</code>
+     * @return The queryAst.
      */
+    @java.lang.Override
     public java.lang.String getQueryAst() {
       java.lang.Object ref = queryAst_;
       if (ref instanceof java.lang.String) {
@@ -3950,7 +4239,9 @@ public final class YqlInternalProtos {
     }
     /**
      * <code>string query_ast = 3;</code>
+     * @return The bytes for queryAst.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getQueryAstBytes() {
       java.lang.Object ref = queryAst_;
@@ -3966,6 +4257,7 @@ public final class YqlInternalProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3975,6 +4267,7 @@ public final class YqlInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operationParams_ != null) {
@@ -3989,6 +4282,7 @@ public final class YqlInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4019,18 +4313,17 @@ public final class YqlInternalProtos {
       }
       tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstRequest other = (tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstRequest) obj;
 
-      boolean result = true;
-      result = result && (hasOperationParams() == other.hasOperationParams());
+      if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
-        result = result && getOperationParams()
-            .equals(other.getOperationParams());
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
       }
-      result = result && getClusterName()
-          .equals(other.getClusterName());
-      result = result && getQueryAst()
-          .equals(other.getQueryAst());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getClusterName()
+          .equals(other.getClusterName())) return false;
+      if (!getQueryAst()
+          .equals(other.getQueryAst())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4123,6 +4416,7 @@ public final class YqlInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4130,6 +4424,7 @@ public final class YqlInternalProtos {
     public static Builder newBuilder(tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4153,6 +4448,7 @@ public final class YqlInternalProtos {
         return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExplainDataQueryAstRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExplainDataQueryAstRequest_fieldAccessorTable
@@ -4175,6 +4471,7 @@ public final class YqlInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationParamsBuilder_ == null) {
@@ -4190,15 +4487,18 @@ public final class YqlInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExplainDataQueryAstRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstRequest getDefaultInstanceForType() {
         return tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstRequest build() {
         tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -4207,6 +4507,7 @@ public final class YqlInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstRequest buildPartial() {
         tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstRequest result = new tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstRequest(this);
         if (operationParamsBuilder_ == null) {
@@ -4220,32 +4521,39 @@ public final class YqlInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstRequest) {
           return mergeFrom((tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstRequest)other);
@@ -4273,10 +4581,12 @@ public final class YqlInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4295,17 +4605,19 @@ public final class YqlInternalProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.OperationParams operationParams_ = null;
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
        */
       public boolean hasOperationParams() {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
        */
       public tech.ydb.OperationProtos.OperationParams getOperationParams() {
         if (operationParamsBuilder_ == null) {
@@ -4415,6 +4727,7 @@ public final class YqlInternalProtos {
       private java.lang.Object clusterName_ = "";
       /**
        * <code>string cluster_name = 2;</code>
+       * @return The clusterName.
        */
       public java.lang.String getClusterName() {
         java.lang.Object ref = clusterName_;
@@ -4430,6 +4743,7 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string cluster_name = 2;</code>
+       * @return The bytes for clusterName.
        */
       public com.google.protobuf.ByteString
           getClusterNameBytes() {
@@ -4446,6 +4760,8 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string cluster_name = 2;</code>
+       * @param value The clusterName to set.
+       * @return This builder for chaining.
        */
       public Builder setClusterName(
           java.lang.String value) {
@@ -4459,6 +4775,7 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string cluster_name = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearClusterName() {
         
@@ -4468,6 +4785,8 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string cluster_name = 2;</code>
+       * @param value The bytes for clusterName to set.
+       * @return This builder for chaining.
        */
       public Builder setClusterNameBytes(
           com.google.protobuf.ByteString value) {
@@ -4484,6 +4803,7 @@ public final class YqlInternalProtos {
       private java.lang.Object queryAst_ = "";
       /**
        * <code>string query_ast = 3;</code>
+       * @return The queryAst.
        */
       public java.lang.String getQueryAst() {
         java.lang.Object ref = queryAst_;
@@ -4499,6 +4819,7 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_ast = 3;</code>
+       * @return The bytes for queryAst.
        */
       public com.google.protobuf.ByteString
           getQueryAstBytes() {
@@ -4515,6 +4836,8 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_ast = 3;</code>
+       * @param value The queryAst to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryAst(
           java.lang.String value) {
@@ -4528,6 +4851,7 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_ast = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearQueryAst() {
         
@@ -4537,6 +4861,8 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_ast = 3;</code>
+       * @param value The bytes for queryAst to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryAstBytes(
           com.google.protobuf.ByteString value) {
@@ -4549,11 +4875,13 @@ public final class YqlInternalProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4575,11 +4903,12 @@ public final class YqlInternalProtos {
 
     private static final com.google.protobuf.Parser<ExplainDataQueryAstRequest>
         PARSER = new com.google.protobuf.AbstractParser<ExplainDataQueryAstRequest>() {
+      @java.lang.Override
       public ExplainDataQueryAstRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExplainDataQueryAstRequest(input, extensionRegistry);
+        return new ExplainDataQueryAstRequest(input, extensionRegistry);
       }
     };
 
@@ -4592,6 +4921,7 @@ public final class YqlInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4604,10 +4934,12 @@ public final class YqlInternalProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -4618,7 +4950,7 @@ public final class YqlInternalProtos {
   /**
    * Protobuf type {@code Ydb.YqlInternal.ExplainDataQueryAstResponse}
    */
-  public  static final class ExplainDataQueryAstResponse extends
+  public static final class ExplainDataQueryAstResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.YqlInternal.ExplainDataQueryAstResponse)
       ExplainDataQueryAstResponseOrBuilder {
@@ -4631,6 +4963,13 @@ public final class YqlInternalProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExplainDataQueryAstResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -4640,7 +4979,9 @@ public final class YqlInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4651,13 +4992,6 @@ public final class YqlInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -4669,6 +5003,13 @@ public final class YqlInternalProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -4688,6 +5029,7 @@ public final class YqlInternalProtos {
       return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExplainDataQueryAstResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExplainDataQueryAstResponse_fieldAccessorTable
@@ -4699,24 +5041,30 @@ public final class YqlInternalProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4726,6 +5074,7 @@ public final class YqlInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -4734,6 +5083,7 @@ public final class YqlInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4758,14 +5108,13 @@ public final class YqlInternalProtos {
       }
       tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResponse other = (tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4854,6 +5203,7 @@ public final class YqlInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4861,6 +5211,7 @@ public final class YqlInternalProtos {
     public static Builder newBuilder(tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4884,6 +5235,7 @@ public final class YqlInternalProtos {
         return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExplainDataQueryAstResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExplainDataQueryAstResponse_fieldAccessorTable
@@ -4906,6 +5258,7 @@ public final class YqlInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -4917,15 +5270,18 @@ public final class YqlInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExplainDataQueryAstResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResponse getDefaultInstanceForType() {
         return tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResponse build() {
         tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -4934,6 +5290,7 @@ public final class YqlInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResponse buildPartial() {
         tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResponse result = new tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResponse(this);
         if (operationBuilder_ == null) {
@@ -4945,32 +5302,39 @@ public final class YqlInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResponse) {
           return mergeFrom((tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResponse)other);
@@ -4990,10 +5354,12 @@ public final class YqlInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5012,17 +5378,19 @@ public final class YqlInternalProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -5128,11 +5496,13 @@ public final class YqlInternalProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5154,11 +5524,12 @@ public final class YqlInternalProtos {
 
     private static final com.google.protobuf.Parser<ExplainDataQueryAstResponse>
         PARSER = new com.google.protobuf.AbstractParser<ExplainDataQueryAstResponse>() {
+      @java.lang.Override
       public ExplainDataQueryAstResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExplainDataQueryAstResponse(input, extensionRegistry);
+        return new ExplainDataQueryAstResponse(input, extensionRegistry);
       }
     };
 
@@ -5171,6 +5542,7 @@ public final class YqlInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5183,20 +5555,24 @@ public final class YqlInternalProtos {
 
     /**
      * <code>string query_ast = 2;</code>
+     * @return The queryAst.
      */
     java.lang.String getQueryAst();
     /**
      * <code>string query_ast = 2;</code>
+     * @return The bytes for queryAst.
      */
     com.google.protobuf.ByteString
         getQueryAstBytes();
 
     /**
      * <code>string query_plan = 3;</code>
+     * @return The queryPlan.
      */
     java.lang.String getQueryPlan();
     /**
      * <code>string query_plan = 3;</code>
+     * @return The bytes for queryPlan.
      */
     com.google.protobuf.ByteString
         getQueryPlanBytes();
@@ -5204,7 +5580,7 @@ public final class YqlInternalProtos {
   /**
    * Protobuf type {@code Ydb.YqlInternal.ExplainDataQueryAstResult}
    */
-  public  static final class ExplainDataQueryAstResult extends
+  public static final class ExplainDataQueryAstResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.YqlInternal.ExplainDataQueryAstResult)
       ExplainDataQueryAstResultOrBuilder {
@@ -5219,6 +5595,13 @@ public final class YqlInternalProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExplainDataQueryAstResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -5228,7 +5611,9 @@ public final class YqlInternalProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -5239,13 +5624,6 @@ public final class YqlInternalProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -5256,6 +5634,13 @@ public final class YqlInternalProtos {
               java.lang.String s = input.readStringRequireUtf8();
 
               queryPlan_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -5275,6 +5660,7 @@ public final class YqlInternalProtos {
       return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExplainDataQueryAstResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExplainDataQueryAstResult_fieldAccessorTable
@@ -5286,7 +5672,9 @@ public final class YqlInternalProtos {
     private volatile java.lang.Object queryAst_;
     /**
      * <code>string query_ast = 2;</code>
+     * @return The queryAst.
      */
+    @java.lang.Override
     public java.lang.String getQueryAst() {
       java.lang.Object ref = queryAst_;
       if (ref instanceof java.lang.String) {
@@ -5301,7 +5689,9 @@ public final class YqlInternalProtos {
     }
     /**
      * <code>string query_ast = 2;</code>
+     * @return The bytes for queryAst.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getQueryAstBytes() {
       java.lang.Object ref = queryAst_;
@@ -5320,7 +5710,9 @@ public final class YqlInternalProtos {
     private volatile java.lang.Object queryPlan_;
     /**
      * <code>string query_plan = 3;</code>
+     * @return The queryPlan.
      */
+    @java.lang.Override
     public java.lang.String getQueryPlan() {
       java.lang.Object ref = queryPlan_;
       if (ref instanceof java.lang.String) {
@@ -5335,7 +5727,9 @@ public final class YqlInternalProtos {
     }
     /**
      * <code>string query_plan = 3;</code>
+     * @return The bytes for queryPlan.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getQueryPlanBytes() {
       java.lang.Object ref = queryPlan_;
@@ -5351,6 +5745,7 @@ public final class YqlInternalProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -5360,6 +5755,7 @@ public final class YqlInternalProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getQueryAstBytes().isEmpty()) {
@@ -5371,6 +5767,7 @@ public final class YqlInternalProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -5397,13 +5794,12 @@ public final class YqlInternalProtos {
       }
       tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResult other = (tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResult) obj;
 
-      boolean result = true;
-      result = result && getQueryAst()
-          .equals(other.getQueryAst());
-      result = result && getQueryPlan()
-          .equals(other.getQueryPlan());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getQueryAst()
+          .equals(other.getQueryAst())) return false;
+      if (!getQueryPlan()
+          .equals(other.getQueryPlan())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5492,6 +5888,7 @@ public final class YqlInternalProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -5499,6 +5896,7 @@ public final class YqlInternalProtos {
     public static Builder newBuilder(tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -5522,6 +5920,7 @@ public final class YqlInternalProtos {
         return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExplainDataQueryAstResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExplainDataQueryAstResult_fieldAccessorTable
@@ -5544,6 +5943,7 @@ public final class YqlInternalProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         queryAst_ = "";
@@ -5553,15 +5953,18 @@ public final class YqlInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.yql_internal.YqlInternalProtos.internal_static_Ydb_YqlInternal_ExplainDataQueryAstResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResult getDefaultInstanceForType() {
         return tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResult build() {
         tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -5570,6 +5973,7 @@ public final class YqlInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResult buildPartial() {
         tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResult result = new tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResult(this);
         result.queryAst_ = queryAst_;
@@ -5578,32 +5982,39 @@ public final class YqlInternalProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResult) {
           return mergeFrom((tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResult)other);
@@ -5628,10 +6039,12 @@ public final class YqlInternalProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5653,6 +6066,7 @@ public final class YqlInternalProtos {
       private java.lang.Object queryAst_ = "";
       /**
        * <code>string query_ast = 2;</code>
+       * @return The queryAst.
        */
       public java.lang.String getQueryAst() {
         java.lang.Object ref = queryAst_;
@@ -5668,6 +6082,7 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_ast = 2;</code>
+       * @return The bytes for queryAst.
        */
       public com.google.protobuf.ByteString
           getQueryAstBytes() {
@@ -5684,6 +6099,8 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_ast = 2;</code>
+       * @param value The queryAst to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryAst(
           java.lang.String value) {
@@ -5697,6 +6114,7 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_ast = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearQueryAst() {
         
@@ -5706,6 +6124,8 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_ast = 2;</code>
+       * @param value The bytes for queryAst to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryAstBytes(
           com.google.protobuf.ByteString value) {
@@ -5722,6 +6142,7 @@ public final class YqlInternalProtos {
       private java.lang.Object queryPlan_ = "";
       /**
        * <code>string query_plan = 3;</code>
+       * @return The queryPlan.
        */
       public java.lang.String getQueryPlan() {
         java.lang.Object ref = queryPlan_;
@@ -5737,6 +6158,7 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_plan = 3;</code>
+       * @return The bytes for queryPlan.
        */
       public com.google.protobuf.ByteString
           getQueryPlanBytes() {
@@ -5753,6 +6175,8 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_plan = 3;</code>
+       * @param value The queryPlan to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryPlan(
           java.lang.String value) {
@@ -5766,6 +6190,7 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_plan = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearQueryPlan() {
         
@@ -5775,6 +6200,8 @@ public final class YqlInternalProtos {
       }
       /**
        * <code>string query_plan = 3;</code>
+       * @param value The bytes for queryPlan to set.
+       * @return This builder for chaining.
        */
       public Builder setQueryPlanBytes(
           com.google.protobuf.ByteString value) {
@@ -5787,11 +6214,13 @@ public final class YqlInternalProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5813,11 +6242,12 @@ public final class YqlInternalProtos {
 
     private static final com.google.protobuf.Parser<ExplainDataQueryAstResult>
         PARSER = new com.google.protobuf.AbstractParser<ExplainDataQueryAstResult>() {
+      @java.lang.Override
       public ExplainDataQueryAstResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ExplainDataQueryAstResult(input, extensionRegistry);
+        return new ExplainDataQueryAstResult(input, extensionRegistry);
       }
     };
 
@@ -5830,6 +6260,7 @@ public final class YqlInternalProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.yql_internal.YqlInternalProtos.ExplainDataQueryAstResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5894,7 +6325,7 @@ public final class YqlInternalProtos {
       "w\n\021ExecQuerySettings\022+\n\nstrict_dml\030\001 \001(\016" +
       "2\027.Ydb.FeatureFlag.Status\022/\n\016use_new_eng" +
       "ine\030\002 \001(\0162\027.Ydb.FeatureFlag.StatusJ\004\010\003\020\004" +
-      "\"\372\002\n\027ExecDataQueryAstRequest\0229\n\020operatio",
+      "\"\372\002\n\027ExecDataQueryAstRequest\0229\n\020operatio" +
       "n_params\030\001 \001(\0132\037.Ydb.Operations.Operatio" +
       "nParams\022\024\n\014cluster_name\030\002 \001(\t\022\021\n\tquery_a" +
       "st\030\003 \001(\t\022L\n\nparameters\030\004 \003(\01328.Ydb.YqlIn" +
@@ -5904,7 +6335,7 @@ public final class YqlInternalProtos {
       "Ydb.YqlInternal.ExecQuerySettings\032B\n\017Par" +
       "ametersEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 \001(\013" +
       "2\017.Ydb.TypedValue:\0028\001\"H\n\030ExecDataQueryAs" +
-      "tResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera",
+      "tResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
       "tions.Operation\"d\n\026ExecDataQueryAstResul" +
       "t\022#\n\013result_sets\030\001 \003(\0132\016.Ydb.ResultSet\022\021" +
       "\n\tquery_ast\030\002 \001(\t\022\022\n\nquery_plan\030\003 \001(\t\"\200\001" +
@@ -5914,26 +6345,18 @@ public final class YqlInternalProtos {
       "st\030\003 \001(\t\"K\n\033ExplainDataQueryAstResponse\022" +
       ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
       "ation\"B\n\031ExplainDataQueryAstResult\022\021\n\tqu" +
-      "ery_ast\030\002 \001(\t\022\022\n\nquery_plan\030\003 \001(\tB3\n\033com",
+      "ery_ast\030\002 \001(\t\022\022\n\nquery_plan\030\003 \001(\tB3\n\033com" +
       ".yandex.ydb.yql_internalB\021YqlInternalPro" +
       "tos\370\001\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.common.CommonProtos.getDescriptor(),
           tech.ydb.OperationProtos.getDescriptor(),
           tech.ydb.table.YdbTable.getDescriptor(),
           tech.ydb.ValueProtos.getDescriptor(),
-        }, assigner);
+        });
     internal_static_Ydb_YqlInternal_ExecQuerySettings_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_YqlInternal_ExecQuerySettings_fieldAccessorTable = new

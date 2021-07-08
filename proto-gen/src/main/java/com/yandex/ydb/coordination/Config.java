@@ -11,7 +11,7 @@ package tech.ydb.coordination;
  *
  * Protobuf type {@code Ydb.Coordination.Config}
  */
-public  final class Config extends
+public final class Config extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:Ydb.Coordination.Config)
     ConfigOrBuilder {
@@ -22,11 +22,16 @@ private static final long serialVersionUID = 0L;
   }
   private Config() {
     path_ = "";
-    selfCheckPeriodMillis_ = 0;
-    sessionGracePeriodMillis_ = 0;
     readConsistencyMode_ = 0;
     attachConsistencyMode_ = 0;
     rateLimiterCountersMode_ = 0;
+  }
+
+  @java.lang.Override
+  @SuppressWarnings({"unused"})
+  protected java.lang.Object newInstance(
+      UnusedPrivateParameter unused) {
+    return new Config();
   }
 
   @java.lang.Override
@@ -39,7 +44,9 @@ private static final long serialVersionUID = 0L;
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     this();
-    int mutable_bitField0_ = 0;
+    if (extensionRegistry == null) {
+      throw new java.lang.NullPointerException();
+    }
     com.google.protobuf.UnknownFieldSet.Builder unknownFields =
         com.google.protobuf.UnknownFieldSet.newBuilder();
     try {
@@ -50,13 +57,6 @@ private static final long serialVersionUID = 0L;
           case 0:
             done = true;
             break;
-          default: {
-            if (!parseUnknownFieldProto3(
-                input, unknownFields, extensionRegistry, tag)) {
-              done = true;
-            }
-            break;
-          }
           case 10: {
             java.lang.String s = input.readStringRequireUtf8();
 
@@ -91,6 +91,13 @@ private static final long serialVersionUID = 0L;
             rateLimiterCountersMode_ = rawValue;
             break;
           }
+          default: {
+            if (!parseUnknownField(
+                input, unknownFields, extensionRegistry, tag)) {
+              done = true;
+            }
+            break;
+          }
         }
       }
     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -108,6 +115,7 @@ private static final long serialVersionUID = 0L;
     return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_Config_descriptor;
   }
 
+  @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
     return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_Config_fieldAccessorTable
@@ -123,7 +131,9 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>string path = 1;</code>
+   * @return The path.
    */
+  @java.lang.Override
   public java.lang.String getPath() {
     java.lang.Object ref = path_;
     if (ref instanceof java.lang.String) {
@@ -142,7 +152,9 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>string path = 1;</code>
+   * @return The bytes for path.
    */
+  @java.lang.Override
   public com.google.protobuf.ByteString
       getPathBytes() {
     java.lang.Object ref = path_;
@@ -165,7 +177,9 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>uint32 self_check_period_millis = 2;</code>
+   * @return The selfCheckPeriodMillis.
    */
+  @java.lang.Override
   public int getSelfCheckPeriodMillis() {
     return selfCheckPeriodMillis_;
   }
@@ -178,7 +192,9 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>uint32 session_grace_period_millis = 3;</code>
+   * @return The sessionGracePeriodMillis.
    */
+  @java.lang.Override
   public int getSessionGracePeriodMillis() {
     return sessionGracePeriodMillis_;
   }
@@ -191,8 +207,9 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>.Ydb.Coordination.ConsistencyMode read_consistency_mode = 4;</code>
+   * @return The enum numeric value on the wire for readConsistencyMode.
    */
-  public int getReadConsistencyModeValue() {
+  @java.lang.Override public int getReadConsistencyModeValue() {
     return readConsistencyMode_;
   }
   /**
@@ -201,8 +218,10 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>.Ydb.Coordination.ConsistencyMode read_consistency_mode = 4;</code>
+   * @return The readConsistencyMode.
    */
-  public tech.ydb.coordination.ConsistencyMode getReadConsistencyMode() {
+  @java.lang.Override public tech.ydb.coordination.ConsistencyMode getReadConsistencyMode() {
+    @SuppressWarnings("deprecation")
     tech.ydb.coordination.ConsistencyMode result = tech.ydb.coordination.ConsistencyMode.valueOf(readConsistencyMode_);
     return result == null ? tech.ydb.coordination.ConsistencyMode.UNRECOGNIZED : result;
   }
@@ -215,8 +234,9 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>.Ydb.Coordination.ConsistencyMode attach_consistency_mode = 5;</code>
+   * @return The enum numeric value on the wire for attachConsistencyMode.
    */
-  public int getAttachConsistencyModeValue() {
+  @java.lang.Override public int getAttachConsistencyModeValue() {
     return attachConsistencyMode_;
   }
   /**
@@ -225,8 +245,10 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>.Ydb.Coordination.ConsistencyMode attach_consistency_mode = 5;</code>
+   * @return The attachConsistencyMode.
    */
-  public tech.ydb.coordination.ConsistencyMode getAttachConsistencyMode() {
+  @java.lang.Override public tech.ydb.coordination.ConsistencyMode getAttachConsistencyMode() {
+    @SuppressWarnings("deprecation")
     tech.ydb.coordination.ConsistencyMode result = tech.ydb.coordination.ConsistencyMode.valueOf(attachConsistencyMode_);
     return result == null ? tech.ydb.coordination.ConsistencyMode.UNRECOGNIZED : result;
   }
@@ -239,8 +261,9 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>.Ydb.Coordination.RateLimiterCountersMode rate_limiter_counters_mode = 6;</code>
+   * @return The enum numeric value on the wire for rateLimiterCountersMode.
    */
-  public int getRateLimiterCountersModeValue() {
+  @java.lang.Override public int getRateLimiterCountersModeValue() {
     return rateLimiterCountersMode_;
   }
   /**
@@ -249,13 +272,16 @@ private static final long serialVersionUID = 0L;
    * </pre>
    *
    * <code>.Ydb.Coordination.RateLimiterCountersMode rate_limiter_counters_mode = 6;</code>
+   * @return The rateLimiterCountersMode.
    */
-  public tech.ydb.coordination.RateLimiterCountersMode getRateLimiterCountersMode() {
+  @java.lang.Override public tech.ydb.coordination.RateLimiterCountersMode getRateLimiterCountersMode() {
+    @SuppressWarnings("deprecation")
     tech.ydb.coordination.RateLimiterCountersMode result = tech.ydb.coordination.RateLimiterCountersMode.valueOf(rateLimiterCountersMode_);
     return result == null ? tech.ydb.coordination.RateLimiterCountersMode.UNRECOGNIZED : result;
   }
 
   private byte memoizedIsInitialized = -1;
+  @java.lang.Override
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
     if (isInitialized == 1) return true;
@@ -265,6 +291,7 @@ private static final long serialVersionUID = 0L;
     return true;
   }
 
+  @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     if (!getPathBytes().isEmpty()) {
@@ -288,6 +315,7 @@ private static final long serialVersionUID = 0L;
     unknownFields.writeTo(output);
   }
 
+  @java.lang.Override
   public int getSerializedSize() {
     int size = memoizedSize;
     if (size != -1) return size;
@@ -331,18 +359,17 @@ private static final long serialVersionUID = 0L;
     }
     tech.ydb.coordination.Config other = (tech.ydb.coordination.Config) obj;
 
-    boolean result = true;
-    result = result && getPath()
-        .equals(other.getPath());
-    result = result && (getSelfCheckPeriodMillis()
-        == other.getSelfCheckPeriodMillis());
-    result = result && (getSessionGracePeriodMillis()
-        == other.getSessionGracePeriodMillis());
-    result = result && readConsistencyMode_ == other.readConsistencyMode_;
-    result = result && attachConsistencyMode_ == other.attachConsistencyMode_;
-    result = result && rateLimiterCountersMode_ == other.rateLimiterCountersMode_;
-    result = result && unknownFields.equals(other.unknownFields);
-    return result;
+    if (!getPath()
+        .equals(other.getPath())) return false;
+    if (getSelfCheckPeriodMillis()
+        != other.getSelfCheckPeriodMillis()) return false;
+    if (getSessionGracePeriodMillis()
+        != other.getSessionGracePeriodMillis()) return false;
+    if (readConsistencyMode_ != other.readConsistencyMode_) return false;
+    if (attachConsistencyMode_ != other.attachConsistencyMode_) return false;
+    if (rateLimiterCountersMode_ != other.rateLimiterCountersMode_) return false;
+    if (!unknownFields.equals(other.unknownFields)) return false;
+    return true;
   }
 
   @java.lang.Override
@@ -439,6 +466,7 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
+  @java.lang.Override
   public Builder newBuilderForType() { return newBuilder(); }
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
@@ -446,6 +474,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder(tech.ydb.coordination.Config prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
+  @java.lang.Override
   public Builder toBuilder() {
     return this == DEFAULT_INSTANCE
         ? new Builder() : new Builder().mergeFrom(this);
@@ -474,6 +503,7 @@ private static final long serialVersionUID = 0L;
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_Config_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_Config_fieldAccessorTable
@@ -496,6 +526,7 @@ private static final long serialVersionUID = 0L;
               .alwaysUseFieldBuilders) {
       }
     }
+    @java.lang.Override
     public Builder clear() {
       super.clear();
       path_ = "";
@@ -513,15 +544,18 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
+    @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
       return tech.ydb.coordination.CoordinationProtos.internal_static_Ydb_Coordination_Config_descriptor;
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.Config getDefaultInstanceForType() {
       return tech.ydb.coordination.Config.getDefaultInstance();
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.Config build() {
       tech.ydb.coordination.Config result = buildPartial();
       if (!result.isInitialized()) {
@@ -530,6 +564,7 @@ private static final long serialVersionUID = 0L;
       return result;
     }
 
+    @java.lang.Override
     public tech.ydb.coordination.Config buildPartial() {
       tech.ydb.coordination.Config result = new tech.ydb.coordination.Config(this);
       result.path_ = path_;
@@ -542,32 +577,39 @@ private static final long serialVersionUID = 0L;
       return result;
     }
 
+    @java.lang.Override
     public Builder clone() {
-      return (Builder) super.clone();
+      return super.clone();
     }
+    @java.lang.Override
     public Builder setField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         java.lang.Object value) {
-      return (Builder) super.setField(field, value);
+      return super.setField(field, value);
     }
+    @java.lang.Override
     public Builder clearField(
         com.google.protobuf.Descriptors.FieldDescriptor field) {
-      return (Builder) super.clearField(field);
+      return super.clearField(field);
     }
+    @java.lang.Override
     public Builder clearOneof(
         com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-      return (Builder) super.clearOneof(oneof);
+      return super.clearOneof(oneof);
     }
+    @java.lang.Override
     public Builder setRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         int index, java.lang.Object value) {
-      return (Builder) super.setRepeatedField(field, index, value);
+      return super.setRepeatedField(field, index, value);
     }
+    @java.lang.Override
     public Builder addRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
         java.lang.Object value) {
-      return (Builder) super.addRepeatedField(field, value);
+      return super.addRepeatedField(field, value);
     }
+    @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof tech.ydb.coordination.Config) {
         return mergeFrom((tech.ydb.coordination.Config)other);
@@ -603,10 +645,12 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
+    @java.lang.Override
     public final boolean isInitialized() {
       return true;
     }
 
+    @java.lang.Override
     public Builder mergeFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -632,6 +676,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The path.
      */
     public java.lang.String getPath() {
       java.lang.Object ref = path_;
@@ -651,6 +696,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return The bytes for path.
      */
     public com.google.protobuf.ByteString
         getPathBytes() {
@@ -671,6 +717,8 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @param value The path to set.
+     * @return This builder for chaining.
      */
     public Builder setPath(
         java.lang.String value) {
@@ -688,6 +736,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @return This builder for chaining.
      */
     public Builder clearPath() {
       
@@ -701,6 +750,8 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>string path = 1;</code>
+     * @param value The bytes for path to set.
+     * @return This builder for chaining.
      */
     public Builder setPathBytes(
         com.google.protobuf.ByteString value) {
@@ -721,7 +772,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint32 self_check_period_millis = 2;</code>
+     * @return The selfCheckPeriodMillis.
      */
+    @java.lang.Override
     public int getSelfCheckPeriodMillis() {
       return selfCheckPeriodMillis_;
     }
@@ -731,6 +784,8 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint32 self_check_period_millis = 2;</code>
+     * @param value The selfCheckPeriodMillis to set.
+     * @return This builder for chaining.
      */
     public Builder setSelfCheckPeriodMillis(int value) {
       
@@ -744,6 +799,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint32 self_check_period_millis = 2;</code>
+     * @return This builder for chaining.
      */
     public Builder clearSelfCheckPeriodMillis() {
       
@@ -759,7 +815,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint32 session_grace_period_millis = 3;</code>
+     * @return The sessionGracePeriodMillis.
      */
+    @java.lang.Override
     public int getSessionGracePeriodMillis() {
       return sessionGracePeriodMillis_;
     }
@@ -769,6 +827,8 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint32 session_grace_period_millis = 3;</code>
+     * @param value The sessionGracePeriodMillis to set.
+     * @return This builder for chaining.
      */
     public Builder setSessionGracePeriodMillis(int value) {
       
@@ -782,6 +842,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>uint32 session_grace_period_millis = 3;</code>
+     * @return This builder for chaining.
      */
     public Builder clearSessionGracePeriodMillis() {
       
@@ -797,8 +858,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.Ydb.Coordination.ConsistencyMode read_consistency_mode = 4;</code>
+     * @return The enum numeric value on the wire for readConsistencyMode.
      */
-    public int getReadConsistencyModeValue() {
+    @java.lang.Override public int getReadConsistencyModeValue() {
       return readConsistencyMode_;
     }
     /**
@@ -807,8 +869,11 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.Ydb.Coordination.ConsistencyMode read_consistency_mode = 4;</code>
+     * @param value The enum numeric value on the wire for readConsistencyMode to set.
+     * @return This builder for chaining.
      */
     public Builder setReadConsistencyModeValue(int value) {
+      
       readConsistencyMode_ = value;
       onChanged();
       return this;
@@ -819,8 +884,11 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.Ydb.Coordination.ConsistencyMode read_consistency_mode = 4;</code>
+     * @return The readConsistencyMode.
      */
+    @java.lang.Override
     public tech.ydb.coordination.ConsistencyMode getReadConsistencyMode() {
+      @SuppressWarnings("deprecation")
       tech.ydb.coordination.ConsistencyMode result = tech.ydb.coordination.ConsistencyMode.valueOf(readConsistencyMode_);
       return result == null ? tech.ydb.coordination.ConsistencyMode.UNRECOGNIZED : result;
     }
@@ -830,6 +898,8 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.Ydb.Coordination.ConsistencyMode read_consistency_mode = 4;</code>
+     * @param value The readConsistencyMode to set.
+     * @return This builder for chaining.
      */
     public Builder setReadConsistencyMode(tech.ydb.coordination.ConsistencyMode value) {
       if (value == null) {
@@ -846,6 +916,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.Ydb.Coordination.ConsistencyMode read_consistency_mode = 4;</code>
+     * @return This builder for chaining.
      */
     public Builder clearReadConsistencyMode() {
       
@@ -861,8 +932,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.Ydb.Coordination.ConsistencyMode attach_consistency_mode = 5;</code>
+     * @return The enum numeric value on the wire for attachConsistencyMode.
      */
-    public int getAttachConsistencyModeValue() {
+    @java.lang.Override public int getAttachConsistencyModeValue() {
       return attachConsistencyMode_;
     }
     /**
@@ -871,8 +943,11 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.Ydb.Coordination.ConsistencyMode attach_consistency_mode = 5;</code>
+     * @param value The enum numeric value on the wire for attachConsistencyMode to set.
+     * @return This builder for chaining.
      */
     public Builder setAttachConsistencyModeValue(int value) {
+      
       attachConsistencyMode_ = value;
       onChanged();
       return this;
@@ -883,8 +958,11 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.Ydb.Coordination.ConsistencyMode attach_consistency_mode = 5;</code>
+     * @return The attachConsistencyMode.
      */
+    @java.lang.Override
     public tech.ydb.coordination.ConsistencyMode getAttachConsistencyMode() {
+      @SuppressWarnings("deprecation")
       tech.ydb.coordination.ConsistencyMode result = tech.ydb.coordination.ConsistencyMode.valueOf(attachConsistencyMode_);
       return result == null ? tech.ydb.coordination.ConsistencyMode.UNRECOGNIZED : result;
     }
@@ -894,6 +972,8 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.Ydb.Coordination.ConsistencyMode attach_consistency_mode = 5;</code>
+     * @param value The attachConsistencyMode to set.
+     * @return This builder for chaining.
      */
     public Builder setAttachConsistencyMode(tech.ydb.coordination.ConsistencyMode value) {
       if (value == null) {
@@ -910,6 +990,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.Ydb.Coordination.ConsistencyMode attach_consistency_mode = 5;</code>
+     * @return This builder for chaining.
      */
     public Builder clearAttachConsistencyMode() {
       
@@ -925,8 +1006,9 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.Ydb.Coordination.RateLimiterCountersMode rate_limiter_counters_mode = 6;</code>
+     * @return The enum numeric value on the wire for rateLimiterCountersMode.
      */
-    public int getRateLimiterCountersModeValue() {
+    @java.lang.Override public int getRateLimiterCountersModeValue() {
       return rateLimiterCountersMode_;
     }
     /**
@@ -935,8 +1017,11 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.Ydb.Coordination.RateLimiterCountersMode rate_limiter_counters_mode = 6;</code>
+     * @param value The enum numeric value on the wire for rateLimiterCountersMode to set.
+     * @return This builder for chaining.
      */
     public Builder setRateLimiterCountersModeValue(int value) {
+      
       rateLimiterCountersMode_ = value;
       onChanged();
       return this;
@@ -947,8 +1032,11 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.Ydb.Coordination.RateLimiterCountersMode rate_limiter_counters_mode = 6;</code>
+     * @return The rateLimiterCountersMode.
      */
+    @java.lang.Override
     public tech.ydb.coordination.RateLimiterCountersMode getRateLimiterCountersMode() {
+      @SuppressWarnings("deprecation")
       tech.ydb.coordination.RateLimiterCountersMode result = tech.ydb.coordination.RateLimiterCountersMode.valueOf(rateLimiterCountersMode_);
       return result == null ? tech.ydb.coordination.RateLimiterCountersMode.UNRECOGNIZED : result;
     }
@@ -958,6 +1046,8 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.Ydb.Coordination.RateLimiterCountersMode rate_limiter_counters_mode = 6;</code>
+     * @param value The rateLimiterCountersMode to set.
+     * @return This builder for chaining.
      */
     public Builder setRateLimiterCountersMode(tech.ydb.coordination.RateLimiterCountersMode value) {
       if (value == null) {
@@ -974,6 +1064,7 @@ private static final long serialVersionUID = 0L;
      * </pre>
      *
      * <code>.Ydb.Coordination.RateLimiterCountersMode rate_limiter_counters_mode = 6;</code>
+     * @return This builder for chaining.
      */
     public Builder clearRateLimiterCountersMode() {
       
@@ -981,11 +1072,13 @@ private static final long serialVersionUID = 0L;
       onChanged();
       return this;
     }
+    @java.lang.Override
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return super.setUnknownFieldsProto3(unknownFields);
+      return super.setUnknownFields(unknownFields);
     }
 
+    @java.lang.Override
     public final Builder mergeUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
       return super.mergeUnknownFields(unknownFields);
@@ -1007,11 +1100,12 @@ private static final long serialVersionUID = 0L;
 
   private static final com.google.protobuf.Parser<Config>
       PARSER = new com.google.protobuf.AbstractParser<Config>() {
+    @java.lang.Override
     public Config parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Config(input, extensionRegistry);
+      return new Config(input, extensionRegistry);
     }
   };
 
@@ -1024,6 +1118,7 @@ private static final long serialVersionUID = 0L;
     return PARSER;
   }
 
+  @java.lang.Override
   public tech.ydb.coordination.Config getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }

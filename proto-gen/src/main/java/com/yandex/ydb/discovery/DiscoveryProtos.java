@@ -20,29 +20,37 @@ public final class DiscoveryProtos {
 
     /**
      * <code>string database = 1;</code>
+     * @return The database.
      */
     java.lang.String getDatabase();
     /**
      * <code>string database = 1;</code>
+     * @return The bytes for database.
      */
     com.google.protobuf.ByteString
         getDatabaseBytes();
 
     /**
      * <code>repeated string service = 2;</code>
+     * @return A list containing the service.
      */
     java.util.List<java.lang.String>
         getServiceList();
     /**
      * <code>repeated string service = 2;</code>
+     * @return The count of service.
      */
     int getServiceCount();
     /**
      * <code>repeated string service = 2;</code>
+     * @param index The index of the element to return.
+     * @return The service at the given index.
      */
     java.lang.String getService(int index);
     /**
      * <code>repeated string service = 2;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the service at the given index.
      */
     com.google.protobuf.ByteString
         getServiceBytes(int index);
@@ -50,7 +58,7 @@ public final class DiscoveryProtos {
   /**
    * Protobuf type {@code Ydb.Discovery.ListEndpointsRequest}
    */
-  public  static final class ListEndpointsRequest extends
+  public static final class ListEndpointsRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Discovery.ListEndpointsRequest)
       ListEndpointsRequestOrBuilder {
@@ -65,6 +73,13 @@ public final class DiscoveryProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ListEndpointsRequest();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -74,6 +89,9 @@ public final class DiscoveryProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -85,13 +103,6 @@ public final class DiscoveryProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -100,11 +111,18 @@ public final class DiscoveryProtos {
             }
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 service_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               service_.add(s);
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -115,7 +133,7 @@ public final class DiscoveryProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           service_ = service_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -127,6 +145,7 @@ public final class DiscoveryProtos {
       return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_ListEndpointsRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_ListEndpointsRequest_fieldAccessorTable
@@ -134,12 +153,13 @@ public final class DiscoveryProtos {
               tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest.class, tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest.Builder.class);
     }
 
-    private int bitField0_;
     public static final int DATABASE_FIELD_NUMBER = 1;
     private volatile java.lang.Object database_;
     /**
      * <code>string database = 1;</code>
+     * @return The database.
      */
+    @java.lang.Override
     public java.lang.String getDatabase() {
       java.lang.Object ref = database_;
       if (ref instanceof java.lang.String) {
@@ -154,7 +174,9 @@ public final class DiscoveryProtos {
     }
     /**
      * <code>string database = 1;</code>
+     * @return The bytes for database.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getDatabaseBytes() {
       java.lang.Object ref = database_;
@@ -173,6 +195,7 @@ public final class DiscoveryProtos {
     private com.google.protobuf.LazyStringList service_;
     /**
      * <code>repeated string service = 2;</code>
+     * @return A list containing the service.
      */
     public com.google.protobuf.ProtocolStringList
         getServiceList() {
@@ -180,18 +203,23 @@ public final class DiscoveryProtos {
     }
     /**
      * <code>repeated string service = 2;</code>
+     * @return The count of service.
      */
     public int getServiceCount() {
       return service_.size();
     }
     /**
      * <code>repeated string service = 2;</code>
+     * @param index The index of the element to return.
+     * @return The service at the given index.
      */
     public java.lang.String getService(int index) {
       return service_.get(index);
     }
     /**
      * <code>repeated string service = 2;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the service at the given index.
      */
     public com.google.protobuf.ByteString
         getServiceBytes(int index) {
@@ -199,6 +227,7 @@ public final class DiscoveryProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -208,6 +237,7 @@ public final class DiscoveryProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getDatabaseBytes().isEmpty()) {
@@ -219,6 +249,7 @@ public final class DiscoveryProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -250,13 +281,12 @@ public final class DiscoveryProtos {
       }
       tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest other = (tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest) obj;
 
-      boolean result = true;
-      result = result && getDatabase()
-          .equals(other.getDatabase());
-      result = result && getServiceList()
-          .equals(other.getServiceList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getDatabase()
+          .equals(other.getDatabase())) return false;
+      if (!getServiceList()
+          .equals(other.getServiceList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -347,6 +377,7 @@ public final class DiscoveryProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -354,6 +385,7 @@ public final class DiscoveryProtos {
     public static Builder newBuilder(tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -377,6 +409,7 @@ public final class DiscoveryProtos {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_ListEndpointsRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_ListEndpointsRequest_fieldAccessorTable
@@ -399,24 +432,28 @@ public final class DiscoveryProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         database_ = "";
 
         service_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_ListEndpointsRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest getDefaultInstanceForType() {
         return tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest build() {
         tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -425,47 +462,53 @@ public final class DiscoveryProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest buildPartial() {
         tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest result = new tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.database_ = database_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           service_ = service_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.service_ = service_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest) {
           return mergeFrom((tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest)other);
@@ -484,7 +527,7 @@ public final class DiscoveryProtos {
         if (!other.service_.isEmpty()) {
           if (service_.isEmpty()) {
             service_ = other.service_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensureServiceIsMutable();
             service_.addAll(other.service_);
@@ -496,10 +539,12 @@ public final class DiscoveryProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -522,6 +567,7 @@ public final class DiscoveryProtos {
       private java.lang.Object database_ = "";
       /**
        * <code>string database = 1;</code>
+       * @return The database.
        */
       public java.lang.String getDatabase() {
         java.lang.Object ref = database_;
@@ -537,6 +583,7 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>string database = 1;</code>
+       * @return The bytes for database.
        */
       public com.google.protobuf.ByteString
           getDatabaseBytes() {
@@ -553,6 +600,8 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>string database = 1;</code>
+       * @param value The database to set.
+       * @return This builder for chaining.
        */
       public Builder setDatabase(
           java.lang.String value) {
@@ -566,6 +615,7 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>string database = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDatabase() {
         
@@ -575,6 +625,8 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>string database = 1;</code>
+       * @param value The bytes for database to set.
+       * @return This builder for chaining.
        */
       public Builder setDatabaseBytes(
           com.google.protobuf.ByteString value) {
@@ -590,13 +642,14 @@ public final class DiscoveryProtos {
 
       private com.google.protobuf.LazyStringList service_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureServiceIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           service_ = new com.google.protobuf.LazyStringArrayList(service_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
       /**
        * <code>repeated string service = 2;</code>
+       * @return A list containing the service.
        */
       public com.google.protobuf.ProtocolStringList
           getServiceList() {
@@ -604,18 +657,23 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>repeated string service = 2;</code>
+       * @return The count of service.
        */
       public int getServiceCount() {
         return service_.size();
       }
       /**
        * <code>repeated string service = 2;</code>
+       * @param index The index of the element to return.
+       * @return The service at the given index.
        */
       public java.lang.String getService(int index) {
         return service_.get(index);
       }
       /**
        * <code>repeated string service = 2;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the service at the given index.
        */
       public com.google.protobuf.ByteString
           getServiceBytes(int index) {
@@ -623,6 +681,9 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>repeated string service = 2;</code>
+       * @param index The index to set the value at.
+       * @param value The service to set.
+       * @return This builder for chaining.
        */
       public Builder setService(
           int index, java.lang.String value) {
@@ -636,6 +697,8 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>repeated string service = 2;</code>
+       * @param value The service to add.
+       * @return This builder for chaining.
        */
       public Builder addService(
           java.lang.String value) {
@@ -649,6 +712,8 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>repeated string service = 2;</code>
+       * @param values The service to add.
+       * @return This builder for chaining.
        */
       public Builder addAllService(
           java.lang.Iterable<java.lang.String> values) {
@@ -660,15 +725,18 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>repeated string service = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearService() {
         service_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
       /**
        * <code>repeated string service = 2;</code>
+       * @param value The bytes of the service to add.
+       * @return This builder for chaining.
        */
       public Builder addServiceBytes(
           com.google.protobuf.ByteString value) {
@@ -681,11 +749,13 @@ public final class DiscoveryProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -707,11 +777,12 @@ public final class DiscoveryProtos {
 
     private static final com.google.protobuf.Parser<ListEndpointsRequest>
         PARSER = new com.google.protobuf.AbstractParser<ListEndpointsRequest>() {
+      @java.lang.Override
       public ListEndpointsRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ListEndpointsRequest(input, extensionRegistry);
+        return new ListEndpointsRequest(input, extensionRegistry);
       }
     };
 
@@ -724,6 +795,7 @@ public final class DiscoveryProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -736,67 +808,81 @@ public final class DiscoveryProtos {
 
     /**
      * <code>string address = 1;</code>
+     * @return The address.
      */
     java.lang.String getAddress();
     /**
      * <code>string address = 1;</code>
+     * @return The bytes for address.
      */
     com.google.protobuf.ByteString
         getAddressBytes();
 
     /**
      * <code>uint32 port = 2;</code>
+     * @return The port.
      */
     int getPort();
 
     /**
      * <code>float load_factor = 3;</code>
+     * @return The loadFactor.
      */
     float getLoadFactor();
 
     /**
      * <code>bool ssl = 4;</code>
+     * @return The ssl.
      */
     boolean getSsl();
 
     /**
      * <code>repeated string service = 5;</code>
+     * @return A list containing the service.
      */
     java.util.List<java.lang.String>
         getServiceList();
     /**
      * <code>repeated string service = 5;</code>
+     * @return The count of service.
      */
     int getServiceCount();
     /**
      * <code>repeated string service = 5;</code>
+     * @param index The index of the element to return.
+     * @return The service at the given index.
      */
     java.lang.String getService(int index);
     /**
      * <code>repeated string service = 5;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the service at the given index.
      */
     com.google.protobuf.ByteString
         getServiceBytes(int index);
 
     /**
      * <code>string location = 6;</code>
+     * @return The location.
      */
     java.lang.String getLocation();
     /**
      * <code>string location = 6;</code>
+     * @return The bytes for location.
      */
     com.google.protobuf.ByteString
         getLocationBytes();
 
     /**
      * <code>uint32 node_id = 7;</code>
+     * @return The nodeId.
      */
     int getNodeId();
   }
   /**
    * Protobuf type {@code Ydb.Discovery.EndpointInfo}
    */
-  public  static final class EndpointInfo extends
+  public static final class EndpointInfo extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Discovery.EndpointInfo)
       EndpointInfoOrBuilder {
@@ -807,12 +893,15 @@ public final class DiscoveryProtos {
     }
     private EndpointInfo() {
       address_ = "";
-      port_ = 0;
-      loadFactor_ = 0F;
-      ssl_ = false;
       service_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       location_ = "";
-      nodeId_ = 0;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new EndpointInfo();
     }
 
     @java.lang.Override
@@ -825,6 +914,9 @@ public final class DiscoveryProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -836,13 +928,6 @@ public final class DiscoveryProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -866,9 +951,9 @@ public final class DiscoveryProtos {
             }
             case 42: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 service_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000010;
+                mutable_bitField0_ |= 0x00000001;
               }
               service_.add(s);
               break;
@@ -884,6 +969,13 @@ public final class DiscoveryProtos {
               nodeId_ = input.readUInt32();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -892,7 +984,7 @@ public final class DiscoveryProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           service_ = service_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -904,6 +996,7 @@ public final class DiscoveryProtos {
       return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_EndpointInfo_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_EndpointInfo_fieldAccessorTable
@@ -911,12 +1004,13 @@ public final class DiscoveryProtos {
               tech.ydb.discovery.DiscoveryProtos.EndpointInfo.class, tech.ydb.discovery.DiscoveryProtos.EndpointInfo.Builder.class);
     }
 
-    private int bitField0_;
     public static final int ADDRESS_FIELD_NUMBER = 1;
     private volatile java.lang.Object address_;
     /**
      * <code>string address = 1;</code>
+     * @return The address.
      */
+    @java.lang.Override
     public java.lang.String getAddress() {
       java.lang.Object ref = address_;
       if (ref instanceof java.lang.String) {
@@ -931,7 +1025,9 @@ public final class DiscoveryProtos {
     }
     /**
      * <code>string address = 1;</code>
+     * @return The bytes for address.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getAddressBytes() {
       java.lang.Object ref = address_;
@@ -950,7 +1046,9 @@ public final class DiscoveryProtos {
     private int port_;
     /**
      * <code>uint32 port = 2;</code>
+     * @return The port.
      */
+    @java.lang.Override
     public int getPort() {
       return port_;
     }
@@ -959,7 +1057,9 @@ public final class DiscoveryProtos {
     private float loadFactor_;
     /**
      * <code>float load_factor = 3;</code>
+     * @return The loadFactor.
      */
+    @java.lang.Override
     public float getLoadFactor() {
       return loadFactor_;
     }
@@ -968,7 +1068,9 @@ public final class DiscoveryProtos {
     private boolean ssl_;
     /**
      * <code>bool ssl = 4;</code>
+     * @return The ssl.
      */
+    @java.lang.Override
     public boolean getSsl() {
       return ssl_;
     }
@@ -977,6 +1079,7 @@ public final class DiscoveryProtos {
     private com.google.protobuf.LazyStringList service_;
     /**
      * <code>repeated string service = 5;</code>
+     * @return A list containing the service.
      */
     public com.google.protobuf.ProtocolStringList
         getServiceList() {
@@ -984,18 +1087,23 @@ public final class DiscoveryProtos {
     }
     /**
      * <code>repeated string service = 5;</code>
+     * @return The count of service.
      */
     public int getServiceCount() {
       return service_.size();
     }
     /**
      * <code>repeated string service = 5;</code>
+     * @param index The index of the element to return.
+     * @return The service at the given index.
      */
     public java.lang.String getService(int index) {
       return service_.get(index);
     }
     /**
      * <code>repeated string service = 5;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the service at the given index.
      */
     public com.google.protobuf.ByteString
         getServiceBytes(int index) {
@@ -1006,7 +1114,9 @@ public final class DiscoveryProtos {
     private volatile java.lang.Object location_;
     /**
      * <code>string location = 6;</code>
+     * @return The location.
      */
+    @java.lang.Override
     public java.lang.String getLocation() {
       java.lang.Object ref = location_;
       if (ref instanceof java.lang.String) {
@@ -1021,7 +1131,9 @@ public final class DiscoveryProtos {
     }
     /**
      * <code>string location = 6;</code>
+     * @return The bytes for location.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getLocationBytes() {
       java.lang.Object ref = location_;
@@ -1040,12 +1152,15 @@ public final class DiscoveryProtos {
     private int nodeId_;
     /**
      * <code>uint32 node_id = 7;</code>
+     * @return The nodeId.
      */
+    @java.lang.Override
     public int getNodeId() {
       return nodeId_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -1055,6 +1170,7 @@ public final class DiscoveryProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getAddressBytes().isEmpty()) {
@@ -1081,6 +1197,7 @@ public final class DiscoveryProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1131,25 +1248,23 @@ public final class DiscoveryProtos {
       }
       tech.ydb.discovery.DiscoveryProtos.EndpointInfo other = (tech.ydb.discovery.DiscoveryProtos.EndpointInfo) obj;
 
-      boolean result = true;
-      result = result && getAddress()
-          .equals(other.getAddress());
-      result = result && (getPort()
-          == other.getPort());
-      result = result && (
-          java.lang.Float.floatToIntBits(getLoadFactor())
-          == java.lang.Float.floatToIntBits(
-              other.getLoadFactor()));
-      result = result && (getSsl()
-          == other.getSsl());
-      result = result && getServiceList()
-          .equals(other.getServiceList());
-      result = result && getLocation()
-          .equals(other.getLocation());
-      result = result && (getNodeId()
-          == other.getNodeId());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getAddress()
+          .equals(other.getAddress())) return false;
+      if (getPort()
+          != other.getPort()) return false;
+      if (java.lang.Float.floatToIntBits(getLoadFactor())
+          != java.lang.Float.floatToIntBits(
+              other.getLoadFactor())) return false;
+      if (getSsl()
+          != other.getSsl()) return false;
+      if (!getServiceList()
+          .equals(other.getServiceList())) return false;
+      if (!getLocation()
+          .equals(other.getLocation())) return false;
+      if (getNodeId()
+          != other.getNodeId()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1252,6 +1367,7 @@ public final class DiscoveryProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1259,6 +1375,7 @@ public final class DiscoveryProtos {
     public static Builder newBuilder(tech.ydb.discovery.DiscoveryProtos.EndpointInfo prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1282,6 +1399,7 @@ public final class DiscoveryProtos {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_EndpointInfo_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_EndpointInfo_fieldAccessorTable
@@ -1304,6 +1422,7 @@ public final class DiscoveryProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         address_ = "";
@@ -1315,7 +1434,7 @@ public final class DiscoveryProtos {
         ssl_ = false;
 
         service_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000001);
         location_ = "";
 
         nodeId_ = 0;
@@ -1323,15 +1442,18 @@ public final class DiscoveryProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_EndpointInfo_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.EndpointInfo getDefaultInstanceForType() {
         return tech.ydb.discovery.DiscoveryProtos.EndpointInfo.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.EndpointInfo build() {
         tech.ydb.discovery.DiscoveryProtos.EndpointInfo result = buildPartial();
         if (!result.isInitialized()) {
@@ -1340,52 +1462,58 @@ public final class DiscoveryProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.EndpointInfo buildPartial() {
         tech.ydb.discovery.DiscoveryProtos.EndpointInfo result = new tech.ydb.discovery.DiscoveryProtos.EndpointInfo(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.address_ = address_;
         result.port_ = port_;
         result.loadFactor_ = loadFactor_;
         result.ssl_ = ssl_;
-        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           service_ = service_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000010);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.service_ = service_;
         result.location_ = location_;
         result.nodeId_ = nodeId_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.discovery.DiscoveryProtos.EndpointInfo) {
           return mergeFrom((tech.ydb.discovery.DiscoveryProtos.EndpointInfo)other);
@@ -1413,7 +1541,7 @@ public final class DiscoveryProtos {
         if (!other.service_.isEmpty()) {
           if (service_.isEmpty()) {
             service_ = other.service_;
-            bitField0_ = (bitField0_ & ~0x00000010);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensureServiceIsMutable();
             service_.addAll(other.service_);
@@ -1432,10 +1560,12 @@ public final class DiscoveryProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1458,6 +1588,7 @@ public final class DiscoveryProtos {
       private java.lang.Object address_ = "";
       /**
        * <code>string address = 1;</code>
+       * @return The address.
        */
       public java.lang.String getAddress() {
         java.lang.Object ref = address_;
@@ -1473,6 +1604,7 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>string address = 1;</code>
+       * @return The bytes for address.
        */
       public com.google.protobuf.ByteString
           getAddressBytes() {
@@ -1489,6 +1621,8 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>string address = 1;</code>
+       * @param value The address to set.
+       * @return This builder for chaining.
        */
       public Builder setAddress(
           java.lang.String value) {
@@ -1502,6 +1636,7 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>string address = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearAddress() {
         
@@ -1511,6 +1646,8 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>string address = 1;</code>
+       * @param value The bytes for address to set.
+       * @return This builder for chaining.
        */
       public Builder setAddressBytes(
           com.google.protobuf.ByteString value) {
@@ -1527,12 +1664,16 @@ public final class DiscoveryProtos {
       private int port_ ;
       /**
        * <code>uint32 port = 2;</code>
+       * @return The port.
        */
+      @java.lang.Override
       public int getPort() {
         return port_;
       }
       /**
        * <code>uint32 port = 2;</code>
+       * @param value The port to set.
+       * @return This builder for chaining.
        */
       public Builder setPort(int value) {
         
@@ -1542,6 +1683,7 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>uint32 port = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearPort() {
         
@@ -1553,12 +1695,16 @@ public final class DiscoveryProtos {
       private float loadFactor_ ;
       /**
        * <code>float load_factor = 3;</code>
+       * @return The loadFactor.
        */
+      @java.lang.Override
       public float getLoadFactor() {
         return loadFactor_;
       }
       /**
        * <code>float load_factor = 3;</code>
+       * @param value The loadFactor to set.
+       * @return This builder for chaining.
        */
       public Builder setLoadFactor(float value) {
         
@@ -1568,6 +1714,7 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>float load_factor = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearLoadFactor() {
         
@@ -1579,12 +1726,16 @@ public final class DiscoveryProtos {
       private boolean ssl_ ;
       /**
        * <code>bool ssl = 4;</code>
+       * @return The ssl.
        */
+      @java.lang.Override
       public boolean getSsl() {
         return ssl_;
       }
       /**
        * <code>bool ssl = 4;</code>
+       * @param value The ssl to set.
+       * @return This builder for chaining.
        */
       public Builder setSsl(boolean value) {
         
@@ -1594,6 +1745,7 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>bool ssl = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSsl() {
         
@@ -1604,13 +1756,14 @@ public final class DiscoveryProtos {
 
       private com.google.protobuf.LazyStringList service_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureServiceIsMutable() {
-        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           service_ = new com.google.protobuf.LazyStringArrayList(service_);
-          bitField0_ |= 0x00000010;
+          bitField0_ |= 0x00000001;
          }
       }
       /**
        * <code>repeated string service = 5;</code>
+       * @return A list containing the service.
        */
       public com.google.protobuf.ProtocolStringList
           getServiceList() {
@@ -1618,18 +1771,23 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>repeated string service = 5;</code>
+       * @return The count of service.
        */
       public int getServiceCount() {
         return service_.size();
       }
       /**
        * <code>repeated string service = 5;</code>
+       * @param index The index of the element to return.
+       * @return The service at the given index.
        */
       public java.lang.String getService(int index) {
         return service_.get(index);
       }
       /**
        * <code>repeated string service = 5;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the service at the given index.
        */
       public com.google.protobuf.ByteString
           getServiceBytes(int index) {
@@ -1637,6 +1795,9 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>repeated string service = 5;</code>
+       * @param index The index to set the value at.
+       * @param value The service to set.
+       * @return This builder for chaining.
        */
       public Builder setService(
           int index, java.lang.String value) {
@@ -1650,6 +1811,8 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>repeated string service = 5;</code>
+       * @param value The service to add.
+       * @return This builder for chaining.
        */
       public Builder addService(
           java.lang.String value) {
@@ -1663,6 +1826,8 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>repeated string service = 5;</code>
+       * @param values The service to add.
+       * @return This builder for chaining.
        */
       public Builder addAllService(
           java.lang.Iterable<java.lang.String> values) {
@@ -1674,15 +1839,18 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>repeated string service = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearService() {
         service_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
       /**
        * <code>repeated string service = 5;</code>
+       * @param value The bytes of the service to add.
+       * @return This builder for chaining.
        */
       public Builder addServiceBytes(
           com.google.protobuf.ByteString value) {
@@ -1699,6 +1867,7 @@ public final class DiscoveryProtos {
       private java.lang.Object location_ = "";
       /**
        * <code>string location = 6;</code>
+       * @return The location.
        */
       public java.lang.String getLocation() {
         java.lang.Object ref = location_;
@@ -1714,6 +1883,7 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>string location = 6;</code>
+       * @return The bytes for location.
        */
       public com.google.protobuf.ByteString
           getLocationBytes() {
@@ -1730,6 +1900,8 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>string location = 6;</code>
+       * @param value The location to set.
+       * @return This builder for chaining.
        */
       public Builder setLocation(
           java.lang.String value) {
@@ -1743,6 +1915,7 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>string location = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearLocation() {
         
@@ -1752,6 +1925,8 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>string location = 6;</code>
+       * @param value The bytes for location to set.
+       * @return This builder for chaining.
        */
       public Builder setLocationBytes(
           com.google.protobuf.ByteString value) {
@@ -1768,12 +1943,16 @@ public final class DiscoveryProtos {
       private int nodeId_ ;
       /**
        * <code>uint32 node_id = 7;</code>
+       * @return The nodeId.
        */
+      @java.lang.Override
       public int getNodeId() {
         return nodeId_;
       }
       /**
        * <code>uint32 node_id = 7;</code>
+       * @param value The nodeId to set.
+       * @return This builder for chaining.
        */
       public Builder setNodeId(int value) {
         
@@ -1783,6 +1962,7 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>uint32 node_id = 7;</code>
+       * @return This builder for chaining.
        */
       public Builder clearNodeId() {
         
@@ -1790,11 +1970,13 @@ public final class DiscoveryProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -1816,11 +1998,12 @@ public final class DiscoveryProtos {
 
     private static final com.google.protobuf.Parser<EndpointInfo>
         PARSER = new com.google.protobuf.AbstractParser<EndpointInfo>() {
+      @java.lang.Override
       public EndpointInfo parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new EndpointInfo(input, extensionRegistry);
+        return new EndpointInfo(input, extensionRegistry);
       }
     };
 
@@ -1833,6 +2016,7 @@ public final class DiscoveryProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.discovery.DiscoveryProtos.EndpointInfo getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -1869,10 +2053,12 @@ public final class DiscoveryProtos {
 
     /**
      * <code>string self_location = 2;</code>
+     * @return The selfLocation.
      */
     java.lang.String getSelfLocation();
     /**
      * <code>string self_location = 2;</code>
+     * @return The bytes for selfLocation.
      */
     com.google.protobuf.ByteString
         getSelfLocationBytes();
@@ -1880,7 +2066,7 @@ public final class DiscoveryProtos {
   /**
    * Protobuf type {@code Ydb.Discovery.ListEndpointsResult}
    */
-  public  static final class ListEndpointsResult extends
+  public static final class ListEndpointsResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Discovery.ListEndpointsResult)
       ListEndpointsResultOrBuilder {
@@ -1895,6 +2081,13 @@ public final class DiscoveryProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ListEndpointsResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -1904,6 +2097,9 @@ public final class DiscoveryProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -1915,15 +2111,8 @@ public final class DiscoveryProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 endpoints_ = new java.util.ArrayList<tech.ydb.discovery.DiscoveryProtos.EndpointInfo>();
                 mutable_bitField0_ |= 0x00000001;
               }
@@ -1937,6 +2126,13 @@ public final class DiscoveryProtos {
               selfLocation_ = s;
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1945,7 +2141,7 @@ public final class DiscoveryProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           endpoints_ = java.util.Collections.unmodifiableList(endpoints_);
         }
         this.unknownFields = unknownFields.build();
@@ -1957,6 +2153,7 @@ public final class DiscoveryProtos {
       return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_ListEndpointsResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_ListEndpointsResult_fieldAccessorTable
@@ -1964,18 +2161,19 @@ public final class DiscoveryProtos {
               tech.ydb.discovery.DiscoveryProtos.ListEndpointsResult.class, tech.ydb.discovery.DiscoveryProtos.ListEndpointsResult.Builder.class);
     }
 
-    private int bitField0_;
     public static final int ENDPOINTS_FIELD_NUMBER = 1;
     private java.util.List<tech.ydb.discovery.DiscoveryProtos.EndpointInfo> endpoints_;
     /**
      * <code>repeated .Ydb.Discovery.EndpointInfo endpoints = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<tech.ydb.discovery.DiscoveryProtos.EndpointInfo> getEndpointsList() {
       return endpoints_;
     }
     /**
      * <code>repeated .Ydb.Discovery.EndpointInfo endpoints = 1;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends tech.ydb.discovery.DiscoveryProtos.EndpointInfoOrBuilder> 
         getEndpointsOrBuilderList() {
       return endpoints_;
@@ -1983,18 +2181,21 @@ public final class DiscoveryProtos {
     /**
      * <code>repeated .Ydb.Discovery.EndpointInfo endpoints = 1;</code>
      */
+    @java.lang.Override
     public int getEndpointsCount() {
       return endpoints_.size();
     }
     /**
      * <code>repeated .Ydb.Discovery.EndpointInfo endpoints = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.discovery.DiscoveryProtos.EndpointInfo getEndpoints(int index) {
       return endpoints_.get(index);
     }
     /**
      * <code>repeated .Ydb.Discovery.EndpointInfo endpoints = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.discovery.DiscoveryProtos.EndpointInfoOrBuilder getEndpointsOrBuilder(
         int index) {
       return endpoints_.get(index);
@@ -2004,7 +2205,9 @@ public final class DiscoveryProtos {
     private volatile java.lang.Object selfLocation_;
     /**
      * <code>string self_location = 2;</code>
+     * @return The selfLocation.
      */
+    @java.lang.Override
     public java.lang.String getSelfLocation() {
       java.lang.Object ref = selfLocation_;
       if (ref instanceof java.lang.String) {
@@ -2019,7 +2222,9 @@ public final class DiscoveryProtos {
     }
     /**
      * <code>string self_location = 2;</code>
+     * @return The bytes for selfLocation.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getSelfLocationBytes() {
       java.lang.Object ref = selfLocation_;
@@ -2035,6 +2240,7 @@ public final class DiscoveryProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2044,6 +2250,7 @@ public final class DiscoveryProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < endpoints_.size(); i++) {
@@ -2055,6 +2262,7 @@ public final class DiscoveryProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2082,13 +2290,12 @@ public final class DiscoveryProtos {
       }
       tech.ydb.discovery.DiscoveryProtos.ListEndpointsResult other = (tech.ydb.discovery.DiscoveryProtos.ListEndpointsResult) obj;
 
-      boolean result = true;
-      result = result && getEndpointsList()
-          .equals(other.getEndpointsList());
-      result = result && getSelfLocation()
-          .equals(other.getSelfLocation());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getEndpointsList()
+          .equals(other.getEndpointsList())) return false;
+      if (!getSelfLocation()
+          .equals(other.getSelfLocation())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2179,6 +2386,7 @@ public final class DiscoveryProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2186,6 +2394,7 @@ public final class DiscoveryProtos {
     public static Builder newBuilder(tech.ydb.discovery.DiscoveryProtos.ListEndpointsResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -2209,6 +2418,7 @@ public final class DiscoveryProtos {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_ListEndpointsResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_ListEndpointsResult_fieldAccessorTable
@@ -2232,6 +2442,7 @@ public final class DiscoveryProtos {
           getEndpointsFieldBuilder();
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (endpointsBuilder_ == null) {
@@ -2245,15 +2456,18 @@ public final class DiscoveryProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_ListEndpointsResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.ListEndpointsResult getDefaultInstanceForType() {
         return tech.ydb.discovery.DiscoveryProtos.ListEndpointsResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.ListEndpointsResult build() {
         tech.ydb.discovery.DiscoveryProtos.ListEndpointsResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -2262,12 +2476,12 @@ public final class DiscoveryProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.ListEndpointsResult buildPartial() {
         tech.ydb.discovery.DiscoveryProtos.ListEndpointsResult result = new tech.ydb.discovery.DiscoveryProtos.ListEndpointsResult(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         if (endpointsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             endpoints_ = java.util.Collections.unmodifiableList(endpoints_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
@@ -2276,37 +2490,43 @@ public final class DiscoveryProtos {
           result.endpoints_ = endpointsBuilder_.build();
         }
         result.selfLocation_ = selfLocation_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.discovery.DiscoveryProtos.ListEndpointsResult) {
           return mergeFrom((tech.ydb.discovery.DiscoveryProtos.ListEndpointsResult)other);
@@ -2353,10 +2573,12 @@ public final class DiscoveryProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2379,7 +2601,7 @@ public final class DiscoveryProtos {
       private java.util.List<tech.ydb.discovery.DiscoveryProtos.EndpointInfo> endpoints_ =
         java.util.Collections.emptyList();
       private void ensureEndpointsIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           endpoints_ = new java.util.ArrayList<tech.ydb.discovery.DiscoveryProtos.EndpointInfo>(endpoints_);
           bitField0_ |= 0x00000001;
          }
@@ -2608,7 +2830,7 @@ public final class DiscoveryProtos {
           endpointsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.discovery.DiscoveryProtos.EndpointInfo, tech.ydb.discovery.DiscoveryProtos.EndpointInfo.Builder, tech.ydb.discovery.DiscoveryProtos.EndpointInfoOrBuilder>(
                   endpoints_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           endpoints_ = null;
@@ -2619,6 +2841,7 @@ public final class DiscoveryProtos {
       private java.lang.Object selfLocation_ = "";
       /**
        * <code>string self_location = 2;</code>
+       * @return The selfLocation.
        */
       public java.lang.String getSelfLocation() {
         java.lang.Object ref = selfLocation_;
@@ -2634,6 +2857,7 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>string self_location = 2;</code>
+       * @return The bytes for selfLocation.
        */
       public com.google.protobuf.ByteString
           getSelfLocationBytes() {
@@ -2650,6 +2874,8 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>string self_location = 2;</code>
+       * @param value The selfLocation to set.
+       * @return This builder for chaining.
        */
       public Builder setSelfLocation(
           java.lang.String value) {
@@ -2663,6 +2889,7 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>string self_location = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSelfLocation() {
         
@@ -2672,6 +2899,8 @@ public final class DiscoveryProtos {
       }
       /**
        * <code>string self_location = 2;</code>
+       * @param value The bytes for selfLocation to set.
+       * @return This builder for chaining.
        */
       public Builder setSelfLocationBytes(
           com.google.protobuf.ByteString value) {
@@ -2684,11 +2913,13 @@ public final class DiscoveryProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2710,11 +2941,12 @@ public final class DiscoveryProtos {
 
     private static final com.google.protobuf.Parser<ListEndpointsResult>
         PARSER = new com.google.protobuf.AbstractParser<ListEndpointsResult>() {
+      @java.lang.Override
       public ListEndpointsResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ListEndpointsResult(input, extensionRegistry);
+        return new ListEndpointsResult(input, extensionRegistry);
       }
     };
 
@@ -2727,6 +2959,7 @@ public final class DiscoveryProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.discovery.DiscoveryProtos.ListEndpointsResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2739,10 +2972,12 @@ public final class DiscoveryProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -2753,7 +2988,7 @@ public final class DiscoveryProtos {
   /**
    * Protobuf type {@code Ydb.Discovery.ListEndpointsResponse}
    */
-  public  static final class ListEndpointsResponse extends
+  public static final class ListEndpointsResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Discovery.ListEndpointsResponse)
       ListEndpointsResponseOrBuilder {
@@ -2766,6 +3001,13 @@ public final class DiscoveryProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ListEndpointsResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -2775,7 +3017,9 @@ public final class DiscoveryProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2786,13 +3030,6 @@ public final class DiscoveryProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -2804,6 +3041,13 @@ public final class DiscoveryProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -2823,6 +3067,7 @@ public final class DiscoveryProtos {
       return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_ListEndpointsResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_ListEndpointsResponse_fieldAccessorTable
@@ -2834,24 +3079,30 @@ public final class DiscoveryProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -2861,6 +3112,7 @@ public final class DiscoveryProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -2869,6 +3121,7 @@ public final class DiscoveryProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -2893,14 +3146,13 @@ public final class DiscoveryProtos {
       }
       tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse other = (tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2989,6 +3241,7 @@ public final class DiscoveryProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -2996,6 +3249,7 @@ public final class DiscoveryProtos {
     public static Builder newBuilder(tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3019,6 +3273,7 @@ public final class DiscoveryProtos {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_ListEndpointsResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_ListEndpointsResponse_fieldAccessorTable
@@ -3041,6 +3296,7 @@ public final class DiscoveryProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -3052,15 +3308,18 @@ public final class DiscoveryProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_ListEndpointsResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse getDefaultInstanceForType() {
         return tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse build() {
         tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -3069,6 +3328,7 @@ public final class DiscoveryProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse buildPartial() {
         tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse result = new tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse(this);
         if (operationBuilder_ == null) {
@@ -3080,32 +3340,39 @@ public final class DiscoveryProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse) {
           return mergeFrom((tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse)other);
@@ -3125,10 +3392,12 @@ public final class DiscoveryProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3147,17 +3416,19 @@ public final class DiscoveryProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -3263,11 +3534,13 @@ public final class DiscoveryProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3289,11 +3562,12 @@ public final class DiscoveryProtos {
 
     private static final com.google.protobuf.Parser<ListEndpointsResponse>
         PARSER = new com.google.protobuf.AbstractParser<ListEndpointsResponse>() {
+      @java.lang.Override
       public ListEndpointsResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ListEndpointsResponse(input, extensionRegistry);
+        return new ListEndpointsResponse(input, extensionRegistry);
       }
     };
 
@@ -3306,6 +3580,7 @@ public final class DiscoveryProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.discovery.DiscoveryProtos.ListEndpointsResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3322,13 +3597,14 @@ public final class DiscoveryProtos {
      * </pre>
      *
      * <code>bool include_groups = 1;</code>
+     * @return The includeGroups.
      */
     boolean getIncludeGroups();
   }
   /**
    * Protobuf type {@code Ydb.Discovery.WhoAmIRequest}
    */
-  public  static final class WhoAmIRequest extends
+  public static final class WhoAmIRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Discovery.WhoAmIRequest)
       WhoAmIRequestOrBuilder {
@@ -3338,7 +3614,13 @@ public final class DiscoveryProtos {
       super(builder);
     }
     private WhoAmIRequest() {
-      includeGroups_ = false;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new WhoAmIRequest();
     }
 
     @java.lang.Override
@@ -3351,7 +3633,9 @@ public final class DiscoveryProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -3362,16 +3646,16 @@ public final class DiscoveryProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 8: {
 
               includeGroups_ = input.readBool();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -3391,6 +3675,7 @@ public final class DiscoveryProtos {
       return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIRequest_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIRequest_fieldAccessorTable
@@ -3406,12 +3691,15 @@ public final class DiscoveryProtos {
      * </pre>
      *
      * <code>bool include_groups = 1;</code>
+     * @return The includeGroups.
      */
+    @java.lang.Override
     public boolean getIncludeGroups() {
       return includeGroups_;
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3421,6 +3709,7 @@ public final class DiscoveryProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (includeGroups_ != false) {
@@ -3429,6 +3718,7 @@ public final class DiscoveryProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3453,11 +3743,10 @@ public final class DiscoveryProtos {
       }
       tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest other = (tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest) obj;
 
-      boolean result = true;
-      result = result && (getIncludeGroups()
-          == other.getIncludeGroups());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getIncludeGroups()
+          != other.getIncludeGroups()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3545,6 +3834,7 @@ public final class DiscoveryProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3552,6 +3842,7 @@ public final class DiscoveryProtos {
     public static Builder newBuilder(tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3575,6 +3866,7 @@ public final class DiscoveryProtos {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIRequest_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIRequest_fieldAccessorTable
@@ -3597,6 +3889,7 @@ public final class DiscoveryProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         includeGroups_ = false;
@@ -3604,15 +3897,18 @@ public final class DiscoveryProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIRequest_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest getDefaultInstanceForType() {
         return tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest build() {
         tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest result = buildPartial();
         if (!result.isInitialized()) {
@@ -3621,6 +3917,7 @@ public final class DiscoveryProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest buildPartial() {
         tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest result = new tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest(this);
         result.includeGroups_ = includeGroups_;
@@ -3628,32 +3925,39 @@ public final class DiscoveryProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest) {
           return mergeFrom((tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest)other);
@@ -3673,10 +3977,12 @@ public final class DiscoveryProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3702,7 +4008,9 @@ public final class DiscoveryProtos {
        * </pre>
        *
        * <code>bool include_groups = 1;</code>
+       * @return The includeGroups.
        */
+      @java.lang.Override
       public boolean getIncludeGroups() {
         return includeGroups_;
       }
@@ -3712,6 +4020,8 @@ public final class DiscoveryProtos {
        * </pre>
        *
        * <code>bool include_groups = 1;</code>
+       * @param value The includeGroups to set.
+       * @return This builder for chaining.
        */
       public Builder setIncludeGroups(boolean value) {
         
@@ -3725,6 +4035,7 @@ public final class DiscoveryProtos {
        * </pre>
        *
        * <code>bool include_groups = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearIncludeGroups() {
         
@@ -3732,11 +4043,13 @@ public final class DiscoveryProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -3758,11 +4071,12 @@ public final class DiscoveryProtos {
 
     private static final com.google.protobuf.Parser<WhoAmIRequest>
         PARSER = new com.google.protobuf.AbstractParser<WhoAmIRequest>() {
+      @java.lang.Override
       public WhoAmIRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new WhoAmIRequest(input, extensionRegistry);
+        return new WhoAmIRequest(input, extensionRegistry);
       }
     };
 
@@ -3775,6 +4089,7 @@ public final class DiscoveryProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.discovery.DiscoveryProtos.WhoAmIRequest getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -3791,6 +4106,7 @@ public final class DiscoveryProtos {
      * </pre>
      *
      * <code>string user = 1;</code>
+     * @return The user.
      */
     java.lang.String getUser();
     /**
@@ -3799,6 +4115,7 @@ public final class DiscoveryProtos {
      * </pre>
      *
      * <code>string user = 1;</code>
+     * @return The bytes for user.
      */
     com.google.protobuf.ByteString
         getUserBytes();
@@ -3809,6 +4126,7 @@ public final class DiscoveryProtos {
      * </pre>
      *
      * <code>repeated string groups = 2;</code>
+     * @return A list containing the groups.
      */
     java.util.List<java.lang.String>
         getGroupsList();
@@ -3818,6 +4136,7 @@ public final class DiscoveryProtos {
      * </pre>
      *
      * <code>repeated string groups = 2;</code>
+     * @return The count of groups.
      */
     int getGroupsCount();
     /**
@@ -3826,6 +4145,8 @@ public final class DiscoveryProtos {
      * </pre>
      *
      * <code>repeated string groups = 2;</code>
+     * @param index The index of the element to return.
+     * @return The groups at the given index.
      */
     java.lang.String getGroups(int index);
     /**
@@ -3834,6 +4155,8 @@ public final class DiscoveryProtos {
      * </pre>
      *
      * <code>repeated string groups = 2;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the groups at the given index.
      */
     com.google.protobuf.ByteString
         getGroupsBytes(int index);
@@ -3841,7 +4164,7 @@ public final class DiscoveryProtos {
   /**
    * Protobuf type {@code Ydb.Discovery.WhoAmIResult}
    */
-  public  static final class WhoAmIResult extends
+  public static final class WhoAmIResult extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Discovery.WhoAmIResult)
       WhoAmIResultOrBuilder {
@@ -3856,6 +4179,13 @@ public final class DiscoveryProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new WhoAmIResult();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -3865,6 +4195,9 @@ public final class DiscoveryProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -3876,13 +4209,6 @@ public final class DiscoveryProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -3891,11 +4217,18 @@ public final class DiscoveryProtos {
             }
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 groups_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               groups_.add(s);
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -3906,7 +4239,7 @@ public final class DiscoveryProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           groups_ = groups_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -3918,6 +4251,7 @@ public final class DiscoveryProtos {
       return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIResult_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIResult_fieldAccessorTable
@@ -3925,7 +4259,6 @@ public final class DiscoveryProtos {
               tech.ydb.discovery.DiscoveryProtos.WhoAmIResult.class, tech.ydb.discovery.DiscoveryProtos.WhoAmIResult.Builder.class);
     }
 
-    private int bitField0_;
     public static final int USER_FIELD_NUMBER = 1;
     private volatile java.lang.Object user_;
     /**
@@ -3934,7 +4267,9 @@ public final class DiscoveryProtos {
      * </pre>
      *
      * <code>string user = 1;</code>
+     * @return The user.
      */
+    @java.lang.Override
     public java.lang.String getUser() {
       java.lang.Object ref = user_;
       if (ref instanceof java.lang.String) {
@@ -3953,7 +4288,9 @@ public final class DiscoveryProtos {
      * </pre>
      *
      * <code>string user = 1;</code>
+     * @return The bytes for user.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getUserBytes() {
       java.lang.Object ref = user_;
@@ -3976,6 +4313,7 @@ public final class DiscoveryProtos {
      * </pre>
      *
      * <code>repeated string groups = 2;</code>
+     * @return A list containing the groups.
      */
     public com.google.protobuf.ProtocolStringList
         getGroupsList() {
@@ -3987,6 +4325,7 @@ public final class DiscoveryProtos {
      * </pre>
      *
      * <code>repeated string groups = 2;</code>
+     * @return The count of groups.
      */
     public int getGroupsCount() {
       return groups_.size();
@@ -3997,6 +4336,8 @@ public final class DiscoveryProtos {
      * </pre>
      *
      * <code>repeated string groups = 2;</code>
+     * @param index The index of the element to return.
+     * @return The groups at the given index.
      */
     public java.lang.String getGroups(int index) {
       return groups_.get(index);
@@ -4007,6 +4348,8 @@ public final class DiscoveryProtos {
      * </pre>
      *
      * <code>repeated string groups = 2;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the groups at the given index.
      */
     public com.google.protobuf.ByteString
         getGroupsBytes(int index) {
@@ -4014,6 +4357,7 @@ public final class DiscoveryProtos {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4023,6 +4367,7 @@ public final class DiscoveryProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getUserBytes().isEmpty()) {
@@ -4034,6 +4379,7 @@ public final class DiscoveryProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4065,13 +4411,12 @@ public final class DiscoveryProtos {
       }
       tech.ydb.discovery.DiscoveryProtos.WhoAmIResult other = (tech.ydb.discovery.DiscoveryProtos.WhoAmIResult) obj;
 
-      boolean result = true;
-      result = result && getUser()
-          .equals(other.getUser());
-      result = result && getGroupsList()
-          .equals(other.getGroupsList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getUser()
+          .equals(other.getUser())) return false;
+      if (!getGroupsList()
+          .equals(other.getGroupsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4162,6 +4507,7 @@ public final class DiscoveryProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4169,6 +4515,7 @@ public final class DiscoveryProtos {
     public static Builder newBuilder(tech.ydb.discovery.DiscoveryProtos.WhoAmIResult prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4192,6 +4539,7 @@ public final class DiscoveryProtos {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIResult_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIResult_fieldAccessorTable
@@ -4214,24 +4562,28 @@ public final class DiscoveryProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         user_ = "";
 
         groups_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIResult_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.WhoAmIResult getDefaultInstanceForType() {
         return tech.ydb.discovery.DiscoveryProtos.WhoAmIResult.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.WhoAmIResult build() {
         tech.ydb.discovery.DiscoveryProtos.WhoAmIResult result = buildPartial();
         if (!result.isInitialized()) {
@@ -4240,47 +4592,53 @@ public final class DiscoveryProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.WhoAmIResult buildPartial() {
         tech.ydb.discovery.DiscoveryProtos.WhoAmIResult result = new tech.ydb.discovery.DiscoveryProtos.WhoAmIResult(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
         result.user_ = user_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((bitField0_ & 0x00000001) != 0)) {
           groups_ = groups_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.groups_ = groups_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.discovery.DiscoveryProtos.WhoAmIResult) {
           return mergeFrom((tech.ydb.discovery.DiscoveryProtos.WhoAmIResult)other);
@@ -4299,7 +4657,7 @@ public final class DiscoveryProtos {
         if (!other.groups_.isEmpty()) {
           if (groups_.isEmpty()) {
             groups_ = other.groups_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           } else {
             ensureGroupsIsMutable();
             groups_.addAll(other.groups_);
@@ -4311,10 +4669,12 @@ public final class DiscoveryProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4341,6 +4701,7 @@ public final class DiscoveryProtos {
        * </pre>
        *
        * <code>string user = 1;</code>
+       * @return The user.
        */
       public java.lang.String getUser() {
         java.lang.Object ref = user_;
@@ -4360,6 +4721,7 @@ public final class DiscoveryProtos {
        * </pre>
        *
        * <code>string user = 1;</code>
+       * @return The bytes for user.
        */
       public com.google.protobuf.ByteString
           getUserBytes() {
@@ -4380,6 +4742,8 @@ public final class DiscoveryProtos {
        * </pre>
        *
        * <code>string user = 1;</code>
+       * @param value The user to set.
+       * @return This builder for chaining.
        */
       public Builder setUser(
           java.lang.String value) {
@@ -4397,6 +4761,7 @@ public final class DiscoveryProtos {
        * </pre>
        *
        * <code>string user = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUser() {
         
@@ -4410,6 +4775,8 @@ public final class DiscoveryProtos {
        * </pre>
        *
        * <code>string user = 1;</code>
+       * @param value The bytes for user to set.
+       * @return This builder for chaining.
        */
       public Builder setUserBytes(
           com.google.protobuf.ByteString value) {
@@ -4425,9 +4792,9 @@ public final class DiscoveryProtos {
 
       private com.google.protobuf.LazyStringList groups_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureGroupsIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           groups_ = new com.google.protobuf.LazyStringArrayList(groups_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
       /**
@@ -4436,6 +4803,7 @@ public final class DiscoveryProtos {
        * </pre>
        *
        * <code>repeated string groups = 2;</code>
+       * @return A list containing the groups.
        */
       public com.google.protobuf.ProtocolStringList
           getGroupsList() {
@@ -4447,6 +4815,7 @@ public final class DiscoveryProtos {
        * </pre>
        *
        * <code>repeated string groups = 2;</code>
+       * @return The count of groups.
        */
       public int getGroupsCount() {
         return groups_.size();
@@ -4457,6 +4826,8 @@ public final class DiscoveryProtos {
        * </pre>
        *
        * <code>repeated string groups = 2;</code>
+       * @param index The index of the element to return.
+       * @return The groups at the given index.
        */
       public java.lang.String getGroups(int index) {
         return groups_.get(index);
@@ -4467,6 +4838,8 @@ public final class DiscoveryProtos {
        * </pre>
        *
        * <code>repeated string groups = 2;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the groups at the given index.
        */
       public com.google.protobuf.ByteString
           getGroupsBytes(int index) {
@@ -4478,6 +4851,9 @@ public final class DiscoveryProtos {
        * </pre>
        *
        * <code>repeated string groups = 2;</code>
+       * @param index The index to set the value at.
+       * @param value The groups to set.
+       * @return This builder for chaining.
        */
       public Builder setGroups(
           int index, java.lang.String value) {
@@ -4495,6 +4871,8 @@ public final class DiscoveryProtos {
        * </pre>
        *
        * <code>repeated string groups = 2;</code>
+       * @param value The groups to add.
+       * @return This builder for chaining.
        */
       public Builder addGroups(
           java.lang.String value) {
@@ -4512,6 +4890,8 @@ public final class DiscoveryProtos {
        * </pre>
        *
        * <code>repeated string groups = 2;</code>
+       * @param values The groups to add.
+       * @return This builder for chaining.
        */
       public Builder addAllGroups(
           java.lang.Iterable<java.lang.String> values) {
@@ -4527,10 +4907,11 @@ public final class DiscoveryProtos {
        * </pre>
        *
        * <code>repeated string groups = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearGroups() {
         groups_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
@@ -4540,6 +4921,8 @@ public final class DiscoveryProtos {
        * </pre>
        *
        * <code>repeated string groups = 2;</code>
+       * @param value The bytes of the groups to add.
+       * @return This builder for chaining.
        */
       public Builder addGroupsBytes(
           com.google.protobuf.ByteString value) {
@@ -4552,11 +4935,13 @@ public final class DiscoveryProtos {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4578,11 +4963,12 @@ public final class DiscoveryProtos {
 
     private static final com.google.protobuf.Parser<WhoAmIResult>
         PARSER = new com.google.protobuf.AbstractParser<WhoAmIResult>() {
+      @java.lang.Override
       public WhoAmIResult parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new WhoAmIResult(input, extensionRegistry);
+        return new WhoAmIResult(input, extensionRegistry);
       }
     };
 
@@ -4595,6 +4981,7 @@ public final class DiscoveryProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.discovery.DiscoveryProtos.WhoAmIResult getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4607,10 +4994,12 @@ public final class DiscoveryProtos {
 
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
@@ -4621,7 +5010,7 @@ public final class DiscoveryProtos {
   /**
    * Protobuf type {@code Ydb.Discovery.WhoAmIResponse}
    */
-  public  static final class WhoAmIResponse extends
+  public static final class WhoAmIResponse extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:Ydb.Discovery.WhoAmIResponse)
       WhoAmIResponseOrBuilder {
@@ -4634,6 +5023,13 @@ public final class DiscoveryProtos {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new WhoAmIResponse();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -4643,7 +5039,9 @@ public final class DiscoveryProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      int mutable_bitField0_ = 0;
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4654,13 +5052,6 @@ public final class DiscoveryProtos {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
               if (operation_ != null) {
@@ -4672,6 +5063,13 @@ public final class DiscoveryProtos {
                 operation_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -4691,6 +5089,7 @@ public final class DiscoveryProtos {
       return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIResponse_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIResponse_fieldAccessorTable
@@ -4702,24 +5101,30 @@ public final class DiscoveryProtos {
     private tech.ydb.OperationProtos.Operation operation_;
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
      */
+    @java.lang.Override
     public boolean hasOperation() {
       return operation_ != null;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.Operation getOperation() {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
+    @java.lang.Override
     public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
       return getOperation();
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4729,6 +5134,7 @@ public final class DiscoveryProtos {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (operation_ != null) {
@@ -4737,6 +5143,7 @@ public final class DiscoveryProtos {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4761,14 +5168,13 @@ public final class DiscoveryProtos {
       }
       tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse other = (tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse) obj;
 
-      boolean result = true;
-      result = result && (hasOperation() == other.hasOperation());
+      if (hasOperation() != other.hasOperation()) return false;
       if (hasOperation()) {
-        result = result && getOperation()
-            .equals(other.getOperation());
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4857,6 +5263,7 @@ public final class DiscoveryProtos {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4864,6 +5271,7 @@ public final class DiscoveryProtos {
     public static Builder newBuilder(tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4887,6 +5295,7 @@ public final class DiscoveryProtos {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIResponse_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIResponse_fieldAccessorTable
@@ -4909,6 +5318,7 @@ public final class DiscoveryProtos {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         if (operationBuilder_ == null) {
@@ -4920,15 +5330,18 @@ public final class DiscoveryProtos {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return tech.ydb.discovery.DiscoveryProtos.internal_static_Ydb_Discovery_WhoAmIResponse_descriptor;
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse getDefaultInstanceForType() {
         return tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse.getDefaultInstance();
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse build() {
         tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse result = buildPartial();
         if (!result.isInitialized()) {
@@ -4937,6 +5350,7 @@ public final class DiscoveryProtos {
         return result;
       }
 
+      @java.lang.Override
       public tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse buildPartial() {
         tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse result = new tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse(this);
         if (operationBuilder_ == null) {
@@ -4948,32 +5362,39 @@ public final class DiscoveryProtos {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse) {
           return mergeFrom((tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse)other);
@@ -4993,10 +5414,12 @@ public final class DiscoveryProtos {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5015,17 +5438,19 @@ public final class DiscoveryProtos {
         return this;
       }
 
-      private tech.ydb.OperationProtos.Operation operation_ = null;
+      private tech.ydb.OperationProtos.Operation operation_;
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
        */
       public boolean hasOperation() {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
        * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
        */
       public tech.ydb.OperationProtos.Operation getOperation() {
         if (operationBuilder_ == null) {
@@ -5131,11 +5556,13 @@ public final class DiscoveryProtos {
         }
         return operationBuilder_;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5157,11 +5584,12 @@ public final class DiscoveryProtos {
 
     private static final com.google.protobuf.Parser<WhoAmIResponse>
         PARSER = new com.google.protobuf.AbstractParser<WhoAmIResponse>() {
+      @java.lang.Override
       public WhoAmIResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new WhoAmIResponse(input, extensionRegistry);
+        return new WhoAmIResponse(input, extensionRegistry);
       }
     };
 
@@ -5174,6 +5602,7 @@ public final class DiscoveryProtos {
       return PARSER;
     }
 
+    @java.lang.Override
     public tech.ydb.discovery.DiscoveryProtos.WhoAmIResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5233,7 +5662,7 @@ public final class DiscoveryProtos {
       "sl\030\004 \001(\010\022\017\n\007service\030\005 \003(\t\022\020\n\010location\030\006 " +
       "\001(\t\022\017\n\007node_id\030\007 \001(\r\"\\\n\023ListEndpointsRes" +
       "ult\022.\n\tendpoints\030\001 \003(\0132\033.Ydb.Discovery.E" +
-      "ndpointInfo\022\025\n\rself_location\030\002 \001(\t\"E\n\025Li",
+      "ndpointInfo\022\025\n\rself_location\030\002 \001(\t\"E\n\025Li" +
       "stEndpointsResponse\022,\n\toperation\030\001 \001(\0132\031" +
       ".Ydb.Operations.Operation\"\'\n\rWhoAmIReque" +
       "st\022\026\n\016include_groups\030\001 \001(\010\",\n\014WhoAmIResu" +
@@ -5242,19 +5671,11 @@ public final class DiscoveryProtos {
       "ations.OperationB.\n\030tech.ydb.disco" +
       "veryB\017DiscoveryProtos\370\001\001b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           tech.ydb.OperationProtos.getDescriptor(),
-        }, assigner);
+        });
     internal_static_Ydb_Discovery_ListEndpointsRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Ydb_Discovery_ListEndpointsRequest_fieldAccessorTable = new
