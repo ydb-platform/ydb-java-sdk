@@ -8,7 +8,7 @@
 
   <groupId>tech.ydb</groupId>
   <artifactId>ydb-sdk-parent</artifactId>
-  <version>1.7.9</version>
+  <version>1.7.10</version>
 
   <name>Java SDK for YDB</name>
   <description>Java SDK for YDB</description>
