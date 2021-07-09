@@ -103,6 +103,16 @@ public final class StreamingConfig {
      * @return The nodeDiscoveryMaxTimeSec.
      */
     int getNodeDiscoveryMaxTimeSec();
+
+    /**
+     * <pre>
+     * Deterministic mode for random and time yql providers // For tests
+     * </pre>
+     *
+     * <code>bool DeterministicMode = 8;</code>
+     * @return The deterministicMode.
+     */
+    boolean getDeterministicMode();
   }
   /**
    * Protobuf type {@code NStreams.NConfig.Config}
@@ -214,6 +224,11 @@ public final class StreamingConfig {
             case 56: {
 
               nodeDiscoveryMaxTimeSec_ = input.readUInt32();
+              break;
+            }
+            case 64: {
+
+              deterministicMode_ = input.readBool();
               break;
             }
             default: {
@@ -393,6 +408,21 @@ public final class StreamingConfig {
       return nodeDiscoveryMaxTimeSec_;
     }
 
+    public static final int DETERMINISTICMODE_FIELD_NUMBER = 8;
+    private boolean deterministicMode_;
+    /**
+     * <pre>
+     * Deterministic mode for random and time yql providers // For tests
+     * </pre>
+     *
+     * <code>bool DeterministicMode = 8;</code>
+     * @return The deterministicMode.
+     */
+    @java.lang.Override
+    public boolean getDeterministicMode() {
+      return deterministicMode_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -440,6 +470,9 @@ public final class StreamingConfig {
       if (nodeDiscoveryMaxTimeSec_ != 0) {
         output.writeUInt32(7, nodeDiscoveryMaxTimeSec_);
       }
+      if (deterministicMode_ != false) {
+        output.writeBool(8, deterministicMode_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -476,6 +509,10 @@ public final class StreamingConfig {
       if (nodeDiscoveryMaxTimeSec_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(7, nodeDiscoveryMaxTimeSec_);
+      }
+      if (deterministicMode_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(8, deterministicMode_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -518,6 +555,8 @@ public final class StreamingConfig {
           != other.getExpectedNodeCount()) return false;
       if (getNodeDiscoveryMaxTimeSec()
           != other.getNodeDiscoveryMaxTimeSec()) return false;
+      if (getDeterministicMode()
+          != other.getDeterministicMode()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -552,6 +591,9 @@ public final class StreamingConfig {
       hash = (53 * hash) + getExpectedNodeCount();
       hash = (37 * hash) + NODEDISCOVERYMAXTIMESEC_FIELD_NUMBER;
       hash = (53 * hash) + getNodeDiscoveryMaxTimeSec();
+      hash = (37 * hash) + DETERMINISTICMODE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getDeterministicMode());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -715,6 +757,8 @@ public final class StreamingConfig {
 
         nodeDiscoveryMaxTimeSec_ = 0;
 
+        deterministicMode_ = false;
+
         return this;
       }
 
@@ -764,6 +808,7 @@ public final class StreamingConfig {
         }
         result.expectedNodeCount_ = expectedNodeCount_;
         result.nodeDiscoveryMaxTimeSec_ = nodeDiscoveryMaxTimeSec_;
+        result.deterministicMode_ = deterministicMode_;
         onBuilt();
         return result;
       }
@@ -832,6 +877,9 @@ public final class StreamingConfig {
         }
         if (other.getNodeDiscoveryMaxTimeSec() != 0) {
           setNodeDiscoveryMaxTimeSec(other.getNodeDiscoveryMaxTimeSec());
+        }
+        if (other.getDeterministicMode() != false) {
+          setDeterministicMode(other.getDeterministicMode());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1464,6 +1512,49 @@ public final class StreamingConfig {
         onChanged();
         return this;
       }
+
+      private boolean deterministicMode_ ;
+      /**
+       * <pre>
+       * Deterministic mode for random and time yql providers // For tests
+       * </pre>
+       *
+       * <code>bool DeterministicMode = 8;</code>
+       * @return The deterministicMode.
+       */
+      @java.lang.Override
+      public boolean getDeterministicMode() {
+        return deterministicMode_;
+      }
+      /**
+       * <pre>
+       * Deterministic mode for random and time yql providers // For tests
+       * </pre>
+       *
+       * <code>bool DeterministicMode = 8;</code>
+       * @param value The deterministicMode to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDeterministicMode(boolean value) {
+        
+        deterministicMode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Deterministic mode for random and time yql providers // For tests
+       * </pre>
+       *
+       * <code>bool DeterministicMode = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDeterministicMode() {
+        
+        deterministicMode_ = false;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -1537,15 +1628,16 @@ public final class StreamingConfig {
       "g.proto\032=kikimr/streaming/libs/config/pr" +
       "oto/checkpointing_config.proto\0327kikimr/s" +
       "treaming/libs/config/proto/storage_confi" +
-      "g.proto\"\255\002\n\006Config\022\027\n\017EnableStreaming\030\001 " +
+      "g.proto\"\310\002\n\006Config\022\027\n\017EnableStreaming\030\001 " +
       "\001(\010\022\"\n\002Dq\030\002 \001(\0132\026.NYql.TDqGatewayConfig\022" +
       "\"\n\002Pq\030\003 \001(\0132\026.NYql.TPqGatewayConfig\0227\n\rS" +
       "torageConfig\030\004 \001(\0132 .NStreams.NConfig.TS" +
       "torageConfig\022M\n\025CheckpointCoordinator\030\005 " +
       "\001(\0132..NStreams.NConfig.TCheckpointCoordi" +
       "natorConfig\022\031\n\021ExpectedNodeCount\030\006 \001(\r\022\037" +
-      "\n\027NodeDiscoveryMaxTimeSec\030\007 \001(\rB\033\n\026ru.ya" +
-      "ndex.kikimr.proto\370\001\001b\006proto3"
+      "\n\027NodeDiscoveryMaxTimeSec\030\007 \001(\r\022\031\n\021Deter" +
+      "ministicMode\030\010 \001(\010B\033\n\026ru.yandex.kikimr.p" +
+      "roto\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1559,7 +1651,7 @@ public final class StreamingConfig {
     internal_static_NStreams_NConfig_Config_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NStreams_NConfig_Config_descriptor,
-        new java.lang.String[] { "EnableStreaming", "Dq", "Pq", "StorageConfig", "CheckpointCoordinator", "ExpectedNodeCount", "NodeDiscoveryMaxTimeSec", });
+        new java.lang.String[] { "EnableStreaming", "Dq", "Pq", "StorageConfig", "CheckpointCoordinator", "ExpectedNodeCount", "NodeDiscoveryMaxTimeSec", "DeterministicMode", });
     ru.yandex.yql.proto.GatewaysConfig.getDescriptor();
     NStreams.NConfig.CheckpointingConfig.getDescriptor();
     NStreams.NConfig.StorageConfig.getDescriptor();

@@ -52,10 +52,10 @@ public final class ControlPlaneConfig {
     long getMaxRequestSize();
 
     /**
-     * <code>uint64 max_count_jobs = 4;</code>
-     * @return The maxCountJobs.
+     * <code>uint64 max_count_queries = 4;</code>
+     * @return The maxCountQueries.
      */
-    long getMaxCountJobs();
+    long getMaxCountQueries();
 
     /**
      * <code>uint64 max_count_connections = 5;</code>
@@ -168,7 +168,7 @@ public final class ControlPlaneConfig {
             }
             case 32: {
 
-              maxCountJobs_ = input.readUInt64();
+              maxCountQueries_ = input.readUInt64();
               break;
             }
             case 40: {
@@ -300,15 +300,15 @@ public final class ControlPlaneConfig {
       return maxRequestSize_;
     }
 
-    public static final int MAX_COUNT_JOBS_FIELD_NUMBER = 4;
-    private long maxCountJobs_;
+    public static final int MAX_COUNT_QUERIES_FIELD_NUMBER = 4;
+    private long maxCountQueries_;
     /**
-     * <code>uint64 max_count_jobs = 4;</code>
-     * @return The maxCountJobs.
+     * <code>uint64 max_count_queries = 4;</code>
+     * @return The maxCountQueries.
      */
     @java.lang.Override
-    public long getMaxCountJobs() {
-      return maxCountJobs_;
+    public long getMaxCountQueries() {
+      return maxCountQueries_;
     }
 
     public static final int MAX_COUNT_CONNECTIONS_FIELD_NUMBER = 5;
@@ -391,8 +391,8 @@ public final class ControlPlaneConfig {
       if (maxRequestSize_ != 0L) {
         output.writeUInt64(3, maxRequestSize_);
       }
-      if (maxCountJobs_ != 0L) {
-        output.writeUInt64(4, maxCountJobs_);
+      if (maxCountQueries_ != 0L) {
+        output.writeUInt64(4, maxCountQueries_);
       }
       if (maxCountConnections_ != 0L) {
         output.writeUInt64(5, maxCountConnections_);
@@ -423,9 +423,9 @@ public final class ControlPlaneConfig {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(3, maxRequestSize_);
       }
-      if (maxCountJobs_ != 0L) {
+      if (maxCountQueries_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(4, maxCountJobs_);
+          .computeUInt64Size(4, maxCountQueries_);
       }
       if (maxCountConnections_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
@@ -467,8 +467,8 @@ public final class ControlPlaneConfig {
           .equals(other.getIdempotencyKeysTtl())) return false;
       if (getMaxRequestSize()
           != other.getMaxRequestSize()) return false;
-      if (getMaxCountJobs()
-          != other.getMaxCountJobs()) return false;
+      if (getMaxCountQueries()
+          != other.getMaxCountQueries()) return false;
       if (getMaxCountConnections()
           != other.getMaxCountConnections()) return false;
       if (getMaxCountBindings()
@@ -495,9 +495,9 @@ public final class ControlPlaneConfig {
       hash = (37 * hash) + MAX_REQUEST_SIZE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getMaxRequestSize());
-      hash = (37 * hash) + MAX_COUNT_JOBS_FIELD_NUMBER;
+      hash = (37 * hash) + MAX_COUNT_QUERIES_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getMaxCountJobs());
+          getMaxCountQueries());
       hash = (37 * hash) + MAX_COUNT_CONNECTIONS_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getMaxCountConnections());
@@ -651,7 +651,7 @@ public final class ControlPlaneConfig {
 
         maxRequestSize_ = 0L;
 
-        maxCountJobs_ = 0L;
+        maxCountQueries_ = 0L;
 
         maxCountConnections_ = 0L;
 
@@ -693,7 +693,7 @@ public final class ControlPlaneConfig {
         }
         result.idempotencyKeysTtl_ = idempotencyKeysTtl_;
         result.maxRequestSize_ = maxRequestSize_;
-        result.maxCountJobs_ = maxCountJobs_;
+        result.maxCountQueries_ = maxCountQueries_;
         result.maxCountConnections_ = maxCountConnections_;
         result.maxCountBindings_ = maxCountBindings_;
         if (((bitField0_ & 0x00000001) != 0)) {
@@ -759,8 +759,8 @@ public final class ControlPlaneConfig {
         if (other.getMaxRequestSize() != 0L) {
           setMaxRequestSize(other.getMaxRequestSize());
         }
-        if (other.getMaxCountJobs() != 0L) {
-          setMaxCountJobs(other.getMaxCountJobs());
+        if (other.getMaxCountQueries() != 0L) {
+          setMaxCountQueries(other.getMaxCountQueries());
         }
         if (other.getMaxCountConnections() != 0L) {
           setMaxCountConnections(other.getMaxCountConnections());
@@ -1034,33 +1034,33 @@ public final class ControlPlaneConfig {
         return this;
       }
 
-      private long maxCountJobs_ ;
+      private long maxCountQueries_ ;
       /**
-       * <code>uint64 max_count_jobs = 4;</code>
-       * @return The maxCountJobs.
+       * <code>uint64 max_count_queries = 4;</code>
+       * @return The maxCountQueries.
        */
       @java.lang.Override
-      public long getMaxCountJobs() {
-        return maxCountJobs_;
+      public long getMaxCountQueries() {
+        return maxCountQueries_;
       }
       /**
-       * <code>uint64 max_count_jobs = 4;</code>
-       * @param value The maxCountJobs to set.
+       * <code>uint64 max_count_queries = 4;</code>
+       * @param value The maxCountQueries to set.
        * @return This builder for chaining.
        */
-      public Builder setMaxCountJobs(long value) {
+      public Builder setMaxCountQueries(long value) {
         
-        maxCountJobs_ = value;
+        maxCountQueries_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>uint64 max_count_jobs = 4;</code>
+       * <code>uint64 max_count_queries = 4;</code>
        * @return This builder for chaining.
        */
-      public Builder clearMaxCountJobs() {
+      public Builder clearMaxCountQueries() {
         
-        maxCountJobs_ = 0L;
+        maxCountQueries_ = 0L;
         onChanged();
         return this;
       }
@@ -1950,15 +1950,15 @@ public final class ControlPlaneConfig {
       "\n=kikimr/streaming/libs/config/proto/con" +
       "trol_plane_config.proto\022\013NYq.NConfig\0327ki" +
       "kimr/streaming/libs/config/proto/storage" +
-      "_config.proto\"\361\001\n\031ControlPlaneStorageCon" +
+      "_config.proto\"\364\001\n\031ControlPlaneStorageCon" +
       "fig\0224\n\007storage\030\001 \001(\0132#.NStreams.NConfig." +
       "TYdbStorageConfig\022\034\n\024idempotency_keys_tt" +
-      "l\030\002 \001(\t\022\030\n\020max_request_size\030\003 \001(\004\022\026\n\016max" +
-      "_count_jobs\030\004 \001(\004\022\035\n\025max_count_connectio" +
-      "ns\030\005 \001(\004\022\032\n\022max_count_bindings\030\006 \001(\004\022\023\n\013" +
-      "super_users\030\007 \003(\t\"T\n\027ControlPlaneProxyCo" +
-      "nfig\022\027\n\017request_timeout\030\001 \001(\t\022 \n\030enable_" +
-      "forward_analytics\030\002 \001(\010b\006proto3"
+      "l\030\002 \001(\t\022\030\n\020max_request_size\030\003 \001(\004\022\031\n\021max" +
+      "_count_queries\030\004 \001(\004\022\035\n\025max_count_connec" +
+      "tions\030\005 \001(\004\022\032\n\022max_count_bindings\030\006 \001(\004\022" +
+      "\023\n\013super_users\030\007 \003(\t\"T\n\027ControlPlaneProx" +
+      "yConfig\022\027\n\017request_timeout\030\001 \001(\t\022 \n\030enab" +
+      "le_forward_analytics\030\002 \001(\010b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1970,7 +1970,7 @@ public final class ControlPlaneConfig {
     internal_static_NYq_NConfig_ControlPlaneStorageConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYq_NConfig_ControlPlaneStorageConfig_descriptor,
-        new java.lang.String[] { "Storage", "IdempotencyKeysTtl", "MaxRequestSize", "MaxCountJobs", "MaxCountConnections", "MaxCountBindings", "SuperUsers", });
+        new java.lang.String[] { "Storage", "IdempotencyKeysTtl", "MaxRequestSize", "MaxCountQueries", "MaxCountConnections", "MaxCountBindings", "SuperUsers", });
     internal_static_NYq_NConfig_ControlPlaneProxyConfig_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_NYq_NConfig_ControlPlaneProxyConfig_fieldAccessorTable = new

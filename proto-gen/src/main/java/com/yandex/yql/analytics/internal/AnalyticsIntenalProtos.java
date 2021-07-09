@@ -9375,37 +9375,37 @@ public final class AnalyticsIntenalProtos {
       "/public/api/protos/ydb_value.proto\0320kiki" +
       "mr/public/api/protos/ydb_issue_message.p" +
       "roto\0322kikimr/public/api/protos/draft/yql" +
-      "_analytics.proto\032\'kikimr/public/api/prot" +
-      "os/draft/yq.proto\032\037google/protobuf/times" +
-      "tamp.proto\"\020\n\016GetTaskRequest\"\217\002\n\rGetTask" +
-      "Result\022\020\n\010has_task\030\001 \001(\010\022\021\n\tresult_id\030\002 " +
-      "\001(\t\022\033\n\023result_id_signature\030\003 \001(\t\022\024\n\014oper" +
-      "ation_id\030\004 \001(\t\022\036\n\026operation_id_signature" +
-      "\030\005 \001(\t\022\017\n\007content\030\006 \001(\t\022+\n\nconnection\030\007 " +
-      "\003(\0132\027.YandexQuery.Connection\022%\n\007binding\030" +
-      "\010 \003(\0132\024.YandexQuery.Binding\022\022\n\nuser_toke" +
-      "n\030\t \001(\t\022\r\n\005token\030\n \001(\t\"?\n\017GetTaskRespons" +
-      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
-      "eration\"\330\002\n\017PingTaskRequest\022\024\n\014operation" +
-      "_id\030\001 \001(\t\022\036\n\026operation_id_signature\030\002 \001(" +
-      "\t\022\021\n\tresult_id\030\003 \001(\t\022\033\n\023result_id_signat" +
-      "ure\030\004 \001(\t\022+\n\006status\030\005 \001(\0162\033.Yql.Analytic" +
-      "s.EQueryStatus\022\'\n\006issues\030\006 \003(\0132\027.Ydb.Iss" +
-      "ue.IssueMessage\022\030\n\020result_set_count\030\007 \001(" +
-      "\r\022\022\n\nstatistics\030\010 \001(\t\022\032\n\022serialized_head" +
-      "ers\030\t \001(\t\022\025\n\rexecuter_info\030\n \001(\t\022\013\n\003ast\030" +
-      "\013 \001(\t\022\014\n\004plan\030\014 \001(\t\022\r\n\005token\030d \001(\t\"\020\n\016Pi" +
-      "ngTaskResult\"@\n\020PingTaskResponse\022,\n\toper" +
-      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\242" +
-      "\001\n\026WriteTaskResultRequest\022\021\n\tresult_id\030\001" +
-      " \001(\t\022\033\n\023result_id_signature\030\002 \001(\t\022\"\n\nres" +
-      "ult_set\030\003 \001(\0132\016.Ydb.ResultSet\022\025\n\rresult_" +
-      "set_id\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\r\n\005token\030d " +
-      "\001(\t\"\027\n\025WriteTaskResultResult\"G\n\027WriteTas" +
-      "kResultResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
-      ".Operations.OperationB>\n!com.yandex.yql." +
-      "analytics.internalB\026AnalyticsIntenalProt" +
-      "os\370\001\001b\006proto3"
+      "_analytics.proto\032!kikimr/public/api/prot" +
+      "os/yq.proto\032\037google/protobuf/timestamp.p" +
+      "roto\"\020\n\016GetTaskRequest\"\217\002\n\rGetTaskResult" +
+      "\022\020\n\010has_task\030\001 \001(\010\022\021\n\tresult_id\030\002 \001(\t\022\033\n" +
+      "\023result_id_signature\030\003 \001(\t\022\024\n\014operation_" +
+      "id\030\004 \001(\t\022\036\n\026operation_id_signature\030\005 \001(\t" +
+      "\022\017\n\007content\030\006 \001(\t\022+\n\nconnection\030\007 \003(\0132\027." +
+      "YandexQuery.Connection\022%\n\007binding\030\010 \003(\0132" +
+      "\024.YandexQuery.Binding\022\022\n\nuser_token\030\t \001(" +
+      "\t\022\r\n\005token\030\n \001(\t\"?\n\017GetTaskResponse\022,\n\to" +
+      "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
+      "n\"\330\002\n\017PingTaskRequest\022\024\n\014operation_id\030\001 " +
+      "\001(\t\022\036\n\026operation_id_signature\030\002 \001(\t\022\021\n\tr" +
+      "esult_id\030\003 \001(\t\022\033\n\023result_id_signature\030\004 " +
+      "\001(\t\022+\n\006status\030\005 \001(\0162\033.Yql.Analytics.EQue" +
+      "ryStatus\022\'\n\006issues\030\006 \003(\0132\027.Ydb.Issue.Iss" +
+      "ueMessage\022\030\n\020result_set_count\030\007 \001(\r\022\022\n\ns" +
+      "tatistics\030\010 \001(\t\022\032\n\022serialized_headers\030\t " +
+      "\001(\t\022\025\n\rexecuter_info\030\n \001(\t\022\013\n\003ast\030\013 \001(\t\022" +
+      "\014\n\004plan\030\014 \001(\t\022\r\n\005token\030d \001(\t\"\020\n\016PingTask" +
+      "Result\"@\n\020PingTaskResponse\022,\n\toperation\030" +
+      "\001 \001(\0132\031.Ydb.Operations.Operation\"\242\001\n\026Wri" +
+      "teTaskResultRequest\022\021\n\tresult_id\030\001 \001(\t\022\033" +
+      "\n\023result_id_signature\030\002 \001(\t\022\"\n\nresult_se" +
+      "t\030\003 \001(\0132\016.Ydb.ResultSet\022\025\n\rresult_set_id" +
+      "\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\r\n\005token\030d \001(\t\"\027\n" +
+      "\025WriteTaskResultResult\"G\n\027WriteTaskResul" +
+      "tResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
+      "tions.OperationB>\n!com.yandex.yql.analyt" +
+      "ics.internalB\026AnalyticsIntenalProtos\370\001\001b" +
+      "\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
