@@ -10,4 +10,8 @@
 
 * Update junit from 4.12 to 4.13.1.
 * Update protobuf from 3.6.1 to 4.15.6.
+ 	 
+## 1.8.0 ##
+ 
+* Added fast backoff settings to SessionRetryContext. ABORTED and UNAVAILABLE status codes are retried with fast backoff now.
 

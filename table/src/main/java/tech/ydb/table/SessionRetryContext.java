@@ -46,6 +46,8 @@ public class SessionRetryContext {
     private final int maxRetries;
     private final long backoffSlotMillis;
     private final int backoffCeiling;
+    private final long fastBackoffSlotMillis;
+    private final int fastBackoffCeiling;
     private final Duration sessionSupplyTimeout;
     private final boolean retryNotFound;
 
@@ -55,6 +57,8 @@ public class SessionRetryContext {
         this.maxRetries = b.maxRetries;
         this.backoffSlotMillis = b.backoffSlotMillis;
         this.backoffCeiling = b.backoffCeiling;
+        this.fastBackoffSlotMillis = b.fastBackoffSlotMillis;
+        this.fastBackoffCeiling = b.fastBackoffCeiling;
         this.sessionSupplyTimeout = b.sessionSupplyTimeout;
         this.retryNotFound = b.retryNotFound;
     }
@@ -94,19 +98,35 @@ public class SessionRetryContext {
         return false;
     }
 
-    private long backoffTimeMillis(int retryNumber) {
+    private long backoffTimeMillisInternal(int retryNumber, long backoffSlotMillis, int backoffCeiling) {
         int slots = 1 << Math.min(retryNumber, backoffCeiling);
         long maxDurationMillis = backoffSlotMillis * slots;
         return backoffSlotMillis + ThreadLocalRandom.current().nextLong(maxDurationMillis);
+    }
+
+    private long slowBackoffTimeMillis(int retryNumber) {
+        return backoffTimeMillisInternal(retryNumber, backoffSlotMillis, backoffCeiling);
+    }
+
+    private long fastBackoffTimeMillis(int retryNumber) {
+        return backoffTimeMillisInternal(retryNumber, fastBackoffSlotMillis, fastBackoffCeiling);
     }
 
     private long backoffTimeMillis(StatusCode code, int retryNumber) {
         switch (code) {
             case BAD_SESSION:
             case SESSION_BUSY:
+                // Instant retry
                 return 0;
+            case ABORTED:
+            case UNAVAILABLE:
+                // Fast backoff
+                return fastBackoffTimeMillis(retryNumber);
+            case OVERLOADED:
+            case CLIENT_RESOURCE_EXHAUSTED:
             default:
-                return backoffTimeMillis(retryNumber);
+                // Slow backoff
+                return slowBackoffTimeMillis(retryNumber);
         }
     }
 
@@ -116,7 +136,7 @@ public class SessionRetryContext {
             StatusCode statusCode = ((UnexpectedResultException) cause).getStatusCode();
             return backoffTimeMillis(statusCode, retryNumber);
         }
-        return backoffTimeMillis(retryNumber);
+        return slowBackoffTimeMillis(retryNumber);
     }
 
     /**
@@ -274,6 +294,8 @@ public class SessionRetryContext {
         private int maxRetries = 10;
         private long backoffSlotMillis = 1000;
         private int backoffCeiling = 6;
+        private long fastBackoffSlotMillis = 5;
+        private int fastBackoffCeiling = 10;
         private Duration sessionSupplyTimeout = Duration.ofSeconds(5);
         private boolean retryNotFound = true;
 
@@ -299,6 +321,17 @@ public class SessionRetryContext {
 
         public Builder backoffCeiling(int backoffCeiling) {
             this.backoffCeiling = backoffCeiling;
+            return this;
+        }
+
+        public Builder fastBackoffSlot(Duration duration) {
+            checkArgument(!duration.isNegative(), "backoffSlot(%s) is negative", duration);
+            this.fastBackoffSlotMillis = duration.toMillis();
+            return this;
+        }
+
+        public Builder fastBackoffCeiling(int backoffCeiling) {
+            this.fastBackoffCeiling = backoffCeiling;
             return this;
         }
 

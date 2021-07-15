@@ -1,6 +1,9 @@
 package tech.ydb.table;
 
 import java.time.Duration;
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -21,6 +24,8 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 public class SessionRetryContextTest {
 
     private static final Duration TEN_MILLIS = Duration.ofMillis(10);
+    private static final Duration FIVE_SECONDS = Duration.ofSeconds(5);
+    private static final Duration TEN_SECONDS = Duration.ofSeconds(10);
 
     @Test
     public void successSession_successResult() {
@@ -164,22 +169,87 @@ public class SessionRetryContextTest {
 
     @Test
     public void failedSession_retryable() {
-        // one session creation fail, but retryable
-        {
-            FailSupplier sessionSupplier = new FailSupplier(1, StatusCode.OVERLOADED);
+        // one session creation fail, but retryable. Slow backoff
+        List<StatusCode> slowBackoffCodes = Arrays.asList(
+                StatusCode.OVERLOADED,
+                StatusCode.CLIENT_RESOURCE_EXHAUSTED
+        );
+        for(StatusCode statusCode : slowBackoffCodes) {
+            FailSupplier sessionSupplier = new FailSupplier(1, statusCode);
             SessionRetryContext ctx = SessionRetryContext.create(sessionSupplier)
-                .maxRetries(3)
+                .maxRetries(1)
                 .backoffSlot(TEN_MILLIS)
+                .fastBackoffSlot(TEN_SECONDS)
                 .build();
 
             AtomicInteger cnt = new AtomicInteger();
+            Instant startTime = Instant.now();
             Status status = ctx.supplyStatus(session -> {
                 cnt.incrementAndGet();
                 return completedFuture(Status.SUCCESS);
             }).join();
 
-            Assert.assertEquals(2, sessionSupplier.getRetriesCount());
-            Assert.assertEquals(1, cnt.get());
+            Duration timePassed = Duration.between(startTime, Instant.now());
+            Assert.assertTrue("Wrong timeout between retries",timePassed.compareTo(FIVE_SECONDS) < 0);
+
+            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 2, sessionSupplier.getRetriesCount());
+            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 1, cnt.get());
+            Assert.assertEquals(Status.SUCCESS, status);
+        }
+
+        // one session creation fail, but retryable. Fast backoff
+        List<StatusCode> fastBackoffCodes = Arrays.asList(
+                StatusCode.ABORTED,
+                StatusCode.UNAVAILABLE
+        );
+        for(StatusCode statusCode : fastBackoffCodes) {
+            FailSupplier sessionSupplier = new FailSupplier(1, statusCode);
+            SessionRetryContext ctx = SessionRetryContext.create(sessionSupplier)
+                    .maxRetries(1)
+                    .backoffSlot(TEN_SECONDS)
+                    .fastBackoffSlot(TEN_MILLIS)
+                    .build();
+
+            AtomicInteger cnt = new AtomicInteger();
+            Instant startTime = Instant.now();
+            Status status = ctx.supplyStatus(session -> {
+                cnt.incrementAndGet();
+                return completedFuture(Status.SUCCESS);
+            }).join();
+
+            Duration timePassed = Duration.between(startTime, Instant.now());
+            Assert.assertTrue("Wrong timeout between retries",timePassed.compareTo(FIVE_SECONDS) < 0);
+
+            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 2, sessionSupplier.getRetriesCount());
+            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 1, cnt.get());
+            Assert.assertEquals(Status.SUCCESS, status);
+        }
+
+        // one session creation fail, but retryable. Instant retry
+        List<StatusCode> instantRetryCodes = Arrays.asList(
+                StatusCode.BAD_SESSION,
+                StatusCode.SESSION_BUSY
+        );
+        for(StatusCode statusCode : instantRetryCodes) {
+            FailSupplier sessionSupplier = new FailSupplier(1, statusCode);
+            SessionRetryContext ctx = SessionRetryContext.create(sessionSupplier)
+                    .maxRetries(1)
+                    .backoffSlot(TEN_SECONDS)
+                    .fastBackoffSlot(TEN_SECONDS)
+                    .build();
+
+            AtomicInteger cnt = new AtomicInteger();
+            Instant startTime = Instant.now();
+            Status status = ctx.supplyStatus(session -> {
+                cnt.incrementAndGet();
+                return completedFuture(Status.SUCCESS);
+            }).join();
+
+            Duration timePassed = Duration.between(startTime, Instant.now());
+            Assert.assertTrue("Wrong timeout between retries",timePassed.compareTo(FIVE_SECONDS) < 0);
+
+            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 2, sessionSupplier.getRetriesCount());
+            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 1, cnt.get());
             Assert.assertEquals(Status.SUCCESS, status);
         }
 
