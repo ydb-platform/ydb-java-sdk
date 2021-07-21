@@ -41272,6 +41272,17 @@ public final class GatewaysConfig {
         getUrlBytes();
 
     /**
+     * <code>optional bool Public = 3 [default = false];</code>
+     * @return Whether the public field is set.
+     */
+    boolean hasPublic();
+    /**
+     * <code>optional bool Public = 3 [default = false];</code>
+     * @return The public.
+     */
+    boolean getPublic();
+
+    /**
      * <code>repeated .NYql.TAttr Settings = 100;</code>
      */
     java.util.List<ru.yandex.yql.proto.GatewaysConfig.TAttr> 
@@ -41356,10 +41367,15 @@ public final class GatewaysConfig {
               url_ = bs;
               break;
             }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              public_ = input.readBool();
+              break;
+            }
             case 802: {
-              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
                 settings_ = new java.util.ArrayList<ru.yandex.yql.proto.GatewaysConfig.TAttr>();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000008;
               }
               settings_.add(
                   input.readMessage(ru.yandex.yql.proto.GatewaysConfig.TAttr.PARSER, extensionRegistry));
@@ -41380,7 +41396,7 @@ public final class GatewaysConfig {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) != 0)) {
+        if (((mutable_bitField0_ & 0x00000008) != 0)) {
           settings_ = java.util.Collections.unmodifiableList(settings_);
         }
         this.unknownFields = unknownFields.build();
@@ -41509,6 +41525,25 @@ public final class GatewaysConfig {
       }
     }
 
+    public static final int PUBLIC_FIELD_NUMBER = 3;
+    private boolean public_;
+    /**
+     * <code>optional bool Public = 3 [default = false];</code>
+     * @return Whether the public field is set.
+     */
+    @java.lang.Override
+    public boolean hasPublic() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>optional bool Public = 3 [default = false];</code>
+     * @return The public.
+     */
+    @java.lang.Override
+    public boolean getPublic() {
+      return public_;
+    }
+
     public static final int SETTINGS_FIELD_NUMBER = 100;
     private java.util.List<ru.yandex.yql.proto.GatewaysConfig.TAttr> settings_;
     /**
@@ -41575,6 +41610,9 @@ public final class GatewaysConfig {
       if (((bitField0_ & 0x00000002) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, url_);
       }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeBool(3, public_);
+      }
       for (int i = 0; i < settings_.size(); i++) {
         output.writeMessage(100, settings_.get(i));
       }
@@ -41592,6 +41630,10 @@ public final class GatewaysConfig {
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, url_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, public_);
       }
       for (int i = 0; i < settings_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
@@ -41622,6 +41664,11 @@ public final class GatewaysConfig {
         if (!getUrl()
             .equals(other.getUrl())) return false;
       }
+      if (hasPublic() != other.hasPublic()) return false;
+      if (hasPublic()) {
+        if (getPublic()
+            != other.getPublic()) return false;
+      }
       if (!getSettingsList()
           .equals(other.getSettingsList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
@@ -41642,6 +41689,11 @@ public final class GatewaysConfig {
       if (hasUrl()) {
         hash = (37 * hash) + URL_FIELD_NUMBER;
         hash = (53 * hash) + getUrl().hashCode();
+      }
+      if (hasPublic()) {
+        hash = (37 * hash) + PUBLIC_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getPublic());
       }
       if (getSettingsCount() > 0) {
         hash = (37 * hash) + SETTINGS_FIELD_NUMBER;
@@ -41785,9 +41837,11 @@ public final class GatewaysConfig {
         bitField0_ = (bitField0_ & ~0x00000001);
         url_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
+        public_ = false;
+        bitField0_ = (bitField0_ & ~0x00000004);
         if (settingsBuilder_ == null) {
           settings_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000008);
         } else {
           settingsBuilder_.clear();
         }
@@ -41827,10 +41881,14 @@ public final class GatewaysConfig {
           to_bitField0_ |= 0x00000002;
         }
         result.url_ = url_;
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.public_ = public_;
+          to_bitField0_ |= 0x00000004;
+        }
         if (settingsBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) != 0)) {
+          if (((bitField0_ & 0x00000008) != 0)) {
             settings_ = java.util.Collections.unmodifiableList(settings_);
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000008);
           }
           result.settings_ = settings_;
         } else {
@@ -41895,11 +41953,14 @@ public final class GatewaysConfig {
           url_ = other.url_;
           onChanged();
         }
+        if (other.hasPublic()) {
+          setPublic(other.getPublic());
+        }
         if (settingsBuilder_ == null) {
           if (!other.settings_.isEmpty()) {
             if (settings_.isEmpty()) {
               settings_ = other.settings_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000008);
             } else {
               ensureSettingsIsMutable();
               settings_.addAll(other.settings_);
@@ -41912,7 +41973,7 @@ public final class GatewaysConfig {
               settingsBuilder_.dispose();
               settingsBuilder_ = null;
               settings_ = other.settings_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000008);
               settingsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getSettingsFieldBuilder() : null;
@@ -42148,12 +42209,51 @@ public final class GatewaysConfig {
         return this;
       }
 
+      private boolean public_ ;
+      /**
+       * <code>optional bool Public = 3 [default = false];</code>
+       * @return Whether the public field is set.
+       */
+      @java.lang.Override
+      public boolean hasPublic() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <code>optional bool Public = 3 [default = false];</code>
+       * @return The public.
+       */
+      @java.lang.Override
+      public boolean getPublic() {
+        return public_;
+      }
+      /**
+       * <code>optional bool Public = 3 [default = false];</code>
+       * @param value The public to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPublic(boolean value) {
+        bitField0_ |= 0x00000004;
+        public_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool Public = 3 [default = false];</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPublic() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        public_ = false;
+        onChanged();
+        return this;
+      }
+
       private java.util.List<ru.yandex.yql.proto.GatewaysConfig.TAttr> settings_ =
         java.util.Collections.emptyList();
       private void ensureSettingsIsMutable() {
-        if (!((bitField0_ & 0x00000004) != 0)) {
+        if (!((bitField0_ & 0x00000008) != 0)) {
           settings_ = new java.util.ArrayList<ru.yandex.yql.proto.GatewaysConfig.TAttr>(settings_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000008;
          }
       }
 
@@ -42303,7 +42403,7 @@ public final class GatewaysConfig {
       public Builder clearSettings() {
         if (settingsBuilder_ == null) {
           settings_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000008);
           onChanged();
         } else {
           settingsBuilder_.clear();
@@ -42380,7 +42480,7 @@ public final class GatewaysConfig {
           settingsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               ru.yandex.yql.proto.GatewaysConfig.TAttr, ru.yandex.yql.proto.GatewaysConfig.TAttr.Builder, ru.yandex.yql.proto.GatewaysConfig.TAttrOrBuilder>(
                   settings_,
-                  ((bitField0_ & 0x00000004) != 0),
+                  ((bitField0_ & 0x00000008) != 0),
                   getParentForChildren(),
                   isClean());
           settings_ = null;
@@ -60822,71 +60922,71 @@ public final class GatewaysConfig {
       "Yql.TAttr\"5\n\022TChytClusterConfig\022\014\n\004Name\030" +
       "\001 \001(\t\022\021\n\tYtCluster\030\002 \001(\t\"F\n\022TChytGateway" +
       "Config\0220\n\016ClusterMapping\030\001 \003(\0132\030.NYql.TC" +
-      "hytClusterConfig\"L\n\020TS3ClusterConfig\022\014\n\004" +
-      "Name\030\001 \001(\t\022\013\n\003Url\030\002 \001(\t\022\035\n\010Settings\030d \003(" +
-      "\0132\013.NYql.TAttr\"h\n\020TS3GatewayConfig\022.\n\016Cl" +
-      "usterMapping\030\001 \003(\0132\026.NYql.TS3ClusterConf" +
-      "ig\022$\n\017DefaultSettings\030d \003(\0132\013.NYql.TAttr" +
-      "\"m\n\025TSolomonClusterConfig\022\014\n\004Name\030\001 \001(\t\022" +
-      "\017\n\007Cluster\030\002 \001(\t\022\026\n\007Default\030\003 \001(\010:\005false" +
-      "\022\035\n\010Settings\030d \003(\0132\013.NYql.TAttr\"r\n\025TSolo" +
-      "monGatewayConfig\0223\n\016ClusterMapping\030\001 \003(\013" +
-      "2\033.NYql.TSolomonClusterConfig\022$\n\017Default" +
-      "Settings\030\002 \003(\0132\013.NYql.TAttr\":\n\034TFileStor" +
-      "ageAdditionalConfig\022\032\n\022AllowedUrlPattern" +
-      "s\030\001 \003(\t\"J\n\030TPostgresqlClusterConfig\022\014\n\004N" +
-      "ame\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\017\n\007PGtoken\030\003 " +
-      "\001(\t\"R\n\030TPostgresqlGatewayConfig\0226\n\016Clust" +
-      "erMapping\030\001 \003(\0132\036.NYql.TPostgresqlCluste" +
-      "rConfig\"H\n\023TMysqlClusterConfig\022\014\n\004Name\030\001" +
-      " \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\022\n\nMysqlToken\030\003 \001(" +
-      "\t\"H\n\023TMysqlGatewayConfig\0221\n\016ClusterMappi" +
-      "ng\030\001 \003(\0132\031.NYql.TMysqlClusterConfig\"\260\002\n\020" +
-      "TDqGatewayConfig\022 \n\025DefaultAutoPercentag" +
-      "e\030\001 \001(\r:\0010\022N\n\021DefaultAutoByHour\030\002 \003(\01323." +
-      "NYql.TDqGatewayConfig.TDefaultAutoByHour" +
-      "Percentage\022\035\n\025NoDefaultAutoForUsers\030\003 \003(" +
-      "\t\022#\n\033DefaultAnalyzeQueryForUsers\030\004 \003(\t\022$" +
-      "\n\017DefaultSettings\030f \003(\0132\013.NYql.TAttr\032@\n\034" +
-      "TDefaultAutoByHourPercentage\022\014\n\004Hour\030\001 \002" +
-      "(\r\022\022\n\nPercentage\030\002 \002(\r\"\'\n\tTCoreAttr\022\014\n\004N" +
-      "ame\030\001 \002(\t\022\014\n\004Args\030\002 \003(\t\"0\n\016TYqlCoreConfi" +
-      "g\022\036\n\005Flags\030\001 \003(\0132\017.NYql.TCoreAttr\"@\n\034TWa" +
-      "rnAsErrorByHourPercentage\022\014\n\004Hour\030\001 \002(\r\022" +
-      "\022\n\nPercentage\030\002 \002(\r\"\274\001\n\016TSqlCoreConfig\022(" +
-      "\n\035V0SyntaxWarnAsErrorPercentage\030\001 \001(\r:\0010" +
-      "\022E\n\031V0SyntaxWarnAsErrorByHour\030\002 \003(\0132\".NY" +
-      "ql.TWarnAsErrorByHourPercentage\022\037\n\027NoV0S" +
-      "yntaxErrorForUsers\030\003 \003(\t\022\030\n\020TranslationF" +
-      "lags\030\004 \003(\t\"\333\005\n\017TGatewaysConfig\022\"\n\002Yt\030\001 \001" +
-      "(\0132\026.NYql.TYtGatewayConfig\022*\n\006Kikimr\030\002 \001" +
-      "(\0132\032.NYql.TKikimrGatewayConfig\0222\n\nClickH" +
-      "ouse\030\003 \001(\0132\036.NYql.TClickHouseGatewayConf" +
-      "ig\022&\n\004Rtmr\030\004 \001(\0132\030.NYql.TRtmrGatewayConf" +
-      "ig\0220\n\tKikimrMvp\030\005 \001(\0132\035.NYql.TKikimrMvpG" +
-      "atewayConfig\022&\n\004Stat\030\006 \001(\0132\030.NYql.TStatG" +
-      "atewayConfig\022&\n\004Chyt\030\007 \001(\0132\030.NYql.TChytG" +
-      "atewayConfig\022,\n\007Solomon\030\010 \001(\0132\033.NYql.TSo" +
-      "lomonGatewayConfig\022.\n\002Fs\030\t \001(\0132\".NYql.TF" +
-      "ileStorageAdditionalConfig\022%\n\007YqlCore\030\n " +
-      "\001(\0132\024.NYql.TYqlCoreConfig\0222\n\nPostgresql\030" +
-      "\013 \001(\0132\036.NYql.TPostgresqlGatewayConfig\022%\n" +
-      "\007SqlCore\030\014 \001(\0132\024.NYql.TSqlCoreConfig\022\"\n\002" +
-      "Dq\030\r \001(\0132\026.NYql.TDqGatewayConfig\022(\n\005Mysq" +
-      "l\030\016 \001(\0132\031.NYql.TMysqlGatewayConfig\022$\n\003Yd" +
-      "b\030\017 \001(\0132\027.NYql.TYdbGatewayConfig\022\"\n\002Pq\030\020" +
-      " \001(\0132\026.NYql.TPqGatewayConfig\022\"\n\002S3\030\021 \001(\013" +
-      "2\026.NYql.TS3GatewayConfig*Z\n\013EYtLogLevel\022" +
-      "\024\n\007YL_NONE\020\377\377\377\377\377\377\377\377\377\001\022\014\n\010YL_FATAL\020\000\022\014\n\010Y" +
-      "L_ERROR\020\001\022\013\n\007YL_INFO\020\002\022\014\n\010YL_DEBUG\020\003*(\n\013" +
-      "EHostScheme\022\013\n\007HS_HTTP\020\000\022\014\n\010HS_HTTPS\020\001*?" +
-      "\n\nETokenType\022\007\n\003IAM\020\000\022\t\n\005OAUTH\020\001\022\014\n\010BLAC" +
-      "KBOX\020\002\022\017\n\013CREDENTIALS\020\003*9\n\017EYfArtifactTy" +
-      "pe\022\013\n\007AT_NONE\020\000\022\013\n\007AT_FILE\020\001\022\014\n\010AT_LAYER" +
-      "\020\002*e\n\022ERtmrOperationType\022\013\n\007OT_NONE\020\000\022\017\n" +
-      "\013OT_LF_PARSE\020\001\022\016\n\nOT_YDB_OUT\020\002\022\022\n\016OT_SOL" +
-      "OMON_OUT\020\003\022\r\n\tOT_PQ_OUT\020\004B\025\n\023ru.yandex.y" +
-      "ql.proto"
+      "hytClusterConfig\"c\n\020TS3ClusterConfig\022\014\n\004" +
+      "Name\030\001 \001(\t\022\013\n\003Url\030\002 \001(\t\022\025\n\006Public\030\003 \001(\010:" +
+      "\005false\022\035\n\010Settings\030d \003(\0132\013.NYql.TAttr\"h\n" +
+      "\020TS3GatewayConfig\022.\n\016ClusterMapping\030\001 \003(" +
+      "\0132\026.NYql.TS3ClusterConfig\022$\n\017DefaultSett" +
+      "ings\030d \003(\0132\013.NYql.TAttr\"m\n\025TSolomonClust" +
+      "erConfig\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022" +
+      "\026\n\007Default\030\003 \001(\010:\005false\022\035\n\010Settings\030d \003(" +
+      "\0132\013.NYql.TAttr\"r\n\025TSolomonGatewayConfig\022" +
+      "3\n\016ClusterMapping\030\001 \003(\0132\033.NYql.TSolomonC" +
+      "lusterConfig\022$\n\017DefaultSettings\030\002 \003(\0132\013." +
+      "NYql.TAttr\":\n\034TFileStorageAdditionalConf" +
+      "ig\022\032\n\022AllowedUrlPatterns\030\001 \003(\t\"J\n\030TPostg" +
+      "resqlClusterConfig\022\014\n\004Name\030\001 \001(\t\022\017\n\007Clus" +
+      "ter\030\002 \001(\t\022\017\n\007PGtoken\030\003 \001(\t\"R\n\030TPostgresq" +
+      "lGatewayConfig\0226\n\016ClusterMapping\030\001 \003(\0132\036" +
+      ".NYql.TPostgresqlClusterConfig\"H\n\023TMysql" +
+      "ClusterConfig\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002" +
+      " \001(\t\022\022\n\nMysqlToken\030\003 \001(\t\"H\n\023TMysqlGatewa" +
+      "yConfig\0221\n\016ClusterMapping\030\001 \003(\0132\031.NYql.T" +
+      "MysqlClusterConfig\"\260\002\n\020TDqGatewayConfig\022" +
+      " \n\025DefaultAutoPercentage\030\001 \001(\r:\0010\022N\n\021Def" +
+      "aultAutoByHour\030\002 \003(\01323.NYql.TDqGatewayCo" +
+      "nfig.TDefaultAutoByHourPercentage\022\035\n\025NoD" +
+      "efaultAutoForUsers\030\003 \003(\t\022#\n\033DefaultAnaly" +
+      "zeQueryForUsers\030\004 \003(\t\022$\n\017DefaultSettings" +
+      "\030f \003(\0132\013.NYql.TAttr\032@\n\034TDefaultAutoByHou" +
+      "rPercentage\022\014\n\004Hour\030\001 \002(\r\022\022\n\nPercentage\030" +
+      "\002 \002(\r\"\'\n\tTCoreAttr\022\014\n\004Name\030\001 \002(\t\022\014\n\004Args" +
+      "\030\002 \003(\t\"0\n\016TYqlCoreConfig\022\036\n\005Flags\030\001 \003(\0132" +
+      "\017.NYql.TCoreAttr\"@\n\034TWarnAsErrorByHourPe" +
+      "rcentage\022\014\n\004Hour\030\001 \002(\r\022\022\n\nPercentage\030\002 \002" +
+      "(\r\"\274\001\n\016TSqlCoreConfig\022(\n\035V0SyntaxWarnAsE" +
+      "rrorPercentage\030\001 \001(\r:\0010\022E\n\031V0SyntaxWarnA" +
+      "sErrorByHour\030\002 \003(\0132\".NYql.TWarnAsErrorBy" +
+      "HourPercentage\022\037\n\027NoV0SyntaxErrorForUser" +
+      "s\030\003 \003(\t\022\030\n\020TranslationFlags\030\004 \003(\t\"\333\005\n\017TG" +
+      "atewaysConfig\022\"\n\002Yt\030\001 \001(\0132\026.NYql.TYtGate" +
+      "wayConfig\022*\n\006Kikimr\030\002 \001(\0132\032.NYql.TKikimr" +
+      "GatewayConfig\0222\n\nClickHouse\030\003 \001(\0132\036.NYql" +
+      ".TClickHouseGatewayConfig\022&\n\004Rtmr\030\004 \001(\0132" +
+      "\030.NYql.TRtmrGatewayConfig\0220\n\tKikimrMvp\030\005" +
+      " \001(\0132\035.NYql.TKikimrMvpGatewayConfig\022&\n\004S" +
+      "tat\030\006 \001(\0132\030.NYql.TStatGatewayConfig\022&\n\004C" +
+      "hyt\030\007 \001(\0132\030.NYql.TChytGatewayConfig\022,\n\007S" +
+      "olomon\030\010 \001(\0132\033.NYql.TSolomonGatewayConfi" +
+      "g\022.\n\002Fs\030\t \001(\0132\".NYql.TFileStorageAdditio" +
+      "nalConfig\022%\n\007YqlCore\030\n \001(\0132\024.NYql.TYqlCo" +
+      "reConfig\0222\n\nPostgresql\030\013 \001(\0132\036.NYql.TPos" +
+      "tgresqlGatewayConfig\022%\n\007SqlCore\030\014 \001(\0132\024." +
+      "NYql.TSqlCoreConfig\022\"\n\002Dq\030\r \001(\0132\026.NYql.T" +
+      "DqGatewayConfig\022(\n\005Mysql\030\016 \001(\0132\031.NYql.TM" +
+      "ysqlGatewayConfig\022$\n\003Ydb\030\017 \001(\0132\027.NYql.TY" +
+      "dbGatewayConfig\022\"\n\002Pq\030\020 \001(\0132\026.NYql.TPqGa" +
+      "tewayConfig\022\"\n\002S3\030\021 \001(\0132\026.NYql.TS3Gatewa" +
+      "yConfig*Z\n\013EYtLogLevel\022\024\n\007YL_NONE\020\377\377\377\377\377\377" +
+      "\377\377\377\001\022\014\n\010YL_FATAL\020\000\022\014\n\010YL_ERROR\020\001\022\013\n\007YL_I" +
+      "NFO\020\002\022\014\n\010YL_DEBUG\020\003*(\n\013EHostScheme\022\013\n\007HS" +
+      "_HTTP\020\000\022\014\n\010HS_HTTPS\020\001*?\n\nETokenType\022\007\n\003I" +
+      "AM\020\000\022\t\n\005OAUTH\020\001\022\014\n\010BLACKBOX\020\002\022\017\n\013CREDENT" +
+      "IALS\020\003*9\n\017EYfArtifactType\022\013\n\007AT_NONE\020\000\022\013" +
+      "\n\007AT_FILE\020\001\022\014\n\010AT_LAYER\020\002*e\n\022ERtmrOperat" +
+      "ionType\022\013\n\007OT_NONE\020\000\022\017\n\013OT_LF_PARSE\020\001\022\016\n" +
+      "\nOT_YDB_OUT\020\002\022\022\n\016OT_SOLOMON_OUT\020\003\022\r\n\tOT_" +
+      "PQ_OUT\020\004B\025\n\023ru.yandex.yql.proto"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -61048,7 +61148,7 @@ public final class GatewaysConfig {
     internal_static_NYql_TS3ClusterConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TS3ClusterConfig_descriptor,
-        new java.lang.String[] { "Name", "Url", "Settings", });
+        new java.lang.String[] { "Name", "Url", "Public", "Settings", });
     internal_static_NYql_TS3GatewayConfig_descriptor =
       getDescriptor().getMessageTypes().get(26);
     internal_static_NYql_TS3GatewayConfig_fieldAccessorTable = new
