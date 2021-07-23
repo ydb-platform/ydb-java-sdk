@@ -24,26 +24,50 @@ public final class YandexQueryProtos {
      */
     EXECUTE_MODE_UNSPECIFIED(0),
     /**
+     * <pre>
+     * Save a query without changing its state
+     * </pre>
+     *
      * <code>SAVE = 1;</code>
      */
     SAVE(1),
     /**
+     * <pre>
+     * Parse the query
+     * </pre>
+     *
      * <code>PARSE = 2;</code>
      */
     PARSE(2),
     /**
+     * <pre>
+     * Parse and compile the query
+     * </pre>
+     *
      * <code>COMPILE = 3;</code>
      */
     COMPILE(3),
     /**
+     * <pre>
+     * Parse, compile and validate the query
+     * </pre>
+     *
      * <code>VALIDATE = 4;</code>
      */
     VALIDATE(4),
     /**
+     * <pre>
+     * High-level query plan that specifies only physical operations and non-temporary table names
+     * </pre>
+     *
      * <code>EXPLAIN = 5;</code>
      */
     EXPLAIN(5),
     /**
+     * <pre>
+     * Do all the previous + execution of the query
+     * </pre>
+     *
      * <code>RUN = 6;</code>
      */
     RUN(6),
@@ -55,26 +79,50 @@ public final class YandexQueryProtos {
      */
     public static final int EXECUTE_MODE_UNSPECIFIED_VALUE = 0;
     /**
+     * <pre>
+     * Save a query without changing its state
+     * </pre>
+     *
      * <code>SAVE = 1;</code>
      */
     public static final int SAVE_VALUE = 1;
     /**
+     * <pre>
+     * Parse the query
+     * </pre>
+     *
      * <code>PARSE = 2;</code>
      */
     public static final int PARSE_VALUE = 2;
     /**
+     * <pre>
+     * Parse and compile the query
+     * </pre>
+     *
      * <code>COMPILE = 3;</code>
      */
     public static final int COMPILE_VALUE = 3;
     /**
+     * <pre>
+     * Parse, compile and validate the query
+     * </pre>
+     *
      * <code>VALIDATE = 4;</code>
      */
     public static final int VALIDATE_VALUE = 4;
     /**
+     * <pre>
+     * High-level query plan that specifies only physical operations and non-temporary table names
+     * </pre>
+     *
      * <code>EXPLAIN = 5;</code>
      */
     public static final int EXPLAIN_VALUE = 5;
     /**
+     * <pre>
+     * Do all the previous + execution of the query
+     * </pre>
+     *
      * <code>RUN = 6;</code>
      */
     public static final int RUN_VALUE = 6;
@@ -177,22 +225,42 @@ public final class YandexQueryProtos {
      */
     QUERY_ACTION_UNSPECIFIED(0),
     /**
+     * <pre>
+     * Pause the query, with the possibility of its quick resumption
+     * </pre>
+     *
      * <code>PAUSE = 1;</code>
      */
     PAUSE(1),
     /**
+     * <pre>
+     * Similar to PAUSE, only suspends the query allowing it to pause in checkpoint. Can work for a long time 
+     * </pre>
+     *
      * <code>PAUSE_GRACEFULLY = 2;</code>
      */
     PAUSE_GRACEFULLY(2),
     /**
+     * <pre>
+     * Stop the query
+     * </pre>
+     *
      * <code>ABORT = 3;</code>
      */
     ABORT(3),
     /**
+     * <pre>
+     * Similar to STOP, only stops the query in checkpoint
+     * </pre>
+     *
      * <code>ABORT_GRACEFULLY = 4;</code>
      */
     ABORT_GRACEFULLY(4),
     /**
+     * <pre>
+     * Resumes the execution of the query. Works only for PAUSE queries
+     * </pre>
+     *
      * <code>RESUME = 5;</code>
      */
     RESUME(5),
@@ -204,22 +272,42 @@ public final class YandexQueryProtos {
      */
     public static final int QUERY_ACTION_UNSPECIFIED_VALUE = 0;
     /**
+     * <pre>
+     * Pause the query, with the possibility of its quick resumption
+     * </pre>
+     *
      * <code>PAUSE = 1;</code>
      */
     public static final int PAUSE_VALUE = 1;
     /**
+     * <pre>
+     * Similar to PAUSE, only suspends the query allowing it to pause in checkpoint. Can work for a long time 
+     * </pre>
+     *
      * <code>PAUSE_GRACEFULLY = 2;</code>
      */
     public static final int PAUSE_GRACEFULLY_VALUE = 2;
     /**
+     * <pre>
+     * Stop the query
+     * </pre>
+     *
      * <code>ABORT = 3;</code>
      */
     public static final int ABORT_VALUE = 3;
     /**
+     * <pre>
+     * Similar to STOP, only stops the query in checkpoint
+     * </pre>
+     *
      * <code>ABORT_GRACEFULLY = 4;</code>
      */
     public static final int ABORT_GRACEFULLY_VALUE = 4;
     /**
+     * <pre>
+     * Resumes the execution of the query. Works only for PAUSE queries
+     * </pre>
+     *
      * <code>RESUME = 5;</code>
      */
     public static final int RESUME_VALUE = 5;
@@ -321,10 +409,18 @@ public final class YandexQueryProtos {
      */
     STATE_LOAD_MODE_UNSPECIFIED(0),
     /**
+     * <pre>
+     * Start the query with an empty state 
+     * </pre>
+     *
      * <code>EMPTY = 1;</code>
      */
     EMPTY(1),
     /**
+     * <pre>
+     * Start the query with the state that is saved in the last checkpoint
+     * </pre>
+     *
      * <code>FROM_LAST_CHECKPOINT = 2;</code>
      */
     FROM_LAST_CHECKPOINT(2),
@@ -336,10 +432,18 @@ public final class YandexQueryProtos {
      */
     public static final int STATE_LOAD_MODE_UNSPECIFIED_VALUE = 0;
     /**
+     * <pre>
+     * Start the query with an empty state 
+     * </pre>
+     *
      * <code>EMPTY = 1;</code>
      */
     public static final int EMPTY_VALUE = 1;
     /**
+     * <pre>
+     * Start the query with the state that is saved in the last checkpoint
+     * </pre>
+     *
      * <code>FROM_LAST_CHECKPOINT = 2;</code>
      */
     public static final int FROM_LAST_CHECKPOINT_VALUE = 2;
@@ -654,10 +758,18 @@ public final class YandexQueryProtos {
        */
       VISIBILITY_UNSPECIFIED(0),
       /**
+       * <pre>
+       * Visibility only for the creator of the entity
+       * </pre>
+       *
        * <code>PRIVATE = 1;</code>
        */
       PRIVATE(1),
       /**
+       * <pre>
+       * Visibility for subjects within scope
+       * </pre>
+       *
        * <code>SCOPE = 2;</code>
        */
       SCOPE(2),
@@ -669,10 +781,18 @@ public final class YandexQueryProtos {
        */
       public static final int VISIBILITY_UNSPECIFIED_VALUE = 0;
       /**
+       * <pre>
+       * Visibility only for the creator of the entity
+       * </pre>
+       *
        * <code>PRIVATE = 1;</code>
        */
       public static final int PRIVATE_VALUE = 1;
       /**
+       * <pre>
+       * Visibility for subjects within scope
+       * </pre>
+       *
        * <code>SCOPE = 2;</code>
        */
       public static final int SCOPE_VALUE = 2;
@@ -1192,6 +1312,10 @@ public final class YandexQueryProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * Used only for streaming queries
+     * </pre>
+     *
      * <code>int64 vcpu_rate_limit = 1 [(.Ydb.value) = "&gt;= 0"];</code>
      * @return The vcpuRateLimit.
      */
@@ -1210,6 +1334,10 @@ public final class YandexQueryProtos {
     long getVcpuTimeLimit();
 
     /**
+     * <pre>
+     * Used only for analytics queries
+     * </pre>
+     *
      * <code>int64 max_result_size = 4 [(.Ydb.value) = "&gt;= 0"];</code>
      * @return The maxResultSize.
      */
@@ -1222,6 +1350,10 @@ public final class YandexQueryProtos {
     long getMaxResultRows();
 
     /**
+     * <pre>
+     * Common limits
+     * </pre>
+     *
      * <code>int64 memory_limit = 6 [(.Ydb.value) = "&gt;= 0"];</code>
      * @return The memoryLimit.
      */
@@ -1365,6 +1497,10 @@ public final class YandexQueryProtos {
     public static final int VCPU_RATE_LIMIT_FIELD_NUMBER = 1;
     private long vcpuRateLimit_;
     /**
+     * <pre>
+     * Used only for streaming queries
+     * </pre>
+     *
      * <code>int64 vcpu_rate_limit = 1 [(.Ydb.value) = "&gt;= 0"];</code>
      * @return The vcpuRateLimit.
      */
@@ -1398,6 +1534,10 @@ public final class YandexQueryProtos {
     public static final int MAX_RESULT_SIZE_FIELD_NUMBER = 4;
     private long maxResultSize_;
     /**
+     * <pre>
+     * Used only for analytics queries
+     * </pre>
+     *
      * <code>int64 max_result_size = 4 [(.Ydb.value) = "&gt;= 0"];</code>
      * @return The maxResultSize.
      */
@@ -1420,6 +1560,10 @@ public final class YandexQueryProtos {
     public static final int MEMORY_LIMIT_FIELD_NUMBER = 6;
     private long memoryLimit_;
     /**
+     * <pre>
+     * Common limits
+     * </pre>
+     *
      * <code>int64 memory_limit = 6 [(.Ydb.value) = "&gt;= 0"];</code>
      * @return The memoryLimit.
      */
@@ -1879,6 +2023,10 @@ public final class YandexQueryProtos {
 
       private long vcpuRateLimit_ ;
       /**
+       * <pre>
+       * Used only for streaming queries
+       * </pre>
+       *
        * <code>int64 vcpu_rate_limit = 1 [(.Ydb.value) = "&gt;= 0"];</code>
        * @return The vcpuRateLimit.
        */
@@ -1887,6 +2035,10 @@ public final class YandexQueryProtos {
         return vcpuRateLimit_;
       }
       /**
+       * <pre>
+       * Used only for streaming queries
+       * </pre>
+       *
        * <code>int64 vcpu_rate_limit = 1 [(.Ydb.value) = "&gt;= 0"];</code>
        * @param value The vcpuRateLimit to set.
        * @return This builder for chaining.
@@ -1898,6 +2050,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Used only for streaming queries
+       * </pre>
+       *
        * <code>int64 vcpu_rate_limit = 1 [(.Ydb.value) = "&gt;= 0"];</code>
        * @return This builder for chaining.
        */
@@ -1972,6 +2128,10 @@ public final class YandexQueryProtos {
 
       private long maxResultSize_ ;
       /**
+       * <pre>
+       * Used only for analytics queries
+       * </pre>
+       *
        * <code>int64 max_result_size = 4 [(.Ydb.value) = "&gt;= 0"];</code>
        * @return The maxResultSize.
        */
@@ -1980,6 +2140,10 @@ public final class YandexQueryProtos {
         return maxResultSize_;
       }
       /**
+       * <pre>
+       * Used only for analytics queries
+       * </pre>
+       *
        * <code>int64 max_result_size = 4 [(.Ydb.value) = "&gt;= 0"];</code>
        * @param value The maxResultSize to set.
        * @return This builder for chaining.
@@ -1991,6 +2155,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Used only for analytics queries
+       * </pre>
+       *
        * <code>int64 max_result_size = 4 [(.Ydb.value) = "&gt;= 0"];</code>
        * @return This builder for chaining.
        */
@@ -2034,6 +2202,10 @@ public final class YandexQueryProtos {
 
       private long memoryLimit_ ;
       /**
+       * <pre>
+       * Common limits
+       * </pre>
+       *
        * <code>int64 memory_limit = 6 [(.Ydb.value) = "&gt;= 0"];</code>
        * @return The memoryLimit.
        */
@@ -2042,6 +2214,10 @@ public final class YandexQueryProtos {
         return memoryLimit_;
       }
       /**
+       * <pre>
+       * Common limits
+       * </pre>
+       *
        * <code>int64 memory_limit = 6 [(.Ydb.value) = "&gt;= 0"];</code>
        * @param value The memoryLimit to set.
        * @return This builder for chaining.
@@ -2053,6 +2229,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Common limits
+       * </pre>
+       *
        * <code>int64 memory_limit = 6 [(.Ydb.value) = "&gt;= 0"];</code>
        * @return This builder for chaining.
        */
@@ -2239,76 +2419,136 @@ public final class YandexQueryProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * Start processing with the oldest offset 
+     * </pre>
+     *
      * <code>.google.protobuf.Empty oldest = 1;</code>
      * @return Whether the oldest field is set.
      */
     boolean hasOldest();
     /**
+     * <pre>
+     * Start processing with the oldest offset 
+     * </pre>
+     *
      * <code>.google.protobuf.Empty oldest = 1;</code>
      * @return The oldest.
      */
     com.google.protobuf.Empty getOldest();
     /**
+     * <pre>
+     * Start processing with the oldest offset 
+     * </pre>
+     *
      * <code>.google.protobuf.Empty oldest = 1;</code>
      */
     com.google.protobuf.EmptyOrBuilder getOldestOrBuilder();
 
     /**
+     * <pre>
+     * Start processing with the fresh offset 
+     * </pre>
+     *
      * <code>.google.protobuf.Empty fresh = 2;</code>
      * @return Whether the fresh field is set.
      */
     boolean hasFresh();
     /**
+     * <pre>
+     * Start processing with the fresh offset 
+     * </pre>
+     *
      * <code>.google.protobuf.Empty fresh = 2;</code>
      * @return The fresh.
      */
     com.google.protobuf.Empty getFresh();
     /**
+     * <pre>
+     * Start processing with the fresh offset 
+     * </pre>
+     *
      * <code>.google.protobuf.Empty fresh = 2;</code>
      */
     com.google.protobuf.EmptyOrBuilder getFreshOrBuilder();
 
     /**
+     * <pre>
+     * Start processing with offset from the specified time
+     * </pre>
+     *
      * <code>.YandexQuery.StreamingDisposition.FromTime from_time = 3;</code>
      * @return Whether the fromTime field is set.
      */
     boolean hasFromTime();
     /**
+     * <pre>
+     * Start processing with offset from the specified time
+     * </pre>
+     *
      * <code>.YandexQuery.StreamingDisposition.FromTime from_time = 3;</code>
      * @return The fromTime.
      */
     com.yandex.query.YandexQueryProtos.StreamingDisposition.FromTime getFromTime();
     /**
+     * <pre>
+     * Start processing with offset from the specified time
+     * </pre>
+     *
      * <code>.YandexQuery.StreamingDisposition.FromTime from_time = 3;</code>
      */
     com.yandex.query.YandexQueryProtos.StreamingDisposition.FromTimeOrBuilder getFromTimeOrBuilder();
 
     /**
+     * <pre>
+     * Start processing with offset some time ago
+     * </pre>
+     *
      * <code>.YandexQuery.StreamingDisposition.TimeAgo time_ago = 4;</code>
      * @return Whether the timeAgo field is set.
      */
     boolean hasTimeAgo();
     /**
+     * <pre>
+     * Start processing with offset some time ago
+     * </pre>
+     *
      * <code>.YandexQuery.StreamingDisposition.TimeAgo time_ago = 4;</code>
      * @return The timeAgo.
      */
     com.yandex.query.YandexQueryProtos.StreamingDisposition.TimeAgo getTimeAgo();
     /**
+     * <pre>
+     * Start processing with offset some time ago
+     * </pre>
+     *
      * <code>.YandexQuery.StreamingDisposition.TimeAgo time_ago = 4;</code>
      */
     com.yandex.query.YandexQueryProtos.StreamingDisposition.TimeAgoOrBuilder getTimeAgoOrBuilder();
 
     /**
+     * <pre>
+     * Start processing with offset which corresponds to the last checkpoint
+     * </pre>
+     *
      * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
      * @return Whether the fromLastCheckpoint field is set.
      */
     boolean hasFromLastCheckpoint();
     /**
+     * <pre>
+     * Start processing with offset which corresponds to the last checkpoint
+     * </pre>
+     *
      * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
      * @return The fromLastCheckpoint.
      */
     com.google.protobuf.Empty getFromLastCheckpoint();
     /**
+     * <pre>
+     * Start processing with offset which corresponds to the last checkpoint
+     * </pre>
+     *
      * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
      */
     com.google.protobuf.EmptyOrBuilder getFromLastCheckpointOrBuilder();
@@ -2316,6 +2556,10 @@ public final class YandexQueryProtos {
     public com.yandex.query.YandexQueryProtos.StreamingDisposition.DispositionCase getDispositionCase();
   }
   /**
+   * <pre>
+   * For streaming queries only
+   * </pre>
+   *
    * Protobuf type {@code YandexQuery.StreamingDisposition}
    */
   public static final class StreamingDisposition extends
@@ -3753,6 +3997,10 @@ public final class YandexQueryProtos {
 
     public static final int OLDEST_FIELD_NUMBER = 1;
     /**
+     * <pre>
+     * Start processing with the oldest offset 
+     * </pre>
+     *
      * <code>.google.protobuf.Empty oldest = 1;</code>
      * @return Whether the oldest field is set.
      */
@@ -3761,6 +4009,10 @@ public final class YandexQueryProtos {
       return dispositionCase_ == 1;
     }
     /**
+     * <pre>
+     * Start processing with the oldest offset 
+     * </pre>
+     *
      * <code>.google.protobuf.Empty oldest = 1;</code>
      * @return The oldest.
      */
@@ -3772,6 +4024,10 @@ public final class YandexQueryProtos {
       return com.google.protobuf.Empty.getDefaultInstance();
     }
     /**
+     * <pre>
+     * Start processing with the oldest offset 
+     * </pre>
+     *
      * <code>.google.protobuf.Empty oldest = 1;</code>
      */
     @java.lang.Override
@@ -3784,6 +4040,10 @@ public final class YandexQueryProtos {
 
     public static final int FRESH_FIELD_NUMBER = 2;
     /**
+     * <pre>
+     * Start processing with the fresh offset 
+     * </pre>
+     *
      * <code>.google.protobuf.Empty fresh = 2;</code>
      * @return Whether the fresh field is set.
      */
@@ -3792,6 +4052,10 @@ public final class YandexQueryProtos {
       return dispositionCase_ == 2;
     }
     /**
+     * <pre>
+     * Start processing with the fresh offset 
+     * </pre>
+     *
      * <code>.google.protobuf.Empty fresh = 2;</code>
      * @return The fresh.
      */
@@ -3803,6 +4067,10 @@ public final class YandexQueryProtos {
       return com.google.protobuf.Empty.getDefaultInstance();
     }
     /**
+     * <pre>
+     * Start processing with the fresh offset 
+     * </pre>
+     *
      * <code>.google.protobuf.Empty fresh = 2;</code>
      */
     @java.lang.Override
@@ -3815,6 +4083,10 @@ public final class YandexQueryProtos {
 
     public static final int FROM_TIME_FIELD_NUMBER = 3;
     /**
+     * <pre>
+     * Start processing with offset from the specified time
+     * </pre>
+     *
      * <code>.YandexQuery.StreamingDisposition.FromTime from_time = 3;</code>
      * @return Whether the fromTime field is set.
      */
@@ -3823,6 +4095,10 @@ public final class YandexQueryProtos {
       return dispositionCase_ == 3;
     }
     /**
+     * <pre>
+     * Start processing with offset from the specified time
+     * </pre>
+     *
      * <code>.YandexQuery.StreamingDisposition.FromTime from_time = 3;</code>
      * @return The fromTime.
      */
@@ -3834,6 +4110,10 @@ public final class YandexQueryProtos {
       return com.yandex.query.YandexQueryProtos.StreamingDisposition.FromTime.getDefaultInstance();
     }
     /**
+     * <pre>
+     * Start processing with offset from the specified time
+     * </pre>
+     *
      * <code>.YandexQuery.StreamingDisposition.FromTime from_time = 3;</code>
      */
     @java.lang.Override
@@ -3846,6 +4126,10 @@ public final class YandexQueryProtos {
 
     public static final int TIME_AGO_FIELD_NUMBER = 4;
     /**
+     * <pre>
+     * Start processing with offset some time ago
+     * </pre>
+     *
      * <code>.YandexQuery.StreamingDisposition.TimeAgo time_ago = 4;</code>
      * @return Whether the timeAgo field is set.
      */
@@ -3854,6 +4138,10 @@ public final class YandexQueryProtos {
       return dispositionCase_ == 4;
     }
     /**
+     * <pre>
+     * Start processing with offset some time ago
+     * </pre>
+     *
      * <code>.YandexQuery.StreamingDisposition.TimeAgo time_ago = 4;</code>
      * @return The timeAgo.
      */
@@ -3865,6 +4153,10 @@ public final class YandexQueryProtos {
       return com.yandex.query.YandexQueryProtos.StreamingDisposition.TimeAgo.getDefaultInstance();
     }
     /**
+     * <pre>
+     * Start processing with offset some time ago
+     * </pre>
+     *
      * <code>.YandexQuery.StreamingDisposition.TimeAgo time_ago = 4;</code>
      */
     @java.lang.Override
@@ -3877,6 +4169,10 @@ public final class YandexQueryProtos {
 
     public static final int FROM_LAST_CHECKPOINT_FIELD_NUMBER = 5;
     /**
+     * <pre>
+     * Start processing with offset which corresponds to the last checkpoint
+     * </pre>
+     *
      * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
      * @return Whether the fromLastCheckpoint field is set.
      */
@@ -3885,6 +4181,10 @@ public final class YandexQueryProtos {
       return dispositionCase_ == 5;
     }
     /**
+     * <pre>
+     * Start processing with offset which corresponds to the last checkpoint
+     * </pre>
+     *
      * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
      * @return The fromLastCheckpoint.
      */
@@ -3896,6 +4196,10 @@ public final class YandexQueryProtos {
       return com.google.protobuf.Empty.getDefaultInstance();
     }
     /**
+     * <pre>
+     * Start processing with offset which corresponds to the last checkpoint
+     * </pre>
+     *
      * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
      */
     @java.lang.Override
@@ -4135,6 +4439,10 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
+     * <pre>
+     * For streaming queries only
+     * </pre>
+     *
      * Protobuf type {@code YandexQuery.StreamingDisposition}
      */
     public static final class Builder extends
@@ -4356,6 +4664,10 @@ public final class YandexQueryProtos {
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Empty, com.google.protobuf.Empty.Builder, com.google.protobuf.EmptyOrBuilder> oldestBuilder_;
       /**
+       * <pre>
+       * Start processing with the oldest offset 
+       * </pre>
+       *
        * <code>.google.protobuf.Empty oldest = 1;</code>
        * @return Whether the oldest field is set.
        */
@@ -4364,6 +4676,10 @@ public final class YandexQueryProtos {
         return dispositionCase_ == 1;
       }
       /**
+       * <pre>
+       * Start processing with the oldest offset 
+       * </pre>
+       *
        * <code>.google.protobuf.Empty oldest = 1;</code>
        * @return The oldest.
        */
@@ -4382,6 +4698,10 @@ public final class YandexQueryProtos {
         }
       }
       /**
+       * <pre>
+       * Start processing with the oldest offset 
+       * </pre>
+       *
        * <code>.google.protobuf.Empty oldest = 1;</code>
        */
       public Builder setOldest(com.google.protobuf.Empty value) {
@@ -4398,6 +4718,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Start processing with the oldest offset 
+       * </pre>
+       *
        * <code>.google.protobuf.Empty oldest = 1;</code>
        */
       public Builder setOldest(
@@ -4412,6 +4736,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Start processing with the oldest offset 
+       * </pre>
+       *
        * <code>.google.protobuf.Empty oldest = 1;</code>
        */
       public Builder mergeOldest(com.google.protobuf.Empty value) {
@@ -4434,6 +4762,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Start processing with the oldest offset 
+       * </pre>
+       *
        * <code>.google.protobuf.Empty oldest = 1;</code>
        */
       public Builder clearOldest() {
@@ -4453,12 +4785,20 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Start processing with the oldest offset 
+       * </pre>
+       *
        * <code>.google.protobuf.Empty oldest = 1;</code>
        */
       public com.google.protobuf.Empty.Builder getOldestBuilder() {
         return getOldestFieldBuilder().getBuilder();
       }
       /**
+       * <pre>
+       * Start processing with the oldest offset 
+       * </pre>
+       *
        * <code>.google.protobuf.Empty oldest = 1;</code>
        */
       @java.lang.Override
@@ -4473,6 +4813,10 @@ public final class YandexQueryProtos {
         }
       }
       /**
+       * <pre>
+       * Start processing with the oldest offset 
+       * </pre>
+       *
        * <code>.google.protobuf.Empty oldest = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -4497,6 +4841,10 @@ public final class YandexQueryProtos {
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Empty, com.google.protobuf.Empty.Builder, com.google.protobuf.EmptyOrBuilder> freshBuilder_;
       /**
+       * <pre>
+       * Start processing with the fresh offset 
+       * </pre>
+       *
        * <code>.google.protobuf.Empty fresh = 2;</code>
        * @return Whether the fresh field is set.
        */
@@ -4505,6 +4853,10 @@ public final class YandexQueryProtos {
         return dispositionCase_ == 2;
       }
       /**
+       * <pre>
+       * Start processing with the fresh offset 
+       * </pre>
+       *
        * <code>.google.protobuf.Empty fresh = 2;</code>
        * @return The fresh.
        */
@@ -4523,6 +4875,10 @@ public final class YandexQueryProtos {
         }
       }
       /**
+       * <pre>
+       * Start processing with the fresh offset 
+       * </pre>
+       *
        * <code>.google.protobuf.Empty fresh = 2;</code>
        */
       public Builder setFresh(com.google.protobuf.Empty value) {
@@ -4539,6 +4895,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Start processing with the fresh offset 
+       * </pre>
+       *
        * <code>.google.protobuf.Empty fresh = 2;</code>
        */
       public Builder setFresh(
@@ -4553,6 +4913,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Start processing with the fresh offset 
+       * </pre>
+       *
        * <code>.google.protobuf.Empty fresh = 2;</code>
        */
       public Builder mergeFresh(com.google.protobuf.Empty value) {
@@ -4575,6 +4939,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Start processing with the fresh offset 
+       * </pre>
+       *
        * <code>.google.protobuf.Empty fresh = 2;</code>
        */
       public Builder clearFresh() {
@@ -4594,12 +4962,20 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Start processing with the fresh offset 
+       * </pre>
+       *
        * <code>.google.protobuf.Empty fresh = 2;</code>
        */
       public com.google.protobuf.Empty.Builder getFreshBuilder() {
         return getFreshFieldBuilder().getBuilder();
       }
       /**
+       * <pre>
+       * Start processing with the fresh offset 
+       * </pre>
+       *
        * <code>.google.protobuf.Empty fresh = 2;</code>
        */
       @java.lang.Override
@@ -4614,6 +4990,10 @@ public final class YandexQueryProtos {
         }
       }
       /**
+       * <pre>
+       * Start processing with the fresh offset 
+       * </pre>
+       *
        * <code>.google.protobuf.Empty fresh = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -4638,6 +5018,10 @@ public final class YandexQueryProtos {
       private com.google.protobuf.SingleFieldBuilderV3<
           com.yandex.query.YandexQueryProtos.StreamingDisposition.FromTime, com.yandex.query.YandexQueryProtos.StreamingDisposition.FromTime.Builder, com.yandex.query.YandexQueryProtos.StreamingDisposition.FromTimeOrBuilder> fromTimeBuilder_;
       /**
+       * <pre>
+       * Start processing with offset from the specified time
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition.FromTime from_time = 3;</code>
        * @return Whether the fromTime field is set.
        */
@@ -4646,6 +5030,10 @@ public final class YandexQueryProtos {
         return dispositionCase_ == 3;
       }
       /**
+       * <pre>
+       * Start processing with offset from the specified time
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition.FromTime from_time = 3;</code>
        * @return The fromTime.
        */
@@ -4664,6 +5052,10 @@ public final class YandexQueryProtos {
         }
       }
       /**
+       * <pre>
+       * Start processing with offset from the specified time
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition.FromTime from_time = 3;</code>
        */
       public Builder setFromTime(com.yandex.query.YandexQueryProtos.StreamingDisposition.FromTime value) {
@@ -4680,6 +5072,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Start processing with offset from the specified time
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition.FromTime from_time = 3;</code>
        */
       public Builder setFromTime(
@@ -4694,6 +5090,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Start processing with offset from the specified time
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition.FromTime from_time = 3;</code>
        */
       public Builder mergeFromTime(com.yandex.query.YandexQueryProtos.StreamingDisposition.FromTime value) {
@@ -4716,6 +5116,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Start processing with offset from the specified time
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition.FromTime from_time = 3;</code>
        */
       public Builder clearFromTime() {
@@ -4735,12 +5139,20 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Start processing with offset from the specified time
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition.FromTime from_time = 3;</code>
        */
       public com.yandex.query.YandexQueryProtos.StreamingDisposition.FromTime.Builder getFromTimeBuilder() {
         return getFromTimeFieldBuilder().getBuilder();
       }
       /**
+       * <pre>
+       * Start processing with offset from the specified time
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition.FromTime from_time = 3;</code>
        */
       @java.lang.Override
@@ -4755,6 +5167,10 @@ public final class YandexQueryProtos {
         }
       }
       /**
+       * <pre>
+       * Start processing with offset from the specified time
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition.FromTime from_time = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -4779,6 +5195,10 @@ public final class YandexQueryProtos {
       private com.google.protobuf.SingleFieldBuilderV3<
           com.yandex.query.YandexQueryProtos.StreamingDisposition.TimeAgo, com.yandex.query.YandexQueryProtos.StreamingDisposition.TimeAgo.Builder, com.yandex.query.YandexQueryProtos.StreamingDisposition.TimeAgoOrBuilder> timeAgoBuilder_;
       /**
+       * <pre>
+       * Start processing with offset some time ago
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition.TimeAgo time_ago = 4;</code>
        * @return Whether the timeAgo field is set.
        */
@@ -4787,6 +5207,10 @@ public final class YandexQueryProtos {
         return dispositionCase_ == 4;
       }
       /**
+       * <pre>
+       * Start processing with offset some time ago
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition.TimeAgo time_ago = 4;</code>
        * @return The timeAgo.
        */
@@ -4805,6 +5229,10 @@ public final class YandexQueryProtos {
         }
       }
       /**
+       * <pre>
+       * Start processing with offset some time ago
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition.TimeAgo time_ago = 4;</code>
        */
       public Builder setTimeAgo(com.yandex.query.YandexQueryProtos.StreamingDisposition.TimeAgo value) {
@@ -4821,6 +5249,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Start processing with offset some time ago
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition.TimeAgo time_ago = 4;</code>
        */
       public Builder setTimeAgo(
@@ -4835,6 +5267,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Start processing with offset some time ago
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition.TimeAgo time_ago = 4;</code>
        */
       public Builder mergeTimeAgo(com.yandex.query.YandexQueryProtos.StreamingDisposition.TimeAgo value) {
@@ -4857,6 +5293,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Start processing with offset some time ago
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition.TimeAgo time_ago = 4;</code>
        */
       public Builder clearTimeAgo() {
@@ -4876,12 +5316,20 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Start processing with offset some time ago
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition.TimeAgo time_ago = 4;</code>
        */
       public com.yandex.query.YandexQueryProtos.StreamingDisposition.TimeAgo.Builder getTimeAgoBuilder() {
         return getTimeAgoFieldBuilder().getBuilder();
       }
       /**
+       * <pre>
+       * Start processing with offset some time ago
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition.TimeAgo time_ago = 4;</code>
        */
       @java.lang.Override
@@ -4896,6 +5344,10 @@ public final class YandexQueryProtos {
         }
       }
       /**
+       * <pre>
+       * Start processing with offset some time ago
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition.TimeAgo time_ago = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -4920,6 +5372,10 @@ public final class YandexQueryProtos {
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Empty, com.google.protobuf.Empty.Builder, com.google.protobuf.EmptyOrBuilder> fromLastCheckpointBuilder_;
       /**
+       * <pre>
+       * Start processing with offset which corresponds to the last checkpoint
+       * </pre>
+       *
        * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
        * @return Whether the fromLastCheckpoint field is set.
        */
@@ -4928,6 +5384,10 @@ public final class YandexQueryProtos {
         return dispositionCase_ == 5;
       }
       /**
+       * <pre>
+       * Start processing with offset which corresponds to the last checkpoint
+       * </pre>
+       *
        * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
        * @return The fromLastCheckpoint.
        */
@@ -4946,6 +5406,10 @@ public final class YandexQueryProtos {
         }
       }
       /**
+       * <pre>
+       * Start processing with offset which corresponds to the last checkpoint
+       * </pre>
+       *
        * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
        */
       public Builder setFromLastCheckpoint(com.google.protobuf.Empty value) {
@@ -4962,6 +5426,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Start processing with offset which corresponds to the last checkpoint
+       * </pre>
+       *
        * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
        */
       public Builder setFromLastCheckpoint(
@@ -4976,6 +5444,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Start processing with offset which corresponds to the last checkpoint
+       * </pre>
+       *
        * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
        */
       public Builder mergeFromLastCheckpoint(com.google.protobuf.Empty value) {
@@ -4998,6 +5470,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Start processing with offset which corresponds to the last checkpoint
+       * </pre>
+       *
        * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
        */
       public Builder clearFromLastCheckpoint() {
@@ -5017,12 +5493,20 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Start processing with offset which corresponds to the last checkpoint
+       * </pre>
+       *
        * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
        */
       public com.google.protobuf.Empty.Builder getFromLastCheckpointBuilder() {
         return getFromLastCheckpointFieldBuilder().getBuilder();
       }
       /**
+       * <pre>
+       * Start processing with offset which corresponds to the last checkpoint
+       * </pre>
+       *
        * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
        */
       @java.lang.Override
@@ -5037,6 +5521,10 @@ public final class YandexQueryProtos {
         }
       }
       /**
+       * <pre>
+       * Start processing with offset which corresponds to the last checkpoint
+       * </pre>
+       *
        * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -5168,11 +5656,19 @@ public final class YandexQueryProtos {
     com.yandex.query.YandexQueryProtos.LimitsOrBuilder getLimitsOrBuilder();
 
     /**
+     * <pre>
+     * The text of the query itself
+     * </pre>
+     *
      * <code>string text = 5 [(.Ydb.length) = { ... }</code>
      * @return The text.
      */
     java.lang.String getText();
     /**
+     * <pre>
+     * The text of the query itself
+     * </pre>
+     *
      * <code>string text = 5 [(.Ydb.length) = { ... }</code>
      * @return The bytes for text.
      */
@@ -5180,17 +5676,29 @@ public final class YandexQueryProtos {
         getTextBytes();
 
     /**
+     * <pre>
+     * Is used for queries that are created by automatic systems (robots, jdbc driver, ...)
+     * </pre>
+     *
      * <code>bool automatic = 6;</code>
      * @return The automatic.
      */
     boolean getAutomatic();
 
     /**
+     * <pre>
+     * Description of the query, there can be any text
+     * </pre>
+     *
      * <code>string description = 7 [(.Ydb.length) = { ... }</code>
      * @return The description.
      */
     java.lang.String getDescription();
     /**
+     * <pre>
+     * Description of the query, there can be any text
+     * </pre>
+     *
      * <code>string description = 7 [(.Ydb.length) = { ... }</code>
      * @return The bytes for description.
      */
@@ -5198,6 +5706,10 @@ public final class YandexQueryProtos {
         getDescriptionBytes();
   }
   /**
+   * <pre>
+   * Query information that the subject can change
+   * </pre>
+   *
    * Protobuf type {@code YandexQuery.QueryContent}
    */
   public static final class QueryContent extends
@@ -5343,10 +5855,18 @@ public final class YandexQueryProtos {
        */
       QUERY_TYPE_UNSPECIFIED(0),
       /**
+       * <pre>
+       * Analytical query (used for analytical data processing for example to work with YDB, ClickHouse, ...)
+       * </pre>
+       *
        * <code>ANALYTICS = 1;</code>
        */
       ANALYTICS(1),
       /**
+       * <pre>
+       * Streaming query (used for streaming data processing, such as working with YDS)
+       * </pre>
+       *
        * <code>STREAMING = 2;</code>
        */
       STREAMING(2),
@@ -5358,10 +5878,18 @@ public final class YandexQueryProtos {
        */
       public static final int QUERY_TYPE_UNSPECIFIED_VALUE = 0;
       /**
+       * <pre>
+       * Analytical query (used for analytical data processing for example to work with YDB, ClickHouse, ...)
+       * </pre>
+       *
        * <code>ANALYTICS = 1;</code>
        */
       public static final int ANALYTICS_VALUE = 1;
       /**
+       * <pre>
+       * Streaming query (used for streaming data processing, such as working with YDS)
+       * </pre>
+       *
        * <code>STREAMING = 2;</code>
        */
       public static final int STREAMING_VALUE = 2;
@@ -5562,6 +6090,10 @@ public final class YandexQueryProtos {
     public static final int TEXT_FIELD_NUMBER = 5;
     private volatile java.lang.Object text_;
     /**
+     * <pre>
+     * The text of the query itself
+     * </pre>
+     *
      * <code>string text = 5 [(.Ydb.length) = { ... }</code>
      * @return The text.
      */
@@ -5579,6 +6111,10 @@ public final class YandexQueryProtos {
       }
     }
     /**
+     * <pre>
+     * The text of the query itself
+     * </pre>
+     *
      * <code>string text = 5 [(.Ydb.length) = { ... }</code>
      * @return The bytes for text.
      */
@@ -5600,6 +6136,10 @@ public final class YandexQueryProtos {
     public static final int AUTOMATIC_FIELD_NUMBER = 6;
     private boolean automatic_;
     /**
+     * <pre>
+     * Is used for queries that are created by automatic systems (robots, jdbc driver, ...)
+     * </pre>
+     *
      * <code>bool automatic = 6;</code>
      * @return The automatic.
      */
@@ -5611,6 +6151,10 @@ public final class YandexQueryProtos {
     public static final int DESCRIPTION_FIELD_NUMBER = 7;
     private volatile java.lang.Object description_;
     /**
+     * <pre>
+     * Description of the query, there can be any text
+     * </pre>
+     *
      * <code>string description = 7 [(.Ydb.length) = { ... }</code>
      * @return The description.
      */
@@ -5628,6 +6172,10 @@ public final class YandexQueryProtos {
       }
     }
     /**
+     * <pre>
+     * Description of the query, there can be any text
+     * </pre>
+     *
      * <code>string description = 7 [(.Ydb.length) = { ... }</code>
      * @return The bytes for description.
      */
@@ -5875,6 +6423,10 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
+     * <pre>
+     * Query information that the subject can change
+     * </pre>
+     *
      * Protobuf type {@code YandexQuery.QueryContent}
      */
     public static final class Builder extends
@@ -6446,6 +6998,10 @@ public final class YandexQueryProtos {
 
       private java.lang.Object text_ = "";
       /**
+       * <pre>
+       * The text of the query itself
+       * </pre>
+       *
        * <code>string text = 5 [(.Ydb.length) = { ... }</code>
        * @return The text.
        */
@@ -6462,6 +7018,10 @@ public final class YandexQueryProtos {
         }
       }
       /**
+       * <pre>
+       * The text of the query itself
+       * </pre>
+       *
        * <code>string text = 5 [(.Ydb.length) = { ... }</code>
        * @return The bytes for text.
        */
@@ -6479,6 +7039,10 @@ public final class YandexQueryProtos {
         }
       }
       /**
+       * <pre>
+       * The text of the query itself
+       * </pre>
+       *
        * <code>string text = 5 [(.Ydb.length) = { ... }</code>
        * @param value The text to set.
        * @return This builder for chaining.
@@ -6494,6 +7058,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * The text of the query itself
+       * </pre>
+       *
        * <code>string text = 5 [(.Ydb.length) = { ... }</code>
        * @return This builder for chaining.
        */
@@ -6504,6 +7072,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * The text of the query itself
+       * </pre>
+       *
        * <code>string text = 5 [(.Ydb.length) = { ... }</code>
        * @param value The bytes for text to set.
        * @return This builder for chaining.
@@ -6522,6 +7094,10 @@ public final class YandexQueryProtos {
 
       private boolean automatic_ ;
       /**
+       * <pre>
+       * Is used for queries that are created by automatic systems (robots, jdbc driver, ...)
+       * </pre>
+       *
        * <code>bool automatic = 6;</code>
        * @return The automatic.
        */
@@ -6530,6 +7106,10 @@ public final class YandexQueryProtos {
         return automatic_;
       }
       /**
+       * <pre>
+       * Is used for queries that are created by automatic systems (robots, jdbc driver, ...)
+       * </pre>
+       *
        * <code>bool automatic = 6;</code>
        * @param value The automatic to set.
        * @return This builder for chaining.
@@ -6541,6 +7121,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Is used for queries that are created by automatic systems (robots, jdbc driver, ...)
+       * </pre>
+       *
        * <code>bool automatic = 6;</code>
        * @return This builder for chaining.
        */
@@ -6553,6 +7137,10 @@ public final class YandexQueryProtos {
 
       private java.lang.Object description_ = "";
       /**
+       * <pre>
+       * Description of the query, there can be any text
+       * </pre>
+       *
        * <code>string description = 7 [(.Ydb.length) = { ... }</code>
        * @return The description.
        */
@@ -6569,6 +7157,10 @@ public final class YandexQueryProtos {
         }
       }
       /**
+       * <pre>
+       * Description of the query, there can be any text
+       * </pre>
+       *
        * <code>string description = 7 [(.Ydb.length) = { ... }</code>
        * @return The bytes for description.
        */
@@ -6586,6 +7178,10 @@ public final class YandexQueryProtos {
         }
       }
       /**
+       * <pre>
+       * Description of the query, there can be any text
+       * </pre>
+       *
        * <code>string description = 7 [(.Ydb.length) = { ... }</code>
        * @param value The description to set.
        * @return This builder for chaining.
@@ -6601,6 +7197,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Description of the query, there can be any text
+       * </pre>
+       *
        * <code>string description = 7 [(.Ydb.length) = { ... }</code>
        * @return This builder for chaining.
        */
@@ -6611,6 +7211,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Description of the query, there can be any text
+       * </pre>
+       *
        * <code>string description = 7 [(.Ydb.length) = { ... }</code>
        * @param value The bytes for description to set.
        * @return This builder for chaining.
@@ -6750,6 +7354,10 @@ public final class YandexQueryProtos {
     com.google.protobuf.TimestampOrBuilder getModifiedAtOrBuilder();
 
     /**
+     * <pre>
+     * Entity version, increases with each change
+     * </pre>
+     *
      * <code>int64 revision = 6 [(.Ydb.value) = "&gt;= 0"];</code>
      * @return The revision.
      */
@@ -7053,6 +7661,10 @@ public final class YandexQueryProtos {
     public static final int REVISION_FIELD_NUMBER = 6;
     private long revision_;
     /**
+     * <pre>
+     * Entity version, increases with each change
+     * </pre>
+     *
      * <code>int64 revision = 6 [(.Ydb.value) = "&gt;= 0"];</code>
      * @return The revision.
      */
@@ -7943,6 +8555,10 @@ public final class YandexQueryProtos {
 
       private long revision_ ;
       /**
+       * <pre>
+       * Entity version, increases with each change
+       * </pre>
+       *
        * <code>int64 revision = 6 [(.Ydb.value) = "&gt;= 0"];</code>
        * @return The revision.
        */
@@ -7951,6 +8567,10 @@ public final class YandexQueryProtos {
         return revision_;
       }
       /**
+       * <pre>
+       * Entity version, increases with each change
+       * </pre>
+       *
        * <code>int64 revision = 6 [(.Ydb.value) = "&gt;= 0"];</code>
        * @param value The revision to set.
        * @return This builder for chaining.
@@ -7962,6 +8582,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Entity version, increases with each change
+       * </pre>
+       *
        * <code>int64 revision = 6 [(.Ydb.value) = "&gt;= 0"];</code>
        * @return This builder for chaining.
        */
@@ -8235,46 +8859,90 @@ public final class YandexQueryProtos {
        */
       COMPUTE_STATUS_UNSPECIFIED(0),
       /**
+       * <pre>
+       * Start execution of the action on query
+       * </pre>
+       *
        * <code>STARTING = 1;</code>
        */
       STARTING(1),
       /**
+       * <pre>
+       * Query aborted by user
+       * </pre>
+       *
        * <code>ABORTED_BY_USER = 2;</code>
        */
       ABORTED_BY_USER(2),
       /**
+       * <pre>
+       * Query aborted by system
+       * </pre>
+       *
        * <code>ABORTED_BY_SYSTEM = 3;</code>
        */
       ABORTED_BY_SYSTEM(3),
       /**
+       * <pre>
+       * Query aborting by user
+       * </pre>
+       *
        * <code>ABORTING_BY_USER = 4;</code>
        */
       ABORTING_BY_USER(4),
       /**
+       * <pre>
+       * Query aborting by system
+       * </pre>
+       *
        * <code>ABORTING_BY_SYSTEM = 5;</code>
        */
       ABORTING_BY_SYSTEM(5),
       /**
+       * <pre>
+       * Resuming query execution from PAUSED status
+       * </pre>
+       *
        * <code>RESUMING = 6;</code>
        */
       RESUMING(6),
       /**
+       * <pre>
+       * Query started for execution
+       * </pre>
+       *
        * <code>RUNNING = 7;</code>
        */
       RUNNING(7),
       /**
+       * <pre>
+       * Query completed successfully
+       * </pre>
+       *
        * <code>COMPLETED = 8;</code>
        */
       COMPLETED(8),
       /**
+       * <pre>
+       * Query completed with errors
+       * </pre>
+       *
        * <code>FAILED = 9;</code>
        */
       FAILED(9),
       /**
+       * <pre>
+       * Query starts pausing
+       * </pre>
+       *
        * <code>PAUSING = 10;</code>
        */
       PAUSING(10),
       /**
+       * <pre>
+       * Query paused
+       * </pre>
+       *
        * <code>PAUSED = 11;</code>
        */
       PAUSED(11),
@@ -8286,46 +8954,90 @@ public final class YandexQueryProtos {
        */
       public static final int COMPUTE_STATUS_UNSPECIFIED_VALUE = 0;
       /**
+       * <pre>
+       * Start execution of the action on query
+       * </pre>
+       *
        * <code>STARTING = 1;</code>
        */
       public static final int STARTING_VALUE = 1;
       /**
+       * <pre>
+       * Query aborted by user
+       * </pre>
+       *
        * <code>ABORTED_BY_USER = 2;</code>
        */
       public static final int ABORTED_BY_USER_VALUE = 2;
       /**
+       * <pre>
+       * Query aborted by system
+       * </pre>
+       *
        * <code>ABORTED_BY_SYSTEM = 3;</code>
        */
       public static final int ABORTED_BY_SYSTEM_VALUE = 3;
       /**
+       * <pre>
+       * Query aborting by user
+       * </pre>
+       *
        * <code>ABORTING_BY_USER = 4;</code>
        */
       public static final int ABORTING_BY_USER_VALUE = 4;
       /**
+       * <pre>
+       * Query aborting by system
+       * </pre>
+       *
        * <code>ABORTING_BY_SYSTEM = 5;</code>
        */
       public static final int ABORTING_BY_SYSTEM_VALUE = 5;
       /**
+       * <pre>
+       * Resuming query execution from PAUSED status
+       * </pre>
+       *
        * <code>RESUMING = 6;</code>
        */
       public static final int RESUMING_VALUE = 6;
       /**
+       * <pre>
+       * Query started for execution
+       * </pre>
+       *
        * <code>RUNNING = 7;</code>
        */
       public static final int RUNNING_VALUE = 7;
       /**
+       * <pre>
+       * Query completed successfully
+       * </pre>
+       *
        * <code>COMPLETED = 8;</code>
        */
       public static final int COMPLETED_VALUE = 8;
       /**
+       * <pre>
+       * Query completed with errors
+       * </pre>
+       *
        * <code>FAILED = 9;</code>
        */
       public static final int FAILED_VALUE = 9;
       /**
+       * <pre>
+       * Query starts pausing
+       * </pre>
+       *
        * <code>PAUSING = 10;</code>
        */
       public static final int PAUSING_VALUE = 10;
       /**
+       * <pre>
+       * Query paused
+       * </pre>
+       *
        * <code>PAUSED = 11;</code>
        */
       public static final int PAUSED_VALUE = 11;
@@ -10347,7 +11059,7 @@ public final class YandexQueryProtos {
 
     /**
      * <pre>
-     * no validation because generated on server side
+     * No validation because generated on server side
      * </pre>
      *
      * <code>string json = 1;</code>
@@ -10356,7 +11068,7 @@ public final class YandexQueryProtos {
     java.lang.String getJson();
     /**
      * <pre>
-     * no validation because generated on server side
+     * No validation because generated on server side
      * </pre>
      *
      * <code>string json = 1;</code>
@@ -10453,7 +11165,7 @@ public final class YandexQueryProtos {
     private volatile java.lang.Object json_;
     /**
      * <pre>
-     * no validation because generated on server side
+     * No validation because generated on server side
      * </pre>
      *
      * <code>string json = 1;</code>
@@ -10474,7 +11186,7 @@ public final class YandexQueryProtos {
     }
     /**
      * <pre>
-     * no validation because generated on server side
+     * No validation because generated on server side
      * </pre>
      *
      * <code>string json = 1;</code>
@@ -10800,7 +11512,7 @@ public final class YandexQueryProtos {
       private java.lang.Object json_ = "";
       /**
        * <pre>
-       * no validation because generated on server side
+       * No validation because generated on server side
        * </pre>
        *
        * <code>string json = 1;</code>
@@ -10820,7 +11532,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * no validation because generated on server side
+       * No validation because generated on server side
        * </pre>
        *
        * <code>string json = 1;</code>
@@ -10841,7 +11553,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * no validation because generated on server side
+       * No validation because generated on server side
        * </pre>
        *
        * <code>string json = 1;</code>
@@ -10860,7 +11572,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * no validation because generated on server side
+       * No validation because generated on server side
        * </pre>
        *
        * <code>string json = 1;</code>
@@ -10874,7 +11586,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * no validation because generated on server side
+       * No validation because generated on server side
        * </pre>
        *
        * <code>string json = 1;</code>
@@ -14235,7 +14947,7 @@ public final class YandexQueryProtos {
 
     /**
      * <pre>
-     * no validation because generated on server side
+     * No validation because generated on server side
      * </pre>
      *
      * <code>string json = 1;</code>
@@ -14244,7 +14956,7 @@ public final class YandexQueryProtos {
     java.lang.String getJson();
     /**
      * <pre>
-     * no validation because generated on server side
+     * No validation because generated on server side
      * </pre>
      *
      * <code>string json = 1;</code>
@@ -14341,7 +15053,7 @@ public final class YandexQueryProtos {
     private volatile java.lang.Object json_;
     /**
      * <pre>
-     * no validation because generated on server side
+     * No validation because generated on server side
      * </pre>
      *
      * <code>string json = 1;</code>
@@ -14362,7 +15074,7 @@ public final class YandexQueryProtos {
     }
     /**
      * <pre>
-     * no validation because generated on server side
+     * No validation because generated on server side
      * </pre>
      *
      * <code>string json = 1;</code>
@@ -14688,7 +15400,7 @@ public final class YandexQueryProtos {
       private java.lang.Object json_ = "";
       /**
        * <pre>
-       * no validation because generated on server side
+       * No validation because generated on server side
        * </pre>
        *
        * <code>string json = 1;</code>
@@ -14708,7 +15420,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * no validation because generated on server side
+       * No validation because generated on server side
        * </pre>
        *
        * <code>string json = 1;</code>
@@ -14729,7 +15441,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * no validation because generated on server side
+       * No validation because generated on server side
        * </pre>
        *
        * <code>string json = 1;</code>
@@ -14748,7 +15460,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * no validation because generated on server side
+       * No validation because generated on server side
        * </pre>
        *
        * <code>string json = 1;</code>
@@ -14762,7 +15474,7 @@ public final class YandexQueryProtos {
       }
       /**
        * <pre>
-       * no validation because generated on server side
+       * No validation because generated on server side
        * </pre>
        *
        * <code>string json = 1;</code>
@@ -14879,16 +15591,28 @@ public final class YandexQueryProtos {
     com.yandex.query.YandexQueryProtos.ExecuteMode getExecuteMode();
 
     /**
+     * <pre>
+     * Only for streaming queries
+     * </pre>
+     *
      * <code>.YandexQuery.StreamingDisposition disposition = 4;</code>
      * @return Whether the disposition field is set.
      */
     boolean hasDisposition();
     /**
+     * <pre>
+     * Only for streaming queries
+     * </pre>
+     *
      * <code>.YandexQuery.StreamingDisposition disposition = 4;</code>
      * @return The disposition.
      */
     com.yandex.query.YandexQueryProtos.StreamingDisposition getDisposition();
     /**
+     * <pre>
+     * Only for streaming queries
+     * </pre>
+     *
      * <code>.YandexQuery.StreamingDisposition disposition = 4;</code>
      */
     com.yandex.query.YandexQueryProtos.StreamingDispositionOrBuilder getDispositionOrBuilder();
@@ -14906,6 +15630,10 @@ public final class YandexQueryProtos {
         getIdempotencyKeyBytes();
   }
   /**
+   * <pre>
+   * Create a new query
+   * </pre>
+   *
    * Protobuf type {@code YandexQuery.CreateQueryRequest}
    */
   public static final class CreateQueryRequest extends
@@ -15109,6 +15837,10 @@ public final class YandexQueryProtos {
     public static final int DISPOSITION_FIELD_NUMBER = 4;
     private com.yandex.query.YandexQueryProtos.StreamingDisposition disposition_;
     /**
+     * <pre>
+     * Only for streaming queries
+     * </pre>
+     *
      * <code>.YandexQuery.StreamingDisposition disposition = 4;</code>
      * @return Whether the disposition field is set.
      */
@@ -15117,6 +15849,10 @@ public final class YandexQueryProtos {
       return disposition_ != null;
     }
     /**
+     * <pre>
+     * Only for streaming queries
+     * </pre>
+     *
      * <code>.YandexQuery.StreamingDisposition disposition = 4;</code>
      * @return The disposition.
      */
@@ -15125,6 +15861,10 @@ public final class YandexQueryProtos {
       return disposition_ == null ? com.yandex.query.YandexQueryProtos.StreamingDisposition.getDefaultInstance() : disposition_;
     }
     /**
+     * <pre>
+     * Only for streaming queries
+     * </pre>
+     *
      * <code>.YandexQuery.StreamingDisposition disposition = 4;</code>
      */
     @java.lang.Override
@@ -15383,6 +16123,10 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
+     * <pre>
+     * Create a new query
+     * </pre>
+     *
      * Protobuf type {@code YandexQuery.CreateQueryRequest}
      */
     public static final class Builder extends
@@ -15874,6 +16618,10 @@ public final class YandexQueryProtos {
       private com.google.protobuf.SingleFieldBuilderV3<
           com.yandex.query.YandexQueryProtos.StreamingDisposition, com.yandex.query.YandexQueryProtos.StreamingDisposition.Builder, com.yandex.query.YandexQueryProtos.StreamingDispositionOrBuilder> dispositionBuilder_;
       /**
+       * <pre>
+       * Only for streaming queries
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition disposition = 4;</code>
        * @return Whether the disposition field is set.
        */
@@ -15881,6 +16629,10 @@ public final class YandexQueryProtos {
         return dispositionBuilder_ != null || disposition_ != null;
       }
       /**
+       * <pre>
+       * Only for streaming queries
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition disposition = 4;</code>
        * @return The disposition.
        */
@@ -15892,6 +16644,10 @@ public final class YandexQueryProtos {
         }
       }
       /**
+       * <pre>
+       * Only for streaming queries
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition disposition = 4;</code>
        */
       public Builder setDisposition(com.yandex.query.YandexQueryProtos.StreamingDisposition value) {
@@ -15908,6 +16664,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Only for streaming queries
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition disposition = 4;</code>
        */
       public Builder setDisposition(
@@ -15922,6 +16682,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Only for streaming queries
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition disposition = 4;</code>
        */
       public Builder mergeDisposition(com.yandex.query.YandexQueryProtos.StreamingDisposition value) {
@@ -15940,6 +16704,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Only for streaming queries
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition disposition = 4;</code>
        */
       public Builder clearDisposition() {
@@ -15954,6 +16722,10 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
+       * <pre>
+       * Only for streaming queries
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition disposition = 4;</code>
        */
       public com.yandex.query.YandexQueryProtos.StreamingDisposition.Builder getDispositionBuilder() {
@@ -15962,6 +16734,10 @@ public final class YandexQueryProtos {
         return getDispositionFieldBuilder().getBuilder();
       }
       /**
+       * <pre>
+       * Only for streaming queries
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition disposition = 4;</code>
        */
       public com.yandex.query.YandexQueryProtos.StreamingDispositionOrBuilder getDispositionOrBuilder() {
@@ -15973,6 +16749,10 @@ public final class YandexQueryProtos {
         }
       }
       /**
+       * <pre>
+       * Only for streaming queries
+       * </pre>
+       *
        * <code>.YandexQuery.StreamingDisposition disposition = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -17419,6 +18199,10 @@ public final class YandexQueryProtos {
     com.yandex.query.YandexQueryProtos.ListQueriesRequest.FilterOrBuilder getFilterOrBuilder();
   }
   /**
+   * <pre>
+   * Getting brief information about queries
+   * </pre>
+   *
    * Protobuf type {@code YandexQuery.ListQueriesRequest}
    */
   public static final class ListQueriesRequest extends
@@ -19101,6 +19885,10 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
+     * <pre>
+     * Getting brief information about queries
+     * </pre>
+     *
      * Protobuf type {@code YandexQuery.ListQueriesRequest}
      */
     public static final class Builder extends
@@ -21335,6 +22123,10 @@ public final class YandexQueryProtos {
         getQueryIdBytes();
   }
   /**
+   * <pre>
+   * Getting complete information about the query
+   * </pre>
+   *
    * Protobuf type {@code YandexQuery.DescribeQueryRequest}
    */
   public static final class DescribeQueryRequest extends
@@ -21666,6 +22458,10 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
+     * <pre>
+     * Getting complete information about the query
+     * </pre>
+     *
      * Protobuf type {@code YandexQuery.DescribeQueryRequest}
      */
     public static final class Builder extends
@@ -23426,6 +24222,10 @@ public final class YandexQueryProtos {
         getIdempotencyKeyBytes();
   }
   /**
+   * <pre>
+   * Complete removal of query. Recovery of the query after this operation is not possible
+   * </pre>
+   *
    * Protobuf type {@code YandexQuery.DeleteQueryRequest}
    */
   public static final class DeleteQueryRequest extends
@@ -23840,6 +24640,10 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
+     * <pre>
+     * Complete removal of query. Recovery of the query after this operation is not possible
+     * </pre>
+     *
      * Protobuf type {@code YandexQuery.DeleteQueryRequest}
      */
     public static final class Builder extends
@@ -25569,6 +26373,10 @@ public final class YandexQueryProtos {
         getIdempotencyKeyBytes();
   }
   /**
+   * <pre>
+   * Change query information with launch policy option. All fields must be filled in the request. The query changes completely
+   * </pre>
+   *
    * Protobuf type {@code YandexQuery.ModifyQueryRequest}
    */
   public static final class ModifyQueryRequest extends
@@ -26165,6 +26973,10 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
+     * <pre>
+     * Change query information with launch policy option. All fields must be filled in the request. The query changes completely
+     * </pre>
+     *
      * Protobuf type {@code YandexQuery.ModifyQueryRequest}
      */
     public static final class Builder extends
@@ -28239,6 +29051,10 @@ public final class YandexQueryProtos {
         getIdempotencyKeyBytes();
   }
   /**
+   * <pre>
+   * Managing query status (pause, abort, resume, ...)
+   * </pre>
+   *
    * Protobuf type {@code YandexQuery.ControlQueryRequest}
    */
   public static final class ControlQueryRequest extends
@@ -28689,6 +29505,10 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
+     * <pre>
+     * Managing query status (pause, abort, resume, ...)
+     * </pre>
+     *
      * Protobuf type {@code YandexQuery.ControlQueryRequest}
      */
     public static final class Builder extends
@@ -32553,6 +33373,10 @@ public final class YandexQueryProtos {
     int getLimit();
   }
   /**
+   * <pre>
+   * Information about recent query runs
+   * </pre>
+   *
    * Protobuf type {@code YandexQuery.ListJobsRequest}
    */
   public static final class ListJobsRequest extends
@@ -32966,6 +33790,10 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
+     * <pre>
+     * Information about recent query runs
+     * </pre>
+     *
      * Protobuf type {@code YandexQuery.ListJobsRequest}
      */
     public static final class Builder extends
@@ -39448,11 +40276,26 @@ public final class YandexQueryProtos {
         getPasswordBytes();
 
     /**
+     * <code>.YandexQuery.IamAuth auth = 4;</code>
+     * @return Whether the auth field is set.
+     */
+    boolean hasAuth();
+    /**
+     * <code>.YandexQuery.IamAuth auth = 4;</code>
+     * @return The auth.
+     */
+    com.yandex.query.YandexQueryProtos.IamAuth getAuth();
+    /**
+     * <code>.YandexQuery.IamAuth auth = 4;</code>
+     */
+    com.yandex.query.YandexQueryProtos.IamAuthOrBuilder getAuthOrBuilder();
+
+    /**
      * <pre>
      * for internal usage
      * </pre>
      *
-     * <code>string host = 4 [(.Ydb.length) = { ... }</code>
+     * <code>string host = 5 [(.Ydb.length) = { ... }</code>
      * @return The host.
      */
     java.lang.String getHost();
@@ -39461,20 +40304,20 @@ public final class YandexQueryProtos {
      * for internal usage
      * </pre>
      *
-     * <code>string host = 4 [(.Ydb.length) = { ... }</code>
+     * <code>string host = 5 [(.Ydb.length) = { ... }</code>
      * @return The bytes for host.
      */
     com.google.protobuf.ByteString
         getHostBytes();
 
     /**
-     * <code>int32 port = 5 [(.Ydb.value) = "[0; 65536]"];</code>
+     * <code>int32 port = 6 [(.Ydb.value) = "[0; 65536]"];</code>
      * @return The port.
      */
     int getPort();
 
     /**
-     * <code>bool secure = 6;</code>
+     * <code>bool secure = 7;</code>
      * @return The secure.
      */
     boolean getSecure();
@@ -39547,17 +40390,30 @@ public final class YandexQueryProtos {
               break;
             }
             case 34: {
+              com.yandex.query.YandexQueryProtos.IamAuth.Builder subBuilder = null;
+              if (auth_ != null) {
+                subBuilder = auth_.toBuilder();
+              }
+              auth_ = input.readMessage(com.yandex.query.YandexQueryProtos.IamAuth.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(auth_);
+                auth_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 42: {
               java.lang.String s = input.readStringRequireUtf8();
 
               host_ = s;
               break;
             }
-            case 40: {
+            case 48: {
 
               port_ = input.readInt32();
               break;
             }
-            case 48: {
+            case 56: {
 
               secure_ = input.readBool();
               break;
@@ -39708,14 +40564,40 @@ public final class YandexQueryProtos {
       }
     }
 
-    public static final int HOST_FIELD_NUMBER = 4;
+    public static final int AUTH_FIELD_NUMBER = 4;
+    private com.yandex.query.YandexQueryProtos.IamAuth auth_;
+    /**
+     * <code>.YandexQuery.IamAuth auth = 4;</code>
+     * @return Whether the auth field is set.
+     */
+    @java.lang.Override
+    public boolean hasAuth() {
+      return auth_ != null;
+    }
+    /**
+     * <code>.YandexQuery.IamAuth auth = 4;</code>
+     * @return The auth.
+     */
+    @java.lang.Override
+    public com.yandex.query.YandexQueryProtos.IamAuth getAuth() {
+      return auth_ == null ? com.yandex.query.YandexQueryProtos.IamAuth.getDefaultInstance() : auth_;
+    }
+    /**
+     * <code>.YandexQuery.IamAuth auth = 4;</code>
+     */
+    @java.lang.Override
+    public com.yandex.query.YandexQueryProtos.IamAuthOrBuilder getAuthOrBuilder() {
+      return getAuth();
+    }
+
+    public static final int HOST_FIELD_NUMBER = 5;
     private volatile java.lang.Object host_;
     /**
      * <pre>
      * for internal usage
      * </pre>
      *
-     * <code>string host = 4 [(.Ydb.length) = { ... }</code>
+     * <code>string host = 5 [(.Ydb.length) = { ... }</code>
      * @return The host.
      */
     @java.lang.Override
@@ -39736,7 +40618,7 @@ public final class YandexQueryProtos {
      * for internal usage
      * </pre>
      *
-     * <code>string host = 4 [(.Ydb.length) = { ... }</code>
+     * <code>string host = 5 [(.Ydb.length) = { ... }</code>
      * @return The bytes for host.
      */
     @java.lang.Override
@@ -39754,10 +40636,10 @@ public final class YandexQueryProtos {
       }
     }
 
-    public static final int PORT_FIELD_NUMBER = 5;
+    public static final int PORT_FIELD_NUMBER = 6;
     private int port_;
     /**
-     * <code>int32 port = 5 [(.Ydb.value) = "[0; 65536]"];</code>
+     * <code>int32 port = 6 [(.Ydb.value) = "[0; 65536]"];</code>
      * @return The port.
      */
     @java.lang.Override
@@ -39765,10 +40647,10 @@ public final class YandexQueryProtos {
       return port_;
     }
 
-    public static final int SECURE_FIELD_NUMBER = 6;
+    public static final int SECURE_FIELD_NUMBER = 7;
     private boolean secure_;
     /**
-     * <code>bool secure = 6;</code>
+     * <code>bool secure = 7;</code>
      * @return The secure.
      */
     @java.lang.Override
@@ -39799,14 +40681,17 @@ public final class YandexQueryProtos {
       if (!getPasswordBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, password_);
       }
+      if (auth_ != null) {
+        output.writeMessage(4, getAuth());
+      }
       if (!getHostBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, host_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, host_);
       }
       if (port_ != 0) {
-        output.writeInt32(5, port_);
+        output.writeInt32(6, port_);
       }
       if (secure_ != false) {
-        output.writeBool(6, secure_);
+        output.writeBool(7, secure_);
       }
       unknownFields.writeTo(output);
     }
@@ -39826,16 +40711,20 @@ public final class YandexQueryProtos {
       if (!getPasswordBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, password_);
       }
+      if (auth_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, getAuth());
+      }
       if (!getHostBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, host_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, host_);
       }
       if (port_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, port_);
+          .computeInt32Size(6, port_);
       }
       if (secure_ != false) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(6, secure_);
+          .computeBoolSize(7, secure_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -39858,6 +40747,11 @@ public final class YandexQueryProtos {
           .equals(other.getLogin())) return false;
       if (!getPassword()
           .equals(other.getPassword())) return false;
+      if (hasAuth() != other.hasAuth()) return false;
+      if (hasAuth()) {
+        if (!getAuth()
+            .equals(other.getAuth())) return false;
+      }
       if (!getHost()
           .equals(other.getHost())) return false;
       if (getPort()
@@ -39881,6 +40775,10 @@ public final class YandexQueryProtos {
       hash = (53 * hash) + getLogin().hashCode();
       hash = (37 * hash) + PASSWORD_FIELD_NUMBER;
       hash = (53 * hash) + getPassword().hashCode();
+      if (hasAuth()) {
+        hash = (37 * hash) + AUTH_FIELD_NUMBER;
+        hash = (53 * hash) + getAuth().hashCode();
+      }
       hash = (37 * hash) + HOST_FIELD_NUMBER;
       hash = (53 * hash) + getHost().hashCode();
       hash = (37 * hash) + PORT_FIELD_NUMBER;
@@ -40027,6 +40925,12 @@ public final class YandexQueryProtos {
 
         password_ = "";
 
+        if (authBuilder_ == null) {
+          auth_ = null;
+        } else {
+          auth_ = null;
+          authBuilder_ = null;
+        }
         host_ = "";
 
         port_ = 0;
@@ -40062,6 +40966,11 @@ public final class YandexQueryProtos {
         result.databaseId_ = databaseId_;
         result.login_ = login_;
         result.password_ = password_;
+        if (authBuilder_ == null) {
+          result.auth_ = auth_;
+        } else {
+          result.auth_ = authBuilder_.build();
+        }
         result.host_ = host_;
         result.port_ = port_;
         result.secure_ = secure_;
@@ -40124,6 +41033,9 @@ public final class YandexQueryProtos {
         if (!other.getPassword().isEmpty()) {
           password_ = other.password_;
           onChanged();
+        }
+        if (other.hasAuth()) {
+          mergeAuth(other.getAuth());
         }
         if (!other.getHost().isEmpty()) {
           host_ = other.host_;
@@ -40392,13 +41304,132 @@ public final class YandexQueryProtos {
         return this;
       }
 
+      private com.yandex.query.YandexQueryProtos.IamAuth auth_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.query.YandexQueryProtos.IamAuth, com.yandex.query.YandexQueryProtos.IamAuth.Builder, com.yandex.query.YandexQueryProtos.IamAuthOrBuilder> authBuilder_;
+      /**
+       * <code>.YandexQuery.IamAuth auth = 4;</code>
+       * @return Whether the auth field is set.
+       */
+      public boolean hasAuth() {
+        return authBuilder_ != null || auth_ != null;
+      }
+      /**
+       * <code>.YandexQuery.IamAuth auth = 4;</code>
+       * @return The auth.
+       */
+      public com.yandex.query.YandexQueryProtos.IamAuth getAuth() {
+        if (authBuilder_ == null) {
+          return auth_ == null ? com.yandex.query.YandexQueryProtos.IamAuth.getDefaultInstance() : auth_;
+        } else {
+          return authBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.YandexQuery.IamAuth auth = 4;</code>
+       */
+      public Builder setAuth(com.yandex.query.YandexQueryProtos.IamAuth value) {
+        if (authBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          auth_ = value;
+          onChanged();
+        } else {
+          authBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.YandexQuery.IamAuth auth = 4;</code>
+       */
+      public Builder setAuth(
+          com.yandex.query.YandexQueryProtos.IamAuth.Builder builderForValue) {
+        if (authBuilder_ == null) {
+          auth_ = builderForValue.build();
+          onChanged();
+        } else {
+          authBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.YandexQuery.IamAuth auth = 4;</code>
+       */
+      public Builder mergeAuth(com.yandex.query.YandexQueryProtos.IamAuth value) {
+        if (authBuilder_ == null) {
+          if (auth_ != null) {
+            auth_ =
+              com.yandex.query.YandexQueryProtos.IamAuth.newBuilder(auth_).mergeFrom(value).buildPartial();
+          } else {
+            auth_ = value;
+          }
+          onChanged();
+        } else {
+          authBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.YandexQuery.IamAuth auth = 4;</code>
+       */
+      public Builder clearAuth() {
+        if (authBuilder_ == null) {
+          auth_ = null;
+          onChanged();
+        } else {
+          auth_ = null;
+          authBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.YandexQuery.IamAuth auth = 4;</code>
+       */
+      public com.yandex.query.YandexQueryProtos.IamAuth.Builder getAuthBuilder() {
+        
+        onChanged();
+        return getAuthFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.YandexQuery.IamAuth auth = 4;</code>
+       */
+      public com.yandex.query.YandexQueryProtos.IamAuthOrBuilder getAuthOrBuilder() {
+        if (authBuilder_ != null) {
+          return authBuilder_.getMessageOrBuilder();
+        } else {
+          return auth_ == null ?
+              com.yandex.query.YandexQueryProtos.IamAuth.getDefaultInstance() : auth_;
+        }
+      }
+      /**
+       * <code>.YandexQuery.IamAuth auth = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.query.YandexQueryProtos.IamAuth, com.yandex.query.YandexQueryProtos.IamAuth.Builder, com.yandex.query.YandexQueryProtos.IamAuthOrBuilder> 
+          getAuthFieldBuilder() {
+        if (authBuilder_ == null) {
+          authBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.yandex.query.YandexQueryProtos.IamAuth, com.yandex.query.YandexQueryProtos.IamAuth.Builder, com.yandex.query.YandexQueryProtos.IamAuthOrBuilder>(
+                  getAuth(),
+                  getParentForChildren(),
+                  isClean());
+          auth_ = null;
+        }
+        return authBuilder_;
+      }
+
       private java.lang.Object host_ = "";
       /**
        * <pre>
        * for internal usage
        * </pre>
        *
-       * <code>string host = 4 [(.Ydb.length) = { ... }</code>
+       * <code>string host = 5 [(.Ydb.length) = { ... }</code>
        * @return The host.
        */
       public java.lang.String getHost() {
@@ -40418,7 +41449,7 @@ public final class YandexQueryProtos {
        * for internal usage
        * </pre>
        *
-       * <code>string host = 4 [(.Ydb.length) = { ... }</code>
+       * <code>string host = 5 [(.Ydb.length) = { ... }</code>
        * @return The bytes for host.
        */
       public com.google.protobuf.ByteString
@@ -40439,7 +41470,7 @@ public final class YandexQueryProtos {
        * for internal usage
        * </pre>
        *
-       * <code>string host = 4 [(.Ydb.length) = { ... }</code>
+       * <code>string host = 5 [(.Ydb.length) = { ... }</code>
        * @param value The host to set.
        * @return This builder for chaining.
        */
@@ -40458,7 +41489,7 @@ public final class YandexQueryProtos {
        * for internal usage
        * </pre>
        *
-       * <code>string host = 4 [(.Ydb.length) = { ... }</code>
+       * <code>string host = 5 [(.Ydb.length) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearHost() {
@@ -40472,7 +41503,7 @@ public final class YandexQueryProtos {
        * for internal usage
        * </pre>
        *
-       * <code>string host = 4 [(.Ydb.length) = { ... }</code>
+       * <code>string host = 5 [(.Ydb.length) = { ... }</code>
        * @param value The bytes for host to set.
        * @return This builder for chaining.
        */
@@ -40490,7 +41521,7 @@ public final class YandexQueryProtos {
 
       private int port_ ;
       /**
-       * <code>int32 port = 5 [(.Ydb.value) = "[0; 65536]"];</code>
+       * <code>int32 port = 6 [(.Ydb.value) = "[0; 65536]"];</code>
        * @return The port.
        */
       @java.lang.Override
@@ -40498,7 +41529,7 @@ public final class YandexQueryProtos {
         return port_;
       }
       /**
-       * <code>int32 port = 5 [(.Ydb.value) = "[0; 65536]"];</code>
+       * <code>int32 port = 6 [(.Ydb.value) = "[0; 65536]"];</code>
        * @param value The port to set.
        * @return This builder for chaining.
        */
@@ -40509,7 +41540,7 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>int32 port = 5 [(.Ydb.value) = "[0; 65536]"];</code>
+       * <code>int32 port = 6 [(.Ydb.value) = "[0; 65536]"];</code>
        * @return This builder for chaining.
        */
       public Builder clearPort() {
@@ -40521,7 +41552,7 @@ public final class YandexQueryProtos {
 
       private boolean secure_ ;
       /**
-       * <code>bool secure = 6;</code>
+       * <code>bool secure = 7;</code>
        * @return The secure.
        */
       @java.lang.Override
@@ -40529,7 +41560,7 @@ public final class YandexQueryProtos {
         return secure_;
       }
       /**
-       * <code>bool secure = 6;</code>
+       * <code>bool secure = 7;</code>
        * @param value The secure to set.
        * @return This builder for chaining.
        */
@@ -40540,7 +41571,7 @@ public final class YandexQueryProtos {
         return this;
       }
       /**
-       * <code>bool secure = 6;</code>
+       * <code>bool secure = 7;</code>
        * @return This builder for chaining.
        */
       public Builder clearSecure() {
@@ -44773,6 +45804,10 @@ public final class YandexQueryProtos {
         getIdempotencyKeyBytes();
   }
   /**
+   * <pre>
+   * Create a new connection
+   * </pre>
+   *
    * Protobuf type {@code YandexQuery.CreateConnectionRequest}
    */
   public static final class CreateConnectionRequest extends
@@ -45159,6 +46194,10 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
+     * <pre>
+     * Create a new connection
+     * </pre>
+     *
      * Protobuf type {@code YandexQuery.CreateConnectionRequest}
      */
     public static final class Builder extends
@@ -46987,6 +48026,10 @@ public final class YandexQueryProtos {
     int getLimit();
   }
   /**
+   * <pre>
+   * Getting information about connections
+   * </pre>
+   *
    * Protobuf type {@code YandexQuery.ListConnectionsRequest}
    */
   public static final class ListConnectionsRequest extends
@@ -47345,6 +48388,10 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
+     * <pre>
+     * Getting information about connections
+     * </pre>
+     *
      * Protobuf type {@code YandexQuery.ListConnectionsRequest}
      */
     public static final class Builder extends
@@ -49446,6 +50493,10 @@ public final class YandexQueryProtos {
         getConnectionIdBytes();
   }
   /**
+   * <pre>
+   * Getting information about the connection
+   * </pre>
+   *
    * Protobuf type {@code YandexQuery.DescribeConnectionRequest}
    */
   public static final class DescribeConnectionRequest extends
@@ -49777,6 +50828,10 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
+     * <pre>
+     * Getting information about the connection
+     * </pre>
+     *
      * Protobuf type {@code YandexQuery.DescribeConnectionRequest}
      */
     public static final class Builder extends
@@ -51552,6 +52607,10 @@ public final class YandexQueryProtos {
         getIdempotencyKeyBytes();
   }
   /**
+   * <pre>
+   * Change connection information. All fields must be filled in the request. The connection changes completely
+   * </pre>
+   *
    * Protobuf type {@code YandexQuery.ModifyConnectionRequest}
    */
   public static final class ModifyConnectionRequest extends
@@ -52021,6 +53080,10 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
+     * <pre>
+     * Change connection information. All fields must be filled in the request. The connection changes completely
+     * </pre>
+     *
      * Protobuf type {@code YandexQuery.ModifyConnectionRequest}
      */
     public static final class Builder extends
@@ -53831,6 +54894,10 @@ public final class YandexQueryProtos {
         getIdempotencyKeyBytes();
   }
   /**
+   * <pre>
+   * Complete removal of connection. Recovery of the connection after this operation is not possible
+   * </pre>
+   *
    * Protobuf type {@code YandexQuery.DeleteConnectionRequest}
    */
   public static final class DeleteConnectionRequest extends
@@ -54245,6 +55312,10 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
+     * <pre>
+     * Complete removal of connection. Recovery of the connection after this operation is not possible
+     * </pre>
+     *
      * Protobuf type {@code YandexQuery.DeleteConnectionRequest}
      */
     public static final class Builder extends
@@ -55922,6 +56993,10 @@ public final class YandexQueryProtos {
     long getLimit();
   }
   /**
+   * <pre>
+   * Getting the result of the query execution
+   * </pre>
+   *
    * Protobuf type {@code YandexQuery.GetResultDataRequest}
    */
   public static final class GetResultDataRequest extends
@@ -56336,6 +57411,10 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
+     * <pre>
+     * Getting the result of the query execution
+     * </pre>
+     *
      * Protobuf type {@code YandexQuery.GetResultDataRequest}
      */
     public static final class Builder extends
@@ -66325,6 +67404,10 @@ public final class YandexQueryProtos {
         getIdempotencyKeyBytes();
   }
   /**
+   * <pre>
+   * Create a new binding
+   * </pre>
+   *
    * Protobuf type {@code YandexQuery.CreateBindingRequest}
    */
   public static final class CreateBindingRequest extends
@@ -66711,6 +67794,10 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
+     * <pre>
+     * Create a new binding
+     * </pre>
+     *
      * Protobuf type {@code YandexQuery.CreateBindingRequest}
      */
     public static final class Builder extends
@@ -68539,6 +69626,10 @@ public final class YandexQueryProtos {
     int getLimit();
   }
   /**
+   * <pre>
+   * Getting information about bindings
+   * </pre>
+   *
    * Protobuf type {@code YandexQuery.ListBindingsRequest}
    */
   public static final class ListBindingsRequest extends
@@ -68897,6 +69988,10 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
+     * <pre>
+     * Getting information about bindings
+     * </pre>
+     *
      * Protobuf type {@code YandexQuery.ListBindingsRequest}
      */
     public static final class Builder extends
@@ -70998,6 +72093,10 @@ public final class YandexQueryProtos {
         getBindingIdBytes();
   }
   /**
+   * <pre>
+   * Getting information about the binding
+   * </pre>
+   *
    * Protobuf type {@code YandexQuery.DescribeBindingRequest}
    */
   public static final class DescribeBindingRequest extends
@@ -71329,6 +72428,10 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
+     * <pre>
+     * Getting information about the binding
+     * </pre>
+     *
      * Protobuf type {@code YandexQuery.DescribeBindingRequest}
      */
     public static final class Builder extends
@@ -73104,6 +74207,10 @@ public final class YandexQueryProtos {
         getIdempotencyKeyBytes();
   }
   /**
+   * <pre>
+   * Change binding information. All fields must be filled in the request. The binding changes completely
+   * </pre>
+   *
    * Protobuf type {@code YandexQuery.ModifyBindingRequest}
    */
   public static final class ModifyBindingRequest extends
@@ -73573,6 +74680,10 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
+     * <pre>
+     * Change binding information. All fields must be filled in the request. The binding changes completely
+     * </pre>
+     *
      * Protobuf type {@code YandexQuery.ModifyBindingRequest}
      */
     public static final class Builder extends
@@ -75383,6 +76494,10 @@ public final class YandexQueryProtos {
         getIdempotencyKeyBytes();
   }
   /**
+   * <pre>
+   * Complete removal of binding. Recovery of the binding after this operation is not possible
+   * </pre>
+   *
    * Protobuf type {@code YandexQuery.DeleteBindingRequest}
    */
   public static final class DeleteBindingRequest extends
@@ -75797,6 +76912,10 @@ public final class YandexQueryProtos {
       return builder;
     }
     /**
+     * <pre>
+     * Complete removal of binding. Recovery of the binding after this operation is not possible
+     * </pre>
+     *
      * Protobuf type {@code YandexQuery.DeleteBindingRequest}
      */
     public static final class Builder extends
@@ -78026,150 +79145,151 @@ public final class YandexQueryProtos {
       "base\022\034\n\013database_id\030\001 \001(\tB\007\242\346*\003\030\200\010\022\"\n\004au" +
       "th\030\002 \001(\0132\024.YandexQuery.IamAuth\022\031\n\010endpoi" +
       "nt\030\003 \001(\tB\007\242\346*\003\030\200\010\022\031\n\010database\030\004 \001(\tB\007\242\346*" +
-      "\003\030\200\010\022\016\n\006secure\030\005 \001(\010\"\251\001\n\021ClickHouseClust" +
+      "\003\030\200\010\022\016\n\006secure\030\005 \001(\010\"\315\001\n\021ClickHouseClust" +
       "er\022\034\n\013database_id\030\001 \001(\tB\007\242\346*\003\030\200\010\022\026\n\005logi" +
       "n\030\002 \001(\tB\007\242\346*\003\030\200\010\022\031\n\010password\030\003 \001(\tB\007\242\346*\003" +
-      "\030\200\010\022\025\n\004host\030\004 \001(\tB\007\242\346*\003\030\200\010\022\034\n\004port\030\005 \001(\005" +
-      "B\016\262\346*\n[0; 65536]\022\016\n\006secure\030\006 \001(\010\"V\n\027Obje" +
-      "ctStorageConnection\022\027\n\006bucket\030\001 \001(\tB\007\242\346*" +
-      "\003\030\200\010\022\"\n\004auth\030\002 \001(\0132\024.YandexQuery.IamAuth" +
-      "\"\203\002\n\021ConnectionSetting\0220\n\014ydb_database\030\001" +
-      " \001(\0132\030.YandexQuery.YdbDatabaseH\000\022<\n\022clic" +
-      "khouse_cluster\030\002 \001(\0132\036.YandexQuery.Click" +
-      "HouseClusterH\000\0220\n\014data_streams\030\003 \001(\0132\030.Y" +
-      "andexQuery.DataStreamsH\000\022>\n\016object_stora" +
-      "ge\030\004 \001(\0132$.YandexQuery.ObjectStorageConn" +
-      "ectionH\000B\014\n\nconnection\"\234\001\n\021ConnectionCon" +
-      "tent\022\031\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022/\n\007setti" +
-      "ng\030\002 \001(\0132\036.YandexQuery.ConnectionSetting" +
-      "\022\035\n\003acl\030\003 \001(\0132\020.YandexQuery.Acl\022\034\n\013descr" +
-      "iption\030\004 \001(\tB\007\242\346*\003\030\200P\"d\n\nConnection\022/\n\007c" +
-      "ontent\030\001 \001(\0132\036.YandexQuery.ConnectionCon" +
-      "tent\022%\n\004meta\030\002 \001(\0132\027.YandexQuery.CommonM" +
-      "eta\"\247\001\n\027CreateConnectionRequest\0229\n\020opera" +
-      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
-      "tionParams\022/\n\007content\030\002 \001(\0132\036.YandexQuer" +
-      "y.ConnectionContent\022 \n\017idempotency_key\030\003" +
-      " \001(\tB\007\242\346*\003\030\200\010\"H\n\030CreateConnectionRespons" +
-      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
-      "eration\"<\n\026CreateConnectionResult\022\"\n\rcon" +
-      "nection_id\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"\215\001\n\026ListCo" +
-      "nnectionsRequest\0229\n\020operation_params\030\001 \001" +
-      "(\0132\037.Ydb.Operations.OperationParams\022\033\n\np" +
-      "age_token\030\002 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limit\030\003 \001(\005B" +
-      "\014\262\346*\010[1; 100]\"G\n\027ListConnectionsResponse" +
-      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
-      "ration\"f\n\025ListConnectionsResult\022+\n\nconne" +
-      "ction\030\001 \003(\0132\027.YandexQuery.Connection\022 \n\017" +
-      "next_page_token\030\002 \001(\tB\007\242\346*\003\030\200\010\"z\n\031Descri" +
-      "beConnectionRequest\0229\n\020operation_params\030" +
-      "\001 \001(\0132\037.Ydb.Operations.OperationParams\022\"" +
-      "\n\rconnection_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"J\n\032De" +
-      "scribeConnectionResponse\022,\n\toperation\030\001 " +
-      "\001(\0132\031.Ydb.Operations.Operation\"G\n\030Descri" +
-      "beConnectionResult\022+\n\nconnection\030\001 \001(\0132\027" +
-      ".YandexQuery.Connection\"\360\001\n\027ModifyConnec" +
-      "tionRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
-      "Ydb.Operations.OperationParams\022\"\n\rconnec" +
-      "tion_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022/\n\007content\030\003 " +
-      "\001(\0132\036.YandexQuery.ConnectionContent\022#\n\021p" +
-      "revious_revision\030\004 \001(\003B\010\262\346*\004>= 0\022 \n\017idem" +
-      "potency_key\030\005 \001(\tB\007\242\346*\003\030\200\010\"H\n\030ModifyConn" +
-      "ectionResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
-      "Operations.Operation\"\030\n\026ModifyConnection" +
-      "Result\"\277\001\n\027DeleteConnectionRequest\0229\n\020op" +
-      "eration_params\030\001 \001(\0132\037.Ydb.Operations.Op" +
-      "erationParams\022\"\n\rconnection_id\030\002 \001(\tB\013\242\346" +
-      "*\007\n\005\010\001\020\200\010\022#\n\021previous_revision\030\003 \001(\003B\010\262\346" +
-      "*\004>= 0\022 \n\017idempotency_key\030\004 \001(\tB\007\242\346*\003\030\200\010" +
-      "\"H\n\030DeleteConnectionResponse\022,\n\toperatio" +
-      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\030\n\026De" +
-      "leteConnectionResult\"\313\001\n\024GetResultDataRe" +
-      "quest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Op" +
-      "erations.OperationParams\022\035\n\010query_id\030\002 \001" +
-      "(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\020result_set_index\030\003 \001(" +
-      "\005B\010\262\346*\004>= 0\022\030\n\006offset\030\004 \001(\003B\010\262\346*\004>= 0\022\033\n" +
-      "\005limit\030\005 \001(\003B\014\262\346*\010[1; 100]\"E\n\025GetResultD" +
-      "ataResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
-      "rations.Operation\"9\n\023GetResultDataResult" +
-      "\022\"\n\nresult_set\030\001 \001(\0132\016.Ydb.ResultSet\"-\n\006" +
-      "Schema\022#\n\006column\030\001 \003(\0132\013.Ydb.ColumnB\006\232\346*" +
-      "\002\030d\"\222\001\n\022DataStreamsBinding\022 \n\013stream_nam" +
-      "e\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\027\n\006format\030\002 \001(\tB\007\242\346" +
-      "*\003\030\200\010\022\034\n\013compression\030\003 \001(\tB\007\242\346*\003\030\200\010\022#\n\006s" +
-      "chema\030\004 \001(\0132\023.YandexQuery.Schema\"\355\002\n\024Obj" +
-      "ectStorageBinding\0228\n\006subset\030\001 \003(\0132(.Yand" +
-      "exQuery.ObjectStorageBinding.Subset\032\232\002\n\006" +
-      "Subset\022!\n\014path_pattern\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200" +
-      "\010\022\027\n\006format\030\002 \001(\tB\007\242\346*\003\030\200\010\022[\n\016format_set" +
-      "ting\030\003 \003(\0132;.YandexQuery.ObjectStorageBi" +
-      "nding.Subset.FormatSettingEntryB\006\232\346*\002\030d\022" +
-      "\034\n\013compression\030\004 \001(\tB\007\242\346*\003\030\200\010\022#\n\006schema\030" +
-      "\005 \001(\0132\023.YandexQuery.Schema\0324\n\022FormatSett" +
-      "ingEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001" +
-      "\"\221\001\n\016BindingSetting\0227\n\014data_streams\030\001 \001(" +
-      "\0132\037.YandexQuery.DataStreamsBindingH\000\022;\n\016" +
-      "object_storage\030\002 \001(\0132!.YandexQuery.Objec" +
-      "tStorageBindingH\000B\t\n\007binding\"\234\001\n\014BriefBi" +
-      "nding\022\031\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\rconn" +
-      "ection_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022%\n\004meta\030\003 \001" +
-      "(\0132\027.YandexQuery.CommonMeta\022&\n\004type\030\004 \001(" +
-      "\0162\030.YandexQuery.BindingType\"\272\001\n\016BindingC" +
-      "ontent\022\031\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\rcon" +
-      "nection_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022,\n\007setting" +
-      "\030\003 \001(\0132\033.YandexQuery.BindingSetting\022\035\n\003a" +
-      "cl\030\004 \001(\0132\020.YandexQuery.Acl\022\034\n\013descriptio" +
-      "n\030\005 \001(\tB\007\242\346*\003\030\200P\"^\n\007Binding\022,\n\007content\030\001" +
-      " \001(\0132\033.YandexQuery.BindingContent\022%\n\004met" +
-      "a\030\002 \001(\0132\027.YandexQuery.CommonMeta\"\241\001\n\024Cre" +
-      "ateBindingRequest\0229\n\020operation_params\030\001 " +
-      "\001(\0132\037.Ydb.Operations.OperationParams\022,\n\007" +
-      "content\030\002 \001(\0132\033.YandexQuery.BindingConte" +
-      "nt\022 \n\017idempotency_key\030\003 \001(\tB\007\242\346*\003\030\200\010\"E\n\025" +
-      "CreateBindingResponse\022,\n\toperation\030\001 \001(\013" +
-      "2\031.Ydb.Operations.Operation\"6\n\023CreateBin" +
-      "dingResult\022\037\n\nbinding_id\030\001 \001(\tB\013\242\346*\007\n\005\010\001" +
-      "\020\200\010\"\212\001\n\023ListBindingsRequest\0229\n\020operation" +
+      "\030\200\010\022\"\n\004auth\030\004 \001(\0132\024.YandexQuery.IamAuth\022" +
+      "\025\n\004host\030\005 \001(\tB\007\242\346*\003\030\200\010\022\034\n\004port\030\006 \001(\005B\016\262\346" +
+      "*\n[0; 65536]\022\016\n\006secure\030\007 \001(\010\"V\n\027ObjectSt" +
+      "orageConnection\022\027\n\006bucket\030\001 \001(\tB\007\242\346*\003\030\200\010" +
+      "\022\"\n\004auth\030\002 \001(\0132\024.YandexQuery.IamAuth\"\203\002\n" +
+      "\021ConnectionSetting\0220\n\014ydb_database\030\001 \001(\013" +
+      "2\030.YandexQuery.YdbDatabaseH\000\022<\n\022clickhou" +
+      "se_cluster\030\002 \001(\0132\036.YandexQuery.ClickHous" +
+      "eClusterH\000\0220\n\014data_streams\030\003 \001(\0132\030.Yande" +
+      "xQuery.DataStreamsH\000\022>\n\016object_storage\030\004" +
+      " \001(\0132$.YandexQuery.ObjectStorageConnecti" +
+      "onH\000B\014\n\nconnection\"\234\001\n\021ConnectionContent" +
+      "\022\031\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022/\n\007setting\030\002" +
+      " \001(\0132\036.YandexQuery.ConnectionSetting\022\035\n\003" +
+      "acl\030\003 \001(\0132\020.YandexQuery.Acl\022\034\n\013descripti" +
+      "on\030\004 \001(\tB\007\242\346*\003\030\200P\"d\n\nConnection\022/\n\007conte" +
+      "nt\030\001 \001(\0132\036.YandexQuery.ConnectionContent" +
+      "\022%\n\004meta\030\002 \001(\0132\027.YandexQuery.CommonMeta\"" +
+      "\247\001\n\027CreateConnectionRequest\0229\n\020operation" +
       "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
-      "Params\022\033\n\npage_token\030\002 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005l" +
-      "imit\030\003 \001(\005B\014\262\346*\010[1; 100]\"D\n\024ListBindings" +
-      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
-      "ions.Operation\"b\n\022ListBindingsResult\022*\n\007" +
-      "binding\030\001 \003(\0132\031.YandexQuery.BriefBinding" +
-      "\022 \n\017next_page_token\030\002 \001(\tB\007\242\346*\003\030\200\010\"t\n\026De" +
-      "scribeBindingRequest\0229\n\020operation_params" +
-      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\022" +
-      "\037\n\nbinding_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"G\n\027Desc" +
-      "ribeBindingResponse\022,\n\toperation\030\001 \001(\0132\031" +
-      ".Ydb.Operations.Operation\">\n\025DescribeBin" +
-      "dingResult\022%\n\007binding\030\001 \001(\0132\024.YandexQuer" +
-      "y.Binding\"\347\001\n\024ModifyBindingRequest\0229\n\020op" +
-      "eration_params\030\001 \001(\0132\037.Ydb.Operations.Op" +
-      "erationParams\022\037\n\nbinding_id\030\002 \001(\tB\013\242\346*\007\n" +
-      "\005\010\001\020\200\010\022,\n\007content\030\003 \001(\0132\033.YandexQuery.Bi" +
-      "ndingContent\022#\n\021previous_revision\030\004 \001(\003B" +
-      "\010\262\346*\004>= 0\022 \n\017idempotency_key\030\005 \001(\tB\007\242\346*\003" +
-      "\030\200\010\"E\n\025ModifyBindingResponse\022,\n\toperatio" +
-      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\025\n\023Mo" +
-      "difyBindingResult\"\271\001\n\024DeleteBindingReque" +
-      "st\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Opera" +
-      "tions.OperationParams\022\037\n\nbinding_id\030\002 \001(" +
-      "\tB\013\242\346*\007\n\005\010\001\020\200\010\022#\n\021previous_revision\030\003 \001(" +
-      "\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\004 \001(\tB\007\242\346" +
-      "*\003\030\200\010\"E\n\025DeleteBindingResponse\022,\n\toperat" +
-      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\025\n\023" +
-      "DeleteBindingResult*q\n\013ExecuteMode\022\034\n\030EX" +
-      "ECUTE_MODE_UNSPECIFIED\020\000\022\010\n\004SAVE\020\001\022\t\n\005PA" +
-      "RSE\020\002\022\013\n\007COMPILE\020\003\022\014\n\010VALIDATE\020\004\022\013\n\007EXPL" +
-      "AIN\020\005\022\007\n\003RUN\020\006*y\n\013QueryAction\022\034\n\030QUERY_A" +
-      "CTION_UNSPECIFIED\020\000\022\t\n\005PAUSE\020\001\022\024\n\020PAUSE_" +
-      "GRACEFULLY\020\002\022\t\n\005ABORT\020\003\022\024\n\020ABORT_GRACEFU" +
-      "LLY\020\004\022\n\n\006RESUME\020\005*U\n\rStateLoadMode\022\037\n\033ST" +
-      "ATE_LOAD_MODE_UNSPECIFIED\020\000\022\t\n\005EMPTY\020\001\022\030" +
-      "\n\024FROM_LAST_CHECKPOINT\020\002*Q\n\013BindingType\022" +
-      "\034\n\030BINDING_TYPE_UNSPECIFIED\020\000\022\020\n\014DATA_ST" +
-      "REAMS\020\001\022\022\n\016OBJECT_STORAGE\020\002B(\n\020com.yande" +
-      "x.queryB\021YandexQueryProtos\370\001\001b\006proto3"
+      "Params\022/\n\007content\030\002 \001(\0132\036.YandexQuery.Co" +
+      "nnectionContent\022 \n\017idempotency_key\030\003 \001(\t" +
+      "B\007\242\346*\003\030\200\010\"H\n\030CreateConnectionResponse\022,\n" +
+      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
+      "ion\"<\n\026CreateConnectionResult\022\"\n\rconnect" +
+      "ion_id\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"\215\001\n\026ListConnec" +
+      "tionsRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
+      ".Ydb.Operations.OperationParams\022\033\n\npage_" +
+      "token\030\002 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limit\030\003 \001(\005B\014\262\346*" +
+      "\010[1; 100]\"G\n\027ListConnectionsResponse\022,\n\t" +
+      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
+      "on\"f\n\025ListConnectionsResult\022+\n\nconnectio" +
+      "n\030\001 \003(\0132\027.YandexQuery.Connection\022 \n\017next" +
+      "_page_token\030\002 \001(\tB\007\242\346*\003\030\200\010\"z\n\031DescribeCo" +
+      "nnectionRequest\0229\n\020operation_params\030\001 \001(" +
+      "\0132\037.Ydb.Operations.OperationParams\022\"\n\rco" +
+      "nnection_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"J\n\032Descri" +
+      "beConnectionResponse\022,\n\toperation\030\001 \001(\0132" +
+      "\031.Ydb.Operations.Operation\"G\n\030DescribeCo" +
+      "nnectionResult\022+\n\nconnection\030\001 \001(\0132\027.Yan" +
+      "dexQuery.Connection\"\360\001\n\027ModifyConnection" +
+      "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb." +
+      "Operations.OperationParams\022\"\n\rconnection" +
+      "_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022/\n\007content\030\003 \001(\0132" +
+      "\036.YandexQuery.ConnectionContent\022#\n\021previ" +
+      "ous_revision\030\004 \001(\003B\010\262\346*\004>= 0\022 \n\017idempote" +
+      "ncy_key\030\005 \001(\tB\007\242\346*\003\030\200\010\"H\n\030ModifyConnecti" +
+      "onResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
+      "ations.Operation\"\030\n\026ModifyConnectionResu" +
+      "lt\"\277\001\n\027DeleteConnectionRequest\0229\n\020operat" +
+      "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat" +
+      "ionParams\022\"\n\rconnection_id\030\002 \001(\tB\013\242\346*\007\n\005" +
+      "\010\001\020\200\010\022#\n\021previous_revision\030\003 \001(\003B\010\262\346*\004>=" +
+      " 0\022 \n\017idempotency_key\030\004 \001(\tB\007\242\346*\003\030\200\010\"H\n\030" +
+      "DeleteConnectionResponse\022,\n\toperation\030\001 " +
+      "\001(\0132\031.Ydb.Operations.Operation\"\030\n\026Delete" +
+      "ConnectionResult\"\313\001\n\024GetResultDataReques" +
+      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
+      "ions.OperationParams\022\035\n\010query_id\030\002 \001(\tB\013" +
+      "\242\346*\007\n\005\010\001\020\200\010\022\"\n\020result_set_index\030\003 \001(\005B\010\262" +
+      "\346*\004>= 0\022\030\n\006offset\030\004 \001(\003B\010\262\346*\004>= 0\022\033\n\005lim" +
+      "it\030\005 \001(\003B\014\262\346*\010[1; 100]\"E\n\025GetResultDataR" +
+      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
+      "ons.Operation\"9\n\023GetResultDataResult\022\"\n\n" +
+      "result_set\030\001 \001(\0132\016.Ydb.ResultSet\"-\n\006Sche" +
+      "ma\022#\n\006column\030\001 \003(\0132\013.Ydb.ColumnB\006\232\346*\002\030d\"" +
+      "\222\001\n\022DataStreamsBinding\022 \n\013stream_name\030\001 " +
+      "\001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\027\n\006format\030\002 \001(\tB\007\242\346*\003\030\200" +
+      "\010\022\034\n\013compression\030\003 \001(\tB\007\242\346*\003\030\200\010\022#\n\006schem" +
+      "a\030\004 \001(\0132\023.YandexQuery.Schema\"\355\002\n\024ObjectS" +
+      "torageBinding\0228\n\006subset\030\001 \003(\0132(.YandexQu" +
+      "ery.ObjectStorageBinding.Subset\032\232\002\n\006Subs" +
+      "et\022!\n\014path_pattern\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\027\n" +
+      "\006format\030\002 \001(\tB\007\242\346*\003\030\200\010\022[\n\016format_setting" +
+      "\030\003 \003(\0132;.YandexQuery.ObjectStorageBindin" +
+      "g.Subset.FormatSettingEntryB\006\232\346*\002\030d\022\034\n\013c" +
+      "ompression\030\004 \001(\tB\007\242\346*\003\030\200\010\022#\n\006schema\030\005 \001(" +
+      "\0132\023.YandexQuery.Schema\0324\n\022FormatSettingE" +
+      "ntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\221\001\n" +
+      "\016BindingSetting\0227\n\014data_streams\030\001 \001(\0132\037." +
+      "YandexQuery.DataStreamsBindingH\000\022;\n\016obje" +
+      "ct_storage\030\002 \001(\0132!.YandexQuery.ObjectSto" +
+      "rageBindingH\000B\t\n\007binding\"\234\001\n\014BriefBindin" +
+      "g\022\031\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\rconnecti" +
+      "on_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022%\n\004meta\030\003 \001(\0132\027" +
+      ".YandexQuery.CommonMeta\022&\n\004type\030\004 \001(\0162\030." +
+      "YandexQuery.BindingType\"\272\001\n\016BindingConte" +
+      "nt\022\031\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\rconnect" +
+      "ion_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022,\n\007setting\030\003 \001" +
+      "(\0132\033.YandexQuery.BindingSetting\022\035\n\003acl\030\004" +
+      " \001(\0132\020.YandexQuery.Acl\022\034\n\013description\030\005 " +
+      "\001(\tB\007\242\346*\003\030\200P\"^\n\007Binding\022,\n\007content\030\001 \001(\013" +
+      "2\033.YandexQuery.BindingContent\022%\n\004meta\030\002 " +
+      "\001(\0132\027.YandexQuery.CommonMeta\"\241\001\n\024CreateB" +
+      "indingRequest\0229\n\020operation_params\030\001 \001(\0132" +
+      "\037.Ydb.Operations.OperationParams\022,\n\007cont" +
+      "ent\030\002 \001(\0132\033.YandexQuery.BindingContent\022 " +
+      "\n\017idempotency_key\030\003 \001(\tB\007\242\346*\003\030\200\010\"E\n\025Crea" +
+      "teBindingResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
+      "db.Operations.Operation\"6\n\023CreateBinding" +
+      "Result\022\037\n\nbinding_id\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"" +
+      "\212\001\n\023ListBindingsRequest\0229\n\020operation_par" +
+      "ams\030\001 \001(\0132\037.Ydb.Operations.OperationPara" +
+      "ms\022\033\n\npage_token\030\002 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limit" +
+      "\030\003 \001(\005B\014\262\346*\010[1; 100]\"D\n\024ListBindingsResp" +
+      "onse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations" +
+      ".Operation\"b\n\022ListBindingsResult\022*\n\007bind" +
+      "ing\030\001 \003(\0132\031.YandexQuery.BriefBinding\022 \n\017" +
+      "next_page_token\030\002 \001(\tB\007\242\346*\003\030\200\010\"t\n\026Descri" +
+      "beBindingRequest\0229\n\020operation_params\030\001 \001" +
+      "(\0132\037.Ydb.Operations.OperationParams\022\037\n\nb" +
+      "inding_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"G\n\027Describe" +
+      "BindingResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
+      ".Operations.Operation\">\n\025DescribeBinding" +
+      "Result\022%\n\007binding\030\001 \001(\0132\024.YandexQuery.Bi" +
+      "nding\"\347\001\n\024ModifyBindingRequest\0229\n\020operat" +
+      "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat" +
+      "ionParams\022\037\n\nbinding_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020" +
+      "\200\010\022,\n\007content\030\003 \001(\0132\033.YandexQuery.Bindin" +
+      "gContent\022#\n\021previous_revision\030\004 \001(\003B\010\262\346*" +
+      "\004>= 0\022 \n\017idempotency_key\030\005 \001(\tB\007\242\346*\003\030\200\010\"" +
+      "E\n\025ModifyBindingResponse\022,\n\toperation\030\001 " +
+      "\001(\0132\031.Ydb.Operations.Operation\"\025\n\023Modify" +
+      "BindingResult\"\271\001\n\024DeleteBindingRequest\0229" +
+      "\n\020operation_params\030\001 \001(\0132\037.Ydb.Operation" +
+      "s.OperationParams\022\037\n\nbinding_id\030\002 \001(\tB\013\242" +
+      "\346*\007\n\005\010\001\020\200\010\022#\n\021previous_revision\030\003 \001(\003B\010\262" +
+      "\346*\004>= 0\022 \n\017idempotency_key\030\004 \001(\tB\007\242\346*\003\030\200" +
+      "\010\"E\n\025DeleteBindingResponse\022,\n\toperation\030" +
+      "\001 \001(\0132\031.Ydb.Operations.Operation\"\025\n\023Dele" +
+      "teBindingResult*q\n\013ExecuteMode\022\034\n\030EXECUT" +
+      "E_MODE_UNSPECIFIED\020\000\022\010\n\004SAVE\020\001\022\t\n\005PARSE\020" +
+      "\002\022\013\n\007COMPILE\020\003\022\014\n\010VALIDATE\020\004\022\013\n\007EXPLAIN\020" +
+      "\005\022\007\n\003RUN\020\006*y\n\013QueryAction\022\034\n\030QUERY_ACTIO" +
+      "N_UNSPECIFIED\020\000\022\t\n\005PAUSE\020\001\022\024\n\020PAUSE_GRAC" +
+      "EFULLY\020\002\022\t\n\005ABORT\020\003\022\024\n\020ABORT_GRACEFULLY\020" +
+      "\004\022\n\n\006RESUME\020\005*U\n\rStateLoadMode\022\037\n\033STATE_" +
+      "LOAD_MODE_UNSPECIFIED\020\000\022\t\n\005EMPTY\020\001\022\030\n\024FR" +
+      "OM_LAST_CHECKPOINT\020\002*Q\n\013BindingType\022\034\n\030B" +
+      "INDING_TYPE_UNSPECIFIED\020\000\022\020\n\014DATA_STREAM" +
+      "S\020\001\022\022\n\016OBJECT_STORAGE\020\002B(\n\020com.yandex.qu" +
+      "eryB\021YandexQueryProtos\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -78433,7 +79553,7 @@ public final class YandexQueryProtos {
     internal_static_YandexQuery_ClickHouseCluster_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_YandexQuery_ClickHouseCluster_descriptor,
-        new java.lang.String[] { "DatabaseId", "Login", "Password", "Host", "Port", "Secure", });
+        new java.lang.String[] { "DatabaseId", "Login", "Password", "Auth", "Host", "Port", "Secure", });
     internal_static_YandexQuery_ObjectStorageConnection_descriptor =
       getDescriptor().getMessageTypes().get(39);
     internal_static_YandexQuery_ObjectStorageConnection_fieldAccessorTable = new
