@@ -17,6 +17,50 @@ public final class AnalyticsIntenalProtos {
   public interface GetTaskRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Yql.Analytics.GetTaskRequest)
       com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string tenant = 1;</code>
+     * @return The tenant.
+     */
+    java.lang.String getTenant();
+    /**
+     * <code>string tenant = 1;</code>
+     * @return The bytes for tenant.
+     */
+    com.google.protobuf.ByteString
+        getTenantBytes();
+
+    /**
+     * <pre>
+     * guid, should be refreshed on node restart
+     * </pre>
+     *
+     * <code>string owner_id = 2;</code>
+     * @return The ownerId.
+     */
+    java.lang.String getOwnerId();
+    /**
+     * <pre>
+     * guid, should be refreshed on node restart
+     * </pre>
+     *
+     * <code>string owner_id = 2;</code>
+     * @return The bytes for ownerId.
+     */
+    com.google.protobuf.ByteString
+        getOwnerIdBytes();
+
+    /**
+     * <code>string host = 3;</code>
+     * @return The host.
+     */
+    java.lang.String getHost();
+    /**
+     * <code>string host = 3;</code>
+     * @return The bytes for host.
+     */
+    com.google.protobuf.ByteString
+        getHostBytes();
   }
   /**
    * Protobuf type {@code Yql.Analytics.GetTaskRequest}
@@ -31,6 +75,9 @@ public final class AnalyticsIntenalProtos {
       super(builder);
     }
     private GetTaskRequest() {
+      tenant_ = "";
+      ownerId_ = "";
+      host_ = "";
     }
 
     @java.lang.Override
@@ -63,6 +110,24 @@ public final class AnalyticsIntenalProtos {
             case 0:
               done = true;
               break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              tenant_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              ownerId_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              host_ = s;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -95,6 +160,128 @@ public final class AnalyticsIntenalProtos {
               com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.GetTaskRequest.class, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.GetTaskRequest.Builder.class);
     }
 
+    public static final int TENANT_FIELD_NUMBER = 1;
+    private volatile java.lang.Object tenant_;
+    /**
+     * <code>string tenant = 1;</code>
+     * @return The tenant.
+     */
+    @java.lang.Override
+    public java.lang.String getTenant() {
+      java.lang.Object ref = tenant_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        tenant_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string tenant = 1;</code>
+     * @return The bytes for tenant.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTenantBytes() {
+      java.lang.Object ref = tenant_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tenant_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int OWNER_ID_FIELD_NUMBER = 2;
+    private volatile java.lang.Object ownerId_;
+    /**
+     * <pre>
+     * guid, should be refreshed on node restart
+     * </pre>
+     *
+     * <code>string owner_id = 2;</code>
+     * @return The ownerId.
+     */
+    @java.lang.Override
+    public java.lang.String getOwnerId() {
+      java.lang.Object ref = ownerId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        ownerId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * guid, should be refreshed on node restart
+     * </pre>
+     *
+     * <code>string owner_id = 2;</code>
+     * @return The bytes for ownerId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getOwnerIdBytes() {
+      java.lang.Object ref = ownerId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        ownerId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int HOST_FIELD_NUMBER = 3;
+    private volatile java.lang.Object host_;
+    /**
+     * <code>string host = 3;</code>
+     * @return The host.
+     */
+    @java.lang.Override
+    public java.lang.String getHost() {
+      java.lang.Object ref = host_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        host_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string host = 3;</code>
+     * @return The bytes for host.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getHostBytes() {
+      java.lang.Object ref = host_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        host_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -109,6 +296,15 @@ public final class AnalyticsIntenalProtos {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (!getTenantBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, tenant_);
+      }
+      if (!getOwnerIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, ownerId_);
+      }
+      if (!getHostBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, host_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -118,6 +314,15 @@ public final class AnalyticsIntenalProtos {
       if (size != -1) return size;
 
       size = 0;
+      if (!getTenantBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, tenant_);
+      }
+      if (!getOwnerIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, ownerId_);
+      }
+      if (!getHostBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, host_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -133,6 +338,12 @@ public final class AnalyticsIntenalProtos {
       }
       com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.GetTaskRequest other = (com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.GetTaskRequest) obj;
 
+      if (!getTenant()
+          .equals(other.getTenant())) return false;
+      if (!getOwnerId()
+          .equals(other.getOwnerId())) return false;
+      if (!getHost()
+          .equals(other.getHost())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -144,6 +355,12 @@ public final class AnalyticsIntenalProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TENANT_FIELD_NUMBER;
+      hash = (53 * hash) + getTenant().hashCode();
+      hash = (37 * hash) + OWNER_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getOwnerId().hashCode();
+      hash = (37 * hash) + HOST_FIELD_NUMBER;
+      hash = (53 * hash) + getHost().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -277,6 +494,12 @@ public final class AnalyticsIntenalProtos {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        tenant_ = "";
+
+        ownerId_ = "";
+
+        host_ = "";
+
         return this;
       }
 
@@ -303,6 +526,9 @@ public final class AnalyticsIntenalProtos {
       @java.lang.Override
       public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.GetTaskRequest buildPartial() {
         com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.GetTaskRequest result = new com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.GetTaskRequest(this);
+        result.tenant_ = tenant_;
+        result.ownerId_ = ownerId_;
+        result.host_ = host_;
         onBuilt();
         return result;
       }
@@ -351,6 +577,18 @@ public final class AnalyticsIntenalProtos {
 
       public Builder mergeFrom(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.GetTaskRequest other) {
         if (other == com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.GetTaskRequest.getDefaultInstance()) return this;
+        if (!other.getTenant().isEmpty()) {
+          tenant_ = other.tenant_;
+          onChanged();
+        }
+        if (!other.getOwnerId().isEmpty()) {
+          ownerId_ = other.ownerId_;
+          onChanged();
+        }
+        if (!other.getHost().isEmpty()) {
+          host_ = other.host_;
+          onChanged();
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -377,6 +615,254 @@ public final class AnalyticsIntenalProtos {
             mergeFrom(parsedMessage);
           }
         }
+        return this;
+      }
+
+      private java.lang.Object tenant_ = "";
+      /**
+       * <code>string tenant = 1;</code>
+       * @return The tenant.
+       */
+      public java.lang.String getTenant() {
+        java.lang.Object ref = tenant_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          tenant_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string tenant = 1;</code>
+       * @return The bytes for tenant.
+       */
+      public com.google.protobuf.ByteString
+          getTenantBytes() {
+        java.lang.Object ref = tenant_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tenant_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string tenant = 1;</code>
+       * @param value The tenant to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTenant(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        tenant_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string tenant = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTenant() {
+        
+        tenant_ = getDefaultInstance().getTenant();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string tenant = 1;</code>
+       * @param value The bytes for tenant to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTenantBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        tenant_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object ownerId_ = "";
+      /**
+       * <pre>
+       * guid, should be refreshed on node restart
+       * </pre>
+       *
+       * <code>string owner_id = 2;</code>
+       * @return The ownerId.
+       */
+      public java.lang.String getOwnerId() {
+        java.lang.Object ref = ownerId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          ownerId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * guid, should be refreshed on node restart
+       * </pre>
+       *
+       * <code>string owner_id = 2;</code>
+       * @return The bytes for ownerId.
+       */
+      public com.google.protobuf.ByteString
+          getOwnerIdBytes() {
+        java.lang.Object ref = ownerId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          ownerId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * guid, should be refreshed on node restart
+       * </pre>
+       *
+       * <code>string owner_id = 2;</code>
+       * @param value The ownerId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOwnerId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        ownerId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * guid, should be refreshed on node restart
+       * </pre>
+       *
+       * <code>string owner_id = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearOwnerId() {
+        
+        ownerId_ = getDefaultInstance().getOwnerId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * guid, should be refreshed on node restart
+       * </pre>
+       *
+       * <code>string owner_id = 2;</code>
+       * @param value The bytes for ownerId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOwnerIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        ownerId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object host_ = "";
+      /**
+       * <code>string host = 3;</code>
+       * @return The host.
+       */
+      public java.lang.String getHost() {
+        java.lang.Object ref = host_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          host_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string host = 3;</code>
+       * @return The bytes for host.
+       */
+      public com.google.protobuf.ByteString
+          getHostBytes() {
+        java.lang.Object ref = host_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          host_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string host = 3;</code>
+       * @param value The host to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHost(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        host_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string host = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHost() {
+        
+        host_ = getDefaultInstance().getHost();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string host = 3;</code>
+       * @param value The bytes for host to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHostBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        host_ = value;
+        onChanged();
         return this;
       }
       @java.lang.Override
@@ -432,6 +918,724 @@ public final class AnalyticsIntenalProtos {
 
   }
 
+  public interface SignedIdentityOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Yql.Analytics.SignedIdentity)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string value = 1;</code>
+     * @return The value.
+     */
+    java.lang.String getValue();
+    /**
+     * <code>string value = 1;</code>
+     * @return The bytes for value.
+     */
+    com.google.protobuf.ByteString
+        getValueBytes();
+
+    /**
+     * <code>string signature = 2;</code>
+     * @return The signature.
+     */
+    java.lang.String getSignature();
+    /**
+     * <code>string signature = 2;</code>
+     * @return The bytes for signature.
+     */
+    com.google.protobuf.ByteString
+        getSignatureBytes();
+  }
+  /**
+   * Protobuf type {@code Yql.Analytics.SignedIdentity}
+   */
+  public static final class SignedIdentity extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Yql.Analytics.SignedIdentity)
+      SignedIdentityOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use SignedIdentity.newBuilder() to construct.
+    private SignedIdentity(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private SignedIdentity() {
+      value_ = "";
+      signature_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SignedIdentity();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SignedIdentity(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              value_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              signature_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_SignedIdentity_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_SignedIdentity_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.class, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder.class);
+    }
+
+    public static final int VALUE_FIELD_NUMBER = 1;
+    private volatile java.lang.Object value_;
+    /**
+     * <code>string value = 1;</code>
+     * @return The value.
+     */
+    @java.lang.Override
+    public java.lang.String getValue() {
+      java.lang.Object ref = value_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        value_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string value = 1;</code>
+     * @return The bytes for value.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getValueBytes() {
+      java.lang.Object ref = value_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        value_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SIGNATURE_FIELD_NUMBER = 2;
+    private volatile java.lang.Object signature_;
+    /**
+     * <code>string signature = 2;</code>
+     * @return The signature.
+     */
+    @java.lang.Override
+    public java.lang.String getSignature() {
+      java.lang.Object ref = signature_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        signature_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string signature = 2;</code>
+     * @return The bytes for signature.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getSignatureBytes() {
+      java.lang.Object ref = signature_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        signature_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getValueBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, value_);
+      }
+      if (!getSignatureBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, signature_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getValueBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, value_);
+      }
+      if (!getSignatureBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, signature_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity)) {
+        return super.equals(obj);
+      }
+      com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity other = (com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity) obj;
+
+      if (!getValue()
+          .equals(other.getValue())) return false;
+      if (!getSignature()
+          .equals(other.getSignature())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + VALUE_FIELD_NUMBER;
+      hash = (53 * hash) + getValue().hashCode();
+      hash = (37 * hash) + SIGNATURE_FIELD_NUMBER;
+      hash = (53 * hash) + getSignature().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Yql.Analytics.SignedIdentity}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Yql.Analytics.SignedIdentity)
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_SignedIdentity_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_SignedIdentity_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.class, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder.class);
+      }
+
+      // Construct using com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        value_ = "";
+
+        signature_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_SignedIdentity_descriptor;
+      }
+
+      @java.lang.Override
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getDefaultInstanceForType() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity build() {
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity buildPartial() {
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity result = new com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity(this);
+        result.value_ = value_;
+        result.signature_ = signature_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity) {
+          return mergeFrom((com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity other) {
+        if (other == com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance()) return this;
+        if (!other.getValue().isEmpty()) {
+          value_ = other.value_;
+          onChanged();
+        }
+        if (!other.getSignature().isEmpty()) {
+          signature_ = other.signature_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object value_ = "";
+      /**
+       * <code>string value = 1;</code>
+       * @return The value.
+       */
+      public java.lang.String getValue() {
+        java.lang.Object ref = value_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          value_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string value = 1;</code>
+       * @return The bytes for value.
+       */
+      public com.google.protobuf.ByteString
+          getValueBytes() {
+        java.lang.Object ref = value_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          value_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string value = 1;</code>
+       * @param value The value to set.
+       * @return This builder for chaining.
+       */
+      public Builder setValue(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        value_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string value = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearValue() {
+        
+        value_ = getDefaultInstance().getValue();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string value = 1;</code>
+       * @param value The bytes for value to set.
+       * @return This builder for chaining.
+       */
+      public Builder setValueBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        value_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object signature_ = "";
+      /**
+       * <code>string signature = 2;</code>
+       * @return The signature.
+       */
+      public java.lang.String getSignature() {
+        java.lang.Object ref = signature_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          signature_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string signature = 2;</code>
+       * @return The bytes for signature.
+       */
+      public com.google.protobuf.ByteString
+          getSignatureBytes() {
+        java.lang.Object ref = signature_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          signature_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string signature = 2;</code>
+       * @param value The signature to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSignature(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        signature_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string signature = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSignature() {
+        
+        signature_ = getDefaultInstance().getSignature();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string signature = 2;</code>
+       * @param value The bytes for signature to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSignatureBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        signature_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Yql.Analytics.SignedIdentity)
+    }
+
+    // @@protoc_insertion_point(class_scope:Yql.Analytics.SignedIdentity)
+    private static final com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity();
+    }
+
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SignedIdentity>
+        PARSER = new com.google.protobuf.AbstractParser<SignedIdentity>() {
+      @java.lang.Override
+      public SignedIdentity parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SignedIdentity(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<SignedIdentity> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SignedIdentity> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface GetTaskResultOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Yql.Analytics.GetTaskResult)
       com.google.protobuf.MessageOrBuilder {
@@ -443,144 +1647,197 @@ public final class AnalyticsIntenalProtos {
     boolean getHasTask();
 
     /**
-     * <code>string result_id = 2;</code>
+     * <pre>
+     * come back later in 10 sec ?
+     * </pre>
+     *
+     * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+     * @return Whether the resultId field is set.
+     */
+    boolean hasResultId();
+    /**
+     * <pre>
+     * come back later in 10 sec ?
+     * </pre>
+     *
+     * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
      * @return The resultId.
      */
-    java.lang.String getResultId();
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getResultId();
     /**
-     * <code>string result_id = 2;</code>
-     * @return The bytes for resultId.
+     * <pre>
+     * come back later in 10 sec ?
+     * </pre>
+     *
+     * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
      */
-    com.google.protobuf.ByteString
-        getResultIdBytes();
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getResultIdOrBuilder();
 
     /**
-     * <code>string result_id_signature = 3;</code>
-     * @return The resultIdSignature.
+     * <code>.Yql.Analytics.SignedIdentity query_id = 3;</code>
+     * @return Whether the queryId field is set.
      */
-    java.lang.String getResultIdSignature();
+    boolean hasQueryId();
     /**
-     * <code>string result_id_signature = 3;</code>
-     * @return The bytes for resultIdSignature.
+     * <code>.Yql.Analytics.SignedIdentity query_id = 3;</code>
+     * @return The queryId.
      */
-    com.google.protobuf.ByteString
-        getResultIdSignatureBytes();
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getQueryId();
+    /**
+     * <code>.Yql.Analytics.SignedIdentity query_id = 3;</code>
+     */
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getQueryIdOrBuilder();
 
     /**
-     * <code>string operation_id = 4;</code>
-     * @return The operationId.
+     * <code>.Yql.Analytics.SignedIdentity job_id = 4;</code>
+     * @return Whether the jobId field is set.
      */
-    java.lang.String getOperationId();
+    boolean hasJobId();
     /**
-     * <code>string operation_id = 4;</code>
-     * @return The bytes for operationId.
+     * <code>.Yql.Analytics.SignedIdentity job_id = 4;</code>
+     * @return The jobId.
      */
-    com.google.protobuf.ByteString
-        getOperationIdBytes();
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getJobId();
+    /**
+     * <code>.Yql.Analytics.SignedIdentity job_id = 4;</code>
+     */
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getJobIdOrBuilder();
 
     /**
-     * <code>string operation_id_signature = 5;</code>
-     * @return The operationIdSignature.
+     * <code>uint64 generation = 5;</code>
+     * @return The generation.
      */
-    java.lang.String getOperationIdSignature();
-    /**
-     * <code>string operation_id_signature = 5;</code>
-     * @return The bytes for operationIdSignature.
-     */
-    com.google.protobuf.ByteString
-        getOperationIdSignatureBytes();
+    long getGeneration();
 
     /**
-     * <code>string content = 6;</code>
-     * @return The content.
+     * <code>bool streaming = 6;</code>
+     * @return The streaming.
      */
-    java.lang.String getContent();
-    /**
-     * <code>string content = 6;</code>
-     * @return The bytes for content.
-     */
-    com.google.protobuf.ByteString
-        getContentBytes();
+    boolean getStreaming();
 
     /**
-     * <code>repeated .YandexQuery.Connection connection = 7;</code>
+     * <code>string dq_graph = 7;</code>
+     * @return The dqGraph.
+     */
+    java.lang.String getDqGraph();
+    /**
+     * <code>string dq_graph = 7;</code>
+     * @return The bytes for dqGraph.
+     */
+    com.google.protobuf.ByteString
+        getDqGraphBytes();
+
+    /**
+     * <pre>
+     * text, connection and binding are empty if dq_graph is not empty
+     * </pre>
+     *
+     * <code>string text = 8;</code>
+     * @return The text.
+     */
+    java.lang.String getText();
+    /**
+     * <pre>
+     * text, connection and binding are empty if dq_graph is not empty
+     * </pre>
+     *
+     * <code>string text = 8;</code>
+     * @return The bytes for text.
+     */
+    com.google.protobuf.ByteString
+        getTextBytes();
+
+    /**
+     * <code>repeated .YandexQuery.Connection connection = 9;</code>
      */
     java.util.List<com.yandex.query.YandexQueryProtos.Connection> 
         getConnectionList();
     /**
-     * <code>repeated .YandexQuery.Connection connection = 7;</code>
+     * <code>repeated .YandexQuery.Connection connection = 9;</code>
      */
     com.yandex.query.YandexQueryProtos.Connection getConnection(int index);
     /**
-     * <code>repeated .YandexQuery.Connection connection = 7;</code>
+     * <code>repeated .YandexQuery.Connection connection = 9;</code>
      */
     int getConnectionCount();
     /**
-     * <code>repeated .YandexQuery.Connection connection = 7;</code>
+     * <code>repeated .YandexQuery.Connection connection = 9;</code>
      */
     java.util.List<? extends com.yandex.query.YandexQueryProtos.ConnectionOrBuilder> 
         getConnectionOrBuilderList();
     /**
-     * <code>repeated .YandexQuery.Connection connection = 7;</code>
+     * <code>repeated .YandexQuery.Connection connection = 9;</code>
      */
     com.yandex.query.YandexQueryProtos.ConnectionOrBuilder getConnectionOrBuilder(
         int index);
 
     /**
-     * <code>repeated .YandexQuery.Binding binding = 8;</code>
+     * <code>repeated .YandexQuery.Binding binding = 10;</code>
      */
     java.util.List<com.yandex.query.YandexQueryProtos.Binding> 
         getBindingList();
     /**
-     * <code>repeated .YandexQuery.Binding binding = 8;</code>
+     * <code>repeated .YandexQuery.Binding binding = 10;</code>
      */
     com.yandex.query.YandexQueryProtos.Binding getBinding(int index);
     /**
-     * <code>repeated .YandexQuery.Binding binding = 8;</code>
+     * <code>repeated .YandexQuery.Binding binding = 10;</code>
      */
     int getBindingCount();
     /**
-     * <code>repeated .YandexQuery.Binding binding = 8;</code>
+     * <code>repeated .YandexQuery.Binding binding = 10;</code>
      */
     java.util.List<? extends com.yandex.query.YandexQueryProtos.BindingOrBuilder> 
         getBindingOrBuilderList();
     /**
-     * <code>repeated .YandexQuery.Binding binding = 8;</code>
+     * <code>repeated .YandexQuery.Binding binding = 10;</code>
      */
     com.yandex.query.YandexQueryProtos.BindingOrBuilder getBindingOrBuilder(
         int index);
 
     /**
      * <pre>
-     * TODO: move to impersonation service
+     * IAM token for debug
      * </pre>
      *
-     * <code>string user_token = 9;</code>
+     * <code>string user_token = 11;</code>
      * @return The userToken.
      */
     java.lang.String getUserToken();
     /**
      * <pre>
-     * TODO: move to impersonation service
+     * IAM token for debug
      * </pre>
      *
-     * <code>string user_token = 9;</code>
+     * <code>string user_token = 11;</code>
      * @return The bytes for userToken.
      */
     com.google.protobuf.ByteString
         getUserTokenBytes();
 
     /**
-     * <code>string token = 10;</code>
-     * @return The token.
+     * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
      */
-    java.lang.String getToken();
+    java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity> 
+        getServiceAccountsList();
     /**
-     * <code>string token = 10;</code>
-     * @return The bytes for token.
+     * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
      */
-    com.google.protobuf.ByteString
-        getTokenBytes();
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getServiceAccounts(int index);
+    /**
+     * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
+     */
+    int getServiceAccountsCount();
+    /**
+     * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
+     */
+    java.util.List<? extends com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder> 
+        getServiceAccountsOrBuilderList();
+    /**
+     * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
+     */
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getServiceAccountsOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code Yql.Analytics.GetTaskResult}
@@ -595,15 +1852,12 @@ public final class AnalyticsIntenalProtos {
       super(builder);
     }
     private GetTaskResult() {
-      resultId_ = "";
-      resultIdSignature_ = "";
-      operationId_ = "";
-      operationIdSignature_ = "";
-      content_ = "";
+      dqGraph_ = "";
+      text_ = "";
       connection_ = java.util.Collections.emptyList();
       binding_ = java.util.Collections.emptyList();
       userToken_ = "";
-      token_ = "";
+      serviceAccounts_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -643,36 +1897,67 @@ public final class AnalyticsIntenalProtos {
               break;
             }
             case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder subBuilder = null;
+              if (resultId_ != null) {
+                subBuilder = resultId_.toBuilder();
+              }
+              resultId_ = input.readMessage(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(resultId_);
+                resultId_ = subBuilder.buildPartial();
+              }
 
-              resultId_ = s;
               break;
             }
             case 26: {
-              java.lang.String s = input.readStringRequireUtf8();
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder subBuilder = null;
+              if (queryId_ != null) {
+                subBuilder = queryId_.toBuilder();
+              }
+              queryId_ = input.readMessage(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(queryId_);
+                queryId_ = subBuilder.buildPartial();
+              }
 
-              resultIdSignature_ = s;
               break;
             }
             case 34: {
-              java.lang.String s = input.readStringRequireUtf8();
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder subBuilder = null;
+              if (jobId_ != null) {
+                subBuilder = jobId_.toBuilder();
+              }
+              jobId_ = input.readMessage(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(jobId_);
+                jobId_ = subBuilder.buildPartial();
+              }
 
-              operationId_ = s;
               break;
             }
-            case 42: {
-              java.lang.String s = input.readStringRequireUtf8();
+            case 40: {
 
-              operationIdSignature_ = s;
+              generation_ = input.readUInt64();
               break;
             }
-            case 50: {
-              java.lang.String s = input.readStringRequireUtf8();
+            case 48: {
 
-              content_ = s;
+              streaming_ = input.readBool();
               break;
             }
             case 58: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              dqGraph_ = s;
+              break;
+            }
+            case 66: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              text_ = s;
+              break;
+            }
+            case 74: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 connection_ = new java.util.ArrayList<com.yandex.query.YandexQueryProtos.Connection>();
                 mutable_bitField0_ |= 0x00000001;
@@ -681,7 +1966,7 @@ public final class AnalyticsIntenalProtos {
                   input.readMessage(com.yandex.query.YandexQueryProtos.Connection.parser(), extensionRegistry));
               break;
             }
-            case 66: {
+            case 82: {
               if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 binding_ = new java.util.ArrayList<com.yandex.query.YandexQueryProtos.Binding>();
                 mutable_bitField0_ |= 0x00000002;
@@ -690,16 +1975,19 @@ public final class AnalyticsIntenalProtos {
                   input.readMessage(com.yandex.query.YandexQueryProtos.Binding.parser(), extensionRegistry));
               break;
             }
-            case 74: {
+            case 90: {
               java.lang.String s = input.readStringRequireUtf8();
 
               userToken_ = s;
               break;
             }
-            case 82: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              token_ = s;
+            case 98: {
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+                serviceAccounts_ = new java.util.ArrayList<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              serviceAccounts_.add(
+                  input.readMessage(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.parser(), extensionRegistry));
               break;
             }
             default: {
@@ -722,6 +2010,9 @@ public final class AnalyticsIntenalProtos {
         }
         if (((mutable_bitField0_ & 0x00000002) != 0)) {
           binding_ = java.util.Collections.unmodifiableList(binding_);
+        }
+        if (((mutable_bitField0_ & 0x00000004) != 0)) {
+          serviceAccounts_ = java.util.Collections.unmodifiableList(serviceAccounts_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -752,206 +2043,212 @@ public final class AnalyticsIntenalProtos {
     }
 
     public static final int RESULT_ID_FIELD_NUMBER = 2;
-    private volatile java.lang.Object resultId_;
+    private com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity resultId_;
     /**
-     * <code>string result_id = 2;</code>
+     * <pre>
+     * come back later in 10 sec ?
+     * </pre>
+     *
+     * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+     * @return Whether the resultId field is set.
+     */
+    @java.lang.Override
+    public boolean hasResultId() {
+      return resultId_ != null;
+    }
+    /**
+     * <pre>
+     * come back later in 10 sec ?
+     * </pre>
+     *
+     * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
      * @return The resultId.
      */
     @java.lang.Override
-    public java.lang.String getResultId() {
-      java.lang.Object ref = resultId_;
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getResultId() {
+      return resultId_ == null ? com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : resultId_;
+    }
+    /**
+     * <pre>
+     * come back later in 10 sec ?
+     * </pre>
+     *
+     * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+     */
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getResultIdOrBuilder() {
+      return getResultId();
+    }
+
+    public static final int QUERY_ID_FIELD_NUMBER = 3;
+    private com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity queryId_;
+    /**
+     * <code>.Yql.Analytics.SignedIdentity query_id = 3;</code>
+     * @return Whether the queryId field is set.
+     */
+    @java.lang.Override
+    public boolean hasQueryId() {
+      return queryId_ != null;
+    }
+    /**
+     * <code>.Yql.Analytics.SignedIdentity query_id = 3;</code>
+     * @return The queryId.
+     */
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getQueryId() {
+      return queryId_ == null ? com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : queryId_;
+    }
+    /**
+     * <code>.Yql.Analytics.SignedIdentity query_id = 3;</code>
+     */
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getQueryIdOrBuilder() {
+      return getQueryId();
+    }
+
+    public static final int JOB_ID_FIELD_NUMBER = 4;
+    private com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity jobId_;
+    /**
+     * <code>.Yql.Analytics.SignedIdentity job_id = 4;</code>
+     * @return Whether the jobId field is set.
+     */
+    @java.lang.Override
+    public boolean hasJobId() {
+      return jobId_ != null;
+    }
+    /**
+     * <code>.Yql.Analytics.SignedIdentity job_id = 4;</code>
+     * @return The jobId.
+     */
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getJobId() {
+      return jobId_ == null ? com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : jobId_;
+    }
+    /**
+     * <code>.Yql.Analytics.SignedIdentity job_id = 4;</code>
+     */
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getJobIdOrBuilder() {
+      return getJobId();
+    }
+
+    public static final int GENERATION_FIELD_NUMBER = 5;
+    private long generation_;
+    /**
+     * <code>uint64 generation = 5;</code>
+     * @return The generation.
+     */
+    @java.lang.Override
+    public long getGeneration() {
+      return generation_;
+    }
+
+    public static final int STREAMING_FIELD_NUMBER = 6;
+    private boolean streaming_;
+    /**
+     * <code>bool streaming = 6;</code>
+     * @return The streaming.
+     */
+    @java.lang.Override
+    public boolean getStreaming() {
+      return streaming_;
+    }
+
+    public static final int DQ_GRAPH_FIELD_NUMBER = 7;
+    private volatile java.lang.Object dqGraph_;
+    /**
+     * <code>string dq_graph = 7;</code>
+     * @return The dqGraph.
+     */
+    @java.lang.Override
+    public java.lang.String getDqGraph() {
+      java.lang.Object ref = dqGraph_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        resultId_ = s;
+        dqGraph_ = s;
         return s;
       }
     }
     /**
-     * <code>string result_id = 2;</code>
-     * @return The bytes for resultId.
+     * <code>string dq_graph = 7;</code>
+     * @return The bytes for dqGraph.
      */
     @java.lang.Override
     public com.google.protobuf.ByteString
-        getResultIdBytes() {
-      java.lang.Object ref = resultId_;
+        getDqGraphBytes() {
+      java.lang.Object ref = dqGraph_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        resultId_ = b;
+        dqGraph_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
 
-    public static final int RESULT_ID_SIGNATURE_FIELD_NUMBER = 3;
-    private volatile java.lang.Object resultIdSignature_;
+    public static final int TEXT_FIELD_NUMBER = 8;
+    private volatile java.lang.Object text_;
     /**
-     * <code>string result_id_signature = 3;</code>
-     * @return The resultIdSignature.
+     * <pre>
+     * text, connection and binding are empty if dq_graph is not empty
+     * </pre>
+     *
+     * <code>string text = 8;</code>
+     * @return The text.
      */
     @java.lang.Override
-    public java.lang.String getResultIdSignature() {
-      java.lang.Object ref = resultIdSignature_;
+    public java.lang.String getText() {
+      java.lang.Object ref = text_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        resultIdSignature_ = s;
+        text_ = s;
         return s;
       }
     }
     /**
-     * <code>string result_id_signature = 3;</code>
-     * @return The bytes for resultIdSignature.
+     * <pre>
+     * text, connection and binding are empty if dq_graph is not empty
+     * </pre>
+     *
+     * <code>string text = 8;</code>
+     * @return The bytes for text.
      */
     @java.lang.Override
     public com.google.protobuf.ByteString
-        getResultIdSignatureBytes() {
-      java.lang.Object ref = resultIdSignature_;
+        getTextBytes() {
+      java.lang.Object ref = text_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        resultIdSignature_ = b;
+        text_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
 
-    public static final int OPERATION_ID_FIELD_NUMBER = 4;
-    private volatile java.lang.Object operationId_;
-    /**
-     * <code>string operation_id = 4;</code>
-     * @return The operationId.
-     */
-    @java.lang.Override
-    public java.lang.String getOperationId() {
-      java.lang.Object ref = operationId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        operationId_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string operation_id = 4;</code>
-     * @return The bytes for operationId.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getOperationIdBytes() {
-      java.lang.Object ref = operationId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        operationId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int OPERATION_ID_SIGNATURE_FIELD_NUMBER = 5;
-    private volatile java.lang.Object operationIdSignature_;
-    /**
-     * <code>string operation_id_signature = 5;</code>
-     * @return The operationIdSignature.
-     */
-    @java.lang.Override
-    public java.lang.String getOperationIdSignature() {
-      java.lang.Object ref = operationIdSignature_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        operationIdSignature_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string operation_id_signature = 5;</code>
-     * @return The bytes for operationIdSignature.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getOperationIdSignatureBytes() {
-      java.lang.Object ref = operationIdSignature_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        operationIdSignature_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int CONTENT_FIELD_NUMBER = 6;
-    private volatile java.lang.Object content_;
-    /**
-     * <code>string content = 6;</code>
-     * @return The content.
-     */
-    @java.lang.Override
-    public java.lang.String getContent() {
-      java.lang.Object ref = content_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        content_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string content = 6;</code>
-     * @return The bytes for content.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getContentBytes() {
-      java.lang.Object ref = content_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        content_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int CONNECTION_FIELD_NUMBER = 7;
+    public static final int CONNECTION_FIELD_NUMBER = 9;
     private java.util.List<com.yandex.query.YandexQueryProtos.Connection> connection_;
     /**
-     * <code>repeated .YandexQuery.Connection connection = 7;</code>
+     * <code>repeated .YandexQuery.Connection connection = 9;</code>
      */
     @java.lang.Override
     public java.util.List<com.yandex.query.YandexQueryProtos.Connection> getConnectionList() {
       return connection_;
     }
     /**
-     * <code>repeated .YandexQuery.Connection connection = 7;</code>
+     * <code>repeated .YandexQuery.Connection connection = 9;</code>
      */
     @java.lang.Override
     public java.util.List<? extends com.yandex.query.YandexQueryProtos.ConnectionOrBuilder> 
@@ -959,21 +2256,21 @@ public final class AnalyticsIntenalProtos {
       return connection_;
     }
     /**
-     * <code>repeated .YandexQuery.Connection connection = 7;</code>
+     * <code>repeated .YandexQuery.Connection connection = 9;</code>
      */
     @java.lang.Override
     public int getConnectionCount() {
       return connection_.size();
     }
     /**
-     * <code>repeated .YandexQuery.Connection connection = 7;</code>
+     * <code>repeated .YandexQuery.Connection connection = 9;</code>
      */
     @java.lang.Override
     public com.yandex.query.YandexQueryProtos.Connection getConnection(int index) {
       return connection_.get(index);
     }
     /**
-     * <code>repeated .YandexQuery.Connection connection = 7;</code>
+     * <code>repeated .YandexQuery.Connection connection = 9;</code>
      */
     @java.lang.Override
     public com.yandex.query.YandexQueryProtos.ConnectionOrBuilder getConnectionOrBuilder(
@@ -981,17 +2278,17 @@ public final class AnalyticsIntenalProtos {
       return connection_.get(index);
     }
 
-    public static final int BINDING_FIELD_NUMBER = 8;
+    public static final int BINDING_FIELD_NUMBER = 10;
     private java.util.List<com.yandex.query.YandexQueryProtos.Binding> binding_;
     /**
-     * <code>repeated .YandexQuery.Binding binding = 8;</code>
+     * <code>repeated .YandexQuery.Binding binding = 10;</code>
      */
     @java.lang.Override
     public java.util.List<com.yandex.query.YandexQueryProtos.Binding> getBindingList() {
       return binding_;
     }
     /**
-     * <code>repeated .YandexQuery.Binding binding = 8;</code>
+     * <code>repeated .YandexQuery.Binding binding = 10;</code>
      */
     @java.lang.Override
     public java.util.List<? extends com.yandex.query.YandexQueryProtos.BindingOrBuilder> 
@@ -999,21 +2296,21 @@ public final class AnalyticsIntenalProtos {
       return binding_;
     }
     /**
-     * <code>repeated .YandexQuery.Binding binding = 8;</code>
+     * <code>repeated .YandexQuery.Binding binding = 10;</code>
      */
     @java.lang.Override
     public int getBindingCount() {
       return binding_.size();
     }
     /**
-     * <code>repeated .YandexQuery.Binding binding = 8;</code>
+     * <code>repeated .YandexQuery.Binding binding = 10;</code>
      */
     @java.lang.Override
     public com.yandex.query.YandexQueryProtos.Binding getBinding(int index) {
       return binding_.get(index);
     }
     /**
-     * <code>repeated .YandexQuery.Binding binding = 8;</code>
+     * <code>repeated .YandexQuery.Binding binding = 10;</code>
      */
     @java.lang.Override
     public com.yandex.query.YandexQueryProtos.BindingOrBuilder getBindingOrBuilder(
@@ -1021,14 +2318,14 @@ public final class AnalyticsIntenalProtos {
       return binding_.get(index);
     }
 
-    public static final int USER_TOKEN_FIELD_NUMBER = 9;
+    public static final int USER_TOKEN_FIELD_NUMBER = 11;
     private volatile java.lang.Object userToken_;
     /**
      * <pre>
-     * TODO: move to impersonation service
+     * IAM token for debug
      * </pre>
      *
-     * <code>string user_token = 9;</code>
+     * <code>string user_token = 11;</code>
      * @return The userToken.
      */
     @java.lang.Override
@@ -1046,10 +2343,10 @@ public final class AnalyticsIntenalProtos {
     }
     /**
      * <pre>
-     * TODO: move to impersonation service
+     * IAM token for debug
      * </pre>
      *
-     * <code>string user_token = 9;</code>
+     * <code>string user_token = 11;</code>
      * @return The bytes for userToken.
      */
     @java.lang.Override
@@ -1067,42 +2364,44 @@ public final class AnalyticsIntenalProtos {
       }
     }
 
-    public static final int TOKEN_FIELD_NUMBER = 10;
-    private volatile java.lang.Object token_;
+    public static final int SERVICE_ACCOUNTS_FIELD_NUMBER = 12;
+    private java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity> serviceAccounts_;
     /**
-     * <code>string token = 10;</code>
-     * @return The token.
+     * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
      */
     @java.lang.Override
-    public java.lang.String getToken() {
-      java.lang.Object ref = token_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        token_ = s;
-        return s;
-      }
+    public java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity> getServiceAccountsList() {
+      return serviceAccounts_;
     }
     /**
-     * <code>string token = 10;</code>
-     * @return The bytes for token.
+     * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString
-        getTokenBytes() {
-      java.lang.Object ref = token_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        token_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public java.util.List<? extends com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder> 
+        getServiceAccountsOrBuilderList() {
+      return serviceAccounts_;
+    }
+    /**
+     * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
+     */
+    @java.lang.Override
+    public int getServiceAccountsCount() {
+      return serviceAccounts_.size();
+    }
+    /**
+     * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
+     */
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getServiceAccounts(int index) {
+      return serviceAccounts_.get(index);
+    }
+    /**
+     * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
+     */
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getServiceAccountsOrBuilder(
+        int index) {
+      return serviceAccounts_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -1122,32 +2421,38 @@ public final class AnalyticsIntenalProtos {
       if (hasTask_ != false) {
         output.writeBool(1, hasTask_);
       }
-      if (!getResultIdBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, resultId_);
+      if (resultId_ != null) {
+        output.writeMessage(2, getResultId());
       }
-      if (!getResultIdSignatureBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, resultIdSignature_);
+      if (queryId_ != null) {
+        output.writeMessage(3, getQueryId());
       }
-      if (!getOperationIdBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, operationId_);
+      if (jobId_ != null) {
+        output.writeMessage(4, getJobId());
       }
-      if (!getOperationIdSignatureBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, operationIdSignature_);
+      if (generation_ != 0L) {
+        output.writeUInt64(5, generation_);
       }
-      if (!getContentBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, content_);
+      if (streaming_ != false) {
+        output.writeBool(6, streaming_);
+      }
+      if (!getDqGraphBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, dqGraph_);
+      }
+      if (!getTextBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 8, text_);
       }
       for (int i = 0; i < connection_.size(); i++) {
-        output.writeMessage(7, connection_.get(i));
+        output.writeMessage(9, connection_.get(i));
       }
       for (int i = 0; i < binding_.size(); i++) {
-        output.writeMessage(8, binding_.get(i));
+        output.writeMessage(10, binding_.get(i));
       }
       if (!getUserTokenBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 9, userToken_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 11, userToken_);
       }
-      if (!getTokenBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 10, token_);
+      for (int i = 0; i < serviceAccounts_.size(); i++) {
+        output.writeMessage(12, serviceAccounts_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -1162,34 +2467,46 @@ public final class AnalyticsIntenalProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(1, hasTask_);
       }
-      if (!getResultIdBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, resultId_);
+      if (resultId_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getResultId());
       }
-      if (!getResultIdSignatureBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, resultIdSignature_);
+      if (queryId_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getQueryId());
       }
-      if (!getOperationIdBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, operationId_);
+      if (jobId_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, getJobId());
       }
-      if (!getOperationIdSignatureBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, operationIdSignature_);
+      if (generation_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(5, generation_);
       }
-      if (!getContentBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, content_);
+      if (streaming_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(6, streaming_);
+      }
+      if (!getDqGraphBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, dqGraph_);
+      }
+      if (!getTextBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, text_);
       }
       for (int i = 0; i < connection_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(7, connection_.get(i));
+          .computeMessageSize(9, connection_.get(i));
       }
       for (int i = 0; i < binding_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(8, binding_.get(i));
+          .computeMessageSize(10, binding_.get(i));
       }
       if (!getUserTokenBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, userToken_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(11, userToken_);
       }
-      if (!getTokenBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, token_);
+      for (int i = 0; i < serviceAccounts_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(12, serviceAccounts_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1208,24 +2525,37 @@ public final class AnalyticsIntenalProtos {
 
       if (getHasTask()
           != other.getHasTask()) return false;
-      if (!getResultId()
-          .equals(other.getResultId())) return false;
-      if (!getResultIdSignature()
-          .equals(other.getResultIdSignature())) return false;
-      if (!getOperationId()
-          .equals(other.getOperationId())) return false;
-      if (!getOperationIdSignature()
-          .equals(other.getOperationIdSignature())) return false;
-      if (!getContent()
-          .equals(other.getContent())) return false;
+      if (hasResultId() != other.hasResultId()) return false;
+      if (hasResultId()) {
+        if (!getResultId()
+            .equals(other.getResultId())) return false;
+      }
+      if (hasQueryId() != other.hasQueryId()) return false;
+      if (hasQueryId()) {
+        if (!getQueryId()
+            .equals(other.getQueryId())) return false;
+      }
+      if (hasJobId() != other.hasJobId()) return false;
+      if (hasJobId()) {
+        if (!getJobId()
+            .equals(other.getJobId())) return false;
+      }
+      if (getGeneration()
+          != other.getGeneration()) return false;
+      if (getStreaming()
+          != other.getStreaming()) return false;
+      if (!getDqGraph()
+          .equals(other.getDqGraph())) return false;
+      if (!getText()
+          .equals(other.getText())) return false;
       if (!getConnectionList()
           .equals(other.getConnectionList())) return false;
       if (!getBindingList()
           .equals(other.getBindingList())) return false;
       if (!getUserToken()
           .equals(other.getUserToken())) return false;
-      if (!getToken()
-          .equals(other.getToken())) return false;
+      if (!getServiceAccountsList()
+          .equals(other.getServiceAccountsList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -1240,16 +2570,28 @@ public final class AnalyticsIntenalProtos {
       hash = (37 * hash) + HAS_TASK_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getHasTask());
-      hash = (37 * hash) + RESULT_ID_FIELD_NUMBER;
-      hash = (53 * hash) + getResultId().hashCode();
-      hash = (37 * hash) + RESULT_ID_SIGNATURE_FIELD_NUMBER;
-      hash = (53 * hash) + getResultIdSignature().hashCode();
-      hash = (37 * hash) + OPERATION_ID_FIELD_NUMBER;
-      hash = (53 * hash) + getOperationId().hashCode();
-      hash = (37 * hash) + OPERATION_ID_SIGNATURE_FIELD_NUMBER;
-      hash = (53 * hash) + getOperationIdSignature().hashCode();
-      hash = (37 * hash) + CONTENT_FIELD_NUMBER;
-      hash = (53 * hash) + getContent().hashCode();
+      if (hasResultId()) {
+        hash = (37 * hash) + RESULT_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getResultId().hashCode();
+      }
+      if (hasQueryId()) {
+        hash = (37 * hash) + QUERY_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getQueryId().hashCode();
+      }
+      if (hasJobId()) {
+        hash = (37 * hash) + JOB_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getJobId().hashCode();
+      }
+      hash = (37 * hash) + GENERATION_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getGeneration());
+      hash = (37 * hash) + STREAMING_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getStreaming());
+      hash = (37 * hash) + DQ_GRAPH_FIELD_NUMBER;
+      hash = (53 * hash) + getDqGraph().hashCode();
+      hash = (37 * hash) + TEXT_FIELD_NUMBER;
+      hash = (53 * hash) + getText().hashCode();
       if (getConnectionCount() > 0) {
         hash = (37 * hash) + CONNECTION_FIELD_NUMBER;
         hash = (53 * hash) + getConnectionList().hashCode();
@@ -1260,8 +2602,10 @@ public final class AnalyticsIntenalProtos {
       }
       hash = (37 * hash) + USER_TOKEN_FIELD_NUMBER;
       hash = (53 * hash) + getUserToken().hashCode();
-      hash = (37 * hash) + TOKEN_FIELD_NUMBER;
-      hash = (53 * hash) + getToken().hashCode();
+      if (getServiceAccountsCount() > 0) {
+        hash = (37 * hash) + SERVICE_ACCOUNTS_FIELD_NUMBER;
+        hash = (53 * hash) + getServiceAccountsList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1392,6 +2736,7 @@ public final class AnalyticsIntenalProtos {
                 .alwaysUseFieldBuilders) {
           getConnectionFieldBuilder();
           getBindingFieldBuilder();
+          getServiceAccountsFieldBuilder();
         }
       }
       @java.lang.Override
@@ -1399,15 +2744,31 @@ public final class AnalyticsIntenalProtos {
         super.clear();
         hasTask_ = false;
 
-        resultId_ = "";
+        if (resultIdBuilder_ == null) {
+          resultId_ = null;
+        } else {
+          resultId_ = null;
+          resultIdBuilder_ = null;
+        }
+        if (queryIdBuilder_ == null) {
+          queryId_ = null;
+        } else {
+          queryId_ = null;
+          queryIdBuilder_ = null;
+        }
+        if (jobIdBuilder_ == null) {
+          jobId_ = null;
+        } else {
+          jobId_ = null;
+          jobIdBuilder_ = null;
+        }
+        generation_ = 0L;
 
-        resultIdSignature_ = "";
+        streaming_ = false;
 
-        operationId_ = "";
+        dqGraph_ = "";
 
-        operationIdSignature_ = "";
-
-        content_ = "";
+        text_ = "";
 
         if (connectionBuilder_ == null) {
           connection_ = java.util.Collections.emptyList();
@@ -1423,8 +2784,12 @@ public final class AnalyticsIntenalProtos {
         }
         userToken_ = "";
 
-        token_ = "";
-
+        if (serviceAccountsBuilder_ == null) {
+          serviceAccounts_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          serviceAccountsBuilder_.clear();
+        }
         return this;
       }
 
@@ -1453,11 +2818,25 @@ public final class AnalyticsIntenalProtos {
         com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.GetTaskResult result = new com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.GetTaskResult(this);
         int from_bitField0_ = bitField0_;
         result.hasTask_ = hasTask_;
-        result.resultId_ = resultId_;
-        result.resultIdSignature_ = resultIdSignature_;
-        result.operationId_ = operationId_;
-        result.operationIdSignature_ = operationIdSignature_;
-        result.content_ = content_;
+        if (resultIdBuilder_ == null) {
+          result.resultId_ = resultId_;
+        } else {
+          result.resultId_ = resultIdBuilder_.build();
+        }
+        if (queryIdBuilder_ == null) {
+          result.queryId_ = queryId_;
+        } else {
+          result.queryId_ = queryIdBuilder_.build();
+        }
+        if (jobIdBuilder_ == null) {
+          result.jobId_ = jobId_;
+        } else {
+          result.jobId_ = jobIdBuilder_.build();
+        }
+        result.generation_ = generation_;
+        result.streaming_ = streaming_;
+        result.dqGraph_ = dqGraph_;
+        result.text_ = text_;
         if (connectionBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0)) {
             connection_ = java.util.Collections.unmodifiableList(connection_);
@@ -1477,7 +2856,15 @@ public final class AnalyticsIntenalProtos {
           result.binding_ = bindingBuilder_.build();
         }
         result.userToken_ = userToken_;
-        result.token_ = token_;
+        if (serviceAccountsBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) != 0)) {
+            serviceAccounts_ = java.util.Collections.unmodifiableList(serviceAccounts_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.serviceAccounts_ = serviceAccounts_;
+        } else {
+          result.serviceAccounts_ = serviceAccountsBuilder_.build();
+        }
         onBuilt();
         return result;
       }
@@ -1529,24 +2916,27 @@ public final class AnalyticsIntenalProtos {
         if (other.getHasTask() != false) {
           setHasTask(other.getHasTask());
         }
-        if (!other.getResultId().isEmpty()) {
-          resultId_ = other.resultId_;
+        if (other.hasResultId()) {
+          mergeResultId(other.getResultId());
+        }
+        if (other.hasQueryId()) {
+          mergeQueryId(other.getQueryId());
+        }
+        if (other.hasJobId()) {
+          mergeJobId(other.getJobId());
+        }
+        if (other.getGeneration() != 0L) {
+          setGeneration(other.getGeneration());
+        }
+        if (other.getStreaming() != false) {
+          setStreaming(other.getStreaming());
+        }
+        if (!other.getDqGraph().isEmpty()) {
+          dqGraph_ = other.dqGraph_;
           onChanged();
         }
-        if (!other.getResultIdSignature().isEmpty()) {
-          resultIdSignature_ = other.resultIdSignature_;
-          onChanged();
-        }
-        if (!other.getOperationId().isEmpty()) {
-          operationId_ = other.operationId_;
-          onChanged();
-        }
-        if (!other.getOperationIdSignature().isEmpty()) {
-          operationIdSignature_ = other.operationIdSignature_;
-          onChanged();
-        }
-        if (!other.getContent().isEmpty()) {
-          content_ = other.content_;
+        if (!other.getText().isEmpty()) {
+          text_ = other.text_;
           onChanged();
         }
         if (connectionBuilder_ == null) {
@@ -1605,9 +2995,31 @@ public final class AnalyticsIntenalProtos {
           userToken_ = other.userToken_;
           onChanged();
         }
-        if (!other.getToken().isEmpty()) {
-          token_ = other.token_;
-          onChanged();
+        if (serviceAccountsBuilder_ == null) {
+          if (!other.serviceAccounts_.isEmpty()) {
+            if (serviceAccounts_.isEmpty()) {
+              serviceAccounts_ = other.serviceAccounts_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureServiceAccountsIsMutable();
+              serviceAccounts_.addAll(other.serviceAccounts_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.serviceAccounts_.isEmpty()) {
+            if (serviceAccountsBuilder_.isEmpty()) {
+              serviceAccountsBuilder_.dispose();
+              serviceAccountsBuilder_ = null;
+              serviceAccounts_ = other.serviceAccounts_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              serviceAccountsBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getServiceAccountsFieldBuilder() : null;
+            } else {
+              serviceAccountsBuilder_.addAllMessages(other.serviceAccounts_);
+            }
+          }
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1670,382 +3082,629 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
 
-      private java.lang.Object resultId_ = "";
+      private com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity resultId_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder> resultIdBuilder_;
       /**
-       * <code>string result_id = 2;</code>
+       * <pre>
+       * come back later in 10 sec ?
+       * </pre>
+       *
+       * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+       * @return Whether the resultId field is set.
+       */
+      public boolean hasResultId() {
+        return resultIdBuilder_ != null || resultId_ != null;
+      }
+      /**
+       * <pre>
+       * come back later in 10 sec ?
+       * </pre>
+       *
+       * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
        * @return The resultId.
        */
-      public java.lang.String getResultId() {
-        java.lang.Object ref = resultId_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          resultId_ = s;
-          return s;
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getResultId() {
+        if (resultIdBuilder_ == null) {
+          return resultId_ == null ? com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : resultId_;
         } else {
-          return (java.lang.String) ref;
+          return resultIdBuilder_.getMessage();
         }
       }
       /**
-       * <code>string result_id = 2;</code>
-       * @return The bytes for resultId.
+       * <pre>
+       * come back later in 10 sec ?
+       * </pre>
+       *
+       * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
        */
-      public com.google.protobuf.ByteString
-          getResultIdBytes() {
-        java.lang.Object ref = resultId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          resultId_ = b;
-          return b;
+      public Builder setResultId(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity value) {
+        if (resultIdBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          resultId_ = value;
+          onChanged();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          resultIdBuilder_.setMessage(value);
         }
+
+        return this;
       }
       /**
-       * <code>string result_id = 2;</code>
-       * @param value The resultId to set.
-       * @return This builder for chaining.
+       * <pre>
+       * come back later in 10 sec ?
+       * </pre>
+       *
+       * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
        */
       public Builder setResultId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        resultId_ = value;
-        onChanged();
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder builderForValue) {
+        if (resultIdBuilder_ == null) {
+          resultId_ = builderForValue.build();
+          onChanged();
+        } else {
+          resultIdBuilder_.setMessage(builderForValue.build());
+        }
+
         return this;
       }
       /**
-       * <code>string result_id = 2;</code>
-       * @return This builder for chaining.
+       * <pre>
+       * come back later in 10 sec ?
+       * </pre>
+       *
+       * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+       */
+      public Builder mergeResultId(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity value) {
+        if (resultIdBuilder_ == null) {
+          if (resultId_ != null) {
+            resultId_ =
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.newBuilder(resultId_).mergeFrom(value).buildPartial();
+          } else {
+            resultId_ = value;
+          }
+          onChanged();
+        } else {
+          resultIdBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * come back later in 10 sec ?
+       * </pre>
+       *
+       * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
        */
       public Builder clearResultId() {
+        if (resultIdBuilder_ == null) {
+          resultId_ = null;
+          onChanged();
+        } else {
+          resultId_ = null;
+          resultIdBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * come back later in 10 sec ?
+       * </pre>
+       *
+       * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder getResultIdBuilder() {
         
-        resultId_ = getDefaultInstance().getResultId();
+        onChanged();
+        return getResultIdFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * come back later in 10 sec ?
+       * </pre>
+       *
+       * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getResultIdOrBuilder() {
+        if (resultIdBuilder_ != null) {
+          return resultIdBuilder_.getMessageOrBuilder();
+        } else {
+          return resultId_ == null ?
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : resultId_;
+        }
+      }
+      /**
+       * <pre>
+       * come back later in 10 sec ?
+       * </pre>
+       *
+       * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder> 
+          getResultIdFieldBuilder() {
+        if (resultIdBuilder_ == null) {
+          resultIdBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder>(
+                  getResultId(),
+                  getParentForChildren(),
+                  isClean());
+          resultId_ = null;
+        }
+        return resultIdBuilder_;
+      }
+
+      private com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity queryId_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder> queryIdBuilder_;
+      /**
+       * <code>.Yql.Analytics.SignedIdentity query_id = 3;</code>
+       * @return Whether the queryId field is set.
+       */
+      public boolean hasQueryId() {
+        return queryIdBuilder_ != null || queryId_ != null;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity query_id = 3;</code>
+       * @return The queryId.
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getQueryId() {
+        if (queryIdBuilder_ == null) {
+          return queryId_ == null ? com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : queryId_;
+        } else {
+          return queryIdBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity query_id = 3;</code>
+       */
+      public Builder setQueryId(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity value) {
+        if (queryIdBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          queryId_ = value;
+          onChanged();
+        } else {
+          queryIdBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity query_id = 3;</code>
+       */
+      public Builder setQueryId(
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder builderForValue) {
+        if (queryIdBuilder_ == null) {
+          queryId_ = builderForValue.build();
+          onChanged();
+        } else {
+          queryIdBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity query_id = 3;</code>
+       */
+      public Builder mergeQueryId(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity value) {
+        if (queryIdBuilder_ == null) {
+          if (queryId_ != null) {
+            queryId_ =
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.newBuilder(queryId_).mergeFrom(value).buildPartial();
+          } else {
+            queryId_ = value;
+          }
+          onChanged();
+        } else {
+          queryIdBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity query_id = 3;</code>
+       */
+      public Builder clearQueryId() {
+        if (queryIdBuilder_ == null) {
+          queryId_ = null;
+          onChanged();
+        } else {
+          queryId_ = null;
+          queryIdBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity query_id = 3;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder getQueryIdBuilder() {
+        
+        onChanged();
+        return getQueryIdFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity query_id = 3;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getQueryIdOrBuilder() {
+        if (queryIdBuilder_ != null) {
+          return queryIdBuilder_.getMessageOrBuilder();
+        } else {
+          return queryId_ == null ?
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : queryId_;
+        }
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity query_id = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder> 
+          getQueryIdFieldBuilder() {
+        if (queryIdBuilder_ == null) {
+          queryIdBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder>(
+                  getQueryId(),
+                  getParentForChildren(),
+                  isClean());
+          queryId_ = null;
+        }
+        return queryIdBuilder_;
+      }
+
+      private com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity jobId_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder> jobIdBuilder_;
+      /**
+       * <code>.Yql.Analytics.SignedIdentity job_id = 4;</code>
+       * @return Whether the jobId field is set.
+       */
+      public boolean hasJobId() {
+        return jobIdBuilder_ != null || jobId_ != null;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity job_id = 4;</code>
+       * @return The jobId.
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getJobId() {
+        if (jobIdBuilder_ == null) {
+          return jobId_ == null ? com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : jobId_;
+        } else {
+          return jobIdBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity job_id = 4;</code>
+       */
+      public Builder setJobId(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity value) {
+        if (jobIdBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          jobId_ = value;
+          onChanged();
+        } else {
+          jobIdBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity job_id = 4;</code>
+       */
+      public Builder setJobId(
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder builderForValue) {
+        if (jobIdBuilder_ == null) {
+          jobId_ = builderForValue.build();
+          onChanged();
+        } else {
+          jobIdBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity job_id = 4;</code>
+       */
+      public Builder mergeJobId(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity value) {
+        if (jobIdBuilder_ == null) {
+          if (jobId_ != null) {
+            jobId_ =
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.newBuilder(jobId_).mergeFrom(value).buildPartial();
+          } else {
+            jobId_ = value;
+          }
+          onChanged();
+        } else {
+          jobIdBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity job_id = 4;</code>
+       */
+      public Builder clearJobId() {
+        if (jobIdBuilder_ == null) {
+          jobId_ = null;
+          onChanged();
+        } else {
+          jobId_ = null;
+          jobIdBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity job_id = 4;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder getJobIdBuilder() {
+        
+        onChanged();
+        return getJobIdFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity job_id = 4;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getJobIdOrBuilder() {
+        if (jobIdBuilder_ != null) {
+          return jobIdBuilder_.getMessageOrBuilder();
+        } else {
+          return jobId_ == null ?
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : jobId_;
+        }
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity job_id = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder> 
+          getJobIdFieldBuilder() {
+        if (jobIdBuilder_ == null) {
+          jobIdBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder>(
+                  getJobId(),
+                  getParentForChildren(),
+                  isClean());
+          jobId_ = null;
+        }
+        return jobIdBuilder_;
+      }
+
+      private long generation_ ;
+      /**
+       * <code>uint64 generation = 5;</code>
+       * @return The generation.
+       */
+      @java.lang.Override
+      public long getGeneration() {
+        return generation_;
+      }
+      /**
+       * <code>uint64 generation = 5;</code>
+       * @param value The generation to set.
+       * @return This builder for chaining.
+       */
+      public Builder setGeneration(long value) {
+        
+        generation_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string result_id = 2;</code>
-       * @param value The bytes for resultId to set.
+       * <code>uint64 generation = 5;</code>
        * @return This builder for chaining.
        */
-      public Builder setResultIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+      public Builder clearGeneration() {
         
-        resultId_ = value;
+        generation_ = 0L;
         onChanged();
         return this;
       }
 
-      private java.lang.Object resultIdSignature_ = "";
+      private boolean streaming_ ;
       /**
-       * <code>string result_id_signature = 3;</code>
-       * @return The resultIdSignature.
+       * <code>bool streaming = 6;</code>
+       * @return The streaming.
        */
-      public java.lang.String getResultIdSignature() {
-        java.lang.Object ref = resultIdSignature_;
+      @java.lang.Override
+      public boolean getStreaming() {
+        return streaming_;
+      }
+      /**
+       * <code>bool streaming = 6;</code>
+       * @param value The streaming to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStreaming(boolean value) {
+        
+        streaming_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool streaming = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStreaming() {
+        
+        streaming_ = false;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object dqGraph_ = "";
+      /**
+       * <code>string dq_graph = 7;</code>
+       * @return The dqGraph.
+       */
+      public java.lang.String getDqGraph() {
+        java.lang.Object ref = dqGraph_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          resultIdSignature_ = s;
+          dqGraph_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string result_id_signature = 3;</code>
-       * @return The bytes for resultIdSignature.
+       * <code>string dq_graph = 7;</code>
+       * @return The bytes for dqGraph.
        */
       public com.google.protobuf.ByteString
-          getResultIdSignatureBytes() {
-        java.lang.Object ref = resultIdSignature_;
+          getDqGraphBytes() {
+        java.lang.Object ref = dqGraph_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          resultIdSignature_ = b;
+          dqGraph_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string result_id_signature = 3;</code>
-       * @param value The resultIdSignature to set.
+       * <code>string dq_graph = 7;</code>
+       * @param value The dqGraph to set.
        * @return This builder for chaining.
        */
-      public Builder setResultIdSignature(
+      public Builder setDqGraph(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        resultIdSignature_ = value;
+        dqGraph_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string result_id_signature = 3;</code>
+       * <code>string dq_graph = 7;</code>
        * @return This builder for chaining.
        */
-      public Builder clearResultIdSignature() {
+      public Builder clearDqGraph() {
         
-        resultIdSignature_ = getDefaultInstance().getResultIdSignature();
+        dqGraph_ = getDefaultInstance().getDqGraph();
         onChanged();
         return this;
       }
       /**
-       * <code>string result_id_signature = 3;</code>
-       * @param value The bytes for resultIdSignature to set.
+       * <code>string dq_graph = 7;</code>
+       * @param value The bytes for dqGraph to set.
        * @return This builder for chaining.
        */
-      public Builder setResultIdSignatureBytes(
+      public Builder setDqGraphBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        resultIdSignature_ = value;
+        dqGraph_ = value;
         onChanged();
         return this;
       }
 
-      private java.lang.Object operationId_ = "";
+      private java.lang.Object text_ = "";
       /**
-       * <code>string operation_id = 4;</code>
-       * @return The operationId.
+       * <pre>
+       * text, connection and binding are empty if dq_graph is not empty
+       * </pre>
+       *
+       * <code>string text = 8;</code>
+       * @return The text.
        */
-      public java.lang.String getOperationId() {
-        java.lang.Object ref = operationId_;
+      public java.lang.String getText() {
+        java.lang.Object ref = text_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          operationId_ = s;
+          text_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string operation_id = 4;</code>
-       * @return The bytes for operationId.
+       * <pre>
+       * text, connection and binding are empty if dq_graph is not empty
+       * </pre>
+       *
+       * <code>string text = 8;</code>
+       * @return The bytes for text.
        */
       public com.google.protobuf.ByteString
-          getOperationIdBytes() {
-        java.lang.Object ref = operationId_;
+          getTextBytes() {
+        java.lang.Object ref = text_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          operationId_ = b;
+          text_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string operation_id = 4;</code>
-       * @param value The operationId to set.
+       * <pre>
+       * text, connection and binding are empty if dq_graph is not empty
+       * </pre>
+       *
+       * <code>string text = 8;</code>
+       * @param value The text to set.
        * @return This builder for chaining.
        */
-      public Builder setOperationId(
+      public Builder setText(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        operationId_ = value;
+        text_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string operation_id = 4;</code>
+       * <pre>
+       * text, connection and binding are empty if dq_graph is not empty
+       * </pre>
+       *
+       * <code>string text = 8;</code>
        * @return This builder for chaining.
        */
-      public Builder clearOperationId() {
+      public Builder clearText() {
         
-        operationId_ = getDefaultInstance().getOperationId();
+        text_ = getDefaultInstance().getText();
         onChanged();
         return this;
       }
       /**
-       * <code>string operation_id = 4;</code>
-       * @param value The bytes for operationId to set.
+       * <pre>
+       * text, connection and binding are empty if dq_graph is not empty
+       * </pre>
+       *
+       * <code>string text = 8;</code>
+       * @param value The bytes for text to set.
        * @return This builder for chaining.
        */
-      public Builder setOperationIdBytes(
+      public Builder setTextBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        operationId_ = value;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object operationIdSignature_ = "";
-      /**
-       * <code>string operation_id_signature = 5;</code>
-       * @return The operationIdSignature.
-       */
-      public java.lang.String getOperationIdSignature() {
-        java.lang.Object ref = operationIdSignature_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          operationIdSignature_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string operation_id_signature = 5;</code>
-       * @return The bytes for operationIdSignature.
-       */
-      public com.google.protobuf.ByteString
-          getOperationIdSignatureBytes() {
-        java.lang.Object ref = operationIdSignature_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          operationIdSignature_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string operation_id_signature = 5;</code>
-       * @param value The operationIdSignature to set.
-       * @return This builder for chaining.
-       */
-      public Builder setOperationIdSignature(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        operationIdSignature_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string operation_id_signature = 5;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearOperationIdSignature() {
-        
-        operationIdSignature_ = getDefaultInstance().getOperationIdSignature();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string operation_id_signature = 5;</code>
-       * @param value The bytes for operationIdSignature to set.
-       * @return This builder for chaining.
-       */
-      public Builder setOperationIdSignatureBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        operationIdSignature_ = value;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object content_ = "";
-      /**
-       * <code>string content = 6;</code>
-       * @return The content.
-       */
-      public java.lang.String getContent() {
-        java.lang.Object ref = content_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          content_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string content = 6;</code>
-       * @return The bytes for content.
-       */
-      public com.google.protobuf.ByteString
-          getContentBytes() {
-        java.lang.Object ref = content_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          content_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string content = 6;</code>
-       * @param value The content to set.
-       * @return This builder for chaining.
-       */
-      public Builder setContent(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        content_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string content = 6;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearContent() {
-        
-        content_ = getDefaultInstance().getContent();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string content = 6;</code>
-       * @param value The bytes for content to set.
-       * @return This builder for chaining.
-       */
-      public Builder setContentBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        content_ = value;
+        text_ = value;
         onChanged();
         return this;
       }
@@ -2063,7 +3722,7 @@ public final class AnalyticsIntenalProtos {
           com.yandex.query.YandexQueryProtos.Connection, com.yandex.query.YandexQueryProtos.Connection.Builder, com.yandex.query.YandexQueryProtos.ConnectionOrBuilder> connectionBuilder_;
 
       /**
-       * <code>repeated .YandexQuery.Connection connection = 7;</code>
+       * <code>repeated .YandexQuery.Connection connection = 9;</code>
        */
       public java.util.List<com.yandex.query.YandexQueryProtos.Connection> getConnectionList() {
         if (connectionBuilder_ == null) {
@@ -2073,7 +3732,7 @@ public final class AnalyticsIntenalProtos {
         }
       }
       /**
-       * <code>repeated .YandexQuery.Connection connection = 7;</code>
+       * <code>repeated .YandexQuery.Connection connection = 9;</code>
        */
       public int getConnectionCount() {
         if (connectionBuilder_ == null) {
@@ -2083,7 +3742,7 @@ public final class AnalyticsIntenalProtos {
         }
       }
       /**
-       * <code>repeated .YandexQuery.Connection connection = 7;</code>
+       * <code>repeated .YandexQuery.Connection connection = 9;</code>
        */
       public com.yandex.query.YandexQueryProtos.Connection getConnection(int index) {
         if (connectionBuilder_ == null) {
@@ -2093,7 +3752,7 @@ public final class AnalyticsIntenalProtos {
         }
       }
       /**
-       * <code>repeated .YandexQuery.Connection connection = 7;</code>
+       * <code>repeated .YandexQuery.Connection connection = 9;</code>
        */
       public Builder setConnection(
           int index, com.yandex.query.YandexQueryProtos.Connection value) {
@@ -2110,7 +3769,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.Connection connection = 7;</code>
+       * <code>repeated .YandexQuery.Connection connection = 9;</code>
        */
       public Builder setConnection(
           int index, com.yandex.query.YandexQueryProtos.Connection.Builder builderForValue) {
@@ -2124,7 +3783,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.Connection connection = 7;</code>
+       * <code>repeated .YandexQuery.Connection connection = 9;</code>
        */
       public Builder addConnection(com.yandex.query.YandexQueryProtos.Connection value) {
         if (connectionBuilder_ == null) {
@@ -2140,7 +3799,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.Connection connection = 7;</code>
+       * <code>repeated .YandexQuery.Connection connection = 9;</code>
        */
       public Builder addConnection(
           int index, com.yandex.query.YandexQueryProtos.Connection value) {
@@ -2157,7 +3816,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.Connection connection = 7;</code>
+       * <code>repeated .YandexQuery.Connection connection = 9;</code>
        */
       public Builder addConnection(
           com.yandex.query.YandexQueryProtos.Connection.Builder builderForValue) {
@@ -2171,7 +3830,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.Connection connection = 7;</code>
+       * <code>repeated .YandexQuery.Connection connection = 9;</code>
        */
       public Builder addConnection(
           int index, com.yandex.query.YandexQueryProtos.Connection.Builder builderForValue) {
@@ -2185,7 +3844,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.Connection connection = 7;</code>
+       * <code>repeated .YandexQuery.Connection connection = 9;</code>
        */
       public Builder addAllConnection(
           java.lang.Iterable<? extends com.yandex.query.YandexQueryProtos.Connection> values) {
@@ -2200,7 +3859,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.Connection connection = 7;</code>
+       * <code>repeated .YandexQuery.Connection connection = 9;</code>
        */
       public Builder clearConnection() {
         if (connectionBuilder_ == null) {
@@ -2213,7 +3872,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.Connection connection = 7;</code>
+       * <code>repeated .YandexQuery.Connection connection = 9;</code>
        */
       public Builder removeConnection(int index) {
         if (connectionBuilder_ == null) {
@@ -2226,14 +3885,14 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.Connection connection = 7;</code>
+       * <code>repeated .YandexQuery.Connection connection = 9;</code>
        */
       public com.yandex.query.YandexQueryProtos.Connection.Builder getConnectionBuilder(
           int index) {
         return getConnectionFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .YandexQuery.Connection connection = 7;</code>
+       * <code>repeated .YandexQuery.Connection connection = 9;</code>
        */
       public com.yandex.query.YandexQueryProtos.ConnectionOrBuilder getConnectionOrBuilder(
           int index) {
@@ -2243,7 +3902,7 @@ public final class AnalyticsIntenalProtos {
         }
       }
       /**
-       * <code>repeated .YandexQuery.Connection connection = 7;</code>
+       * <code>repeated .YandexQuery.Connection connection = 9;</code>
        */
       public java.util.List<? extends com.yandex.query.YandexQueryProtos.ConnectionOrBuilder> 
            getConnectionOrBuilderList() {
@@ -2254,14 +3913,14 @@ public final class AnalyticsIntenalProtos {
         }
       }
       /**
-       * <code>repeated .YandexQuery.Connection connection = 7;</code>
+       * <code>repeated .YandexQuery.Connection connection = 9;</code>
        */
       public com.yandex.query.YandexQueryProtos.Connection.Builder addConnectionBuilder() {
         return getConnectionFieldBuilder().addBuilder(
             com.yandex.query.YandexQueryProtos.Connection.getDefaultInstance());
       }
       /**
-       * <code>repeated .YandexQuery.Connection connection = 7;</code>
+       * <code>repeated .YandexQuery.Connection connection = 9;</code>
        */
       public com.yandex.query.YandexQueryProtos.Connection.Builder addConnectionBuilder(
           int index) {
@@ -2269,7 +3928,7 @@ public final class AnalyticsIntenalProtos {
             index, com.yandex.query.YandexQueryProtos.Connection.getDefaultInstance());
       }
       /**
-       * <code>repeated .YandexQuery.Connection connection = 7;</code>
+       * <code>repeated .YandexQuery.Connection connection = 9;</code>
        */
       public java.util.List<com.yandex.query.YandexQueryProtos.Connection.Builder> 
            getConnectionBuilderList() {
@@ -2303,7 +3962,7 @@ public final class AnalyticsIntenalProtos {
           com.yandex.query.YandexQueryProtos.Binding, com.yandex.query.YandexQueryProtos.Binding.Builder, com.yandex.query.YandexQueryProtos.BindingOrBuilder> bindingBuilder_;
 
       /**
-       * <code>repeated .YandexQuery.Binding binding = 8;</code>
+       * <code>repeated .YandexQuery.Binding binding = 10;</code>
        */
       public java.util.List<com.yandex.query.YandexQueryProtos.Binding> getBindingList() {
         if (bindingBuilder_ == null) {
@@ -2313,7 +3972,7 @@ public final class AnalyticsIntenalProtos {
         }
       }
       /**
-       * <code>repeated .YandexQuery.Binding binding = 8;</code>
+       * <code>repeated .YandexQuery.Binding binding = 10;</code>
        */
       public int getBindingCount() {
         if (bindingBuilder_ == null) {
@@ -2323,7 +3982,7 @@ public final class AnalyticsIntenalProtos {
         }
       }
       /**
-       * <code>repeated .YandexQuery.Binding binding = 8;</code>
+       * <code>repeated .YandexQuery.Binding binding = 10;</code>
        */
       public com.yandex.query.YandexQueryProtos.Binding getBinding(int index) {
         if (bindingBuilder_ == null) {
@@ -2333,7 +3992,7 @@ public final class AnalyticsIntenalProtos {
         }
       }
       /**
-       * <code>repeated .YandexQuery.Binding binding = 8;</code>
+       * <code>repeated .YandexQuery.Binding binding = 10;</code>
        */
       public Builder setBinding(
           int index, com.yandex.query.YandexQueryProtos.Binding value) {
@@ -2350,7 +4009,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.Binding binding = 8;</code>
+       * <code>repeated .YandexQuery.Binding binding = 10;</code>
        */
       public Builder setBinding(
           int index, com.yandex.query.YandexQueryProtos.Binding.Builder builderForValue) {
@@ -2364,7 +4023,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.Binding binding = 8;</code>
+       * <code>repeated .YandexQuery.Binding binding = 10;</code>
        */
       public Builder addBinding(com.yandex.query.YandexQueryProtos.Binding value) {
         if (bindingBuilder_ == null) {
@@ -2380,7 +4039,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.Binding binding = 8;</code>
+       * <code>repeated .YandexQuery.Binding binding = 10;</code>
        */
       public Builder addBinding(
           int index, com.yandex.query.YandexQueryProtos.Binding value) {
@@ -2397,7 +4056,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.Binding binding = 8;</code>
+       * <code>repeated .YandexQuery.Binding binding = 10;</code>
        */
       public Builder addBinding(
           com.yandex.query.YandexQueryProtos.Binding.Builder builderForValue) {
@@ -2411,7 +4070,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.Binding binding = 8;</code>
+       * <code>repeated .YandexQuery.Binding binding = 10;</code>
        */
       public Builder addBinding(
           int index, com.yandex.query.YandexQueryProtos.Binding.Builder builderForValue) {
@@ -2425,7 +4084,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.Binding binding = 8;</code>
+       * <code>repeated .YandexQuery.Binding binding = 10;</code>
        */
       public Builder addAllBinding(
           java.lang.Iterable<? extends com.yandex.query.YandexQueryProtos.Binding> values) {
@@ -2440,7 +4099,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.Binding binding = 8;</code>
+       * <code>repeated .YandexQuery.Binding binding = 10;</code>
        */
       public Builder clearBinding() {
         if (bindingBuilder_ == null) {
@@ -2453,7 +4112,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.Binding binding = 8;</code>
+       * <code>repeated .YandexQuery.Binding binding = 10;</code>
        */
       public Builder removeBinding(int index) {
         if (bindingBuilder_ == null) {
@@ -2466,14 +4125,14 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>repeated .YandexQuery.Binding binding = 8;</code>
+       * <code>repeated .YandexQuery.Binding binding = 10;</code>
        */
       public com.yandex.query.YandexQueryProtos.Binding.Builder getBindingBuilder(
           int index) {
         return getBindingFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .YandexQuery.Binding binding = 8;</code>
+       * <code>repeated .YandexQuery.Binding binding = 10;</code>
        */
       public com.yandex.query.YandexQueryProtos.BindingOrBuilder getBindingOrBuilder(
           int index) {
@@ -2483,7 +4142,7 @@ public final class AnalyticsIntenalProtos {
         }
       }
       /**
-       * <code>repeated .YandexQuery.Binding binding = 8;</code>
+       * <code>repeated .YandexQuery.Binding binding = 10;</code>
        */
       public java.util.List<? extends com.yandex.query.YandexQueryProtos.BindingOrBuilder> 
            getBindingOrBuilderList() {
@@ -2494,14 +4153,14 @@ public final class AnalyticsIntenalProtos {
         }
       }
       /**
-       * <code>repeated .YandexQuery.Binding binding = 8;</code>
+       * <code>repeated .YandexQuery.Binding binding = 10;</code>
        */
       public com.yandex.query.YandexQueryProtos.Binding.Builder addBindingBuilder() {
         return getBindingFieldBuilder().addBuilder(
             com.yandex.query.YandexQueryProtos.Binding.getDefaultInstance());
       }
       /**
-       * <code>repeated .YandexQuery.Binding binding = 8;</code>
+       * <code>repeated .YandexQuery.Binding binding = 10;</code>
        */
       public com.yandex.query.YandexQueryProtos.Binding.Builder addBindingBuilder(
           int index) {
@@ -2509,7 +4168,7 @@ public final class AnalyticsIntenalProtos {
             index, com.yandex.query.YandexQueryProtos.Binding.getDefaultInstance());
       }
       /**
-       * <code>repeated .YandexQuery.Binding binding = 8;</code>
+       * <code>repeated .YandexQuery.Binding binding = 10;</code>
        */
       public java.util.List<com.yandex.query.YandexQueryProtos.Binding.Builder> 
            getBindingBuilderList() {
@@ -2533,10 +4192,10 @@ public final class AnalyticsIntenalProtos {
       private java.lang.Object userToken_ = "";
       /**
        * <pre>
-       * TODO: move to impersonation service
+       * IAM token for debug
        * </pre>
        *
-       * <code>string user_token = 9;</code>
+       * <code>string user_token = 11;</code>
        * @return The userToken.
        */
       public java.lang.String getUserToken() {
@@ -2553,10 +4212,10 @@ public final class AnalyticsIntenalProtos {
       }
       /**
        * <pre>
-       * TODO: move to impersonation service
+       * IAM token for debug
        * </pre>
        *
-       * <code>string user_token = 9;</code>
+       * <code>string user_token = 11;</code>
        * @return The bytes for userToken.
        */
       public com.google.protobuf.ByteString
@@ -2574,10 +4233,10 @@ public final class AnalyticsIntenalProtos {
       }
       /**
        * <pre>
-       * TODO: move to impersonation service
+       * IAM token for debug
        * </pre>
        *
-       * <code>string user_token = 9;</code>
+       * <code>string user_token = 11;</code>
        * @param value The userToken to set.
        * @return This builder for chaining.
        */
@@ -2593,10 +4252,10 @@ public final class AnalyticsIntenalProtos {
       }
       /**
        * <pre>
-       * TODO: move to impersonation service
+       * IAM token for debug
        * </pre>
        *
-       * <code>string user_token = 9;</code>
+       * <code>string user_token = 11;</code>
        * @return This builder for chaining.
        */
       public Builder clearUserToken() {
@@ -2607,10 +4266,10 @@ public final class AnalyticsIntenalProtos {
       }
       /**
        * <pre>
-       * TODO: move to impersonation service
+       * IAM token for debug
        * </pre>
        *
-       * <code>string user_token = 9;</code>
+       * <code>string user_token = 11;</code>
        * @param value The bytes for userToken to set.
        * @return This builder for chaining.
        */
@@ -2626,80 +4285,244 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
 
-      private java.lang.Object token_ = "";
+      private java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity> serviceAccounts_ =
+        java.util.Collections.emptyList();
+      private void ensureServiceAccountsIsMutable() {
+        if (!((bitField0_ & 0x00000004) != 0)) {
+          serviceAccounts_ = new java.util.ArrayList<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity>(serviceAccounts_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder> serviceAccountsBuilder_;
+
       /**
-       * <code>string token = 10;</code>
-       * @return The token.
+       * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
        */
-      public java.lang.String getToken() {
-        java.lang.Object ref = token_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          token_ = s;
-          return s;
+      public java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity> getServiceAccountsList() {
+        if (serviceAccountsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(serviceAccounts_);
         } else {
-          return (java.lang.String) ref;
+          return serviceAccountsBuilder_.getMessageList();
         }
       }
       /**
-       * <code>string token = 10;</code>
-       * @return The bytes for token.
+       * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
        */
-      public com.google.protobuf.ByteString
-          getTokenBytes() {
-        java.lang.Object ref = token_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          token_ = b;
-          return b;
+      public int getServiceAccountsCount() {
+        if (serviceAccountsBuilder_ == null) {
+          return serviceAccounts_.size();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          return serviceAccountsBuilder_.getCount();
         }
       }
       /**
-       * <code>string token = 10;</code>
-       * @param value The token to set.
-       * @return This builder for chaining.
+       * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
        */
-      public Builder setToken(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        token_ = value;
-        onChanged();
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getServiceAccounts(int index) {
+        if (serviceAccountsBuilder_ == null) {
+          return serviceAccounts_.get(index);
+        } else {
+          return serviceAccountsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
+       */
+      public Builder setServiceAccounts(
+          int index, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity value) {
+        if (serviceAccountsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureServiceAccountsIsMutable();
+          serviceAccounts_.set(index, value);
+          onChanged();
+        } else {
+          serviceAccountsBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>string token = 10;</code>
-       * @return This builder for chaining.
+       * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
        */
-      public Builder clearToken() {
-        
-        token_ = getDefaultInstance().getToken();
-        onChanged();
+      public Builder setServiceAccounts(
+          int index, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder builderForValue) {
+        if (serviceAccountsBuilder_ == null) {
+          ensureServiceAccountsIsMutable();
+          serviceAccounts_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          serviceAccountsBuilder_.setMessage(index, builderForValue.build());
+        }
         return this;
       }
       /**
-       * <code>string token = 10;</code>
-       * @param value The bytes for token to set.
-       * @return This builder for chaining.
+       * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
        */
-      public Builder setTokenBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        token_ = value;
-        onChanged();
+      public Builder addServiceAccounts(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity value) {
+        if (serviceAccountsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureServiceAccountsIsMutable();
+          serviceAccounts_.add(value);
+          onChanged();
+        } else {
+          serviceAccountsBuilder_.addMessage(value);
+        }
         return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
+       */
+      public Builder addServiceAccounts(
+          int index, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity value) {
+        if (serviceAccountsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureServiceAccountsIsMutable();
+          serviceAccounts_.add(index, value);
+          onChanged();
+        } else {
+          serviceAccountsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
+       */
+      public Builder addServiceAccounts(
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder builderForValue) {
+        if (serviceAccountsBuilder_ == null) {
+          ensureServiceAccountsIsMutable();
+          serviceAccounts_.add(builderForValue.build());
+          onChanged();
+        } else {
+          serviceAccountsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
+       */
+      public Builder addServiceAccounts(
+          int index, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder builderForValue) {
+        if (serviceAccountsBuilder_ == null) {
+          ensureServiceAccountsIsMutable();
+          serviceAccounts_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          serviceAccountsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
+       */
+      public Builder addAllServiceAccounts(
+          java.lang.Iterable<? extends com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity> values) {
+        if (serviceAccountsBuilder_ == null) {
+          ensureServiceAccountsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, serviceAccounts_);
+          onChanged();
+        } else {
+          serviceAccountsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
+       */
+      public Builder clearServiceAccounts() {
+        if (serviceAccountsBuilder_ == null) {
+          serviceAccounts_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          serviceAccountsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
+       */
+      public Builder removeServiceAccounts(int index) {
+        if (serviceAccountsBuilder_ == null) {
+          ensureServiceAccountsIsMutable();
+          serviceAccounts_.remove(index);
+          onChanged();
+        } else {
+          serviceAccountsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder getServiceAccountsBuilder(
+          int index) {
+        return getServiceAccountsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getServiceAccountsOrBuilder(
+          int index) {
+        if (serviceAccountsBuilder_ == null) {
+          return serviceAccounts_.get(index);  } else {
+          return serviceAccountsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
+       */
+      public java.util.List<? extends com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder> 
+           getServiceAccountsOrBuilderList() {
+        if (serviceAccountsBuilder_ != null) {
+          return serviceAccountsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(serviceAccounts_);
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder addServiceAccountsBuilder() {
+        return getServiceAccountsFieldBuilder().addBuilder(
+            com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder addServiceAccountsBuilder(
+          int index) {
+        return getServiceAccountsFieldBuilder().addBuilder(
+            index, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Yql.Analytics.SignedIdentity service_accounts = 12;</code>
+       */
+      public java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder> 
+           getServiceAccountsBuilderList() {
+        return getServiceAccountsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder> 
+          getServiceAccountsFieldBuilder() {
+        if (serviceAccountsBuilder_ == null) {
+          serviceAccountsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder>(
+                  serviceAccounts_,
+                  ((bitField0_ & 0x00000004) != 0),
+                  getParentForChildren(),
+                  isClean());
+          serviceAccounts_ = null;
+        }
+        return serviceAccountsBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -3440,63 +5263,72 @@ public final class AnalyticsIntenalProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string operation_id = 1;</code>
-     * @return The operationId.
+     * <code>string owner_id = 1;</code>
+     * @return The ownerId.
      */
-    java.lang.String getOperationId();
+    java.lang.String getOwnerId();
     /**
-     * <code>string operation_id = 1;</code>
-     * @return The bytes for operationId.
-     */
-    com.google.protobuf.ByteString
-        getOperationIdBytes();
-
-    /**
-     * <code>string operation_id_signature = 2;</code>
-     * @return The operationIdSignature.
-     */
-    java.lang.String getOperationIdSignature();
-    /**
-     * <code>string operation_id_signature = 2;</code>
-     * @return The bytes for operationIdSignature.
+     * <code>string owner_id = 1;</code>
+     * @return The bytes for ownerId.
      */
     com.google.protobuf.ByteString
-        getOperationIdSignatureBytes();
+        getOwnerIdBytes();
 
     /**
-     * <code>string result_id = 3;</code>
+     * <code>.Yql.Analytics.SignedIdentity query_id = 2;</code>
+     * @return Whether the queryId field is set.
+     */
+    boolean hasQueryId();
+    /**
+     * <code>.Yql.Analytics.SignedIdentity query_id = 2;</code>
+     * @return The queryId.
+     */
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getQueryId();
+    /**
+     * <code>.Yql.Analytics.SignedIdentity query_id = 2;</code>
+     */
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getQueryIdOrBuilder();
+
+    /**
+     * <code>.Yql.Analytics.SignedIdentity job_id = 3;</code>
+     * @return Whether the jobId field is set.
+     */
+    boolean hasJobId();
+    /**
+     * <code>.Yql.Analytics.SignedIdentity job_id = 3;</code>
+     * @return The jobId.
+     */
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getJobId();
+    /**
+     * <code>.Yql.Analytics.SignedIdentity job_id = 3;</code>
+     */
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getJobIdOrBuilder();
+
+    /**
+     * <code>.Yql.Analytics.SignedIdentity result_id = 4;</code>
+     * @return Whether the resultId field is set.
+     */
+    boolean hasResultId();
+    /**
+     * <code>.Yql.Analytics.SignedIdentity result_id = 4;</code>
      * @return The resultId.
      */
-    java.lang.String getResultId();
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getResultId();
     /**
-     * <code>string result_id = 3;</code>
-     * @return The bytes for resultId.
+     * <code>.Yql.Analytics.SignedIdentity result_id = 4;</code>
      */
-    com.google.protobuf.ByteString
-        getResultIdBytes();
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getResultIdOrBuilder();
 
     /**
-     * <code>string result_id_signature = 4;</code>
-     * @return The resultIdSignature.
-     */
-    java.lang.String getResultIdSignature();
-    /**
-     * <code>string result_id_signature = 4;</code>
-     * @return The bytes for resultIdSignature.
-     */
-    com.google.protobuf.ByteString
-        getResultIdSignatureBytes();
-
-    /**
-     * <code>.Yql.Analytics.EQueryStatus status = 5;</code>
+     * <code>.YandexQuery.QueryMeta.ComputeStatus status = 5;</code>
      * @return The enum numeric value on the wire for status.
      */
     int getStatusValue();
     /**
-     * <code>.Yql.Analytics.EQueryStatus status = 5;</code>
+     * <code>.YandexQuery.QueryMeta.ComputeStatus status = 5;</code>
      * @return The status.
      */
-    com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus getStatus();
+    com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus getStatus();
 
     /**
      * <code>repeated .Ydb.Issue.IssueMessage issues = 6;</code>
@@ -3565,40 +5397,81 @@ public final class AnalyticsIntenalProtos {
         getExecuterInfoBytes();
 
     /**
-     * <code>string ast = 11;</code>
+     * <code>string dq_graph = 11;</code>
+     * @return The dqGraph.
+     */
+    java.lang.String getDqGraph();
+    /**
+     * <code>string dq_graph = 11;</code>
+     * @return The bytes for dqGraph.
+     */
+    com.google.protobuf.ByteString
+        getDqGraphBytes();
+
+    /**
+     * <code>string ast = 12;</code>
      * @return The ast.
      */
     java.lang.String getAst();
     /**
-     * <code>string ast = 11;</code>
+     * <code>string ast = 12;</code>
      * @return The bytes for ast.
      */
     com.google.protobuf.ByteString
         getAstBytes();
 
     /**
-     * <code>string plan = 12;</code>
+     * <code>string plan = 13;</code>
      * @return The plan.
      */
     java.lang.String getPlan();
     /**
-     * <code>string plan = 12;</code>
+     * <code>string plan = 13;</code>
      * @return The bytes for plan.
      */
     com.google.protobuf.ByteString
         getPlanBytes();
 
     /**
-     * <code>string token = 100;</code>
-     * @return The token.
+     * <code>bool resign_query = 14;</code>
+     * @return The resignQuery.
      */
-    java.lang.String getToken();
+    boolean getResignQuery();
+
     /**
-     * <code>string token = 100;</code>
-     * @return The bytes for token.
+     * <code>.Ydb.Operations.OperationParams operation_params = 15;</code>
+     * @return Whether the operationParams field is set.
+     */
+    boolean hasOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 15;</code>
+     * @return The operationParams.
+     */
+    tech.ydb.OperationProtos.OperationParams getOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 15;</code>
+     */
+    tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
+
+    /**
+     * <pre>
+     * TODO: delete
+     * </pre>
+     *
+     * <code>string scope = 100;</code>
+     * @return The scope.
+     */
+    java.lang.String getScope();
+    /**
+     * <pre>
+     * TODO: delete
+     * </pre>
+     *
+     * <code>string scope = 100;</code>
+     * @return The bytes for scope.
      */
     com.google.protobuf.ByteString
-        getTokenBytes();
+        getScopeBytes();
   }
   /**
    * Protobuf type {@code Yql.Analytics.PingTaskRequest}
@@ -3613,18 +5486,16 @@ public final class AnalyticsIntenalProtos {
       super(builder);
     }
     private PingTaskRequest() {
-      operationId_ = "";
-      operationIdSignature_ = "";
-      resultId_ = "";
-      resultIdSignature_ = "";
+      ownerId_ = "";
       status_ = 0;
       issues_ = java.util.Collections.emptyList();
       statistics_ = "";
       serializedHeaders_ = "";
       executerInfo_ = "";
+      dqGraph_ = "";
       ast_ = "";
       plan_ = "";
-      token_ = "";
+      scope_ = "";
     }
 
     @java.lang.Override
@@ -3661,25 +5532,46 @@ public final class AnalyticsIntenalProtos {
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              operationId_ = s;
+              ownerId_ = s;
               break;
             }
             case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder subBuilder = null;
+              if (queryId_ != null) {
+                subBuilder = queryId_.toBuilder();
+              }
+              queryId_ = input.readMessage(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(queryId_);
+                queryId_ = subBuilder.buildPartial();
+              }
 
-              operationIdSignature_ = s;
               break;
             }
             case 26: {
-              java.lang.String s = input.readStringRequireUtf8();
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder subBuilder = null;
+              if (jobId_ != null) {
+                subBuilder = jobId_.toBuilder();
+              }
+              jobId_ = input.readMessage(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(jobId_);
+                jobId_ = subBuilder.buildPartial();
+              }
 
-              resultId_ = s;
               break;
             }
             case 34: {
-              java.lang.String s = input.readStringRequireUtf8();
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder subBuilder = null;
+              if (resultId_ != null) {
+                subBuilder = resultId_.toBuilder();
+              }
+              resultId_ = input.readMessage(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(resultId_);
+                resultId_ = subBuilder.buildPartial();
+              }
 
-              resultIdSignature_ = s;
               break;
             }
             case 40: {
@@ -3723,19 +5615,43 @@ public final class AnalyticsIntenalProtos {
             case 90: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              ast_ = s;
+              dqGraph_ = s;
               break;
             }
             case 98: {
               java.lang.String s = input.readStringRequireUtf8();
 
+              ast_ = s;
+              break;
+            }
+            case 106: {
+              java.lang.String s = input.readStringRequireUtf8();
+
               plan_ = s;
+              break;
+            }
+            case 112: {
+
+              resignQuery_ = input.readBool();
+              break;
+            }
+            case 122: {
+              tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
+              if (operationParams_ != null) {
+                subBuilder = operationParams_.toBuilder();
+              }
+              operationParams_ = input.readMessage(tech.ydb.OperationProtos.OperationParams.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operationParams_);
+                operationParams_ = subBuilder.buildPartial();
+              }
+
               break;
             }
             case 802: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              token_ = s;
+              scope_ = s;
               break;
             }
             default: {
@@ -3773,175 +5689,139 @@ public final class AnalyticsIntenalProtos {
               com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.PingTaskRequest.class, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.PingTaskRequest.Builder.class);
     }
 
-    public static final int OPERATION_ID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object operationId_;
+    public static final int OWNER_ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object ownerId_;
     /**
-     * <code>string operation_id = 1;</code>
-     * @return The operationId.
+     * <code>string owner_id = 1;</code>
+     * @return The ownerId.
      */
     @java.lang.Override
-    public java.lang.String getOperationId() {
-      java.lang.Object ref = operationId_;
+    public java.lang.String getOwnerId() {
+      java.lang.Object ref = ownerId_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        operationId_ = s;
+        ownerId_ = s;
         return s;
       }
     }
     /**
-     * <code>string operation_id = 1;</code>
-     * @return The bytes for operationId.
+     * <code>string owner_id = 1;</code>
+     * @return The bytes for ownerId.
      */
     @java.lang.Override
     public com.google.protobuf.ByteString
-        getOperationIdBytes() {
-      java.lang.Object ref = operationId_;
+        getOwnerIdBytes() {
+      java.lang.Object ref = ownerId_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        operationId_ = b;
+        ownerId_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
 
-    public static final int OPERATION_ID_SIGNATURE_FIELD_NUMBER = 2;
-    private volatile java.lang.Object operationIdSignature_;
+    public static final int QUERY_ID_FIELD_NUMBER = 2;
+    private com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity queryId_;
     /**
-     * <code>string operation_id_signature = 2;</code>
-     * @return The operationIdSignature.
+     * <code>.Yql.Analytics.SignedIdentity query_id = 2;</code>
+     * @return Whether the queryId field is set.
      */
     @java.lang.Override
-    public java.lang.String getOperationIdSignature() {
-      java.lang.Object ref = operationIdSignature_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        operationIdSignature_ = s;
-        return s;
-      }
+    public boolean hasQueryId() {
+      return queryId_ != null;
     }
     /**
-     * <code>string operation_id_signature = 2;</code>
-     * @return The bytes for operationIdSignature.
+     * <code>.Yql.Analytics.SignedIdentity query_id = 2;</code>
+     * @return The queryId.
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString
-        getOperationIdSignatureBytes() {
-      java.lang.Object ref = operationIdSignature_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        operationIdSignature_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getQueryId() {
+      return queryId_ == null ? com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : queryId_;
+    }
+    /**
+     * <code>.Yql.Analytics.SignedIdentity query_id = 2;</code>
+     */
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getQueryIdOrBuilder() {
+      return getQueryId();
     }
 
-    public static final int RESULT_ID_FIELD_NUMBER = 3;
-    private volatile java.lang.Object resultId_;
+    public static final int JOB_ID_FIELD_NUMBER = 3;
+    private com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity jobId_;
     /**
-     * <code>string result_id = 3;</code>
+     * <code>.Yql.Analytics.SignedIdentity job_id = 3;</code>
+     * @return Whether the jobId field is set.
+     */
+    @java.lang.Override
+    public boolean hasJobId() {
+      return jobId_ != null;
+    }
+    /**
+     * <code>.Yql.Analytics.SignedIdentity job_id = 3;</code>
+     * @return The jobId.
+     */
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getJobId() {
+      return jobId_ == null ? com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : jobId_;
+    }
+    /**
+     * <code>.Yql.Analytics.SignedIdentity job_id = 3;</code>
+     */
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getJobIdOrBuilder() {
+      return getJobId();
+    }
+
+    public static final int RESULT_ID_FIELD_NUMBER = 4;
+    private com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity resultId_;
+    /**
+     * <code>.Yql.Analytics.SignedIdentity result_id = 4;</code>
+     * @return Whether the resultId field is set.
+     */
+    @java.lang.Override
+    public boolean hasResultId() {
+      return resultId_ != null;
+    }
+    /**
+     * <code>.Yql.Analytics.SignedIdentity result_id = 4;</code>
      * @return The resultId.
      */
     @java.lang.Override
-    public java.lang.String getResultId() {
-      java.lang.Object ref = resultId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        resultId_ = s;
-        return s;
-      }
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getResultId() {
+      return resultId_ == null ? com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : resultId_;
     }
     /**
-     * <code>string result_id = 3;</code>
-     * @return The bytes for resultId.
+     * <code>.Yql.Analytics.SignedIdentity result_id = 4;</code>
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString
-        getResultIdBytes() {
-      java.lang.Object ref = resultId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        resultId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int RESULT_ID_SIGNATURE_FIELD_NUMBER = 4;
-    private volatile java.lang.Object resultIdSignature_;
-    /**
-     * <code>string result_id_signature = 4;</code>
-     * @return The resultIdSignature.
-     */
-    @java.lang.Override
-    public java.lang.String getResultIdSignature() {
-      java.lang.Object ref = resultIdSignature_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        resultIdSignature_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string result_id_signature = 4;</code>
-     * @return The bytes for resultIdSignature.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getResultIdSignatureBytes() {
-      java.lang.Object ref = resultIdSignature_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        resultIdSignature_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getResultIdOrBuilder() {
+      return getResultId();
     }
 
     public static final int STATUS_FIELD_NUMBER = 5;
     private int status_;
     /**
-     * <code>.Yql.Analytics.EQueryStatus status = 5;</code>
+     * <code>.YandexQuery.QueryMeta.ComputeStatus status = 5;</code>
      * @return The enum numeric value on the wire for status.
      */
     @java.lang.Override public int getStatusValue() {
       return status_;
     }
     /**
-     * <code>.Yql.Analytics.EQueryStatus status = 5;</code>
+     * <code>.YandexQuery.QueryMeta.ComputeStatus status = 5;</code>
      * @return The status.
      */
-    @java.lang.Override public com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus getStatus() {
+    @java.lang.Override public com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus getStatus() {
       @SuppressWarnings("deprecation")
-      com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus result = com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus.valueOf(status_);
-      return result == null ? com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus.UNRECOGNIZED : result;
+      com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus result = com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus.valueOf(status_);
+      return result == null ? com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus.UNRECOGNIZED : result;
     }
 
     public static final int ISSUES_FIELD_NUMBER = 6;
@@ -4109,10 +5989,48 @@ public final class AnalyticsIntenalProtos {
       }
     }
 
-    public static final int AST_FIELD_NUMBER = 11;
+    public static final int DQ_GRAPH_FIELD_NUMBER = 11;
+    private volatile java.lang.Object dqGraph_;
+    /**
+     * <code>string dq_graph = 11;</code>
+     * @return The dqGraph.
+     */
+    @java.lang.Override
+    public java.lang.String getDqGraph() {
+      java.lang.Object ref = dqGraph_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        dqGraph_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string dq_graph = 11;</code>
+     * @return The bytes for dqGraph.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getDqGraphBytes() {
+      java.lang.Object ref = dqGraph_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        dqGraph_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int AST_FIELD_NUMBER = 12;
     private volatile java.lang.Object ast_;
     /**
-     * <code>string ast = 11;</code>
+     * <code>string ast = 12;</code>
      * @return The ast.
      */
     @java.lang.Override
@@ -4129,7 +6047,7 @@ public final class AnalyticsIntenalProtos {
       }
     }
     /**
-     * <code>string ast = 11;</code>
+     * <code>string ast = 12;</code>
      * @return The bytes for ast.
      */
     @java.lang.Override
@@ -4147,10 +6065,10 @@ public final class AnalyticsIntenalProtos {
       }
     }
 
-    public static final int PLAN_FIELD_NUMBER = 12;
+    public static final int PLAN_FIELD_NUMBER = 13;
     private volatile java.lang.Object plan_;
     /**
-     * <code>string plan = 12;</code>
+     * <code>string plan = 13;</code>
      * @return The plan.
      */
     @java.lang.Override
@@ -4167,7 +6085,7 @@ public final class AnalyticsIntenalProtos {
       }
     }
     /**
-     * <code>string plan = 12;</code>
+     * <code>string plan = 13;</code>
      * @return The bytes for plan.
      */
     @java.lang.Override
@@ -4185,38 +6103,83 @@ public final class AnalyticsIntenalProtos {
       }
     }
 
-    public static final int TOKEN_FIELD_NUMBER = 100;
-    private volatile java.lang.Object token_;
+    public static final int RESIGN_QUERY_FIELD_NUMBER = 14;
+    private boolean resignQuery_;
     /**
-     * <code>string token = 100;</code>
-     * @return The token.
+     * <code>bool resign_query = 14;</code>
+     * @return The resignQuery.
      */
     @java.lang.Override
-    public java.lang.String getToken() {
-      java.lang.Object ref = token_;
+    public boolean getResignQuery() {
+      return resignQuery_;
+    }
+
+    public static final int OPERATION_PARAMS_FIELD_NUMBER = 15;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 15;</code>
+     * @return Whether the operationParams field is set.
+     */
+    @java.lang.Override
+    public boolean hasOperationParams() {
+      return operationParams_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 15;</code>
+     * @return The operationParams.
+     */
+    @java.lang.Override
+    public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+      return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 15;</code>
+     */
+    @java.lang.Override
+    public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+      return getOperationParams();
+    }
+
+    public static final int SCOPE_FIELD_NUMBER = 100;
+    private volatile java.lang.Object scope_;
+    /**
+     * <pre>
+     * TODO: delete
+     * </pre>
+     *
+     * <code>string scope = 100;</code>
+     * @return The scope.
+     */
+    @java.lang.Override
+    public java.lang.String getScope() {
+      java.lang.Object ref = scope_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        token_ = s;
+        scope_ = s;
         return s;
       }
     }
     /**
-     * <code>string token = 100;</code>
-     * @return The bytes for token.
+     * <pre>
+     * TODO: delete
+     * </pre>
+     *
+     * <code>string scope = 100;</code>
+     * @return The bytes for scope.
      */
     @java.lang.Override
     public com.google.protobuf.ByteString
-        getTokenBytes() {
-      java.lang.Object ref = token_;
+        getScopeBytes() {
+      java.lang.Object ref = scope_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        token_ = b;
+        scope_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -4237,19 +6200,19 @@ public final class AnalyticsIntenalProtos {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getOperationIdBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, operationId_);
+      if (!getOwnerIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, ownerId_);
       }
-      if (!getOperationIdSignatureBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, operationIdSignature_);
+      if (queryId_ != null) {
+        output.writeMessage(2, getQueryId());
       }
-      if (!getResultIdBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, resultId_);
+      if (jobId_ != null) {
+        output.writeMessage(3, getJobId());
       }
-      if (!getResultIdSignatureBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, resultIdSignature_);
+      if (resultId_ != null) {
+        output.writeMessage(4, getResultId());
       }
-      if (status_ != com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus.UNSPECIFIED.getNumber()) {
+      if (status_ != com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus.COMPUTE_STATUS_UNSPECIFIED.getNumber()) {
         output.writeEnum(5, status_);
       }
       for (int i = 0; i < issues_.size(); i++) {
@@ -4267,14 +6230,23 @@ public final class AnalyticsIntenalProtos {
       if (!getExecuterInfoBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 10, executerInfo_);
       }
+      if (!getDqGraphBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 11, dqGraph_);
+      }
       if (!getAstBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 11, ast_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 12, ast_);
       }
       if (!getPlanBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 12, plan_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 13, plan_);
       }
-      if (!getTokenBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 100, token_);
+      if (resignQuery_ != false) {
+        output.writeBool(14, resignQuery_);
+      }
+      if (operationParams_ != null) {
+        output.writeMessage(15, getOperationParams());
+      }
+      if (!getScopeBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 100, scope_);
       }
       unknownFields.writeTo(output);
     }
@@ -4285,19 +6257,22 @@ public final class AnalyticsIntenalProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (!getOperationIdBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, operationId_);
+      if (!getOwnerIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, ownerId_);
       }
-      if (!getOperationIdSignatureBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, operationIdSignature_);
+      if (queryId_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getQueryId());
       }
-      if (!getResultIdBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, resultId_);
+      if (jobId_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getJobId());
       }
-      if (!getResultIdSignatureBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, resultIdSignature_);
+      if (resultId_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, getResultId());
       }
-      if (status_ != com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus.UNSPECIFIED.getNumber()) {
+      if (status_ != com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus.COMPUTE_STATUS_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(5, status_);
       }
@@ -4318,14 +6293,25 @@ public final class AnalyticsIntenalProtos {
       if (!getExecuterInfoBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, executerInfo_);
       }
+      if (!getDqGraphBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(11, dqGraph_);
+      }
       if (!getAstBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(11, ast_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(12, ast_);
       }
       if (!getPlanBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(12, plan_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(13, plan_);
       }
-      if (!getTokenBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(100, token_);
+      if (resignQuery_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(14, resignQuery_);
+      }
+      if (operationParams_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(15, getOperationParams());
+      }
+      if (!getScopeBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(100, scope_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4342,14 +6328,23 @@ public final class AnalyticsIntenalProtos {
       }
       com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.PingTaskRequest other = (com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.PingTaskRequest) obj;
 
-      if (!getOperationId()
-          .equals(other.getOperationId())) return false;
-      if (!getOperationIdSignature()
-          .equals(other.getOperationIdSignature())) return false;
-      if (!getResultId()
-          .equals(other.getResultId())) return false;
-      if (!getResultIdSignature()
-          .equals(other.getResultIdSignature())) return false;
+      if (!getOwnerId()
+          .equals(other.getOwnerId())) return false;
+      if (hasQueryId() != other.hasQueryId()) return false;
+      if (hasQueryId()) {
+        if (!getQueryId()
+            .equals(other.getQueryId())) return false;
+      }
+      if (hasJobId() != other.hasJobId()) return false;
+      if (hasJobId()) {
+        if (!getJobId()
+            .equals(other.getJobId())) return false;
+      }
+      if (hasResultId() != other.hasResultId()) return false;
+      if (hasResultId()) {
+        if (!getResultId()
+            .equals(other.getResultId())) return false;
+      }
       if (status_ != other.status_) return false;
       if (!getIssuesList()
           .equals(other.getIssuesList())) return false;
@@ -4361,12 +6356,21 @@ public final class AnalyticsIntenalProtos {
           .equals(other.getSerializedHeaders())) return false;
       if (!getExecuterInfo()
           .equals(other.getExecuterInfo())) return false;
+      if (!getDqGraph()
+          .equals(other.getDqGraph())) return false;
       if (!getAst()
           .equals(other.getAst())) return false;
       if (!getPlan()
           .equals(other.getPlan())) return false;
-      if (!getToken()
-          .equals(other.getToken())) return false;
+      if (getResignQuery()
+          != other.getResignQuery()) return false;
+      if (hasOperationParams() != other.hasOperationParams()) return false;
+      if (hasOperationParams()) {
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
+      }
+      if (!getScope()
+          .equals(other.getScope())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -4378,14 +6382,20 @@ public final class AnalyticsIntenalProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + OPERATION_ID_FIELD_NUMBER;
-      hash = (53 * hash) + getOperationId().hashCode();
-      hash = (37 * hash) + OPERATION_ID_SIGNATURE_FIELD_NUMBER;
-      hash = (53 * hash) + getOperationIdSignature().hashCode();
-      hash = (37 * hash) + RESULT_ID_FIELD_NUMBER;
-      hash = (53 * hash) + getResultId().hashCode();
-      hash = (37 * hash) + RESULT_ID_SIGNATURE_FIELD_NUMBER;
-      hash = (53 * hash) + getResultIdSignature().hashCode();
+      hash = (37 * hash) + OWNER_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getOwnerId().hashCode();
+      if (hasQueryId()) {
+        hash = (37 * hash) + QUERY_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getQueryId().hashCode();
+      }
+      if (hasJobId()) {
+        hash = (37 * hash) + JOB_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getJobId().hashCode();
+      }
+      if (hasResultId()) {
+        hash = (37 * hash) + RESULT_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getResultId().hashCode();
+      }
       hash = (37 * hash) + STATUS_FIELD_NUMBER;
       hash = (53 * hash) + status_;
       if (getIssuesCount() > 0) {
@@ -4400,12 +6410,21 @@ public final class AnalyticsIntenalProtos {
       hash = (53 * hash) + getSerializedHeaders().hashCode();
       hash = (37 * hash) + EXECUTER_INFO_FIELD_NUMBER;
       hash = (53 * hash) + getExecuterInfo().hashCode();
+      hash = (37 * hash) + DQ_GRAPH_FIELD_NUMBER;
+      hash = (53 * hash) + getDqGraph().hashCode();
       hash = (37 * hash) + AST_FIELD_NUMBER;
       hash = (53 * hash) + getAst().hashCode();
       hash = (37 * hash) + PLAN_FIELD_NUMBER;
       hash = (53 * hash) + getPlan().hashCode();
-      hash = (37 * hash) + TOKEN_FIELD_NUMBER;
-      hash = (53 * hash) + getToken().hashCode();
+      hash = (37 * hash) + RESIGN_QUERY_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getResignQuery());
+      if (hasOperationParams()) {
+        hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationParams().hashCode();
+      }
+      hash = (37 * hash) + SCOPE_FIELD_NUMBER;
+      hash = (53 * hash) + getScope().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -4540,14 +6559,26 @@ public final class AnalyticsIntenalProtos {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        operationId_ = "";
+        ownerId_ = "";
 
-        operationIdSignature_ = "";
-
-        resultId_ = "";
-
-        resultIdSignature_ = "";
-
+        if (queryIdBuilder_ == null) {
+          queryId_ = null;
+        } else {
+          queryId_ = null;
+          queryIdBuilder_ = null;
+        }
+        if (jobIdBuilder_ == null) {
+          jobId_ = null;
+        } else {
+          jobId_ = null;
+          jobIdBuilder_ = null;
+        }
+        if (resultIdBuilder_ == null) {
+          resultId_ = null;
+        } else {
+          resultId_ = null;
+          resultIdBuilder_ = null;
+        }
         status_ = 0;
 
         if (issuesBuilder_ == null) {
@@ -4564,11 +6595,21 @@ public final class AnalyticsIntenalProtos {
 
         executerInfo_ = "";
 
+        dqGraph_ = "";
+
         ast_ = "";
 
         plan_ = "";
 
-        token_ = "";
+        resignQuery_ = false;
+
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+        scope_ = "";
 
         return this;
       }
@@ -4597,10 +6638,22 @@ public final class AnalyticsIntenalProtos {
       public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.PingTaskRequest buildPartial() {
         com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.PingTaskRequest result = new com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.PingTaskRequest(this);
         int from_bitField0_ = bitField0_;
-        result.operationId_ = operationId_;
-        result.operationIdSignature_ = operationIdSignature_;
-        result.resultId_ = resultId_;
-        result.resultIdSignature_ = resultIdSignature_;
+        result.ownerId_ = ownerId_;
+        if (queryIdBuilder_ == null) {
+          result.queryId_ = queryId_;
+        } else {
+          result.queryId_ = queryIdBuilder_.build();
+        }
+        if (jobIdBuilder_ == null) {
+          result.jobId_ = jobId_;
+        } else {
+          result.jobId_ = jobIdBuilder_.build();
+        }
+        if (resultIdBuilder_ == null) {
+          result.resultId_ = resultId_;
+        } else {
+          result.resultId_ = resultIdBuilder_.build();
+        }
         result.status_ = status_;
         if (issuesBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0)) {
@@ -4615,9 +6668,16 @@ public final class AnalyticsIntenalProtos {
         result.statistics_ = statistics_;
         result.serializedHeaders_ = serializedHeaders_;
         result.executerInfo_ = executerInfo_;
+        result.dqGraph_ = dqGraph_;
         result.ast_ = ast_;
         result.plan_ = plan_;
-        result.token_ = token_;
+        result.resignQuery_ = resignQuery_;
+        if (operationParamsBuilder_ == null) {
+          result.operationParams_ = operationParams_;
+        } else {
+          result.operationParams_ = operationParamsBuilder_.build();
+        }
+        result.scope_ = scope_;
         onBuilt();
         return result;
       }
@@ -4666,21 +6726,18 @@ public final class AnalyticsIntenalProtos {
 
       public Builder mergeFrom(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.PingTaskRequest other) {
         if (other == com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.PingTaskRequest.getDefaultInstance()) return this;
-        if (!other.getOperationId().isEmpty()) {
-          operationId_ = other.operationId_;
+        if (!other.getOwnerId().isEmpty()) {
+          ownerId_ = other.ownerId_;
           onChanged();
         }
-        if (!other.getOperationIdSignature().isEmpty()) {
-          operationIdSignature_ = other.operationIdSignature_;
-          onChanged();
+        if (other.hasQueryId()) {
+          mergeQueryId(other.getQueryId());
         }
-        if (!other.getResultId().isEmpty()) {
-          resultId_ = other.resultId_;
-          onChanged();
+        if (other.hasJobId()) {
+          mergeJobId(other.getJobId());
         }
-        if (!other.getResultIdSignature().isEmpty()) {
-          resultIdSignature_ = other.resultIdSignature_;
-          onChanged();
+        if (other.hasResultId()) {
+          mergeResultId(other.getResultId());
         }
         if (other.status_ != 0) {
           setStatusValue(other.getStatusValue());
@@ -4726,6 +6783,10 @@ public final class AnalyticsIntenalProtos {
           executerInfo_ = other.executerInfo_;
           onChanged();
         }
+        if (!other.getDqGraph().isEmpty()) {
+          dqGraph_ = other.dqGraph_;
+          onChanged();
+        }
         if (!other.getAst().isEmpty()) {
           ast_ = other.ast_;
           onChanged();
@@ -4734,8 +6795,14 @@ public final class AnalyticsIntenalProtos {
           plan_ = other.plan_;
           onChanged();
         }
-        if (!other.getToken().isEmpty()) {
-          token_ = other.token_;
+        if (other.getResignQuery() != false) {
+          setResignQuery(other.getResignQuery());
+        }
+        if (other.hasOperationParams()) {
+          mergeOperationParams(other.getOperationParams());
+        }
+        if (!other.getScope().isEmpty()) {
+          scope_ = other.scope_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -4768,320 +6835,449 @@ public final class AnalyticsIntenalProtos {
       }
       private int bitField0_;
 
-      private java.lang.Object operationId_ = "";
+      private java.lang.Object ownerId_ = "";
       /**
-       * <code>string operation_id = 1;</code>
-       * @return The operationId.
+       * <code>string owner_id = 1;</code>
+       * @return The ownerId.
        */
-      public java.lang.String getOperationId() {
-        java.lang.Object ref = operationId_;
+      public java.lang.String getOwnerId() {
+        java.lang.Object ref = ownerId_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          operationId_ = s;
+          ownerId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string operation_id = 1;</code>
-       * @return The bytes for operationId.
+       * <code>string owner_id = 1;</code>
+       * @return The bytes for ownerId.
        */
       public com.google.protobuf.ByteString
-          getOperationIdBytes() {
-        java.lang.Object ref = operationId_;
+          getOwnerIdBytes() {
+        java.lang.Object ref = ownerId_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          operationId_ = b;
+          ownerId_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string operation_id = 1;</code>
-       * @param value The operationId to set.
+       * <code>string owner_id = 1;</code>
+       * @param value The ownerId to set.
        * @return This builder for chaining.
        */
-      public Builder setOperationId(
+      public Builder setOwnerId(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        operationId_ = value;
+        ownerId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string operation_id = 1;</code>
+       * <code>string owner_id = 1;</code>
        * @return This builder for chaining.
        */
-      public Builder clearOperationId() {
+      public Builder clearOwnerId() {
         
-        operationId_ = getDefaultInstance().getOperationId();
+        ownerId_ = getDefaultInstance().getOwnerId();
         onChanged();
         return this;
       }
       /**
-       * <code>string operation_id = 1;</code>
-       * @param value The bytes for operationId to set.
+       * <code>string owner_id = 1;</code>
+       * @param value The bytes for ownerId to set.
        * @return This builder for chaining.
        */
-      public Builder setOperationIdBytes(
+      public Builder setOwnerIdBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        operationId_ = value;
+        ownerId_ = value;
         onChanged();
         return this;
       }
 
-      private java.lang.Object operationIdSignature_ = "";
+      private com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity queryId_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder> queryIdBuilder_;
       /**
-       * <code>string operation_id_signature = 2;</code>
-       * @return The operationIdSignature.
+       * <code>.Yql.Analytics.SignedIdentity query_id = 2;</code>
+       * @return Whether the queryId field is set.
        */
-      public java.lang.String getOperationIdSignature() {
-        java.lang.Object ref = operationIdSignature_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          operationIdSignature_ = s;
-          return s;
+      public boolean hasQueryId() {
+        return queryIdBuilder_ != null || queryId_ != null;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity query_id = 2;</code>
+       * @return The queryId.
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getQueryId() {
+        if (queryIdBuilder_ == null) {
+          return queryId_ == null ? com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : queryId_;
         } else {
-          return (java.lang.String) ref;
+          return queryIdBuilder_.getMessage();
         }
       }
       /**
-       * <code>string operation_id_signature = 2;</code>
-       * @return The bytes for operationIdSignature.
+       * <code>.Yql.Analytics.SignedIdentity query_id = 2;</code>
        */
-      public com.google.protobuf.ByteString
-          getOperationIdSignatureBytes() {
-        java.lang.Object ref = operationIdSignature_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          operationIdSignature_ = b;
-          return b;
+      public Builder setQueryId(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity value) {
+        if (queryIdBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          queryId_ = value;
+          onChanged();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          queryIdBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity query_id = 2;</code>
+       */
+      public Builder setQueryId(
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder builderForValue) {
+        if (queryIdBuilder_ == null) {
+          queryId_ = builderForValue.build();
+          onChanged();
+        } else {
+          queryIdBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity query_id = 2;</code>
+       */
+      public Builder mergeQueryId(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity value) {
+        if (queryIdBuilder_ == null) {
+          if (queryId_ != null) {
+            queryId_ =
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.newBuilder(queryId_).mergeFrom(value).buildPartial();
+          } else {
+            queryId_ = value;
+          }
+          onChanged();
+        } else {
+          queryIdBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity query_id = 2;</code>
+       */
+      public Builder clearQueryId() {
+        if (queryIdBuilder_ == null) {
+          queryId_ = null;
+          onChanged();
+        } else {
+          queryId_ = null;
+          queryIdBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity query_id = 2;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder getQueryIdBuilder() {
+        
+        onChanged();
+        return getQueryIdFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity query_id = 2;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getQueryIdOrBuilder() {
+        if (queryIdBuilder_ != null) {
+          return queryIdBuilder_.getMessageOrBuilder();
+        } else {
+          return queryId_ == null ?
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : queryId_;
         }
       }
       /**
-       * <code>string operation_id_signature = 2;</code>
-       * @param value The operationIdSignature to set.
-       * @return This builder for chaining.
+       * <code>.Yql.Analytics.SignedIdentity query_id = 2;</code>
        */
-      public Builder setOperationIdSignature(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        operationIdSignature_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string operation_id_signature = 2;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearOperationIdSignature() {
-        
-        operationIdSignature_ = getDefaultInstance().getOperationIdSignature();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string operation_id_signature = 2;</code>
-       * @param value The bytes for operationIdSignature to set.
-       * @return This builder for chaining.
-       */
-      public Builder setOperationIdSignatureBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        operationIdSignature_ = value;
-        onChanged();
-        return this;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder> 
+          getQueryIdFieldBuilder() {
+        if (queryIdBuilder_ == null) {
+          queryIdBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder>(
+                  getQueryId(),
+                  getParentForChildren(),
+                  isClean());
+          queryId_ = null;
+        }
+        return queryIdBuilder_;
       }
 
-      private java.lang.Object resultId_ = "";
+      private com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity jobId_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder> jobIdBuilder_;
       /**
-       * <code>string result_id = 3;</code>
+       * <code>.Yql.Analytics.SignedIdentity job_id = 3;</code>
+       * @return Whether the jobId field is set.
+       */
+      public boolean hasJobId() {
+        return jobIdBuilder_ != null || jobId_ != null;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity job_id = 3;</code>
+       * @return The jobId.
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getJobId() {
+        if (jobIdBuilder_ == null) {
+          return jobId_ == null ? com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : jobId_;
+        } else {
+          return jobIdBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity job_id = 3;</code>
+       */
+      public Builder setJobId(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity value) {
+        if (jobIdBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          jobId_ = value;
+          onChanged();
+        } else {
+          jobIdBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity job_id = 3;</code>
+       */
+      public Builder setJobId(
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder builderForValue) {
+        if (jobIdBuilder_ == null) {
+          jobId_ = builderForValue.build();
+          onChanged();
+        } else {
+          jobIdBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity job_id = 3;</code>
+       */
+      public Builder mergeJobId(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity value) {
+        if (jobIdBuilder_ == null) {
+          if (jobId_ != null) {
+            jobId_ =
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.newBuilder(jobId_).mergeFrom(value).buildPartial();
+          } else {
+            jobId_ = value;
+          }
+          onChanged();
+        } else {
+          jobIdBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity job_id = 3;</code>
+       */
+      public Builder clearJobId() {
+        if (jobIdBuilder_ == null) {
+          jobId_ = null;
+          onChanged();
+        } else {
+          jobId_ = null;
+          jobIdBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity job_id = 3;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder getJobIdBuilder() {
+        
+        onChanged();
+        return getJobIdFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity job_id = 3;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getJobIdOrBuilder() {
+        if (jobIdBuilder_ != null) {
+          return jobIdBuilder_.getMessageOrBuilder();
+        } else {
+          return jobId_ == null ?
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : jobId_;
+        }
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity job_id = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder> 
+          getJobIdFieldBuilder() {
+        if (jobIdBuilder_ == null) {
+          jobIdBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder>(
+                  getJobId(),
+                  getParentForChildren(),
+                  isClean());
+          jobId_ = null;
+        }
+        return jobIdBuilder_;
+      }
+
+      private com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity resultId_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder> resultIdBuilder_;
+      /**
+       * <code>.Yql.Analytics.SignedIdentity result_id = 4;</code>
+       * @return Whether the resultId field is set.
+       */
+      public boolean hasResultId() {
+        return resultIdBuilder_ != null || resultId_ != null;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity result_id = 4;</code>
        * @return The resultId.
        */
-      public java.lang.String getResultId() {
-        java.lang.Object ref = resultId_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          resultId_ = s;
-          return s;
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getResultId() {
+        if (resultIdBuilder_ == null) {
+          return resultId_ == null ? com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : resultId_;
         } else {
-          return (java.lang.String) ref;
+          return resultIdBuilder_.getMessage();
         }
       }
       /**
-       * <code>string result_id = 3;</code>
-       * @return The bytes for resultId.
+       * <code>.Yql.Analytics.SignedIdentity result_id = 4;</code>
        */
-      public com.google.protobuf.ByteString
-          getResultIdBytes() {
-        java.lang.Object ref = resultId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          resultId_ = b;
-          return b;
+      public Builder setResultId(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity value) {
+        if (resultIdBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          resultId_ = value;
+          onChanged();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          resultIdBuilder_.setMessage(value);
         }
+
+        return this;
       }
       /**
-       * <code>string result_id = 3;</code>
-       * @param value The resultId to set.
-       * @return This builder for chaining.
+       * <code>.Yql.Analytics.SignedIdentity result_id = 4;</code>
        */
       public Builder setResultId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        resultId_ = value;
-        onChanged();
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder builderForValue) {
+        if (resultIdBuilder_ == null) {
+          resultId_ = builderForValue.build();
+          onChanged();
+        } else {
+          resultIdBuilder_.setMessage(builderForValue.build());
+        }
+
         return this;
       }
       /**
-       * <code>string result_id = 3;</code>
-       * @return This builder for chaining.
+       * <code>.Yql.Analytics.SignedIdentity result_id = 4;</code>
+       */
+      public Builder mergeResultId(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity value) {
+        if (resultIdBuilder_ == null) {
+          if (resultId_ != null) {
+            resultId_ =
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.newBuilder(resultId_).mergeFrom(value).buildPartial();
+          } else {
+            resultId_ = value;
+          }
+          onChanged();
+        } else {
+          resultIdBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity result_id = 4;</code>
        */
       public Builder clearResultId() {
-        
-        resultId_ = getDefaultInstance().getResultId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string result_id = 3;</code>
-       * @param value The bytes for resultId to set.
-       * @return This builder for chaining.
-       */
-      public Builder setResultIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        resultId_ = value;
-        onChanged();
-        return this;
-      }
+        if (resultIdBuilder_ == null) {
+          resultId_ = null;
+          onChanged();
+        } else {
+          resultId_ = null;
+          resultIdBuilder_ = null;
+        }
 
-      private java.lang.Object resultIdSignature_ = "";
+        return this;
+      }
       /**
-       * <code>string result_id_signature = 4;</code>
-       * @return The resultIdSignature.
+       * <code>.Yql.Analytics.SignedIdentity result_id = 4;</code>
        */
-      public java.lang.String getResultIdSignature() {
-        java.lang.Object ref = resultIdSignature_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          resultIdSignature_ = s;
-          return s;
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder getResultIdBuilder() {
+        
+        onChanged();
+        return getResultIdFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity result_id = 4;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getResultIdOrBuilder() {
+        if (resultIdBuilder_ != null) {
+          return resultIdBuilder_.getMessageOrBuilder();
         } else {
-          return (java.lang.String) ref;
+          return resultId_ == null ?
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : resultId_;
         }
       }
       /**
-       * <code>string result_id_signature = 4;</code>
-       * @return The bytes for resultIdSignature.
+       * <code>.Yql.Analytics.SignedIdentity result_id = 4;</code>
        */
-      public com.google.protobuf.ByteString
-          getResultIdSignatureBytes() {
-        java.lang.Object ref = resultIdSignature_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          resultIdSignature_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder> 
+          getResultIdFieldBuilder() {
+        if (resultIdBuilder_ == null) {
+          resultIdBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder>(
+                  getResultId(),
+                  getParentForChildren(),
+                  isClean());
+          resultId_ = null;
         }
-      }
-      /**
-       * <code>string result_id_signature = 4;</code>
-       * @param value The resultIdSignature to set.
-       * @return This builder for chaining.
-       */
-      public Builder setResultIdSignature(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        resultIdSignature_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string result_id_signature = 4;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearResultIdSignature() {
-        
-        resultIdSignature_ = getDefaultInstance().getResultIdSignature();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string result_id_signature = 4;</code>
-       * @param value The bytes for resultIdSignature to set.
-       * @return This builder for chaining.
-       */
-      public Builder setResultIdSignatureBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        resultIdSignature_ = value;
-        onChanged();
-        return this;
+        return resultIdBuilder_;
       }
 
       private int status_ = 0;
       /**
-       * <code>.Yql.Analytics.EQueryStatus status = 5;</code>
+       * <code>.YandexQuery.QueryMeta.ComputeStatus status = 5;</code>
        * @return The enum numeric value on the wire for status.
        */
       @java.lang.Override public int getStatusValue() {
         return status_;
       }
       /**
-       * <code>.Yql.Analytics.EQueryStatus status = 5;</code>
+       * <code>.YandexQuery.QueryMeta.ComputeStatus status = 5;</code>
        * @param value The enum numeric value on the wire for status to set.
        * @return This builder for chaining.
        */
@@ -5092,21 +7288,21 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>.Yql.Analytics.EQueryStatus status = 5;</code>
+       * <code>.YandexQuery.QueryMeta.ComputeStatus status = 5;</code>
        * @return The status.
        */
       @java.lang.Override
-      public com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus getStatus() {
+      public com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus getStatus() {
         @SuppressWarnings("deprecation")
-        com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus result = com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus.valueOf(status_);
-        return result == null ? com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus.UNRECOGNIZED : result;
+        com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus result = com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus.valueOf(status_);
+        return result == null ? com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus.UNRECOGNIZED : result;
       }
       /**
-       * <code>.Yql.Analytics.EQueryStatus status = 5;</code>
+       * <code>.YandexQuery.QueryMeta.ComputeStatus status = 5;</code>
        * @param value The status to set.
        * @return This builder for chaining.
        */
-      public Builder setStatus(com.yandex.yql.analytics.AnalyticsProtos.EQueryStatus value) {
+      public Builder setStatus(com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus value) {
         if (value == null) {
           throw new NullPointerException();
         }
@@ -5116,7 +7312,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>.Yql.Analytics.EQueryStatus status = 5;</code>
+       * <code>.YandexQuery.QueryMeta.ComputeStatus status = 5;</code>
        * @return This builder for chaining.
        */
       public Builder clearStatus() {
@@ -5625,9 +7821,85 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
 
+      private java.lang.Object dqGraph_ = "";
+      /**
+       * <code>string dq_graph = 11;</code>
+       * @return The dqGraph.
+       */
+      public java.lang.String getDqGraph() {
+        java.lang.Object ref = dqGraph_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          dqGraph_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string dq_graph = 11;</code>
+       * @return The bytes for dqGraph.
+       */
+      public com.google.protobuf.ByteString
+          getDqGraphBytes() {
+        java.lang.Object ref = dqGraph_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          dqGraph_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string dq_graph = 11;</code>
+       * @param value The dqGraph to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDqGraph(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        dqGraph_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string dq_graph = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDqGraph() {
+        
+        dqGraph_ = getDefaultInstance().getDqGraph();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string dq_graph = 11;</code>
+       * @param value The bytes for dqGraph to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDqGraphBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        dqGraph_ = value;
+        onChanged();
+        return this;
+      }
+
       private java.lang.Object ast_ = "";
       /**
-       * <code>string ast = 11;</code>
+       * <code>string ast = 12;</code>
        * @return The ast.
        */
       public java.lang.String getAst() {
@@ -5643,7 +7915,7 @@ public final class AnalyticsIntenalProtos {
         }
       }
       /**
-       * <code>string ast = 11;</code>
+       * <code>string ast = 12;</code>
        * @return The bytes for ast.
        */
       public com.google.protobuf.ByteString
@@ -5660,7 +7932,7 @@ public final class AnalyticsIntenalProtos {
         }
       }
       /**
-       * <code>string ast = 11;</code>
+       * <code>string ast = 12;</code>
        * @param value The ast to set.
        * @return This builder for chaining.
        */
@@ -5675,7 +7947,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>string ast = 11;</code>
+       * <code>string ast = 12;</code>
        * @return This builder for chaining.
        */
       public Builder clearAst() {
@@ -5685,7 +7957,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>string ast = 11;</code>
+       * <code>string ast = 12;</code>
        * @param value The bytes for ast to set.
        * @return This builder for chaining.
        */
@@ -5703,7 +7975,7 @@ public final class AnalyticsIntenalProtos {
 
       private java.lang.Object plan_ = "";
       /**
-       * <code>string plan = 12;</code>
+       * <code>string plan = 13;</code>
        * @return The plan.
        */
       public java.lang.String getPlan() {
@@ -5719,7 +7991,7 @@ public final class AnalyticsIntenalProtos {
         }
       }
       /**
-       * <code>string plan = 12;</code>
+       * <code>string plan = 13;</code>
        * @return The bytes for plan.
        */
       public com.google.protobuf.ByteString
@@ -5736,7 +8008,7 @@ public final class AnalyticsIntenalProtos {
         }
       }
       /**
-       * <code>string plan = 12;</code>
+       * <code>string plan = 13;</code>
        * @param value The plan to set.
        * @return This builder for chaining.
        */
@@ -5751,7 +8023,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>string plan = 12;</code>
+       * <code>string plan = 13;</code>
        * @return This builder for chaining.
        */
       public Builder clearPlan() {
@@ -5761,7 +8033,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>string plan = 12;</code>
+       * <code>string plan = 13;</code>
        * @param value The bytes for plan to set.
        * @return This builder for chaining.
        */
@@ -5777,78 +8049,248 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
 
-      private java.lang.Object token_ = "";
+      private boolean resignQuery_ ;
       /**
-       * <code>string token = 100;</code>
-       * @return The token.
+       * <code>bool resign_query = 14;</code>
+       * @return The resignQuery.
        */
-      public java.lang.String getToken() {
-        java.lang.Object ref = token_;
+      @java.lang.Override
+      public boolean getResignQuery() {
+        return resignQuery_;
+      }
+      /**
+       * <code>bool resign_query = 14;</code>
+       * @param value The resignQuery to set.
+       * @return This builder for chaining.
+       */
+      public Builder setResignQuery(boolean value) {
+        
+        resignQuery_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool resign_query = 14;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearResignQuery() {
+        
+        resignQuery_ = false;
+        onChanged();
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 15;</code>
+       * @return Whether the operationParams field is set.
+       */
+      public boolean hasOperationParams() {
+        return operationParamsBuilder_ != null || operationParams_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 15;</code>
+       * @return The operationParams.
+       */
+      public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        } else {
+          return operationParamsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 15;</code>
+       */
+      public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operationParams_ = value;
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 15;</code>
+       */
+      public Builder setOperationParams(
+          tech.ydb.OperationProtos.OperationParams.Builder builderForValue) {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 15;</code>
+       */
+      public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (operationParams_ != null) {
+            operationParams_ =
+              tech.ydb.OperationProtos.OperationParams.newBuilder(operationParams_).mergeFrom(value).buildPartial();
+          } else {
+            operationParams_ = value;
+          }
+          onChanged();
+        } else {
+          operationParamsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 15;</code>
+       */
+      public Builder clearOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+          onChanged();
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 15;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
+        
+        onChanged();
+        return getOperationParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 15;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+        if (operationParamsBuilder_ != null) {
+          return operationParamsBuilder_.getMessageOrBuilder();
+        } else {
+          return operationParams_ == null ?
+              tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 15;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> 
+          getOperationParamsFieldBuilder() {
+        if (operationParamsBuilder_ == null) {
+          operationParamsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder>(
+                  getOperationParams(),
+                  getParentForChildren(),
+                  isClean());
+          operationParams_ = null;
+        }
+        return operationParamsBuilder_;
+      }
+
+      private java.lang.Object scope_ = "";
+      /**
+       * <pre>
+       * TODO: delete
+       * </pre>
+       *
+       * <code>string scope = 100;</code>
+       * @return The scope.
+       */
+      public java.lang.String getScope() {
+        java.lang.Object ref = scope_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          token_ = s;
+          scope_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string token = 100;</code>
-       * @return The bytes for token.
+       * <pre>
+       * TODO: delete
+       * </pre>
+       *
+       * <code>string scope = 100;</code>
+       * @return The bytes for scope.
        */
       public com.google.protobuf.ByteString
-          getTokenBytes() {
-        java.lang.Object ref = token_;
+          getScopeBytes() {
+        java.lang.Object ref = scope_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          token_ = b;
+          scope_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string token = 100;</code>
-       * @param value The token to set.
+       * <pre>
+       * TODO: delete
+       * </pre>
+       *
+       * <code>string scope = 100;</code>
+       * @param value The scope to set.
        * @return This builder for chaining.
        */
-      public Builder setToken(
+      public Builder setScope(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        token_ = value;
+        scope_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string token = 100;</code>
+       * <pre>
+       * TODO: delete
+       * </pre>
+       *
+       * <code>string scope = 100;</code>
        * @return This builder for chaining.
        */
-      public Builder clearToken() {
+      public Builder clearScope() {
         
-        token_ = getDefaultInstance().getToken();
+        scope_ = getDefaultInstance().getScope();
         onChanged();
         return this;
       }
       /**
-       * <code>string token = 100;</code>
-       * @param value The bytes for token to set.
+       * <pre>
+       * TODO: delete
+       * </pre>
+       *
+       * <code>string scope = 100;</code>
+       * @param value The bytes for scope to set.
        * @return This builder for chaining.
        */
-      public Builder setTokenBytes(
+      public Builder setScopeBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        token_ = value;
+        scope_ = value;
         onChanged();
         return this;
       }
@@ -5908,6 +8350,17 @@ public final class AnalyticsIntenalProtos {
   public interface PingTaskResultOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Yql.Analytics.PingTaskResult)
       com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.YandexQuery.QueryAction action = 1;</code>
+     * @return The enum numeric value on the wire for action.
+     */
+    int getActionValue();
+    /**
+     * <code>.YandexQuery.QueryAction action = 1;</code>
+     * @return The action.
+     */
+    com.yandex.query.YandexQueryProtos.QueryAction getAction();
   }
   /**
    * Protobuf type {@code Yql.Analytics.PingTaskResult}
@@ -5922,6 +8375,7 @@ public final class AnalyticsIntenalProtos {
       super(builder);
     }
     private PingTaskResult() {
+      action_ = 0;
     }
 
     @java.lang.Override
@@ -5954,6 +8408,12 @@ public final class AnalyticsIntenalProtos {
             case 0:
               done = true;
               break;
+            case 8: {
+              int rawValue = input.readEnum();
+
+              action_ = rawValue;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -5986,6 +8446,25 @@ public final class AnalyticsIntenalProtos {
               com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.PingTaskResult.class, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.PingTaskResult.Builder.class);
     }
 
+    public static final int ACTION_FIELD_NUMBER = 1;
+    private int action_;
+    /**
+     * <code>.YandexQuery.QueryAction action = 1;</code>
+     * @return The enum numeric value on the wire for action.
+     */
+    @java.lang.Override public int getActionValue() {
+      return action_;
+    }
+    /**
+     * <code>.YandexQuery.QueryAction action = 1;</code>
+     * @return The action.
+     */
+    @java.lang.Override public com.yandex.query.YandexQueryProtos.QueryAction getAction() {
+      @SuppressWarnings("deprecation")
+      com.yandex.query.YandexQueryProtos.QueryAction result = com.yandex.query.YandexQueryProtos.QueryAction.valueOf(action_);
+      return result == null ? com.yandex.query.YandexQueryProtos.QueryAction.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -6000,6 +8479,9 @@ public final class AnalyticsIntenalProtos {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (action_ != com.yandex.query.YandexQueryProtos.QueryAction.QUERY_ACTION_UNSPECIFIED.getNumber()) {
+        output.writeEnum(1, action_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -6009,6 +8491,10 @@ public final class AnalyticsIntenalProtos {
       if (size != -1) return size;
 
       size = 0;
+      if (action_ != com.yandex.query.YandexQueryProtos.QueryAction.QUERY_ACTION_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, action_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -6024,6 +8510,7 @@ public final class AnalyticsIntenalProtos {
       }
       com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.PingTaskResult other = (com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.PingTaskResult) obj;
 
+      if (action_ != other.action_) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -6035,6 +8522,8 @@ public final class AnalyticsIntenalProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ACTION_FIELD_NUMBER;
+      hash = (53 * hash) + action_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -6168,6 +8657,8 @@ public final class AnalyticsIntenalProtos {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        action_ = 0;
+
         return this;
       }
 
@@ -6194,6 +8685,7 @@ public final class AnalyticsIntenalProtos {
       @java.lang.Override
       public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.PingTaskResult buildPartial() {
         com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.PingTaskResult result = new com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.PingTaskResult(this);
+        result.action_ = action_;
         onBuilt();
         return result;
       }
@@ -6242,6 +8734,9 @@ public final class AnalyticsIntenalProtos {
 
       public Builder mergeFrom(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.PingTaskResult other) {
         if (other == com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.PingTaskResult.getDefaultInstance()) return this;
+        if (other.action_ != 0) {
+          setActionValue(other.getActionValue());
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -6268,6 +8763,60 @@ public final class AnalyticsIntenalProtos {
             mergeFrom(parsedMessage);
           }
         }
+        return this;
+      }
+
+      private int action_ = 0;
+      /**
+       * <code>.YandexQuery.QueryAction action = 1;</code>
+       * @return The enum numeric value on the wire for action.
+       */
+      @java.lang.Override public int getActionValue() {
+        return action_;
+      }
+      /**
+       * <code>.YandexQuery.QueryAction action = 1;</code>
+       * @param value The enum numeric value on the wire for action to set.
+       * @return This builder for chaining.
+       */
+      public Builder setActionValue(int value) {
+        
+        action_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.YandexQuery.QueryAction action = 1;</code>
+       * @return The action.
+       */
+      @java.lang.Override
+      public com.yandex.query.YandexQueryProtos.QueryAction getAction() {
+        @SuppressWarnings("deprecation")
+        com.yandex.query.YandexQueryProtos.QueryAction result = com.yandex.query.YandexQueryProtos.QueryAction.valueOf(action_);
+        return result == null ? com.yandex.query.YandexQueryProtos.QueryAction.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.YandexQuery.QueryAction action = 1;</code>
+       * @param value The action to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAction(com.yandex.query.YandexQueryProtos.QueryAction value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        action_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.YandexQuery.QueryAction action = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAction() {
+        
+        action_ = 0;
+        onChanged();
         return this;
       }
       @java.lang.Override
@@ -7009,28 +9558,31 @@ public final class AnalyticsIntenalProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string result_id = 1;</code>
-     * @return The resultId.
+     * <code>string owner_id = 1;</code>
+     * @return The ownerId.
      */
-    java.lang.String getResultId();
+    java.lang.String getOwnerId();
     /**
-     * <code>string result_id = 1;</code>
-     * @return The bytes for resultId.
+     * <code>string owner_id = 1;</code>
+     * @return The bytes for ownerId.
      */
     com.google.protobuf.ByteString
-        getResultIdBytes();
+        getOwnerIdBytes();
 
     /**
-     * <code>string result_id_signature = 2;</code>
-     * @return The resultIdSignature.
+     * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+     * @return Whether the resultId field is set.
      */
-    java.lang.String getResultIdSignature();
+    boolean hasResultId();
     /**
-     * <code>string result_id_signature = 2;</code>
-     * @return The bytes for resultIdSignature.
+     * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+     * @return The resultId.
      */
-    com.google.protobuf.ByteString
-        getResultIdSignatureBytes();
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getResultId();
+    /**
+     * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+     */
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getResultIdOrBuilder();
 
     /**
      * <code>.Ydb.ResultSet result_set = 3;</code>
@@ -7058,18 +9610,6 @@ public final class AnalyticsIntenalProtos {
      * @return The offset.
      */
     long getOffset();
-
-    /**
-     * <code>string token = 100;</code>
-     * @return The token.
-     */
-    java.lang.String getToken();
-    /**
-     * <code>string token = 100;</code>
-     * @return The bytes for token.
-     */
-    com.google.protobuf.ByteString
-        getTokenBytes();
   }
   /**
    * Protobuf type {@code Yql.Analytics.WriteTaskResultRequest}
@@ -7084,9 +9624,7 @@ public final class AnalyticsIntenalProtos {
       super(builder);
     }
     private WriteTaskResultRequest() {
-      resultId_ = "";
-      resultIdSignature_ = "";
-      token_ = "";
+      ownerId_ = "";
     }
 
     @java.lang.Override
@@ -7122,13 +9660,20 @@ public final class AnalyticsIntenalProtos {
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              resultId_ = s;
+              ownerId_ = s;
               break;
             }
             case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder subBuilder = null;
+              if (resultId_ != null) {
+                subBuilder = resultId_.toBuilder();
+              }
+              resultId_ = input.readMessage(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(resultId_);
+                resultId_ = subBuilder.buildPartial();
+              }
 
-              resultIdSignature_ = s;
               break;
             }
             case 26: {
@@ -7152,12 +9697,6 @@ public final class AnalyticsIntenalProtos {
             case 40: {
 
               offset_ = input.readUInt64();
-              break;
-            }
-            case 802: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              token_ = s;
               break;
             }
             default: {
@@ -7192,80 +9731,68 @@ public final class AnalyticsIntenalProtos {
               com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultRequest.class, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultRequest.Builder.class);
     }
 
-    public static final int RESULT_ID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object resultId_;
+    public static final int OWNER_ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object ownerId_;
     /**
-     * <code>string result_id = 1;</code>
-     * @return The resultId.
+     * <code>string owner_id = 1;</code>
+     * @return The ownerId.
      */
     @java.lang.Override
-    public java.lang.String getResultId() {
-      java.lang.Object ref = resultId_;
+    public java.lang.String getOwnerId() {
+      java.lang.Object ref = ownerId_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        resultId_ = s;
+        ownerId_ = s;
         return s;
       }
     }
     /**
-     * <code>string result_id = 1;</code>
-     * @return The bytes for resultId.
+     * <code>string owner_id = 1;</code>
+     * @return The bytes for ownerId.
      */
     @java.lang.Override
     public com.google.protobuf.ByteString
-        getResultIdBytes() {
-      java.lang.Object ref = resultId_;
+        getOwnerIdBytes() {
+      java.lang.Object ref = ownerId_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        resultId_ = b;
+        ownerId_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
 
-    public static final int RESULT_ID_SIGNATURE_FIELD_NUMBER = 2;
-    private volatile java.lang.Object resultIdSignature_;
+    public static final int RESULT_ID_FIELD_NUMBER = 2;
+    private com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity resultId_;
     /**
-     * <code>string result_id_signature = 2;</code>
-     * @return The resultIdSignature.
+     * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+     * @return Whether the resultId field is set.
      */
     @java.lang.Override
-    public java.lang.String getResultIdSignature() {
-      java.lang.Object ref = resultIdSignature_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        resultIdSignature_ = s;
-        return s;
-      }
+    public boolean hasResultId() {
+      return resultId_ != null;
     }
     /**
-     * <code>string result_id_signature = 2;</code>
-     * @return The bytes for resultIdSignature.
+     * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+     * @return The resultId.
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString
-        getResultIdSignatureBytes() {
-      java.lang.Object ref = resultIdSignature_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        resultIdSignature_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getResultId() {
+      return resultId_ == null ? com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : resultId_;
+    }
+    /**
+     * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+     */
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getResultIdOrBuilder() {
+      return getResultId();
     }
 
     public static final int RESULT_SET_FIELD_NUMBER = 3;
@@ -7316,44 +9843,6 @@ public final class AnalyticsIntenalProtos {
       return offset_;
     }
 
-    public static final int TOKEN_FIELD_NUMBER = 100;
-    private volatile java.lang.Object token_;
-    /**
-     * <code>string token = 100;</code>
-     * @return The token.
-     */
-    @java.lang.Override
-    public java.lang.String getToken() {
-      java.lang.Object ref = token_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        token_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string token = 100;</code>
-     * @return The bytes for token.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getTokenBytes() {
-      java.lang.Object ref = token_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        token_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -7368,11 +9857,11 @@ public final class AnalyticsIntenalProtos {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getResultIdBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, resultId_);
+      if (!getOwnerIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, ownerId_);
       }
-      if (!getResultIdSignatureBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, resultIdSignature_);
+      if (resultId_ != null) {
+        output.writeMessage(2, getResultId());
       }
       if (resultSet_ != null) {
         output.writeMessage(3, getResultSet());
@@ -7383,9 +9872,6 @@ public final class AnalyticsIntenalProtos {
       if (offset_ != 0L) {
         output.writeUInt64(5, offset_);
       }
-      if (!getTokenBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 100, token_);
-      }
       unknownFields.writeTo(output);
     }
 
@@ -7395,11 +9881,12 @@ public final class AnalyticsIntenalProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (!getResultIdBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, resultId_);
+      if (!getOwnerIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, ownerId_);
       }
-      if (!getResultIdSignatureBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, resultIdSignature_);
+      if (resultId_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getResultId());
       }
       if (resultSet_ != null) {
         size += com.google.protobuf.CodedOutputStream
@@ -7412,9 +9899,6 @@ public final class AnalyticsIntenalProtos {
       if (offset_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(5, offset_);
-      }
-      if (!getTokenBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(100, token_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -7431,10 +9915,13 @@ public final class AnalyticsIntenalProtos {
       }
       com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultRequest other = (com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultRequest) obj;
 
-      if (!getResultId()
-          .equals(other.getResultId())) return false;
-      if (!getResultIdSignature()
-          .equals(other.getResultIdSignature())) return false;
+      if (!getOwnerId()
+          .equals(other.getOwnerId())) return false;
+      if (hasResultId() != other.hasResultId()) return false;
+      if (hasResultId()) {
+        if (!getResultId()
+            .equals(other.getResultId())) return false;
+      }
       if (hasResultSet() != other.hasResultSet()) return false;
       if (hasResultSet()) {
         if (!getResultSet()
@@ -7444,8 +9931,6 @@ public final class AnalyticsIntenalProtos {
           != other.getResultSetId()) return false;
       if (getOffset()
           != other.getOffset()) return false;
-      if (!getToken()
-          .equals(other.getToken())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -7457,10 +9942,12 @@ public final class AnalyticsIntenalProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + RESULT_ID_FIELD_NUMBER;
-      hash = (53 * hash) + getResultId().hashCode();
-      hash = (37 * hash) + RESULT_ID_SIGNATURE_FIELD_NUMBER;
-      hash = (53 * hash) + getResultIdSignature().hashCode();
+      hash = (37 * hash) + OWNER_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getOwnerId().hashCode();
+      if (hasResultId()) {
+        hash = (37 * hash) + RESULT_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getResultId().hashCode();
+      }
       if (hasResultSet()) {
         hash = (37 * hash) + RESULT_SET_FIELD_NUMBER;
         hash = (53 * hash) + getResultSet().hashCode();
@@ -7470,8 +9957,6 @@ public final class AnalyticsIntenalProtos {
       hash = (37 * hash) + OFFSET_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getOffset());
-      hash = (37 * hash) + TOKEN_FIELD_NUMBER;
-      hash = (53 * hash) + getToken().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -7605,10 +10090,14 @@ public final class AnalyticsIntenalProtos {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        resultId_ = "";
+        ownerId_ = "";
 
-        resultIdSignature_ = "";
-
+        if (resultIdBuilder_ == null) {
+          resultId_ = null;
+        } else {
+          resultId_ = null;
+          resultIdBuilder_ = null;
+        }
         if (resultSetBuilder_ == null) {
           resultSet_ = null;
         } else {
@@ -7618,8 +10107,6 @@ public final class AnalyticsIntenalProtos {
         resultSetId_ = 0;
 
         offset_ = 0L;
-
-        token_ = "";
 
         return this;
       }
@@ -7647,8 +10134,12 @@ public final class AnalyticsIntenalProtos {
       @java.lang.Override
       public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultRequest buildPartial() {
         com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultRequest result = new com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultRequest(this);
-        result.resultId_ = resultId_;
-        result.resultIdSignature_ = resultIdSignature_;
+        result.ownerId_ = ownerId_;
+        if (resultIdBuilder_ == null) {
+          result.resultId_ = resultId_;
+        } else {
+          result.resultId_ = resultIdBuilder_.build();
+        }
         if (resultSetBuilder_ == null) {
           result.resultSet_ = resultSet_;
         } else {
@@ -7656,7 +10147,6 @@ public final class AnalyticsIntenalProtos {
         }
         result.resultSetId_ = resultSetId_;
         result.offset_ = offset_;
-        result.token_ = token_;
         onBuilt();
         return result;
       }
@@ -7705,13 +10195,12 @@ public final class AnalyticsIntenalProtos {
 
       public Builder mergeFrom(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultRequest other) {
         if (other == com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultRequest.getDefaultInstance()) return this;
-        if (!other.getResultId().isEmpty()) {
-          resultId_ = other.resultId_;
+        if (!other.getOwnerId().isEmpty()) {
+          ownerId_ = other.ownerId_;
           onChanged();
         }
-        if (!other.getResultIdSignature().isEmpty()) {
-          resultIdSignature_ = other.resultIdSignature_;
-          onChanged();
+        if (other.hasResultId()) {
+          mergeResultId(other.getResultId());
         }
         if (other.hasResultSet()) {
           mergeResultSet(other.getResultSet());
@@ -7721,10 +10210,6 @@ public final class AnalyticsIntenalProtos {
         }
         if (other.getOffset() != 0L) {
           setOffset(other.getOffset());
-        }
-        if (!other.getToken().isEmpty()) {
-          token_ = other.token_;
-          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -7755,156 +10240,199 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
 
-      private java.lang.Object resultId_ = "";
+      private java.lang.Object ownerId_ = "";
       /**
-       * <code>string result_id = 1;</code>
-       * @return The resultId.
+       * <code>string owner_id = 1;</code>
+       * @return The ownerId.
        */
-      public java.lang.String getResultId() {
-        java.lang.Object ref = resultId_;
+      public java.lang.String getOwnerId() {
+        java.lang.Object ref = ownerId_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          resultId_ = s;
+          ownerId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string result_id = 1;</code>
-       * @return The bytes for resultId.
+       * <code>string owner_id = 1;</code>
+       * @return The bytes for ownerId.
        */
       public com.google.protobuf.ByteString
-          getResultIdBytes() {
-        java.lang.Object ref = resultId_;
+          getOwnerIdBytes() {
+        java.lang.Object ref = ownerId_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          resultId_ = b;
+          ownerId_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string result_id = 1;</code>
-       * @param value The resultId to set.
+       * <code>string owner_id = 1;</code>
+       * @param value The ownerId to set.
        * @return This builder for chaining.
        */
-      public Builder setResultId(
+      public Builder setOwnerId(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        resultId_ = value;
+        ownerId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string result_id = 1;</code>
+       * <code>string owner_id = 1;</code>
        * @return This builder for chaining.
        */
-      public Builder clearResultId() {
+      public Builder clearOwnerId() {
         
-        resultId_ = getDefaultInstance().getResultId();
+        ownerId_ = getDefaultInstance().getOwnerId();
         onChanged();
         return this;
       }
       /**
-       * <code>string result_id = 1;</code>
-       * @param value The bytes for resultId to set.
+       * <code>string owner_id = 1;</code>
+       * @param value The bytes for ownerId to set.
        * @return This builder for chaining.
        */
-      public Builder setResultIdBytes(
+      public Builder setOwnerIdBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        resultId_ = value;
+        ownerId_ = value;
         onChanged();
         return this;
       }
 
-      private java.lang.Object resultIdSignature_ = "";
+      private com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity resultId_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder> resultIdBuilder_;
       /**
-       * <code>string result_id_signature = 2;</code>
-       * @return The resultIdSignature.
+       * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+       * @return Whether the resultId field is set.
        */
-      public java.lang.String getResultIdSignature() {
-        java.lang.Object ref = resultIdSignature_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          resultIdSignature_ = s;
-          return s;
+      public boolean hasResultId() {
+        return resultIdBuilder_ != null || resultId_ != null;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+       * @return The resultId.
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity getResultId() {
+        if (resultIdBuilder_ == null) {
+          return resultId_ == null ? com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : resultId_;
         } else {
-          return (java.lang.String) ref;
+          return resultIdBuilder_.getMessage();
         }
       }
       /**
-       * <code>string result_id_signature = 2;</code>
-       * @return The bytes for resultIdSignature.
+       * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
        */
-      public com.google.protobuf.ByteString
-          getResultIdSignatureBytes() {
-        java.lang.Object ref = resultIdSignature_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          resultIdSignature_ = b;
-          return b;
+      public Builder setResultId(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity value) {
+        if (resultIdBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          resultId_ = value;
+          onChanged();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          resultIdBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+       */
+      public Builder setResultId(
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder builderForValue) {
+        if (resultIdBuilder_ == null) {
+          resultId_ = builderForValue.build();
+          onChanged();
+        } else {
+          resultIdBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+       */
+      public Builder mergeResultId(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity value) {
+        if (resultIdBuilder_ == null) {
+          if (resultId_ != null) {
+            resultId_ =
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.newBuilder(resultId_).mergeFrom(value).buildPartial();
+          } else {
+            resultId_ = value;
+          }
+          onChanged();
+        } else {
+          resultIdBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+       */
+      public Builder clearResultId() {
+        if (resultIdBuilder_ == null) {
+          resultId_ = null;
+          onChanged();
+        } else {
+          resultId_ = null;
+          resultIdBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder getResultIdBuilder() {
+        
+        onChanged();
+        return getResultIdFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getResultIdOrBuilder() {
+        if (resultIdBuilder_ != null) {
+          return resultIdBuilder_.getMessageOrBuilder();
+        } else {
+          return resultId_ == null ?
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.getDefaultInstance() : resultId_;
         }
       }
       /**
-       * <code>string result_id_signature = 2;</code>
-       * @param value The resultIdSignature to set.
-       * @return This builder for chaining.
+       * <code>.Yql.Analytics.SignedIdentity result_id = 2;</code>
        */
-      public Builder setResultIdSignature(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        resultIdSignature_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string result_id_signature = 2;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearResultIdSignature() {
-        
-        resultIdSignature_ = getDefaultInstance().getResultIdSignature();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string result_id_signature = 2;</code>
-       * @param value The bytes for resultIdSignature to set.
-       * @return This builder for chaining.
-       */
-      public Builder setResultIdSignatureBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        resultIdSignature_ = value;
-        onChanged();
-        return this;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder> 
+          getResultIdFieldBuilder() {
+        if (resultIdBuilder_ == null) {
+          resultIdBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder>(
+                  getResultId(),
+                  getParentForChildren(),
+                  isClean());
+          resultId_ = null;
+        }
+        return resultIdBuilder_;
       }
 
       private tech.ydb.ValueProtos.ResultSet resultSet_;
@@ -8084,82 +10612,6 @@ public final class AnalyticsIntenalProtos {
       public Builder clearOffset() {
         
         offset_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object token_ = "";
-      /**
-       * <code>string token = 100;</code>
-       * @return The token.
-       */
-      public java.lang.String getToken() {
-        java.lang.Object ref = token_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          token_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string token = 100;</code>
-       * @return The bytes for token.
-       */
-      public com.google.protobuf.ByteString
-          getTokenBytes() {
-        java.lang.Object ref = token_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          token_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string token = 100;</code>
-       * @param value The token to set.
-       * @return This builder for chaining.
-       */
-      public Builder setToken(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        token_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string token = 100;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearToken() {
-        
-        token_ = getDefaultInstance().getToken();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string token = 100;</code>
-       * @param value The bytes for token to set.
-       * @return This builder for chaining.
-       */
-      public Builder setTokenBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        token_ = value;
         onChanged();
         return this;
       }
@@ -9321,6 +11773,11 @@ public final class AnalyticsIntenalProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Yql_Analytics_GetTaskRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Yql_Analytics_SignedIdentity_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Yql_Analytics_SignedIdentity_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Yql_Analytics_GetTaskResult_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -9377,35 +11834,46 @@ public final class AnalyticsIntenalProtos {
       "roto\0322kikimr/public/api/protos/draft/yql" +
       "_analytics.proto\032!kikimr/public/api/prot" +
       "os/yq.proto\032\037google/protobuf/timestamp.p" +
-      "roto\"\020\n\016GetTaskRequest\"\217\002\n\rGetTaskResult" +
-      "\022\020\n\010has_task\030\001 \001(\010\022\021\n\tresult_id\030\002 \001(\t\022\033\n" +
-      "\023result_id_signature\030\003 \001(\t\022\024\n\014operation_" +
-      "id\030\004 \001(\t\022\036\n\026operation_id_signature\030\005 \001(\t" +
-      "\022\017\n\007content\030\006 \001(\t\022+\n\nconnection\030\007 \003(\0132\027." +
-      "YandexQuery.Connection\022%\n\007binding\030\010 \003(\0132" +
-      "\024.YandexQuery.Binding\022\022\n\nuser_token\030\t \001(" +
-      "\t\022\r\n\005token\030\n \001(\t\"?\n\017GetTaskResponse\022,\n\to" +
+      "roto\"@\n\016GetTaskRequest\022\016\n\006tenant\030\001 \001(\t\022\020" +
+      "\n\010owner_id\030\002 \001(\t\022\014\n\004host\030\003 \001(\t\"2\n\016Signed" +
+      "Identity\022\r\n\005value\030\001 \001(\t\022\021\n\tsignature\030\002 \001" +
+      "(\t\"\233\003\n\rGetTaskResult\022\020\n\010has_task\030\001 \001(\010\0220" +
+      "\n\tresult_id\030\002 \001(\0132\035.Yql.Analytics.Signed" +
+      "Identity\022/\n\010query_id\030\003 \001(\0132\035.Yql.Analyti" +
+      "cs.SignedIdentity\022-\n\006job_id\030\004 \001(\0132\035.Yql." +
+      "Analytics.SignedIdentity\022\022\n\ngeneration\030\005" +
+      " \001(\004\022\021\n\tstreaming\030\006 \001(\010\022\020\n\010dq_graph\030\007 \001(" +
+      "\t\022\014\n\004text\030\010 \001(\t\022+\n\nconnection\030\t \003(\0132\027.Ya" +
+      "ndexQuery.Connection\022%\n\007binding\030\n \003(\0132\024." +
+      "YandexQuery.Binding\022\022\n\nuser_token\030\013 \001(\t\022" +
+      "7\n\020service_accounts\030\014 \003(\0132\035.Yql.Analytic" +
+      "s.SignedIdentity\"?\n\017GetTaskResponse\022,\n\to" +
       "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
-      "n\"\330\002\n\017PingTaskRequest\022\024\n\014operation_id\030\001 " +
-      "\001(\t\022\036\n\026operation_id_signature\030\002 \001(\t\022\021\n\tr" +
-      "esult_id\030\003 \001(\t\022\033\n\023result_id_signature\030\004 " +
-      "\001(\t\022+\n\006status\030\005 \001(\0162\033.Yql.Analytics.EQue" +
-      "ryStatus\022\'\n\006issues\030\006 \003(\0132\027.Ydb.Issue.Iss" +
-      "ueMessage\022\030\n\020result_set_count\030\007 \001(\r\022\022\n\ns" +
-      "tatistics\030\010 \001(\t\022\032\n\022serialized_headers\030\t " +
-      "\001(\t\022\025\n\rexecuter_info\030\n \001(\t\022\013\n\003ast\030\013 \001(\t\022" +
-      "\014\n\004plan\030\014 \001(\t\022\r\n\005token\030d \001(\t\"\020\n\016PingTask" +
-      "Result\"@\n\020PingTaskResponse\022,\n\toperation\030" +
-      "\001 \001(\0132\031.Ydb.Operations.Operation\"\242\001\n\026Wri" +
-      "teTaskResultRequest\022\021\n\tresult_id\030\001 \001(\t\022\033" +
-      "\n\023result_id_signature\030\002 \001(\t\022\"\n\nresult_se" +
-      "t\030\003 \001(\0132\016.Ydb.ResultSet\022\025\n\rresult_set_id" +
-      "\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\r\n\005token\030d \001(\t\"\027\n" +
-      "\025WriteTaskResultResult\"G\n\027WriteTaskResul" +
-      "tResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
-      "tions.OperationB>\n!com.yandex.yql.analyt" +
-      "ics.internalB\026AnalyticsIntenalProtos\370\001\001b" +
-      "\006proto3"
+      "n\"\202\004\n\017PingTaskRequest\022\020\n\010owner_id\030\001 \001(\t\022" +
+      "/\n\010query_id\030\002 \001(\0132\035.Yql.Analytics.Signed" +
+      "Identity\022-\n\006job_id\030\003 \001(\0132\035.Yql.Analytics" +
+      ".SignedIdentity\0220\n\tresult_id\030\004 \001(\0132\035.Yql" +
+      ".Analytics.SignedIdentity\0224\n\006status\030\005 \001(" +
+      "\0162$.YandexQuery.QueryMeta.ComputeStatus\022" +
+      "\'\n\006issues\030\006 \003(\0132\027.Ydb.Issue.IssueMessage" +
+      "\022\030\n\020result_set_count\030\007 \001(\r\022\022\n\nstatistics" +
+      "\030\010 \001(\t\022\032\n\022serialized_headers\030\t \001(\t\022\025\n\rex" +
+      "ecuter_info\030\n \001(\t\022\020\n\010dq_graph\030\013 \001(\t\022\013\n\003a" +
+      "st\030\014 \001(\t\022\014\n\004plan\030\r \001(\t\022\024\n\014resign_query\030\016" +
+      " \001(\010\0229\n\020operation_params\030\017 \001(\0132\037.Ydb.Ope" +
+      "rations.OperationParams\022\r\n\005scope\030d \001(\t\":" +
+      "\n\016PingTaskResult\022(\n\006action\030\001 \001(\0162\030.Yande" +
+      "xQuery.QueryAction\"@\n\020PingTaskResponse\022," +
+      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
+      "tion\"\247\001\n\026WriteTaskResultRequest\022\020\n\010owner" +
+      "_id\030\001 \001(\t\0220\n\tresult_id\030\002 \001(\0132\035.Yql.Analy" +
+      "tics.SignedIdentity\022\"\n\nresult_set\030\003 \001(\0132" +
+      "\016.Ydb.ResultSet\022\025\n\rresult_set_id\030\004 \001(\r\022\016" +
+      "\n\006offset\030\005 \001(\004\"\027\n\025WriteTaskResultResult\"" +
+      "G\n\027WriteTaskResultResponse\022,\n\toperation\030" +
+      "\001 \001(\0132\031.Ydb.Operations.OperationB>\n!com." +
+      "yandex.yql.analytics.internalB\026Analytics" +
+      "IntenalProtos\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -9422,51 +11890,57 @@ public final class AnalyticsIntenalProtos {
     internal_static_Yql_Analytics_GetTaskRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetTaskRequest_descriptor,
-        new java.lang.String[] { });
-    internal_static_Yql_Analytics_GetTaskResult_descriptor =
+        new java.lang.String[] { "Tenant", "OwnerId", "Host", });
+    internal_static_Yql_Analytics_SignedIdentity_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_Yql_Analytics_SignedIdentity_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Yql_Analytics_SignedIdentity_descriptor,
+        new java.lang.String[] { "Value", "Signature", });
+    internal_static_Yql_Analytics_GetTaskResult_descriptor =
+      getDescriptor().getMessageTypes().get(2);
     internal_static_Yql_Analytics_GetTaskResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetTaskResult_descriptor,
-        new java.lang.String[] { "HasTask", "ResultId", "ResultIdSignature", "OperationId", "OperationIdSignature", "Content", "Connection", "Binding", "UserToken", "Token", });
+        new java.lang.String[] { "HasTask", "ResultId", "QueryId", "JobId", "Generation", "Streaming", "DqGraph", "Text", "Connection", "Binding", "UserToken", "ServiceAccounts", });
     internal_static_Yql_Analytics_GetTaskResponse_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_Yql_Analytics_GetTaskResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetTaskResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Yql_Analytics_PingTaskRequest_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_Yql_Analytics_PingTaskRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_PingTaskRequest_descriptor,
-        new java.lang.String[] { "OperationId", "OperationIdSignature", "ResultId", "ResultIdSignature", "Status", "Issues", "ResultSetCount", "Statistics", "SerializedHeaders", "ExecuterInfo", "Ast", "Plan", "Token", });
+        new java.lang.String[] { "OwnerId", "QueryId", "JobId", "ResultId", "Status", "Issues", "ResultSetCount", "Statistics", "SerializedHeaders", "ExecuterInfo", "DqGraph", "Ast", "Plan", "ResignQuery", "OperationParams", "Scope", });
     internal_static_Yql_Analytics_PingTaskResult_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_Yql_Analytics_PingTaskResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_PingTaskResult_descriptor,
-        new java.lang.String[] { });
+        new java.lang.String[] { "Action", });
     internal_static_Yql_Analytics_PingTaskResponse_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_Yql_Analytics_PingTaskResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_PingTaskResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Yql_Analytics_WriteTaskResultRequest_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_Yql_Analytics_WriteTaskResultRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_WriteTaskResultRequest_descriptor,
-        new java.lang.String[] { "ResultId", "ResultIdSignature", "ResultSet", "ResultSetId", "Offset", "Token", });
+        new java.lang.String[] { "OwnerId", "ResultId", "ResultSet", "ResultSetId", "Offset", });
     internal_static_Yql_Analytics_WriteTaskResultResult_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_Yql_Analytics_WriteTaskResultResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_WriteTaskResultResult_descriptor,
         new java.lang.String[] { });
     internal_static_Yql_Analytics_WriteTaskResultResponse_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_Yql_Analytics_WriteTaskResultResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_WriteTaskResultResponse_descriptor,
