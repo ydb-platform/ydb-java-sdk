@@ -5373,16 +5373,10 @@ public final class AnalyticsIntenalProtos {
         getStatisticsBytes();
 
     /**
-     * <code>string serialized_headers = 9;</code>
+     * <code>bytes serialized_headers = 9;</code>
      * @return The serializedHeaders.
      */
-    java.lang.String getSerializedHeaders();
-    /**
-     * <code>string serialized_headers = 9;</code>
-     * @return The bytes for serializedHeaders.
-     */
-    com.google.protobuf.ByteString
-        getSerializedHeadersBytes();
+    com.google.protobuf.ByteString getSerializedHeaders();
 
     /**
      * <code>string executer_info = 10;</code>
@@ -5490,7 +5484,7 @@ public final class AnalyticsIntenalProtos {
       status_ = 0;
       issues_ = java.util.Collections.emptyList();
       statistics_ = "";
-      serializedHeaders_ = "";
+      serializedHeaders_ = com.google.protobuf.ByteString.EMPTY;
       executerInfo_ = "";
       dqGraph_ = "";
       ast_ = "";
@@ -5601,9 +5595,8 @@ public final class AnalyticsIntenalProtos {
               break;
             }
             case 74: {
-              java.lang.String s = input.readStringRequireUtf8();
 
-              serializedHeaders_ = s;
+              serializedHeaders_ = input.readBytes();
               break;
             }
             case 82: {
@@ -5914,41 +5907,14 @@ public final class AnalyticsIntenalProtos {
     }
 
     public static final int SERIALIZED_HEADERS_FIELD_NUMBER = 9;
-    private volatile java.lang.Object serializedHeaders_;
+    private com.google.protobuf.ByteString serializedHeaders_;
     /**
-     * <code>string serialized_headers = 9;</code>
+     * <code>bytes serialized_headers = 9;</code>
      * @return The serializedHeaders.
      */
     @java.lang.Override
-    public java.lang.String getSerializedHeaders() {
-      java.lang.Object ref = serializedHeaders_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        serializedHeaders_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string serialized_headers = 9;</code>
-     * @return The bytes for serializedHeaders.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getSerializedHeadersBytes() {
-      java.lang.Object ref = serializedHeaders_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        serializedHeaders_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.google.protobuf.ByteString getSerializedHeaders() {
+      return serializedHeaders_;
     }
 
     public static final int EXECUTER_INFO_FIELD_NUMBER = 10;
@@ -6224,8 +6190,8 @@ public final class AnalyticsIntenalProtos {
       if (!getStatisticsBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 8, statistics_);
       }
-      if (!getSerializedHeadersBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 9, serializedHeaders_);
+      if (!serializedHeaders_.isEmpty()) {
+        output.writeBytes(9, serializedHeaders_);
       }
       if (!getExecuterInfoBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 10, executerInfo_);
@@ -6287,8 +6253,9 @@ public final class AnalyticsIntenalProtos {
       if (!getStatisticsBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, statistics_);
       }
-      if (!getSerializedHeadersBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, serializedHeaders_);
+      if (!serializedHeaders_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(9, serializedHeaders_);
       }
       if (!getExecuterInfoBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, executerInfo_);
@@ -6591,7 +6558,7 @@ public final class AnalyticsIntenalProtos {
 
         statistics_ = "";
 
-        serializedHeaders_ = "";
+        serializedHeaders_ = com.google.protobuf.ByteString.EMPTY;
 
         executerInfo_ = "";
 
@@ -6775,9 +6742,8 @@ public final class AnalyticsIntenalProtos {
           statistics_ = other.statistics_;
           onChanged();
         }
-        if (!other.getSerializedHeaders().isEmpty()) {
-          serializedHeaders_ = other.serializedHeaders_;
-          onChanged();
+        if (other.getSerializedHeaders() != com.google.protobuf.ByteString.EMPTY) {
+          setSerializedHeaders(other.getSerializedHeaders());
         }
         if (!other.getExecuterInfo().isEmpty()) {
           executerInfo_ = other.executerInfo_;
@@ -7669,47 +7635,21 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
 
-      private java.lang.Object serializedHeaders_ = "";
+      private com.google.protobuf.ByteString serializedHeaders_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>string serialized_headers = 9;</code>
+       * <code>bytes serialized_headers = 9;</code>
        * @return The serializedHeaders.
        */
-      public java.lang.String getSerializedHeaders() {
-        java.lang.Object ref = serializedHeaders_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          serializedHeaders_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      @java.lang.Override
+      public com.google.protobuf.ByteString getSerializedHeaders() {
+        return serializedHeaders_;
       }
       /**
-       * <code>string serialized_headers = 9;</code>
-       * @return The bytes for serializedHeaders.
-       */
-      public com.google.protobuf.ByteString
-          getSerializedHeadersBytes() {
-        java.lang.Object ref = serializedHeaders_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          serializedHeaders_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string serialized_headers = 9;</code>
+       * <code>bytes serialized_headers = 9;</code>
        * @param value The serializedHeaders to set.
        * @return This builder for chaining.
        */
-      public Builder setSerializedHeaders(
-          java.lang.String value) {
+      public Builder setSerializedHeaders(com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
@@ -7719,28 +7659,12 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>string serialized_headers = 9;</code>
+       * <code>bytes serialized_headers = 9;</code>
        * @return This builder for chaining.
        */
       public Builder clearSerializedHeaders() {
         
         serializedHeaders_ = getDefaultInstance().getSerializedHeaders();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string serialized_headers = 9;</code>
-       * @param value The bytes for serializedHeaders to set.
-       * @return This builder for chaining.
-       */
-      public Builder setSerializedHeadersBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        serializedHeaders_ = value;
         onChanged();
         return this;
       }
@@ -11857,7 +11781,7 @@ public final class AnalyticsIntenalProtos {
       "\0162$.YandexQuery.QueryMeta.ComputeStatus\022" +
       "\'\n\006issues\030\006 \003(\0132\027.Ydb.Issue.IssueMessage" +
       "\022\030\n\020result_set_count\030\007 \001(\r\022\022\n\nstatistics" +
-      "\030\010 \001(\t\022\032\n\022serialized_headers\030\t \001(\t\022\025\n\rex" +
+      "\030\010 \001(\t\022\032\n\022serialized_headers\030\t \001(\014\022\025\n\rex" +
       "ecuter_info\030\n \001(\t\022\020\n\010dq_graph\030\013 \001(\t\022\013\n\003a" +
       "st\030\014 \001(\t\022\014\n\004plan\030\r \001(\t\022\024\n\014resign_query\030\016" +
       " \001(\010\0229\n\020operation_params\030\017 \001(\0132\037.Ydb.Ope" +

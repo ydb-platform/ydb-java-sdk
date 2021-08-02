@@ -70,29 +70,59 @@ public final class ControlPlaneConfig {
     long getMaxCountBindings();
 
     /**
-     * <code>repeated string super_users = 7;</code>
+     * <code>uint64 max_count_jobs = 7;</code>
+     * @return The maxCountJobs.
+     */
+    long getMaxCountJobs();
+
+    /**
+     * <code>repeated string super_users = 8;</code>
      * @return A list containing the superUsers.
      */
     java.util.List<java.lang.String>
         getSuperUsersList();
     /**
-     * <code>repeated string super_users = 7;</code>
+     * <code>repeated string super_users = 8;</code>
      * @return The count of superUsers.
      */
     int getSuperUsersCount();
     /**
-     * <code>repeated string super_users = 7;</code>
+     * <code>repeated string super_users = 8;</code>
      * @param index The index of the element to return.
      * @return The superUsers at the given index.
      */
     java.lang.String getSuperUsers(int index);
     /**
-     * <code>repeated string super_users = 7;</code>
+     * <code>repeated string super_users = 8;</code>
      * @param index The index of the value to return.
      * @return The bytes of the superUsers at the given index.
      */
     com.google.protobuf.ByteString
         getSuperUsersBytes(int index);
+
+    /**
+     * <code>string public_key_file = 9;</code>
+     * @return The publicKeyFile.
+     */
+    java.lang.String getPublicKeyFile();
+    /**
+     * <code>string public_key_file = 9;</code>
+     * @return The bytes for publicKeyFile.
+     */
+    com.google.protobuf.ByteString
+        getPublicKeyFileBytes();
+
+    /**
+     * <code>string private_key_file = 10;</code>
+     * @return The privateKeyFile.
+     */
+    java.lang.String getPrivateKeyFile();
+    /**
+     * <code>string private_key_file = 10;</code>
+     * @return The bytes for privateKeyFile.
+     */
+    com.google.protobuf.ByteString
+        getPrivateKeyFileBytes();
   }
   /**
    * Protobuf type {@code NYq.NConfig.ControlPlaneStorageConfig}
@@ -109,6 +139,8 @@ public final class ControlPlaneConfig {
     private ControlPlaneStorageConfig() {
       idempotencyKeysTtl_ = "";
       superUsers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      publicKeyFile_ = "";
+      privateKeyFile_ = "";
     }
 
     @java.lang.Override
@@ -181,13 +213,30 @@ public final class ControlPlaneConfig {
               maxCountBindings_ = input.readUInt64();
               break;
             }
-            case 58: {
+            case 56: {
+
+              maxCountJobs_ = input.readUInt64();
+              break;
+            }
+            case 66: {
               java.lang.String s = input.readStringRequireUtf8();
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 superUsers_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000001;
               }
               superUsers_.add(s);
+              break;
+            }
+            case 74: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              publicKeyFile_ = s;
+              break;
+            }
+            case 82: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              privateKeyFile_ = s;
               break;
             }
             default: {
@@ -333,10 +382,21 @@ public final class ControlPlaneConfig {
       return maxCountBindings_;
     }
 
-    public static final int SUPER_USERS_FIELD_NUMBER = 7;
+    public static final int MAX_COUNT_JOBS_FIELD_NUMBER = 7;
+    private long maxCountJobs_;
+    /**
+     * <code>uint64 max_count_jobs = 7;</code>
+     * @return The maxCountJobs.
+     */
+    @java.lang.Override
+    public long getMaxCountJobs() {
+      return maxCountJobs_;
+    }
+
+    public static final int SUPER_USERS_FIELD_NUMBER = 8;
     private com.google.protobuf.LazyStringList superUsers_;
     /**
-     * <code>repeated string super_users = 7;</code>
+     * <code>repeated string super_users = 8;</code>
      * @return A list containing the superUsers.
      */
     public com.google.protobuf.ProtocolStringList
@@ -344,14 +404,14 @@ public final class ControlPlaneConfig {
       return superUsers_;
     }
     /**
-     * <code>repeated string super_users = 7;</code>
+     * <code>repeated string super_users = 8;</code>
      * @return The count of superUsers.
      */
     public int getSuperUsersCount() {
       return superUsers_.size();
     }
     /**
-     * <code>repeated string super_users = 7;</code>
+     * <code>repeated string super_users = 8;</code>
      * @param index The index of the element to return.
      * @return The superUsers at the given index.
      */
@@ -359,13 +419,89 @@ public final class ControlPlaneConfig {
       return superUsers_.get(index);
     }
     /**
-     * <code>repeated string super_users = 7;</code>
+     * <code>repeated string super_users = 8;</code>
      * @param index The index of the value to return.
      * @return The bytes of the superUsers at the given index.
      */
     public com.google.protobuf.ByteString
         getSuperUsersBytes(int index) {
       return superUsers_.getByteString(index);
+    }
+
+    public static final int PUBLIC_KEY_FILE_FIELD_NUMBER = 9;
+    private volatile java.lang.Object publicKeyFile_;
+    /**
+     * <code>string public_key_file = 9;</code>
+     * @return The publicKeyFile.
+     */
+    @java.lang.Override
+    public java.lang.String getPublicKeyFile() {
+      java.lang.Object ref = publicKeyFile_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        publicKeyFile_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string public_key_file = 9;</code>
+     * @return The bytes for publicKeyFile.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getPublicKeyFileBytes() {
+      java.lang.Object ref = publicKeyFile_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        publicKeyFile_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PRIVATE_KEY_FILE_FIELD_NUMBER = 10;
+    private volatile java.lang.Object privateKeyFile_;
+    /**
+     * <code>string private_key_file = 10;</code>
+     * @return The privateKeyFile.
+     */
+    @java.lang.Override
+    public java.lang.String getPrivateKeyFile() {
+      java.lang.Object ref = privateKeyFile_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        privateKeyFile_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string private_key_file = 10;</code>
+     * @return The bytes for privateKeyFile.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getPrivateKeyFileBytes() {
+      java.lang.Object ref = privateKeyFile_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        privateKeyFile_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private byte memoizedIsInitialized = -1;
@@ -400,8 +536,17 @@ public final class ControlPlaneConfig {
       if (maxCountBindings_ != 0L) {
         output.writeUInt64(6, maxCountBindings_);
       }
+      if (maxCountJobs_ != 0L) {
+        output.writeUInt64(7, maxCountJobs_);
+      }
       for (int i = 0; i < superUsers_.size(); i++) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, superUsers_.getRaw(i));
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 8, superUsers_.getRaw(i));
+      }
+      if (!getPublicKeyFileBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 9, publicKeyFile_);
+      }
+      if (!getPrivateKeyFileBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 10, privateKeyFile_);
       }
       unknownFields.writeTo(output);
     }
@@ -435,6 +580,10 @@ public final class ControlPlaneConfig {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(6, maxCountBindings_);
       }
+      if (maxCountJobs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(7, maxCountJobs_);
+      }
       {
         int dataSize = 0;
         for (int i = 0; i < superUsers_.size(); i++) {
@@ -442,6 +591,12 @@ public final class ControlPlaneConfig {
         }
         size += dataSize;
         size += 1 * getSuperUsersList().size();
+      }
+      if (!getPublicKeyFileBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, publicKeyFile_);
+      }
+      if (!getPrivateKeyFileBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, privateKeyFile_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -473,8 +628,14 @@ public final class ControlPlaneConfig {
           != other.getMaxCountConnections()) return false;
       if (getMaxCountBindings()
           != other.getMaxCountBindings()) return false;
+      if (getMaxCountJobs()
+          != other.getMaxCountJobs()) return false;
       if (!getSuperUsersList()
           .equals(other.getSuperUsersList())) return false;
+      if (!getPublicKeyFile()
+          .equals(other.getPublicKeyFile())) return false;
+      if (!getPrivateKeyFile()
+          .equals(other.getPrivateKeyFile())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -504,10 +665,17 @@ public final class ControlPlaneConfig {
       hash = (37 * hash) + MAX_COUNT_BINDINGS_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getMaxCountBindings());
+      hash = (37 * hash) + MAX_COUNT_JOBS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getMaxCountJobs());
       if (getSuperUsersCount() > 0) {
         hash = (37 * hash) + SUPER_USERS_FIELD_NUMBER;
         hash = (53 * hash) + getSuperUsersList().hashCode();
       }
+      hash = (37 * hash) + PUBLIC_KEY_FILE_FIELD_NUMBER;
+      hash = (53 * hash) + getPublicKeyFile().hashCode();
+      hash = (37 * hash) + PRIVATE_KEY_FILE_FIELD_NUMBER;
+      hash = (53 * hash) + getPrivateKeyFile().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -657,8 +825,14 @@ public final class ControlPlaneConfig {
 
         maxCountBindings_ = 0L;
 
+        maxCountJobs_ = 0L;
+
         superUsers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
+        publicKeyFile_ = "";
+
+        privateKeyFile_ = "";
+
         return this;
       }
 
@@ -696,11 +870,14 @@ public final class ControlPlaneConfig {
         result.maxCountQueries_ = maxCountQueries_;
         result.maxCountConnections_ = maxCountConnections_;
         result.maxCountBindings_ = maxCountBindings_;
+        result.maxCountJobs_ = maxCountJobs_;
         if (((bitField0_ & 0x00000001) != 0)) {
           superUsers_ = superUsers_.getUnmodifiableView();
           bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.superUsers_ = superUsers_;
+        result.publicKeyFile_ = publicKeyFile_;
+        result.privateKeyFile_ = privateKeyFile_;
         onBuilt();
         return result;
       }
@@ -768,6 +945,9 @@ public final class ControlPlaneConfig {
         if (other.getMaxCountBindings() != 0L) {
           setMaxCountBindings(other.getMaxCountBindings());
         }
+        if (other.getMaxCountJobs() != 0L) {
+          setMaxCountJobs(other.getMaxCountJobs());
+        }
         if (!other.superUsers_.isEmpty()) {
           if (superUsers_.isEmpty()) {
             superUsers_ = other.superUsers_;
@@ -776,6 +956,14 @@ public final class ControlPlaneConfig {
             ensureSuperUsersIsMutable();
             superUsers_.addAll(other.superUsers_);
           }
+          onChanged();
+        }
+        if (!other.getPublicKeyFile().isEmpty()) {
+          publicKeyFile_ = other.publicKeyFile_;
+          onChanged();
+        }
+        if (!other.getPrivateKeyFile().isEmpty()) {
+          privateKeyFile_ = other.privateKeyFile_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -1127,6 +1315,37 @@ public final class ControlPlaneConfig {
         return this;
       }
 
+      private long maxCountJobs_ ;
+      /**
+       * <code>uint64 max_count_jobs = 7;</code>
+       * @return The maxCountJobs.
+       */
+      @java.lang.Override
+      public long getMaxCountJobs() {
+        return maxCountJobs_;
+      }
+      /**
+       * <code>uint64 max_count_jobs = 7;</code>
+       * @param value The maxCountJobs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMaxCountJobs(long value) {
+        
+        maxCountJobs_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 max_count_jobs = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMaxCountJobs() {
+        
+        maxCountJobs_ = 0L;
+        onChanged();
+        return this;
+      }
+
       private com.google.protobuf.LazyStringList superUsers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureSuperUsersIsMutable() {
         if (!((bitField0_ & 0x00000001) != 0)) {
@@ -1135,7 +1354,7 @@ public final class ControlPlaneConfig {
          }
       }
       /**
-       * <code>repeated string super_users = 7;</code>
+       * <code>repeated string super_users = 8;</code>
        * @return A list containing the superUsers.
        */
       public com.google.protobuf.ProtocolStringList
@@ -1143,14 +1362,14 @@ public final class ControlPlaneConfig {
         return superUsers_.getUnmodifiableView();
       }
       /**
-       * <code>repeated string super_users = 7;</code>
+       * <code>repeated string super_users = 8;</code>
        * @return The count of superUsers.
        */
       public int getSuperUsersCount() {
         return superUsers_.size();
       }
       /**
-       * <code>repeated string super_users = 7;</code>
+       * <code>repeated string super_users = 8;</code>
        * @param index The index of the element to return.
        * @return The superUsers at the given index.
        */
@@ -1158,7 +1377,7 @@ public final class ControlPlaneConfig {
         return superUsers_.get(index);
       }
       /**
-       * <code>repeated string super_users = 7;</code>
+       * <code>repeated string super_users = 8;</code>
        * @param index The index of the value to return.
        * @return The bytes of the superUsers at the given index.
        */
@@ -1167,7 +1386,7 @@ public final class ControlPlaneConfig {
         return superUsers_.getByteString(index);
       }
       /**
-       * <code>repeated string super_users = 7;</code>
+       * <code>repeated string super_users = 8;</code>
        * @param index The index to set the value at.
        * @param value The superUsers to set.
        * @return This builder for chaining.
@@ -1183,7 +1402,7 @@ public final class ControlPlaneConfig {
         return this;
       }
       /**
-       * <code>repeated string super_users = 7;</code>
+       * <code>repeated string super_users = 8;</code>
        * @param value The superUsers to add.
        * @return This builder for chaining.
        */
@@ -1198,7 +1417,7 @@ public final class ControlPlaneConfig {
         return this;
       }
       /**
-       * <code>repeated string super_users = 7;</code>
+       * <code>repeated string super_users = 8;</code>
        * @param values The superUsers to add.
        * @return This builder for chaining.
        */
@@ -1211,7 +1430,7 @@ public final class ControlPlaneConfig {
         return this;
       }
       /**
-       * <code>repeated string super_users = 7;</code>
+       * <code>repeated string super_users = 8;</code>
        * @return This builder for chaining.
        */
       public Builder clearSuperUsers() {
@@ -1221,7 +1440,7 @@ public final class ControlPlaneConfig {
         return this;
       }
       /**
-       * <code>repeated string super_users = 7;</code>
+       * <code>repeated string super_users = 8;</code>
        * @param value The bytes of the superUsers to add.
        * @return This builder for chaining.
        */
@@ -1233,6 +1452,158 @@ public final class ControlPlaneConfig {
   checkByteStringIsUtf8(value);
         ensureSuperUsersIsMutable();
         superUsers_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object publicKeyFile_ = "";
+      /**
+       * <code>string public_key_file = 9;</code>
+       * @return The publicKeyFile.
+       */
+      public java.lang.String getPublicKeyFile() {
+        java.lang.Object ref = publicKeyFile_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          publicKeyFile_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string public_key_file = 9;</code>
+       * @return The bytes for publicKeyFile.
+       */
+      public com.google.protobuf.ByteString
+          getPublicKeyFileBytes() {
+        java.lang.Object ref = publicKeyFile_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          publicKeyFile_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string public_key_file = 9;</code>
+       * @param value The publicKeyFile to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPublicKeyFile(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        publicKeyFile_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string public_key_file = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPublicKeyFile() {
+        
+        publicKeyFile_ = getDefaultInstance().getPublicKeyFile();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string public_key_file = 9;</code>
+       * @param value The bytes for publicKeyFile to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPublicKeyFileBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        publicKeyFile_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object privateKeyFile_ = "";
+      /**
+       * <code>string private_key_file = 10;</code>
+       * @return The privateKeyFile.
+       */
+      public java.lang.String getPrivateKeyFile() {
+        java.lang.Object ref = privateKeyFile_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          privateKeyFile_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string private_key_file = 10;</code>
+       * @return The bytes for privateKeyFile.
+       */
+      public com.google.protobuf.ByteString
+          getPrivateKeyFileBytes() {
+        java.lang.Object ref = privateKeyFile_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          privateKeyFile_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string private_key_file = 10;</code>
+       * @param value The privateKeyFile to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPrivateKeyFile(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        privateKeyFile_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string private_key_file = 10;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPrivateKeyFile() {
+        
+        privateKeyFile_ = getDefaultInstance().getPrivateKeyFile();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string private_key_file = 10;</code>
+       * @param value The bytes for privateKeyFile to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPrivateKeyFileBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        privateKeyFile_ = value;
         onChanged();
         return this;
       }
@@ -1950,15 +2321,17 @@ public final class ControlPlaneConfig {
       "\n=kikimr/streaming/libs/config/proto/con" +
       "trol_plane_config.proto\022\013NYq.NConfig\0327ki" +
       "kimr/streaming/libs/config/proto/storage" +
-      "_config.proto\"\364\001\n\031ControlPlaneStorageCon" +
+      "_config.proto\"\277\002\n\031ControlPlaneStorageCon" +
       "fig\0224\n\007storage\030\001 \001(\0132#.NStreams.NConfig." +
       "TYdbStorageConfig\022\034\n\024idempotency_keys_tt" +
       "l\030\002 \001(\t\022\030\n\020max_request_size\030\003 \001(\004\022\031\n\021max" +
       "_count_queries\030\004 \001(\004\022\035\n\025max_count_connec" +
       "tions\030\005 \001(\004\022\032\n\022max_count_bindings\030\006 \001(\004\022" +
-      "\023\n\013super_users\030\007 \003(\t\"T\n\027ControlPlaneProx" +
-      "yConfig\022\027\n\017request_timeout\030\001 \001(\t\022 \n\030enab" +
-      "le_forward_analytics\030\002 \001(\010b\006proto3"
+      "\026\n\016max_count_jobs\030\007 \001(\004\022\023\n\013super_users\030\010" +
+      " \003(\t\022\027\n\017public_key_file\030\t \001(\t\022\030\n\020private" +
+      "_key_file\030\n \001(\t\"T\n\027ControlPlaneProxyConf" +
+      "ig\022\027\n\017request_timeout\030\001 \001(\t\022 \n\030enable_fo" +
+      "rward_analytics\030\002 \001(\010b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1970,7 +2343,7 @@ public final class ControlPlaneConfig {
     internal_static_NYq_NConfig_ControlPlaneStorageConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYq_NConfig_ControlPlaneStorageConfig_descriptor,
-        new java.lang.String[] { "Storage", "IdempotencyKeysTtl", "MaxRequestSize", "MaxCountQueries", "MaxCountConnections", "MaxCountBindings", "SuperUsers", });
+        new java.lang.String[] { "Storage", "IdempotencyKeysTtl", "MaxRequestSize", "MaxCountQueries", "MaxCountConnections", "MaxCountBindings", "MaxCountJobs", "SuperUsers", "PublicKeyFile", "PrivateKeyFile", });
     internal_static_NYq_NConfig_ControlPlaneProxyConfig_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_NYq_NConfig_ControlPlaneProxyConfig_fieldAccessorTable = new

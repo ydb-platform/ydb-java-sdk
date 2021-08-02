@@ -16141,6 +16141,59 @@ public final class GatewaysConfig {
     boolean getSecure();
 
     /**
+     * <code>optional string ServiceAccountId = 9;</code>
+     * @return Whether the serviceAccountId field is set.
+     */
+    boolean hasServiceAccountId();
+    /**
+     * <code>optional string ServiceAccountId = 9;</code>
+     * @return The serviceAccountId.
+     */
+    java.lang.String getServiceAccountId();
+    /**
+     * <code>optional string ServiceAccountId = 9;</code>
+     * @return The bytes for serviceAccountId.
+     */
+    com.google.protobuf.ByteString
+        getServiceAccountIdBytes();
+
+    /**
+     * <code>optional string ServiceAccountIdSignature = 10;</code>
+     * @return Whether the serviceAccountIdSignature field is set.
+     */
+    boolean hasServiceAccountIdSignature();
+    /**
+     * <code>optional string ServiceAccountIdSignature = 10;</code>
+     * @return The serviceAccountIdSignature.
+     */
+    java.lang.String getServiceAccountIdSignature();
+    /**
+     * <code>optional string ServiceAccountIdSignature = 10;</code>
+     * @return The bytes for serviceAccountIdSignature.
+     */
+    com.google.protobuf.ByteString
+        getServiceAccountIdSignatureBytes();
+
+    /**
+     * <pre>
+     * whether to use prefix "Bearer " in token
+     * </pre>
+     *
+     * <code>optional bool AddBearerToToken = 11;</code>
+     * @return Whether the addBearerToToken field is set.
+     */
+    boolean hasAddBearerToToken();
+    /**
+     * <pre>
+     * whether to use prefix "Bearer " in token
+     * </pre>
+     *
+     * <code>optional bool AddBearerToToken = 11;</code>
+     * @return The addBearerToToken.
+     */
+    boolean getAddBearerToToken();
+
+    /**
      * <code>repeated .NYql.TAttr Settings = 100;</code>
      */
     java.util.List<ru.yandex.yql.proto.GatewaysConfig.TAttr> 
@@ -16182,6 +16235,8 @@ public final class GatewaysConfig {
       token_ = "";
       database_ = "";
       id_ = "";
+      serviceAccountId_ = "";
+      serviceAccountIdSignature_ = "";
       settings_ = java.util.Collections.emptyList();
     }
 
@@ -16269,10 +16324,27 @@ public final class GatewaysConfig {
               secure_ = input.readBool();
               break;
             }
+            case 74: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000100;
+              serviceAccountId_ = bs;
+              break;
+            }
+            case 82: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000200;
+              serviceAccountIdSignature_ = bs;
+              break;
+            }
+            case 88: {
+              bitField0_ |= 0x00000400;
+              addBearerToToken_ = input.readBool();
+              break;
+            }
             case 802: {
-              if (!((mutable_bitField0_ & 0x00000100) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000800) != 0)) {
                 settings_ = new java.util.ArrayList<ru.yandex.yql.proto.GatewaysConfig.TAttr>();
-                mutable_bitField0_ |= 0x00000100;
+                mutable_bitField0_ |= 0x00000800;
               }
               settings_.add(
                   input.readMessage(ru.yandex.yql.proto.GatewaysConfig.TAttr.PARSER, extensionRegistry));
@@ -16293,7 +16365,7 @@ public final class GatewaysConfig {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000100) != 0)) {
+        if (((mutable_bitField0_ & 0x00000800) != 0)) {
           settings_ = java.util.Collections.unmodifiableList(settings_);
         }
         this.unknownFields = unknownFields.build();
@@ -16618,6 +16690,129 @@ public final class GatewaysConfig {
       return secure_;
     }
 
+    public static final int SERVICEACCOUNTID_FIELD_NUMBER = 9;
+    private volatile java.lang.Object serviceAccountId_;
+    /**
+     * <code>optional string ServiceAccountId = 9;</code>
+     * @return Whether the serviceAccountId field is set.
+     */
+    @java.lang.Override
+    public boolean hasServiceAccountId() {
+      return ((bitField0_ & 0x00000100) != 0);
+    }
+    /**
+     * <code>optional string ServiceAccountId = 9;</code>
+     * @return The serviceAccountId.
+     */
+    @java.lang.Override
+    public java.lang.String getServiceAccountId() {
+      java.lang.Object ref = serviceAccountId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          serviceAccountId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string ServiceAccountId = 9;</code>
+     * @return The bytes for serviceAccountId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getServiceAccountIdBytes() {
+      java.lang.Object ref = serviceAccountId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        serviceAccountId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SERVICEACCOUNTIDSIGNATURE_FIELD_NUMBER = 10;
+    private volatile java.lang.Object serviceAccountIdSignature_;
+    /**
+     * <code>optional string ServiceAccountIdSignature = 10;</code>
+     * @return Whether the serviceAccountIdSignature field is set.
+     */
+    @java.lang.Override
+    public boolean hasServiceAccountIdSignature() {
+      return ((bitField0_ & 0x00000200) != 0);
+    }
+    /**
+     * <code>optional string ServiceAccountIdSignature = 10;</code>
+     * @return The serviceAccountIdSignature.
+     */
+    @java.lang.Override
+    public java.lang.String getServiceAccountIdSignature() {
+      java.lang.Object ref = serviceAccountIdSignature_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          serviceAccountIdSignature_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string ServiceAccountIdSignature = 10;</code>
+     * @return The bytes for serviceAccountIdSignature.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getServiceAccountIdSignatureBytes() {
+      java.lang.Object ref = serviceAccountIdSignature_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        serviceAccountIdSignature_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ADDBEARERTOTOKEN_FIELD_NUMBER = 11;
+    private boolean addBearerToToken_;
+    /**
+     * <pre>
+     * whether to use prefix "Bearer " in token
+     * </pre>
+     *
+     * <code>optional bool AddBearerToToken = 11;</code>
+     * @return Whether the addBearerToToken field is set.
+     */
+    @java.lang.Override
+    public boolean hasAddBearerToToken() {
+      return ((bitField0_ & 0x00000400) != 0);
+    }
+    /**
+     * <pre>
+     * whether to use prefix "Bearer " in token
+     * </pre>
+     *
+     * <code>optional bool AddBearerToToken = 11;</code>
+     * @return The addBearerToToken.
+     */
+    @java.lang.Override
+    public boolean getAddBearerToToken() {
+      return addBearerToToken_;
+    }
+
     public static final int SETTINGS_FIELD_NUMBER = 100;
     private java.util.List<ru.yandex.yql.proto.GatewaysConfig.TAttr> settings_;
     /**
@@ -16702,6 +16897,15 @@ public final class GatewaysConfig {
       if (((bitField0_ & 0x00000080) != 0)) {
         output.writeBool(8, secure_);
       }
+      if (((bitField0_ & 0x00000100) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 9, serviceAccountId_);
+      }
+      if (((bitField0_ & 0x00000200) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 10, serviceAccountIdSignature_);
+      }
+      if (((bitField0_ & 0x00000400) != 0)) {
+        output.writeBool(11, addBearerToToken_);
+      }
       for (int i = 0; i < settings_.size(); i++) {
         output.writeMessage(100, settings_.get(i));
       }
@@ -16740,6 +16944,16 @@ public final class GatewaysConfig {
       if (((bitField0_ & 0x00000080) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(8, secure_);
+      }
+      if (((bitField0_ & 0x00000100) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, serviceAccountId_);
+      }
+      if (((bitField0_ & 0x00000200) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, serviceAccountIdSignature_);
+      }
+      if (((bitField0_ & 0x00000400) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(11, addBearerToToken_);
       }
       for (int i = 0; i < settings_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
@@ -16800,6 +17014,21 @@ public final class GatewaysConfig {
         if (getSecure()
             != other.getSecure()) return false;
       }
+      if (hasServiceAccountId() != other.hasServiceAccountId()) return false;
+      if (hasServiceAccountId()) {
+        if (!getServiceAccountId()
+            .equals(other.getServiceAccountId())) return false;
+      }
+      if (hasServiceAccountIdSignature() != other.hasServiceAccountIdSignature()) return false;
+      if (hasServiceAccountIdSignature()) {
+        if (!getServiceAccountIdSignature()
+            .equals(other.getServiceAccountIdSignature())) return false;
+      }
+      if (hasAddBearerToToken() != other.hasAddBearerToToken()) return false;
+      if (hasAddBearerToToken()) {
+        if (getAddBearerToToken()
+            != other.getAddBearerToToken()) return false;
+      }
       if (!getSettingsList()
           .equals(other.getSettingsList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
@@ -16845,6 +17074,19 @@ public final class GatewaysConfig {
         hash = (37 * hash) + SECURE_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
             getSecure());
+      }
+      if (hasServiceAccountId()) {
+        hash = (37 * hash) + SERVICEACCOUNTID_FIELD_NUMBER;
+        hash = (53 * hash) + getServiceAccountId().hashCode();
+      }
+      if (hasServiceAccountIdSignature()) {
+        hash = (37 * hash) + SERVICEACCOUNTIDSIGNATURE_FIELD_NUMBER;
+        hash = (53 * hash) + getServiceAccountIdSignature().hashCode();
+      }
+      if (hasAddBearerToToken()) {
+        hash = (37 * hash) + ADDBEARERTOTOKEN_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getAddBearerToToken());
       }
       if (getSettingsCount() > 0) {
         hash = (37 * hash) + SETTINGS_FIELD_NUMBER;
@@ -17005,9 +17247,15 @@ public final class GatewaysConfig {
         bitField0_ = (bitField0_ & ~0x00000040);
         secure_ = false;
         bitField0_ = (bitField0_ & ~0x00000080);
+        serviceAccountId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000100);
+        serviceAccountIdSignature_ = "";
+        bitField0_ = (bitField0_ & ~0x00000200);
+        addBearerToToken_ = false;
+        bitField0_ = (bitField0_ & ~0x00000400);
         if (settingsBuilder_ == null) {
           settings_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000100);
+          bitField0_ = (bitField0_ & ~0x00000800);
         } else {
           settingsBuilder_.clear();
         }
@@ -17075,10 +17323,22 @@ public final class GatewaysConfig {
           result.secure_ = secure_;
           to_bitField0_ |= 0x00000080;
         }
+        if (((from_bitField0_ & 0x00000100) != 0)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.serviceAccountId_ = serviceAccountId_;
+        if (((from_bitField0_ & 0x00000200) != 0)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.serviceAccountIdSignature_ = serviceAccountIdSignature_;
+        if (((from_bitField0_ & 0x00000400) != 0)) {
+          result.addBearerToToken_ = addBearerToToken_;
+          to_bitField0_ |= 0x00000400;
+        }
         if (settingsBuilder_ == null) {
-          if (((bitField0_ & 0x00000100) != 0)) {
+          if (((bitField0_ & 0x00000800) != 0)) {
             settings_ = java.util.Collections.unmodifiableList(settings_);
-            bitField0_ = (bitField0_ & ~0x00000100);
+            bitField0_ = (bitField0_ & ~0x00000800);
           }
           result.settings_ = settings_;
         } else {
@@ -17167,11 +17427,24 @@ public final class GatewaysConfig {
         if (other.hasSecure()) {
           setSecure(other.getSecure());
         }
+        if (other.hasServiceAccountId()) {
+          bitField0_ |= 0x00000100;
+          serviceAccountId_ = other.serviceAccountId_;
+          onChanged();
+        }
+        if (other.hasServiceAccountIdSignature()) {
+          bitField0_ |= 0x00000200;
+          serviceAccountIdSignature_ = other.serviceAccountIdSignature_;
+          onChanged();
+        }
+        if (other.hasAddBearerToToken()) {
+          setAddBearerToToken(other.getAddBearerToToken());
+        }
         if (settingsBuilder_ == null) {
           if (!other.settings_.isEmpty()) {
             if (settings_.isEmpty()) {
               settings_ = other.settings_;
-              bitField0_ = (bitField0_ & ~0x00000100);
+              bitField0_ = (bitField0_ & ~0x00000800);
             } else {
               ensureSettingsIsMutable();
               settings_.addAll(other.settings_);
@@ -17184,7 +17457,7 @@ public final class GatewaysConfig {
               settingsBuilder_.dispose();
               settingsBuilder_ = null;
               settings_ = other.settings_;
-              bitField0_ = (bitField0_ & ~0x00000100);
+              bitField0_ = (bitField0_ & ~0x00000800);
               settingsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getSettingsFieldBuilder() : null;
@@ -17846,12 +18119,235 @@ public final class GatewaysConfig {
         return this;
       }
 
+      private java.lang.Object serviceAccountId_ = "";
+      /**
+       * <code>optional string ServiceAccountId = 9;</code>
+       * @return Whether the serviceAccountId field is set.
+       */
+      public boolean hasServiceAccountId() {
+        return ((bitField0_ & 0x00000100) != 0);
+      }
+      /**
+       * <code>optional string ServiceAccountId = 9;</code>
+       * @return The serviceAccountId.
+       */
+      public java.lang.String getServiceAccountId() {
+        java.lang.Object ref = serviceAccountId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            serviceAccountId_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string ServiceAccountId = 9;</code>
+       * @return The bytes for serviceAccountId.
+       */
+      public com.google.protobuf.ByteString
+          getServiceAccountIdBytes() {
+        java.lang.Object ref = serviceAccountId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          serviceAccountId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string ServiceAccountId = 9;</code>
+       * @param value The serviceAccountId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setServiceAccountId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        serviceAccountId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ServiceAccountId = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearServiceAccountId() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        serviceAccountId_ = getDefaultInstance().getServiceAccountId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ServiceAccountId = 9;</code>
+       * @param value The bytes for serviceAccountId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setServiceAccountIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        serviceAccountId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object serviceAccountIdSignature_ = "";
+      /**
+       * <code>optional string ServiceAccountIdSignature = 10;</code>
+       * @return Whether the serviceAccountIdSignature field is set.
+       */
+      public boolean hasServiceAccountIdSignature() {
+        return ((bitField0_ & 0x00000200) != 0);
+      }
+      /**
+       * <code>optional string ServiceAccountIdSignature = 10;</code>
+       * @return The serviceAccountIdSignature.
+       */
+      public java.lang.String getServiceAccountIdSignature() {
+        java.lang.Object ref = serviceAccountIdSignature_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            serviceAccountIdSignature_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string ServiceAccountIdSignature = 10;</code>
+       * @return The bytes for serviceAccountIdSignature.
+       */
+      public com.google.protobuf.ByteString
+          getServiceAccountIdSignatureBytes() {
+        java.lang.Object ref = serviceAccountIdSignature_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          serviceAccountIdSignature_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string ServiceAccountIdSignature = 10;</code>
+       * @param value The serviceAccountIdSignature to set.
+       * @return This builder for chaining.
+       */
+      public Builder setServiceAccountIdSignature(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+        serviceAccountIdSignature_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ServiceAccountIdSignature = 10;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearServiceAccountIdSignature() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        serviceAccountIdSignature_ = getDefaultInstance().getServiceAccountIdSignature();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ServiceAccountIdSignature = 10;</code>
+       * @param value The bytes for serviceAccountIdSignature to set.
+       * @return This builder for chaining.
+       */
+      public Builder setServiceAccountIdSignatureBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+        serviceAccountIdSignature_ = value;
+        onChanged();
+        return this;
+      }
+
+      private boolean addBearerToToken_ ;
+      /**
+       * <pre>
+       * whether to use prefix "Bearer " in token
+       * </pre>
+       *
+       * <code>optional bool AddBearerToToken = 11;</code>
+       * @return Whether the addBearerToToken field is set.
+       */
+      @java.lang.Override
+      public boolean hasAddBearerToToken() {
+        return ((bitField0_ & 0x00000400) != 0);
+      }
+      /**
+       * <pre>
+       * whether to use prefix "Bearer " in token
+       * </pre>
+       *
+       * <code>optional bool AddBearerToToken = 11;</code>
+       * @return The addBearerToToken.
+       */
+      @java.lang.Override
+      public boolean getAddBearerToToken() {
+        return addBearerToToken_;
+      }
+      /**
+       * <pre>
+       * whether to use prefix "Bearer " in token
+       * </pre>
+       *
+       * <code>optional bool AddBearerToToken = 11;</code>
+       * @param value The addBearerToToken to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAddBearerToToken(boolean value) {
+        bitField0_ |= 0x00000400;
+        addBearerToToken_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * whether to use prefix "Bearer " in token
+       * </pre>
+       *
+       * <code>optional bool AddBearerToToken = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAddBearerToToken() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        addBearerToToken_ = false;
+        onChanged();
+        return this;
+      }
+
       private java.util.List<ru.yandex.yql.proto.GatewaysConfig.TAttr> settings_ =
         java.util.Collections.emptyList();
       private void ensureSettingsIsMutable() {
-        if (!((bitField0_ & 0x00000100) != 0)) {
+        if (!((bitField0_ & 0x00000800) != 0)) {
           settings_ = new java.util.ArrayList<ru.yandex.yql.proto.GatewaysConfig.TAttr>(settings_);
-          bitField0_ |= 0x00000100;
+          bitField0_ |= 0x00000800;
          }
       }
 
@@ -18001,7 +18497,7 @@ public final class GatewaysConfig {
       public Builder clearSettings() {
         if (settingsBuilder_ == null) {
           settings_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000100);
+          bitField0_ = (bitField0_ & ~0x00000800);
           onChanged();
         } else {
           settingsBuilder_.clear();
@@ -18078,7 +18574,7 @@ public final class GatewaysConfig {
           settingsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               ru.yandex.yql.proto.GatewaysConfig.TAttr, ru.yandex.yql.proto.GatewaysConfig.TAttr.Builder, ru.yandex.yql.proto.GatewaysConfig.TAttrOrBuilder>(
                   settings_,
-                  ((bitField0_ & 0x00000100) != 0),
+                  ((bitField0_ & 0x00000800) != 0),
                   getParentForChildren(),
                   isClean());
           settings_ = null;
@@ -32848,6 +33344,59 @@ public final class GatewaysConfig {
     boolean getUseSsl();
 
     /**
+     * <code>optional string ServiceAccountId = 9;</code>
+     * @return Whether the serviceAccountId field is set.
+     */
+    boolean hasServiceAccountId();
+    /**
+     * <code>optional string ServiceAccountId = 9;</code>
+     * @return The serviceAccountId.
+     */
+    java.lang.String getServiceAccountId();
+    /**
+     * <code>optional string ServiceAccountId = 9;</code>
+     * @return The bytes for serviceAccountId.
+     */
+    com.google.protobuf.ByteString
+        getServiceAccountIdBytes();
+
+    /**
+     * <code>optional string ServiceAccountIdSignature = 10;</code>
+     * @return Whether the serviceAccountIdSignature field is set.
+     */
+    boolean hasServiceAccountIdSignature();
+    /**
+     * <code>optional string ServiceAccountIdSignature = 10;</code>
+     * @return The serviceAccountIdSignature.
+     */
+    java.lang.String getServiceAccountIdSignature();
+    /**
+     * <code>optional string ServiceAccountIdSignature = 10;</code>
+     * @return The bytes for serviceAccountIdSignature.
+     */
+    com.google.protobuf.ByteString
+        getServiceAccountIdSignatureBytes();
+
+    /**
+     * <pre>
+     * whether to use prefix "Bearer " in token
+     * </pre>
+     *
+     * <code>optional bool AddBearerToToken = 11;</code>
+     * @return Whether the addBearerToToken field is set.
+     */
+    boolean hasAddBearerToToken();
+    /**
+     * <pre>
+     * whether to use prefix "Bearer " in token
+     * </pre>
+     *
+     * <code>optional bool AddBearerToToken = 11;</code>
+     * @return The addBearerToToken.
+     */
+    boolean getAddBearerToToken();
+
+    /**
      * <code>repeated .NYql.TAttr Settings = 100;</code>
      */
     java.util.List<ru.yandex.yql.proto.GatewaysConfig.TAttr> 
@@ -32890,6 +33439,8 @@ public final class GatewaysConfig {
       configManagerEndpoint_ = "";
       token_ = "";
       database_ = "/Root";
+      serviceAccountId_ = "";
+      serviceAccountIdSignature_ = "";
       settings_ = java.util.Collections.emptyList();
     }
 
@@ -32976,10 +33527,27 @@ public final class GatewaysConfig {
               useSsl_ = input.readBool();
               break;
             }
+            case 74: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000100;
+              serviceAccountId_ = bs;
+              break;
+            }
+            case 82: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000200;
+              serviceAccountIdSignature_ = bs;
+              break;
+            }
+            case 88: {
+              bitField0_ |= 0x00000400;
+              addBearerToToken_ = input.readBool();
+              break;
+            }
             case 802: {
-              if (!((mutable_bitField0_ & 0x00000100) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000800) != 0)) {
                 settings_ = new java.util.ArrayList<ru.yandex.yql.proto.GatewaysConfig.TAttr>();
-                mutable_bitField0_ |= 0x00000100;
+                mutable_bitField0_ |= 0x00000800;
               }
               settings_.add(
                   input.readMessage(ru.yandex.yql.proto.GatewaysConfig.TAttr.PARSER, extensionRegistry));
@@ -33000,7 +33568,7 @@ public final class GatewaysConfig {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000100) != 0)) {
+        if (((mutable_bitField0_ & 0x00000800) != 0)) {
           settings_ = java.util.Collections.unmodifiableList(settings_);
         }
         this.unknownFields = unknownFields.build();
@@ -33431,6 +33999,129 @@ public final class GatewaysConfig {
       return useSsl_;
     }
 
+    public static final int SERVICEACCOUNTID_FIELD_NUMBER = 9;
+    private volatile java.lang.Object serviceAccountId_;
+    /**
+     * <code>optional string ServiceAccountId = 9;</code>
+     * @return Whether the serviceAccountId field is set.
+     */
+    @java.lang.Override
+    public boolean hasServiceAccountId() {
+      return ((bitField0_ & 0x00000100) != 0);
+    }
+    /**
+     * <code>optional string ServiceAccountId = 9;</code>
+     * @return The serviceAccountId.
+     */
+    @java.lang.Override
+    public java.lang.String getServiceAccountId() {
+      java.lang.Object ref = serviceAccountId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          serviceAccountId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string ServiceAccountId = 9;</code>
+     * @return The bytes for serviceAccountId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getServiceAccountIdBytes() {
+      java.lang.Object ref = serviceAccountId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        serviceAccountId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SERVICEACCOUNTIDSIGNATURE_FIELD_NUMBER = 10;
+    private volatile java.lang.Object serviceAccountIdSignature_;
+    /**
+     * <code>optional string ServiceAccountIdSignature = 10;</code>
+     * @return Whether the serviceAccountIdSignature field is set.
+     */
+    @java.lang.Override
+    public boolean hasServiceAccountIdSignature() {
+      return ((bitField0_ & 0x00000200) != 0);
+    }
+    /**
+     * <code>optional string ServiceAccountIdSignature = 10;</code>
+     * @return The serviceAccountIdSignature.
+     */
+    @java.lang.Override
+    public java.lang.String getServiceAccountIdSignature() {
+      java.lang.Object ref = serviceAccountIdSignature_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          serviceAccountIdSignature_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string ServiceAccountIdSignature = 10;</code>
+     * @return The bytes for serviceAccountIdSignature.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getServiceAccountIdSignatureBytes() {
+      java.lang.Object ref = serviceAccountIdSignature_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        serviceAccountIdSignature_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ADDBEARERTOTOKEN_FIELD_NUMBER = 11;
+    private boolean addBearerToToken_;
+    /**
+     * <pre>
+     * whether to use prefix "Bearer " in token
+     * </pre>
+     *
+     * <code>optional bool AddBearerToToken = 11;</code>
+     * @return Whether the addBearerToToken field is set.
+     */
+    @java.lang.Override
+    public boolean hasAddBearerToToken() {
+      return ((bitField0_ & 0x00000400) != 0);
+    }
+    /**
+     * <pre>
+     * whether to use prefix "Bearer " in token
+     * </pre>
+     *
+     * <code>optional bool AddBearerToToken = 11;</code>
+     * @return The addBearerToToken.
+     */
+    @java.lang.Override
+    public boolean getAddBearerToToken() {
+      return addBearerToToken_;
+    }
+
     public static final int SETTINGS_FIELD_NUMBER = 100;
     private java.util.List<ru.yandex.yql.proto.GatewaysConfig.TAttr> settings_;
     /**
@@ -33515,6 +34206,15 @@ public final class GatewaysConfig {
       if (((bitField0_ & 0x00000080) != 0)) {
         output.writeBool(8, useSsl_);
       }
+      if (((bitField0_ & 0x00000100) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 9, serviceAccountId_);
+      }
+      if (((bitField0_ & 0x00000200) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 10, serviceAccountIdSignature_);
+      }
+      if (((bitField0_ & 0x00000400) != 0)) {
+        output.writeBool(11, addBearerToToken_);
+      }
       for (int i = 0; i < settings_.size(); i++) {
         output.writeMessage(100, settings_.get(i));
       }
@@ -33553,6 +34253,16 @@ public final class GatewaysConfig {
       if (((bitField0_ & 0x00000080) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(8, useSsl_);
+      }
+      if (((bitField0_ & 0x00000100) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, serviceAccountId_);
+      }
+      if (((bitField0_ & 0x00000200) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, serviceAccountIdSignature_);
+      }
+      if (((bitField0_ & 0x00000400) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(11, addBearerToToken_);
       }
       for (int i = 0; i < settings_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
@@ -33612,6 +34322,21 @@ public final class GatewaysConfig {
         if (getUseSsl()
             != other.getUseSsl()) return false;
       }
+      if (hasServiceAccountId() != other.hasServiceAccountId()) return false;
+      if (hasServiceAccountId()) {
+        if (!getServiceAccountId()
+            .equals(other.getServiceAccountId())) return false;
+      }
+      if (hasServiceAccountIdSignature() != other.hasServiceAccountIdSignature()) return false;
+      if (hasServiceAccountIdSignature()) {
+        if (!getServiceAccountIdSignature()
+            .equals(other.getServiceAccountIdSignature())) return false;
+      }
+      if (hasAddBearerToToken() != other.hasAddBearerToToken()) return false;
+      if (hasAddBearerToToken()) {
+        if (getAddBearerToToken()
+            != other.getAddBearerToToken()) return false;
+      }
       if (!getSettingsList()
           .equals(other.getSettingsList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
@@ -33657,6 +34382,19 @@ public final class GatewaysConfig {
         hash = (37 * hash) + USESSL_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
             getUseSsl());
+      }
+      if (hasServiceAccountId()) {
+        hash = (37 * hash) + SERVICEACCOUNTID_FIELD_NUMBER;
+        hash = (53 * hash) + getServiceAccountId().hashCode();
+      }
+      if (hasServiceAccountIdSignature()) {
+        hash = (37 * hash) + SERVICEACCOUNTIDSIGNATURE_FIELD_NUMBER;
+        hash = (53 * hash) + getServiceAccountIdSignature().hashCode();
+      }
+      if (hasAddBearerToToken()) {
+        hash = (37 * hash) + ADDBEARERTOTOKEN_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getAddBearerToToken());
       }
       if (getSettingsCount() > 0) {
         hash = (37 * hash) + SETTINGS_FIELD_NUMBER;
@@ -33812,9 +34550,15 @@ public final class GatewaysConfig {
         bitField0_ = (bitField0_ & ~0x00000040);
         useSsl_ = false;
         bitField0_ = (bitField0_ & ~0x00000080);
+        serviceAccountId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000100);
+        serviceAccountIdSignature_ = "";
+        bitField0_ = (bitField0_ & ~0x00000200);
+        addBearerToToken_ = false;
+        bitField0_ = (bitField0_ & ~0x00000400);
         if (settingsBuilder_ == null) {
           settings_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000100);
+          bitField0_ = (bitField0_ & ~0x00000800);
         } else {
           settingsBuilder_.clear();
         }
@@ -33878,10 +34622,22 @@ public final class GatewaysConfig {
           result.useSsl_ = useSsl_;
           to_bitField0_ |= 0x00000080;
         }
+        if (((from_bitField0_ & 0x00000100) != 0)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.serviceAccountId_ = serviceAccountId_;
+        if (((from_bitField0_ & 0x00000200) != 0)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.serviceAccountIdSignature_ = serviceAccountIdSignature_;
+        if (((from_bitField0_ & 0x00000400) != 0)) {
+          result.addBearerToToken_ = addBearerToToken_;
+          to_bitField0_ |= 0x00000400;
+        }
         if (settingsBuilder_ == null) {
-          if (((bitField0_ & 0x00000100) != 0)) {
+          if (((bitField0_ & 0x00000800) != 0)) {
             settings_ = java.util.Collections.unmodifiableList(settings_);
-            bitField0_ = (bitField0_ & ~0x00000100);
+            bitField0_ = (bitField0_ & ~0x00000800);
           }
           result.settings_ = settings_;
         } else {
@@ -33970,11 +34726,24 @@ public final class GatewaysConfig {
         if (other.hasUseSsl()) {
           setUseSsl(other.getUseSsl());
         }
+        if (other.hasServiceAccountId()) {
+          bitField0_ |= 0x00000100;
+          serviceAccountId_ = other.serviceAccountId_;
+          onChanged();
+        }
+        if (other.hasServiceAccountIdSignature()) {
+          bitField0_ |= 0x00000200;
+          serviceAccountIdSignature_ = other.serviceAccountIdSignature_;
+          onChanged();
+        }
+        if (other.hasAddBearerToToken()) {
+          setAddBearerToToken(other.getAddBearerToToken());
+        }
         if (settingsBuilder_ == null) {
           if (!other.settings_.isEmpty()) {
             if (settings_.isEmpty()) {
               settings_ = other.settings_;
-              bitField0_ = (bitField0_ & ~0x00000100);
+              bitField0_ = (bitField0_ & ~0x00000800);
             } else {
               ensureSettingsIsMutable();
               settings_.addAll(other.settings_);
@@ -33987,7 +34756,7 @@ public final class GatewaysConfig {
               settingsBuilder_.dispose();
               settingsBuilder_ = null;
               settings_ = other.settings_;
-              bitField0_ = (bitField0_ & ~0x00000100);
+              bitField0_ = (bitField0_ & ~0x00000800);
               settingsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getSettingsFieldBuilder() : null;
@@ -34588,12 +35357,235 @@ public final class GatewaysConfig {
         return this;
       }
 
+      private java.lang.Object serviceAccountId_ = "";
+      /**
+       * <code>optional string ServiceAccountId = 9;</code>
+       * @return Whether the serviceAccountId field is set.
+       */
+      public boolean hasServiceAccountId() {
+        return ((bitField0_ & 0x00000100) != 0);
+      }
+      /**
+       * <code>optional string ServiceAccountId = 9;</code>
+       * @return The serviceAccountId.
+       */
+      public java.lang.String getServiceAccountId() {
+        java.lang.Object ref = serviceAccountId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            serviceAccountId_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string ServiceAccountId = 9;</code>
+       * @return The bytes for serviceAccountId.
+       */
+      public com.google.protobuf.ByteString
+          getServiceAccountIdBytes() {
+        java.lang.Object ref = serviceAccountId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          serviceAccountId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string ServiceAccountId = 9;</code>
+       * @param value The serviceAccountId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setServiceAccountId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        serviceAccountId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ServiceAccountId = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearServiceAccountId() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        serviceAccountId_ = getDefaultInstance().getServiceAccountId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ServiceAccountId = 9;</code>
+       * @param value The bytes for serviceAccountId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setServiceAccountIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        serviceAccountId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object serviceAccountIdSignature_ = "";
+      /**
+       * <code>optional string ServiceAccountIdSignature = 10;</code>
+       * @return Whether the serviceAccountIdSignature field is set.
+       */
+      public boolean hasServiceAccountIdSignature() {
+        return ((bitField0_ & 0x00000200) != 0);
+      }
+      /**
+       * <code>optional string ServiceAccountIdSignature = 10;</code>
+       * @return The serviceAccountIdSignature.
+       */
+      public java.lang.String getServiceAccountIdSignature() {
+        java.lang.Object ref = serviceAccountIdSignature_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            serviceAccountIdSignature_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string ServiceAccountIdSignature = 10;</code>
+       * @return The bytes for serviceAccountIdSignature.
+       */
+      public com.google.protobuf.ByteString
+          getServiceAccountIdSignatureBytes() {
+        java.lang.Object ref = serviceAccountIdSignature_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          serviceAccountIdSignature_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string ServiceAccountIdSignature = 10;</code>
+       * @param value The serviceAccountIdSignature to set.
+       * @return This builder for chaining.
+       */
+      public Builder setServiceAccountIdSignature(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+        serviceAccountIdSignature_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ServiceAccountIdSignature = 10;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearServiceAccountIdSignature() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        serviceAccountIdSignature_ = getDefaultInstance().getServiceAccountIdSignature();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ServiceAccountIdSignature = 10;</code>
+       * @param value The bytes for serviceAccountIdSignature to set.
+       * @return This builder for chaining.
+       */
+      public Builder setServiceAccountIdSignatureBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+        serviceAccountIdSignature_ = value;
+        onChanged();
+        return this;
+      }
+
+      private boolean addBearerToToken_ ;
+      /**
+       * <pre>
+       * whether to use prefix "Bearer " in token
+       * </pre>
+       *
+       * <code>optional bool AddBearerToToken = 11;</code>
+       * @return Whether the addBearerToToken field is set.
+       */
+      @java.lang.Override
+      public boolean hasAddBearerToToken() {
+        return ((bitField0_ & 0x00000400) != 0);
+      }
+      /**
+       * <pre>
+       * whether to use prefix "Bearer " in token
+       * </pre>
+       *
+       * <code>optional bool AddBearerToToken = 11;</code>
+       * @return The addBearerToToken.
+       */
+      @java.lang.Override
+      public boolean getAddBearerToToken() {
+        return addBearerToToken_;
+      }
+      /**
+       * <pre>
+       * whether to use prefix "Bearer " in token
+       * </pre>
+       *
+       * <code>optional bool AddBearerToToken = 11;</code>
+       * @param value The addBearerToToken to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAddBearerToToken(boolean value) {
+        bitField0_ |= 0x00000400;
+        addBearerToToken_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * whether to use prefix "Bearer " in token
+       * </pre>
+       *
+       * <code>optional bool AddBearerToToken = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAddBearerToToken() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        addBearerToToken_ = false;
+        onChanged();
+        return this;
+      }
+
       private java.util.List<ru.yandex.yql.proto.GatewaysConfig.TAttr> settings_ =
         java.util.Collections.emptyList();
       private void ensureSettingsIsMutable() {
-        if (!((bitField0_ & 0x00000100) != 0)) {
+        if (!((bitField0_ & 0x00000800) != 0)) {
           settings_ = new java.util.ArrayList<ru.yandex.yql.proto.GatewaysConfig.TAttr>(settings_);
-          bitField0_ |= 0x00000100;
+          bitField0_ |= 0x00000800;
          }
       }
 
@@ -34743,7 +35735,7 @@ public final class GatewaysConfig {
       public Builder clearSettings() {
         if (settingsBuilder_ == null) {
           settings_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000100);
+          bitField0_ = (bitField0_ & ~0x00000800);
           onChanged();
         } else {
           settingsBuilder_.clear();
@@ -34820,7 +35812,7 @@ public final class GatewaysConfig {
           settingsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               ru.yandex.yql.proto.GatewaysConfig.TAttr, ru.yandex.yql.proto.GatewaysConfig.TAttr.Builder, ru.yandex.yql.proto.GatewaysConfig.TAttrOrBuilder>(
                   settings_,
-                  ((bitField0_ & 0x00000100) != 0),
+                  ((bitField0_ & 0x00000800) != 0),
                   getParentForChildren(),
                   isClean());
           settings_ = null;
@@ -41272,15 +42264,55 @@ public final class GatewaysConfig {
         getUrlBytes();
 
     /**
-     * <code>optional bool Public = 3 [default = false];</code>
-     * @return Whether the public field is set.
+     * <code>optional string Token = 3;</code>
+     * @return Whether the token field is set.
      */
-    boolean hasPublic();
+    boolean hasToken();
     /**
-     * <code>optional bool Public = 3 [default = false];</code>
-     * @return The public.
+     * <code>optional string Token = 3;</code>
+     * @return The token.
      */
-    boolean getPublic();
+    java.lang.String getToken();
+    /**
+     * <code>optional string Token = 3;</code>
+     * @return The bytes for token.
+     */
+    com.google.protobuf.ByteString
+        getTokenBytes();
+
+    /**
+     * <code>optional string ServiceAccountId = 4;</code>
+     * @return Whether the serviceAccountId field is set.
+     */
+    boolean hasServiceAccountId();
+    /**
+     * <code>optional string ServiceAccountId = 4;</code>
+     * @return The serviceAccountId.
+     */
+    java.lang.String getServiceAccountId();
+    /**
+     * <code>optional string ServiceAccountId = 4;</code>
+     * @return The bytes for serviceAccountId.
+     */
+    com.google.protobuf.ByteString
+        getServiceAccountIdBytes();
+
+    /**
+     * <code>optional string ServiceAccountIdSignature = 5;</code>
+     * @return Whether the serviceAccountIdSignature field is set.
+     */
+    boolean hasServiceAccountIdSignature();
+    /**
+     * <code>optional string ServiceAccountIdSignature = 5;</code>
+     * @return The serviceAccountIdSignature.
+     */
+    java.lang.String getServiceAccountIdSignature();
+    /**
+     * <code>optional string ServiceAccountIdSignature = 5;</code>
+     * @return The bytes for serviceAccountIdSignature.
+     */
+    com.google.protobuf.ByteString
+        getServiceAccountIdSignatureBytes();
 
     /**
      * <code>repeated .NYql.TAttr Settings = 100;</code>
@@ -41321,6 +42353,9 @@ public final class GatewaysConfig {
     private TS3ClusterConfig() {
       name_ = "";
       url_ = "";
+      token_ = "";
+      serviceAccountId_ = "";
+      serviceAccountIdSignature_ = "";
       settings_ = java.util.Collections.emptyList();
     }
 
@@ -41367,15 +42402,28 @@ public final class GatewaysConfig {
               url_ = bs;
               break;
             }
-            case 24: {
+            case 26: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
-              public_ = input.readBool();
+              token_ = bs;
+              break;
+            }
+            case 34: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000008;
+              serviceAccountId_ = bs;
+              break;
+            }
+            case 42: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000010;
+              serviceAccountIdSignature_ = bs;
               break;
             }
             case 802: {
-              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000020) != 0)) {
                 settings_ = new java.util.ArrayList<ru.yandex.yql.proto.GatewaysConfig.TAttr>();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000020;
               }
               settings_.add(
                   input.readMessage(ru.yandex.yql.proto.GatewaysConfig.TAttr.PARSER, extensionRegistry));
@@ -41396,7 +42444,7 @@ public final class GatewaysConfig {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000008) != 0)) {
+        if (((mutable_bitField0_ & 0x00000020) != 0)) {
           settings_ = java.util.Collections.unmodifiableList(settings_);
         }
         this.unknownFields = unknownFields.build();
@@ -41525,23 +42573,148 @@ public final class GatewaysConfig {
       }
     }
 
-    public static final int PUBLIC_FIELD_NUMBER = 3;
-    private boolean public_;
+    public static final int TOKEN_FIELD_NUMBER = 3;
+    private volatile java.lang.Object token_;
     /**
-     * <code>optional bool Public = 3 [default = false];</code>
-     * @return Whether the public field is set.
+     * <code>optional string Token = 3;</code>
+     * @return Whether the token field is set.
      */
     @java.lang.Override
-    public boolean hasPublic() {
+    public boolean hasToken() {
       return ((bitField0_ & 0x00000004) != 0);
     }
     /**
-     * <code>optional bool Public = 3 [default = false];</code>
-     * @return The public.
+     * <code>optional string Token = 3;</code>
+     * @return The token.
      */
     @java.lang.Override
-    public boolean getPublic() {
-      return public_;
+    public java.lang.String getToken() {
+      java.lang.Object ref = token_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          token_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string Token = 3;</code>
+     * @return The bytes for token.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTokenBytes() {
+      java.lang.Object ref = token_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        token_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SERVICEACCOUNTID_FIELD_NUMBER = 4;
+    private volatile java.lang.Object serviceAccountId_;
+    /**
+     * <code>optional string ServiceAccountId = 4;</code>
+     * @return Whether the serviceAccountId field is set.
+     */
+    @java.lang.Override
+    public boolean hasServiceAccountId() {
+      return ((bitField0_ & 0x00000008) != 0);
+    }
+    /**
+     * <code>optional string ServiceAccountId = 4;</code>
+     * @return The serviceAccountId.
+     */
+    @java.lang.Override
+    public java.lang.String getServiceAccountId() {
+      java.lang.Object ref = serviceAccountId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          serviceAccountId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string ServiceAccountId = 4;</code>
+     * @return The bytes for serviceAccountId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getServiceAccountIdBytes() {
+      java.lang.Object ref = serviceAccountId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        serviceAccountId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SERVICEACCOUNTIDSIGNATURE_FIELD_NUMBER = 5;
+    private volatile java.lang.Object serviceAccountIdSignature_;
+    /**
+     * <code>optional string ServiceAccountIdSignature = 5;</code>
+     * @return Whether the serviceAccountIdSignature field is set.
+     */
+    @java.lang.Override
+    public boolean hasServiceAccountIdSignature() {
+      return ((bitField0_ & 0x00000010) != 0);
+    }
+    /**
+     * <code>optional string ServiceAccountIdSignature = 5;</code>
+     * @return The serviceAccountIdSignature.
+     */
+    @java.lang.Override
+    public java.lang.String getServiceAccountIdSignature() {
+      java.lang.Object ref = serviceAccountIdSignature_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          serviceAccountIdSignature_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string ServiceAccountIdSignature = 5;</code>
+     * @return The bytes for serviceAccountIdSignature.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getServiceAccountIdSignatureBytes() {
+      java.lang.Object ref = serviceAccountIdSignature_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        serviceAccountIdSignature_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int SETTINGS_FIELD_NUMBER = 100;
@@ -41611,7 +42784,13 @@ public final class GatewaysConfig {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, url_);
       }
       if (((bitField0_ & 0x00000004) != 0)) {
-        output.writeBool(3, public_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, token_);
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, serviceAccountId_);
+      }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, serviceAccountIdSignature_);
       }
       for (int i = 0; i < settings_.size(); i++) {
         output.writeMessage(100, settings_.get(i));
@@ -41632,8 +42811,13 @@ public final class GatewaysConfig {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, url_);
       }
       if (((bitField0_ & 0x00000004) != 0)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(3, public_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, token_);
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, serviceAccountId_);
+      }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, serviceAccountIdSignature_);
       }
       for (int i = 0; i < settings_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
@@ -41664,10 +42848,20 @@ public final class GatewaysConfig {
         if (!getUrl()
             .equals(other.getUrl())) return false;
       }
-      if (hasPublic() != other.hasPublic()) return false;
-      if (hasPublic()) {
-        if (getPublic()
-            != other.getPublic()) return false;
+      if (hasToken() != other.hasToken()) return false;
+      if (hasToken()) {
+        if (!getToken()
+            .equals(other.getToken())) return false;
+      }
+      if (hasServiceAccountId() != other.hasServiceAccountId()) return false;
+      if (hasServiceAccountId()) {
+        if (!getServiceAccountId()
+            .equals(other.getServiceAccountId())) return false;
+      }
+      if (hasServiceAccountIdSignature() != other.hasServiceAccountIdSignature()) return false;
+      if (hasServiceAccountIdSignature()) {
+        if (!getServiceAccountIdSignature()
+            .equals(other.getServiceAccountIdSignature())) return false;
       }
       if (!getSettingsList()
           .equals(other.getSettingsList())) return false;
@@ -41690,10 +42884,17 @@ public final class GatewaysConfig {
         hash = (37 * hash) + URL_FIELD_NUMBER;
         hash = (53 * hash) + getUrl().hashCode();
       }
-      if (hasPublic()) {
-        hash = (37 * hash) + PUBLIC_FIELD_NUMBER;
-        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-            getPublic());
+      if (hasToken()) {
+        hash = (37 * hash) + TOKEN_FIELD_NUMBER;
+        hash = (53 * hash) + getToken().hashCode();
+      }
+      if (hasServiceAccountId()) {
+        hash = (37 * hash) + SERVICEACCOUNTID_FIELD_NUMBER;
+        hash = (53 * hash) + getServiceAccountId().hashCode();
+      }
+      if (hasServiceAccountIdSignature()) {
+        hash = (37 * hash) + SERVICEACCOUNTIDSIGNATURE_FIELD_NUMBER;
+        hash = (53 * hash) + getServiceAccountIdSignature().hashCode();
       }
       if (getSettingsCount() > 0) {
         hash = (37 * hash) + SETTINGS_FIELD_NUMBER;
@@ -41837,11 +43038,15 @@ public final class GatewaysConfig {
         bitField0_ = (bitField0_ & ~0x00000001);
         url_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        public_ = false;
+        token_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
+        serviceAccountId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
+        serviceAccountIdSignature_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
         if (settingsBuilder_ == null) {
           settings_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000020);
         } else {
           settingsBuilder_.clear();
         }
@@ -41882,13 +43087,21 @@ public final class GatewaysConfig {
         }
         result.url_ = url_;
         if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.public_ = public_;
           to_bitField0_ |= 0x00000004;
         }
+        result.token_ = token_;
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.serviceAccountId_ = serviceAccountId_;
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.serviceAccountIdSignature_ = serviceAccountIdSignature_;
         if (settingsBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) != 0)) {
+          if (((bitField0_ & 0x00000020) != 0)) {
             settings_ = java.util.Collections.unmodifiableList(settings_);
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000020);
           }
           result.settings_ = settings_;
         } else {
@@ -41953,14 +43166,26 @@ public final class GatewaysConfig {
           url_ = other.url_;
           onChanged();
         }
-        if (other.hasPublic()) {
-          setPublic(other.getPublic());
+        if (other.hasToken()) {
+          bitField0_ |= 0x00000004;
+          token_ = other.token_;
+          onChanged();
+        }
+        if (other.hasServiceAccountId()) {
+          bitField0_ |= 0x00000008;
+          serviceAccountId_ = other.serviceAccountId_;
+          onChanged();
+        }
+        if (other.hasServiceAccountIdSignature()) {
+          bitField0_ |= 0x00000010;
+          serviceAccountIdSignature_ = other.serviceAccountIdSignature_;
+          onChanged();
         }
         if (settingsBuilder_ == null) {
           if (!other.settings_.isEmpty()) {
             if (settings_.isEmpty()) {
               settings_ = other.settings_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000020);
             } else {
               ensureSettingsIsMutable();
               settings_.addAll(other.settings_);
@@ -41973,7 +43198,7 @@ public final class GatewaysConfig {
               settingsBuilder_.dispose();
               settingsBuilder_ = null;
               settings_ = other.settings_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000020);
               settingsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getSettingsFieldBuilder() : null;
@@ -42209,41 +43434,254 @@ public final class GatewaysConfig {
         return this;
       }
 
-      private boolean public_ ;
+      private java.lang.Object token_ = "";
       /**
-       * <code>optional bool Public = 3 [default = false];</code>
-       * @return Whether the public field is set.
+       * <code>optional string Token = 3;</code>
+       * @return Whether the token field is set.
        */
-      @java.lang.Override
-      public boolean hasPublic() {
+      public boolean hasToken() {
         return ((bitField0_ & 0x00000004) != 0);
       }
       /**
-       * <code>optional bool Public = 3 [default = false];</code>
-       * @return The public.
+       * <code>optional string Token = 3;</code>
+       * @return The token.
        */
-      @java.lang.Override
-      public boolean getPublic() {
-        return public_;
+      public java.lang.String getToken() {
+        java.lang.Object ref = token_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            token_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>optional bool Public = 3 [default = false];</code>
-       * @param value The public to set.
+       * <code>optional string Token = 3;</code>
+       * @return The bytes for token.
+       */
+      public com.google.protobuf.ByteString
+          getTokenBytes() {
+        java.lang.Object ref = token_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          token_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string Token = 3;</code>
+       * @param value The token to set.
        * @return This builder for chaining.
        */
-      public Builder setPublic(boolean value) {
-        bitField0_ |= 0x00000004;
-        public_ = value;
+      public Builder setToken(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        token_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional bool Public = 3 [default = false];</code>
+       * <code>optional string Token = 3;</code>
        * @return This builder for chaining.
        */
-      public Builder clearPublic() {
+      public Builder clearToken() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        public_ = false;
+        token_ = getDefaultInstance().getToken();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string Token = 3;</code>
+       * @param value The bytes for token to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTokenBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        token_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object serviceAccountId_ = "";
+      /**
+       * <code>optional string ServiceAccountId = 4;</code>
+       * @return Whether the serviceAccountId field is set.
+       */
+      public boolean hasServiceAccountId() {
+        return ((bitField0_ & 0x00000008) != 0);
+      }
+      /**
+       * <code>optional string ServiceAccountId = 4;</code>
+       * @return The serviceAccountId.
+       */
+      public java.lang.String getServiceAccountId() {
+        java.lang.Object ref = serviceAccountId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            serviceAccountId_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string ServiceAccountId = 4;</code>
+       * @return The bytes for serviceAccountId.
+       */
+      public com.google.protobuf.ByteString
+          getServiceAccountIdBytes() {
+        java.lang.Object ref = serviceAccountId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          serviceAccountId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string ServiceAccountId = 4;</code>
+       * @param value The serviceAccountId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setServiceAccountId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        serviceAccountId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ServiceAccountId = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearServiceAccountId() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        serviceAccountId_ = getDefaultInstance().getServiceAccountId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ServiceAccountId = 4;</code>
+       * @param value The bytes for serviceAccountId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setServiceAccountIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        serviceAccountId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object serviceAccountIdSignature_ = "";
+      /**
+       * <code>optional string ServiceAccountIdSignature = 5;</code>
+       * @return Whether the serviceAccountIdSignature field is set.
+       */
+      public boolean hasServiceAccountIdSignature() {
+        return ((bitField0_ & 0x00000010) != 0);
+      }
+      /**
+       * <code>optional string ServiceAccountIdSignature = 5;</code>
+       * @return The serviceAccountIdSignature.
+       */
+      public java.lang.String getServiceAccountIdSignature() {
+        java.lang.Object ref = serviceAccountIdSignature_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            serviceAccountIdSignature_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string ServiceAccountIdSignature = 5;</code>
+       * @return The bytes for serviceAccountIdSignature.
+       */
+      public com.google.protobuf.ByteString
+          getServiceAccountIdSignatureBytes() {
+        java.lang.Object ref = serviceAccountIdSignature_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          serviceAccountIdSignature_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string ServiceAccountIdSignature = 5;</code>
+       * @param value The serviceAccountIdSignature to set.
+       * @return This builder for chaining.
+       */
+      public Builder setServiceAccountIdSignature(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        serviceAccountIdSignature_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ServiceAccountIdSignature = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearServiceAccountIdSignature() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        serviceAccountIdSignature_ = getDefaultInstance().getServiceAccountIdSignature();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ServiceAccountIdSignature = 5;</code>
+       * @param value The bytes for serviceAccountIdSignature to set.
+       * @return This builder for chaining.
+       */
+      public Builder setServiceAccountIdSignatureBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        serviceAccountIdSignature_ = value;
         onChanged();
         return this;
       }
@@ -42251,9 +43689,9 @@ public final class GatewaysConfig {
       private java.util.List<ru.yandex.yql.proto.GatewaysConfig.TAttr> settings_ =
         java.util.Collections.emptyList();
       private void ensureSettingsIsMutable() {
-        if (!((bitField0_ & 0x00000008) != 0)) {
+        if (!((bitField0_ & 0x00000020) != 0)) {
           settings_ = new java.util.ArrayList<ru.yandex.yql.proto.GatewaysConfig.TAttr>(settings_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000020;
          }
       }
 
@@ -42403,7 +43841,7 @@ public final class GatewaysConfig {
       public Builder clearSettings() {
         if (settingsBuilder_ == null) {
           settings_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000020);
           onChanged();
         } else {
           settingsBuilder_.clear();
@@ -42480,7 +43918,7 @@ public final class GatewaysConfig {
           settingsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               ru.yandex.yql.proto.GatewaysConfig.TAttr, ru.yandex.yql.proto.GatewaysConfig.TAttr.Builder, ru.yandex.yql.proto.GatewaysConfig.TAttrOrBuilder>(
                   settings_,
-                  ((bitField0_ & 0x00000008) != 0),
+                  ((bitField0_ & 0x00000020) != 0),
                   getParentForChildren(),
                   isClean());
           settings_ = null;
@@ -60852,141 +62290,147 @@ public final class GatewaysConfig {
       "Port\030\002 \001(\r\022\020\n\010BasePath\030\003 \001(\t\022\020\n\005TvmId\030\004 " +
       "\001(\r:\0010\"L\n\027TKikimrMvpGatewayConfig\0221\n\014Pro" +
       "xyMapping\030\001 \003(\0132\033.NYql.TKikimrMvpProxyCo" +
-      "nfig\"\306\001\n\021TYdbClusterConfig\022\014\n\004Name\030\001 \001(\t" +
+      "nfig\"\235\002\n\021TYdbClusterConfig\022\014\n\004Name\030\001 \001(\t" +
       "\022\020\n\010Endpoint\030\002 \001(\t\022\r\n\005Token\030\003 \001(\t\022#\n\004Grp" +
       "c\030\004 \001(\0132\025.NYql.TKikimrGrpcData\022\020\n\005TvmId\030" +
       "\005 \001(\r:\0010\022\020\n\010Database\030\006 \001(\t\022\n\n\002Id\030\007 \001(\t\022\016" +
-      "\n\006Secure\030\010 \001(\010\022\035\n\010Settings\030d \003(\0132\013.NYql." +
-      "TAttr\"\231\001\n\021TYdbGatewayConfig\022/\n\016ClusterMa" +
-      "pping\030\001 \003(\0132\027.NYql.TYdbClusterConfig\022\027\n\017" +
-      "DefaultEndpoint\030\002 \001(\t\022\024\n\014DefaultToken\030\003 " +
-      "\001(\t\022$\n\017DefaultSettings\030\004 \003(\0132\013.NYql.TAtt" +
-      "r\"\373\002\n\030TClickHouseClusterConfig\022\014\n\004Name\030\001" +
-      " \001(\t\022\026\n\007Default\030\002 \001(\010:\005false\022\017\n\007Cluster\030" +
-      "\003 \001(\t\022\017\n\007CHToken\030\004 \001(\t\022\035\n\010Settings\030e \003(\013" +
-      "2\013.NYql.TAttr\022%\n\nHostScheme\030\005 \001(\0162\021.NYql" +
-      ".EHostScheme\022\020\n\010HostPort\030\006 \001(\r\022\032\n\022CHToke" +
-      "nYavSecretId\030\007 \001(\t\022\033\n\023CHTokenYavVersionI" +
-      "d\030\010 \001(\t\022\025\n\rCHTokenYavKey\030\t \001(\t\0224\n\006Runner" +
-      "\030\n \001(\0132$.NYql.NProto.TClickHouseRunnerCo" +
-      "nfig\022\034\n\016NativeHostPort\030\013 \001(\r:\0049000\022\033\n\014Na" +
-      "tiveSecure\030\014 \001(\010:\005false\"x\n\030TClickHouseGa" +
-      "tewayConfig\0226\n\016ClusterMapping\030\001 \003(\0132\036.NY" +
-      "ql.TClickHouseClusterConfig\022$\n\017DefaultSe" +
-      "ttings\030\002 \003(\0132\013.NYql.TAttr\"[\n\017TYfArtifact" +
-      "Link\022#\n\004Type\030\001 \001(\0162\025.NYql.EYfArtifactTyp" +
-      "e\022\013\n\003Url\030\002 \001(\t\022\026\n\016TargetFilePath\030\003 \001(\t\"k" +
-      "\n\033TRtmrOperationArtifactsInfo\022&\n\004Type\030\001 " +
-      "\001(\0162\030.NYql.ERtmrOperationType\022$\n\005Links\030\002" +
-      " \003(\0132\025.NYql.TYfArtifactLink\"8\n\023TRtmrPqCo" +
-      "nsumerInfo\022\017\n\007Cluster\030\001 \001(\t\022\020\n\010Consumer\030" +
-      "\002 \001(\t\"\362\003\n\022TRtmrClusterConfig\022\014\n\004Name\030\001 \001" +
-      "(\t\022\026\n\007Default\030\002 \001(\010:\005false\022\017\n\007Cluster\030\003 " +
-      "\001(\t\022\022\n\nRemoteName\030\004 \001(\t\022\021\n\tYfCluster\030\005 \001" +
-      "(\t\022\023\n\013S3TokenPath\030\006 \001(\t\022\027\n\017S3FileCachePa" +
-      "th\030\007 \001(\t\022\020\n\005TvmId\030\010 \001(\r:\0010\022\025\n\rTvmSecretP" +
-      "ath\030\t \001(\t\022\r\n\005Users\030\n \003(\t\022 \n\021UploadViaYfC" +
-      "lient\030\013 \001(\010:\005false\022\025\n\rMdsTorrentUrl\030\014 \001(" +
-      "\t\022<\n\021ArtifactOverrides\030\r \003(\0132!.NYql.TRtm" +
-      "rOperationArtifactsInfo\022\022\n\nPqConsumer\030\016 " +
-      "\001(\t\0224\n\021PqConsumerMapping\030\017 \003(\0132\031.NYql.TR" +
-      "tmrPqConsumerInfo\022\027\n\017MaxPqPartitions\030\020 \001" +
-      "(\r\022\037\n\027PreviewCollectTimeoutMs\030\021 \001(\r\022\035\n\010S" +
-      "ettings\030e \003(\0132\013.NYql.TAttr\"\266\002\n\022TRtmrGate" +
-      "wayConfig\0220\n\016ClusterMapping\030\001 \003(\0132\030.NYql" +
-      ".TRtmrClusterConfig\022$\n\017DefaultSettings\030\002" +
-      " \003(\0132\013.NYql.TAttr\022\025\n\rYqlRtmrDynLib\030\003 \001(\t" +
-      "\022\036\n\017UseFakeYfUpload\030\004 \001(\010:\005false\022\021\n\tArti" +
-      "facts\030\005 \003(\t\022:\n\017CommonArtifacts\030\006 \003(\0132!.N" +
-      "Yql.TRtmrOperationArtifactsInfo\022\033\n\017MaxPq" +
-      "Partitions\030\007 \001(\r:\00210\022%\n\027PreviewCollectTi" +
-      "meoutMs\030\010 \001(\r:\0042000\"\317\002\n\020TPqClusterConfig" +
-      "\022\014\n\004Name\030\001 \001(\t\022G\n\013ClusterType\030\002 \001(\0162#.NY" +
-      "ql.TPqClusterConfig.EClusterType:\rCT_PER" +
-      "S_QUEUE\022\020\n\010Endpoint\030\003 \001(\t\022\035\n\025ConfigManag" +
-      "erEndpoint\030\004 \001(\t\022\r\n\005Token\030\005 \001(\t\022\027\n\010Datab" +
-      "ase\030\006 \001(\t:\005/Root\022\020\n\005TvmId\030\007 \001(\r:\0010\022\016\n\006Us" +
-      "eSsl\030\010 \001(\010\022\035\n\010Settings\030d \003(\0132\013.NYql.TAtt" +
-      "r\"J\n\014EClusterType\022\022\n\016CT_UNSPECIFIED\020\000\022\021\n" +
-      "\rCT_PERS_QUEUE\020\001\022\023\n\017CT_DATA_STREAMS\020\002\"~\n" +
-      "\020TPqGatewayConfig\022.\n\016ClusterMapping\030\001 \003(" +
-      "\0132\026.NYql.TPqClusterConfig\022\024\n\014DefaultToke" +
-      "n\030\002 \001(\t\022$\n\017DefaultSettings\030d \003(\0132\013.NYql." +
-      "TAttr\"\217\001\n\022TStatClusterConfig\022\014\n\004Name\030\001 \001" +
-      "(\t\022\017\n\007Cluster\030\002 \001(\t\022\026\n\007Default\030\003 \001(\010:\005fa" +
-      "lse\022\021\n\tStatToken\030\004 \001(\t\022\020\n\010StatName\030\005 \001(\t" +
-      "\022\035\n\010Settings\030d \003(\0132\013.NYql.TAttr\"\207\001\n\022TSta" +
-      "tGatewayConfig\022\031\n\016GatewayThreads\030\001 \001(\r:\001" +
-      "0\0220\n\016ClusterMapping\030e \003(\0132\030.NYql.TStatCl" +
-      "usterConfig\022$\n\017DefaultSettings\030f \003(\0132\013.N" +
-      "Yql.TAttr\"5\n\022TChytClusterConfig\022\014\n\004Name\030" +
-      "\001 \001(\t\022\021\n\tYtCluster\030\002 \001(\t\"F\n\022TChytGateway" +
-      "Config\0220\n\016ClusterMapping\030\001 \003(\0132\030.NYql.TC" +
-      "hytClusterConfig\"c\n\020TS3ClusterConfig\022\014\n\004" +
-      "Name\030\001 \001(\t\022\013\n\003Url\030\002 \001(\t\022\025\n\006Public\030\003 \001(\010:" +
-      "\005false\022\035\n\010Settings\030d \003(\0132\013.NYql.TAttr\"h\n" +
-      "\020TS3GatewayConfig\022.\n\016ClusterMapping\030\001 \003(" +
-      "\0132\026.NYql.TS3ClusterConfig\022$\n\017DefaultSett" +
-      "ings\030d \003(\0132\013.NYql.TAttr\"m\n\025TSolomonClust" +
-      "erConfig\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022" +
-      "\026\n\007Default\030\003 \001(\010:\005false\022\035\n\010Settings\030d \003(" +
-      "\0132\013.NYql.TAttr\"r\n\025TSolomonGatewayConfig\022" +
-      "3\n\016ClusterMapping\030\001 \003(\0132\033.NYql.TSolomonC" +
-      "lusterConfig\022$\n\017DefaultSettings\030\002 \003(\0132\013." +
-      "NYql.TAttr\":\n\034TFileStorageAdditionalConf" +
-      "ig\022\032\n\022AllowedUrlPatterns\030\001 \003(\t\"J\n\030TPostg" +
-      "resqlClusterConfig\022\014\n\004Name\030\001 \001(\t\022\017\n\007Clus" +
-      "ter\030\002 \001(\t\022\017\n\007PGtoken\030\003 \001(\t\"R\n\030TPostgresq" +
-      "lGatewayConfig\0226\n\016ClusterMapping\030\001 \003(\0132\036" +
-      ".NYql.TPostgresqlClusterConfig\"H\n\023TMysql" +
-      "ClusterConfig\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002" +
-      " \001(\t\022\022\n\nMysqlToken\030\003 \001(\t\"H\n\023TMysqlGatewa" +
-      "yConfig\0221\n\016ClusterMapping\030\001 \003(\0132\031.NYql.T" +
-      "MysqlClusterConfig\"\260\002\n\020TDqGatewayConfig\022" +
-      " \n\025DefaultAutoPercentage\030\001 \001(\r:\0010\022N\n\021Def" +
-      "aultAutoByHour\030\002 \003(\01323.NYql.TDqGatewayCo" +
-      "nfig.TDefaultAutoByHourPercentage\022\035\n\025NoD" +
-      "efaultAutoForUsers\030\003 \003(\t\022#\n\033DefaultAnaly" +
-      "zeQueryForUsers\030\004 \003(\t\022$\n\017DefaultSettings" +
-      "\030f \003(\0132\013.NYql.TAttr\032@\n\034TDefaultAutoByHou" +
-      "rPercentage\022\014\n\004Hour\030\001 \002(\r\022\022\n\nPercentage\030" +
-      "\002 \002(\r\"\'\n\tTCoreAttr\022\014\n\004Name\030\001 \002(\t\022\014\n\004Args" +
-      "\030\002 \003(\t\"0\n\016TYqlCoreConfig\022\036\n\005Flags\030\001 \003(\0132" +
-      "\017.NYql.TCoreAttr\"@\n\034TWarnAsErrorByHourPe" +
-      "rcentage\022\014\n\004Hour\030\001 \002(\r\022\022\n\nPercentage\030\002 \002" +
-      "(\r\"\274\001\n\016TSqlCoreConfig\022(\n\035V0SyntaxWarnAsE" +
-      "rrorPercentage\030\001 \001(\r:\0010\022E\n\031V0SyntaxWarnA" +
-      "sErrorByHour\030\002 \003(\0132\".NYql.TWarnAsErrorBy" +
-      "HourPercentage\022\037\n\027NoV0SyntaxErrorForUser" +
-      "s\030\003 \003(\t\022\030\n\020TranslationFlags\030\004 \003(\t\"\333\005\n\017TG" +
-      "atewaysConfig\022\"\n\002Yt\030\001 \001(\0132\026.NYql.TYtGate" +
-      "wayConfig\022*\n\006Kikimr\030\002 \001(\0132\032.NYql.TKikimr" +
-      "GatewayConfig\0222\n\nClickHouse\030\003 \001(\0132\036.NYql" +
-      ".TClickHouseGatewayConfig\022&\n\004Rtmr\030\004 \001(\0132" +
-      "\030.NYql.TRtmrGatewayConfig\0220\n\tKikimrMvp\030\005" +
-      " \001(\0132\035.NYql.TKikimrMvpGatewayConfig\022&\n\004S" +
-      "tat\030\006 \001(\0132\030.NYql.TStatGatewayConfig\022&\n\004C" +
-      "hyt\030\007 \001(\0132\030.NYql.TChytGatewayConfig\022,\n\007S" +
-      "olomon\030\010 \001(\0132\033.NYql.TSolomonGatewayConfi" +
-      "g\022.\n\002Fs\030\t \001(\0132\".NYql.TFileStorageAdditio" +
-      "nalConfig\022%\n\007YqlCore\030\n \001(\0132\024.NYql.TYqlCo" +
-      "reConfig\0222\n\nPostgresql\030\013 \001(\0132\036.NYql.TPos" +
-      "tgresqlGatewayConfig\022%\n\007SqlCore\030\014 \001(\0132\024." +
-      "NYql.TSqlCoreConfig\022\"\n\002Dq\030\r \001(\0132\026.NYql.T" +
-      "DqGatewayConfig\022(\n\005Mysql\030\016 \001(\0132\031.NYql.TM" +
-      "ysqlGatewayConfig\022$\n\003Ydb\030\017 \001(\0132\027.NYql.TY" +
-      "dbGatewayConfig\022\"\n\002Pq\030\020 \001(\0132\026.NYql.TPqGa" +
-      "tewayConfig\022\"\n\002S3\030\021 \001(\0132\026.NYql.TS3Gatewa" +
-      "yConfig*Z\n\013EYtLogLevel\022\024\n\007YL_NONE\020\377\377\377\377\377\377" +
-      "\377\377\377\001\022\014\n\010YL_FATAL\020\000\022\014\n\010YL_ERROR\020\001\022\013\n\007YL_I" +
-      "NFO\020\002\022\014\n\010YL_DEBUG\020\003*(\n\013EHostScheme\022\013\n\007HS" +
-      "_HTTP\020\000\022\014\n\010HS_HTTPS\020\001*?\n\nETokenType\022\007\n\003I" +
-      "AM\020\000\022\t\n\005OAUTH\020\001\022\014\n\010BLACKBOX\020\002\022\017\n\013CREDENT" +
-      "IALS\020\003*9\n\017EYfArtifactType\022\013\n\007AT_NONE\020\000\022\013" +
-      "\n\007AT_FILE\020\001\022\014\n\010AT_LAYER\020\002*e\n\022ERtmrOperat" +
-      "ionType\022\013\n\007OT_NONE\020\000\022\017\n\013OT_LF_PARSE\020\001\022\016\n" +
-      "\nOT_YDB_OUT\020\002\022\022\n\016OT_SOLOMON_OUT\020\003\022\r\n\tOT_" +
-      "PQ_OUT\020\004B\025\n\023ru.yandex.yql.proto"
+      "\n\006Secure\030\010 \001(\010\022\030\n\020ServiceAccountId\030\t \001(\t" +
+      "\022!\n\031ServiceAccountIdSignature\030\n \001(\t\022\030\n\020A" +
+      "ddBearerToToken\030\013 \001(\010\022\035\n\010Settings\030d \003(\0132" +
+      "\013.NYql.TAttr\"\231\001\n\021TYdbGatewayConfig\022/\n\016Cl" +
+      "usterMapping\030\001 \003(\0132\027.NYql.TYdbClusterCon" +
+      "fig\022\027\n\017DefaultEndpoint\030\002 \001(\t\022\024\n\014DefaultT" +
+      "oken\030\003 \001(\t\022$\n\017DefaultSettings\030\004 \003(\0132\013.NY" +
+      "ql.TAttr\"\373\002\n\030TClickHouseClusterConfig\022\014\n" +
+      "\004Name\030\001 \001(\t\022\026\n\007Default\030\002 \001(\010:\005false\022\017\n\007C" +
+      "luster\030\003 \001(\t\022\017\n\007CHToken\030\004 \001(\t\022\035\n\010Setting" +
+      "s\030e \003(\0132\013.NYql.TAttr\022%\n\nHostScheme\030\005 \001(\016" +
+      "2\021.NYql.EHostScheme\022\020\n\010HostPort\030\006 \001(\r\022\032\n" +
+      "\022CHTokenYavSecretId\030\007 \001(\t\022\033\n\023CHTokenYavV" +
+      "ersionId\030\010 \001(\t\022\025\n\rCHTokenYavKey\030\t \001(\t\0224\n" +
+      "\006Runner\030\n \001(\0132$.NYql.NProto.TClickHouseR" +
+      "unnerConfig\022\034\n\016NativeHostPort\030\013 \001(\r:\004900" +
+      "0\022\033\n\014NativeSecure\030\014 \001(\010:\005false\"x\n\030TClick" +
+      "HouseGatewayConfig\0226\n\016ClusterMapping\030\001 \003" +
+      "(\0132\036.NYql.TClickHouseClusterConfig\022$\n\017De" +
+      "faultSettings\030\002 \003(\0132\013.NYql.TAttr\"[\n\017TYfA" +
+      "rtifactLink\022#\n\004Type\030\001 \001(\0162\025.NYql.EYfArti" +
+      "factType\022\013\n\003Url\030\002 \001(\t\022\026\n\016TargetFilePath\030" +
+      "\003 \001(\t\"k\n\033TRtmrOperationArtifactsInfo\022&\n\004" +
+      "Type\030\001 \001(\0162\030.NYql.ERtmrOperationType\022$\n\005" +
+      "Links\030\002 \003(\0132\025.NYql.TYfArtifactLink\"8\n\023TR" +
+      "tmrPqConsumerInfo\022\017\n\007Cluster\030\001 \001(\t\022\020\n\010Co" +
+      "nsumer\030\002 \001(\t\"\362\003\n\022TRtmrClusterConfig\022\014\n\004N" +
+      "ame\030\001 \001(\t\022\026\n\007Default\030\002 \001(\010:\005false\022\017\n\007Clu" +
+      "ster\030\003 \001(\t\022\022\n\nRemoteName\030\004 \001(\t\022\021\n\tYfClus" +
+      "ter\030\005 \001(\t\022\023\n\013S3TokenPath\030\006 \001(\t\022\027\n\017S3File" +
+      "CachePath\030\007 \001(\t\022\020\n\005TvmId\030\010 \001(\r:\0010\022\025\n\rTvm" +
+      "SecretPath\030\t \001(\t\022\r\n\005Users\030\n \003(\t\022 \n\021Uploa" +
+      "dViaYfClient\030\013 \001(\010:\005false\022\025\n\rMdsTorrentU" +
+      "rl\030\014 \001(\t\022<\n\021ArtifactOverrides\030\r \003(\0132!.NY" +
+      "ql.TRtmrOperationArtifactsInfo\022\022\n\nPqCons" +
+      "umer\030\016 \001(\t\0224\n\021PqConsumerMapping\030\017 \003(\0132\031." +
+      "NYql.TRtmrPqConsumerInfo\022\027\n\017MaxPqPartiti" +
+      "ons\030\020 \001(\r\022\037\n\027PreviewCollectTimeoutMs\030\021 \001" +
+      "(\r\022\035\n\010Settings\030e \003(\0132\013.NYql.TAttr\"\266\002\n\022TR" +
+      "tmrGatewayConfig\0220\n\016ClusterMapping\030\001 \003(\013" +
+      "2\030.NYql.TRtmrClusterConfig\022$\n\017DefaultSet" +
+      "tings\030\002 \003(\0132\013.NYql.TAttr\022\025\n\rYqlRtmrDynLi" +
+      "b\030\003 \001(\t\022\036\n\017UseFakeYfUpload\030\004 \001(\010:\005false\022" +
+      "\021\n\tArtifacts\030\005 \003(\t\022:\n\017CommonArtifacts\030\006 " +
+      "\003(\0132!.NYql.TRtmrOperationArtifactsInfo\022\033" +
+      "\n\017MaxPqPartitions\030\007 \001(\r:\00210\022%\n\027PreviewCo" +
+      "llectTimeoutMs\030\010 \001(\r:\0042000\"\246\003\n\020TPqCluste" +
+      "rConfig\022\014\n\004Name\030\001 \001(\t\022G\n\013ClusterType\030\002 \001" +
+      "(\0162#.NYql.TPqClusterConfig.EClusterType:" +
+      "\rCT_PERS_QUEUE\022\020\n\010Endpoint\030\003 \001(\t\022\035\n\025Conf" +
+      "igManagerEndpoint\030\004 \001(\t\022\r\n\005Token\030\005 \001(\t\022\027" +
+      "\n\010Database\030\006 \001(\t:\005/Root\022\020\n\005TvmId\030\007 \001(\r:\001" +
+      "0\022\016\n\006UseSsl\030\010 \001(\010\022\030\n\020ServiceAccountId\030\t " +
+      "\001(\t\022!\n\031ServiceAccountIdSignature\030\n \001(\t\022\030" +
+      "\n\020AddBearerToToken\030\013 \001(\010\022\035\n\010Settings\030d \003" +
+      "(\0132\013.NYql.TAttr\"J\n\014EClusterType\022\022\n\016CT_UN" +
+      "SPECIFIED\020\000\022\021\n\rCT_PERS_QUEUE\020\001\022\023\n\017CT_DAT" +
+      "A_STREAMS\020\002\"~\n\020TPqGatewayConfig\022.\n\016Clust" +
+      "erMapping\030\001 \003(\0132\026.NYql.TPqClusterConfig\022" +
+      "\024\n\014DefaultToken\030\002 \001(\t\022$\n\017DefaultSettings" +
+      "\030d \003(\0132\013.NYql.TAttr\"\217\001\n\022TStatClusterConf" +
+      "ig\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\026\n\007Def" +
+      "ault\030\003 \001(\010:\005false\022\021\n\tStatToken\030\004 \001(\t\022\020\n\010" +
+      "StatName\030\005 \001(\t\022\035\n\010Settings\030d \003(\0132\013.NYql." +
+      "TAttr\"\207\001\n\022TStatGatewayConfig\022\031\n\016GatewayT" +
+      "hreads\030\001 \001(\r:\0010\0220\n\016ClusterMapping\030e \003(\0132" +
+      "\030.NYql.TStatClusterConfig\022$\n\017DefaultSett" +
+      "ings\030f \003(\0132\013.NYql.TAttr\"5\n\022TChytClusterC" +
+      "onfig\022\014\n\004Name\030\001 \001(\t\022\021\n\tYtCluster\030\002 \001(\t\"F" +
+      "\n\022TChytGatewayConfig\0220\n\016ClusterMapping\030\001" +
+      " \003(\0132\030.NYql.TChytClusterConfig\"\230\001\n\020TS3Cl" +
+      "usterConfig\022\014\n\004Name\030\001 \001(\t\022\013\n\003Url\030\002 \001(\t\022\r" +
+      "\n\005Token\030\003 \001(\t\022\030\n\020ServiceAccountId\030\004 \001(\t\022" +
+      "!\n\031ServiceAccountIdSignature\030\005 \001(\t\022\035\n\010Se" +
+      "ttings\030d \003(\0132\013.NYql.TAttr\"h\n\020TS3GatewayC" +
+      "onfig\022.\n\016ClusterMapping\030\001 \003(\0132\026.NYql.TS3" +
+      "ClusterConfig\022$\n\017DefaultSettings\030d \003(\0132\013" +
+      ".NYql.TAttr\"m\n\025TSolomonClusterConfig\022\014\n\004" +
+      "Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\026\n\007Default\030\003" +
+      " \001(\010:\005false\022\035\n\010Settings\030d \003(\0132\013.NYql.TAt" +
+      "tr\"r\n\025TSolomonGatewayConfig\0223\n\016ClusterMa" +
+      "pping\030\001 \003(\0132\033.NYql.TSolomonClusterConfig" +
+      "\022$\n\017DefaultSettings\030\002 \003(\0132\013.NYql.TAttr\":" +
+      "\n\034TFileStorageAdditionalConfig\022\032\n\022Allowe" +
+      "dUrlPatterns\030\001 \003(\t\"J\n\030TPostgresqlCluster" +
+      "Config\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\017\n" +
+      "\007PGtoken\030\003 \001(\t\"R\n\030TPostgresqlGatewayConf" +
+      "ig\0226\n\016ClusterMapping\030\001 \003(\0132\036.NYql.TPostg" +
+      "resqlClusterConfig\"H\n\023TMysqlClusterConfi" +
+      "g\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\022\n\nMysq" +
+      "lToken\030\003 \001(\t\"H\n\023TMysqlGatewayConfig\0221\n\016C" +
+      "lusterMapping\030\001 \003(\0132\031.NYql.TMysqlCluster" +
+      "Config\"\260\002\n\020TDqGatewayConfig\022 \n\025DefaultAu" +
+      "toPercentage\030\001 \001(\r:\0010\022N\n\021DefaultAutoByHo" +
+      "ur\030\002 \003(\01323.NYql.TDqGatewayConfig.TDefaul" +
+      "tAutoByHourPercentage\022\035\n\025NoDefaultAutoFo" +
+      "rUsers\030\003 \003(\t\022#\n\033DefaultAnalyzeQueryForUs" +
+      "ers\030\004 \003(\t\022$\n\017DefaultSettings\030f \003(\0132\013.NYq" +
+      "l.TAttr\032@\n\034TDefaultAutoByHourPercentage\022" +
+      "\014\n\004Hour\030\001 \002(\r\022\022\n\nPercentage\030\002 \002(\r\"\'\n\tTCo" +
+      "reAttr\022\014\n\004Name\030\001 \002(\t\022\014\n\004Args\030\002 \003(\t\"0\n\016TY" +
+      "qlCoreConfig\022\036\n\005Flags\030\001 \003(\0132\017.NYql.TCore" +
+      "Attr\"@\n\034TWarnAsErrorByHourPercentage\022\014\n\004" +
+      "Hour\030\001 \002(\r\022\022\n\nPercentage\030\002 \002(\r\"\274\001\n\016TSqlC" +
+      "oreConfig\022(\n\035V0SyntaxWarnAsErrorPercenta" +
+      "ge\030\001 \001(\r:\0010\022E\n\031V0SyntaxWarnAsErrorByHour" +
+      "\030\002 \003(\0132\".NYql.TWarnAsErrorByHourPercenta" +
+      "ge\022\037\n\027NoV0SyntaxErrorForUsers\030\003 \003(\t\022\030\n\020T" +
+      "ranslationFlags\030\004 \003(\t\"\333\005\n\017TGatewaysConfi" +
+      "g\022\"\n\002Yt\030\001 \001(\0132\026.NYql.TYtGatewayConfig\022*\n" +
+      "\006Kikimr\030\002 \001(\0132\032.NYql.TKikimrGatewayConfi" +
+      "g\0222\n\nClickHouse\030\003 \001(\0132\036.NYql.TClickHouse" +
+      "GatewayConfig\022&\n\004Rtmr\030\004 \001(\0132\030.NYql.TRtmr" +
+      "GatewayConfig\0220\n\tKikimrMvp\030\005 \001(\0132\035.NYql." +
+      "TKikimrMvpGatewayConfig\022&\n\004Stat\030\006 \001(\0132\030." +
+      "NYql.TStatGatewayConfig\022&\n\004Chyt\030\007 \001(\0132\030." +
+      "NYql.TChytGatewayConfig\022,\n\007Solomon\030\010 \001(\013" +
+      "2\033.NYql.TSolomonGatewayConfig\022.\n\002Fs\030\t \001(" +
+      "\0132\".NYql.TFileStorageAdditionalConfig\022%\n" +
+      "\007YqlCore\030\n \001(\0132\024.NYql.TYqlCoreConfig\0222\n\n" +
+      "Postgresql\030\013 \001(\0132\036.NYql.TPostgresqlGatew" +
+      "ayConfig\022%\n\007SqlCore\030\014 \001(\0132\024.NYql.TSqlCor" +
+      "eConfig\022\"\n\002Dq\030\r \001(\0132\026.NYql.TDqGatewayCon" +
+      "fig\022(\n\005Mysql\030\016 \001(\0132\031.NYql.TMysqlGatewayC" +
+      "onfig\022$\n\003Ydb\030\017 \001(\0132\027.NYql.TYdbGatewayCon" +
+      "fig\022\"\n\002Pq\030\020 \001(\0132\026.NYql.TPqGatewayConfig\022" +
+      "\"\n\002S3\030\021 \001(\0132\026.NYql.TS3GatewayConfig*Z\n\013E" +
+      "YtLogLevel\022\024\n\007YL_NONE\020\377\377\377\377\377\377\377\377\377\001\022\014\n\010YL_F" +
+      "ATAL\020\000\022\014\n\010YL_ERROR\020\001\022\013\n\007YL_INFO\020\002\022\014\n\010YL_" +
+      "DEBUG\020\003*(\n\013EHostScheme\022\013\n\007HS_HTTP\020\000\022\014\n\010H" +
+      "S_HTTPS\020\001*?\n\nETokenType\022\007\n\003IAM\020\000\022\t\n\005OAUT" +
+      "H\020\001\022\014\n\010BLACKBOX\020\002\022\017\n\013CREDENTIALS\020\003*9\n\017EY" +
+      "fArtifactType\022\013\n\007AT_NONE\020\000\022\013\n\007AT_FILE\020\001\022" +
+      "\014\n\010AT_LAYER\020\002*e\n\022ERtmrOperationType\022\013\n\007O" +
+      "T_NONE\020\000\022\017\n\013OT_LF_PARSE\020\001\022\016\n\nOT_YDB_OUT\020" +
+      "\002\022\022\n\016OT_SOLOMON_OUT\020\003\022\r\n\tOT_PQ_OUT\020\004B\025\n\023" +
+      "ru.yandex.yql.proto"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -61058,7 +62502,7 @@ public final class GatewaysConfig {
     internal_static_NYql_TYdbClusterConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TYdbClusterConfig_descriptor,
-        new java.lang.String[] { "Name", "Endpoint", "Token", "Grpc", "TvmId", "Database", "Id", "Secure", "Settings", });
+        new java.lang.String[] { "Name", "Endpoint", "Token", "Grpc", "TvmId", "Database", "Id", "Secure", "ServiceAccountId", "ServiceAccountIdSignature", "AddBearerToToken", "Settings", });
     internal_static_NYql_TYdbGatewayConfig_descriptor =
       getDescriptor().getMessageTypes().get(11);
     internal_static_NYql_TYdbGatewayConfig_fieldAccessorTable = new
@@ -61112,7 +62556,7 @@ public final class GatewaysConfig {
     internal_static_NYql_TPqClusterConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TPqClusterConfig_descriptor,
-        new java.lang.String[] { "Name", "ClusterType", "Endpoint", "ConfigManagerEndpoint", "Token", "Database", "TvmId", "UseSsl", "Settings", });
+        new java.lang.String[] { "Name", "ClusterType", "Endpoint", "ConfigManagerEndpoint", "Token", "Database", "TvmId", "UseSsl", "ServiceAccountId", "ServiceAccountIdSignature", "AddBearerToToken", "Settings", });
     internal_static_NYql_TPqGatewayConfig_descriptor =
       getDescriptor().getMessageTypes().get(20);
     internal_static_NYql_TPqGatewayConfig_fieldAccessorTable = new
@@ -61148,7 +62592,7 @@ public final class GatewaysConfig {
     internal_static_NYql_TS3ClusterConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TS3ClusterConfig_descriptor,
-        new java.lang.String[] { "Name", "Url", "Public", "Settings", });
+        new java.lang.String[] { "Name", "Url", "Token", "ServiceAccountId", "ServiceAccountIdSignature", "Settings", });
     internal_static_NYql_TS3GatewayConfig_descriptor =
       getDescriptor().getMessageTypes().get(26);
     internal_static_NYql_TS3GatewayConfig_fieldAccessorTable = new
