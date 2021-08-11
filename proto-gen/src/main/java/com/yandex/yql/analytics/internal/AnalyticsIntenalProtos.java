@@ -61,6 +61,21 @@ public final class AnalyticsIntenalProtos {
      */
     com.google.protobuf.ByteString
         getHostBytes();
+
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 4;</code>
+     * @return Whether the operationParams field is set.
+     */
+    boolean hasOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 4;</code>
+     * @return The operationParams.
+     */
+    tech.ydb.OperationProtos.OperationParams getOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 4;</code>
+     */
+    tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
   }
   /**
    * Protobuf type {@code Yql.Analytics.GetTaskRequest}
@@ -126,6 +141,19 @@ public final class AnalyticsIntenalProtos {
               java.lang.String s = input.readStringRequireUtf8();
 
               host_ = s;
+              break;
+            }
+            case 34: {
+              tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
+              if (operationParams_ != null) {
+                subBuilder = operationParams_.toBuilder();
+              }
+              operationParams_ = input.readMessage(tech.ydb.OperationProtos.OperationParams.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operationParams_);
+                operationParams_ = subBuilder.buildPartial();
+              }
+
               break;
             }
             default: {
@@ -282,6 +310,32 @@ public final class AnalyticsIntenalProtos {
       }
     }
 
+    public static final int OPERATION_PARAMS_FIELD_NUMBER = 4;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 4;</code>
+     * @return Whether the operationParams field is set.
+     */
+    @java.lang.Override
+    public boolean hasOperationParams() {
+      return operationParams_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 4;</code>
+     * @return The operationParams.
+     */
+    @java.lang.Override
+    public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+      return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 4;</code>
+     */
+    @java.lang.Override
+    public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+      return getOperationParams();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -305,6 +359,9 @@ public final class AnalyticsIntenalProtos {
       if (!getHostBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, host_);
       }
+      if (operationParams_ != null) {
+        output.writeMessage(4, getOperationParams());
+      }
       unknownFields.writeTo(output);
     }
 
@@ -322,6 +379,10 @@ public final class AnalyticsIntenalProtos {
       }
       if (!getHostBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, host_);
+      }
+      if (operationParams_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, getOperationParams());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -344,6 +405,11 @@ public final class AnalyticsIntenalProtos {
           .equals(other.getOwnerId())) return false;
       if (!getHost()
           .equals(other.getHost())) return false;
+      if (hasOperationParams() != other.hasOperationParams()) return false;
+      if (hasOperationParams()) {
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
+      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -361,6 +427,10 @@ public final class AnalyticsIntenalProtos {
       hash = (53 * hash) + getOwnerId().hashCode();
       hash = (37 * hash) + HOST_FIELD_NUMBER;
       hash = (53 * hash) + getHost().hashCode();
+      if (hasOperationParams()) {
+        hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationParams().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -500,6 +570,12 @@ public final class AnalyticsIntenalProtos {
 
         host_ = "";
 
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
         return this;
       }
 
@@ -529,6 +605,11 @@ public final class AnalyticsIntenalProtos {
         result.tenant_ = tenant_;
         result.ownerId_ = ownerId_;
         result.host_ = host_;
+        if (operationParamsBuilder_ == null) {
+          result.operationParams_ = operationParams_;
+        } else {
+          result.operationParams_ = operationParamsBuilder_.build();
+        }
         onBuilt();
         return result;
       }
@@ -588,6 +669,9 @@ public final class AnalyticsIntenalProtos {
         if (!other.getHost().isEmpty()) {
           host_ = other.host_;
           onChanged();
+        }
+        if (other.hasOperationParams()) {
+          mergeOperationParams(other.getOperationParams());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -864,6 +948,125 @@ public final class AnalyticsIntenalProtos {
         host_ = value;
         onChanged();
         return this;
+      }
+
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 4;</code>
+       * @return Whether the operationParams field is set.
+       */
+      public boolean hasOperationParams() {
+        return operationParamsBuilder_ != null || operationParams_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 4;</code>
+       * @return The operationParams.
+       */
+      public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        } else {
+          return operationParamsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 4;</code>
+       */
+      public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operationParams_ = value;
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 4;</code>
+       */
+      public Builder setOperationParams(
+          tech.ydb.OperationProtos.OperationParams.Builder builderForValue) {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 4;</code>
+       */
+      public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (operationParams_ != null) {
+            operationParams_ =
+              tech.ydb.OperationProtos.OperationParams.newBuilder(operationParams_).mergeFrom(value).buildPartial();
+          } else {
+            operationParams_ = value;
+          }
+          onChanged();
+        } else {
+          operationParamsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 4;</code>
+       */
+      public Builder clearOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+          onChanged();
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 4;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
+        
+        onChanged();
+        return getOperationParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 4;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+        if (operationParamsBuilder_ != null) {
+          return operationParamsBuilder_.getMessageOrBuilder();
+        } else {
+          return operationParams_ == null ?
+              tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> 
+          getOperationParamsFieldBuilder() {
+        if (operationParamsBuilder_ == null) {
+          operationParamsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder>(
+                  getOperationParams(),
+                  getParentForChildren(),
+                  isClean());
+          operationParams_ = null;
+        }
+        return operationParamsBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -9534,6 +9737,12 @@ public final class AnalyticsIntenalProtos {
      * @return The offset.
      */
     long getOffset();
+
+    /**
+     * <code>uint64 cookie = 6;</code>
+     * @return The cookie.
+     */
+    long getCookie();
   }
   /**
    * Protobuf type {@code Yql.Analytics.WriteTaskResultRequest}
@@ -9621,6 +9830,11 @@ public final class AnalyticsIntenalProtos {
             case 40: {
 
               offset_ = input.readUInt64();
+              break;
+            }
+            case 48: {
+
+              cookie_ = input.readUInt64();
               break;
             }
             default: {
@@ -9767,6 +9981,17 @@ public final class AnalyticsIntenalProtos {
       return offset_;
     }
 
+    public static final int COOKIE_FIELD_NUMBER = 6;
+    private long cookie_;
+    /**
+     * <code>uint64 cookie = 6;</code>
+     * @return The cookie.
+     */
+    @java.lang.Override
+    public long getCookie() {
+      return cookie_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -9796,6 +10021,9 @@ public final class AnalyticsIntenalProtos {
       if (offset_ != 0L) {
         output.writeUInt64(5, offset_);
       }
+      if (cookie_ != 0L) {
+        output.writeUInt64(6, cookie_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -9823,6 +10051,10 @@ public final class AnalyticsIntenalProtos {
       if (offset_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(5, offset_);
+      }
+      if (cookie_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(6, cookie_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -9855,6 +10087,8 @@ public final class AnalyticsIntenalProtos {
           != other.getResultSetId()) return false;
       if (getOffset()
           != other.getOffset()) return false;
+      if (getCookie()
+          != other.getCookie()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -9881,6 +10115,9 @@ public final class AnalyticsIntenalProtos {
       hash = (37 * hash) + OFFSET_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getOffset());
+      hash = (37 * hash) + COOKIE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getCookie());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -10032,6 +10269,8 @@ public final class AnalyticsIntenalProtos {
 
         offset_ = 0L;
 
+        cookie_ = 0L;
+
         return this;
       }
 
@@ -10071,6 +10310,7 @@ public final class AnalyticsIntenalProtos {
         }
         result.resultSetId_ = resultSetId_;
         result.offset_ = offset_;
+        result.cookie_ = cookie_;
         onBuilt();
         return result;
       }
@@ -10134,6 +10374,9 @@ public final class AnalyticsIntenalProtos {
         }
         if (other.getOffset() != 0L) {
           setOffset(other.getOffset());
+        }
+        if (other.getCookie() != 0L) {
+          setCookie(other.getCookie());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -10539,6 +10782,37 @@ public final class AnalyticsIntenalProtos {
         onChanged();
         return this;
       }
+
+      private long cookie_ ;
+      /**
+       * <code>uint64 cookie = 6;</code>
+       * @return The cookie.
+       */
+      @java.lang.Override
+      public long getCookie() {
+        return cookie_;
+      }
+      /**
+       * <code>uint64 cookie = 6;</code>
+       * @param value The cookie to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCookie(long value) {
+        
+        cookie_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 cookie = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCookie() {
+        
+        cookie_ = 0L;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -10595,6 +10869,12 @@ public final class AnalyticsIntenalProtos {
   public interface WriteTaskResultResultOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Yql.Analytics.WriteTaskResultResult)
       com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>uint64 cookie = 1;</code>
+     * @return The cookie.
+     */
+    long getCookie();
   }
   /**
    * Protobuf type {@code Yql.Analytics.WriteTaskResultResult}
@@ -10641,6 +10921,11 @@ public final class AnalyticsIntenalProtos {
             case 0:
               done = true;
               break;
+            case 8: {
+
+              cookie_ = input.readUInt64();
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -10673,6 +10958,17 @@ public final class AnalyticsIntenalProtos {
               com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResult.class, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResult.Builder.class);
     }
 
+    public static final int COOKIE_FIELD_NUMBER = 1;
+    private long cookie_;
+    /**
+     * <code>uint64 cookie = 1;</code>
+     * @return The cookie.
+     */
+    @java.lang.Override
+    public long getCookie() {
+      return cookie_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -10687,6 +10983,9 @@ public final class AnalyticsIntenalProtos {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (cookie_ != 0L) {
+        output.writeUInt64(1, cookie_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -10696,6 +10995,10 @@ public final class AnalyticsIntenalProtos {
       if (size != -1) return size;
 
       size = 0;
+      if (cookie_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(1, cookie_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -10711,6 +11014,8 @@ public final class AnalyticsIntenalProtos {
       }
       com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResult other = (com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResult) obj;
 
+      if (getCookie()
+          != other.getCookie()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -10722,6 +11027,9 @@ public final class AnalyticsIntenalProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + COOKIE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getCookie());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -10855,6 +11163,8 @@ public final class AnalyticsIntenalProtos {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        cookie_ = 0L;
+
         return this;
       }
 
@@ -10881,6 +11191,7 @@ public final class AnalyticsIntenalProtos {
       @java.lang.Override
       public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResult buildPartial() {
         com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResult result = new com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResult(this);
+        result.cookie_ = cookie_;
         onBuilt();
         return result;
       }
@@ -10929,6 +11240,9 @@ public final class AnalyticsIntenalProtos {
 
       public Builder mergeFrom(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResult other) {
         if (other == com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResult.getDefaultInstance()) return this;
+        if (other.getCookie() != 0L) {
+          setCookie(other.getCookie());
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -10955,6 +11269,37 @@ public final class AnalyticsIntenalProtos {
             mergeFrom(parsedMessage);
           }
         }
+        return this;
+      }
+
+      private long cookie_ ;
+      /**
+       * <code>uint64 cookie = 1;</code>
+       * @return The cookie.
+       */
+      @java.lang.Override
+      public long getCookie() {
+        return cookie_;
+      }
+      /**
+       * <code>uint64 cookie = 1;</code>
+       * @param value The cookie to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCookie(long value) {
+        
+        cookie_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 cookie = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCookie() {
+        
+        cookie_ = 0L;
+        onChanged();
         return this;
       }
       @java.lang.Override
@@ -11758,46 +12103,48 @@ public final class AnalyticsIntenalProtos {
       "roto\0322kikimr/public/api/protos/draft/yql" +
       "_analytics.proto\032!kikimr/public/api/prot" +
       "os/yq.proto\032\037google/protobuf/timestamp.p" +
-      "roto\"@\n\016GetTaskRequest\022\016\n\006tenant\030\001 \001(\t\022\020" +
-      "\n\010owner_id\030\002 \001(\t\022\014\n\004host\030\003 \001(\t\"2\n\016Signed" +
-      "Identity\022\r\n\005value\030\001 \001(\t\022\021\n\tsignature\030\002 \001" +
-      "(\t\"\233\003\n\rGetTaskResult\022\020\n\010has_task\030\001 \001(\010\0220" +
-      "\n\tresult_id\030\002 \001(\0132\035.Yql.Analytics.Signed" +
-      "Identity\022/\n\010query_id\030\003 \001(\0132\035.Yql.Analyti" +
-      "cs.SignedIdentity\022-\n\006job_id\030\004 \001(\0132\035.Yql." +
-      "Analytics.SignedIdentity\022\022\n\ngeneration\030\005" +
-      " \001(\004\022\021\n\tstreaming\030\006 \001(\010\022\020\n\010dq_graph\030\007 \001(" +
-      "\t\022\014\n\004text\030\010 \001(\t\022+\n\nconnection\030\t \003(\0132\027.Ya" +
-      "ndexQuery.Connection\022%\n\007binding\030\n \003(\0132\024." +
-      "YandexQuery.Binding\022\022\n\nuser_token\030\013 \001(\t\022" +
-      "7\n\020service_accounts\030\014 \003(\0132\035.Yql.Analytic" +
-      "s.SignedIdentity\"?\n\017GetTaskResponse\022,\n\to" +
-      "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
-      "n\"\202\004\n\017PingTaskRequest\022\020\n\010owner_id\030\001 \001(\t\022" +
-      "/\n\010query_id\030\002 \001(\0132\035.Yql.Analytics.Signed" +
-      "Identity\022-\n\006job_id\030\003 \001(\0132\035.Yql.Analytics" +
-      ".SignedIdentity\0220\n\tresult_id\030\004 \001(\0132\035.Yql" +
-      ".Analytics.SignedIdentity\0224\n\006status\030\005 \001(" +
-      "\0162$.YandexQuery.QueryMeta.ComputeStatus\022" +
-      "\'\n\006issues\030\006 \003(\0132\027.Ydb.Issue.IssueMessage" +
-      "\022\030\n\020result_set_count\030\007 \001(\r\022\022\n\nstatistics" +
-      "\030\010 \001(\t\022\032\n\022serialized_headers\030\t \001(\014\022\025\n\rex" +
-      "ecuter_info\030\n \001(\t\022\020\n\010dq_graph\030\013 \001(\t\022\013\n\003a" +
-      "st\030\014 \001(\t\022\014\n\004plan\030\r \001(\t\022\024\n\014resign_query\030\016" +
-      " \001(\010\0229\n\020operation_params\030\017 \001(\0132\037.Ydb.Ope" +
-      "rations.OperationParams\022\r\n\005scope\030d \001(\t\":" +
-      "\n\016PingTaskResult\022(\n\006action\030\001 \001(\0162\030.Yande" +
-      "xQuery.QueryAction\"@\n\020PingTaskResponse\022," +
-      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
-      "tion\"\247\001\n\026WriteTaskResultRequest\022\020\n\010owner" +
-      "_id\030\001 \001(\t\0220\n\tresult_id\030\002 \001(\0132\035.Yql.Analy" +
-      "tics.SignedIdentity\022\"\n\nresult_set\030\003 \001(\0132" +
-      "\016.Ydb.ResultSet\022\025\n\rresult_set_id\030\004 \001(\r\022\016" +
-      "\n\006offset\030\005 \001(\004\"\027\n\025WriteTaskResultResult\"" +
-      "G\n\027WriteTaskResultResponse\022,\n\toperation\030" +
-      "\001 \001(\0132\031.Ydb.Operations.OperationB>\n!com." +
-      "yandex.yql.analytics.internalB\026Analytics" +
-      "IntenalProtos\370\001\001b\006proto3"
+      "roto\"{\n\016GetTaskRequest\022\016\n\006tenant\030\001 \001(\t\022\020" +
+      "\n\010owner_id\030\002 \001(\t\022\014\n\004host\030\003 \001(\t\0229\n\020operat" +
+      "ion_params\030\004 \001(\0132\037.Ydb.Operations.Operat" +
+      "ionParams\"2\n\016SignedIdentity\022\r\n\005value\030\001 \001" +
+      "(\t\022\021\n\tsignature\030\002 \001(\t\"\233\003\n\rGetTaskResult\022" +
+      "\020\n\010has_task\030\001 \001(\010\0220\n\tresult_id\030\002 \001(\0132\035.Y" +
+      "ql.Analytics.SignedIdentity\022/\n\010query_id\030" +
+      "\003 \001(\0132\035.Yql.Analytics.SignedIdentity\022-\n\006" +
+      "job_id\030\004 \001(\0132\035.Yql.Analytics.SignedIdent" +
+      "ity\022\022\n\ngeneration\030\005 \001(\004\022\021\n\tstreaming\030\006 \001" +
+      "(\010\022\020\n\010dq_graph\030\007 \001(\t\022\014\n\004text\030\010 \001(\t\022+\n\nco" +
+      "nnection\030\t \003(\0132\027.YandexQuery.Connection\022" +
+      "%\n\007binding\030\n \003(\0132\024.YandexQuery.Binding\022\022" +
+      "\n\nuser_token\030\013 \001(\t\0227\n\020service_accounts\030\014" +
+      " \003(\0132\035.Yql.Analytics.SignedIdentity\"?\n\017G" +
+      "etTaskResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
+      "Operations.Operation\"\202\004\n\017PingTaskRequest" +
+      "\022\020\n\010owner_id\030\001 \001(\t\022/\n\010query_id\030\002 \001(\0132\035.Y" +
+      "ql.Analytics.SignedIdentity\022-\n\006job_id\030\003 " +
+      "\001(\0132\035.Yql.Analytics.SignedIdentity\0220\n\tre" +
+      "sult_id\030\004 \001(\0132\035.Yql.Analytics.SignedIden" +
+      "tity\0224\n\006status\030\005 \001(\0162$.YandexQuery.Query" +
+      "Meta.ComputeStatus\022\'\n\006issues\030\006 \003(\0132\027.Ydb" +
+      ".Issue.IssueMessage\022\030\n\020result_set_count\030" +
+      "\007 \001(\r\022\022\n\nstatistics\030\010 \001(\t\022\032\n\022serialized_" +
+      "headers\030\t \001(\014\022\025\n\rexecuter_info\030\n \001(\t\022\020\n\010" +
+      "dq_graph\030\013 \001(\t\022\013\n\003ast\030\014 \001(\t\022\014\n\004plan\030\r \001(" +
+      "\t\022\024\n\014resign_query\030\016 \001(\010\0229\n\020operation_par" +
+      "ams\030\017 \001(\0132\037.Ydb.Operations.OperationPara" +
+      "ms\022\r\n\005scope\030d \001(\t\":\n\016PingTaskResult\022(\n\006a" +
+      "ction\030\001 \001(\0162\030.YandexQuery.QueryAction\"@\n" +
+      "\020PingTaskResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
+      "db.Operations.Operation\"\267\001\n\026WriteTaskRes" +
+      "ultRequest\022\020\n\010owner_id\030\001 \001(\t\0220\n\tresult_i" +
+      "d\030\002 \001(\0132\035.Yql.Analytics.SignedIdentity\022\"" +
+      "\n\nresult_set\030\003 \001(\0132\016.Ydb.ResultSet\022\025\n\rre" +
+      "sult_set_id\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\016\n\006coo" +
+      "kie\030\006 \001(\004\"\'\n\025WriteTaskResultResult\022\016\n\006co" +
+      "okie\030\001 \001(\004\"G\n\027WriteTaskResultResponse\022,\n" +
+      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
+      "ionB>\n!com.yandex.yql.analytics.internal" +
+      "B\026AnalyticsIntenalProtos\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -11814,7 +12161,7 @@ public final class AnalyticsIntenalProtos {
     internal_static_Yql_Analytics_GetTaskRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetTaskRequest_descriptor,
-        new java.lang.String[] { "Tenant", "OwnerId", "Host", });
+        new java.lang.String[] { "Tenant", "OwnerId", "Host", "OperationParams", });
     internal_static_Yql_Analytics_SignedIdentity_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_Yql_Analytics_SignedIdentity_fieldAccessorTable = new
@@ -11856,13 +12203,13 @@ public final class AnalyticsIntenalProtos {
     internal_static_Yql_Analytics_WriteTaskResultRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_WriteTaskResultRequest_descriptor,
-        new java.lang.String[] { "OwnerId", "ResultId", "ResultSet", "ResultSetId", "Offset", });
+        new java.lang.String[] { "OwnerId", "ResultId", "ResultSet", "ResultSetId", "Offset", "Cookie", });
     internal_static_Yql_Analytics_WriteTaskResultResult_descriptor =
       getDescriptor().getMessageTypes().get(8);
     internal_static_Yql_Analytics_WriteTaskResultResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_WriteTaskResultResult_descriptor,
-        new java.lang.String[] { });
+        new java.lang.String[] { "Cookie", });
     internal_static_Yql_Analytics_WriteTaskResultResponse_descriptor =
       getDescriptor().getMessageTypes().get(9);
     internal_static_Yql_Analytics_WriteTaskResultResponse_fieldAccessorTable = new

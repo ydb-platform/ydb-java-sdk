@@ -579,6 +579,2081 @@ public final class GatewaysConfig {
     // @@protoc_insertion_point(enum_scope:NYql.ERtmrOperationType)
   }
 
+  public interface TActivationByHourOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:NYql.TActivationByHour)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required uint32 Hour = 1;</code>
+     * @return Whether the hour field is set.
+     */
+    boolean hasHour();
+    /**
+     * <code>required uint32 Hour = 1;</code>
+     * @return The hour.
+     */
+    int getHour();
+
+    /**
+     * <code>required uint32 Percentage = 2;</code>
+     * @return Whether the percentage field is set.
+     */
+    boolean hasPercentage();
+    /**
+     * <code>required uint32 Percentage = 2;</code>
+     * @return The percentage.
+     */
+    int getPercentage();
+  }
+  /**
+   * Protobuf type {@code NYql.TActivationByHour}
+   */
+  public static final class TActivationByHour extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:NYql.TActivationByHour)
+      TActivationByHourOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use TActivationByHour.newBuilder() to construct.
+    private TActivationByHour(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private TActivationByHour() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TActivationByHour();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TActivationByHour(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+              bitField0_ |= 0x00000001;
+              hour_ = input.readUInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              percentage_ = input.readUInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ru.yandex.yql.proto.GatewaysConfig.internal_static_NYql_TActivationByHour_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ru.yandex.yql.proto.GatewaysConfig.internal_static_NYql_TActivationByHour_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ru.yandex.yql.proto.GatewaysConfig.TActivationByHour.class, ru.yandex.yql.proto.GatewaysConfig.TActivationByHour.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int HOUR_FIELD_NUMBER = 1;
+    private int hour_;
+    /**
+     * <code>required uint32 Hour = 1;</code>
+     * @return Whether the hour field is set.
+     */
+    @java.lang.Override
+    public boolean hasHour() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>required uint32 Hour = 1;</code>
+     * @return The hour.
+     */
+    @java.lang.Override
+    public int getHour() {
+      return hour_;
+    }
+
+    public static final int PERCENTAGE_FIELD_NUMBER = 2;
+    private int percentage_;
+    /**
+     * <code>required uint32 Percentage = 2;</code>
+     * @return Whether the percentage field is set.
+     */
+    @java.lang.Override
+    public boolean hasPercentage() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>required uint32 Percentage = 2;</code>
+     * @return The percentage.
+     */
+    @java.lang.Override
+    public int getPercentage() {
+      return percentage_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasHour()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasPercentage()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeUInt32(1, hour_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeUInt32(2, percentage_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, hour_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, percentage_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ru.yandex.yql.proto.GatewaysConfig.TActivationByHour)) {
+        return super.equals(obj);
+      }
+      ru.yandex.yql.proto.GatewaysConfig.TActivationByHour other = (ru.yandex.yql.proto.GatewaysConfig.TActivationByHour) obj;
+
+      if (hasHour() != other.hasHour()) return false;
+      if (hasHour()) {
+        if (getHour()
+            != other.getHour()) return false;
+      }
+      if (hasPercentage() != other.hasPercentage()) return false;
+      if (hasPercentage()) {
+        if (getPercentage()
+            != other.getPercentage()) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasHour()) {
+        hash = (37 * hash) + HOUR_FIELD_NUMBER;
+        hash = (53 * hash) + getHour();
+      }
+      if (hasPercentage()) {
+        hash = (37 * hash) + PERCENTAGE_FIELD_NUMBER;
+        hash = (53 * hash) + getPercentage();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationByHour parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationByHour parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationByHour parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationByHour parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationByHour parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationByHour parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationByHour parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationByHour parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationByHour parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationByHour parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationByHour parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationByHour parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ru.yandex.yql.proto.GatewaysConfig.TActivationByHour prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code NYql.TActivationByHour}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:NYql.TActivationByHour)
+        ru.yandex.yql.proto.GatewaysConfig.TActivationByHourOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ru.yandex.yql.proto.GatewaysConfig.internal_static_NYql_TActivationByHour_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ru.yandex.yql.proto.GatewaysConfig.internal_static_NYql_TActivationByHour_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ru.yandex.yql.proto.GatewaysConfig.TActivationByHour.class, ru.yandex.yql.proto.GatewaysConfig.TActivationByHour.Builder.class);
+      }
+
+      // Construct using ru.yandex.yql.proto.GatewaysConfig.TActivationByHour.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        hour_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        percentage_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ru.yandex.yql.proto.GatewaysConfig.internal_static_NYql_TActivationByHour_descriptor;
+      }
+
+      @java.lang.Override
+      public ru.yandex.yql.proto.GatewaysConfig.TActivationByHour getDefaultInstanceForType() {
+        return ru.yandex.yql.proto.GatewaysConfig.TActivationByHour.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ru.yandex.yql.proto.GatewaysConfig.TActivationByHour build() {
+        ru.yandex.yql.proto.GatewaysConfig.TActivationByHour result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ru.yandex.yql.proto.GatewaysConfig.TActivationByHour buildPartial() {
+        ru.yandex.yql.proto.GatewaysConfig.TActivationByHour result = new ru.yandex.yql.proto.GatewaysConfig.TActivationByHour(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.hour_ = hour_;
+          to_bitField0_ |= 0x00000001;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.percentage_ = percentage_;
+          to_bitField0_ |= 0x00000002;
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ru.yandex.yql.proto.GatewaysConfig.TActivationByHour) {
+          return mergeFrom((ru.yandex.yql.proto.GatewaysConfig.TActivationByHour)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ru.yandex.yql.proto.GatewaysConfig.TActivationByHour other) {
+        if (other == ru.yandex.yql.proto.GatewaysConfig.TActivationByHour.getDefaultInstance()) return this;
+        if (other.hasHour()) {
+          setHour(other.getHour());
+        }
+        if (other.hasPercentage()) {
+          setPercentage(other.getPercentage());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        if (!hasHour()) {
+          return false;
+        }
+        if (!hasPercentage()) {
+          return false;
+        }
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        ru.yandex.yql.proto.GatewaysConfig.TActivationByHour parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (ru.yandex.yql.proto.GatewaysConfig.TActivationByHour) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int hour_ ;
+      /**
+       * <code>required uint32 Hour = 1;</code>
+       * @return Whether the hour field is set.
+       */
+      @java.lang.Override
+      public boolean hasHour() {
+        return ((bitField0_ & 0x00000001) != 0);
+      }
+      /**
+       * <code>required uint32 Hour = 1;</code>
+       * @return The hour.
+       */
+      @java.lang.Override
+      public int getHour() {
+        return hour_;
+      }
+      /**
+       * <code>required uint32 Hour = 1;</code>
+       * @param value The hour to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHour(int value) {
+        bitField0_ |= 0x00000001;
+        hour_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required uint32 Hour = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHour() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        hour_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int percentage_ ;
+      /**
+       * <code>required uint32 Percentage = 2;</code>
+       * @return Whether the percentage field is set.
+       */
+      @java.lang.Override
+      public boolean hasPercentage() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <code>required uint32 Percentage = 2;</code>
+       * @return The percentage.
+       */
+      @java.lang.Override
+      public int getPercentage() {
+        return percentage_;
+      }
+      /**
+       * <code>required uint32 Percentage = 2;</code>
+       * @param value The percentage to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPercentage(int value) {
+        bitField0_ |= 0x00000002;
+        percentage_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required uint32 Percentage = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPercentage() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        percentage_ = 0;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:NYql.TActivationByHour)
+    }
+
+    // @@protoc_insertion_point(class_scope:NYql.TActivationByHour)
+    private static final ru.yandex.yql.proto.GatewaysConfig.TActivationByHour DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ru.yandex.yql.proto.GatewaysConfig.TActivationByHour();
+    }
+
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationByHour getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<TActivationByHour>
+        PARSER = new com.google.protobuf.AbstractParser<TActivationByHour>() {
+      @java.lang.Override
+      public TActivationByHour parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TActivationByHour(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<TActivationByHour> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TActivationByHour> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ru.yandex.yql.proto.GatewaysConfig.TActivationByHour getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface TActivationPercentageOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:NYql.TActivationPercentage)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>optional uint32 Percentage = 1 [default = 0];</code>
+     * @return Whether the percentage field is set.
+     */
+    boolean hasPercentage();
+    /**
+     * <code>optional uint32 Percentage = 1 [default = 0];</code>
+     * @return The percentage.
+     */
+    int getPercentage();
+
+    /**
+     * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+     */
+    java.util.List<ru.yandex.yql.proto.GatewaysConfig.TActivationByHour> 
+        getByHourList();
+    /**
+     * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+     */
+    ru.yandex.yql.proto.GatewaysConfig.TActivationByHour getByHour(int index);
+    /**
+     * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+     */
+    int getByHourCount();
+    /**
+     * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+     */
+    java.util.List<? extends ru.yandex.yql.proto.GatewaysConfig.TActivationByHourOrBuilder> 
+        getByHourOrBuilderList();
+    /**
+     * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+     */
+    ru.yandex.yql.proto.GatewaysConfig.TActivationByHourOrBuilder getByHourOrBuilder(
+        int index);
+
+    /**
+     * <code>repeated string IncludeUsers = 3;</code>
+     * @return A list containing the includeUsers.
+     */
+    java.util.List<java.lang.String>
+        getIncludeUsersList();
+    /**
+     * <code>repeated string IncludeUsers = 3;</code>
+     * @return The count of includeUsers.
+     */
+    int getIncludeUsersCount();
+    /**
+     * <code>repeated string IncludeUsers = 3;</code>
+     * @param index The index of the element to return.
+     * @return The includeUsers at the given index.
+     */
+    java.lang.String getIncludeUsers(int index);
+    /**
+     * <code>repeated string IncludeUsers = 3;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the includeUsers at the given index.
+     */
+    com.google.protobuf.ByteString
+        getIncludeUsersBytes(int index);
+
+    /**
+     * <code>repeated string ExcludeUsers = 4;</code>
+     * @return A list containing the excludeUsers.
+     */
+    java.util.List<java.lang.String>
+        getExcludeUsersList();
+    /**
+     * <code>repeated string ExcludeUsers = 4;</code>
+     * @return The count of excludeUsers.
+     */
+    int getExcludeUsersCount();
+    /**
+     * <code>repeated string ExcludeUsers = 4;</code>
+     * @param index The index of the element to return.
+     * @return The excludeUsers at the given index.
+     */
+    java.lang.String getExcludeUsers(int index);
+    /**
+     * <code>repeated string ExcludeUsers = 4;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the excludeUsers at the given index.
+     */
+    com.google.protobuf.ByteString
+        getExcludeUsersBytes(int index);
+
+    /**
+     * <code>optional bool ExcludeRobots = 5 [default = true];</code>
+     * @return Whether the excludeRobots field is set.
+     */
+    boolean hasExcludeRobots();
+    /**
+     * <code>optional bool ExcludeRobots = 5 [default = true];</code>
+     * @return The excludeRobots.
+     */
+    boolean getExcludeRobots();
+  }
+  /**
+   * Protobuf type {@code NYql.TActivationPercentage}
+   */
+  public static final class TActivationPercentage extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:NYql.TActivationPercentage)
+      TActivationPercentageOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use TActivationPercentage.newBuilder() to construct.
+    private TActivationPercentage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private TActivationPercentage() {
+      byHour_ = java.util.Collections.emptyList();
+      includeUsers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      excludeUsers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      excludeRobots_ = true;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TActivationPercentage();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TActivationPercentage(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+              bitField0_ |= 0x00000001;
+              percentage_ = input.readUInt32();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                byHour_ = new java.util.ArrayList<ru.yandex.yql.proto.GatewaysConfig.TActivationByHour>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              byHour_.add(
+                  input.readMessage(ru.yandex.yql.proto.GatewaysConfig.TActivationByHour.PARSER, extensionRegistry));
+              break;
+            }
+            case 26: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+                includeUsers_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              includeUsers_.add(bs);
+              break;
+            }
+            case 34: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+                excludeUsers_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              excludeUsers_.add(bs);
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000002;
+              excludeRobots_ = input.readBool();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          byHour_ = java.util.Collections.unmodifiableList(byHour_);
+        }
+        if (((mutable_bitField0_ & 0x00000004) != 0)) {
+          includeUsers_ = includeUsers_.getUnmodifiableView();
+        }
+        if (((mutable_bitField0_ & 0x00000008) != 0)) {
+          excludeUsers_ = excludeUsers_.getUnmodifiableView();
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ru.yandex.yql.proto.GatewaysConfig.internal_static_NYql_TActivationPercentage_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ru.yandex.yql.proto.GatewaysConfig.internal_static_NYql_TActivationPercentage_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage.class, ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int PERCENTAGE_FIELD_NUMBER = 1;
+    private int percentage_;
+    /**
+     * <code>optional uint32 Percentage = 1 [default = 0];</code>
+     * @return Whether the percentage field is set.
+     */
+    @java.lang.Override
+    public boolean hasPercentage() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>optional uint32 Percentage = 1 [default = 0];</code>
+     * @return The percentage.
+     */
+    @java.lang.Override
+    public int getPercentage() {
+      return percentage_;
+    }
+
+    public static final int BYHOUR_FIELD_NUMBER = 2;
+    private java.util.List<ru.yandex.yql.proto.GatewaysConfig.TActivationByHour> byHour_;
+    /**
+     * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+     */
+    @java.lang.Override
+    public java.util.List<ru.yandex.yql.proto.GatewaysConfig.TActivationByHour> getByHourList() {
+      return byHour_;
+    }
+    /**
+     * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends ru.yandex.yql.proto.GatewaysConfig.TActivationByHourOrBuilder> 
+        getByHourOrBuilderList() {
+      return byHour_;
+    }
+    /**
+     * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+     */
+    @java.lang.Override
+    public int getByHourCount() {
+      return byHour_.size();
+    }
+    /**
+     * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+     */
+    @java.lang.Override
+    public ru.yandex.yql.proto.GatewaysConfig.TActivationByHour getByHour(int index) {
+      return byHour_.get(index);
+    }
+    /**
+     * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+     */
+    @java.lang.Override
+    public ru.yandex.yql.proto.GatewaysConfig.TActivationByHourOrBuilder getByHourOrBuilder(
+        int index) {
+      return byHour_.get(index);
+    }
+
+    public static final int INCLUDEUSERS_FIELD_NUMBER = 3;
+    private com.google.protobuf.LazyStringList includeUsers_;
+    /**
+     * <code>repeated string IncludeUsers = 3;</code>
+     * @return A list containing the includeUsers.
+     */
+    public com.google.protobuf.ProtocolStringList
+        getIncludeUsersList() {
+      return includeUsers_;
+    }
+    /**
+     * <code>repeated string IncludeUsers = 3;</code>
+     * @return The count of includeUsers.
+     */
+    public int getIncludeUsersCount() {
+      return includeUsers_.size();
+    }
+    /**
+     * <code>repeated string IncludeUsers = 3;</code>
+     * @param index The index of the element to return.
+     * @return The includeUsers at the given index.
+     */
+    public java.lang.String getIncludeUsers(int index) {
+      return includeUsers_.get(index);
+    }
+    /**
+     * <code>repeated string IncludeUsers = 3;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the includeUsers at the given index.
+     */
+    public com.google.protobuf.ByteString
+        getIncludeUsersBytes(int index) {
+      return includeUsers_.getByteString(index);
+    }
+
+    public static final int EXCLUDEUSERS_FIELD_NUMBER = 4;
+    private com.google.protobuf.LazyStringList excludeUsers_;
+    /**
+     * <code>repeated string ExcludeUsers = 4;</code>
+     * @return A list containing the excludeUsers.
+     */
+    public com.google.protobuf.ProtocolStringList
+        getExcludeUsersList() {
+      return excludeUsers_;
+    }
+    /**
+     * <code>repeated string ExcludeUsers = 4;</code>
+     * @return The count of excludeUsers.
+     */
+    public int getExcludeUsersCount() {
+      return excludeUsers_.size();
+    }
+    /**
+     * <code>repeated string ExcludeUsers = 4;</code>
+     * @param index The index of the element to return.
+     * @return The excludeUsers at the given index.
+     */
+    public java.lang.String getExcludeUsers(int index) {
+      return excludeUsers_.get(index);
+    }
+    /**
+     * <code>repeated string ExcludeUsers = 4;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the excludeUsers at the given index.
+     */
+    public com.google.protobuf.ByteString
+        getExcludeUsersBytes(int index) {
+      return excludeUsers_.getByteString(index);
+    }
+
+    public static final int EXCLUDEROBOTS_FIELD_NUMBER = 5;
+    private boolean excludeRobots_;
+    /**
+     * <code>optional bool ExcludeRobots = 5 [default = true];</code>
+     * @return Whether the excludeRobots field is set.
+     */
+    @java.lang.Override
+    public boolean hasExcludeRobots() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>optional bool ExcludeRobots = 5 [default = true];</code>
+     * @return The excludeRobots.
+     */
+    @java.lang.Override
+    public boolean getExcludeRobots() {
+      return excludeRobots_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      for (int i = 0; i < getByHourCount(); i++) {
+        if (!getByHour(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeUInt32(1, percentage_);
+      }
+      for (int i = 0; i < byHour_.size(); i++) {
+        output.writeMessage(2, byHour_.get(i));
+      }
+      for (int i = 0; i < includeUsers_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, includeUsers_.getRaw(i));
+      }
+      for (int i = 0; i < excludeUsers_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, excludeUsers_.getRaw(i));
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeBool(5, excludeRobots_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, percentage_);
+      }
+      for (int i = 0; i < byHour_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, byHour_.get(i));
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < includeUsers_.size(); i++) {
+          dataSize += computeStringSizeNoTag(includeUsers_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getIncludeUsersList().size();
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < excludeUsers_.size(); i++) {
+          dataSize += computeStringSizeNoTag(excludeUsers_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getExcludeUsersList().size();
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(5, excludeRobots_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage)) {
+        return super.equals(obj);
+      }
+      ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage other = (ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage) obj;
+
+      if (hasPercentage() != other.hasPercentage()) return false;
+      if (hasPercentage()) {
+        if (getPercentage()
+            != other.getPercentage()) return false;
+      }
+      if (!getByHourList()
+          .equals(other.getByHourList())) return false;
+      if (!getIncludeUsersList()
+          .equals(other.getIncludeUsersList())) return false;
+      if (!getExcludeUsersList()
+          .equals(other.getExcludeUsersList())) return false;
+      if (hasExcludeRobots() != other.hasExcludeRobots()) return false;
+      if (hasExcludeRobots()) {
+        if (getExcludeRobots()
+            != other.getExcludeRobots()) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasPercentage()) {
+        hash = (37 * hash) + PERCENTAGE_FIELD_NUMBER;
+        hash = (53 * hash) + getPercentage();
+      }
+      if (getByHourCount() > 0) {
+        hash = (37 * hash) + BYHOUR_FIELD_NUMBER;
+        hash = (53 * hash) + getByHourList().hashCode();
+      }
+      if (getIncludeUsersCount() > 0) {
+        hash = (37 * hash) + INCLUDEUSERS_FIELD_NUMBER;
+        hash = (53 * hash) + getIncludeUsersList().hashCode();
+      }
+      if (getExcludeUsersCount() > 0) {
+        hash = (37 * hash) + EXCLUDEUSERS_FIELD_NUMBER;
+        hash = (53 * hash) + getExcludeUsersList().hashCode();
+      }
+      if (hasExcludeRobots()) {
+        hash = (37 * hash) + EXCLUDEROBOTS_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getExcludeRobots());
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code NYql.TActivationPercentage}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:NYql.TActivationPercentage)
+        ru.yandex.yql.proto.GatewaysConfig.TActivationPercentageOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ru.yandex.yql.proto.GatewaysConfig.internal_static_NYql_TActivationPercentage_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ru.yandex.yql.proto.GatewaysConfig.internal_static_NYql_TActivationPercentage_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage.class, ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage.Builder.class);
+      }
+
+      // Construct using ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getByHourFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        percentage_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (byHourBuilder_ == null) {
+          byHour_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          byHourBuilder_.clear();
+        }
+        includeUsers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        excludeUsers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        excludeRobots_ = true;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ru.yandex.yql.proto.GatewaysConfig.internal_static_NYql_TActivationPercentage_descriptor;
+      }
+
+      @java.lang.Override
+      public ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage getDefaultInstanceForType() {
+        return ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage build() {
+        ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage buildPartial() {
+        ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage result = new ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.percentage_ = percentage_;
+          to_bitField0_ |= 0x00000001;
+        }
+        if (byHourBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) != 0)) {
+            byHour_ = java.util.Collections.unmodifiableList(byHour_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.byHour_ = byHour_;
+        } else {
+          result.byHour_ = byHourBuilder_.build();
+        }
+        if (((bitField0_ & 0x00000004) != 0)) {
+          includeUsers_ = includeUsers_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        }
+        result.includeUsers_ = includeUsers_;
+        if (((bitField0_ & 0x00000008) != 0)) {
+          excludeUsers_ = excludeUsers_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000008);
+        }
+        result.excludeUsers_ = excludeUsers_;
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.excludeRobots_ = excludeRobots_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage) {
+          return mergeFrom((ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage other) {
+        if (other == ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage.getDefaultInstance()) return this;
+        if (other.hasPercentage()) {
+          setPercentage(other.getPercentage());
+        }
+        if (byHourBuilder_ == null) {
+          if (!other.byHour_.isEmpty()) {
+            if (byHour_.isEmpty()) {
+              byHour_ = other.byHour_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureByHourIsMutable();
+              byHour_.addAll(other.byHour_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.byHour_.isEmpty()) {
+            if (byHourBuilder_.isEmpty()) {
+              byHourBuilder_.dispose();
+              byHourBuilder_ = null;
+              byHour_ = other.byHour_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              byHourBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getByHourFieldBuilder() : null;
+            } else {
+              byHourBuilder_.addAllMessages(other.byHour_);
+            }
+          }
+        }
+        if (!other.includeUsers_.isEmpty()) {
+          if (includeUsers_.isEmpty()) {
+            includeUsers_ = other.includeUsers_;
+            bitField0_ = (bitField0_ & ~0x00000004);
+          } else {
+            ensureIncludeUsersIsMutable();
+            includeUsers_.addAll(other.includeUsers_);
+          }
+          onChanged();
+        }
+        if (!other.excludeUsers_.isEmpty()) {
+          if (excludeUsers_.isEmpty()) {
+            excludeUsers_ = other.excludeUsers_;
+            bitField0_ = (bitField0_ & ~0x00000008);
+          } else {
+            ensureExcludeUsersIsMutable();
+            excludeUsers_.addAll(other.excludeUsers_);
+          }
+          onChanged();
+        }
+        if (other.hasExcludeRobots()) {
+          setExcludeRobots(other.getExcludeRobots());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        for (int i = 0; i < getByHourCount(); i++) {
+          if (!getByHour(i).isInitialized()) {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int percentage_ ;
+      /**
+       * <code>optional uint32 Percentage = 1 [default = 0];</code>
+       * @return Whether the percentage field is set.
+       */
+      @java.lang.Override
+      public boolean hasPercentage() {
+        return ((bitField0_ & 0x00000001) != 0);
+      }
+      /**
+       * <code>optional uint32 Percentage = 1 [default = 0];</code>
+       * @return The percentage.
+       */
+      @java.lang.Override
+      public int getPercentage() {
+        return percentage_;
+      }
+      /**
+       * <code>optional uint32 Percentage = 1 [default = 0];</code>
+       * @param value The percentage to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPercentage(int value) {
+        bitField0_ |= 0x00000001;
+        percentage_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 Percentage = 1 [default = 0];</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPercentage() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        percentage_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<ru.yandex.yql.proto.GatewaysConfig.TActivationByHour> byHour_ =
+        java.util.Collections.emptyList();
+      private void ensureByHourIsMutable() {
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          byHour_ = new java.util.ArrayList<ru.yandex.yql.proto.GatewaysConfig.TActivationByHour>(byHour_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          ru.yandex.yql.proto.GatewaysConfig.TActivationByHour, ru.yandex.yql.proto.GatewaysConfig.TActivationByHour.Builder, ru.yandex.yql.proto.GatewaysConfig.TActivationByHourOrBuilder> byHourBuilder_;
+
+      /**
+       * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+       */
+      public java.util.List<ru.yandex.yql.proto.GatewaysConfig.TActivationByHour> getByHourList() {
+        if (byHourBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(byHour_);
+        } else {
+          return byHourBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+       */
+      public int getByHourCount() {
+        if (byHourBuilder_ == null) {
+          return byHour_.size();
+        } else {
+          return byHourBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+       */
+      public ru.yandex.yql.proto.GatewaysConfig.TActivationByHour getByHour(int index) {
+        if (byHourBuilder_ == null) {
+          return byHour_.get(index);
+        } else {
+          return byHourBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+       */
+      public Builder setByHour(
+          int index, ru.yandex.yql.proto.GatewaysConfig.TActivationByHour value) {
+        if (byHourBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureByHourIsMutable();
+          byHour_.set(index, value);
+          onChanged();
+        } else {
+          byHourBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+       */
+      public Builder setByHour(
+          int index, ru.yandex.yql.proto.GatewaysConfig.TActivationByHour.Builder builderForValue) {
+        if (byHourBuilder_ == null) {
+          ensureByHourIsMutable();
+          byHour_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          byHourBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+       */
+      public Builder addByHour(ru.yandex.yql.proto.GatewaysConfig.TActivationByHour value) {
+        if (byHourBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureByHourIsMutable();
+          byHour_.add(value);
+          onChanged();
+        } else {
+          byHourBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+       */
+      public Builder addByHour(
+          int index, ru.yandex.yql.proto.GatewaysConfig.TActivationByHour value) {
+        if (byHourBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureByHourIsMutable();
+          byHour_.add(index, value);
+          onChanged();
+        } else {
+          byHourBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+       */
+      public Builder addByHour(
+          ru.yandex.yql.proto.GatewaysConfig.TActivationByHour.Builder builderForValue) {
+        if (byHourBuilder_ == null) {
+          ensureByHourIsMutable();
+          byHour_.add(builderForValue.build());
+          onChanged();
+        } else {
+          byHourBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+       */
+      public Builder addByHour(
+          int index, ru.yandex.yql.proto.GatewaysConfig.TActivationByHour.Builder builderForValue) {
+        if (byHourBuilder_ == null) {
+          ensureByHourIsMutable();
+          byHour_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          byHourBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+       */
+      public Builder addAllByHour(
+          java.lang.Iterable<? extends ru.yandex.yql.proto.GatewaysConfig.TActivationByHour> values) {
+        if (byHourBuilder_ == null) {
+          ensureByHourIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, byHour_);
+          onChanged();
+        } else {
+          byHourBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+       */
+      public Builder clearByHour() {
+        if (byHourBuilder_ == null) {
+          byHour_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          byHourBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+       */
+      public Builder removeByHour(int index) {
+        if (byHourBuilder_ == null) {
+          ensureByHourIsMutable();
+          byHour_.remove(index);
+          onChanged();
+        } else {
+          byHourBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+       */
+      public ru.yandex.yql.proto.GatewaysConfig.TActivationByHour.Builder getByHourBuilder(
+          int index) {
+        return getByHourFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+       */
+      public ru.yandex.yql.proto.GatewaysConfig.TActivationByHourOrBuilder getByHourOrBuilder(
+          int index) {
+        if (byHourBuilder_ == null) {
+          return byHour_.get(index);  } else {
+          return byHourBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+       */
+      public java.util.List<? extends ru.yandex.yql.proto.GatewaysConfig.TActivationByHourOrBuilder> 
+           getByHourOrBuilderList() {
+        if (byHourBuilder_ != null) {
+          return byHourBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(byHour_);
+        }
+      }
+      /**
+       * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+       */
+      public ru.yandex.yql.proto.GatewaysConfig.TActivationByHour.Builder addByHourBuilder() {
+        return getByHourFieldBuilder().addBuilder(
+            ru.yandex.yql.proto.GatewaysConfig.TActivationByHour.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+       */
+      public ru.yandex.yql.proto.GatewaysConfig.TActivationByHour.Builder addByHourBuilder(
+          int index) {
+        return getByHourFieldBuilder().addBuilder(
+            index, ru.yandex.yql.proto.GatewaysConfig.TActivationByHour.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .NYql.TActivationByHour ByHour = 2;</code>
+       */
+      public java.util.List<ru.yandex.yql.proto.GatewaysConfig.TActivationByHour.Builder> 
+           getByHourBuilderList() {
+        return getByHourFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          ru.yandex.yql.proto.GatewaysConfig.TActivationByHour, ru.yandex.yql.proto.GatewaysConfig.TActivationByHour.Builder, ru.yandex.yql.proto.GatewaysConfig.TActivationByHourOrBuilder> 
+          getByHourFieldBuilder() {
+        if (byHourBuilder_ == null) {
+          byHourBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              ru.yandex.yql.proto.GatewaysConfig.TActivationByHour, ru.yandex.yql.proto.GatewaysConfig.TActivationByHour.Builder, ru.yandex.yql.proto.GatewaysConfig.TActivationByHourOrBuilder>(
+                  byHour_,
+                  ((bitField0_ & 0x00000002) != 0),
+                  getParentForChildren(),
+                  isClean());
+          byHour_ = null;
+        }
+        return byHourBuilder_;
+      }
+
+      private com.google.protobuf.LazyStringList includeUsers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureIncludeUsersIsMutable() {
+        if (!((bitField0_ & 0x00000004) != 0)) {
+          includeUsers_ = new com.google.protobuf.LazyStringArrayList(includeUsers_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+      /**
+       * <code>repeated string IncludeUsers = 3;</code>
+       * @return A list containing the includeUsers.
+       */
+      public com.google.protobuf.ProtocolStringList
+          getIncludeUsersList() {
+        return includeUsers_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string IncludeUsers = 3;</code>
+       * @return The count of includeUsers.
+       */
+      public int getIncludeUsersCount() {
+        return includeUsers_.size();
+      }
+      /**
+       * <code>repeated string IncludeUsers = 3;</code>
+       * @param index The index of the element to return.
+       * @return The includeUsers at the given index.
+       */
+      public java.lang.String getIncludeUsers(int index) {
+        return includeUsers_.get(index);
+      }
+      /**
+       * <code>repeated string IncludeUsers = 3;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the includeUsers at the given index.
+       */
+      public com.google.protobuf.ByteString
+          getIncludeUsersBytes(int index) {
+        return includeUsers_.getByteString(index);
+      }
+      /**
+       * <code>repeated string IncludeUsers = 3;</code>
+       * @param index The index to set the value at.
+       * @param value The includeUsers to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIncludeUsers(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureIncludeUsersIsMutable();
+        includeUsers_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string IncludeUsers = 3;</code>
+       * @param value The includeUsers to add.
+       * @return This builder for chaining.
+       */
+      public Builder addIncludeUsers(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureIncludeUsersIsMutable();
+        includeUsers_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string IncludeUsers = 3;</code>
+       * @param values The includeUsers to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllIncludeUsers(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureIncludeUsersIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, includeUsers_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string IncludeUsers = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIncludeUsers() {
+        includeUsers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string IncludeUsers = 3;</code>
+       * @param value The bytes of the includeUsers to add.
+       * @return This builder for chaining.
+       */
+      public Builder addIncludeUsersBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureIncludeUsersIsMutable();
+        includeUsers_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList excludeUsers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureExcludeUsersIsMutable() {
+        if (!((bitField0_ & 0x00000008) != 0)) {
+          excludeUsers_ = new com.google.protobuf.LazyStringArrayList(excludeUsers_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+      /**
+       * <code>repeated string ExcludeUsers = 4;</code>
+       * @return A list containing the excludeUsers.
+       */
+      public com.google.protobuf.ProtocolStringList
+          getExcludeUsersList() {
+        return excludeUsers_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string ExcludeUsers = 4;</code>
+       * @return The count of excludeUsers.
+       */
+      public int getExcludeUsersCount() {
+        return excludeUsers_.size();
+      }
+      /**
+       * <code>repeated string ExcludeUsers = 4;</code>
+       * @param index The index of the element to return.
+       * @return The excludeUsers at the given index.
+       */
+      public java.lang.String getExcludeUsers(int index) {
+        return excludeUsers_.get(index);
+      }
+      /**
+       * <code>repeated string ExcludeUsers = 4;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the excludeUsers at the given index.
+       */
+      public com.google.protobuf.ByteString
+          getExcludeUsersBytes(int index) {
+        return excludeUsers_.getByteString(index);
+      }
+      /**
+       * <code>repeated string ExcludeUsers = 4;</code>
+       * @param index The index to set the value at.
+       * @param value The excludeUsers to set.
+       * @return This builder for chaining.
+       */
+      public Builder setExcludeUsers(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureExcludeUsersIsMutable();
+        excludeUsers_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string ExcludeUsers = 4;</code>
+       * @param value The excludeUsers to add.
+       * @return This builder for chaining.
+       */
+      public Builder addExcludeUsers(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureExcludeUsersIsMutable();
+        excludeUsers_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string ExcludeUsers = 4;</code>
+       * @param values The excludeUsers to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllExcludeUsers(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureExcludeUsersIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, excludeUsers_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string ExcludeUsers = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearExcludeUsers() {
+        excludeUsers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string ExcludeUsers = 4;</code>
+       * @param value The bytes of the excludeUsers to add.
+       * @return This builder for chaining.
+       */
+      public Builder addExcludeUsersBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureExcludeUsersIsMutable();
+        excludeUsers_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private boolean excludeRobots_ = true;
+      /**
+       * <code>optional bool ExcludeRobots = 5 [default = true];</code>
+       * @return Whether the excludeRobots field is set.
+       */
+      @java.lang.Override
+      public boolean hasExcludeRobots() {
+        return ((bitField0_ & 0x00000010) != 0);
+      }
+      /**
+       * <code>optional bool ExcludeRobots = 5 [default = true];</code>
+       * @return The excludeRobots.
+       */
+      @java.lang.Override
+      public boolean getExcludeRobots() {
+        return excludeRobots_;
+      }
+      /**
+       * <code>optional bool ExcludeRobots = 5 [default = true];</code>
+       * @param value The excludeRobots to set.
+       * @return This builder for chaining.
+       */
+      public Builder setExcludeRobots(boolean value) {
+        bitField0_ |= 0x00000010;
+        excludeRobots_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool ExcludeRobots = 5 [default = true];</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearExcludeRobots() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        excludeRobots_ = true;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:NYql.TActivationPercentage)
+    }
+
+    // @@protoc_insertion_point(class_scope:NYql.TActivationPercentage)
+    private static final ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage();
+    }
+
+    public static ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<TActivationPercentage>
+        PARSER = new com.google.protobuf.AbstractParser<TActivationPercentage>() {
+      @java.lang.Override
+      public TActivationPercentage parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TActivationPercentage(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<TActivationPercentage> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TActivationPercentage> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface TAttrOrBuilder extends
       // @@protoc_insertion_point(interface_extends:NYql.TAttr)
       com.google.protobuf.MessageOrBuilder {
@@ -616,6 +2691,21 @@ public final class GatewaysConfig {
      */
     com.google.protobuf.ByteString
         getValueBytes();
+
+    /**
+     * <code>optional .NYql.TActivationPercentage Activation = 3;</code>
+     * @return Whether the activation field is set.
+     */
+    boolean hasActivation();
+    /**
+     * <code>optional .NYql.TActivationPercentage Activation = 3;</code>
+     * @return The activation.
+     */
+    ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage getActivation();
+    /**
+     * <code>optional .NYql.TActivationPercentage Activation = 3;</code>
+     */
+    ru.yandex.yql.proto.GatewaysConfig.TActivationPercentageOrBuilder getActivationOrBuilder();
   }
   /**
    * Protobuf type {@code NYql.TAttr}
@@ -675,6 +2765,19 @@ public final class GatewaysConfig {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
               value_ = bs;
+              break;
+            }
+            case 26: {
+              ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000004) != 0)) {
+                subBuilder = activation_.toBuilder();
+              }
+              activation_ = input.readMessage(ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(activation_);
+                activation_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000004;
               break;
             }
             default: {
@@ -806,6 +2909,32 @@ public final class GatewaysConfig {
       }
     }
 
+    public static final int ACTIVATION_FIELD_NUMBER = 3;
+    private ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage activation_;
+    /**
+     * <code>optional .NYql.TActivationPercentage Activation = 3;</code>
+     * @return Whether the activation field is set.
+     */
+    @java.lang.Override
+    public boolean hasActivation() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>optional .NYql.TActivationPercentage Activation = 3;</code>
+     * @return The activation.
+     */
+    @java.lang.Override
+    public ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage getActivation() {
+      return activation_ == null ? ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage.getDefaultInstance() : activation_;
+    }
+    /**
+     * <code>optional .NYql.TActivationPercentage Activation = 3;</code>
+     */
+    @java.lang.Override
+    public ru.yandex.yql.proto.GatewaysConfig.TActivationPercentageOrBuilder getActivationOrBuilder() {
+      return activation_ == null ? ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage.getDefaultInstance() : activation_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -821,6 +2950,12 @@ public final class GatewaysConfig {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (hasActivation()) {
+        if (!getActivation().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -833,6 +2968,9 @@ public final class GatewaysConfig {
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, value_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeMessage(3, getActivation());
       }
       unknownFields.writeTo(output);
     }
@@ -848,6 +2986,10 @@ public final class GatewaysConfig {
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, value_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getActivation());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -874,6 +3016,11 @@ public final class GatewaysConfig {
         if (!getValue()
             .equals(other.getValue())) return false;
       }
+      if (hasActivation() != other.hasActivation()) return false;
+      if (hasActivation()) {
+        if (!getActivation()
+            .equals(other.getActivation())) return false;
+      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -892,6 +3039,10 @@ public final class GatewaysConfig {
       if (hasValue()) {
         hash = (37 * hash) + VALUE_FIELD_NUMBER;
         hash = (53 * hash) + getValue().hashCode();
+      }
+      if (hasActivation()) {
+        hash = (37 * hash) + ACTIVATION_FIELD_NUMBER;
+        hash = (53 * hash) + getActivation().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -1021,6 +3172,7 @@ public final class GatewaysConfig {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getActivationFieldBuilder();
         }
       }
       @java.lang.Override
@@ -1030,6 +3182,12 @@ public final class GatewaysConfig {
         bitField0_ = (bitField0_ & ~0x00000001);
         value_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
+        if (activationBuilder_ == null) {
+          activation_ = null;
+        } else {
+          activationBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -1066,6 +3224,14 @@ public final class GatewaysConfig {
           to_bitField0_ |= 0x00000002;
         }
         result.value_ = value_;
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          if (activationBuilder_ == null) {
+            result.activation_ = activation_;
+          } else {
+            result.activation_ = activationBuilder_.build();
+          }
+          to_bitField0_ |= 0x00000004;
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1125,6 +3291,9 @@ public final class GatewaysConfig {
           value_ = other.value_;
           onChanged();
         }
+        if (other.hasActivation()) {
+          mergeActivation(other.getActivation());
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -1137,6 +3306,11 @@ public final class GatewaysConfig {
         }
         if (!hasValue()) {
           return false;
+        }
+        if (hasActivation()) {
+          if (!getActivation().isInitialized()) {
+            return false;
+          }
         }
         return true;
       }
@@ -1327,6 +3501,126 @@ public final class GatewaysConfig {
         value_ = value;
         onChanged();
         return this;
+      }
+
+      private ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage activation_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage, ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage.Builder, ru.yandex.yql.proto.GatewaysConfig.TActivationPercentageOrBuilder> activationBuilder_;
+      /**
+       * <code>optional .NYql.TActivationPercentage Activation = 3;</code>
+       * @return Whether the activation field is set.
+       */
+      public boolean hasActivation() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <code>optional .NYql.TActivationPercentage Activation = 3;</code>
+       * @return The activation.
+       */
+      public ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage getActivation() {
+        if (activationBuilder_ == null) {
+          return activation_ == null ? ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage.getDefaultInstance() : activation_;
+        } else {
+          return activationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .NYql.TActivationPercentage Activation = 3;</code>
+       */
+      public Builder setActivation(ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage value) {
+        if (activationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          activation_ = value;
+          onChanged();
+        } else {
+          activationBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .NYql.TActivationPercentage Activation = 3;</code>
+       */
+      public Builder setActivation(
+          ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage.Builder builderForValue) {
+        if (activationBuilder_ == null) {
+          activation_ = builderForValue.build();
+          onChanged();
+        } else {
+          activationBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .NYql.TActivationPercentage Activation = 3;</code>
+       */
+      public Builder mergeActivation(ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage value) {
+        if (activationBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) != 0) &&
+              activation_ != null &&
+              activation_ != ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage.getDefaultInstance()) {
+            activation_ =
+              ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage.newBuilder(activation_).mergeFrom(value).buildPartial();
+          } else {
+            activation_ = value;
+          }
+          onChanged();
+        } else {
+          activationBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .NYql.TActivationPercentage Activation = 3;</code>
+       */
+      public Builder clearActivation() {
+        if (activationBuilder_ == null) {
+          activation_ = null;
+          onChanged();
+        } else {
+          activationBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+      /**
+       * <code>optional .NYql.TActivationPercentage Activation = 3;</code>
+       */
+      public ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage.Builder getActivationBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getActivationFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .NYql.TActivationPercentage Activation = 3;</code>
+       */
+      public ru.yandex.yql.proto.GatewaysConfig.TActivationPercentageOrBuilder getActivationOrBuilder() {
+        if (activationBuilder_ != null) {
+          return activationBuilder_.getMessageOrBuilder();
+        } else {
+          return activation_ == null ?
+              ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage.getDefaultInstance() : activation_;
+        }
+      }
+      /**
+       * <code>optional .NYql.TActivationPercentage Activation = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage, ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage.Builder, ru.yandex.yql.proto.GatewaysConfig.TActivationPercentageOrBuilder> 
+          getActivationFieldBuilder() {
+        if (activationBuilder_ == null) {
+          activationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage, ru.yandex.yql.proto.GatewaysConfig.TActivationPercentage.Builder, ru.yandex.yql.proto.GatewaysConfig.TActivationPercentageOrBuilder>(
+                  getActivation(),
+                  getParentForChildren(),
+                  isClean());
+          activation_ = null;
+        }
+        return activationBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -45204,15 +47498,92 @@ public final class GatewaysConfig {
         getClusterBytes();
 
     /**
-     * <code>optional bool Default = 3 [default = false];</code>
-     * @return Whether the default field is set.
+     * <code>optional bool UseSsl = 3;</code>
+     * @return Whether the useSsl field is set.
      */
-    boolean hasDefault();
+    boolean hasUseSsl();
     /**
-     * <code>optional bool Default = 3 [default = false];</code>
-     * @return The default.
+     * <code>optional bool UseSsl = 3;</code>
+     * @return The useSsl.
      */
-    boolean getDefault();
+    boolean getUseSsl();
+
+    /**
+     * <code>optional .NYql.TSolomonClusterConfig.ESolomonClusterType ClusterType = 4 [default = SCT_SOLOMON];</code>
+     * @return Whether the clusterType field is set.
+     */
+    boolean hasClusterType();
+    /**
+     * <code>optional .NYql.TSolomonClusterConfig.ESolomonClusterType ClusterType = 4 [default = SCT_SOLOMON];</code>
+     * @return The clusterType.
+     */
+    ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.ESolomonClusterType getClusterType();
+
+    /**
+     * <code>optional string Token = 5;</code>
+     * @return Whether the token field is set.
+     */
+    boolean hasToken();
+    /**
+     * <code>optional string Token = 5;</code>
+     * @return The token.
+     */
+    java.lang.String getToken();
+    /**
+     * <code>optional string Token = 5;</code>
+     * @return The bytes for token.
+     */
+    com.google.protobuf.ByteString
+        getTokenBytes();
+
+    /**
+     * <code>optional string ServiceAccountId = 6;</code>
+     * @return Whether the serviceAccountId field is set.
+     */
+    boolean hasServiceAccountId();
+    /**
+     * <code>optional string ServiceAccountId = 6;</code>
+     * @return The serviceAccountId.
+     */
+    java.lang.String getServiceAccountId();
+    /**
+     * <code>optional string ServiceAccountId = 6;</code>
+     * @return The bytes for serviceAccountId.
+     */
+    com.google.protobuf.ByteString
+        getServiceAccountIdBytes();
+
+    /**
+     * <code>optional string ServiceAccountIdSignature = 7;</code>
+     * @return Whether the serviceAccountIdSignature field is set.
+     */
+    boolean hasServiceAccountIdSignature();
+    /**
+     * <code>optional string ServiceAccountIdSignature = 7;</code>
+     * @return The serviceAccountIdSignature.
+     */
+    java.lang.String getServiceAccountIdSignature();
+    /**
+     * <code>optional string ServiceAccountIdSignature = 7;</code>
+     * @return The bytes for serviceAccountIdSignature.
+     */
+    com.google.protobuf.ByteString
+        getServiceAccountIdSignatureBytes();
+
+    /**
+     * <code>optional .NYql.TSolomonClusterConfig.TShardPath Path = 8;</code>
+     * @return Whether the path field is set.
+     */
+    boolean hasPath();
+    /**
+     * <code>optional .NYql.TSolomonClusterConfig.TShardPath Path = 8;</code>
+     * @return The path.
+     */
+    ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath getPath();
+    /**
+     * <code>optional .NYql.TSolomonClusterConfig.TShardPath Path = 8;</code>
+     */
+    ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPathOrBuilder getPathOrBuilder();
 
     /**
      * <code>repeated .NYql.TAttr Settings = 100;</code>
@@ -45253,6 +47624,10 @@ public final class GatewaysConfig {
     private TSolomonClusterConfig() {
       name_ = "";
       cluster_ = "";
+      clusterType_ = 1;
+      token_ = "";
+      serviceAccountId_ = "";
+      serviceAccountIdSignature_ = "";
       settings_ = java.util.Collections.emptyList();
     }
 
@@ -45301,13 +47676,56 @@ public final class GatewaysConfig {
             }
             case 24: {
               bitField0_ |= 0x00000004;
-              default_ = input.readBool();
+              useSsl_ = input.readBool();
+              break;
+            }
+            case 32: {
+              int rawValue = input.readEnum();
+                @SuppressWarnings("deprecation")
+              ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.ESolomonClusterType value = ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.ESolomonClusterType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(4, rawValue);
+              } else {
+                bitField0_ |= 0x00000008;
+                clusterType_ = rawValue;
+              }
+              break;
+            }
+            case 42: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000010;
+              token_ = bs;
+              break;
+            }
+            case 50: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000020;
+              serviceAccountId_ = bs;
+              break;
+            }
+            case 58: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000040;
+              serviceAccountIdSignature_ = bs;
+              break;
+            }
+            case 66: {
+              ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000080) != 0)) {
+                subBuilder = path_.toBuilder();
+              }
+              path_ = input.readMessage(ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(path_);
+                path_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000080;
               break;
             }
             case 802: {
-              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000100) != 0)) {
                 settings_ = new java.util.ArrayList<ru.yandex.yql.proto.GatewaysConfig.TAttr>();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000100;
               }
               settings_.add(
                   input.readMessage(ru.yandex.yql.proto.GatewaysConfig.TAttr.PARSER, extensionRegistry));
@@ -45328,7 +47746,7 @@ public final class GatewaysConfig {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000008) != 0)) {
+        if (((mutable_bitField0_ & 0x00000100) != 0)) {
           settings_ = java.util.Collections.unmodifiableList(settings_);
         }
         this.unknownFields = unknownFields.build();
@@ -45346,6 +47764,1009 @@ public final class GatewaysConfig {
       return ru.yandex.yql.proto.GatewaysConfig.internal_static_NYql_TSolomonClusterConfig_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.class, ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.Builder.class);
+    }
+
+    /**
+     * Protobuf enum {@code NYql.TSolomonClusterConfig.ESolomonClusterType}
+     */
+    public enum ESolomonClusterType
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>SCT_UNSPECIFIED = 0;</code>
+       */
+      SCT_UNSPECIFIED(0),
+      /**
+       * <code>SCT_SOLOMON = 1;</code>
+       */
+      SCT_SOLOMON(1),
+      /**
+       * <code>SCT_MONITORING = 2;</code>
+       */
+      SCT_MONITORING(2),
+      ;
+
+      /**
+       * <code>SCT_UNSPECIFIED = 0;</code>
+       */
+      public static final int SCT_UNSPECIFIED_VALUE = 0;
+      /**
+       * <code>SCT_SOLOMON = 1;</code>
+       */
+      public static final int SCT_SOLOMON_VALUE = 1;
+      /**
+       * <code>SCT_MONITORING = 2;</code>
+       */
+      public static final int SCT_MONITORING_VALUE = 2;
+
+
+      public final int getNumber() {
+        return value;
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static ESolomonClusterType valueOf(int value) {
+        return forNumber(value);
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
+      public static ESolomonClusterType forNumber(int value) {
+        switch (value) {
+          case 0: return SCT_UNSPECIFIED;
+          case 1: return SCT_SOLOMON;
+          case 2: return SCT_MONITORING;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<ESolomonClusterType>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          ESolomonClusterType> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<ESolomonClusterType>() {
+              public ESolomonClusterType findValueByNumber(int number) {
+                return ESolomonClusterType.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final ESolomonClusterType[] VALUES = values();
+
+      public static ESolomonClusterType valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private ESolomonClusterType(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:NYql.TSolomonClusterConfig.ESolomonClusterType)
+    }
+
+    public interface TShardPathOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:NYql.TSolomonClusterConfig.TShardPath)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <pre>
+       * CloudId for YC
+       * </pre>
+       *
+       * <code>required string Project = 1;</code>
+       * @return Whether the project field is set.
+       */
+      boolean hasProject();
+      /**
+       * <pre>
+       * CloudId for YC
+       * </pre>
+       *
+       * <code>required string Project = 1;</code>
+       * @return The project.
+       */
+      java.lang.String getProject();
+      /**
+       * <pre>
+       * CloudId for YC
+       * </pre>
+       *
+       * <code>required string Project = 1;</code>
+       * @return The bytes for project.
+       */
+      com.google.protobuf.ByteString
+          getProjectBytes();
+
+      /**
+       * <pre>
+       * FolderId for YC
+       * </pre>
+       *
+       * <code>required string Cluster = 2;</code>
+       * @return Whether the cluster field is set.
+       */
+      boolean hasCluster();
+      /**
+       * <pre>
+       * FolderId for YC
+       * </pre>
+       *
+       * <code>required string Cluster = 2;</code>
+       * @return The cluster.
+       */
+      java.lang.String getCluster();
+      /**
+       * <pre>
+       * FolderId for YC
+       * </pre>
+       *
+       * <code>required string Cluster = 2;</code>
+       * @return The bytes for cluster.
+       */
+      com.google.protobuf.ByteString
+          getClusterBytes();
+    }
+    /**
+     * Protobuf type {@code NYql.TSolomonClusterConfig.TShardPath}
+     */
+    public static final class TShardPath extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:NYql.TSolomonClusterConfig.TShardPath)
+        TShardPathOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use TShardPath.newBuilder() to construct.
+      private TShardPath(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private TShardPath() {
+        project_ = "";
+        cluster_ = "";
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new TShardPath();
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private TShardPath(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                com.google.protobuf.ByteString bs = input.readBytes();
+                bitField0_ |= 0x00000001;
+                project_ = bs;
+                break;
+              }
+              case 18: {
+                com.google.protobuf.ByteString bs = input.readBytes();
+                bitField0_ |= 0x00000002;
+                cluster_ = bs;
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ru.yandex.yql.proto.GatewaysConfig.internal_static_NYql_TSolomonClusterConfig_TShardPath_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ru.yandex.yql.proto.GatewaysConfig.internal_static_NYql_TSolomonClusterConfig_TShardPath_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath.class, ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath.Builder.class);
+      }
+
+      private int bitField0_;
+      public static final int PROJECT_FIELD_NUMBER = 1;
+      private volatile java.lang.Object project_;
+      /**
+       * <pre>
+       * CloudId for YC
+       * </pre>
+       *
+       * <code>required string Project = 1;</code>
+       * @return Whether the project field is set.
+       */
+      @java.lang.Override
+      public boolean hasProject() {
+        return ((bitField0_ & 0x00000001) != 0);
+      }
+      /**
+       * <pre>
+       * CloudId for YC
+       * </pre>
+       *
+       * <code>required string Project = 1;</code>
+       * @return The project.
+       */
+      @java.lang.Override
+      public java.lang.String getProject() {
+        java.lang.Object ref = project_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            project_ = s;
+          }
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * CloudId for YC
+       * </pre>
+       *
+       * <code>required string Project = 1;</code>
+       * @return The bytes for project.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getProjectBytes() {
+        java.lang.Object ref = project_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          project_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int CLUSTER_FIELD_NUMBER = 2;
+      private volatile java.lang.Object cluster_;
+      /**
+       * <pre>
+       * FolderId for YC
+       * </pre>
+       *
+       * <code>required string Cluster = 2;</code>
+       * @return Whether the cluster field is set.
+       */
+      @java.lang.Override
+      public boolean hasCluster() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <pre>
+       * FolderId for YC
+       * </pre>
+       *
+       * <code>required string Cluster = 2;</code>
+       * @return The cluster.
+       */
+      @java.lang.Override
+      public java.lang.String getCluster() {
+        java.lang.Object ref = cluster_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            cluster_ = s;
+          }
+          return s;
+        }
+      }
+      /**
+       * <pre>
+       * FolderId for YC
+       * </pre>
+       *
+       * <code>required string Cluster = 2;</code>
+       * @return The bytes for cluster.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getClusterBytes() {
+        java.lang.Object ref = cluster_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          cluster_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        if (!hasProject()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasCluster()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (((bitField0_ & 0x00000001) != 0)) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 1, project_);
+        }
+        if (((bitField0_ & 0x00000002) != 0)) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 2, cluster_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (((bitField0_ & 0x00000001) != 0)) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, project_);
+        }
+        if (((bitField0_ & 0x00000002) != 0)) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, cluster_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath)) {
+          return super.equals(obj);
+        }
+        ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath other = (ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath) obj;
+
+        if (hasProject() != other.hasProject()) return false;
+        if (hasProject()) {
+          if (!getProject()
+              .equals(other.getProject())) return false;
+        }
+        if (hasCluster() != other.hasCluster()) return false;
+        if (hasCluster()) {
+          if (!getCluster()
+              .equals(other.getCluster())) return false;
+        }
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        if (hasProject()) {
+          hash = (37 * hash) + PROJECT_FIELD_NUMBER;
+          hash = (53 * hash) + getProject().hashCode();
+        }
+        if (hasCluster()) {
+          hash = (37 * hash) + CLUSTER_FIELD_NUMBER;
+          hash = (53 * hash) + getCluster().hashCode();
+        }
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code NYql.TSolomonClusterConfig.TShardPath}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:NYql.TSolomonClusterConfig.TShardPath)
+          ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPathOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return ru.yandex.yql.proto.GatewaysConfig.internal_static_NYql_TSolomonClusterConfig_TShardPath_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return ru.yandex.yql.proto.GatewaysConfig.internal_static_NYql_TSolomonClusterConfig_TShardPath_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath.class, ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath.Builder.class);
+        }
+
+        // Construct using ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          project_ = "";
+          bitField0_ = (bitField0_ & ~0x00000001);
+          cluster_ = "";
+          bitField0_ = (bitField0_ & ~0x00000002);
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return ru.yandex.yql.proto.GatewaysConfig.internal_static_NYql_TSolomonClusterConfig_TShardPath_descriptor;
+        }
+
+        @java.lang.Override
+        public ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath getDefaultInstanceForType() {
+          return ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath build() {
+          ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath buildPartial() {
+          ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath result = new ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath(this);
+          int from_bitField0_ = bitField0_;
+          int to_bitField0_ = 0;
+          if (((from_bitField0_ & 0x00000001) != 0)) {
+            to_bitField0_ |= 0x00000001;
+          }
+          result.project_ = project_;
+          if (((from_bitField0_ & 0x00000002) != 0)) {
+            to_bitField0_ |= 0x00000002;
+          }
+          result.cluster_ = cluster_;
+          result.bitField0_ = to_bitField0_;
+          onBuilt();
+          return result;
+        }
+
+        @java.lang.Override
+        public Builder clone() {
+          return super.clone();
+        }
+        @java.lang.Override
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return super.setField(field, value);
+        }
+        @java.lang.Override
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return super.clearField(field);
+        }
+        @java.lang.Override
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return super.clearOneof(oneof);
+        }
+        @java.lang.Override
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return super.setRepeatedField(field, index, value);
+        }
+        @java.lang.Override
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return super.addRepeatedField(field, value);
+        }
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath) {
+            return mergeFrom((ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath other) {
+          if (other == ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath.getDefaultInstance()) return this;
+          if (other.hasProject()) {
+            bitField0_ |= 0x00000001;
+            project_ = other.project_;
+            onChanged();
+          }
+          if (other.hasCluster()) {
+            bitField0_ |= 0x00000002;
+            cluster_ = other.cluster_;
+            onChanged();
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          if (!hasProject()) {
+            return false;
+          }
+          if (!hasCluster()) {
+            return false;
+          }
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        private int bitField0_;
+
+        private java.lang.Object project_ = "";
+        /**
+         * <pre>
+         * CloudId for YC
+         * </pre>
+         *
+         * <code>required string Project = 1;</code>
+         * @return Whether the project field is set.
+         */
+        public boolean hasProject() {
+          return ((bitField0_ & 0x00000001) != 0);
+        }
+        /**
+         * <pre>
+         * CloudId for YC
+         * </pre>
+         *
+         * <code>required string Project = 1;</code>
+         * @return The project.
+         */
+        public java.lang.String getProject() {
+          java.lang.Object ref = project_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            if (bs.isValidUtf8()) {
+              project_ = s;
+            }
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * CloudId for YC
+         * </pre>
+         *
+         * <code>required string Project = 1;</code>
+         * @return The bytes for project.
+         */
+        public com.google.protobuf.ByteString
+            getProjectBytes() {
+          java.lang.Object ref = project_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            project_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * CloudId for YC
+         * </pre>
+         *
+         * <code>required string Project = 1;</code>
+         * @param value The project to set.
+         * @return This builder for chaining.
+         */
+        public Builder setProject(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+          project_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * CloudId for YC
+         * </pre>
+         *
+         * <code>required string Project = 1;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearProject() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          project_ = getDefaultInstance().getProject();
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * CloudId for YC
+         * </pre>
+         *
+         * <code>required string Project = 1;</code>
+         * @param value The bytes for project to set.
+         * @return This builder for chaining.
+         */
+        public Builder setProjectBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+          project_ = value;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object cluster_ = "";
+        /**
+         * <pre>
+         * FolderId for YC
+         * </pre>
+         *
+         * <code>required string Cluster = 2;</code>
+         * @return Whether the cluster field is set.
+         */
+        public boolean hasCluster() {
+          return ((bitField0_ & 0x00000002) != 0);
+        }
+        /**
+         * <pre>
+         * FolderId for YC
+         * </pre>
+         *
+         * <code>required string Cluster = 2;</code>
+         * @return The cluster.
+         */
+        public java.lang.String getCluster() {
+          java.lang.Object ref = cluster_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            if (bs.isValidUtf8()) {
+              cluster_ = s;
+            }
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <pre>
+         * FolderId for YC
+         * </pre>
+         *
+         * <code>required string Cluster = 2;</code>
+         * @return The bytes for cluster.
+         */
+        public com.google.protobuf.ByteString
+            getClusterBytes() {
+          java.lang.Object ref = cluster_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            cluster_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <pre>
+         * FolderId for YC
+         * </pre>
+         *
+         * <code>required string Cluster = 2;</code>
+         * @param value The cluster to set.
+         * @return This builder for chaining.
+         */
+        public Builder setCluster(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+          cluster_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * FolderId for YC
+         * </pre>
+         *
+         * <code>required string Cluster = 2;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearCluster() {
+          bitField0_ = (bitField0_ & ~0x00000002);
+          cluster_ = getDefaultInstance().getCluster();
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * FolderId for YC
+         * </pre>
+         *
+         * <code>required string Cluster = 2;</code>
+         * @param value The bytes for cluster to set.
+         * @return This builder for chaining.
+         */
+        public Builder setClusterBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+          cluster_ = value;
+          onChanged();
+          return this;
+        }
+        @java.lang.Override
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFields(unknownFields);
+        }
+
+        @java.lang.Override
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:NYql.TSolomonClusterConfig.TShardPath)
+      }
+
+      // @@protoc_insertion_point(class_scope:NYql.TSolomonClusterConfig.TShardPath)
+      private static final ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath();
+      }
+
+      public static ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      @java.lang.Deprecated public static final com.google.protobuf.Parser<TShardPath>
+          PARSER = new com.google.protobuf.AbstractParser<TShardPath>() {
+        @java.lang.Override
+        public TShardPath parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new TShardPath(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<TShardPath> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<TShardPath> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
     }
 
     private int bitField0_;
@@ -45445,23 +48866,212 @@ public final class GatewaysConfig {
       }
     }
 
-    public static final int DEFAULT_FIELD_NUMBER = 3;
-    private boolean default_;
+    public static final int USESSL_FIELD_NUMBER = 3;
+    private boolean useSsl_;
     /**
-     * <code>optional bool Default = 3 [default = false];</code>
-     * @return Whether the default field is set.
+     * <code>optional bool UseSsl = 3;</code>
+     * @return Whether the useSsl field is set.
      */
     @java.lang.Override
-    public boolean hasDefault() {
+    public boolean hasUseSsl() {
       return ((bitField0_ & 0x00000004) != 0);
     }
     /**
-     * <code>optional bool Default = 3 [default = false];</code>
-     * @return The default.
+     * <code>optional bool UseSsl = 3;</code>
+     * @return The useSsl.
      */
     @java.lang.Override
-    public boolean getDefault() {
-      return default_;
+    public boolean getUseSsl() {
+      return useSsl_;
+    }
+
+    public static final int CLUSTERTYPE_FIELD_NUMBER = 4;
+    private int clusterType_;
+    /**
+     * <code>optional .NYql.TSolomonClusterConfig.ESolomonClusterType ClusterType = 4 [default = SCT_SOLOMON];</code>
+     * @return Whether the clusterType field is set.
+     */
+    @java.lang.Override public boolean hasClusterType() {
+      return ((bitField0_ & 0x00000008) != 0);
+    }
+    /**
+     * <code>optional .NYql.TSolomonClusterConfig.ESolomonClusterType ClusterType = 4 [default = SCT_SOLOMON];</code>
+     * @return The clusterType.
+     */
+    @java.lang.Override public ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.ESolomonClusterType getClusterType() {
+      @SuppressWarnings("deprecation")
+      ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.ESolomonClusterType result = ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.ESolomonClusterType.valueOf(clusterType_);
+      return result == null ? ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.ESolomonClusterType.SCT_SOLOMON : result;
+    }
+
+    public static final int TOKEN_FIELD_NUMBER = 5;
+    private volatile java.lang.Object token_;
+    /**
+     * <code>optional string Token = 5;</code>
+     * @return Whether the token field is set.
+     */
+    @java.lang.Override
+    public boolean hasToken() {
+      return ((bitField0_ & 0x00000010) != 0);
+    }
+    /**
+     * <code>optional string Token = 5;</code>
+     * @return The token.
+     */
+    @java.lang.Override
+    public java.lang.String getToken() {
+      java.lang.Object ref = token_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          token_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string Token = 5;</code>
+     * @return The bytes for token.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTokenBytes() {
+      java.lang.Object ref = token_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        token_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SERVICEACCOUNTID_FIELD_NUMBER = 6;
+    private volatile java.lang.Object serviceAccountId_;
+    /**
+     * <code>optional string ServiceAccountId = 6;</code>
+     * @return Whether the serviceAccountId field is set.
+     */
+    @java.lang.Override
+    public boolean hasServiceAccountId() {
+      return ((bitField0_ & 0x00000020) != 0);
+    }
+    /**
+     * <code>optional string ServiceAccountId = 6;</code>
+     * @return The serviceAccountId.
+     */
+    @java.lang.Override
+    public java.lang.String getServiceAccountId() {
+      java.lang.Object ref = serviceAccountId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          serviceAccountId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string ServiceAccountId = 6;</code>
+     * @return The bytes for serviceAccountId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getServiceAccountIdBytes() {
+      java.lang.Object ref = serviceAccountId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        serviceAccountId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SERVICEACCOUNTIDSIGNATURE_FIELD_NUMBER = 7;
+    private volatile java.lang.Object serviceAccountIdSignature_;
+    /**
+     * <code>optional string ServiceAccountIdSignature = 7;</code>
+     * @return Whether the serviceAccountIdSignature field is set.
+     */
+    @java.lang.Override
+    public boolean hasServiceAccountIdSignature() {
+      return ((bitField0_ & 0x00000040) != 0);
+    }
+    /**
+     * <code>optional string ServiceAccountIdSignature = 7;</code>
+     * @return The serviceAccountIdSignature.
+     */
+    @java.lang.Override
+    public java.lang.String getServiceAccountIdSignature() {
+      java.lang.Object ref = serviceAccountIdSignature_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          serviceAccountIdSignature_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string ServiceAccountIdSignature = 7;</code>
+     * @return The bytes for serviceAccountIdSignature.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getServiceAccountIdSignatureBytes() {
+      java.lang.Object ref = serviceAccountIdSignature_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        serviceAccountIdSignature_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PATH_FIELD_NUMBER = 8;
+    private ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath path_;
+    /**
+     * <code>optional .NYql.TSolomonClusterConfig.TShardPath Path = 8;</code>
+     * @return Whether the path field is set.
+     */
+    @java.lang.Override
+    public boolean hasPath() {
+      return ((bitField0_ & 0x00000080) != 0);
+    }
+    /**
+     * <code>optional .NYql.TSolomonClusterConfig.TShardPath Path = 8;</code>
+     * @return The path.
+     */
+    @java.lang.Override
+    public ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath getPath() {
+      return path_ == null ? ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath.getDefaultInstance() : path_;
+    }
+    /**
+     * <code>optional .NYql.TSolomonClusterConfig.TShardPath Path = 8;</code>
+     */
+    @java.lang.Override
+    public ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPathOrBuilder getPathOrBuilder() {
+      return path_ == null ? ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath.getDefaultInstance() : path_;
     }
 
     public static final int SETTINGS_FIELD_NUMBER = 100;
@@ -45511,6 +49121,12 @@ public final class GatewaysConfig {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
+      if (hasPath()) {
+        if (!getPath().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       for (int i = 0; i < getSettingsCount(); i++) {
         if (!getSettings(i).isInitialized()) {
           memoizedIsInitialized = 0;
@@ -45531,7 +49147,22 @@ public final class GatewaysConfig {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, cluster_);
       }
       if (((bitField0_ & 0x00000004) != 0)) {
-        output.writeBool(3, default_);
+        output.writeBool(3, useSsl_);
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        output.writeEnum(4, clusterType_);
+      }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, token_);
+      }
+      if (((bitField0_ & 0x00000020) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, serviceAccountId_);
+      }
+      if (((bitField0_ & 0x00000040) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, serviceAccountIdSignature_);
+      }
+      if (((bitField0_ & 0x00000080) != 0)) {
+        output.writeMessage(8, getPath());
       }
       for (int i = 0; i < settings_.size(); i++) {
         output.writeMessage(100, settings_.get(i));
@@ -45553,7 +49184,24 @@ public final class GatewaysConfig {
       }
       if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(3, default_);
+          .computeBoolSize(3, useSsl_);
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(4, clusterType_);
+      }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, token_);
+      }
+      if (((bitField0_ & 0x00000020) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, serviceAccountId_);
+      }
+      if (((bitField0_ & 0x00000040) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, serviceAccountIdSignature_);
+      }
+      if (((bitField0_ & 0x00000080) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, getPath());
       }
       for (int i = 0; i < settings_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
@@ -45584,10 +49232,34 @@ public final class GatewaysConfig {
         if (!getCluster()
             .equals(other.getCluster())) return false;
       }
-      if (hasDefault() != other.hasDefault()) return false;
-      if (hasDefault()) {
-        if (getDefault()
-            != other.getDefault()) return false;
+      if (hasUseSsl() != other.hasUseSsl()) return false;
+      if (hasUseSsl()) {
+        if (getUseSsl()
+            != other.getUseSsl()) return false;
+      }
+      if (hasClusterType() != other.hasClusterType()) return false;
+      if (hasClusterType()) {
+        if (clusterType_ != other.clusterType_) return false;
+      }
+      if (hasToken() != other.hasToken()) return false;
+      if (hasToken()) {
+        if (!getToken()
+            .equals(other.getToken())) return false;
+      }
+      if (hasServiceAccountId() != other.hasServiceAccountId()) return false;
+      if (hasServiceAccountId()) {
+        if (!getServiceAccountId()
+            .equals(other.getServiceAccountId())) return false;
+      }
+      if (hasServiceAccountIdSignature() != other.hasServiceAccountIdSignature()) return false;
+      if (hasServiceAccountIdSignature()) {
+        if (!getServiceAccountIdSignature()
+            .equals(other.getServiceAccountIdSignature())) return false;
+      }
+      if (hasPath() != other.hasPath()) return false;
+      if (hasPath()) {
+        if (!getPath()
+            .equals(other.getPath())) return false;
       }
       if (!getSettingsList()
           .equals(other.getSettingsList())) return false;
@@ -45610,10 +49282,30 @@ public final class GatewaysConfig {
         hash = (37 * hash) + CLUSTER_FIELD_NUMBER;
         hash = (53 * hash) + getCluster().hashCode();
       }
-      if (hasDefault()) {
-        hash = (37 * hash) + DEFAULT_FIELD_NUMBER;
+      if (hasUseSsl()) {
+        hash = (37 * hash) + USESSL_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-            getDefault());
+            getUseSsl());
+      }
+      if (hasClusterType()) {
+        hash = (37 * hash) + CLUSTERTYPE_FIELD_NUMBER;
+        hash = (53 * hash) + clusterType_;
+      }
+      if (hasToken()) {
+        hash = (37 * hash) + TOKEN_FIELD_NUMBER;
+        hash = (53 * hash) + getToken().hashCode();
+      }
+      if (hasServiceAccountId()) {
+        hash = (37 * hash) + SERVICEACCOUNTID_FIELD_NUMBER;
+        hash = (53 * hash) + getServiceAccountId().hashCode();
+      }
+      if (hasServiceAccountIdSignature()) {
+        hash = (37 * hash) + SERVICEACCOUNTIDSIGNATURE_FIELD_NUMBER;
+        hash = (53 * hash) + getServiceAccountIdSignature().hashCode();
+      }
+      if (hasPath()) {
+        hash = (37 * hash) + PATH_FIELD_NUMBER;
+        hash = (53 * hash) + getPath().hashCode();
       }
       if (getSettingsCount() > 0) {
         hash = (37 * hash) + SETTINGS_FIELD_NUMBER;
@@ -45747,6 +49439,7 @@ public final class GatewaysConfig {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getPathFieldBuilder();
           getSettingsFieldBuilder();
         }
       }
@@ -45757,11 +49450,25 @@ public final class GatewaysConfig {
         bitField0_ = (bitField0_ & ~0x00000001);
         cluster_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        default_ = false;
+        useSsl_ = false;
         bitField0_ = (bitField0_ & ~0x00000004);
+        clusterType_ = 1;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        token_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
+        serviceAccountId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000020);
+        serviceAccountIdSignature_ = "";
+        bitField0_ = (bitField0_ & ~0x00000040);
+        if (pathBuilder_ == null) {
+          path_ = null;
+        } else {
+          pathBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000080);
         if (settingsBuilder_ == null) {
           settings_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000100);
         } else {
           settingsBuilder_.clear();
         }
@@ -45802,13 +49509,37 @@ public final class GatewaysConfig {
         }
         result.cluster_ = cluster_;
         if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.default_ = default_;
+          result.useSsl_ = useSsl_;
           to_bitField0_ |= 0x00000004;
         }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.clusterType_ = clusterType_;
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.token_ = token_;
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.serviceAccountId_ = serviceAccountId_;
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.serviceAccountIdSignature_ = serviceAccountIdSignature_;
+        if (((from_bitField0_ & 0x00000080) != 0)) {
+          if (pathBuilder_ == null) {
+            result.path_ = path_;
+          } else {
+            result.path_ = pathBuilder_.build();
+          }
+          to_bitField0_ |= 0x00000080;
+        }
         if (settingsBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) != 0)) {
+          if (((bitField0_ & 0x00000100) != 0)) {
             settings_ = java.util.Collections.unmodifiableList(settings_);
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000100);
           }
           result.settings_ = settings_;
         } else {
@@ -45873,14 +49604,35 @@ public final class GatewaysConfig {
           cluster_ = other.cluster_;
           onChanged();
         }
-        if (other.hasDefault()) {
-          setDefault(other.getDefault());
+        if (other.hasUseSsl()) {
+          setUseSsl(other.getUseSsl());
+        }
+        if (other.hasClusterType()) {
+          setClusterType(other.getClusterType());
+        }
+        if (other.hasToken()) {
+          bitField0_ |= 0x00000010;
+          token_ = other.token_;
+          onChanged();
+        }
+        if (other.hasServiceAccountId()) {
+          bitField0_ |= 0x00000020;
+          serviceAccountId_ = other.serviceAccountId_;
+          onChanged();
+        }
+        if (other.hasServiceAccountIdSignature()) {
+          bitField0_ |= 0x00000040;
+          serviceAccountIdSignature_ = other.serviceAccountIdSignature_;
+          onChanged();
+        }
+        if (other.hasPath()) {
+          mergePath(other.getPath());
         }
         if (settingsBuilder_ == null) {
           if (!other.settings_.isEmpty()) {
             if (settings_.isEmpty()) {
               settings_ = other.settings_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000100);
             } else {
               ensureSettingsIsMutable();
               settings_.addAll(other.settings_);
@@ -45893,7 +49645,7 @@ public final class GatewaysConfig {
               settingsBuilder_.dispose();
               settingsBuilder_ = null;
               settings_ = other.settings_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000100);
               settingsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getSettingsFieldBuilder() : null;
@@ -45909,6 +49661,11 @@ public final class GatewaysConfig {
 
       @java.lang.Override
       public final boolean isInitialized() {
+        if (hasPath()) {
+          if (!getPath().isInitialized()) {
+            return false;
+          }
+        }
         for (int i = 0; i < getSettingsCount(); i++) {
           if (!getSettings(i).isInitialized()) {
             return false;
@@ -46105,51 +49862,466 @@ public final class GatewaysConfig {
         return this;
       }
 
-      private boolean default_ ;
+      private boolean useSsl_ ;
       /**
-       * <code>optional bool Default = 3 [default = false];</code>
-       * @return Whether the default field is set.
+       * <code>optional bool UseSsl = 3;</code>
+       * @return Whether the useSsl field is set.
        */
       @java.lang.Override
-      public boolean hasDefault() {
+      public boolean hasUseSsl() {
         return ((bitField0_ & 0x00000004) != 0);
       }
       /**
-       * <code>optional bool Default = 3 [default = false];</code>
-       * @return The default.
+       * <code>optional bool UseSsl = 3;</code>
+       * @return The useSsl.
        */
       @java.lang.Override
-      public boolean getDefault() {
-        return default_;
+      public boolean getUseSsl() {
+        return useSsl_;
       }
       /**
-       * <code>optional bool Default = 3 [default = false];</code>
-       * @param value The default to set.
+       * <code>optional bool UseSsl = 3;</code>
+       * @param value The useSsl to set.
        * @return This builder for chaining.
        */
-      public Builder setDefault(boolean value) {
+      public Builder setUseSsl(boolean value) {
         bitField0_ |= 0x00000004;
-        default_ = value;
+        useSsl_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional bool Default = 3 [default = false];</code>
+       * <code>optional bool UseSsl = 3;</code>
        * @return This builder for chaining.
        */
-      public Builder clearDefault() {
+      public Builder clearUseSsl() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        default_ = false;
+        useSsl_ = false;
         onChanged();
         return this;
+      }
+
+      private int clusterType_ = 1;
+      /**
+       * <code>optional .NYql.TSolomonClusterConfig.ESolomonClusterType ClusterType = 4 [default = SCT_SOLOMON];</code>
+       * @return Whether the clusterType field is set.
+       */
+      @java.lang.Override public boolean hasClusterType() {
+        return ((bitField0_ & 0x00000008) != 0);
+      }
+      /**
+       * <code>optional .NYql.TSolomonClusterConfig.ESolomonClusterType ClusterType = 4 [default = SCT_SOLOMON];</code>
+       * @return The clusterType.
+       */
+      @java.lang.Override
+      public ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.ESolomonClusterType getClusterType() {
+        @SuppressWarnings("deprecation")
+        ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.ESolomonClusterType result = ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.ESolomonClusterType.valueOf(clusterType_);
+        return result == null ? ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.ESolomonClusterType.SCT_SOLOMON : result;
+      }
+      /**
+       * <code>optional .NYql.TSolomonClusterConfig.ESolomonClusterType ClusterType = 4 [default = SCT_SOLOMON];</code>
+       * @param value The clusterType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setClusterType(ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.ESolomonClusterType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000008;
+        clusterType_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .NYql.TSolomonClusterConfig.ESolomonClusterType ClusterType = 4 [default = SCT_SOLOMON];</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearClusterType() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        clusterType_ = 1;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object token_ = "";
+      /**
+       * <code>optional string Token = 5;</code>
+       * @return Whether the token field is set.
+       */
+      public boolean hasToken() {
+        return ((bitField0_ & 0x00000010) != 0);
+      }
+      /**
+       * <code>optional string Token = 5;</code>
+       * @return The token.
+       */
+      public java.lang.String getToken() {
+        java.lang.Object ref = token_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            token_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string Token = 5;</code>
+       * @return The bytes for token.
+       */
+      public com.google.protobuf.ByteString
+          getTokenBytes() {
+        java.lang.Object ref = token_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          token_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string Token = 5;</code>
+       * @param value The token to set.
+       * @return This builder for chaining.
+       */
+      public Builder setToken(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        token_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string Token = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearToken() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        token_ = getDefaultInstance().getToken();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string Token = 5;</code>
+       * @param value The bytes for token to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTokenBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        token_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object serviceAccountId_ = "";
+      /**
+       * <code>optional string ServiceAccountId = 6;</code>
+       * @return Whether the serviceAccountId field is set.
+       */
+      public boolean hasServiceAccountId() {
+        return ((bitField0_ & 0x00000020) != 0);
+      }
+      /**
+       * <code>optional string ServiceAccountId = 6;</code>
+       * @return The serviceAccountId.
+       */
+      public java.lang.String getServiceAccountId() {
+        java.lang.Object ref = serviceAccountId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            serviceAccountId_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string ServiceAccountId = 6;</code>
+       * @return The bytes for serviceAccountId.
+       */
+      public com.google.protobuf.ByteString
+          getServiceAccountIdBytes() {
+        java.lang.Object ref = serviceAccountId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          serviceAccountId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string ServiceAccountId = 6;</code>
+       * @param value The serviceAccountId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setServiceAccountId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        serviceAccountId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ServiceAccountId = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearServiceAccountId() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        serviceAccountId_ = getDefaultInstance().getServiceAccountId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ServiceAccountId = 6;</code>
+       * @param value The bytes for serviceAccountId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setServiceAccountIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        serviceAccountId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object serviceAccountIdSignature_ = "";
+      /**
+       * <code>optional string ServiceAccountIdSignature = 7;</code>
+       * @return Whether the serviceAccountIdSignature field is set.
+       */
+      public boolean hasServiceAccountIdSignature() {
+        return ((bitField0_ & 0x00000040) != 0);
+      }
+      /**
+       * <code>optional string ServiceAccountIdSignature = 7;</code>
+       * @return The serviceAccountIdSignature.
+       */
+      public java.lang.String getServiceAccountIdSignature() {
+        java.lang.Object ref = serviceAccountIdSignature_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            serviceAccountIdSignature_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string ServiceAccountIdSignature = 7;</code>
+       * @return The bytes for serviceAccountIdSignature.
+       */
+      public com.google.protobuf.ByteString
+          getServiceAccountIdSignatureBytes() {
+        java.lang.Object ref = serviceAccountIdSignature_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          serviceAccountIdSignature_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string ServiceAccountIdSignature = 7;</code>
+       * @param value The serviceAccountIdSignature to set.
+       * @return This builder for chaining.
+       */
+      public Builder setServiceAccountIdSignature(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        serviceAccountIdSignature_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ServiceAccountIdSignature = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearServiceAccountIdSignature() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        serviceAccountIdSignature_ = getDefaultInstance().getServiceAccountIdSignature();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ServiceAccountIdSignature = 7;</code>
+       * @param value The bytes for serviceAccountIdSignature to set.
+       * @return This builder for chaining.
+       */
+      public Builder setServiceAccountIdSignatureBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        serviceAccountIdSignature_ = value;
+        onChanged();
+        return this;
+      }
+
+      private ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath path_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath, ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath.Builder, ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPathOrBuilder> pathBuilder_;
+      /**
+       * <code>optional .NYql.TSolomonClusterConfig.TShardPath Path = 8;</code>
+       * @return Whether the path field is set.
+       */
+      public boolean hasPath() {
+        return ((bitField0_ & 0x00000080) != 0);
+      }
+      /**
+       * <code>optional .NYql.TSolomonClusterConfig.TShardPath Path = 8;</code>
+       * @return The path.
+       */
+      public ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath getPath() {
+        if (pathBuilder_ == null) {
+          return path_ == null ? ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath.getDefaultInstance() : path_;
+        } else {
+          return pathBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .NYql.TSolomonClusterConfig.TShardPath Path = 8;</code>
+       */
+      public Builder setPath(ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath value) {
+        if (pathBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          path_ = value;
+          onChanged();
+        } else {
+          pathBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000080;
+        return this;
+      }
+      /**
+       * <code>optional .NYql.TSolomonClusterConfig.TShardPath Path = 8;</code>
+       */
+      public Builder setPath(
+          ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath.Builder builderForValue) {
+        if (pathBuilder_ == null) {
+          path_ = builderForValue.build();
+          onChanged();
+        } else {
+          pathBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000080;
+        return this;
+      }
+      /**
+       * <code>optional .NYql.TSolomonClusterConfig.TShardPath Path = 8;</code>
+       */
+      public Builder mergePath(ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath value) {
+        if (pathBuilder_ == null) {
+          if (((bitField0_ & 0x00000080) != 0) &&
+              path_ != null &&
+              path_ != ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath.getDefaultInstance()) {
+            path_ =
+              ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath.newBuilder(path_).mergeFrom(value).buildPartial();
+          } else {
+            path_ = value;
+          }
+          onChanged();
+        } else {
+          pathBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000080;
+        return this;
+      }
+      /**
+       * <code>optional .NYql.TSolomonClusterConfig.TShardPath Path = 8;</code>
+       */
+      public Builder clearPath() {
+        if (pathBuilder_ == null) {
+          path_ = null;
+          onChanged();
+        } else {
+          pathBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000080);
+        return this;
+      }
+      /**
+       * <code>optional .NYql.TSolomonClusterConfig.TShardPath Path = 8;</code>
+       */
+      public ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath.Builder getPathBuilder() {
+        bitField0_ |= 0x00000080;
+        onChanged();
+        return getPathFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .NYql.TSolomonClusterConfig.TShardPath Path = 8;</code>
+       */
+      public ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPathOrBuilder getPathOrBuilder() {
+        if (pathBuilder_ != null) {
+          return pathBuilder_.getMessageOrBuilder();
+        } else {
+          return path_ == null ?
+              ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath.getDefaultInstance() : path_;
+        }
+      }
+      /**
+       * <code>optional .NYql.TSolomonClusterConfig.TShardPath Path = 8;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath, ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath.Builder, ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPathOrBuilder> 
+          getPathFieldBuilder() {
+        if (pathBuilder_ == null) {
+          pathBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath, ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPath.Builder, ru.yandex.yql.proto.GatewaysConfig.TSolomonClusterConfig.TShardPathOrBuilder>(
+                  getPath(),
+                  getParentForChildren(),
+                  isClean());
+          path_ = null;
+        }
+        return pathBuilder_;
       }
 
       private java.util.List<ru.yandex.yql.proto.GatewaysConfig.TAttr> settings_ =
         java.util.Collections.emptyList();
       private void ensureSettingsIsMutable() {
-        if (!((bitField0_ & 0x00000008) != 0)) {
+        if (!((bitField0_ & 0x00000100) != 0)) {
           settings_ = new java.util.ArrayList<ru.yandex.yql.proto.GatewaysConfig.TAttr>(settings_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000100;
          }
       }
 
@@ -46299,7 +50471,7 @@ public final class GatewaysConfig {
       public Builder clearSettings() {
         if (settingsBuilder_ == null) {
           settings_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000100);
           onChanged();
         } else {
           settingsBuilder_.clear();
@@ -46376,7 +50548,7 @@ public final class GatewaysConfig {
           settingsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               ru.yandex.yql.proto.GatewaysConfig.TAttr, ru.yandex.yql.proto.GatewaysConfig.TAttr.Builder, ru.yandex.yql.proto.GatewaysConfig.TAttrOrBuilder>(
                   settings_,
-                  ((bitField0_ & 0x00000008) != 0),
+                  ((bitField0_ & 0x00000100) != 0),
                   getParentForChildren(),
                   isClean());
           settings_ = null;
@@ -62035,6 +66207,16 @@ public final class GatewaysConfig {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_NYql_TActivationByHour_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_NYql_TActivationByHour_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_NYql_TActivationPercentage_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_NYql_TActivationPercentage_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_NYql_TAttr_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -62175,6 +66357,11 @@ public final class GatewaysConfig {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_NYql_TSolomonClusterConfig_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_NYql_TSolomonClusterConfig_TShardPath_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_NYql_TSolomonClusterConfig_TShardPath_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_NYql_TSolomonGatewayConfig_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -62250,399 +66437,432 @@ public final class GatewaysConfig {
     java.lang.String[] descriptorData = {
       "\n0yql/providers/common/proto/gateways_co" +
       "nfig.proto\022\004NYql\032\033yql/protos/clickhouse." +
-      "proto\"$\n\005TAttr\022\014\n\004Name\030\001 \002(\t\022\r\n\005Value\030\002 " +
-      "\002(\t\"D\n\022TRemoteFilePattern\022\017\n\007Pattern\030\001 \002" +
-      "(\t\022\017\n\007Cluster\030\002 \002(\t\022\014\n\004Path\030\003 \002(\t\"\211\001\n\020TY" +
-      "tClusterConfig\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030" +
-      "\002 \001(\t\022\026\n\007Default\030\003 \001(\010:\005false\022\017\n\007YTToken" +
-      "\030\004 \001(\t\022\016\n\006YTName\030\005 \001(\t\022\035\n\010Settings\030d \003(\013" +
-      "2\013.NYql.TAttr\"\221\004\n\020TYtGatewayConfig\022\031\n\016Ga" +
-      "tewayThreads\030\001 \001(\r:\0010\022/\n\nYtLogLevel\030\002 \001(" +
-      "\0162\021.NYql.EYtLogLevel:\010YL_ERROR\022\025\n\rPerfTo" +
-      "olsPath\030\004 \001(\t\022\034\n\024PerfToolsFromPackage\030\005 " +
-      "\001(\010\022\020\n\010MrJobBin\030\006 \001(\t\022\023\n\013MrJobBinMd5\030\r \001" +
-      "(\t\022\024\n\014MrJobUdfsDir\030\007 \001(\t\022#\n\033ExecuteUdfLo" +
-      "callyIfPossible\030\010 \001(\010\022\035\n\016LocalChainTest\030" +
-      "\t \001(\010:\005false\022\026\n\016YtDebugLogFile\030\n \001(\t\022\031\n\016" +
-      "YtDebugLogSize\030\013 \001(\004:\0010\022$\n\025YtDebugLogAlw" +
-      "aysWrite\030\014 \001(\010:\005false\022\026\n\016LocalChainFile\030" +
-      "\016 \001(\t\0224\n\022RemoteFilePatterns\030d \003(\0132\030.NYql" +
-      ".TRemoteFilePattern\022.\n\016ClusterMapping\030e " +
-      "\003(\0132\026.NYql.TYtClusterConfig\022$\n\017DefaultSe" +
-      "ttings\030f \003(\0132\013.NYql.TAttr\"?\n\tTHostPort\022\014" +
-      "\n\004Host\030\001 \002(\t\022\014\n\004Port\030\002 \002(\r\022\026\n\016TotalTimeo" +
-      "utMs\030\003 \001(\004\"\237\001\n\017TKikimrGrpcData\022\020\n\010Locato" +
-      "rs\030\001 \003(\t\022\021\n\tTimeoutMs\030\002 \001(\004\022\033\n\023MaxMessag" +
-      "eSizeBytes\030\003 \001(\004\022\023\n\013MaxInFlight\030\004 \001(\r\022\037\n" +
-      "\027EnableEndpointDiscovery\030\005 \001(\010\022\024\n\014UseLeg" +
-      "acyApi\030\006 \001(\010\"\264\002\n\024TKikimrClusterConfig\022\014\n" +
-      "\004Name\030\001 \001(\t\022\026\n\007Default\030\002 \001(\010:\005false\022#\n\nM" +
-      "essageBus\030\003 \003(\0132\017.NYql.THostPort\022#\n\004Grpc" +
-      "\030\004 \001(\0132\025.NYql.TKikimrGrpcData\022\020\n\010Databas" +
-      "e\030\005 \001(\t\022\020\n\005TvmId\030\006 \001(\r:\0010\022\r\n\005Token\030\007 \001(\t" +
-      "\022\020\n\010ProxyUrl\030\010 \001(\t\022\020\n\010Location\030\t \001(\t\022\021\n\t" +
-      "IsFromMvp\030\n \001(\010\022#\n\tTokenType\030\013 \001(\0162\020.NYq" +
-      "l.ETokenType\022\035\n\010Settings\030e \003(\0132\013.NYql.TA" +
-      "ttr\"p\n\024TKikimrGatewayConfig\0222\n\016ClusterMa" +
-      "pping\030\001 \003(\0132\032.NYql.TKikimrClusterConfig\022" +
-      "$\n\017DefaultSettings\030\002 \003(\0132\013.NYql.TAttr\"W\n" +
-      "\025TKikimrMvpProxyConfig\022\014\n\004Host\030\001 \001(\t\022\014\n\004" +
-      "Port\030\002 \001(\r\022\020\n\010BasePath\030\003 \001(\t\022\020\n\005TvmId\030\004 " +
-      "\001(\r:\0010\"L\n\027TKikimrMvpGatewayConfig\0221\n\014Pro" +
-      "xyMapping\030\001 \003(\0132\033.NYql.TKikimrMvpProxyCo" +
-      "nfig\"\235\002\n\021TYdbClusterConfig\022\014\n\004Name\030\001 \001(\t" +
-      "\022\020\n\010Endpoint\030\002 \001(\t\022\r\n\005Token\030\003 \001(\t\022#\n\004Grp" +
-      "c\030\004 \001(\0132\025.NYql.TKikimrGrpcData\022\020\n\005TvmId\030" +
-      "\005 \001(\r:\0010\022\020\n\010Database\030\006 \001(\t\022\n\n\002Id\030\007 \001(\t\022\016" +
-      "\n\006Secure\030\010 \001(\010\022\030\n\020ServiceAccountId\030\t \001(\t" +
-      "\022!\n\031ServiceAccountIdSignature\030\n \001(\t\022\030\n\020A" +
-      "ddBearerToToken\030\013 \001(\010\022\035\n\010Settings\030d \003(\0132" +
-      "\013.NYql.TAttr\"\231\001\n\021TYdbGatewayConfig\022/\n\016Cl" +
-      "usterMapping\030\001 \003(\0132\027.NYql.TYdbClusterCon" +
-      "fig\022\027\n\017DefaultEndpoint\030\002 \001(\t\022\024\n\014DefaultT" +
-      "oken\030\003 \001(\t\022$\n\017DefaultSettings\030\004 \003(\0132\013.NY" +
-      "ql.TAttr\"\373\002\n\030TClickHouseClusterConfig\022\014\n" +
-      "\004Name\030\001 \001(\t\022\026\n\007Default\030\002 \001(\010:\005false\022\017\n\007C" +
-      "luster\030\003 \001(\t\022\017\n\007CHToken\030\004 \001(\t\022\035\n\010Setting" +
-      "s\030e \003(\0132\013.NYql.TAttr\022%\n\nHostScheme\030\005 \001(\016" +
-      "2\021.NYql.EHostScheme\022\020\n\010HostPort\030\006 \001(\r\022\032\n" +
-      "\022CHTokenYavSecretId\030\007 \001(\t\022\033\n\023CHTokenYavV" +
-      "ersionId\030\010 \001(\t\022\025\n\rCHTokenYavKey\030\t \001(\t\0224\n" +
-      "\006Runner\030\n \001(\0132$.NYql.NProto.TClickHouseR" +
-      "unnerConfig\022\034\n\016NativeHostPort\030\013 \001(\r:\004900" +
-      "0\022\033\n\014NativeSecure\030\014 \001(\010:\005false\"x\n\030TClick" +
-      "HouseGatewayConfig\0226\n\016ClusterMapping\030\001 \003" +
-      "(\0132\036.NYql.TClickHouseClusterConfig\022$\n\017De" +
-      "faultSettings\030\002 \003(\0132\013.NYql.TAttr\"[\n\017TYfA" +
-      "rtifactLink\022#\n\004Type\030\001 \001(\0162\025.NYql.EYfArti" +
-      "factType\022\013\n\003Url\030\002 \001(\t\022\026\n\016TargetFilePath\030" +
-      "\003 \001(\t\"k\n\033TRtmrOperationArtifactsInfo\022&\n\004" +
-      "Type\030\001 \001(\0162\030.NYql.ERtmrOperationType\022$\n\005" +
-      "Links\030\002 \003(\0132\025.NYql.TYfArtifactLink\"8\n\023TR" +
-      "tmrPqConsumerInfo\022\017\n\007Cluster\030\001 \001(\t\022\020\n\010Co" +
-      "nsumer\030\002 \001(\t\"\362\003\n\022TRtmrClusterConfig\022\014\n\004N" +
-      "ame\030\001 \001(\t\022\026\n\007Default\030\002 \001(\010:\005false\022\017\n\007Clu" +
-      "ster\030\003 \001(\t\022\022\n\nRemoteName\030\004 \001(\t\022\021\n\tYfClus" +
-      "ter\030\005 \001(\t\022\023\n\013S3TokenPath\030\006 \001(\t\022\027\n\017S3File" +
-      "CachePath\030\007 \001(\t\022\020\n\005TvmId\030\010 \001(\r:\0010\022\025\n\rTvm" +
-      "SecretPath\030\t \001(\t\022\r\n\005Users\030\n \003(\t\022 \n\021Uploa" +
-      "dViaYfClient\030\013 \001(\010:\005false\022\025\n\rMdsTorrentU" +
-      "rl\030\014 \001(\t\022<\n\021ArtifactOverrides\030\r \003(\0132!.NY" +
-      "ql.TRtmrOperationArtifactsInfo\022\022\n\nPqCons" +
-      "umer\030\016 \001(\t\0224\n\021PqConsumerMapping\030\017 \003(\0132\031." +
-      "NYql.TRtmrPqConsumerInfo\022\027\n\017MaxPqPartiti" +
-      "ons\030\020 \001(\r\022\037\n\027PreviewCollectTimeoutMs\030\021 \001" +
-      "(\r\022\035\n\010Settings\030e \003(\0132\013.NYql.TAttr\"\266\002\n\022TR" +
-      "tmrGatewayConfig\0220\n\016ClusterMapping\030\001 \003(\013" +
-      "2\030.NYql.TRtmrClusterConfig\022$\n\017DefaultSet" +
-      "tings\030\002 \003(\0132\013.NYql.TAttr\022\025\n\rYqlRtmrDynLi" +
-      "b\030\003 \001(\t\022\036\n\017UseFakeYfUpload\030\004 \001(\010:\005false\022" +
-      "\021\n\tArtifacts\030\005 \003(\t\022:\n\017CommonArtifacts\030\006 " +
-      "\003(\0132!.NYql.TRtmrOperationArtifactsInfo\022\033" +
-      "\n\017MaxPqPartitions\030\007 \001(\r:\00210\022%\n\027PreviewCo" +
-      "llectTimeoutMs\030\010 \001(\r:\0042000\"\246\003\n\020TPqCluste" +
-      "rConfig\022\014\n\004Name\030\001 \001(\t\022G\n\013ClusterType\030\002 \001" +
-      "(\0162#.NYql.TPqClusterConfig.EClusterType:" +
-      "\rCT_PERS_QUEUE\022\020\n\010Endpoint\030\003 \001(\t\022\035\n\025Conf" +
-      "igManagerEndpoint\030\004 \001(\t\022\r\n\005Token\030\005 \001(\t\022\027" +
-      "\n\010Database\030\006 \001(\t:\005/Root\022\020\n\005TvmId\030\007 \001(\r:\001" +
-      "0\022\016\n\006UseSsl\030\010 \001(\010\022\030\n\020ServiceAccountId\030\t " +
-      "\001(\t\022!\n\031ServiceAccountIdSignature\030\n \001(\t\022\030" +
-      "\n\020AddBearerToToken\030\013 \001(\010\022\035\n\010Settings\030d \003" +
-      "(\0132\013.NYql.TAttr\"J\n\014EClusterType\022\022\n\016CT_UN" +
-      "SPECIFIED\020\000\022\021\n\rCT_PERS_QUEUE\020\001\022\023\n\017CT_DAT" +
-      "A_STREAMS\020\002\"~\n\020TPqGatewayConfig\022.\n\016Clust" +
-      "erMapping\030\001 \003(\0132\026.NYql.TPqClusterConfig\022" +
-      "\024\n\014DefaultToken\030\002 \001(\t\022$\n\017DefaultSettings" +
-      "\030d \003(\0132\013.NYql.TAttr\"\217\001\n\022TStatClusterConf" +
-      "ig\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\026\n\007Def" +
-      "ault\030\003 \001(\010:\005false\022\021\n\tStatToken\030\004 \001(\t\022\020\n\010" +
-      "StatName\030\005 \001(\t\022\035\n\010Settings\030d \003(\0132\013.NYql." +
-      "TAttr\"\207\001\n\022TStatGatewayConfig\022\031\n\016GatewayT" +
-      "hreads\030\001 \001(\r:\0010\0220\n\016ClusterMapping\030e \003(\0132" +
-      "\030.NYql.TStatClusterConfig\022$\n\017DefaultSett" +
-      "ings\030f \003(\0132\013.NYql.TAttr\"5\n\022TChytClusterC" +
-      "onfig\022\014\n\004Name\030\001 \001(\t\022\021\n\tYtCluster\030\002 \001(\t\"F" +
-      "\n\022TChytGatewayConfig\0220\n\016ClusterMapping\030\001" +
-      " \003(\0132\030.NYql.TChytClusterConfig\"\230\001\n\020TS3Cl" +
-      "usterConfig\022\014\n\004Name\030\001 \001(\t\022\013\n\003Url\030\002 \001(\t\022\r" +
-      "\n\005Token\030\003 \001(\t\022\030\n\020ServiceAccountId\030\004 \001(\t\022" +
-      "!\n\031ServiceAccountIdSignature\030\005 \001(\t\022\035\n\010Se" +
-      "ttings\030d \003(\0132\013.NYql.TAttr\"h\n\020TS3GatewayC" +
-      "onfig\022.\n\016ClusterMapping\030\001 \003(\0132\026.NYql.TS3" +
-      "ClusterConfig\022$\n\017DefaultSettings\030d \003(\0132\013" +
-      ".NYql.TAttr\"m\n\025TSolomonClusterConfig\022\014\n\004" +
-      "Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\026\n\007Default\030\003" +
-      " \001(\010:\005false\022\035\n\010Settings\030d \003(\0132\013.NYql.TAt" +
-      "tr\"r\n\025TSolomonGatewayConfig\0223\n\016ClusterMa" +
-      "pping\030\001 \003(\0132\033.NYql.TSolomonClusterConfig" +
-      "\022$\n\017DefaultSettings\030\002 \003(\0132\013.NYql.TAttr\":" +
-      "\n\034TFileStorageAdditionalConfig\022\032\n\022Allowe" +
-      "dUrlPatterns\030\001 \003(\t\"J\n\030TPostgresqlCluster" +
-      "Config\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\017\n" +
-      "\007PGtoken\030\003 \001(\t\"R\n\030TPostgresqlGatewayConf" +
-      "ig\0226\n\016ClusterMapping\030\001 \003(\0132\036.NYql.TPostg" +
-      "resqlClusterConfig\"H\n\023TMysqlClusterConfi" +
-      "g\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\022\n\nMysq" +
-      "lToken\030\003 \001(\t\"H\n\023TMysqlGatewayConfig\0221\n\016C" +
-      "lusterMapping\030\001 \003(\0132\031.NYql.TMysqlCluster" +
-      "Config\"\260\002\n\020TDqGatewayConfig\022 \n\025DefaultAu" +
-      "toPercentage\030\001 \001(\r:\0010\022N\n\021DefaultAutoByHo" +
-      "ur\030\002 \003(\01323.NYql.TDqGatewayConfig.TDefaul" +
-      "tAutoByHourPercentage\022\035\n\025NoDefaultAutoFo" +
-      "rUsers\030\003 \003(\t\022#\n\033DefaultAnalyzeQueryForUs" +
-      "ers\030\004 \003(\t\022$\n\017DefaultSettings\030f \003(\0132\013.NYq" +
-      "l.TAttr\032@\n\034TDefaultAutoByHourPercentage\022" +
-      "\014\n\004Hour\030\001 \002(\r\022\022\n\nPercentage\030\002 \002(\r\"\'\n\tTCo" +
-      "reAttr\022\014\n\004Name\030\001 \002(\t\022\014\n\004Args\030\002 \003(\t\"0\n\016TY" +
-      "qlCoreConfig\022\036\n\005Flags\030\001 \003(\0132\017.NYql.TCore" +
-      "Attr\"@\n\034TWarnAsErrorByHourPercentage\022\014\n\004" +
-      "Hour\030\001 \002(\r\022\022\n\nPercentage\030\002 \002(\r\"\274\001\n\016TSqlC" +
-      "oreConfig\022(\n\035V0SyntaxWarnAsErrorPercenta" +
-      "ge\030\001 \001(\r:\0010\022E\n\031V0SyntaxWarnAsErrorByHour" +
-      "\030\002 \003(\0132\".NYql.TWarnAsErrorByHourPercenta" +
-      "ge\022\037\n\027NoV0SyntaxErrorForUsers\030\003 \003(\t\022\030\n\020T" +
-      "ranslationFlags\030\004 \003(\t\"\333\005\n\017TGatewaysConfi" +
-      "g\022\"\n\002Yt\030\001 \001(\0132\026.NYql.TYtGatewayConfig\022*\n" +
-      "\006Kikimr\030\002 \001(\0132\032.NYql.TKikimrGatewayConfi" +
-      "g\0222\n\nClickHouse\030\003 \001(\0132\036.NYql.TClickHouse" +
-      "GatewayConfig\022&\n\004Rtmr\030\004 \001(\0132\030.NYql.TRtmr" +
-      "GatewayConfig\0220\n\tKikimrMvp\030\005 \001(\0132\035.NYql." +
-      "TKikimrMvpGatewayConfig\022&\n\004Stat\030\006 \001(\0132\030." +
-      "NYql.TStatGatewayConfig\022&\n\004Chyt\030\007 \001(\0132\030." +
-      "NYql.TChytGatewayConfig\022,\n\007Solomon\030\010 \001(\013" +
-      "2\033.NYql.TSolomonGatewayConfig\022.\n\002Fs\030\t \001(" +
-      "\0132\".NYql.TFileStorageAdditionalConfig\022%\n" +
-      "\007YqlCore\030\n \001(\0132\024.NYql.TYqlCoreConfig\0222\n\n" +
-      "Postgresql\030\013 \001(\0132\036.NYql.TPostgresqlGatew" +
-      "ayConfig\022%\n\007SqlCore\030\014 \001(\0132\024.NYql.TSqlCor" +
-      "eConfig\022\"\n\002Dq\030\r \001(\0132\026.NYql.TDqGatewayCon" +
-      "fig\022(\n\005Mysql\030\016 \001(\0132\031.NYql.TMysqlGatewayC" +
-      "onfig\022$\n\003Ydb\030\017 \001(\0132\027.NYql.TYdbGatewayCon" +
-      "fig\022\"\n\002Pq\030\020 \001(\0132\026.NYql.TPqGatewayConfig\022" +
-      "\"\n\002S3\030\021 \001(\0132\026.NYql.TS3GatewayConfig*Z\n\013E" +
-      "YtLogLevel\022\024\n\007YL_NONE\020\377\377\377\377\377\377\377\377\377\001\022\014\n\010YL_F" +
-      "ATAL\020\000\022\014\n\010YL_ERROR\020\001\022\013\n\007YL_INFO\020\002\022\014\n\010YL_" +
-      "DEBUG\020\003*(\n\013EHostScheme\022\013\n\007HS_HTTP\020\000\022\014\n\010H" +
-      "S_HTTPS\020\001*?\n\nETokenType\022\007\n\003IAM\020\000\022\t\n\005OAUT" +
-      "H\020\001\022\014\n\010BLACKBOX\020\002\022\017\n\013CREDENTIALS\020\003*9\n\017EY" +
-      "fArtifactType\022\013\n\007AT_NONE\020\000\022\013\n\007AT_FILE\020\001\022" +
-      "\014\n\010AT_LAYER\020\002*e\n\022ERtmrOperationType\022\013\n\007O" +
-      "T_NONE\020\000\022\017\n\013OT_LF_PARSE\020\001\022\016\n\nOT_YDB_OUT\020" +
-      "\002\022\022\n\016OT_SOLOMON_OUT\020\003\022\r\n\tOT_PQ_OUT\020\004B\025\n\023" +
-      "ru.yandex.yql.proto"
+      "proto\"5\n\021TActivationByHour\022\014\n\004Hour\030\001 \002(\r" +
+      "\022\022\n\nPercentage\030\002 \002(\r\"\240\001\n\025TActivationPerc" +
+      "entage\022\025\n\nPercentage\030\001 \001(\r:\0010\022\'\n\006ByHour\030" +
+      "\002 \003(\0132\027.NYql.TActivationByHour\022\024\n\014Includ" +
+      "eUsers\030\003 \003(\t\022\024\n\014ExcludeUsers\030\004 \003(\t\022\033\n\rEx" +
+      "cludeRobots\030\005 \001(\010:\004true\"U\n\005TAttr\022\014\n\004Name" +
+      "\030\001 \002(\t\022\r\n\005Value\030\002 \002(\t\022/\n\nActivation\030\003 \001(" +
+      "\0132\033.NYql.TActivationPercentage\"D\n\022TRemot" +
+      "eFilePattern\022\017\n\007Pattern\030\001 \002(\t\022\017\n\007Cluster" +
+      "\030\002 \002(\t\022\014\n\004Path\030\003 \002(\t\"\211\001\n\020TYtClusterConfi" +
+      "g\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\026\n\007Defa" +
+      "ult\030\003 \001(\010:\005false\022\017\n\007YTToken\030\004 \001(\t\022\016\n\006YTN" +
+      "ame\030\005 \001(\t\022\035\n\010Settings\030d \003(\0132\013.NYql.TAttr" +
+      "\"\221\004\n\020TYtGatewayConfig\022\031\n\016GatewayThreads\030" +
+      "\001 \001(\r:\0010\022/\n\nYtLogLevel\030\002 \001(\0162\021.NYql.EYtL" +
+      "ogLevel:\010YL_ERROR\022\025\n\rPerfToolsPath\030\004 \001(\t" +
+      "\022\034\n\024PerfToolsFromPackage\030\005 \001(\010\022\020\n\010MrJobB" +
+      "in\030\006 \001(\t\022\023\n\013MrJobBinMd5\030\r \001(\t\022\024\n\014MrJobUd" +
+      "fsDir\030\007 \001(\t\022#\n\033ExecuteUdfLocallyIfPossib" +
+      "le\030\010 \001(\010\022\035\n\016LocalChainTest\030\t \001(\010:\005false\022" +
+      "\026\n\016YtDebugLogFile\030\n \001(\t\022\031\n\016YtDebugLogSiz" +
+      "e\030\013 \001(\004:\0010\022$\n\025YtDebugLogAlwaysWrite\030\014 \001(" +
+      "\010:\005false\022\026\n\016LocalChainFile\030\016 \001(\t\0224\n\022Remo" +
+      "teFilePatterns\030d \003(\0132\030.NYql.TRemoteFileP" +
+      "attern\022.\n\016ClusterMapping\030e \003(\0132\026.NYql.TY" +
+      "tClusterConfig\022$\n\017DefaultSettings\030f \003(\0132" +
+      "\013.NYql.TAttr\"?\n\tTHostPort\022\014\n\004Host\030\001 \002(\t\022" +
+      "\014\n\004Port\030\002 \002(\r\022\026\n\016TotalTimeoutMs\030\003 \001(\004\"\237\001" +
+      "\n\017TKikimrGrpcData\022\020\n\010Locators\030\001 \003(\t\022\021\n\tT" +
+      "imeoutMs\030\002 \001(\004\022\033\n\023MaxMessageSizeBytes\030\003 " +
+      "\001(\004\022\023\n\013MaxInFlight\030\004 \001(\r\022\037\n\027EnableEndpoi" +
+      "ntDiscovery\030\005 \001(\010\022\024\n\014UseLegacyApi\030\006 \001(\010\"" +
+      "\264\002\n\024TKikimrClusterConfig\022\014\n\004Name\030\001 \001(\t\022\026" +
+      "\n\007Default\030\002 \001(\010:\005false\022#\n\nMessageBus\030\003 \003" +
+      "(\0132\017.NYql.THostPort\022#\n\004Grpc\030\004 \001(\0132\025.NYql" +
+      ".TKikimrGrpcData\022\020\n\010Database\030\005 \001(\t\022\020\n\005Tv" +
+      "mId\030\006 \001(\r:\0010\022\r\n\005Token\030\007 \001(\t\022\020\n\010ProxyUrl\030" +
+      "\010 \001(\t\022\020\n\010Location\030\t \001(\t\022\021\n\tIsFromMvp\030\n \001" +
+      "(\010\022#\n\tTokenType\030\013 \001(\0162\020.NYql.ETokenType\022" +
+      "\035\n\010Settings\030e \003(\0132\013.NYql.TAttr\"p\n\024TKikim" +
+      "rGatewayConfig\0222\n\016ClusterMapping\030\001 \003(\0132\032" +
+      ".NYql.TKikimrClusterConfig\022$\n\017DefaultSet" +
+      "tings\030\002 \003(\0132\013.NYql.TAttr\"W\n\025TKikimrMvpPr" +
+      "oxyConfig\022\014\n\004Host\030\001 \001(\t\022\014\n\004Port\030\002 \001(\r\022\020\n" +
+      "\010BasePath\030\003 \001(\t\022\020\n\005TvmId\030\004 \001(\r:\0010\"L\n\027TKi" +
+      "kimrMvpGatewayConfig\0221\n\014ProxyMapping\030\001 \003" +
+      "(\0132\033.NYql.TKikimrMvpProxyConfig\"\235\002\n\021TYdb" +
+      "ClusterConfig\022\014\n\004Name\030\001 \001(\t\022\020\n\010Endpoint\030" +
+      "\002 \001(\t\022\r\n\005Token\030\003 \001(\t\022#\n\004Grpc\030\004 \001(\0132\025.NYq" +
+      "l.TKikimrGrpcData\022\020\n\005TvmId\030\005 \001(\r:\0010\022\020\n\010D" +
+      "atabase\030\006 \001(\t\022\n\n\002Id\030\007 \001(\t\022\016\n\006Secure\030\010 \001(" +
+      "\010\022\030\n\020ServiceAccountId\030\t \001(\t\022!\n\031ServiceAc" +
+      "countIdSignature\030\n \001(\t\022\030\n\020AddBearerToTok" +
+      "en\030\013 \001(\010\022\035\n\010Settings\030d \003(\0132\013.NYql.TAttr\"" +
+      "\231\001\n\021TYdbGatewayConfig\022/\n\016ClusterMapping\030" +
+      "\001 \003(\0132\027.NYql.TYdbClusterConfig\022\027\n\017Defaul" +
+      "tEndpoint\030\002 \001(\t\022\024\n\014DefaultToken\030\003 \001(\t\022$\n" +
+      "\017DefaultSettings\030\004 \003(\0132\013.NYql.TAttr\"\373\002\n\030" +
+      "TClickHouseClusterConfig\022\014\n\004Name\030\001 \001(\t\022\026" +
+      "\n\007Default\030\002 \001(\010:\005false\022\017\n\007Cluster\030\003 \001(\t\022" +
+      "\017\n\007CHToken\030\004 \001(\t\022\035\n\010Settings\030e \003(\0132\013.NYq" +
+      "l.TAttr\022%\n\nHostScheme\030\005 \001(\0162\021.NYql.EHost" +
+      "Scheme\022\020\n\010HostPort\030\006 \001(\r\022\032\n\022CHTokenYavSe" +
+      "cretId\030\007 \001(\t\022\033\n\023CHTokenYavVersionId\030\010 \001(" +
+      "\t\022\025\n\rCHTokenYavKey\030\t \001(\t\0224\n\006Runner\030\n \001(\013" +
+      "2$.NYql.NProto.TClickHouseRunnerConfig\022\034" +
+      "\n\016NativeHostPort\030\013 \001(\r:\0049000\022\033\n\014NativeSe" +
+      "cure\030\014 \001(\010:\005false\"x\n\030TClickHouseGatewayC" +
+      "onfig\0226\n\016ClusterMapping\030\001 \003(\0132\036.NYql.TCl" +
+      "ickHouseClusterConfig\022$\n\017DefaultSettings" +
+      "\030\002 \003(\0132\013.NYql.TAttr\"[\n\017TYfArtifactLink\022#" +
+      "\n\004Type\030\001 \001(\0162\025.NYql.EYfArtifactType\022\013\n\003U" +
+      "rl\030\002 \001(\t\022\026\n\016TargetFilePath\030\003 \001(\t\"k\n\033TRtm" +
+      "rOperationArtifactsInfo\022&\n\004Type\030\001 \001(\0162\030." +
+      "NYql.ERtmrOperationType\022$\n\005Links\030\002 \003(\0132\025" +
+      ".NYql.TYfArtifactLink\"8\n\023TRtmrPqConsumer" +
+      "Info\022\017\n\007Cluster\030\001 \001(\t\022\020\n\010Consumer\030\002 \001(\t\"" +
+      "\362\003\n\022TRtmrClusterConfig\022\014\n\004Name\030\001 \001(\t\022\026\n\007" +
+      "Default\030\002 \001(\010:\005false\022\017\n\007Cluster\030\003 \001(\t\022\022\n" +
+      "\nRemoteName\030\004 \001(\t\022\021\n\tYfCluster\030\005 \001(\t\022\023\n\013" +
+      "S3TokenPath\030\006 \001(\t\022\027\n\017S3FileCachePath\030\007 \001" +
+      "(\t\022\020\n\005TvmId\030\010 \001(\r:\0010\022\025\n\rTvmSecretPath\030\t " +
+      "\001(\t\022\r\n\005Users\030\n \003(\t\022 \n\021UploadViaYfClient\030" +
+      "\013 \001(\010:\005false\022\025\n\rMdsTorrentUrl\030\014 \001(\t\022<\n\021A" +
+      "rtifactOverrides\030\r \003(\0132!.NYql.TRtmrOpera" +
+      "tionArtifactsInfo\022\022\n\nPqConsumer\030\016 \001(\t\0224\n" +
+      "\021PqConsumerMapping\030\017 \003(\0132\031.NYql.TRtmrPqC" +
+      "onsumerInfo\022\027\n\017MaxPqPartitions\030\020 \001(\r\022\037\n\027" +
+      "PreviewCollectTimeoutMs\030\021 \001(\r\022\035\n\010Setting" +
+      "s\030e \003(\0132\013.NYql.TAttr\"\266\002\n\022TRtmrGatewayCon" +
+      "fig\0220\n\016ClusterMapping\030\001 \003(\0132\030.NYql.TRtmr" +
+      "ClusterConfig\022$\n\017DefaultSettings\030\002 \003(\0132\013" +
+      ".NYql.TAttr\022\025\n\rYqlRtmrDynLib\030\003 \001(\t\022\036\n\017Us" +
+      "eFakeYfUpload\030\004 \001(\010:\005false\022\021\n\tArtifacts\030" +
+      "\005 \003(\t\022:\n\017CommonArtifacts\030\006 \003(\0132!.NYql.TR" +
+      "tmrOperationArtifactsInfo\022\033\n\017MaxPqPartit" +
+      "ions\030\007 \001(\r:\00210\022%\n\027PreviewCollectTimeoutM" +
+      "s\030\010 \001(\r:\0042000\"\246\003\n\020TPqClusterConfig\022\014\n\004Na" +
+      "me\030\001 \001(\t\022G\n\013ClusterType\030\002 \001(\0162#.NYql.TPq" +
+      "ClusterConfig.EClusterType:\rCT_PERS_QUEU" +
+      "E\022\020\n\010Endpoint\030\003 \001(\t\022\035\n\025ConfigManagerEndp" +
+      "oint\030\004 \001(\t\022\r\n\005Token\030\005 \001(\t\022\027\n\010Database\030\006 " +
+      "\001(\t:\005/Root\022\020\n\005TvmId\030\007 \001(\r:\0010\022\016\n\006UseSsl\030\010" +
+      " \001(\010\022\030\n\020ServiceAccountId\030\t \001(\t\022!\n\031Servic" +
+      "eAccountIdSignature\030\n \001(\t\022\030\n\020AddBearerTo" +
+      "Token\030\013 \001(\010\022\035\n\010Settings\030d \003(\0132\013.NYql.TAt" +
+      "tr\"J\n\014EClusterType\022\022\n\016CT_UNSPECIFIED\020\000\022\021" +
+      "\n\rCT_PERS_QUEUE\020\001\022\023\n\017CT_DATA_STREAMS\020\002\"~" +
+      "\n\020TPqGatewayConfig\022.\n\016ClusterMapping\030\001 \003" +
+      "(\0132\026.NYql.TPqClusterConfig\022\024\n\014DefaultTok" +
+      "en\030\002 \001(\t\022$\n\017DefaultSettings\030d \003(\0132\013.NYql" +
+      ".TAttr\"\217\001\n\022TStatClusterConfig\022\014\n\004Name\030\001 " +
+      "\001(\t\022\017\n\007Cluster\030\002 \001(\t\022\026\n\007Default\030\003 \001(\010:\005f" +
+      "alse\022\021\n\tStatToken\030\004 \001(\t\022\020\n\010StatName\030\005 \001(" +
+      "\t\022\035\n\010Settings\030d \003(\0132\013.NYql.TAttr\"\207\001\n\022TSt" +
+      "atGatewayConfig\022\031\n\016GatewayThreads\030\001 \001(\r:" +
+      "\0010\0220\n\016ClusterMapping\030e \003(\0132\030.NYql.TStatC" +
+      "lusterConfig\022$\n\017DefaultSettings\030f \003(\0132\013." +
+      "NYql.TAttr\"5\n\022TChytClusterConfig\022\014\n\004Name" +
+      "\030\001 \001(\t\022\021\n\tYtCluster\030\002 \001(\t\"F\n\022TChytGatewa" +
+      "yConfig\0220\n\016ClusterMapping\030\001 \003(\0132\030.NYql.T" +
+      "ChytClusterConfig\"\230\001\n\020TS3ClusterConfig\022\014" +
+      "\n\004Name\030\001 \001(\t\022\013\n\003Url\030\002 \001(\t\022\r\n\005Token\030\003 \001(\t" +
+      "\022\030\n\020ServiceAccountId\030\004 \001(\t\022!\n\031ServiceAcc" +
+      "ountIdSignature\030\005 \001(\t\022\035\n\010Settings\030d \003(\0132" +
+      "\013.NYql.TAttr\"h\n\020TS3GatewayConfig\022.\n\016Clus" +
+      "terMapping\030\001 \003(\0132\026.NYql.TS3ClusterConfig" +
+      "\022$\n\017DefaultSettings\030d \003(\0132\013.NYql.TAttr\"\273" +
+      "\003\n\025TSolomonClusterConfig\022\014\n\004Name\030\001 \001(\t\022\017" +
+      "\n\007Cluster\030\002 \001(\t\022\016\n\006UseSsl\030\003 \001(\010\022Q\n\013Clust" +
+      "erType\030\004 \001(\0162/.NYql.TSolomonClusterConfi" +
+      "g.ESolomonClusterType:\013SCT_SOLOMON\022\r\n\005To" +
+      "ken\030\005 \001(\t\022\030\n\020ServiceAccountId\030\006 \001(\t\022!\n\031S" +
+      "erviceAccountIdSignature\030\007 \001(\t\0224\n\004Path\030\010" +
+      " \001(\0132&.NYql.TSolomonClusterConfig.TShard" +
+      "Path\022\035\n\010Settings\030d \003(\0132\013.NYql.TAttr\032.\n\nT" +
+      "ShardPath\022\017\n\007Project\030\001 \002(\t\022\017\n\007Cluster\030\002 " +
+      "\002(\t\"O\n\023ESolomonClusterType\022\023\n\017SCT_UNSPEC" +
+      "IFIED\020\000\022\017\n\013SCT_SOLOMON\020\001\022\022\n\016SCT_MONITORI" +
+      "NG\020\002\"r\n\025TSolomonGatewayConfig\0223\n\016Cluster" +
+      "Mapping\030\001 \003(\0132\033.NYql.TSolomonClusterConf" +
+      "ig\022$\n\017DefaultSettings\030\002 \003(\0132\013.NYql.TAttr" +
+      "\":\n\034TFileStorageAdditionalConfig\022\032\n\022Allo" +
+      "wedUrlPatterns\030\001 \003(\t\"J\n\030TPostgresqlClust" +
+      "erConfig\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022" +
+      "\017\n\007PGtoken\030\003 \001(\t\"R\n\030TPostgresqlGatewayCo" +
+      "nfig\0226\n\016ClusterMapping\030\001 \003(\0132\036.NYql.TPos" +
+      "tgresqlClusterConfig\"H\n\023TMysqlClusterCon" +
+      "fig\022\014\n\004Name\030\001 \001(\t\022\017\n\007Cluster\030\002 \001(\t\022\022\n\nMy" +
+      "sqlToken\030\003 \001(\t\"H\n\023TMysqlGatewayConfig\0221\n" +
+      "\016ClusterMapping\030\001 \003(\0132\031.NYql.TMysqlClust" +
+      "erConfig\"\260\002\n\020TDqGatewayConfig\022 \n\025Default" +
+      "AutoPercentage\030\001 \001(\r:\0010\022N\n\021DefaultAutoBy" +
+      "Hour\030\002 \003(\01323.NYql.TDqGatewayConfig.TDefa" +
+      "ultAutoByHourPercentage\022\035\n\025NoDefaultAuto" +
+      "ForUsers\030\003 \003(\t\022#\n\033DefaultAnalyzeQueryFor" +
+      "Users\030\004 \003(\t\022$\n\017DefaultSettings\030f \003(\0132\013.N" +
+      "Yql.TAttr\032@\n\034TDefaultAutoByHourPercentag" +
+      "e\022\014\n\004Hour\030\001 \002(\r\022\022\n\nPercentage\030\002 \002(\r\"\'\n\tT" +
+      "CoreAttr\022\014\n\004Name\030\001 \002(\t\022\014\n\004Args\030\002 \003(\t\"0\n\016" +
+      "TYqlCoreConfig\022\036\n\005Flags\030\001 \003(\0132\017.NYql.TCo" +
+      "reAttr\"@\n\034TWarnAsErrorByHourPercentage\022\014" +
+      "\n\004Hour\030\001 \002(\r\022\022\n\nPercentage\030\002 \002(\r\"\274\001\n\016TSq" +
+      "lCoreConfig\022(\n\035V0SyntaxWarnAsErrorPercen" +
+      "tage\030\001 \001(\r:\0010\022E\n\031V0SyntaxWarnAsErrorByHo" +
+      "ur\030\002 \003(\0132\".NYql.TWarnAsErrorByHourPercen" +
+      "tage\022\037\n\027NoV0SyntaxErrorForUsers\030\003 \003(\t\022\030\n" +
+      "\020TranslationFlags\030\004 \003(\t\"\333\005\n\017TGatewaysCon" +
+      "fig\022\"\n\002Yt\030\001 \001(\0132\026.NYql.TYtGatewayConfig\022" +
+      "*\n\006Kikimr\030\002 \001(\0132\032.NYql.TKikimrGatewayCon" +
+      "fig\0222\n\nClickHouse\030\003 \001(\0132\036.NYql.TClickHou" +
+      "seGatewayConfig\022&\n\004Rtmr\030\004 \001(\0132\030.NYql.TRt" +
+      "mrGatewayConfig\0220\n\tKikimrMvp\030\005 \001(\0132\035.NYq" +
+      "l.TKikimrMvpGatewayConfig\022&\n\004Stat\030\006 \001(\0132" +
+      "\030.NYql.TStatGatewayConfig\022&\n\004Chyt\030\007 \001(\0132" +
+      "\030.NYql.TChytGatewayConfig\022,\n\007Solomon\030\010 \001" +
+      "(\0132\033.NYql.TSolomonGatewayConfig\022.\n\002Fs\030\t " +
+      "\001(\0132\".NYql.TFileStorageAdditionalConfig\022" +
+      "%\n\007YqlCore\030\n \001(\0132\024.NYql.TYqlCoreConfig\0222" +
+      "\n\nPostgresql\030\013 \001(\0132\036.NYql.TPostgresqlGat" +
+      "ewayConfig\022%\n\007SqlCore\030\014 \001(\0132\024.NYql.TSqlC" +
+      "oreConfig\022\"\n\002Dq\030\r \001(\0132\026.NYql.TDqGatewayC" +
+      "onfig\022(\n\005Mysql\030\016 \001(\0132\031.NYql.TMysqlGatewa" +
+      "yConfig\022$\n\003Ydb\030\017 \001(\0132\027.NYql.TYdbGatewayC" +
+      "onfig\022\"\n\002Pq\030\020 \001(\0132\026.NYql.TPqGatewayConfi" +
+      "g\022\"\n\002S3\030\021 \001(\0132\026.NYql.TS3GatewayConfig*Z\n" +
+      "\013EYtLogLevel\022\024\n\007YL_NONE\020\377\377\377\377\377\377\377\377\377\001\022\014\n\010YL" +
+      "_FATAL\020\000\022\014\n\010YL_ERROR\020\001\022\013\n\007YL_INFO\020\002\022\014\n\010Y" +
+      "L_DEBUG\020\003*(\n\013EHostScheme\022\013\n\007HS_HTTP\020\000\022\014\n" +
+      "\010HS_HTTPS\020\001*?\n\nETokenType\022\007\n\003IAM\020\000\022\t\n\005OA" +
+      "UTH\020\001\022\014\n\010BLACKBOX\020\002\022\017\n\013CREDENTIALS\020\003*9\n\017" +
+      "EYfArtifactType\022\013\n\007AT_NONE\020\000\022\013\n\007AT_FILE\020" +
+      "\001\022\014\n\010AT_LAYER\020\002*e\n\022ERtmrOperationType\022\013\n" +
+      "\007OT_NONE\020\000\022\017\n\013OT_LF_PARSE\020\001\022\016\n\nOT_YDB_OU" +
+      "T\020\002\022\022\n\016OT_SOLOMON_OUT\020\003\022\r\n\tOT_PQ_OUT\020\004B\025" +
+      "\n\023ru.yandex.yql.proto"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           ru.yandex.yql.proto.Clickhouse.getDescriptor(),
         });
-    internal_static_NYql_TAttr_descriptor =
+    internal_static_NYql_TActivationByHour_descriptor =
       getDescriptor().getMessageTypes().get(0);
+    internal_static_NYql_TActivationByHour_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_NYql_TActivationByHour_descriptor,
+        new java.lang.String[] { "Hour", "Percentage", });
+    internal_static_NYql_TActivationPercentage_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_NYql_TActivationPercentage_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_NYql_TActivationPercentage_descriptor,
+        new java.lang.String[] { "Percentage", "ByHour", "IncludeUsers", "ExcludeUsers", "ExcludeRobots", });
+    internal_static_NYql_TAttr_descriptor =
+      getDescriptor().getMessageTypes().get(2);
     internal_static_NYql_TAttr_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TAttr_descriptor,
-        new java.lang.String[] { "Name", "Value", });
+        new java.lang.String[] { "Name", "Value", "Activation", });
     internal_static_NYql_TRemoteFilePattern_descriptor =
-      getDescriptor().getMessageTypes().get(1);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_NYql_TRemoteFilePattern_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TRemoteFilePattern_descriptor,
         new java.lang.String[] { "Pattern", "Cluster", "Path", });
     internal_static_NYql_TYtClusterConfig_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_NYql_TYtClusterConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TYtClusterConfig_descriptor,
         new java.lang.String[] { "Name", "Cluster", "Default", "YTToken", "YTName", "Settings", });
     internal_static_NYql_TYtGatewayConfig_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_NYql_TYtGatewayConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TYtGatewayConfig_descriptor,
         new java.lang.String[] { "GatewayThreads", "YtLogLevel", "PerfToolsPath", "PerfToolsFromPackage", "MrJobBin", "MrJobBinMd5", "MrJobUdfsDir", "ExecuteUdfLocallyIfPossible", "LocalChainTest", "YtDebugLogFile", "YtDebugLogSize", "YtDebugLogAlwaysWrite", "LocalChainFile", "RemoteFilePatterns", "ClusterMapping", "DefaultSettings", });
     internal_static_NYql_THostPort_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_NYql_THostPort_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_THostPort_descriptor,
         new java.lang.String[] { "Host", "Port", "TotalTimeoutMs", });
     internal_static_NYql_TKikimrGrpcData_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_NYql_TKikimrGrpcData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TKikimrGrpcData_descriptor,
         new java.lang.String[] { "Locators", "TimeoutMs", "MaxMessageSizeBytes", "MaxInFlight", "EnableEndpointDiscovery", "UseLegacyApi", });
     internal_static_NYql_TKikimrClusterConfig_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_NYql_TKikimrClusterConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TKikimrClusterConfig_descriptor,
         new java.lang.String[] { "Name", "Default", "MessageBus", "Grpc", "Database", "TvmId", "Token", "ProxyUrl", "Location", "IsFromMvp", "TokenType", "Settings", });
     internal_static_NYql_TKikimrGatewayConfig_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_NYql_TKikimrGatewayConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TKikimrGatewayConfig_descriptor,
         new java.lang.String[] { "ClusterMapping", "DefaultSettings", });
     internal_static_NYql_TKikimrMvpProxyConfig_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_NYql_TKikimrMvpProxyConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TKikimrMvpProxyConfig_descriptor,
         new java.lang.String[] { "Host", "Port", "BasePath", "TvmId", });
     internal_static_NYql_TKikimrMvpGatewayConfig_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_NYql_TKikimrMvpGatewayConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TKikimrMvpGatewayConfig_descriptor,
         new java.lang.String[] { "ProxyMapping", });
     internal_static_NYql_TYdbClusterConfig_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_NYql_TYdbClusterConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TYdbClusterConfig_descriptor,
         new java.lang.String[] { "Name", "Endpoint", "Token", "Grpc", "TvmId", "Database", "Id", "Secure", "ServiceAccountId", "ServiceAccountIdSignature", "AddBearerToToken", "Settings", });
     internal_static_NYql_TYdbGatewayConfig_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_NYql_TYdbGatewayConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TYdbGatewayConfig_descriptor,
         new java.lang.String[] { "ClusterMapping", "DefaultEndpoint", "DefaultToken", "DefaultSettings", });
     internal_static_NYql_TClickHouseClusterConfig_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_NYql_TClickHouseClusterConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TClickHouseClusterConfig_descriptor,
         new java.lang.String[] { "Name", "Default", "Cluster", "CHToken", "Settings", "HostScheme", "HostPort", "CHTokenYavSecretId", "CHTokenYavVersionId", "CHTokenYavKey", "Runner", "NativeHostPort", "NativeSecure", });
     internal_static_NYql_TClickHouseGatewayConfig_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_NYql_TClickHouseGatewayConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TClickHouseGatewayConfig_descriptor,
         new java.lang.String[] { "ClusterMapping", "DefaultSettings", });
     internal_static_NYql_TYfArtifactLink_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_NYql_TYfArtifactLink_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TYfArtifactLink_descriptor,
         new java.lang.String[] { "Type", "Url", "TargetFilePath", });
     internal_static_NYql_TRtmrOperationArtifactsInfo_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_NYql_TRtmrOperationArtifactsInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TRtmrOperationArtifactsInfo_descriptor,
         new java.lang.String[] { "Type", "Links", });
     internal_static_NYql_TRtmrPqConsumerInfo_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_NYql_TRtmrPqConsumerInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TRtmrPqConsumerInfo_descriptor,
         new java.lang.String[] { "Cluster", "Consumer", });
     internal_static_NYql_TRtmrClusterConfig_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_NYql_TRtmrClusterConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TRtmrClusterConfig_descriptor,
         new java.lang.String[] { "Name", "Default", "Cluster", "RemoteName", "YfCluster", "S3TokenPath", "S3FileCachePath", "TvmId", "TvmSecretPath", "Users", "UploadViaYfClient", "MdsTorrentUrl", "ArtifactOverrides", "PqConsumer", "PqConsumerMapping", "MaxPqPartitions", "PreviewCollectTimeoutMs", "Settings", });
     internal_static_NYql_TRtmrGatewayConfig_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_NYql_TRtmrGatewayConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TRtmrGatewayConfig_descriptor,
         new java.lang.String[] { "ClusterMapping", "DefaultSettings", "YqlRtmrDynLib", "UseFakeYfUpload", "Artifacts", "CommonArtifacts", "MaxPqPartitions", "PreviewCollectTimeoutMs", });
     internal_static_NYql_TPqClusterConfig_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_NYql_TPqClusterConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TPqClusterConfig_descriptor,
         new java.lang.String[] { "Name", "ClusterType", "Endpoint", "ConfigManagerEndpoint", "Token", "Database", "TvmId", "UseSsl", "ServiceAccountId", "ServiceAccountIdSignature", "AddBearerToToken", "Settings", });
     internal_static_NYql_TPqGatewayConfig_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_NYql_TPqGatewayConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TPqGatewayConfig_descriptor,
         new java.lang.String[] { "ClusterMapping", "DefaultToken", "DefaultSettings", });
     internal_static_NYql_TStatClusterConfig_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_NYql_TStatClusterConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TStatClusterConfig_descriptor,
         new java.lang.String[] { "Name", "Cluster", "Default", "StatToken", "StatName", "Settings", });
     internal_static_NYql_TStatGatewayConfig_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_NYql_TStatGatewayConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TStatGatewayConfig_descriptor,
         new java.lang.String[] { "GatewayThreads", "ClusterMapping", "DefaultSettings", });
     internal_static_NYql_TChytClusterConfig_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_NYql_TChytClusterConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TChytClusterConfig_descriptor,
         new java.lang.String[] { "Name", "YtCluster", });
     internal_static_NYql_TChytGatewayConfig_descriptor =
-      getDescriptor().getMessageTypes().get(24);
+      getDescriptor().getMessageTypes().get(26);
     internal_static_NYql_TChytGatewayConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TChytGatewayConfig_descriptor,
         new java.lang.String[] { "ClusterMapping", });
     internal_static_NYql_TS3ClusterConfig_descriptor =
-      getDescriptor().getMessageTypes().get(25);
+      getDescriptor().getMessageTypes().get(27);
     internal_static_NYql_TS3ClusterConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TS3ClusterConfig_descriptor,
         new java.lang.String[] { "Name", "Url", "Token", "ServiceAccountId", "ServiceAccountIdSignature", "Settings", });
     internal_static_NYql_TS3GatewayConfig_descriptor =
-      getDescriptor().getMessageTypes().get(26);
+      getDescriptor().getMessageTypes().get(28);
     internal_static_NYql_TS3GatewayConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TS3GatewayConfig_descriptor,
         new java.lang.String[] { "ClusterMapping", "DefaultSettings", });
     internal_static_NYql_TSolomonClusterConfig_descriptor =
-      getDescriptor().getMessageTypes().get(27);
+      getDescriptor().getMessageTypes().get(29);
     internal_static_NYql_TSolomonClusterConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TSolomonClusterConfig_descriptor,
-        new java.lang.String[] { "Name", "Cluster", "Default", "Settings", });
+        new java.lang.String[] { "Name", "Cluster", "UseSsl", "ClusterType", "Token", "ServiceAccountId", "ServiceAccountIdSignature", "Path", "Settings", });
+    internal_static_NYql_TSolomonClusterConfig_TShardPath_descriptor =
+      internal_static_NYql_TSolomonClusterConfig_descriptor.getNestedTypes().get(0);
+    internal_static_NYql_TSolomonClusterConfig_TShardPath_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_NYql_TSolomonClusterConfig_TShardPath_descriptor,
+        new java.lang.String[] { "Project", "Cluster", });
     internal_static_NYql_TSolomonGatewayConfig_descriptor =
-      getDescriptor().getMessageTypes().get(28);
+      getDescriptor().getMessageTypes().get(30);
     internal_static_NYql_TSolomonGatewayConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TSolomonGatewayConfig_descriptor,
         new java.lang.String[] { "ClusterMapping", "DefaultSettings", });
     internal_static_NYql_TFileStorageAdditionalConfig_descriptor =
-      getDescriptor().getMessageTypes().get(29);
+      getDescriptor().getMessageTypes().get(31);
     internal_static_NYql_TFileStorageAdditionalConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TFileStorageAdditionalConfig_descriptor,
         new java.lang.String[] { "AllowedUrlPatterns", });
     internal_static_NYql_TPostgresqlClusterConfig_descriptor =
-      getDescriptor().getMessageTypes().get(30);
+      getDescriptor().getMessageTypes().get(32);
     internal_static_NYql_TPostgresqlClusterConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TPostgresqlClusterConfig_descriptor,
         new java.lang.String[] { "Name", "Cluster", "PGtoken", });
     internal_static_NYql_TPostgresqlGatewayConfig_descriptor =
-      getDescriptor().getMessageTypes().get(31);
+      getDescriptor().getMessageTypes().get(33);
     internal_static_NYql_TPostgresqlGatewayConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TPostgresqlGatewayConfig_descriptor,
         new java.lang.String[] { "ClusterMapping", });
     internal_static_NYql_TMysqlClusterConfig_descriptor =
-      getDescriptor().getMessageTypes().get(32);
+      getDescriptor().getMessageTypes().get(34);
     internal_static_NYql_TMysqlClusterConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TMysqlClusterConfig_descriptor,
         new java.lang.String[] { "Name", "Cluster", "MysqlToken", });
     internal_static_NYql_TMysqlGatewayConfig_descriptor =
-      getDescriptor().getMessageTypes().get(33);
+      getDescriptor().getMessageTypes().get(35);
     internal_static_NYql_TMysqlGatewayConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TMysqlGatewayConfig_descriptor,
         new java.lang.String[] { "ClusterMapping", });
     internal_static_NYql_TDqGatewayConfig_descriptor =
-      getDescriptor().getMessageTypes().get(34);
+      getDescriptor().getMessageTypes().get(36);
     internal_static_NYql_TDqGatewayConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TDqGatewayConfig_descriptor,
@@ -62654,31 +66874,31 @@ public final class GatewaysConfig {
         internal_static_NYql_TDqGatewayConfig_TDefaultAutoByHourPercentage_descriptor,
         new java.lang.String[] { "Hour", "Percentage", });
     internal_static_NYql_TCoreAttr_descriptor =
-      getDescriptor().getMessageTypes().get(35);
+      getDescriptor().getMessageTypes().get(37);
     internal_static_NYql_TCoreAttr_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TCoreAttr_descriptor,
         new java.lang.String[] { "Name", "Args", });
     internal_static_NYql_TYqlCoreConfig_descriptor =
-      getDescriptor().getMessageTypes().get(36);
+      getDescriptor().getMessageTypes().get(38);
     internal_static_NYql_TYqlCoreConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TYqlCoreConfig_descriptor,
         new java.lang.String[] { "Flags", });
     internal_static_NYql_TWarnAsErrorByHourPercentage_descriptor =
-      getDescriptor().getMessageTypes().get(37);
+      getDescriptor().getMessageTypes().get(39);
     internal_static_NYql_TWarnAsErrorByHourPercentage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TWarnAsErrorByHourPercentage_descriptor,
         new java.lang.String[] { "Hour", "Percentage", });
     internal_static_NYql_TSqlCoreConfig_descriptor =
-      getDescriptor().getMessageTypes().get(38);
+      getDescriptor().getMessageTypes().get(40);
     internal_static_NYql_TSqlCoreConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TSqlCoreConfig_descriptor,
         new java.lang.String[] { "V0SyntaxWarnAsErrorPercentage", "V0SyntaxWarnAsErrorByHour", "NoV0SyntaxErrorForUsers", "TranslationFlags", });
     internal_static_NYql_TGatewaysConfig_descriptor =
-      getDescriptor().getMessageTypes().get(39);
+      getDescriptor().getMessageTypes().get(41);
     internal_static_NYql_TGatewaysConfig_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_TGatewaysConfig_descriptor,

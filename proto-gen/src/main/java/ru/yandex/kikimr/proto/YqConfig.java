@@ -53,6 +53,54 @@ public final class YqConfig {
      * <code>.NYq.NConfig.ControlPlaneProxyConfig control_plane_proxy = 3;</code>
      */
     NYq.NConfig.ControlPlaneConfig.ControlPlaneProxyConfigOrBuilder getControlPlaneProxyOrBuilder();
+
+    /**
+     * <code>.NYq.NConfig.AnalyticsConfig analytics_config = 4;</code>
+     * @return Whether the analyticsConfig field is set.
+     */
+    boolean hasAnalyticsConfig();
+    /**
+     * <code>.NYq.NConfig.AnalyticsConfig analytics_config = 4;</code>
+     * @return The analyticsConfig.
+     */
+    ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig getAnalyticsConfig();
+    /**
+     * <code>.NYq.NConfig.AnalyticsConfig analytics_config = 4;</code>
+     */
+    ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfigOrBuilder getAnalyticsConfigOrBuilder();
+
+    /**
+     * <code>.NStreams.NConfig.Config streaming_config = 5;</code>
+     * @return Whether the streamingConfig field is set.
+     */
+    boolean hasStreamingConfig();
+    /**
+     * <code>.NStreams.NConfig.Config streaming_config = 5;</code>
+     * @return The streamingConfig.
+     */
+    ru.yandex.kikimr.proto.StreamingConfig.Config getStreamingConfig();
+    /**
+     * <code>.NStreams.NConfig.Config streaming_config = 5;</code>
+     */
+    ru.yandex.kikimr.proto.StreamingConfig.ConfigOrBuilder getStreamingConfigOrBuilder();
+
+    /**
+     * <code>bool enable_control_plane = 6;</code>
+     * @return The enableControlPlane.
+     */
+    boolean getEnableControlPlane();
+
+    /**
+     * <code>bool enable_streaming = 7;</code>
+     * @return The enableStreaming.
+     */
+    boolean getEnableStreaming();
+
+    /**
+     * <code>bool enable_analytics = 8;</code>
+     * @return The enableAnalytics.
+     */
+    boolean getEnableAnalytics();
   }
   /**
    * Protobuf type {@code NYq.NConfig.Config}
@@ -128,6 +176,47 @@ public final class YqConfig {
                 controlPlaneProxy_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            case 34: {
+              ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig.Builder subBuilder = null;
+              if (analyticsConfig_ != null) {
+                subBuilder = analyticsConfig_.toBuilder();
+              }
+              analyticsConfig_ = input.readMessage(ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(analyticsConfig_);
+                analyticsConfig_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 42: {
+              ru.yandex.kikimr.proto.StreamingConfig.Config.Builder subBuilder = null;
+              if (streamingConfig_ != null) {
+                subBuilder = streamingConfig_.toBuilder();
+              }
+              streamingConfig_ = input.readMessage(ru.yandex.kikimr.proto.StreamingConfig.Config.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(streamingConfig_);
+                streamingConfig_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 48: {
+
+              enableControlPlane_ = input.readBool();
+              break;
+            }
+            case 56: {
+
+              enableStreaming_ = input.readBool();
+              break;
+            }
+            case 64: {
+
+              enableAnalytics_ = input.readBool();
               break;
             }
             default: {
@@ -225,6 +314,91 @@ public final class YqConfig {
       return getControlPlaneProxy();
     }
 
+    public static final int ANALYTICS_CONFIG_FIELD_NUMBER = 4;
+    private ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig analyticsConfig_;
+    /**
+     * <code>.NYq.NConfig.AnalyticsConfig analytics_config = 4;</code>
+     * @return Whether the analyticsConfig field is set.
+     */
+    @java.lang.Override
+    public boolean hasAnalyticsConfig() {
+      return analyticsConfig_ != null;
+    }
+    /**
+     * <code>.NYq.NConfig.AnalyticsConfig analytics_config = 4;</code>
+     * @return The analyticsConfig.
+     */
+    @java.lang.Override
+    public ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig getAnalyticsConfig() {
+      return analyticsConfig_ == null ? ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig.getDefaultInstance() : analyticsConfig_;
+    }
+    /**
+     * <code>.NYq.NConfig.AnalyticsConfig analytics_config = 4;</code>
+     */
+    @java.lang.Override
+    public ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfigOrBuilder getAnalyticsConfigOrBuilder() {
+      return getAnalyticsConfig();
+    }
+
+    public static final int STREAMING_CONFIG_FIELD_NUMBER = 5;
+    private ru.yandex.kikimr.proto.StreamingConfig.Config streamingConfig_;
+    /**
+     * <code>.NStreams.NConfig.Config streaming_config = 5;</code>
+     * @return Whether the streamingConfig field is set.
+     */
+    @java.lang.Override
+    public boolean hasStreamingConfig() {
+      return streamingConfig_ != null;
+    }
+    /**
+     * <code>.NStreams.NConfig.Config streaming_config = 5;</code>
+     * @return The streamingConfig.
+     */
+    @java.lang.Override
+    public ru.yandex.kikimr.proto.StreamingConfig.Config getStreamingConfig() {
+      return streamingConfig_ == null ? ru.yandex.kikimr.proto.StreamingConfig.Config.getDefaultInstance() : streamingConfig_;
+    }
+    /**
+     * <code>.NStreams.NConfig.Config streaming_config = 5;</code>
+     */
+    @java.lang.Override
+    public ru.yandex.kikimr.proto.StreamingConfig.ConfigOrBuilder getStreamingConfigOrBuilder() {
+      return getStreamingConfig();
+    }
+
+    public static final int ENABLE_CONTROL_PLANE_FIELD_NUMBER = 6;
+    private boolean enableControlPlane_;
+    /**
+     * <code>bool enable_control_plane = 6;</code>
+     * @return The enableControlPlane.
+     */
+    @java.lang.Override
+    public boolean getEnableControlPlane() {
+      return enableControlPlane_;
+    }
+
+    public static final int ENABLE_STREAMING_FIELD_NUMBER = 7;
+    private boolean enableStreaming_;
+    /**
+     * <code>bool enable_streaming = 7;</code>
+     * @return The enableStreaming.
+     */
+    @java.lang.Override
+    public boolean getEnableStreaming() {
+      return enableStreaming_;
+    }
+
+    public static final int ENABLE_ANALYTICS_FIELD_NUMBER = 8;
+    private boolean enableAnalytics_;
+    /**
+     * <code>bool enable_analytics = 8;</code>
+     * @return The enableAnalytics.
+     */
+    @java.lang.Override
+    public boolean getEnableAnalytics() {
+      return enableAnalytics_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -232,6 +406,12 @@ public final class YqConfig {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
+      if (hasStreamingConfig()) {
+        if (!getStreamingConfig().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -247,6 +427,21 @@ public final class YqConfig {
       }
       if (controlPlaneProxy_ != null) {
         output.writeMessage(3, getControlPlaneProxy());
+      }
+      if (analyticsConfig_ != null) {
+        output.writeMessage(4, getAnalyticsConfig());
+      }
+      if (streamingConfig_ != null) {
+        output.writeMessage(5, getStreamingConfig());
+      }
+      if (enableControlPlane_ != false) {
+        output.writeBool(6, enableControlPlane_);
+      }
+      if (enableStreaming_ != false) {
+        output.writeBool(7, enableStreaming_);
+      }
+      if (enableAnalytics_ != false) {
+        output.writeBool(8, enableAnalytics_);
       }
       unknownFields.writeTo(output);
     }
@@ -268,6 +463,26 @@ public final class YqConfig {
       if (controlPlaneProxy_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, getControlPlaneProxy());
+      }
+      if (analyticsConfig_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, getAnalyticsConfig());
+      }
+      if (streamingConfig_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, getStreamingConfig());
+      }
+      if (enableControlPlane_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(6, enableControlPlane_);
+      }
+      if (enableStreaming_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(7, enableStreaming_);
+      }
+      if (enableAnalytics_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(8, enableAnalytics_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -296,6 +511,22 @@ public final class YqConfig {
         if (!getControlPlaneProxy()
             .equals(other.getControlPlaneProxy())) return false;
       }
+      if (hasAnalyticsConfig() != other.hasAnalyticsConfig()) return false;
+      if (hasAnalyticsConfig()) {
+        if (!getAnalyticsConfig()
+            .equals(other.getAnalyticsConfig())) return false;
+      }
+      if (hasStreamingConfig() != other.hasStreamingConfig()) return false;
+      if (hasStreamingConfig()) {
+        if (!getStreamingConfig()
+            .equals(other.getStreamingConfig())) return false;
+      }
+      if (getEnableControlPlane()
+          != other.getEnableControlPlane()) return false;
+      if (getEnableStreaming()
+          != other.getEnableStreaming()) return false;
+      if (getEnableAnalytics()
+          != other.getEnableAnalytics()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -318,6 +549,23 @@ public final class YqConfig {
         hash = (37 * hash) + CONTROL_PLANE_PROXY_FIELD_NUMBER;
         hash = (53 * hash) + getControlPlaneProxy().hashCode();
       }
+      if (hasAnalyticsConfig()) {
+        hash = (37 * hash) + ANALYTICS_CONFIG_FIELD_NUMBER;
+        hash = (53 * hash) + getAnalyticsConfig().hashCode();
+      }
+      if (hasStreamingConfig()) {
+        hash = (37 * hash) + STREAMING_CONFIG_FIELD_NUMBER;
+        hash = (53 * hash) + getStreamingConfig().hashCode();
+      }
+      hash = (37 * hash) + ENABLE_CONTROL_PLANE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getEnableControlPlane());
+      hash = (37 * hash) + ENABLE_STREAMING_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getEnableStreaming());
+      hash = (37 * hash) + ENABLE_ANALYTICS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getEnableAnalytics());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -465,6 +713,24 @@ public final class YqConfig {
           controlPlaneProxy_ = null;
           controlPlaneProxyBuilder_ = null;
         }
+        if (analyticsConfigBuilder_ == null) {
+          analyticsConfig_ = null;
+        } else {
+          analyticsConfig_ = null;
+          analyticsConfigBuilder_ = null;
+        }
+        if (streamingConfigBuilder_ == null) {
+          streamingConfig_ = null;
+        } else {
+          streamingConfig_ = null;
+          streamingConfigBuilder_ = null;
+        }
+        enableControlPlane_ = false;
+
+        enableStreaming_ = false;
+
+        enableAnalytics_ = false;
+
         return this;
       }
 
@@ -502,6 +768,19 @@ public final class YqConfig {
         } else {
           result.controlPlaneProxy_ = controlPlaneProxyBuilder_.build();
         }
+        if (analyticsConfigBuilder_ == null) {
+          result.analyticsConfig_ = analyticsConfig_;
+        } else {
+          result.analyticsConfig_ = analyticsConfigBuilder_.build();
+        }
+        if (streamingConfigBuilder_ == null) {
+          result.streamingConfig_ = streamingConfig_;
+        } else {
+          result.streamingConfig_ = streamingConfigBuilder_.build();
+        }
+        result.enableControlPlane_ = enableControlPlane_;
+        result.enableStreaming_ = enableStreaming_;
+        result.enableAnalytics_ = enableAnalytics_;
         onBuilt();
         return result;
       }
@@ -559,6 +838,21 @@ public final class YqConfig {
         if (other.hasControlPlaneProxy()) {
           mergeControlPlaneProxy(other.getControlPlaneProxy());
         }
+        if (other.hasAnalyticsConfig()) {
+          mergeAnalyticsConfig(other.getAnalyticsConfig());
+        }
+        if (other.hasStreamingConfig()) {
+          mergeStreamingConfig(other.getStreamingConfig());
+        }
+        if (other.getEnableControlPlane() != false) {
+          setEnableControlPlane(other.getEnableControlPlane());
+        }
+        if (other.getEnableStreaming() != false) {
+          setEnableStreaming(other.getEnableStreaming());
+        }
+        if (other.getEnableAnalytics() != false) {
+          setEnableAnalytics(other.getEnableAnalytics());
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -566,6 +860,11 @@ public final class YqConfig {
 
       @java.lang.Override
       public final boolean isInitialized() {
+        if (hasStreamingConfig()) {
+          if (!getStreamingConfig().isInitialized()) {
+            return false;
+          }
+        }
         return true;
       }
 
@@ -856,6 +1155,337 @@ public final class YqConfig {
         }
         return controlPlaneProxyBuilder_;
       }
+
+      private ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig analyticsConfig_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig, ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig.Builder, ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfigOrBuilder> analyticsConfigBuilder_;
+      /**
+       * <code>.NYq.NConfig.AnalyticsConfig analytics_config = 4;</code>
+       * @return Whether the analyticsConfig field is set.
+       */
+      public boolean hasAnalyticsConfig() {
+        return analyticsConfigBuilder_ != null || analyticsConfig_ != null;
+      }
+      /**
+       * <code>.NYq.NConfig.AnalyticsConfig analytics_config = 4;</code>
+       * @return The analyticsConfig.
+       */
+      public ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig getAnalyticsConfig() {
+        if (analyticsConfigBuilder_ == null) {
+          return analyticsConfig_ == null ? ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig.getDefaultInstance() : analyticsConfig_;
+        } else {
+          return analyticsConfigBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.NYq.NConfig.AnalyticsConfig analytics_config = 4;</code>
+       */
+      public Builder setAnalyticsConfig(ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig value) {
+        if (analyticsConfigBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          analyticsConfig_ = value;
+          onChanged();
+        } else {
+          analyticsConfigBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NYq.NConfig.AnalyticsConfig analytics_config = 4;</code>
+       */
+      public Builder setAnalyticsConfig(
+          ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig.Builder builderForValue) {
+        if (analyticsConfigBuilder_ == null) {
+          analyticsConfig_ = builderForValue.build();
+          onChanged();
+        } else {
+          analyticsConfigBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NYq.NConfig.AnalyticsConfig analytics_config = 4;</code>
+       */
+      public Builder mergeAnalyticsConfig(ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig value) {
+        if (analyticsConfigBuilder_ == null) {
+          if (analyticsConfig_ != null) {
+            analyticsConfig_ =
+              ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig.newBuilder(analyticsConfig_).mergeFrom(value).buildPartial();
+          } else {
+            analyticsConfig_ = value;
+          }
+          onChanged();
+        } else {
+          analyticsConfigBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NYq.NConfig.AnalyticsConfig analytics_config = 4;</code>
+       */
+      public Builder clearAnalyticsConfig() {
+        if (analyticsConfigBuilder_ == null) {
+          analyticsConfig_ = null;
+          onChanged();
+        } else {
+          analyticsConfig_ = null;
+          analyticsConfigBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NYq.NConfig.AnalyticsConfig analytics_config = 4;</code>
+       */
+      public ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig.Builder getAnalyticsConfigBuilder() {
+        
+        onChanged();
+        return getAnalyticsConfigFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.NYq.NConfig.AnalyticsConfig analytics_config = 4;</code>
+       */
+      public ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfigOrBuilder getAnalyticsConfigOrBuilder() {
+        if (analyticsConfigBuilder_ != null) {
+          return analyticsConfigBuilder_.getMessageOrBuilder();
+        } else {
+          return analyticsConfig_ == null ?
+              ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig.getDefaultInstance() : analyticsConfig_;
+        }
+      }
+      /**
+       * <code>.NYq.NConfig.AnalyticsConfig analytics_config = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig, ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig.Builder, ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfigOrBuilder> 
+          getAnalyticsConfigFieldBuilder() {
+        if (analyticsConfigBuilder_ == null) {
+          analyticsConfigBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig, ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfig.Builder, ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.AnalyticsConfigOrBuilder>(
+                  getAnalyticsConfig(),
+                  getParentForChildren(),
+                  isClean());
+          analyticsConfig_ = null;
+        }
+        return analyticsConfigBuilder_;
+      }
+
+      private ru.yandex.kikimr.proto.StreamingConfig.Config streamingConfig_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ru.yandex.kikimr.proto.StreamingConfig.Config, ru.yandex.kikimr.proto.StreamingConfig.Config.Builder, ru.yandex.kikimr.proto.StreamingConfig.ConfigOrBuilder> streamingConfigBuilder_;
+      /**
+       * <code>.NStreams.NConfig.Config streaming_config = 5;</code>
+       * @return Whether the streamingConfig field is set.
+       */
+      public boolean hasStreamingConfig() {
+        return streamingConfigBuilder_ != null || streamingConfig_ != null;
+      }
+      /**
+       * <code>.NStreams.NConfig.Config streaming_config = 5;</code>
+       * @return The streamingConfig.
+       */
+      public ru.yandex.kikimr.proto.StreamingConfig.Config getStreamingConfig() {
+        if (streamingConfigBuilder_ == null) {
+          return streamingConfig_ == null ? ru.yandex.kikimr.proto.StreamingConfig.Config.getDefaultInstance() : streamingConfig_;
+        } else {
+          return streamingConfigBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.NStreams.NConfig.Config streaming_config = 5;</code>
+       */
+      public Builder setStreamingConfig(ru.yandex.kikimr.proto.StreamingConfig.Config value) {
+        if (streamingConfigBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          streamingConfig_ = value;
+          onChanged();
+        } else {
+          streamingConfigBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NStreams.NConfig.Config streaming_config = 5;</code>
+       */
+      public Builder setStreamingConfig(
+          ru.yandex.kikimr.proto.StreamingConfig.Config.Builder builderForValue) {
+        if (streamingConfigBuilder_ == null) {
+          streamingConfig_ = builderForValue.build();
+          onChanged();
+        } else {
+          streamingConfigBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NStreams.NConfig.Config streaming_config = 5;</code>
+       */
+      public Builder mergeStreamingConfig(ru.yandex.kikimr.proto.StreamingConfig.Config value) {
+        if (streamingConfigBuilder_ == null) {
+          if (streamingConfig_ != null) {
+            streamingConfig_ =
+              ru.yandex.kikimr.proto.StreamingConfig.Config.newBuilder(streamingConfig_).mergeFrom(value).buildPartial();
+          } else {
+            streamingConfig_ = value;
+          }
+          onChanged();
+        } else {
+          streamingConfigBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NStreams.NConfig.Config streaming_config = 5;</code>
+       */
+      public Builder clearStreamingConfig() {
+        if (streamingConfigBuilder_ == null) {
+          streamingConfig_ = null;
+          onChanged();
+        } else {
+          streamingConfig_ = null;
+          streamingConfigBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NStreams.NConfig.Config streaming_config = 5;</code>
+       */
+      public ru.yandex.kikimr.proto.StreamingConfig.Config.Builder getStreamingConfigBuilder() {
+        
+        onChanged();
+        return getStreamingConfigFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.NStreams.NConfig.Config streaming_config = 5;</code>
+       */
+      public ru.yandex.kikimr.proto.StreamingConfig.ConfigOrBuilder getStreamingConfigOrBuilder() {
+        if (streamingConfigBuilder_ != null) {
+          return streamingConfigBuilder_.getMessageOrBuilder();
+        } else {
+          return streamingConfig_ == null ?
+              ru.yandex.kikimr.proto.StreamingConfig.Config.getDefaultInstance() : streamingConfig_;
+        }
+      }
+      /**
+       * <code>.NStreams.NConfig.Config streaming_config = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ru.yandex.kikimr.proto.StreamingConfig.Config, ru.yandex.kikimr.proto.StreamingConfig.Config.Builder, ru.yandex.kikimr.proto.StreamingConfig.ConfigOrBuilder> 
+          getStreamingConfigFieldBuilder() {
+        if (streamingConfigBuilder_ == null) {
+          streamingConfigBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              ru.yandex.kikimr.proto.StreamingConfig.Config, ru.yandex.kikimr.proto.StreamingConfig.Config.Builder, ru.yandex.kikimr.proto.StreamingConfig.ConfigOrBuilder>(
+                  getStreamingConfig(),
+                  getParentForChildren(),
+                  isClean());
+          streamingConfig_ = null;
+        }
+        return streamingConfigBuilder_;
+      }
+
+      private boolean enableControlPlane_ ;
+      /**
+       * <code>bool enable_control_plane = 6;</code>
+       * @return The enableControlPlane.
+       */
+      @java.lang.Override
+      public boolean getEnableControlPlane() {
+        return enableControlPlane_;
+      }
+      /**
+       * <code>bool enable_control_plane = 6;</code>
+       * @param value The enableControlPlane to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEnableControlPlane(boolean value) {
+        
+        enableControlPlane_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool enable_control_plane = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEnableControlPlane() {
+        
+        enableControlPlane_ = false;
+        onChanged();
+        return this;
+      }
+
+      private boolean enableStreaming_ ;
+      /**
+       * <code>bool enable_streaming = 7;</code>
+       * @return The enableStreaming.
+       */
+      @java.lang.Override
+      public boolean getEnableStreaming() {
+        return enableStreaming_;
+      }
+      /**
+       * <code>bool enable_streaming = 7;</code>
+       * @param value The enableStreaming to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEnableStreaming(boolean value) {
+        
+        enableStreaming_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool enable_streaming = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEnableStreaming() {
+        
+        enableStreaming_ = false;
+        onChanged();
+        return this;
+      }
+
+      private boolean enableAnalytics_ ;
+      /**
+       * <code>bool enable_analytics = 8;</code>
+       * @return The enableAnalytics.
+       */
+      @java.lang.Override
+      public boolean getEnableAnalytics() {
+        return enableAnalytics_;
+      }
+      /**
+       * <code>bool enable_analytics = 8;</code>
+       * @param value The enableAnalytics to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEnableAnalytics(boolean value) {
+        
+        enableAnalytics_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool enable_analytics = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEnableAnalytics() {
+        
+        enableAnalytics_ = false;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -926,25 +1556,36 @@ public final class YqConfig {
       "\n2kikimr/streaming/libs/config/proto/yq_" +
       "config.proto\022\013NYq.NConfig\032=kikimr/stream" +
       "ing/libs/config/proto/control_plane_conf" +
-      "ig.proto\"\242\001\n\006Config\022\016\n\006enable\030\001 \001(\010\022E\n\025c" +
-      "ontrol_plane_storage\030\002 \001(\0132&.NYq.NConfig" +
-      ".ControlPlaneStorageConfig\022A\n\023control_pl" +
-      "ane_proxy\030\003 \001(\0132$.NYq.NConfig.ControlPla" +
-      "neProxyConfigB\033\n\026ru.yandex.kikimr.proto\370" +
-      "\001\001b\006proto3"
+      "ig.proto\0329kikimr/streaming/libs/config/p" +
+      "roto/streaming_config.proto\0329kikimr/stre" +
+      "aming/libs/config/proto/analytics_config" +
+      ".proto\"\340\002\n\006Config\022\016\n\006enable\030\001 \001(\010\022E\n\025con" +
+      "trol_plane_storage\030\002 \001(\0132&.NYq.NConfig.C" +
+      "ontrolPlaneStorageConfig\022A\n\023control_plan" +
+      "e_proxy\030\003 \001(\0132$.NYq.NConfig.ControlPlane" +
+      "ProxyConfig\0226\n\020analytics_config\030\004 \001(\0132\034." +
+      "NYq.NConfig.AnalyticsConfig\0222\n\020streaming" +
+      "_config\030\005 \001(\0132\030.NStreams.NConfig.Config\022" +
+      "\034\n\024enable_control_plane\030\006 \001(\010\022\030\n\020enable_" +
+      "streaming\030\007 \001(\010\022\030\n\020enable_analytics\030\010 \001(" +
+      "\010B\033\n\026ru.yandex.kikimr.proto\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           NYq.NConfig.ControlPlaneConfig.getDescriptor(),
+          ru.yandex.kikimr.proto.StreamingConfig.getDescriptor(),
+          ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.getDescriptor(),
         });
     internal_static_NYq_NConfig_Config_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_NYq_NConfig_Config_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYq_NConfig_Config_descriptor,
-        new java.lang.String[] { "Enable", "ControlPlaneStorage", "ControlPlaneProxy", });
+        new java.lang.String[] { "Enable", "ControlPlaneStorage", "ControlPlaneProxy", "AnalyticsConfig", "StreamingConfig", "EnableControlPlane", "EnableStreaming", "EnableAnalytics", });
     NYq.NConfig.ControlPlaneConfig.getDescriptor();
+    ru.yandex.kikimr.proto.StreamingConfig.getDescriptor();
+    ru.yandex.kikimr.proto.AnalyticsConfigOuterClass.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

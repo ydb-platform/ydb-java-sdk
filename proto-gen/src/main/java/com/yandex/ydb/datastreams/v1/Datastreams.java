@@ -2126,10 +2126,10 @@ public final class Datastreams {
         getConsumerArnBytes();
 
     /**
-     * <code>int32 consumer_creation_timestamp = 2;</code>
+     * <code>uint64 consumer_creation_timestamp = 2;</code>
      * @return The consumerCreationTimestamp.
      */
-    int getConsumerCreationTimestamp();
+    long getConsumerCreationTimestamp();
 
     /**
      * <code>string consumer_name = 3;</code>
@@ -2210,7 +2210,7 @@ public final class Datastreams {
             }
             case 16: {
 
-              consumerCreationTimestamp_ = input.readInt32();
+              consumerCreationTimestamp_ = input.readUInt64();
               break;
             }
             case 26: {
@@ -2296,13 +2296,13 @@ public final class Datastreams {
     }
 
     public static final int CONSUMER_CREATION_TIMESTAMP_FIELD_NUMBER = 2;
-    private int consumerCreationTimestamp_;
+    private long consumerCreationTimestamp_;
     /**
-     * <code>int32 consumer_creation_timestamp = 2;</code>
+     * <code>uint64 consumer_creation_timestamp = 2;</code>
      * @return The consumerCreationTimestamp.
      */
     @java.lang.Override
-    public int getConsumerCreationTimestamp() {
+    public long getConsumerCreationTimestamp() {
       return consumerCreationTimestamp_;
     }
 
@@ -2380,8 +2380,8 @@ public final class Datastreams {
       if (!getConsumerArnBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, consumerArn_);
       }
-      if (consumerCreationTimestamp_ != 0) {
-        output.writeInt32(2, consumerCreationTimestamp_);
+      if (consumerCreationTimestamp_ != 0L) {
+        output.writeUInt64(2, consumerCreationTimestamp_);
       }
       if (!getConsumerNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, consumerName_);
@@ -2401,9 +2401,9 @@ public final class Datastreams {
       if (!getConsumerArnBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, consumerArn_);
       }
-      if (consumerCreationTimestamp_ != 0) {
+      if (consumerCreationTimestamp_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, consumerCreationTimestamp_);
+          .computeUInt64Size(2, consumerCreationTimestamp_);
       }
       if (!getConsumerNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, consumerName_);
@@ -2448,7 +2448,8 @@ public final class Datastreams {
       hash = (37 * hash) + CONSUMER_ARN_FIELD_NUMBER;
       hash = (53 * hash) + getConsumerArn().hashCode();
       hash = (37 * hash) + CONSUMER_CREATION_TIMESTAMP_FIELD_NUMBER;
-      hash = (53 * hash) + getConsumerCreationTimestamp();
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getConsumerCreationTimestamp());
       hash = (37 * hash) + CONSUMER_NAME_FIELD_NUMBER;
       hash = (53 * hash) + getConsumerName().hashCode();
       hash = (37 * hash) + CONSUMER_STATUS_FIELD_NUMBER;
@@ -2588,7 +2589,7 @@ public final class Datastreams {
         super.clear();
         consumerArn_ = "";
 
-        consumerCreationTimestamp_ = 0;
+        consumerCreationTimestamp_ = 0L;
 
         consumerName_ = "";
 
@@ -2676,7 +2677,7 @@ public final class Datastreams {
           consumerArn_ = other.consumerArn_;
           onChanged();
         }
-        if (other.getConsumerCreationTimestamp() != 0) {
+        if (other.getConsumerCreationTimestamp() != 0L) {
           setConsumerCreationTimestamp(other.getConsumerCreationTimestamp());
         }
         if (!other.getConsumerName().isEmpty()) {
@@ -2791,33 +2792,33 @@ public final class Datastreams {
         return this;
       }
 
-      private int consumerCreationTimestamp_ ;
+      private long consumerCreationTimestamp_ ;
       /**
-       * <code>int32 consumer_creation_timestamp = 2;</code>
+       * <code>uint64 consumer_creation_timestamp = 2;</code>
        * @return The consumerCreationTimestamp.
        */
       @java.lang.Override
-      public int getConsumerCreationTimestamp() {
+      public long getConsumerCreationTimestamp() {
         return consumerCreationTimestamp_;
       }
       /**
-       * <code>int32 consumer_creation_timestamp = 2;</code>
+       * <code>uint64 consumer_creation_timestamp = 2;</code>
        * @param value The consumerCreationTimestamp to set.
        * @return This builder for chaining.
        */
-      public Builder setConsumerCreationTimestamp(int value) {
+      public Builder setConsumerCreationTimestamp(long value) {
         
         consumerCreationTimestamp_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>int32 consumer_creation_timestamp = 2;</code>
+       * <code>uint64 consumer_creation_timestamp = 2;</code>
        * @return This builder for chaining.
        */
       public Builder clearConsumerCreationTimestamp() {
         
-        consumerCreationTimestamp_ = 0;
+        consumerCreationTimestamp_ = 0L;
         onChanged();
         return this;
       }
@@ -23195,6 +23196,16 @@ public final class Datastreams {
      * @return The limit.
      */
     int getLimit();
+
+    /**
+     * <pre>
+     * Will make recurse listing if set to true. Otherwise will return only streams from root directory.
+     * </pre>
+     *
+     * <code>bool recurse = 4;</code>
+     * @return The recurse.
+     */
+    boolean getRecurse();
   }
   /**
    * Protobuf type {@code Ydb.DataStreams.V1.ListStreamsRequest}
@@ -23264,6 +23275,11 @@ public final class Datastreams {
             case 24: {
 
               limit_ = input.readInt32();
+              break;
+            }
+            case 32: {
+
+              recurse_ = input.readBool();
               break;
             }
             default: {
@@ -23385,6 +23401,21 @@ public final class Datastreams {
       return limit_;
     }
 
+    public static final int RECURSE_FIELD_NUMBER = 4;
+    private boolean recurse_;
+    /**
+     * <pre>
+     * Will make recurse listing if set to true. Otherwise will return only streams from root directory.
+     * </pre>
+     *
+     * <code>bool recurse = 4;</code>
+     * @return The recurse.
+     */
+    @java.lang.Override
+    public boolean getRecurse() {
+      return recurse_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -23408,6 +23439,9 @@ public final class Datastreams {
       if (limit_ != 0) {
         output.writeInt32(3, limit_);
       }
+      if (recurse_ != false) {
+        output.writeBool(4, recurse_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -23427,6 +23461,10 @@ public final class Datastreams {
       if (limit_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, limit_);
+      }
+      if (recurse_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, recurse_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -23452,6 +23490,8 @@ public final class Datastreams {
           .equals(other.getExclusiveStartStreamName())) return false;
       if (getLimit()
           != other.getLimit()) return false;
+      if (getRecurse()
+          != other.getRecurse()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -23471,6 +23511,9 @@ public final class Datastreams {
       hash = (53 * hash) + getExclusiveStartStreamName().hashCode();
       hash = (37 * hash) + LIMIT_FIELD_NUMBER;
       hash = (53 * hash) + getLimit();
+      hash = (37 * hash) + RECURSE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getRecurse());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -23614,6 +23657,8 @@ public final class Datastreams {
 
         limit_ = 0;
 
+        recurse_ = false;
+
         return this;
       }
 
@@ -23647,6 +23692,7 @@ public final class Datastreams {
         }
         result.exclusiveStartStreamName_ = exclusiveStartStreamName_;
         result.limit_ = limit_;
+        result.recurse_ = recurse_;
         onBuilt();
         return result;
       }
@@ -23704,6 +23750,9 @@ public final class Datastreams {
         }
         if (other.getLimit() != 0) {
           setLimit(other.getLimit());
+        }
+        if (other.getRecurse() != false) {
+          setRecurse(other.getRecurse());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -23988,6 +24037,49 @@ public final class Datastreams {
       public Builder clearLimit() {
         
         limit_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private boolean recurse_ ;
+      /**
+       * <pre>
+       * Will make recurse listing if set to true. Otherwise will return only streams from root directory.
+       * </pre>
+       *
+       * <code>bool recurse = 4;</code>
+       * @return The recurse.
+       */
+      @java.lang.Override
+      public boolean getRecurse() {
+        return recurse_;
+      }
+      /**
+       * <pre>
+       * Will make recurse listing if set to true. Otherwise will return only streams from root directory.
+       * </pre>
+       *
+       * <code>bool recurse = 4;</code>
+       * @param value The recurse to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRecurse(boolean value) {
+        
+        recurse_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Will make recurse listing if set to true. Otherwise will return only streams from root directory.
+       * </pre>
+       *
+       * <code>bool recurse = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRecurse() {
+        
+        recurse_ = false;
         onChanged();
         return this;
       }
@@ -91736,7 +91828,7 @@ public final class Datastreams {
       ".HashKeyRange\022\025\n\rparent_shards\030\002 \003(\t\022\014\n\004" +
       "name\030\003 \001(\t\"\255\001\n\010Consumer\022\024\n\014consumer_arn\030" +
       "\001 \001(\t\022#\n\033consumer_creation_timestamp\030\002 \001" +
-      "(\005\022\025\n\rconsumer_name\030\003 \001(\t\022O\n\017consumer_st" +
+      "(\004\022\025\n\rconsumer_name\030\003 \001(\t\022O\n\017consumer_st" +
       "atus\030\004 \001(\01626.Ydb.DataStreams.V1.Consumer" +
       "Description.ConsumerStatus\"B\n\014HashKeyRan" +
       "ge\022\031\n\021starting_hash_key\030\001 \001(\t\022\027\n\017ending_" +
@@ -91837,242 +91929,242 @@ public final class Datastreams {
       "umer_deletion\030\002 \001(\010\022\023\n\013stream_name\030\003 \001(\t" +
       "\"D\n\024DeleteStreamResponse\022,\n\toperation\030\001 " +
       "\001(\0132\031.Ydb.Operations.Operation\"\024\n\022Delete" +
-      "StreamResult\"\203\001\n\022ListStreamsRequest\0229\n\020o" +
+      "StreamResult\"\224\001\n\022ListStreamsRequest\0229\n\020o" +
       "peration_params\030\001 \001(\0132\037.Ydb.Operations.O" +
       "perationParams\022#\n\033exclusive_start_stream" +
-      "_name\030\002 \001(\t\022\r\n\005limit\030\003 \001(\005\"C\n\023ListStream" +
-      "sResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
-      "tions.Operation\"C\n\021ListStreamsResult\022\030\n\020" +
-      "has_more_streams\030\001 \001(\010\022\024\n\014stream_names\030\002" +
-      " \003(\t\"\210\002\n\021ListShardsRequest\0229\n\020operation_" +
-      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\022 \n\030exclusive_start_shard_id\030\002 \001(\t\022" +
-      "\023\n\013max_results\030\003 \001(\005\022\022\n\nnext_token\030\004 \001(\t" +
-      "\0225\n\014shard_filter\030\005 \001(\0132\037.Ydb.DataStreams" +
-      ".V1.ShardFilter\022!\n\031stream_creation_times" +
-      "tamp\030\006 \001(\003\022\023\n\013stream_name\030\007 \001(\t\"B\n\022ListS" +
-      "hardsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
-      "perations.Operation\"Q\n\020ListShardsResult\022" +
-      "\022\n\nnext_token\030\001 \001(\t\022)\n\006shards\030\002 \003(\0132\031.Yd" +
-      "b.DataStreams.V1.Shard\"\206\001\n\024SetWriteQuota" +
-      "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb." +
-      "Operations.OperationParams\022\023\n\013stream_nam" +
-      "e\030\002 \001(\t\022\036\n\026write_quota_kb_per_sec\030\003 \001(\005\"" +
-      "E\n\025SetWriteQuotaResponse\022,\n\toperation\030\001 " +
-      "\001(\0132\031.Ydb.Operations.Operation\"\025\n\023SetWri" +
-      "teQuotaResult\"\301\001\n\023UpdateStreamRequest\0229\n" +
-      "\020operation_params\030\001 \001(\0132\037.Ydb.Operations" +
-      ".OperationParams\022\023\n\013stream_name\030\002 \001(\t\022\036\n" +
-      "\026write_quota_kb_per_sec\030\003 \001(\005\022\032\n\022target_" +
-      "shard_count\030\004 \001(\005\022\036\n\026retention_period_ho" +
-      "urs\030\005 \001(\005\"D\n\024UpdateStreamResponse\022,\n\tope" +
-      "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"" +
-      "\024\n\022UpdateStreamResult\"\267\001\n\032ListStreamCons" +
-      "umersRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
-      ".Ydb.Operations.OperationParams\022\023\n\013max_r" +
-      "esults\030\002 \001(\005\022\022\n\nnext_token\030\003 \001(\t\022\022\n\nstre" +
-      "am_arn\030\004 \001(\t\022!\n\031stream_creation_timestam" +
-      "p\030\005 \001(\003\"K\n\033ListStreamConsumersResponse\022," +
-      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
-      "tion\"`\n\031ListStreamConsumersResult\022\022\n\nnex" +
-      "t_token\030\001 \001(\t\022/\n\tconsumers\030\002 \003(\0132\034.Ydb.D" +
-      "ataStreams.V1.Consumer\"\230\001\n\025DescribeStrea" +
-      "mRequest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb" +
-      ".Operations.OperationParams\022 \n\030exclusive" +
-      "_start_shard_id\030\002 \001(\t\022\r\n\005limit\030\003 \001(\005\022\023\n\013" +
-      "stream_name\030\004 \001(\t\"F\n\026DescribeStreamRespo" +
-      "nse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations." +
-      "Operation\"Y\n\024DescribeStreamResult\022A\n\022str" +
-      "eam_description\030\001 \001(\0132%.Ydb.DataStreams." +
-      "V1.StreamDescription\"\205\001\n\035RegisterStreamC" +
-      "onsumerRequest\0229\n\020operation_params\030\001 \001(\013" +
-      "2\037.Ydb.Operations.OperationParams\022\025\n\rcon" +
-      "sumer_name\030\002 \001(\t\022\022\n\nstream_arn\030\003 \001(\t\"N\n\036" +
-      "RegisterStreamConsumerResponse\022,\n\toperat" +
-      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"N\n\034" +
-      "RegisterStreamConsumerResult\022.\n\010consumer" +
-      "\030\001 \001(\0132\034.Ydb.DataStreams.V1.Consumer\"\235\001\n" +
-      "\037DeregisterStreamConsumerRequest\0229\n\020oper" +
-      "ation_params\030\001 \001(\0132\037.Ydb.Operations.Oper" +
-      "ationParams\022\024\n\014consumer_arn\030\002 \001(\t\022\025\n\rcon" +
-      "sumer_name\030\003 \001(\t\022\022\n\nstream_arn\030\004 \001(\t\"P\n " +
-      "DeregisterStreamConsumerResponse\022,\n\toper" +
-      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\" " +
-      "\n\036DeregisterStreamConsumerResult\"\233\001\n\035Des" +
-      "cribeStreamConsumerRequest\0229\n\020operation_" +
-      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\022\024\n\014consumer_arn\030\002 \001(\t\022\025\n\rconsumer_" +
-      "name\030\003 \001(\t\022\022\n\nstream_arn\030\004 \001(\t\"N\n\036Descri" +
-      "beStreamConsumerResponse\022,\n\toperation\030\001 " +
-      "\001(\0132\031.Ydb.Operations.Operation\"e\n\034Descri" +
-      "beStreamConsumerResult\022E\n\024consumer_descr" +
-      "iption\030\001 \001(\0132\'.Ydb.DataStreams.V1.Consum" +
-      "erDescription\"^\n\026PutRecordsRequestEntry\022" +
-      "\022\n\004data\030\001 \001(\014B\004\330\260\034\001\022\031\n\021explicit_hash_key" +
-      "\030\002 \001(\t\022\025\n\rpartition_key\030\003 \001(\t\"\226\001\n\025PutRec" +
-      "ordsResultEntry\022\'\n\004code\030\001 \001(\0162\031.Ydb.Stat" +
-      "usIds.StatusCode\022\025\n\rerror_message\030\002 \001(\t\022" +
-      "\022\n\nerror_code\030\003 \001(\t\022\027\n\017sequence_number\030\004" +
-      " \001(\t\022\020\n\010shard_id\030\005 \001(\t\"u\n\021GetRecordsRequ" +
+      "_name\030\002 \001(\t\022\r\n\005limit\030\003 \001(\005\022\017\n\007recurse\030\004 " +
+      "\001(\010\"C\n\023ListStreamsResponse\022,\n\toperation\030" +
+      "\001 \001(\0132\031.Ydb.Operations.Operation\"C\n\021List" +
+      "StreamsResult\022\030\n\020has_more_streams\030\001 \001(\010\022" +
+      "\024\n\014stream_names\030\002 \003(\t\"\210\002\n\021ListShardsRequ" +
       "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
-      "ations.OperationParams\022\r\n\005limit\030\002 \001(\005\022\026\n" +
-      "\016shard_iterator\030\003 \001(\t\"B\n\022GetRecordsRespo" +
-      "nse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations." +
-      "Operation\"\260\001\n\020GetRecordsResult\0224\n\014child_" +
-      "shards\030\001 \003(\0132\036.Ydb.DataStreams.V1.ChildS" +
-      "hard\022\034\n\024millis_behind_latest\030\002 \001(\003\022\033\n\023ne" +
-      "xt_shard_iterator\030\003 \001(\t\022+\n\007records\030\004 \003(\013" +
-      "2\032.Ydb.DataStreams.V1.Record\"\301\001\n\020PutReco" +
-      "rdRequest\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
-      "b.Operations.OperationParams\022\022\n\004data\030\002 \001" +
-      "(\014B\004\330\260\034\001\022\031\n\021explicit_hash_key\030\003 \001(\t\022\025\n\rp" +
-      "artition_key\030\004 \001(\t\022\027\n\017sequence_number\030\005 " +
-      "\001(\t\022\023\n\013stream_name\030\006 \001(\t\"A\n\021PutRecordRes" +
-      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
-      "s.Operation\"y\n\017PutRecordResult\022;\n\017encryp" +
-      "tion_type\030\001 \001(\0162\".Ydb.DataStreams.V1.Enc" +
-      "ryptionType\022\027\n\017sequence_number\030\002 \001(\t\022\020\n\010" +
-      "shard_id\030\003 \001(\t\"\240\001\n\021PutRecordsRequest\0229\n\020" +
-      "operation_params\030\001 \001(\0132\037.Ydb.Operations." +
-      "OperationParams\022;\n\007records\030\002 \003(\0132*.Ydb.D" +
-      "ataStreams.V1.PutRecordsRequestEntry\022\023\n\013" +
-      "stream_name\030\003 \001(\t\"B\n\022PutRecordsResponse\022" +
-      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
-      "ation\"\250\001\n\020PutRecordsResult\022;\n\017encryption" +
-      "_type\030\001 \001(\0162\".Ydb.DataStreams.V1.Encrypt" +
-      "ionType\022\033\n\023failed_record_count\030\002 \001(\005\022:\n\007" +
-      "records\030\003 \003(\0132).Ydb.DataStreams.V1.PutRe" +
-      "cordsResultEntry\"\364\001\n\027GetShardIteratorReq" +
-      "uest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Ope" +
-      "rations.OperationParams\022\020\n\010shard_id\030\002 \001(" +
-      "\t\022B\n\023shard_iterator_type\030\003 \001(\0162%.Ydb.Dat" +
-      "aStreams.V1.ShardIteratorType\022 \n\030startin" +
-      "g_sequence_number\030\004 \001(\t\022\023\n\013stream_name\030\005" +
-      " \001(\t\022\021\n\ttimestamp\030\006 \001(\003\"H\n\030GetShardItera" +
-      "torResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
-      "rations.Operation\"*\n\026GetShardIteratorRes" +
-      "ult\022\020\n\010iterator\030\001 \001(\t\"\275\001\n\027SubscribeToSha" +
-      "rdRequest\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
-      "b.Operations.OperationParams\022\024\n\014consumer" +
-      "_arn\030\002 \001(\t\022\020\n\010shard_id\030\003 \001(\t\022?\n\021starting" +
-      "_position\030\004 \001(\0132$.Ydb.DataStreams.V1.Sta" +
-      "rtingPosition\"H\n\030SubscribeToShardRespons" +
+      "ations.OperationParams\022 \n\030exclusive_star" +
+      "t_shard_id\030\002 \001(\t\022\023\n\013max_results\030\003 \001(\005\022\022\n" +
+      "\nnext_token\030\004 \001(\t\0225\n\014shard_filter\030\005 \001(\0132" +
+      "\037.Ydb.DataStreams.V1.ShardFilter\022!\n\031stre" +
+      "am_creation_timestamp\030\006 \001(\003\022\023\n\013stream_na" +
+      "me\030\007 \001(\t\"B\n\022ListShardsResponse\022,\n\toperat" +
+      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"Q\n\020" +
+      "ListShardsResult\022\022\n\nnext_token\030\001 \001(\t\022)\n\006" +
+      "shards\030\002 \003(\0132\031.Ydb.DataStreams.V1.Shard\"" +
+      "\206\001\n\024SetWriteQuotaRequest\0229\n\020operation_pa" +
+      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
+      "ams\022\023\n\013stream_name\030\002 \001(\t\022\036\n\026write_quota_" +
+      "kb_per_sec\030\003 \001(\005\"E\n\025SetWriteQuotaRespons" +
       "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
-      "eration\"_\n\026SubscribeToShardResult\022E\n\014eve" +
-      "nt_stream\030\001 \001(\0132/.Ydb.DataStreams.V1.Sub" +
-      "scribeToShardEventStream\"v\n\026AddTagsToStr" +
-      "eamRequest\0229\n\020operation_params\030\001 \001(\0132\037.Y" +
-      "db.Operations.OperationParams\022\023\n\013stream_" +
-      "name\030\002 \001(\t\022\014\n\004tags\030\003 \003(\t\"G\n\027AddTagsToStr" +
-      "eamResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
-      "rations.Operation\"\027\n\025AddTagsToStreamResu" +
-      "lt\"\226\001\n$DecreaseStreamRetentionPeriodRequ" +
-      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
-      "ations.OperationParams\022\023\n\013stream_name\030\002 " +
-      "\001(\t\022\036\n\026retention_period_hours\030\003 \001(\005\"U\n%D" +
-      "ecreaseStreamRetentionPeriodResponse\022,\n\t" +
-      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
-      "on\"%\n#DecreaseStreamRetentionPeriodResul" +
-      "t\"R\n\025DescribeLimitsRequest\0229\n\020operation_" +
-      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\"F\n\026DescribeLimitsResponse\022,\n\topera" +
-      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"E\n" +
-      "\024DescribeLimitsResult\022\030\n\020open_shard_coun" +
-      "t\030\001 \001(\005\022\023\n\013shard_limit\030\002 \001(\005\"n\n\034Describe" +
-      "StreamSummaryRequest\0229\n\020operation_params" +
-      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\022" +
-      "\023\n\013stream_name\030\002 \001(\t\"M\n\035DescribeStreamSu" +
-      "mmaryResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
-      "perations.Operation\"\035\n\033DescribeStreamSum" +
-      "maryResult\"\217\001\n DisableEnhancedMonitoring" +
-      "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb." +
-      "Operations.OperationParams\022\033\n\023shard_leve" +
-      "l_metrics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"Q\n!" +
-      "DisableEnhancedMonitoringResponse\022,\n\tope" +
-      "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"" +
-      "\200\001\n\037DisableEnhancedMonitoringResult\022#\n\033c" +
-      "urrent_shard_level_metrics\030\001 \003(\t\022#\n\033desi" +
-      "red_shard_level_metrics\030\002 \003(\t\022\023\n\013stream_" +
-      "name\030\003 \001(\t\"\216\001\n\037EnableEnhancedMonitoringR" +
-      "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O" +
-      "perations.OperationParams\022\033\n\023shard_level" +
-      "_metrics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"P\n E" +
-      "nableEnhancedMonitoringResponse\022,\n\topera" +
-      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\177\n" +
-      "\036EnableEnhancedMonitoringResult\022#\n\033curre" +
-      "nt_shard_level_metrics\030\001 \003(\t\022#\n\033desired_" +
-      "shard_level_metrics\030\002 \003(\t\022\023\n\013stream_name" +
-      "\030\003 \001(\t\"\226\001\n$IncreaseStreamRetentionPeriod" +
-      "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb." +
-      "Operations.OperationParams\022\036\n\026retention_" +
-      "period_hours\030\002 \001(\005\022\023\n\013stream_name\030\003 \001(\t\"" +
-      "U\n%IncreaseStreamRetentionPeriodResponse" +
-      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
-      "ration\"%\n#IncreaseStreamRetentionPeriodR" +
-      "esult\"\232\001\n\030ListTagsForStreamRequest\0229\n\020op" +
-      "eration_params\030\001 \001(\0132\037.Ydb.Operations.Op" +
-      "erationParams\022\037\n\027exclusive_start_tag_key" +
-      "\030\002 \001(\t\022\r\n\005limit\030\003 \001(\005\022\023\n\013stream_name\030\004 \001" +
-      "(\t\"I\n\031ListTagsForStreamResponse\022,\n\topera" +
-      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"W\n" +
-      "\027ListTagsForStreamResult\022\025\n\rhas_more_tag" +
-      "s\030\001 \001(\010\022%\n\004tags\030\002 \003(\0132\027.Ydb.DataStreams." +
-      "V1.Tag\"\235\001\n\022MergeShardsRequest\0229\n\020operati" +
+      "eration\"\025\n\023SetWriteQuotaResult\"\301\001\n\023Updat" +
+      "eStreamRequest\0229\n\020operation_params\030\001 \001(\013" +
+      "2\037.Ydb.Operations.OperationParams\022\023\n\013str" +
+      "eam_name\030\002 \001(\t\022\036\n\026write_quota_kb_per_sec" +
+      "\030\003 \001(\005\022\032\n\022target_shard_count\030\004 \001(\005\022\036\n\026re" +
+      "tention_period_hours\030\005 \001(\005\"D\n\024UpdateStre" +
+      "amResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
+      "ations.Operation\"\024\n\022UpdateStreamResult\"\267" +
+      "\001\n\032ListStreamConsumersRequest\0229\n\020operati" +
       "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati" +
-      "onParams\022\037\n\027adjacent_shard_to_merge\030\002 \001(" +
-      "\t\022\026\n\016shard_to_merge\030\003 \001(\t\022\023\n\013stream_name" +
-      "\030\004 \001(\t\"C\n\023MergeShardsResponse\022,\n\toperati" +
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\023\n\021M" +
-      "ergeShardsResult\"\177\n\033RemoveTagsFromStream" +
-      "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb." +
-      "Operations.OperationParams\022\023\n\013stream_nam" +
-      "e\030\002 \001(\t\022\020\n\010tag_keys\030\003 \003(\t\"L\n\034RemoveTagsF" +
-      "romStreamResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
-      "db.Operations.Operation\"\034\n\032RemoveTagsFro" +
-      "mStreamResult\"\232\001\n\021SplitShardRequest\0229\n\020o" +
-      "peration_params\030\001 \001(\0132\037.Ydb.Operations.O" +
-      "perationParams\022\035\n\025new_starting_hash_key\030" +
-      "\002 \001(\t\022\026\n\016shard_to_split\030\003 \001(\t\022\023\n\013stream_" +
-      "name\030\004 \001(\t\"B\n\022SplitShardResponse\022,\n\toper" +
-      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\022" +
-      "\n\020SplitShardResult\"\273\001\n\034StartStreamEncryp" +
-      "tionRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
-      "Ydb.Operations.OperationParams\022;\n\017encryp" +
-      "tion_type\030\002 \001(\0162\".Ydb.DataStreams.V1.Enc" +
-      "ryptionType\022\016\n\006key_id\030\003 \001(\t\022\023\n\013stream_na" +
-      "me\030\004 \001(\t\"M\n\035StartStreamEncryptionRespons" +
-      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
-      "eration\"\035\n\033StartStreamEncryptionResult\"\272" +
-      "\001\n\033StopStreamEncryptionRequest\0229\n\020operat" +
-      "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat" +
-      "ionParams\022;\n\017encryption_type\030\002 \001(\0162\".Ydb" +
-      ".DataStreams.V1.EncryptionType\022\016\n\006key_id" +
-      "\030\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t\"L\n\034StopStrea" +
-      "mEncryptionResponse\022,\n\toperation\030\001 \001(\0132\031" +
-      ".Ydb.Operations.Operation\"\034\n\032StopStreamE" +
-      "ncryptionResult\"\222\002\n\027UpdateShardCountRequ" +
+      "onParams\022\023\n\013max_results\030\002 \001(\005\022\022\n\nnext_to" +
+      "ken\030\003 \001(\t\022\022\n\nstream_arn\030\004 \001(\t\022!\n\031stream_" +
+      "creation_timestamp\030\005 \001(\003\"K\n\033ListStreamCo" +
+      "nsumersResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
+      ".Operations.Operation\"`\n\031ListStreamConsu" +
+      "mersResult\022\022\n\nnext_token\030\001 \001(\t\022/\n\tconsum" +
+      "ers\030\002 \003(\0132\034.Ydb.DataStreams.V1.Consumer\"" +
+      "\230\001\n\025DescribeStreamRequest\0229\n\020operation_p" +
+      "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa" +
+      "rams\022 \n\030exclusive_start_shard_id\030\002 \001(\t\022\r" +
+      "\n\005limit\030\003 \001(\005\022\023\n\013stream_name\030\004 \001(\t\"F\n\026De" +
+      "scribeStreamResponse\022,\n\toperation\030\001 \001(\0132" +
+      "\031.Ydb.Operations.Operation\"Y\n\024DescribeSt" +
+      "reamResult\022A\n\022stream_description\030\001 \001(\0132%" +
+      ".Ydb.DataStreams.V1.StreamDescription\"\205\001" +
+      "\n\035RegisterStreamConsumerRequest\0229\n\020opera" +
+      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
+      "tionParams\022\025\n\rconsumer_name\030\002 \001(\t\022\022\n\nstr" +
+      "eam_arn\030\003 \001(\t\"N\n\036RegisterStreamConsumerR" +
+      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
+      "ons.Operation\"N\n\034RegisterStreamConsumerR" +
+      "esult\022.\n\010consumer\030\001 \001(\0132\034.Ydb.DataStream" +
+      "s.V1.Consumer\"\235\001\n\037DeregisterStreamConsum" +
+      "erRequest\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
+      "b.Operations.OperationParams\022\024\n\014consumer" +
+      "_arn\030\002 \001(\t\022\025\n\rconsumer_name\030\003 \001(\t\022\022\n\nstr" +
+      "eam_arn\030\004 \001(\t\"P\n DeregisterStreamConsume" +
+      "rResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
+      "tions.Operation\" \n\036DeregisterStreamConsu" +
+      "merResult\"\233\001\n\035DescribeStreamConsumerRequ" +
       "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
-      "ations.OperationParams\022M\n\014scaling_type\030\002" +
-      " \001(\01627.Ydb.DataStreams.V1.UpdateShardCou" +
-      "ntRequest.ScalingType\022\023\n\013stream_name\030\003 \001" +
-      "(\t\022\032\n\022target_shard_count\030\004 \001(\005\"<\n\013Scalin" +
-      "gType\022\030\n\024SCALING_TYPE_UNKNOWN\020\000\022\023\n\017UNIFO" +
-      "RM_SCALING\020\001\"H\n\030UpdateShardCountResponse" +
-      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
-      "ration\"f\n\026UpdateShardCountResult\022\033\n\023curr" +
-      "ent_shard_count\030\001 \001(\005\022\023\n\013stream_name\030\002 \001" +
-      "(\t\022\032\n\022target_shard_count\030\003 \001(\005*D\n\030EField" +
-      "TransformationType\022\022\n\016TRANSFORM_NONE\020\000\022\024" +
-      "\n\020TRANSFORM_BASE64\020\001*=\n\016EncryptionType\022\030" +
-      "\n\024ENCRYPTION_UNDEFINED\020\000\022\010\n\004NONE\020\001\022\007\n\003KM" +
-      "S\020\002*\224\001\n\021ShardIteratorType\022\034\n\030SHARD_ITERA" +
-      "TOR_UNDEFINED\020\000\022\026\n\022AT_SEQUENCE_NUMBER\020\001\022" +
-      "\031\n\025AFTER_SEQUENCE_NUMBER\020\002\022\020\n\014AT_TIMESTA" +
-      "MP\020\003\022\020\n\014TRIM_HORIZON\020\004\022\n\n\006LATEST\020\005:g\n\020Fi" +
-      "eldTransformer\022\035.google.protobuf.FieldOp" +
-      "tions\030\213\306\003 \001(\0162,.Ydb.DataStreams.V1.EFiel" +
-      "dTransformationTypeB\"\n\035tech.ydb.da" +
-      "tastreams.v1\370\001\001b\006proto3"
+      "ations.OperationParams\022\024\n\014consumer_arn\030\002" +
+      " \001(\t\022\025\n\rconsumer_name\030\003 \001(\t\022\022\n\nstream_ar" +
+      "n\030\004 \001(\t\"N\n\036DescribeStreamConsumerRespons" +
+      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
+      "eration\"e\n\034DescribeStreamConsumerResult\022" +
+      "E\n\024consumer_description\030\001 \001(\0132\'.Ydb.Data" +
+      "Streams.V1.ConsumerDescription\"^\n\026PutRec" +
+      "ordsRequestEntry\022\022\n\004data\030\001 \001(\014B\004\330\260\034\001\022\031\n\021" +
+      "explicit_hash_key\030\002 \001(\t\022\025\n\rpartition_key" +
+      "\030\003 \001(\t\"\226\001\n\025PutRecordsResultEntry\022\'\n\004code" +
+      "\030\001 \001(\0162\031.Ydb.StatusIds.StatusCode\022\025\n\rerr" +
+      "or_message\030\002 \001(\t\022\022\n\nerror_code\030\003 \001(\t\022\027\n\017" +
+      "sequence_number\030\004 \001(\t\022\020\n\010shard_id\030\005 \001(\t\"" +
+      "u\n\021GetRecordsRequest\0229\n\020operation_params" +
+      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\022" +
+      "\r\n\005limit\030\002 \001(\005\022\026\n\016shard_iterator\030\003 \001(\t\"B" +
+      "\n\022GetRecordsResponse\022,\n\toperation\030\001 \001(\0132" +
+      "\031.Ydb.Operations.Operation\"\260\001\n\020GetRecord" +
+      "sResult\0224\n\014child_shards\030\001 \003(\0132\036.Ydb.Data" +
+      "Streams.V1.ChildShard\022\034\n\024millis_behind_l" +
+      "atest\030\002 \001(\003\022\033\n\023next_shard_iterator\030\003 \001(\t" +
+      "\022+\n\007records\030\004 \003(\0132\032.Ydb.DataStreams.V1.R" +
+      "ecord\"\301\001\n\020PutRecordRequest\0229\n\020operation_" +
+      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
+      "arams\022\022\n\004data\030\002 \001(\014B\004\330\260\034\001\022\031\n\021explicit_ha" +
+      "sh_key\030\003 \001(\t\022\025\n\rpartition_key\030\004 \001(\t\022\027\n\017s" +
+      "equence_number\030\005 \001(\t\022\023\n\013stream_name\030\006 \001(" +
+      "\t\"A\n\021PutRecordResponse\022,\n\toperation\030\001 \001(" +
+      "\0132\031.Ydb.Operations.Operation\"y\n\017PutRecor" +
+      "dResult\022;\n\017encryption_type\030\001 \001(\0162\".Ydb.D" +
+      "ataStreams.V1.EncryptionType\022\027\n\017sequence" +
+      "_number\030\002 \001(\t\022\020\n\010shard_id\030\003 \001(\t\"\240\001\n\021PutR" +
+      "ecordsRequest\0229\n\020operation_params\030\001 \001(\0132" +
+      "\037.Ydb.Operations.OperationParams\022;\n\007reco" +
+      "rds\030\002 \003(\0132*.Ydb.DataStreams.V1.PutRecord" +
+      "sRequestEntry\022\023\n\013stream_name\030\003 \001(\t\"B\n\022Pu" +
+      "tRecordsResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
+      "b.Operations.Operation\"\250\001\n\020PutRecordsRes" +
+      "ult\022;\n\017encryption_type\030\001 \001(\0162\".Ydb.DataS" +
+      "treams.V1.EncryptionType\022\033\n\023failed_recor" +
+      "d_count\030\002 \001(\005\022:\n\007records\030\003 \003(\0132).Ydb.Dat" +
+      "aStreams.V1.PutRecordsResultEntry\"\364\001\n\027Ge" +
+      "tShardIteratorRequest\0229\n\020operation_param" +
+      "s\030\001 \001(\0132\037.Ydb.Operations.OperationParams" +
+      "\022\020\n\010shard_id\030\002 \001(\t\022B\n\023shard_iterator_typ" +
+      "e\030\003 \001(\0162%.Ydb.DataStreams.V1.ShardIterat" +
+      "orType\022 \n\030starting_sequence_number\030\004 \001(\t" +
+      "\022\023\n\013stream_name\030\005 \001(\t\022\021\n\ttimestamp\030\006 \001(\003" +
+      "\"H\n\030GetShardIteratorResponse\022,\n\toperatio" +
+      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"*\n\026Ge" +
+      "tShardIteratorResult\022\020\n\010iterator\030\001 \001(\t\"\275" +
+      "\001\n\027SubscribeToShardRequest\0229\n\020operation_" +
+      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
+      "arams\022\024\n\014consumer_arn\030\002 \001(\t\022\020\n\010shard_id\030" +
+      "\003 \001(\t\022?\n\021starting_position\030\004 \001(\0132$.Ydb.D" +
+      "ataStreams.V1.StartingPosition\"H\n\030Subscr" +
+      "ibeToShardResponse\022,\n\toperation\030\001 \001(\0132\031." +
+      "Ydb.Operations.Operation\"_\n\026SubscribeToS" +
+      "hardResult\022E\n\014event_stream\030\001 \001(\0132/.Ydb.D" +
+      "ataStreams.V1.SubscribeToShardEventStrea" +
+      "m\"v\n\026AddTagsToStreamRequest\0229\n\020operation" +
+      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
+      "Params\022\023\n\013stream_name\030\002 \001(\t\022\014\n\004tags\030\003 \003(" +
+      "\t\"G\n\027AddTagsToStreamResponse\022,\n\toperatio" +
+      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\027\n\025Ad" +
+      "dTagsToStreamResult\"\226\001\n$DecreaseStreamRe" +
+      "tentionPeriodRequest\0229\n\020operation_params" +
+      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\022" +
+      "\023\n\013stream_name\030\002 \001(\t\022\036\n\026retention_period" +
+      "_hours\030\003 \001(\005\"U\n%DecreaseStreamRetentionP" +
+      "eriodResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
+      "perations.Operation\"%\n#DecreaseStreamRet" +
+      "entionPeriodResult\"R\n\025DescribeLimitsRequ" +
+      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
+      "ations.OperationParams\"F\n\026DescribeLimits" +
+      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
+      "ions.Operation\"E\n\024DescribeLimitsResult\022\030" +
+      "\n\020open_shard_count\030\001 \001(\005\022\023\n\013shard_limit\030" +
+      "\002 \001(\005\"n\n\034DescribeStreamSummaryRequest\0229\n" +
+      "\020operation_params\030\001 \001(\0132\037.Ydb.Operations" +
+      ".OperationParams\022\023\n\013stream_name\030\002 \001(\t\"M\n" +
+      "\035DescribeStreamSummaryResponse\022,\n\toperat" +
+      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\035\n\033" +
+      "DescribeStreamSummaryResult\"\217\001\n DisableE" +
+      "nhancedMonitoringRequest\0229\n\020operation_pa" +
+      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
+      "ams\022\033\n\023shard_level_metrics\030\002 \003(\t\022\023\n\013stre" +
+      "am_name\030\003 \001(\t\"Q\n!DisableEnhancedMonitori" +
+      "ngResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
+      "ations.Operation\"\200\001\n\037DisableEnhancedMoni" +
+      "toringResult\022#\n\033current_shard_level_metr" +
+      "ics\030\001 \003(\t\022#\n\033desired_shard_level_metrics" +
+      "\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"\216\001\n\037EnableEn" +
+      "hancedMonitoringRequest\0229\n\020operation_par" +
+      "ams\030\001 \001(\0132\037.Ydb.Operations.OperationPara" +
+      "ms\022\033\n\023shard_level_metrics\030\002 \003(\t\022\023\n\013strea" +
+      "m_name\030\003 \001(\t\"P\n EnableEnhancedMonitoring" +
+      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
+      "ions.Operation\"\177\n\036EnableEnhancedMonitori" +
+      "ngResult\022#\n\033current_shard_level_metrics\030" +
+      "\001 \003(\t\022#\n\033desired_shard_level_metrics\030\002 \003" +
+      "(\t\022\023\n\013stream_name\030\003 \001(\t\"\226\001\n$IncreaseStre" +
+      "amRetentionPeriodRequest\0229\n\020operation_pa" +
+      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
+      "ams\022\036\n\026retention_period_hours\030\002 \001(\005\022\023\n\013s" +
+      "tream_name\030\003 \001(\t\"U\n%IncreaseStreamRetent" +
+      "ionPeriodResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
+      "db.Operations.Operation\"%\n#IncreaseStrea" +
+      "mRetentionPeriodResult\"\232\001\n\030ListTagsForSt" +
+      "reamRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
+      "Ydb.Operations.OperationParams\022\037\n\027exclus" +
+      "ive_start_tag_key\030\002 \001(\t\022\r\n\005limit\030\003 \001(\005\022\023" +
+      "\n\013stream_name\030\004 \001(\t\"I\n\031ListTagsForStream" +
+      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
+      "ions.Operation\"W\n\027ListTagsForStreamResul" +
+      "t\022\025\n\rhas_more_tags\030\001 \001(\010\022%\n\004tags\030\002 \003(\0132\027" +
+      ".Ydb.DataStreams.V1.Tag\"\235\001\n\022MergeShardsR" +
+      "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O" +
+      "perations.OperationParams\022\037\n\027adjacent_sh" +
+      "ard_to_merge\030\002 \001(\t\022\026\n\016shard_to_merge\030\003 \001" +
+      "(\t\022\023\n\013stream_name\030\004 \001(\t\"C\n\023MergeShardsRe" +
+      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
+      "ns.Operation\"\023\n\021MergeShardsResult\"\177\n\033Rem" +
+      "oveTagsFromStreamRequest\0229\n\020operation_pa" +
+      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
+      "ams\022\023\n\013stream_name\030\002 \001(\t\022\020\n\010tag_keys\030\003 \003" +
+      "(\t\"L\n\034RemoveTagsFromStreamResponse\022,\n\top" +
+      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
+      "\"\034\n\032RemoveTagsFromStreamResult\"\232\001\n\021Split" +
+      "ShardRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
+      ".Ydb.Operations.OperationParams\022\035\n\025new_s" +
+      "tarting_hash_key\030\002 \001(\t\022\026\n\016shard_to_split" +
+      "\030\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t\"B\n\022SplitShar" +
+      "dResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
+      "tions.Operation\"\022\n\020SplitShardResult\"\273\001\n\034" +
+      "StartStreamEncryptionRequest\0229\n\020operatio" +
+      "n_params\030\001 \001(\0132\037.Ydb.Operations.Operatio" +
+      "nParams\022;\n\017encryption_type\030\002 \001(\0162\".Ydb.D" +
+      "ataStreams.V1.EncryptionType\022\016\n\006key_id\030\003" +
+      " \001(\t\022\023\n\013stream_name\030\004 \001(\t\"M\n\035StartStream" +
+      "EncryptionResponse\022,\n\toperation\030\001 \001(\0132\031." +
+      "Ydb.Operations.Operation\"\035\n\033StartStreamE" +
+      "ncryptionResult\"\272\001\n\033StopStreamEncryption" +
+      "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb." +
+      "Operations.OperationParams\022;\n\017encryption" +
+      "_type\030\002 \001(\0162\".Ydb.DataStreams.V1.Encrypt" +
+      "ionType\022\016\n\006key_id\030\003 \001(\t\022\023\n\013stream_name\030\004" +
+      " \001(\t\"L\n\034StopStreamEncryptionResponse\022,\n\t" +
+      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
+      "on\"\034\n\032StopStreamEncryptionResult\"\222\002\n\027Upd" +
+      "ateShardCountRequest\0229\n\020operation_params" +
+      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\022" +
+      "M\n\014scaling_type\030\002 \001(\01627.Ydb.DataStreams." +
+      "V1.UpdateShardCountRequest.ScalingType\022\023" +
+      "\n\013stream_name\030\003 \001(\t\022\032\n\022target_shard_coun" +
+      "t\030\004 \001(\005\"<\n\013ScalingType\022\030\n\024SCALING_TYPE_U" +
+      "NKNOWN\020\000\022\023\n\017UNIFORM_SCALING\020\001\"H\n\030UpdateS" +
+      "hardCountResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
+      "db.Operations.Operation\"f\n\026UpdateShardCo" +
+      "untResult\022\033\n\023current_shard_count\030\001 \001(\005\022\023" +
+      "\n\013stream_name\030\002 \001(\t\022\032\n\022target_shard_coun" +
+      "t\030\003 \001(\005*D\n\030EFieldTransformationType\022\022\n\016T" +
+      "RANSFORM_NONE\020\000\022\024\n\020TRANSFORM_BASE64\020\001*=\n" +
+      "\016EncryptionType\022\030\n\024ENCRYPTION_UNDEFINED\020" +
+      "\000\022\010\n\004NONE\020\001\022\007\n\003KMS\020\002*\224\001\n\021ShardIteratorTy" +
+      "pe\022\034\n\030SHARD_ITERATOR_UNDEFINED\020\000\022\026\n\022AT_S" +
+      "EQUENCE_NUMBER\020\001\022\031\n\025AFTER_SEQUENCE_NUMBE" +
+      "R\020\002\022\020\n\014AT_TIMESTAMP\020\003\022\020\n\014TRIM_HORIZON\020\004\022" +
+      "\n\n\006LATEST\020\005:g\n\020FieldTransformer\022\035.google" +
+      ".protobuf.FieldOptions\030\213\306\003 \001(\0162,.Ydb.Dat" +
+      "aStreams.V1.EFieldTransformationTypeB\"\n\035" +
+      "tech.ydb.datastreams.v1\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -92219,7 +92311,7 @@ public final class Datastreams {
     internal_static_Ydb_DataStreams_V1_ListStreamsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_ListStreamsRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "ExclusiveStartStreamName", "Limit", });
+        new java.lang.String[] { "OperationParams", "ExclusiveStartStreamName", "Limit", "Recurse", });
     internal_static_Ydb_DataStreams_V1_ListStreamsResponse_descriptor =
       getDescriptor().getMessageTypes().get(22);
     internal_static_Ydb_DataStreams_V1_ListStreamsResponse_fieldAccessorTable = new

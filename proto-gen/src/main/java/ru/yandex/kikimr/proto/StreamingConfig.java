@@ -85,32 +85,47 @@ public final class StreamingConfig {
     ru.yandex.yql.proto.GatewaysConfig.TS3GatewayConfigOrBuilder getS3OrBuilder();
 
     /**
-     * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 6;</code>
+     * <code>.NYql.TSolomonGatewayConfig Solomon = 6;</code>
+     * @return Whether the solomon field is set.
+     */
+    boolean hasSolomon();
+    /**
+     * <code>.NYql.TSolomonGatewayConfig Solomon = 6;</code>
+     * @return The solomon.
+     */
+    ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig getSolomon();
+    /**
+     * <code>.NYql.TSolomonGatewayConfig Solomon = 6;</code>
+     */
+    ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfigOrBuilder getSolomonOrBuilder();
+
+    /**
+     * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 7;</code>
      * @return Whether the storageConfig field is set.
      */
     boolean hasStorageConfig();
     /**
-     * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 6;</code>
+     * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 7;</code>
      * @return The storageConfig.
      */
     NStreams.NConfig.StorageConfig.TStorageConfig getStorageConfig();
     /**
-     * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 6;</code>
+     * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 7;</code>
      */
     NStreams.NConfig.StorageConfig.TStorageConfigOrBuilder getStorageConfigOrBuilder();
 
     /**
-     * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 7;</code>
+     * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 8;</code>
      * @return Whether the checkpointCoordinator field is set.
      */
     boolean hasCheckpointCoordinator();
     /**
-     * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 7;</code>
+     * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 8;</code>
      * @return The checkpointCoordinator.
      */
     NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig getCheckpointCoordinator();
     /**
-     * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 7;</code>
+     * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 8;</code>
      */
     NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfigOrBuilder getCheckpointCoordinatorOrBuilder();
 
@@ -119,7 +134,7 @@ public final class StreamingConfig {
      * for faster bootstrap, may contain approximate value
      * </pre>
      *
-     * <code>uint32 ExpectedNodeCount = 8;</code>
+     * <code>uint32 ExpectedNodeCount = 9;</code>
      * @return The expectedNodeCount.
      */
     int getExpectedNodeCount();
@@ -129,7 +144,7 @@ public final class StreamingConfig {
      * time period to force discovery stop, 0 means 60 sec !!!
      * </pre>
      *
-     * <code>uint32 NodeDiscoveryMaxTimeSec = 9;</code>
+     * <code>uint32 NodeDiscoveryMaxTimeSec = 10;</code>
      * @return The nodeDiscoveryMaxTimeSec.
      */
     int getNodeDiscoveryMaxTimeSec();
@@ -139,25 +154,37 @@ public final class StreamingConfig {
      * Deterministic mode for random and time yql providers // For tests
      * </pre>
      *
-     * <code>bool DeterministicMode = 10;</code>
+     * <code>bool DeterministicMode = 11;</code>
      * @return The deterministicMode.
      */
     boolean getDeterministicMode();
 
     /**
-     * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 11;</code>
+     * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 12;</code>
      * @return Whether the tokenAccessor field is set.
      */
     boolean hasTokenAccessor();
     /**
-     * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 11;</code>
+     * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 12;</code>
      * @return The tokenAccessor.
      */
     ru.yandex.kikimr.proto.TokenAccessorConfig.TTokenAccessorConfig getTokenAccessor();
     /**
-     * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 11;</code>
+     * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 12;</code>
      */
     ru.yandex.kikimr.proto.TokenAccessorConfig.TTokenAccessorConfigOrBuilder getTokenAccessorOrBuilder();
+
+    /**
+     * <code>string HmacSecretFile = 13;</code>
+     * @return The hmacSecretFile.
+     */
+    java.lang.String getHmacSecretFile();
+    /**
+     * <code>string HmacSecretFile = 13;</code>
+     * @return The bytes for hmacSecretFile.
+     */
+    com.google.protobuf.ByteString
+        getHmacSecretFileBytes();
   }
   /**
    * Protobuf type {@code NStreams.NConfig.Config}
@@ -172,6 +199,7 @@ public final class StreamingConfig {
       super(builder);
     }
     private Config() {
+      hmacSecretFile_ = "";
     }
 
     @java.lang.Override
@@ -262,6 +290,19 @@ public final class StreamingConfig {
               break;
             }
             case 50: {
+              ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig.Builder subBuilder = null;
+              if (solomon_ != null) {
+                subBuilder = solomon_.toBuilder();
+              }
+              solomon_ = input.readMessage(ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(solomon_);
+                solomon_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 58: {
               NStreams.NConfig.StorageConfig.TStorageConfig.Builder subBuilder = null;
               if (storageConfig_ != null) {
                 subBuilder = storageConfig_.toBuilder();
@@ -274,7 +315,7 @@ public final class StreamingConfig {
 
               break;
             }
-            case 58: {
+            case 66: {
               NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig.Builder subBuilder = null;
               if (checkpointCoordinator_ != null) {
                 subBuilder = checkpointCoordinator_.toBuilder();
@@ -287,22 +328,22 @@ public final class StreamingConfig {
 
               break;
             }
-            case 64: {
+            case 72: {
 
               expectedNodeCount_ = input.readUInt32();
               break;
             }
-            case 72: {
+            case 80: {
 
               nodeDiscoveryMaxTimeSec_ = input.readUInt32();
               break;
             }
-            case 80: {
+            case 88: {
 
               deterministicMode_ = input.readBool();
               break;
             }
-            case 90: {
+            case 98: {
               ru.yandex.kikimr.proto.TokenAccessorConfig.TTokenAccessorConfig.Builder subBuilder = null;
               if (tokenAccessor_ != null) {
                 subBuilder = tokenAccessor_.toBuilder();
@@ -313,6 +354,12 @@ public final class StreamingConfig {
                 tokenAccessor_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            case 106: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              hmacSecretFile_ = s;
               break;
             }
             default: {
@@ -462,10 +509,36 @@ public final class StreamingConfig {
       return getS3();
     }
 
-    public static final int STORAGECONFIG_FIELD_NUMBER = 6;
+    public static final int SOLOMON_FIELD_NUMBER = 6;
+    private ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig solomon_;
+    /**
+     * <code>.NYql.TSolomonGatewayConfig Solomon = 6;</code>
+     * @return Whether the solomon field is set.
+     */
+    @java.lang.Override
+    public boolean hasSolomon() {
+      return solomon_ != null;
+    }
+    /**
+     * <code>.NYql.TSolomonGatewayConfig Solomon = 6;</code>
+     * @return The solomon.
+     */
+    @java.lang.Override
+    public ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig getSolomon() {
+      return solomon_ == null ? ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig.getDefaultInstance() : solomon_;
+    }
+    /**
+     * <code>.NYql.TSolomonGatewayConfig Solomon = 6;</code>
+     */
+    @java.lang.Override
+    public ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfigOrBuilder getSolomonOrBuilder() {
+      return getSolomon();
+    }
+
+    public static final int STORAGECONFIG_FIELD_NUMBER = 7;
     private NStreams.NConfig.StorageConfig.TStorageConfig storageConfig_;
     /**
-     * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 6;</code>
+     * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 7;</code>
      * @return Whether the storageConfig field is set.
      */
     @java.lang.Override
@@ -473,7 +546,7 @@ public final class StreamingConfig {
       return storageConfig_ != null;
     }
     /**
-     * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 6;</code>
+     * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 7;</code>
      * @return The storageConfig.
      */
     @java.lang.Override
@@ -481,17 +554,17 @@ public final class StreamingConfig {
       return storageConfig_ == null ? NStreams.NConfig.StorageConfig.TStorageConfig.getDefaultInstance() : storageConfig_;
     }
     /**
-     * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 6;</code>
+     * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 7;</code>
      */
     @java.lang.Override
     public NStreams.NConfig.StorageConfig.TStorageConfigOrBuilder getStorageConfigOrBuilder() {
       return getStorageConfig();
     }
 
-    public static final int CHECKPOINTCOORDINATOR_FIELD_NUMBER = 7;
+    public static final int CHECKPOINTCOORDINATOR_FIELD_NUMBER = 8;
     private NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig checkpointCoordinator_;
     /**
-     * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 7;</code>
+     * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 8;</code>
      * @return Whether the checkpointCoordinator field is set.
      */
     @java.lang.Override
@@ -499,7 +572,7 @@ public final class StreamingConfig {
       return checkpointCoordinator_ != null;
     }
     /**
-     * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 7;</code>
+     * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 8;</code>
      * @return The checkpointCoordinator.
      */
     @java.lang.Override
@@ -507,21 +580,21 @@ public final class StreamingConfig {
       return checkpointCoordinator_ == null ? NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig.getDefaultInstance() : checkpointCoordinator_;
     }
     /**
-     * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 7;</code>
+     * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 8;</code>
      */
     @java.lang.Override
     public NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfigOrBuilder getCheckpointCoordinatorOrBuilder() {
       return getCheckpointCoordinator();
     }
 
-    public static final int EXPECTEDNODECOUNT_FIELD_NUMBER = 8;
+    public static final int EXPECTEDNODECOUNT_FIELD_NUMBER = 9;
     private int expectedNodeCount_;
     /**
      * <pre>
      * for faster bootstrap, may contain approximate value
      * </pre>
      *
-     * <code>uint32 ExpectedNodeCount = 8;</code>
+     * <code>uint32 ExpectedNodeCount = 9;</code>
      * @return The expectedNodeCount.
      */
     @java.lang.Override
@@ -529,14 +602,14 @@ public final class StreamingConfig {
       return expectedNodeCount_;
     }
 
-    public static final int NODEDISCOVERYMAXTIMESEC_FIELD_NUMBER = 9;
+    public static final int NODEDISCOVERYMAXTIMESEC_FIELD_NUMBER = 10;
     private int nodeDiscoveryMaxTimeSec_;
     /**
      * <pre>
      * time period to force discovery stop, 0 means 60 sec !!!
      * </pre>
      *
-     * <code>uint32 NodeDiscoveryMaxTimeSec = 9;</code>
+     * <code>uint32 NodeDiscoveryMaxTimeSec = 10;</code>
      * @return The nodeDiscoveryMaxTimeSec.
      */
     @java.lang.Override
@@ -544,14 +617,14 @@ public final class StreamingConfig {
       return nodeDiscoveryMaxTimeSec_;
     }
 
-    public static final int DETERMINISTICMODE_FIELD_NUMBER = 10;
+    public static final int DETERMINISTICMODE_FIELD_NUMBER = 11;
     private boolean deterministicMode_;
     /**
      * <pre>
      * Deterministic mode for random and time yql providers // For tests
      * </pre>
      *
-     * <code>bool DeterministicMode = 10;</code>
+     * <code>bool DeterministicMode = 11;</code>
      * @return The deterministicMode.
      */
     @java.lang.Override
@@ -559,10 +632,10 @@ public final class StreamingConfig {
       return deterministicMode_;
     }
 
-    public static final int TOKENACCESSOR_FIELD_NUMBER = 11;
+    public static final int TOKENACCESSOR_FIELD_NUMBER = 12;
     private ru.yandex.kikimr.proto.TokenAccessorConfig.TTokenAccessorConfig tokenAccessor_;
     /**
-     * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 11;</code>
+     * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 12;</code>
      * @return Whether the tokenAccessor field is set.
      */
     @java.lang.Override
@@ -570,7 +643,7 @@ public final class StreamingConfig {
       return tokenAccessor_ != null;
     }
     /**
-     * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 11;</code>
+     * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 12;</code>
      * @return The tokenAccessor.
      */
     @java.lang.Override
@@ -578,11 +651,49 @@ public final class StreamingConfig {
       return tokenAccessor_ == null ? ru.yandex.kikimr.proto.TokenAccessorConfig.TTokenAccessorConfig.getDefaultInstance() : tokenAccessor_;
     }
     /**
-     * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 11;</code>
+     * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 12;</code>
      */
     @java.lang.Override
     public ru.yandex.kikimr.proto.TokenAccessorConfig.TTokenAccessorConfigOrBuilder getTokenAccessorOrBuilder() {
       return getTokenAccessor();
+    }
+
+    public static final int HMACSECRETFILE_FIELD_NUMBER = 13;
+    private volatile java.lang.Object hmacSecretFile_;
+    /**
+     * <code>string HmacSecretFile = 13;</code>
+     * @return The hmacSecretFile.
+     */
+    @java.lang.Override
+    public java.lang.String getHmacSecretFile() {
+      java.lang.Object ref = hmacSecretFile_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        hmacSecretFile_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string HmacSecretFile = 13;</code>
+     * @return The bytes for hmacSecretFile.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getHmacSecretFileBytes() {
+      java.lang.Object ref = hmacSecretFile_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        hmacSecretFile_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private byte memoizedIsInitialized = -1;
@@ -616,6 +727,12 @@ public final class StreamingConfig {
           return false;
         }
       }
+      if (hasSolomon()) {
+        if (!getSolomon().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -638,23 +755,29 @@ public final class StreamingConfig {
       if (s3_ != null) {
         output.writeMessage(5, getS3());
       }
+      if (solomon_ != null) {
+        output.writeMessage(6, getSolomon());
+      }
       if (storageConfig_ != null) {
-        output.writeMessage(6, getStorageConfig());
+        output.writeMessage(7, getStorageConfig());
       }
       if (checkpointCoordinator_ != null) {
-        output.writeMessage(7, getCheckpointCoordinator());
+        output.writeMessage(8, getCheckpointCoordinator());
       }
       if (expectedNodeCount_ != 0) {
-        output.writeUInt32(8, expectedNodeCount_);
+        output.writeUInt32(9, expectedNodeCount_);
       }
       if (nodeDiscoveryMaxTimeSec_ != 0) {
-        output.writeUInt32(9, nodeDiscoveryMaxTimeSec_);
+        output.writeUInt32(10, nodeDiscoveryMaxTimeSec_);
       }
       if (deterministicMode_ != false) {
-        output.writeBool(10, deterministicMode_);
+        output.writeBool(11, deterministicMode_);
       }
       if (tokenAccessor_ != null) {
-        output.writeMessage(11, getTokenAccessor());
+        output.writeMessage(12, getTokenAccessor());
+      }
+      if (!getHmacSecretFileBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 13, hmacSecretFile_);
       }
       unknownFields.writeTo(output);
     }
@@ -685,29 +808,36 @@ public final class StreamingConfig {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, getS3());
       }
+      if (solomon_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, getSolomon());
+      }
       if (storageConfig_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, getStorageConfig());
+          .computeMessageSize(7, getStorageConfig());
       }
       if (checkpointCoordinator_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(7, getCheckpointCoordinator());
+          .computeMessageSize(8, getCheckpointCoordinator());
       }
       if (expectedNodeCount_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(8, expectedNodeCount_);
+          .computeUInt32Size(9, expectedNodeCount_);
       }
       if (nodeDiscoveryMaxTimeSec_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(9, nodeDiscoveryMaxTimeSec_);
+          .computeUInt32Size(10, nodeDiscoveryMaxTimeSec_);
       }
       if (deterministicMode_ != false) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(10, deterministicMode_);
+          .computeBoolSize(11, deterministicMode_);
       }
       if (tokenAccessor_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(11, getTokenAccessor());
+          .computeMessageSize(12, getTokenAccessor());
+      }
+      if (!getHmacSecretFileBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(13, hmacSecretFile_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -746,6 +876,11 @@ public final class StreamingConfig {
         if (!getS3()
             .equals(other.getS3())) return false;
       }
+      if (hasSolomon() != other.hasSolomon()) return false;
+      if (hasSolomon()) {
+        if (!getSolomon()
+            .equals(other.getSolomon())) return false;
+      }
       if (hasStorageConfig() != other.hasStorageConfig()) return false;
       if (hasStorageConfig()) {
         if (!getStorageConfig()
@@ -767,6 +902,8 @@ public final class StreamingConfig {
         if (!getTokenAccessor()
             .equals(other.getTokenAccessor())) return false;
       }
+      if (!getHmacSecretFile()
+          .equals(other.getHmacSecretFile())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -797,6 +934,10 @@ public final class StreamingConfig {
         hash = (37 * hash) + S3_FIELD_NUMBER;
         hash = (53 * hash) + getS3().hashCode();
       }
+      if (hasSolomon()) {
+        hash = (37 * hash) + SOLOMON_FIELD_NUMBER;
+        hash = (53 * hash) + getSolomon().hashCode();
+      }
       if (hasStorageConfig()) {
         hash = (37 * hash) + STORAGECONFIG_FIELD_NUMBER;
         hash = (53 * hash) + getStorageConfig().hashCode();
@@ -816,6 +957,8 @@ public final class StreamingConfig {
         hash = (37 * hash) + TOKENACCESSOR_FIELD_NUMBER;
         hash = (53 * hash) + getTokenAccessor().hashCode();
       }
+      hash = (37 * hash) + HMACSECRETFILE_FIELD_NUMBER;
+      hash = (53 * hash) + getHmacSecretFile().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -975,6 +1118,12 @@ public final class StreamingConfig {
           s3_ = null;
           s3Builder_ = null;
         }
+        if (solomonBuilder_ == null) {
+          solomon_ = null;
+        } else {
+          solomon_ = null;
+          solomonBuilder_ = null;
+        }
         if (storageConfigBuilder_ == null) {
           storageConfig_ = null;
         } else {
@@ -999,6 +1148,8 @@ public final class StreamingConfig {
           tokenAccessor_ = null;
           tokenAccessorBuilder_ = null;
         }
+        hmacSecretFile_ = "";
+
         return this;
       }
 
@@ -1046,6 +1197,11 @@ public final class StreamingConfig {
         } else {
           result.s3_ = s3Builder_.build();
         }
+        if (solomonBuilder_ == null) {
+          result.solomon_ = solomon_;
+        } else {
+          result.solomon_ = solomonBuilder_.build();
+        }
         if (storageConfigBuilder_ == null) {
           result.storageConfig_ = storageConfig_;
         } else {
@@ -1064,6 +1220,7 @@ public final class StreamingConfig {
         } else {
           result.tokenAccessor_ = tokenAccessorBuilder_.build();
         }
+        result.hmacSecretFile_ = hmacSecretFile_;
         onBuilt();
         return result;
       }
@@ -1127,6 +1284,9 @@ public final class StreamingConfig {
         if (other.hasS3()) {
           mergeS3(other.getS3());
         }
+        if (other.hasSolomon()) {
+          mergeSolomon(other.getSolomon());
+        }
         if (other.hasStorageConfig()) {
           mergeStorageConfig(other.getStorageConfig());
         }
@@ -1144,6 +1304,10 @@ public final class StreamingConfig {
         }
         if (other.hasTokenAccessor()) {
           mergeTokenAccessor(other.getTokenAccessor());
+        }
+        if (!other.getHmacSecretFile().isEmpty()) {
+          hmacSecretFile_ = other.hmacSecretFile_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1169,6 +1333,11 @@ public final class StreamingConfig {
         }
         if (hasS3()) {
           if (!getS3().isInitialized()) {
+            return false;
+          }
+        }
+        if (hasSolomon()) {
+          if (!getSolomon().isInitialized()) {
             return false;
           }
         }
@@ -1701,18 +1870,137 @@ public final class StreamingConfig {
         return s3Builder_;
       }
 
+      private ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig solomon_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig, ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig.Builder, ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfigOrBuilder> solomonBuilder_;
+      /**
+       * <code>.NYql.TSolomonGatewayConfig Solomon = 6;</code>
+       * @return Whether the solomon field is set.
+       */
+      public boolean hasSolomon() {
+        return solomonBuilder_ != null || solomon_ != null;
+      }
+      /**
+       * <code>.NYql.TSolomonGatewayConfig Solomon = 6;</code>
+       * @return The solomon.
+       */
+      public ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig getSolomon() {
+        if (solomonBuilder_ == null) {
+          return solomon_ == null ? ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig.getDefaultInstance() : solomon_;
+        } else {
+          return solomonBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.NYql.TSolomonGatewayConfig Solomon = 6;</code>
+       */
+      public Builder setSolomon(ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig value) {
+        if (solomonBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          solomon_ = value;
+          onChanged();
+        } else {
+          solomonBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NYql.TSolomonGatewayConfig Solomon = 6;</code>
+       */
+      public Builder setSolomon(
+          ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig.Builder builderForValue) {
+        if (solomonBuilder_ == null) {
+          solomon_ = builderForValue.build();
+          onChanged();
+        } else {
+          solomonBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NYql.TSolomonGatewayConfig Solomon = 6;</code>
+       */
+      public Builder mergeSolomon(ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig value) {
+        if (solomonBuilder_ == null) {
+          if (solomon_ != null) {
+            solomon_ =
+              ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig.newBuilder(solomon_).mergeFrom(value).buildPartial();
+          } else {
+            solomon_ = value;
+          }
+          onChanged();
+        } else {
+          solomonBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NYql.TSolomonGatewayConfig Solomon = 6;</code>
+       */
+      public Builder clearSolomon() {
+        if (solomonBuilder_ == null) {
+          solomon_ = null;
+          onChanged();
+        } else {
+          solomon_ = null;
+          solomonBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.NYql.TSolomonGatewayConfig Solomon = 6;</code>
+       */
+      public ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig.Builder getSolomonBuilder() {
+        
+        onChanged();
+        return getSolomonFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.NYql.TSolomonGatewayConfig Solomon = 6;</code>
+       */
+      public ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfigOrBuilder getSolomonOrBuilder() {
+        if (solomonBuilder_ != null) {
+          return solomonBuilder_.getMessageOrBuilder();
+        } else {
+          return solomon_ == null ?
+              ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig.getDefaultInstance() : solomon_;
+        }
+      }
+      /**
+       * <code>.NYql.TSolomonGatewayConfig Solomon = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig, ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig.Builder, ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfigOrBuilder> 
+          getSolomonFieldBuilder() {
+        if (solomonBuilder_ == null) {
+          solomonBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig, ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfig.Builder, ru.yandex.yql.proto.GatewaysConfig.TSolomonGatewayConfigOrBuilder>(
+                  getSolomon(),
+                  getParentForChildren(),
+                  isClean());
+          solomon_ = null;
+        }
+        return solomonBuilder_;
+      }
+
       private NStreams.NConfig.StorageConfig.TStorageConfig storageConfig_;
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NConfig.StorageConfig.TStorageConfig, NStreams.NConfig.StorageConfig.TStorageConfig.Builder, NStreams.NConfig.StorageConfig.TStorageConfigOrBuilder> storageConfigBuilder_;
       /**
-       * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 6;</code>
+       * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 7;</code>
        * @return Whether the storageConfig field is set.
        */
       public boolean hasStorageConfig() {
         return storageConfigBuilder_ != null || storageConfig_ != null;
       }
       /**
-       * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 6;</code>
+       * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 7;</code>
        * @return The storageConfig.
        */
       public NStreams.NConfig.StorageConfig.TStorageConfig getStorageConfig() {
@@ -1723,7 +2011,7 @@ public final class StreamingConfig {
         }
       }
       /**
-       * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 6;</code>
+       * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 7;</code>
        */
       public Builder setStorageConfig(NStreams.NConfig.StorageConfig.TStorageConfig value) {
         if (storageConfigBuilder_ == null) {
@@ -1739,7 +2027,7 @@ public final class StreamingConfig {
         return this;
       }
       /**
-       * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 6;</code>
+       * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 7;</code>
        */
       public Builder setStorageConfig(
           NStreams.NConfig.StorageConfig.TStorageConfig.Builder builderForValue) {
@@ -1753,7 +2041,7 @@ public final class StreamingConfig {
         return this;
       }
       /**
-       * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 6;</code>
+       * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 7;</code>
        */
       public Builder mergeStorageConfig(NStreams.NConfig.StorageConfig.TStorageConfig value) {
         if (storageConfigBuilder_ == null) {
@@ -1771,7 +2059,7 @@ public final class StreamingConfig {
         return this;
       }
       /**
-       * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 6;</code>
+       * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 7;</code>
        */
       public Builder clearStorageConfig() {
         if (storageConfigBuilder_ == null) {
@@ -1785,7 +2073,7 @@ public final class StreamingConfig {
         return this;
       }
       /**
-       * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 6;</code>
+       * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 7;</code>
        */
       public NStreams.NConfig.StorageConfig.TStorageConfig.Builder getStorageConfigBuilder() {
         
@@ -1793,7 +2081,7 @@ public final class StreamingConfig {
         return getStorageConfigFieldBuilder().getBuilder();
       }
       /**
-       * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 6;</code>
+       * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 7;</code>
        */
       public NStreams.NConfig.StorageConfig.TStorageConfigOrBuilder getStorageConfigOrBuilder() {
         if (storageConfigBuilder_ != null) {
@@ -1804,7 +2092,7 @@ public final class StreamingConfig {
         }
       }
       /**
-       * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 6;</code>
+       * <code>.NStreams.NConfig.TStorageConfig StorageConfig = 7;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NConfig.StorageConfig.TStorageConfig, NStreams.NConfig.StorageConfig.TStorageConfig.Builder, NStreams.NConfig.StorageConfig.TStorageConfigOrBuilder> 
@@ -1824,14 +2112,14 @@ public final class StreamingConfig {
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig, NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig.Builder, NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfigOrBuilder> checkpointCoordinatorBuilder_;
       /**
-       * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 7;</code>
+       * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 8;</code>
        * @return Whether the checkpointCoordinator field is set.
        */
       public boolean hasCheckpointCoordinator() {
         return checkpointCoordinatorBuilder_ != null || checkpointCoordinator_ != null;
       }
       /**
-       * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 7;</code>
+       * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 8;</code>
        * @return The checkpointCoordinator.
        */
       public NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig getCheckpointCoordinator() {
@@ -1842,7 +2130,7 @@ public final class StreamingConfig {
         }
       }
       /**
-       * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 7;</code>
+       * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 8;</code>
        */
       public Builder setCheckpointCoordinator(NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig value) {
         if (checkpointCoordinatorBuilder_ == null) {
@@ -1858,7 +2146,7 @@ public final class StreamingConfig {
         return this;
       }
       /**
-       * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 7;</code>
+       * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 8;</code>
        */
       public Builder setCheckpointCoordinator(
           NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig.Builder builderForValue) {
@@ -1872,7 +2160,7 @@ public final class StreamingConfig {
         return this;
       }
       /**
-       * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 7;</code>
+       * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 8;</code>
        */
       public Builder mergeCheckpointCoordinator(NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig value) {
         if (checkpointCoordinatorBuilder_ == null) {
@@ -1890,7 +2178,7 @@ public final class StreamingConfig {
         return this;
       }
       /**
-       * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 7;</code>
+       * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 8;</code>
        */
       public Builder clearCheckpointCoordinator() {
         if (checkpointCoordinatorBuilder_ == null) {
@@ -1904,7 +2192,7 @@ public final class StreamingConfig {
         return this;
       }
       /**
-       * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 7;</code>
+       * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 8;</code>
        */
       public NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig.Builder getCheckpointCoordinatorBuilder() {
         
@@ -1912,7 +2200,7 @@ public final class StreamingConfig {
         return getCheckpointCoordinatorFieldBuilder().getBuilder();
       }
       /**
-       * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 7;</code>
+       * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 8;</code>
        */
       public NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfigOrBuilder getCheckpointCoordinatorOrBuilder() {
         if (checkpointCoordinatorBuilder_ != null) {
@@ -1923,7 +2211,7 @@ public final class StreamingConfig {
         }
       }
       /**
-       * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 7;</code>
+       * <code>.NStreams.NConfig.TCheckpointCoordinatorConfig CheckpointCoordinator = 8;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig, NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfig.Builder, NStreams.NConfig.CheckpointingConfig.TCheckpointCoordinatorConfigOrBuilder> 
@@ -1945,7 +2233,7 @@ public final class StreamingConfig {
        * for faster bootstrap, may contain approximate value
        * </pre>
        *
-       * <code>uint32 ExpectedNodeCount = 8;</code>
+       * <code>uint32 ExpectedNodeCount = 9;</code>
        * @return The expectedNodeCount.
        */
       @java.lang.Override
@@ -1957,7 +2245,7 @@ public final class StreamingConfig {
        * for faster bootstrap, may contain approximate value
        * </pre>
        *
-       * <code>uint32 ExpectedNodeCount = 8;</code>
+       * <code>uint32 ExpectedNodeCount = 9;</code>
        * @param value The expectedNodeCount to set.
        * @return This builder for chaining.
        */
@@ -1972,7 +2260,7 @@ public final class StreamingConfig {
        * for faster bootstrap, may contain approximate value
        * </pre>
        *
-       * <code>uint32 ExpectedNodeCount = 8;</code>
+       * <code>uint32 ExpectedNodeCount = 9;</code>
        * @return This builder for chaining.
        */
       public Builder clearExpectedNodeCount() {
@@ -1988,7 +2276,7 @@ public final class StreamingConfig {
        * time period to force discovery stop, 0 means 60 sec !!!
        * </pre>
        *
-       * <code>uint32 NodeDiscoveryMaxTimeSec = 9;</code>
+       * <code>uint32 NodeDiscoveryMaxTimeSec = 10;</code>
        * @return The nodeDiscoveryMaxTimeSec.
        */
       @java.lang.Override
@@ -2000,7 +2288,7 @@ public final class StreamingConfig {
        * time period to force discovery stop, 0 means 60 sec !!!
        * </pre>
        *
-       * <code>uint32 NodeDiscoveryMaxTimeSec = 9;</code>
+       * <code>uint32 NodeDiscoveryMaxTimeSec = 10;</code>
        * @param value The nodeDiscoveryMaxTimeSec to set.
        * @return This builder for chaining.
        */
@@ -2015,7 +2303,7 @@ public final class StreamingConfig {
        * time period to force discovery stop, 0 means 60 sec !!!
        * </pre>
        *
-       * <code>uint32 NodeDiscoveryMaxTimeSec = 9;</code>
+       * <code>uint32 NodeDiscoveryMaxTimeSec = 10;</code>
        * @return This builder for chaining.
        */
       public Builder clearNodeDiscoveryMaxTimeSec() {
@@ -2031,7 +2319,7 @@ public final class StreamingConfig {
        * Deterministic mode for random and time yql providers // For tests
        * </pre>
        *
-       * <code>bool DeterministicMode = 10;</code>
+       * <code>bool DeterministicMode = 11;</code>
        * @return The deterministicMode.
        */
       @java.lang.Override
@@ -2043,7 +2331,7 @@ public final class StreamingConfig {
        * Deterministic mode for random and time yql providers // For tests
        * </pre>
        *
-       * <code>bool DeterministicMode = 10;</code>
+       * <code>bool DeterministicMode = 11;</code>
        * @param value The deterministicMode to set.
        * @return This builder for chaining.
        */
@@ -2058,7 +2346,7 @@ public final class StreamingConfig {
        * Deterministic mode for random and time yql providers // For tests
        * </pre>
        *
-       * <code>bool DeterministicMode = 10;</code>
+       * <code>bool DeterministicMode = 11;</code>
        * @return This builder for chaining.
        */
       public Builder clearDeterministicMode() {
@@ -2072,14 +2360,14 @@ public final class StreamingConfig {
       private com.google.protobuf.SingleFieldBuilderV3<
           ru.yandex.kikimr.proto.TokenAccessorConfig.TTokenAccessorConfig, ru.yandex.kikimr.proto.TokenAccessorConfig.TTokenAccessorConfig.Builder, ru.yandex.kikimr.proto.TokenAccessorConfig.TTokenAccessorConfigOrBuilder> tokenAccessorBuilder_;
       /**
-       * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 11;</code>
+       * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 12;</code>
        * @return Whether the tokenAccessor field is set.
        */
       public boolean hasTokenAccessor() {
         return tokenAccessorBuilder_ != null || tokenAccessor_ != null;
       }
       /**
-       * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 11;</code>
+       * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 12;</code>
        * @return The tokenAccessor.
        */
       public ru.yandex.kikimr.proto.TokenAccessorConfig.TTokenAccessorConfig getTokenAccessor() {
@@ -2090,7 +2378,7 @@ public final class StreamingConfig {
         }
       }
       /**
-       * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 11;</code>
+       * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 12;</code>
        */
       public Builder setTokenAccessor(ru.yandex.kikimr.proto.TokenAccessorConfig.TTokenAccessorConfig value) {
         if (tokenAccessorBuilder_ == null) {
@@ -2106,7 +2394,7 @@ public final class StreamingConfig {
         return this;
       }
       /**
-       * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 11;</code>
+       * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 12;</code>
        */
       public Builder setTokenAccessor(
           ru.yandex.kikimr.proto.TokenAccessorConfig.TTokenAccessorConfig.Builder builderForValue) {
@@ -2120,7 +2408,7 @@ public final class StreamingConfig {
         return this;
       }
       /**
-       * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 11;</code>
+       * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 12;</code>
        */
       public Builder mergeTokenAccessor(ru.yandex.kikimr.proto.TokenAccessorConfig.TTokenAccessorConfig value) {
         if (tokenAccessorBuilder_ == null) {
@@ -2138,7 +2426,7 @@ public final class StreamingConfig {
         return this;
       }
       /**
-       * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 11;</code>
+       * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 12;</code>
        */
       public Builder clearTokenAccessor() {
         if (tokenAccessorBuilder_ == null) {
@@ -2152,7 +2440,7 @@ public final class StreamingConfig {
         return this;
       }
       /**
-       * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 11;</code>
+       * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 12;</code>
        */
       public ru.yandex.kikimr.proto.TokenAccessorConfig.TTokenAccessorConfig.Builder getTokenAccessorBuilder() {
         
@@ -2160,7 +2448,7 @@ public final class StreamingConfig {
         return getTokenAccessorFieldBuilder().getBuilder();
       }
       /**
-       * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 11;</code>
+       * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 12;</code>
        */
       public ru.yandex.kikimr.proto.TokenAccessorConfig.TTokenAccessorConfigOrBuilder getTokenAccessorOrBuilder() {
         if (tokenAccessorBuilder_ != null) {
@@ -2171,7 +2459,7 @@ public final class StreamingConfig {
         }
       }
       /**
-       * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 11;</code>
+       * <code>.NStreams.NConfig.TTokenAccessorConfig TokenAccessor = 12;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           ru.yandex.kikimr.proto.TokenAccessorConfig.TTokenAccessorConfig, ru.yandex.kikimr.proto.TokenAccessorConfig.TTokenAccessorConfig.Builder, ru.yandex.kikimr.proto.TokenAccessorConfig.TTokenAccessorConfigOrBuilder> 
@@ -2185,6 +2473,82 @@ public final class StreamingConfig {
           tokenAccessor_ = null;
         }
         return tokenAccessorBuilder_;
+      }
+
+      private java.lang.Object hmacSecretFile_ = "";
+      /**
+       * <code>string HmacSecretFile = 13;</code>
+       * @return The hmacSecretFile.
+       */
+      public java.lang.String getHmacSecretFile() {
+        java.lang.Object ref = hmacSecretFile_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          hmacSecretFile_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string HmacSecretFile = 13;</code>
+       * @return The bytes for hmacSecretFile.
+       */
+      public com.google.protobuf.ByteString
+          getHmacSecretFileBytes() {
+        java.lang.Object ref = hmacSecretFile_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          hmacSecretFile_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string HmacSecretFile = 13;</code>
+       * @param value The hmacSecretFile to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHmacSecretFile(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        hmacSecretFile_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string HmacSecretFile = 13;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHmacSecretFile() {
+        
+        hmacSecretFile_ = getDefaultInstance().getHmacSecretFile();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string HmacSecretFile = 13;</code>
+       * @param value The bytes for hmacSecretFile to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHmacSecretFileBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        hmacSecretFile_ = value;
+        onChanged();
+        return this;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -2260,20 +2624,22 @@ public final class StreamingConfig {
       "oto/checkpointing_config.proto\0327kikimr/s" +
       "treaming/libs/config/proto/storage_confi" +
       "g.proto\032>kikimr/streaming/libs/config/pr" +
-      "oto/token_accessor_config.proto\"\321\003\n\006Conf" +
+      "oto/token_accessor_config.proto\"\227\004\n\006Conf" +
       "ig\022\027\n\017EnableStreaming\030\001 \001(\010\022\"\n\002Dq\030\002 \001(\0132" +
       "\026.NYql.TDqGatewayConfig\022\"\n\002Pq\030\003 \001(\0132\026.NY" +
       "ql.TPqGatewayConfig\022$\n\003Ydb\030\004 \001(\0132\027.NYql." +
       "TYdbGatewayConfig\022\"\n\002S3\030\005 \001(\0132\026.NYql.TS3" +
-      "GatewayConfig\0227\n\rStorageConfig\030\006 \001(\0132 .N" +
-      "Streams.NConfig.TStorageConfig\022M\n\025Checkp" +
-      "ointCoordinator\030\007 \001(\0132..NStreams.NConfig" +
-      ".TCheckpointCoordinatorConfig\022\031\n\021Expecte" +
-      "dNodeCount\030\010 \001(\r\022\037\n\027NodeDiscoveryMaxTime" +
-      "Sec\030\t \001(\r\022\031\n\021DeterministicMode\030\n \001(\010\022=\n\r" +
-      "TokenAccessor\030\013 \001(\0132&.NStreams.NConfig.T" +
-      "TokenAccessorConfigB\033\n\026ru.yandex.kikimr." +
-      "proto\370\001\001b\006proto3"
+      "GatewayConfig\022,\n\007Solomon\030\006 \001(\0132\033.NYql.TS" +
+      "olomonGatewayConfig\0227\n\rStorageConfig\030\007 \001" +
+      "(\0132 .NStreams.NConfig.TStorageConfig\022M\n\025" +
+      "CheckpointCoordinator\030\010 \001(\0132..NStreams.N" +
+      "Config.TCheckpointCoordinatorConfig\022\031\n\021E" +
+      "xpectedNodeCount\030\t \001(\r\022\037\n\027NodeDiscoveryM" +
+      "axTimeSec\030\n \001(\r\022\031\n\021DeterministicMode\030\013 \001" +
+      "(\010\022=\n\rTokenAccessor\030\014 \001(\0132&.NStreams.NCo" +
+      "nfig.TTokenAccessorConfig\022\026\n\016HmacSecretF" +
+      "ile\030\r \001(\tB\033\n\026ru.yandex.kikimr.proto\370\001\001b\006" +
+      "proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2288,7 +2654,7 @@ public final class StreamingConfig {
     internal_static_NStreams_NConfig_Config_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NStreams_NConfig_Config_descriptor,
-        new java.lang.String[] { "EnableStreaming", "Dq", "Pq", "Ydb", "S3", "StorageConfig", "CheckpointCoordinator", "ExpectedNodeCount", "NodeDiscoveryMaxTimeSec", "DeterministicMode", "TokenAccessor", });
+        new java.lang.String[] { "EnableStreaming", "Dq", "Pq", "Ydb", "S3", "Solomon", "StorageConfig", "CheckpointCoordinator", "ExpectedNodeCount", "NodeDiscoveryMaxTimeSec", "DeterministicMode", "TokenAccessor", "HmacSecretFile", });
     ru.yandex.yql.proto.GatewaysConfig.getDescriptor();
     NStreams.NConfig.CheckpointingConfig.getDescriptor();
     NStreams.NConfig.StorageConfig.getDescriptor();

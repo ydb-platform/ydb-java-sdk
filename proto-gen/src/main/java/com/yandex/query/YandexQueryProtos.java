@@ -81048,283 +81048,282 @@ public final class YandexQueryProtos {
       "tobuf.EmptyH\000\0329\n\010FromTime\022-\n\ttimestamp\030\001" +
       " \001(\0132\032.google.protobuf.Timestamp\0326\n\007Time" +
       "Ago\022+\n\010duration\030\001 \001(\0132\031.google.protobuf." +
-      "DurationB\r\n\013disposition\"\260\002\n\014QueryContent" +
+      "DurationB\r\n\013disposition\"\254\002\n\014QueryContent" +
       "\0221\n\004type\030\001 \001(\0162#.YandexQuery.QueryConten" +
-      "t.QueryType\022\031\n\004name\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\035" +
-      "\n\003acl\030\003 \001(\0132\020.YandexQuery.Acl\022#\n\006limits\030" +
-      "\004 \001(\0132\023.YandexQuery.Limits\022\026\n\004text\030\005 \001(\t" +
-      "B\010\242\346*\004\030\200\240\006\022\021\n\tautomatic\030\006 \001(\010\022\034\n\013descrip" +
-      "tion\030\007 \001(\tB\007\242\346*\003\030\200P\"E\n\tQueryType\022\032\n\026QUER" +
-      "Y_TYPE_UNSPECIFIED\020\000\022\r\n\tANALYTICS\020\001\022\r\n\tS" +
-      "TREAMING\020\002\"\345\001\n\nCommonMeta\022\027\n\002id\030\001 \001(\tB\013\242" +
-      "\346*\007\n\005\010\001\020\200\010\022\037\n\ncreated_by\030\002 \001(\tB\013\242\346*\007\n\005\010\001" +
-      "\020\200\010\022 \n\013modified_by\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022.\n" +
-      "\ncreated_at\030\004 \001(\0132\032.google.protobuf.Time" +
-      "stamp\022/\n\013modified_at\030\005 \001(\0132\032.google.prot" +
-      "obuf.Timestamp\022\032\n\010revision\030\006 \001(\003B\010\262\346*\004>=" +
-      " 0\"\232\004\n\tQueryMeta\022\'\n\006common\030\001 \001(\0132\027.Yande" +
-      "xQuery.CommonMeta\022.\n\nstarted_at\030\002 \001(\0132\032." +
-      "google.protobuf.Timestamp\022/\n\013finished_at" +
-      "\030\003 \001(\0132\032.google.protobuf.Timestamp\022.\n\014ex" +
-      "ecute_mode\030\004 \001(\0162\030.YandexQuery.ExecuteMo" +
-      "de\0224\n\006status\030\005 \001(\0162$.YandexQuery.QueryMe" +
-      "ta.ComputeStatus\022\037\n\027last_job_query_revis" +
-      "ion\030\006 \001(\003\022\023\n\013last_job_id\030\007 \001(\t\"\346\001\n\rCompu" +
-      "teStatus\022\036\n\032COMPUTE_STATUS_UNSPECIFIED\020\000" +
-      "\022\014\n\010STARTING\020\001\022\023\n\017ABORTED_BY_USER\020\002\022\025\n\021A" +
-      "BORTED_BY_SYSTEM\020\003\022\024\n\020ABORTING_BY_USER\020\004" +
-      "\022\026\n\022ABORTING_BY_SYSTEM\020\005\022\014\n\010RESUMING\020\006\022\013" +
-      "\n\007RUNNING\020\007\022\r\n\tCOMPLETED\020\010\022\n\n\006FAILED\020\t\022\013" +
-      "\n\007PAUSING\020\n\022\n\n\006PAUSED\020\013\"\200\001\n\nBriefQuery\0221" +
-      "\n\004type\030\001 \001(\0162#.YandexQuery.QueryContent." +
-      "QueryType\022\031\n\004name\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022$\n\004" +
-      "meta\030\003 \001(\0132\026.YandexQuery.QueryMeta\"\031\n\tQu" +
-      "eryPlan\022\014\n\004json\030\001 \001(\t\"]\n\rResultSetMeta\022\033" +
-      "\n\006column\030\001 \003(\0132\013.Ydb.Column\022\034\n\nrows_coun" +
-      "t\030\002 \001(\003B\010\262\346*\004>= 0\022\021\n\ttruncated\030\003 \001(\010\"\300\002\n" +
-      "\005Query\022$\n\004meta\030\001 \001(\0132\026.YandexQuery.Query" +
-      "Meta\022*\n\007content\030\002 \001(\0132\031.YandexQuery.Quer" +
-      "yContent\022$\n\004plan\030\003 \001(\0132\026.YandexQuery.Que" +
-      "ryPlan\022&\n\005issue\030\004 \003(\0132\027.Ydb.Issue.IssueM" +
-      "essage\0220\n\017transient_issue\030\005 \003(\0132\027.Ydb.Is" +
-      "sue.IssueMessage\0220\n\nstatistics\030\006 \001(\0132\034.Y" +
-      "andexQuery.QueryStatistics\0223\n\017result_set" +
-      "_meta\030\007 \003(\0132\032.YandexQuery.ResultSetMeta\"" +
-      "\037\n\017QueryStatistics\022\014\n\004json\030\001 \001(\t\"\205\002\n\022Cre" +
-      "ateQueryRequest\0229\n\020operation_params\030\001 \001(" +
-      "\0132\037.Ydb.Operations.OperationParams\022*\n\007co" +
-      "ntent\030\002 \001(\0132\031.YandexQuery.QueryContent\022." +
-      "\n\014execute_mode\030\003 \001(\0162\030.YandexQuery.Execu" +
-      "teMode\0226\n\013disposition\030\004 \001(\0132!.YandexQuer" +
-      "y.StreamingDisposition\022 \n\017idempotency_ke" +
-      "y\030\005 \001(\tB\007\242\346*\003\030\200\010\"C\n\023CreateQueryResponse\022" +
-      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
-      "ation\".\n\021CreateQueryResult\022\031\n\010query_id\030\001" +
-      " \001(\tB\007\242\346*\003\030\200\010\"\212\003\n\022ListQueriesRequest\0229\n\020" +
-      "operation_params\030\001 \001(\0132\037.Ydb.Operations." +
-      "OperationParams\022\033\n\npage_token\030\002 \001(\tB\007\242\346*" +
-      "\003\030\200\010\022\033\n\005limit\030\003 \001(\005B\014\262\346*\010[1; 100]\0226\n\006fil" +
-      "ter\030\004 \001(\0132&.YandexQuery.ListQueriesReque" +
-      "st.Filter\032\306\001\n\006Filter\0227\n\nquery_type\030\001 \001(\016" +
-      "2#.YandexQuery.QueryContent.QueryType\022<\n" +
-      "\006status\030\002 \003(\0162$.YandexQuery.QueryMeta.Co" +
-      "mputeStatusB\006\232\346*\002\030\024\022.\n\004mode\030\003 \003(\0162\030.Yand" +
-      "exQuery.ExecuteModeB\006\232\346*\002\030\024\022\025\n\004name\030\004 \001(" +
-      "\tB\007\242\346*\003\030\200\010\"C\n\023ListQueriesResponse\022,\n\tope" +
-      "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"" +
-      "]\n\021ListQueriesResult\022&\n\005query\030\001 \003(\0132\027.Ya" +
-      "ndexQuery.BriefQuery\022 \n\017next_page_token\030" +
-      "\002 \001(\tB\007\242\346*\003\030\200\010\"p\n\024DescribeQueryRequest\0229" +
-      "\n\020operation_params\030\001 \001(\0132\037.Ydb.Operation" +
-      "s.OperationParams\022\035\n\010query_id\030\002 \001(\tB\013\242\346*" +
-      "\007\n\005\010\001\020\200\010\"E\n\025DescribeQueryResponse\022,\n\tope" +
-      "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"" +
-      "8\n\023DescribeQueryResult\022!\n\005query\030\001 \001(\0132\022." +
-      "YandexQuery.Query\"\265\001\n\022DeleteQueryRequest" +
-      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
-      "ons.OperationParams\022\035\n\010query_id\030\002 \001(\tB\013\242" +
+      "t.QueryType\022\025\n\004name\030\002 \001(\tB\007\242\346*\003\030\200\010\022\035\n\003ac" +
+      "l\030\003 \001(\0132\020.YandexQuery.Acl\022#\n\006limits\030\004 \001(" +
+      "\0132\023.YandexQuery.Limits\022\026\n\004text\030\005 \001(\tB\010\242\346" +
+      "*\004\030\200\240\006\022\021\n\tautomatic\030\006 \001(\010\022\034\n\013description" +
+      "\030\007 \001(\tB\007\242\346*\003\030\200P\"E\n\tQueryType\022\032\n\026QUERY_TY" +
+      "PE_UNSPECIFIED\020\000\022\r\n\tANALYTICS\020\001\022\r\n\tSTREA" +
+      "MING\020\002\"\345\001\n\nCommonMeta\022\027\n\002id\030\001 \001(\tB\013\242\346*\007\n" +
+      "\005\010\001\020\200\010\022\037\n\ncreated_by\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022" +
+      " \n\013modified_by\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022.\n\ncre" +
+      "ated_at\030\004 \001(\0132\032.google.protobuf.Timestam" +
+      "p\022/\n\013modified_at\030\005 \001(\0132\032.google.protobuf" +
+      ".Timestamp\022\032\n\010revision\030\006 \001(\003B\010\262\346*\004>= 0\"\232" +
+      "\004\n\tQueryMeta\022\'\n\006common\030\001 \001(\0132\027.YandexQue" +
+      "ry.CommonMeta\022.\n\nstarted_at\030\002 \001(\0132\032.goog" +
+      "le.protobuf.Timestamp\022/\n\013finished_at\030\003 \001" +
+      "(\0132\032.google.protobuf.Timestamp\022.\n\014execut" +
+      "e_mode\030\004 \001(\0162\030.YandexQuery.ExecuteMode\0224" +
+      "\n\006status\030\005 \001(\0162$.YandexQuery.QueryMeta.C" +
+      "omputeStatus\022\037\n\027last_job_query_revision\030" +
+      "\006 \001(\003\022\023\n\013last_job_id\030\007 \001(\t\"\346\001\n\rComputeSt" +
+      "atus\022\036\n\032COMPUTE_STATUS_UNSPECIFIED\020\000\022\014\n\010" +
+      "STARTING\020\001\022\023\n\017ABORTED_BY_USER\020\002\022\025\n\021ABORT" +
+      "ED_BY_SYSTEM\020\003\022\024\n\020ABORTING_BY_USER\020\004\022\026\n\022" +
+      "ABORTING_BY_SYSTEM\020\005\022\014\n\010RESUMING\020\006\022\013\n\007RU" +
+      "NNING\020\007\022\r\n\tCOMPLETED\020\010\022\n\n\006FAILED\020\t\022\013\n\007PA" +
+      "USING\020\n\022\n\n\006PAUSED\020\013\"|\n\nBriefQuery\0221\n\004typ" +
+      "e\030\001 \001(\0162#.YandexQuery.QueryContent.Query" +
+      "Type\022\025\n\004name\030\002 \001(\tB\007\242\346*\003\030\200\010\022$\n\004meta\030\003 \001(" +
+      "\0132\026.YandexQuery.QueryMeta\"\031\n\tQueryPlan\022\014" +
+      "\n\004json\030\001 \001(\t\"]\n\rResultSetMeta\022\033\n\006column\030" +
+      "\001 \003(\0132\013.Ydb.Column\022\034\n\nrows_count\030\002 \001(\003B\010" +
+      "\262\346*\004>= 0\022\021\n\ttruncated\030\003 \001(\010\"\300\002\n\005Query\022$\n" +
+      "\004meta\030\001 \001(\0132\026.YandexQuery.QueryMeta\022*\n\007c" +
+      "ontent\030\002 \001(\0132\031.YandexQuery.QueryContent\022" +
+      "$\n\004plan\030\003 \001(\0132\026.YandexQuery.QueryPlan\022&\n" +
+      "\005issue\030\004 \003(\0132\027.Ydb.Issue.IssueMessage\0220\n" +
+      "\017transient_issue\030\005 \003(\0132\027.Ydb.Issue.Issue" +
+      "Message\0220\n\nstatistics\030\006 \001(\0132\034.YandexQuer" +
+      "y.QueryStatistics\0223\n\017result_set_meta\030\007 \003" +
+      "(\0132\032.YandexQuery.ResultSetMeta\"\037\n\017QueryS" +
+      "tatistics\022\014\n\004json\030\001 \001(\t\"\205\002\n\022CreateQueryR" +
+      "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O" +
+      "perations.OperationParams\022*\n\007content\030\002 \001" +
+      "(\0132\031.YandexQuery.QueryContent\022.\n\014execute" +
+      "_mode\030\003 \001(\0162\030.YandexQuery.ExecuteMode\0226\n" +
+      "\013disposition\030\004 \001(\0132!.YandexQuery.Streami" +
+      "ngDisposition\022 \n\017idempotency_key\030\005 \001(\tB\007" +
+      "\242\346*\003\030\200\010\"C\n\023CreateQueryResponse\022,\n\toperat" +
+      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\".\n\021" +
+      "CreateQueryResult\022\031\n\010query_id\030\001 \001(\tB\007\242\346*" +
+      "\003\030\200\010\"\212\003\n\022ListQueriesRequest\0229\n\020operation" +
+      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
+      "Params\022\033\n\npage_token\030\002 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005l" +
+      "imit\030\003 \001(\005B\014\262\346*\010[1; 100]\0226\n\006filter\030\004 \001(\013" +
+      "2&.YandexQuery.ListQueriesRequest.Filter" +
+      "\032\306\001\n\006Filter\0227\n\nquery_type\030\001 \001(\0162#.Yandex" +
+      "Query.QueryContent.QueryType\022<\n\006status\030\002" +
+      " \003(\0162$.YandexQuery.QueryMeta.ComputeStat" +
+      "usB\006\232\346*\002\030\024\022.\n\004mode\030\003 \003(\0162\030.YandexQuery.E" +
+      "xecuteModeB\006\232\346*\002\030\024\022\025\n\004name\030\004 \001(\tB\007\242\346*\003\030\200" +
+      "\010\"C\n\023ListQueriesResponse\022,\n\toperation\030\001 " +
+      "\001(\0132\031.Ydb.Operations.Operation\"]\n\021ListQu" +
+      "eriesResult\022&\n\005query\030\001 \003(\0132\027.YandexQuery" +
+      ".BriefQuery\022 \n\017next_page_token\030\002 \001(\tB\007\242\346" +
+      "*\003\030\200\010\"p\n\024DescribeQueryRequest\0229\n\020operati" +
+      "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati" +
+      "onParams\022\035\n\010query_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"" +
+      "E\n\025DescribeQueryResponse\022,\n\toperation\030\001 " +
+      "\001(\0132\031.Ydb.Operations.Operation\"8\n\023Descri" +
+      "beQueryResult\022!\n\005query\030\001 \001(\0132\022.YandexQue" +
+      "ry.Query\"\265\001\n\022DeleteQueryRequest\0229\n\020opera" +
+      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
+      "tionParams\022\035\n\010query_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200" +
+      "\010\022#\n\021previous_revision\030\003 \001(\003B\010\262\346*\004>= 0\022 " +
+      "\n\017idempotency_key\030\004 \001(\tB\007\242\346*\003\030\200\010\"C\n\023Dele" +
+      "teQueryResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
+      ".Operations.Operation\"\023\n\021DeleteQueryResu" +
+      "lt\"\371\002\n\022ModifyQueryRequest\0229\n\020operation_p" +
+      "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa" +
+      "rams\022\035\n\010query_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022*\n\007c" +
+      "ontent\030\003 \001(\0132\031.YandexQuery.QueryContent\022" +
+      ".\n\014execute_mode\030\004 \001(\0162\030.YandexQuery.Exec" +
+      "uteMode\0226\n\013disposition\030\005 \001(\0132!.YandexQue" +
+      "ry.StreamingDisposition\022.\n\nstate_mode\030\006 " +
+      "\001(\0162\032.YandexQuery.StateLoadMode\022#\n\021previ" +
+      "ous_revision\030\007 \001(\003B\010\262\346*\004>= 0\022 \n\017idempote" +
+      "ncy_key\030\010 \001(\tB\007\242\346*\003\030\200\010\"C\n\023ModifyQueryRes" +
+      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
+      "s.Operation\"\023\n\021ModifyQueryResult\"\340\001\n\023Con" +
+      "trolQueryRequest\0229\n\020operation_params\030\001 \001" +
+      "(\0132\037.Ydb.Operations.OperationParams\022\035\n\010q" +
+      "uery_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022(\n\006action\030\003 \001" +
+      "(\0162\030.YandexQuery.QueryAction\022#\n\021previous" +
+      "_revision\030\004 \001(\003B\010\262\346*\004>= 0\022 \n\017idempotency" +
+      "_key\030\005 \001(\tB\007\242\346*\003\030\200\010\"D\n\024ControlQueryRespo" +
+      "nse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations." +
+      "Operation\"\024\n\022ControlQueryResult\"\233\002\n\003Job\022" +
+      "%\n\004meta\030\001 \001(\0132\027.YandexQuery.CommonMeta\022\014" +
+      "\n\004text\030\002 \001(\t\022*\n\nquery_meta\030\003 \001(\0132\026.Yande" +
+      "xQuery.QueryMeta\022$\n\004plan\030\004 \001(\0132\026.YandexQ" +
+      "uery.QueryPlan\022&\n\005issue\030\005 \003(\0132\027.Ydb.Issu" +
+      "e.IssueMessage\0220\n\nstatistics\030\006 \001(\0132\034.Yan" +
+      "dexQuery.QueryStatistics\0223\n\017result_set_m" +
+      "eta\030\007 \003(\0132\032.YandexQuery.ResultSetMeta\"\245\001" +
+      "\n\017ListJobsRequest\0229\n\020operation_params\030\001 " +
+      "\001(\0132\037.Ydb.Operations.OperationParams\022\035\n\010" +
+      "query_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\033\n\npage_toke" +
+      "n\030\003 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limit\030\004 \001(\005B\014\262\346*\010[1;" +
+      " 100]\"@\n\020ListJobsResponse\022,\n\toperation\030\001" +
+      " \001(\0132\031.Ydb.Operations.Operation\"Q\n\016ListJ" +
+      "obsResult\022\035\n\003job\030\001 \003(\0132\020.YandexQuery.Job" +
+      "\022 \n\017next_page_token\030\002 \001(\tB\007\242\346*\003\030\200\010\"\025\n\023Cu" +
+      "rrentIAMTokenAuth\"\n\n\010NoneAuth\")\n\022Service" +
+      "AccountAuth\022\023\n\002id\030\001 \001(\tB\007\242\346*\003\030\200\010\"\261\001\n\007Iam" +
+      "Auth\0227\n\013current_iam\030\001 \001(\0132 .YandexQuery." +
+      "CurrentIAMTokenAuthH\000\022:\n\017service_account" +
+      "\030\002 \001(\0132\037.YandexQuery.ServiceAccountAuthH" +
+      "\000\022%\n\004none\030\003 \001(\0132\025.YandexQuery.NoneAuthH\000" +
+      "B\n\n\010identity\"\225\001\n\013DataStreams\022\034\n\013database" +
+      "_id\030\001 \001(\tB\007\242\346*\003\030\200\010\022\"\n\004auth\030\002 \001(\0132\024.Yande" +
+      "xQuery.IamAuth\022\031\n\010endpoint\030\003 \001(\tB\007\242\346*\003\030\200" +
+      "\010\022\031\n\010database\030\004 \001(\tB\007\242\346*\003\030\200\010\022\016\n\006secure\030\005" +
+      " \001(\010\"d\n\nMonitoring\022\030\n\007project\030\001 \001(\tB\007\242\346*" +
+      "\003\030\310\001\022\030\n\007cluster\030\002 \001(\tB\007\242\346*\003\030\310\001\022\"\n\004auth\030\003" +
+      " \001(\0132\024.YandexQuery.IamAuth\"\225\001\n\013YdbDataba" +
+      "se\022\034\n\013database_id\030\001 \001(\tB\007\242\346*\003\030\200\010\022\"\n\004auth" +
+      "\030\002 \001(\0132\024.YandexQuery.IamAuth\022\031\n\010endpoint" +
+      "\030\003 \001(\tB\007\242\346*\003\030\200\010\022\031\n\010database\030\004 \001(\tB\007\242\346*\003\030" +
+      "\200\010\022\016\n\006secure\030\005 \001(\010\"\315\001\n\021ClickHouseCluster" +
+      "\022\034\n\013database_id\030\001 \001(\tB\007\242\346*\003\030\200\010\022\026\n\005login\030" +
+      "\002 \001(\tB\007\242\346*\003\030\200\010\022\031\n\010password\030\003 \001(\tB\007\242\346*\003\030\200" +
+      "\010\022\"\n\004auth\030\004 \001(\0132\024.YandexQuery.IamAuth\022\025\n" +
+      "\004host\030\005 \001(\tB\007\242\346*\003\030\200\010\022\034\n\004port\030\006 \001(\005B\016\262\346*\n" +
+      "[0; 65536]\022\016\n\006secure\030\007 \001(\010\"V\n\027ObjectStor" +
+      "ageConnection\022\027\n\006bucket\030\001 \001(\tB\007\242\346*\003\030\200\010\022\"" +
+      "\n\004auth\030\002 \001(\0132\024.YandexQuery.IamAuth\"\262\002\n\021C" +
+      "onnectionSetting\0220\n\014ydb_database\030\001 \001(\0132\030" +
+      ".YandexQuery.YdbDatabaseH\000\022<\n\022clickhouse" +
+      "_cluster\030\002 \001(\0132\036.YandexQuery.ClickHouseC" +
+      "lusterH\000\0220\n\014data_streams\030\003 \001(\0132\030.YandexQ" +
+      "uery.DataStreamsH\000\022>\n\016object_storage\030\004 \001" +
+      "(\0132$.YandexQuery.ObjectStorageConnection" +
+      "H\000\022-\n\nmonitoring\030\005 \001(\0132\027.YandexQuery.Mon" +
+      "itoringH\000B\014\n\nconnection\"\234\001\n\021ConnectionCo" +
+      "ntent\022\031\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022/\n\007sett" +
+      "ing\030\002 \001(\0132\036.YandexQuery.ConnectionSettin" +
+      "g\022\035\n\003acl\030\003 \001(\0132\020.YandexQuery.Acl\022\034\n\013desc" +
+      "ription\030\004 \001(\tB\007\242\346*\003\030\200P\"d\n\nConnection\022/\n\007" +
+      "content\030\001 \001(\0132\036.YandexQuery.ConnectionCo" +
+      "ntent\022%\n\004meta\030\002 \001(\0132\027.YandexQuery.Common" +
+      "Meta\"\247\001\n\027CreateConnectionRequest\0229\n\020oper" +
+      "ation_params\030\001 \001(\0132\037.Ydb.Operations.Oper" +
+      "ationParams\022/\n\007content\030\002 \001(\0132\036.YandexQue" +
+      "ry.ConnectionContent\022 \n\017idempotency_key\030" +
+      "\003 \001(\tB\007\242\346*\003\030\200\010\"H\n\030CreateConnectionRespon" +
+      "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
+      "peration\"<\n\026CreateConnectionResult\022\"\n\rco" +
+      "nnection_id\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"\215\001\n\026ListC" +
+      "onnectionsRequest\0229\n\020operation_params\030\001 " +
+      "\001(\0132\037.Ydb.Operations.OperationParams\022\033\n\n" +
+      "page_token\030\002 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limit\030\003 \001(\005" +
+      "B\014\262\346*\010[1; 100]\"G\n\027ListConnectionsRespons" +
+      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
+      "eration\"f\n\025ListConnectionsResult\022+\n\nconn" +
+      "ection\030\001 \003(\0132\027.YandexQuery.Connection\022 \n" +
+      "\017next_page_token\030\002 \001(\tB\007\242\346*\003\030\200\010\"z\n\031Descr" +
+      "ibeConnectionRequest\0229\n\020operation_params" +
+      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\022" +
+      "\"\n\rconnection_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"J\n\032D" +
+      "escribeConnectionResponse\022,\n\toperation\030\001" +
+      " \001(\0132\031.Ydb.Operations.Operation\"G\n\030Descr" +
+      "ibeConnectionResult\022+\n\nconnection\030\001 \001(\0132" +
+      "\027.YandexQuery.Connection\"\360\001\n\027ModifyConne" +
+      "ctionRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
+      ".Ydb.Operations.OperationParams\022\"\n\rconne" +
+      "ction_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022/\n\007content\030\003" +
+      " \001(\0132\036.YandexQuery.ConnectionContent\022#\n\021" +
+      "previous_revision\030\004 \001(\003B\010\262\346*\004>= 0\022 \n\017ide" +
+      "mpotency_key\030\005 \001(\tB\007\242\346*\003\030\200\010\"H\n\030ModifyCon" +
+      "nectionResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
+      ".Operations.Operation\"\030\n\026ModifyConnectio" +
+      "nResult\"\277\001\n\027DeleteConnectionRequest\0229\n\020o" +
+      "peration_params\030\001 \001(\0132\037.Ydb.Operations.O" +
+      "perationParams\022\"\n\rconnection_id\030\002 \001(\tB\013\242" +
       "\346*\007\n\005\010\001\020\200\010\022#\n\021previous_revision\030\003 \001(\003B\010\262" +
       "\346*\004>= 0\022 \n\017idempotency_key\030\004 \001(\tB\007\242\346*\003\030\200" +
-      "\010\"C\n\023DeleteQueryResponse\022,\n\toperation\030\001 " +
-      "\001(\0132\031.Ydb.Operations.Operation\"\023\n\021Delete" +
-      "QueryResult\"\371\002\n\022ModifyQueryRequest\0229\n\020op" +
-      "eration_params\030\001 \001(\0132\037.Ydb.Operations.Op" +
-      "erationParams\022\035\n\010query_id\030\002 \001(\tB\013\242\346*\007\n\005\010" +
-      "\001\020\200\010\022*\n\007content\030\003 \001(\0132\031.YandexQuery.Quer" +
-      "yContent\022.\n\014execute_mode\030\004 \001(\0162\030.YandexQ" +
-      "uery.ExecuteMode\0226\n\013disposition\030\005 \001(\0132!." +
-      "YandexQuery.StreamingDisposition\022.\n\nstat" +
-      "e_mode\030\006 \001(\0162\032.YandexQuery.StateLoadMode" +
-      "\022#\n\021previous_revision\030\007 \001(\003B\010\262\346*\004>= 0\022 \n" +
-      "\017idempotency_key\030\010 \001(\tB\007\242\346*\003\030\200\010\"C\n\023Modif" +
-      "yQueryResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
-      "Operations.Operation\"\023\n\021ModifyQueryResul" +
-      "t\"\340\001\n\023ControlQueryRequest\0229\n\020operation_p" +
-      "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa" +
-      "rams\022\035\n\010query_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022(\n\006a" +
-      "ction\030\003 \001(\0162\030.YandexQuery.QueryAction\022#\n" +
-      "\021previous_revision\030\004 \001(\003B\010\262\346*\004>= 0\022 \n\017id" +
-      "empotency_key\030\005 \001(\tB\007\242\346*\003\030\200\010\"D\n\024ControlQ" +
-      "ueryResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
-      "erations.Operation\"\024\n\022ControlQueryResult" +
-      "\"\233\002\n\003Job\022%\n\004meta\030\001 \001(\0132\027.YandexQuery.Com" +
-      "monMeta\022\014\n\004text\030\002 \001(\t\022*\n\nquery_meta\030\003 \001(" +
-      "\0132\026.YandexQuery.QueryMeta\022$\n\004plan\030\004 \001(\0132" +
-      "\026.YandexQuery.QueryPlan\022&\n\005issue\030\005 \003(\0132\027" +
-      ".Ydb.Issue.IssueMessage\0220\n\nstatistics\030\006 " +
-      "\001(\0132\034.YandexQuery.QueryStatistics\0223\n\017res" +
-      "ult_set_meta\030\007 \003(\0132\032.YandexQuery.ResultS" +
-      "etMeta\"\245\001\n\017ListJobsRequest\0229\n\020operation_" +
-      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\022\035\n\010query_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\033\n\n" +
-      "page_token\030\003 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limit\030\004 \001(\005" +
-      "B\014\262\346*\010[1; 100]\"@\n\020ListJobsResponse\022,\n\top" +
-      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
-      "\"Q\n\016ListJobsResult\022\035\n\003job\030\001 \003(\0132\020.Yandex" +
-      "Query.Job\022 \n\017next_page_token\030\002 \001(\tB\007\242\346*\003" +
-      "\030\200\010\"\025\n\023CurrentIAMTokenAuth\"\n\n\010NoneAuth\")" +
-      "\n\022ServiceAccountAuth\022\023\n\002id\030\001 \001(\tB\007\242\346*\003\030\200" +
-      "\010\"\261\001\n\007IamAuth\0227\n\013current_iam\030\001 \001(\0132 .Yan" +
-      "dexQuery.CurrentIAMTokenAuthH\000\022:\n\017servic" +
-      "e_account\030\002 \001(\0132\037.YandexQuery.ServiceAcc" +
-      "ountAuthH\000\022%\n\004none\030\003 \001(\0132\025.YandexQuery.N" +
-      "oneAuthH\000B\n\n\010identity\"\225\001\n\013DataStreams\022\034\n" +
-      "\013database_id\030\001 \001(\tB\007\242\346*\003\030\200\010\022\"\n\004auth\030\002 \001(" +
-      "\0132\024.YandexQuery.IamAuth\022\031\n\010endpoint\030\003 \001(" +
-      "\tB\007\242\346*\003\030\200\010\022\031\n\010database\030\004 \001(\tB\007\242\346*\003\030\200\010\022\016\n" +
-      "\006secure\030\005 \001(\010\"d\n\nMonitoring\022\030\n\007project\030\001" +
-      " \001(\tB\007\242\346*\003\030\310\001\022\030\n\007cluster\030\002 \001(\tB\007\242\346*\003\030\310\001\022" +
-      "\"\n\004auth\030\003 \001(\0132\024.YandexQuery.IamAuth\"\225\001\n\013" +
-      "YdbDatabase\022\034\n\013database_id\030\001 \001(\tB\007\242\346*\003\030\200" +
-      "\010\022\"\n\004auth\030\002 \001(\0132\024.YandexQuery.IamAuth\022\031\n" +
-      "\010endpoint\030\003 \001(\tB\007\242\346*\003\030\200\010\022\031\n\010database\030\004 \001" +
-      "(\tB\007\242\346*\003\030\200\010\022\016\n\006secure\030\005 \001(\010\"\315\001\n\021ClickHou" +
-      "seCluster\022\034\n\013database_id\030\001 \001(\tB\007\242\346*\003\030\200\010\022" +
-      "\026\n\005login\030\002 \001(\tB\007\242\346*\003\030\200\010\022\031\n\010password\030\003 \001(" +
-      "\tB\007\242\346*\003\030\200\010\022\"\n\004auth\030\004 \001(\0132\024.YandexQuery.I" +
-      "amAuth\022\025\n\004host\030\005 \001(\tB\007\242\346*\003\030\200\010\022\034\n\004port\030\006 " +
-      "\001(\005B\016\262\346*\n[0; 65536]\022\016\n\006secure\030\007 \001(\010\"V\n\027O" +
-      "bjectStorageConnection\022\027\n\006bucket\030\001 \001(\tB\007" +
-      "\242\346*\003\030\200\010\022\"\n\004auth\030\002 \001(\0132\024.YandexQuery.IamA" +
-      "uth\"\262\002\n\021ConnectionSetting\0220\n\014ydb_databas" +
-      "e\030\001 \001(\0132\030.YandexQuery.YdbDatabaseH\000\022<\n\022c" +
-      "lickhouse_cluster\030\002 \001(\0132\036.YandexQuery.Cl" +
-      "ickHouseClusterH\000\0220\n\014data_streams\030\003 \001(\0132" +
-      "\030.YandexQuery.DataStreamsH\000\022>\n\016object_st" +
-      "orage\030\004 \001(\0132$.YandexQuery.ObjectStorageC" +
-      "onnectionH\000\022-\n\nmonitoring\030\005 \001(\0132\027.Yandex" +
-      "Query.MonitoringH\000B\014\n\nconnection\"\234\001\n\021Con" +
-      "nectionContent\022\031\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200" +
-      "\010\022/\n\007setting\030\002 \001(\0132\036.YandexQuery.Connect" +
-      "ionSetting\022\035\n\003acl\030\003 \001(\0132\020.YandexQuery.Ac" +
-      "l\022\034\n\013description\030\004 \001(\tB\007\242\346*\003\030\200P\"d\n\nConne" +
-      "ction\022/\n\007content\030\001 \001(\0132\036.YandexQuery.Con" +
-      "nectionContent\022%\n\004meta\030\002 \001(\0132\027.YandexQue" +
-      "ry.CommonMeta\"\247\001\n\027CreateConnectionReques" +
-      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
-      "ions.OperationParams\022/\n\007content\030\002 \001(\0132\036." +
-      "YandexQuery.ConnectionContent\022 \n\017idempot" +
-      "ency_key\030\003 \001(\tB\007\242\346*\003\030\200\010\"H\n\030CreateConnect" +
-      "ionResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
-      "rations.Operation\"<\n\026CreateConnectionRes" +
-      "ult\022\"\n\rconnection_id\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"" +
-      "\215\001\n\026ListConnectionsRequest\0229\n\020operation_" +
-      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\022\033\n\npage_token\030\002 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005li" +
-      "mit\030\003 \001(\005B\014\262\346*\010[1; 100]\"G\n\027ListConnectio" +
-      "nsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
-      "ations.Operation\"f\n\025ListConnectionsResul" +
-      "t\022+\n\nconnection\030\001 \003(\0132\027.YandexQuery.Conn" +
-      "ection\022 \n\017next_page_token\030\002 \001(\tB\007\242\346*\003\030\200\010" +
-      "\"z\n\031DescribeConnectionRequest\0229\n\020operati" +
-      "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati" +
-      "onParams\022\"\n\rconnection_id\030\002 \001(\tB\013\242\346*\007\n\005\010" +
-      "\001\020\200\010\"J\n\032DescribeConnectionResponse\022,\n\top" +
-      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
-      "\"G\n\030DescribeConnectionResult\022+\n\nconnecti" +
-      "on\030\001 \001(\0132\027.YandexQuery.Connection\"\360\001\n\027Mo" +
-      "difyConnectionRequest\0229\n\020operation_param" +
+      "\010\"H\n\030DeleteConnectionResponse\022,\n\toperati" +
+      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\030\n\026D" +
+      "eleteConnectionResult\"\313\001\n\024GetResultDataR" +
+      "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O" +
+      "perations.OperationParams\022\035\n\010query_id\030\002 " +
+      "\001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\020result_set_index\030\003 \001" +
+      "(\005B\010\262\346*\004>= 0\022\030\n\006offset\030\004 \001(\003B\010\262\346*\004>= 0\022\033" +
+      "\n\005limit\030\005 \001(\003B\014\262\346*\010[1; 100]\"E\n\025GetResult" +
+      "DataResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
+      "erations.Operation\"9\n\023GetResultDataResul" +
+      "t\022\"\n\nresult_set\030\001 \001(\0132\016.Ydb.ResultSet\"-\n" +
+      "\006Schema\022#\n\006column\030\001 \003(\0132\013.Ydb.ColumnB\006\232\346" +
+      "*\002\030d\"\222\001\n\022DataStreamsBinding\022 \n\013stream_na" +
+      "me\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\027\n\006format\030\002 \001(\tB\007\242" +
+      "\346*\003\030\200\010\022\034\n\013compression\030\003 \001(\tB\007\242\346*\003\030\200\010\022#\n\006" +
+      "schema\030\004 \001(\0132\023.YandexQuery.Schema\"\355\002\n\024Ob" +
+      "jectStorageBinding\0228\n\006subset\030\001 \003(\0132(.Yan" +
+      "dexQuery.ObjectStorageBinding.Subset\032\232\002\n" +
+      "\006Subset\022!\n\014path_pattern\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020" +
+      "\200\010\022\027\n\006format\030\002 \001(\tB\007\242\346*\003\030\200\010\022[\n\016format_se" +
+      "tting\030\003 \003(\0132;.YandexQuery.ObjectStorageB" +
+      "inding.Subset.FormatSettingEntryB\006\232\346*\002\030d" +
+      "\022\034\n\013compression\030\004 \001(\tB\007\242\346*\003\030\200\010\022#\n\006schema" +
+      "\030\005 \001(\0132\023.YandexQuery.Schema\0324\n\022FormatSet" +
+      "tingEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028" +
+      "\001\"\221\001\n\016BindingSetting\0227\n\014data_streams\030\001 \001" +
+      "(\0132\037.YandexQuery.DataStreamsBindingH\000\022;\n" +
+      "\016object_storage\030\002 \001(\0132!.YandexQuery.Obje" +
+      "ctStorageBindingH\000B\t\n\007binding\"\234\001\n\014BriefB" +
+      "inding\022\031\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\rcon" +
+      "nection_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022%\n\004meta\030\003 " +
+      "\001(\0132\027.YandexQuery.CommonMeta\022&\n\004type\030\004 \001" +
+      "(\0162\030.YandexQuery.BindingType\"\272\001\n\016Binding" +
+      "Content\022\031\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\rco" +
+      "nnection_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022,\n\007settin" +
+      "g\030\003 \001(\0132\033.YandexQuery.BindingSetting\022\035\n\003" +
+      "acl\030\004 \001(\0132\020.YandexQuery.Acl\022\034\n\013descripti" +
+      "on\030\005 \001(\tB\007\242\346*\003\030\200P\"^\n\007Binding\022,\n\007content\030" +
+      "\001 \001(\0132\033.YandexQuery.BindingContent\022%\n\004me" +
+      "ta\030\002 \001(\0132\027.YandexQuery.CommonMeta\"\241\001\n\024Cr" +
+      "eateBindingRequest\0229\n\020operation_params\030\001" +
+      " \001(\0132\037.Ydb.Operations.OperationParams\022,\n" +
+      "\007content\030\002 \001(\0132\033.YandexQuery.BindingCont" +
+      "ent\022 \n\017idempotency_key\030\003 \001(\tB\007\242\346*\003\030\200\010\"E\n" +
+      "\025CreateBindingResponse\022,\n\toperation\030\001 \001(" +
+      "\0132\031.Ydb.Operations.Operation\"6\n\023CreateBi" +
+      "ndingResult\022\037\n\nbinding_id\030\001 \001(\tB\013\242\346*\007\n\005\010" +
+      "\001\020\200\010\"\212\001\n\023ListBindingsRequest\0229\n\020operatio" +
+      "n_params\030\001 \001(\0132\037.Ydb.Operations.Operatio" +
+      "nParams\022\033\n\npage_token\030\002 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005" +
+      "limit\030\003 \001(\005B\014\262\346*\010[1; 100]\"D\n\024ListBinding" +
+      "sResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
+      "tions.Operation\"b\n\022ListBindingsResult\022*\n" +
+      "\007binding\030\001 \003(\0132\031.YandexQuery.BriefBindin" +
+      "g\022 \n\017next_page_token\030\002 \001(\tB\007\242\346*\003\030\200\010\"t\n\026D" +
+      "escribeBindingRequest\0229\n\020operation_param" +
       "s\030\001 \001(\0132\037.Ydb.Operations.OperationParams" +
-      "\022\"\n\rconnection_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022/\n\007" +
-      "content\030\003 \001(\0132\036.YandexQuery.ConnectionCo" +
-      "ntent\022#\n\021previous_revision\030\004 \001(\003B\010\262\346*\004>=" +
-      " 0\022 \n\017idempotency_key\030\005 \001(\tB\007\242\346*\003\030\200\010\"H\n\030" +
-      "ModifyConnectionResponse\022,\n\toperation\030\001 " +
-      "\001(\0132\031.Ydb.Operations.Operation\"\030\n\026Modify" +
-      "ConnectionResult\"\277\001\n\027DeleteConnectionReq" +
-      "uest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Ope" +
-      "rations.OperationParams\022\"\n\rconnection_id" +
-      "\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022#\n\021previous_revision" +
-      "\030\003 \001(\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\004 \001(" +
-      "\tB\007\242\346*\003\030\200\010\"H\n\030DeleteConnectionResponse\022," +
-      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
-      "tion\"\030\n\026DeleteConnectionResult\"\313\001\n\024GetRe" +
-      "sultDataRequest\0229\n\020operation_params\030\001 \001(" +
-      "\0132\037.Ydb.Operations.OperationParams\022\035\n\010qu" +
-      "ery_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\020result_set_" +
-      "index\030\003 \001(\005B\010\262\346*\004>= 0\022\030\n\006offset\030\004 \001(\003B\010\262" +
-      "\346*\004>= 0\022\033\n\005limit\030\005 \001(\003B\014\262\346*\010[1; 100]\"E\n\025" +
-      "GetResultDataResponse\022,\n\toperation\030\001 \001(\013" +
-      "2\031.Ydb.Operations.Operation\"9\n\023GetResult" +
-      "DataResult\022\"\n\nresult_set\030\001 \001(\0132\016.Ydb.Res" +
-      "ultSet\"-\n\006Schema\022#\n\006column\030\001 \003(\0132\013.Ydb.C" +
-      "olumnB\006\232\346*\002\030d\"\222\001\n\022DataStreamsBinding\022 \n\013" +
-      "stream_name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\027\n\006format" +
-      "\030\002 \001(\tB\007\242\346*\003\030\200\010\022\034\n\013compression\030\003 \001(\tB\007\242\346" +
-      "*\003\030\200\010\022#\n\006schema\030\004 \001(\0132\023.YandexQuery.Sche" +
-      "ma\"\355\002\n\024ObjectStorageBinding\0228\n\006subset\030\001 " +
-      "\003(\0132(.YandexQuery.ObjectStorageBinding.S" +
-      "ubset\032\232\002\n\006Subset\022!\n\014path_pattern\030\001 \001(\tB\013" +
-      "\242\346*\007\n\005\010\001\020\200\010\022\027\n\006format\030\002 \001(\tB\007\242\346*\003\030\200\010\022[\n\016" +
-      "format_setting\030\003 \003(\0132;.YandexQuery.Objec" +
-      "tStorageBinding.Subset.FormatSettingEntr" +
-      "yB\006\232\346*\002\030d\022\034\n\013compression\030\004 \001(\tB\007\242\346*\003\030\200\010\022" +
-      "#\n\006schema\030\005 \001(\0132\023.YandexQuery.Schema\0324\n\022" +
-      "FormatSettingEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value" +
-      "\030\002 \001(\t:\0028\001\"\221\001\n\016BindingSetting\0227\n\014data_st" +
-      "reams\030\001 \001(\0132\037.YandexQuery.DataStreamsBin" +
-      "dingH\000\022;\n\016object_storage\030\002 \001(\0132!.YandexQ" +
-      "uery.ObjectStorageBindingH\000B\t\n\007binding\"\234" +
-      "\001\n\014BriefBinding\022\031\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020" +
-      "\200\010\022\"\n\rconnection_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022%" +
-      "\n\004meta\030\003 \001(\0132\027.YandexQuery.CommonMeta\022&\n" +
-      "\004type\030\004 \001(\0162\030.YandexQuery.BindingType\"\272\001" +
-      "\n\016BindingContent\022\031\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001" +
-      "\020\200\010\022\"\n\rconnection_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022" +
-      ",\n\007setting\030\003 \001(\0132\033.YandexQuery.BindingSe" +
-      "tting\022\035\n\003acl\030\004 \001(\0132\020.YandexQuery.Acl\022\034\n\013" +
-      "description\030\005 \001(\tB\007\242\346*\003\030\200P\"^\n\007Binding\022,\n" +
-      "\007content\030\001 \001(\0132\033.YandexQuery.BindingCont" +
-      "ent\022%\n\004meta\030\002 \001(\0132\027.YandexQuery.CommonMe" +
-      "ta\"\241\001\n\024CreateBindingRequest\0229\n\020operation" +
-      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
-      "Params\022,\n\007content\030\002 \001(\0132\033.YandexQuery.Bi" +
-      "ndingContent\022 \n\017idempotency_key\030\003 \001(\tB\007\242" +
-      "\346*\003\030\200\010\"E\n\025CreateBindingResponse\022,\n\topera" +
-      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"6\n" +
-      "\023CreateBindingResult\022\037\n\nbinding_id\030\001 \001(\t" +
-      "B\013\242\346*\007\n\005\010\001\020\200\010\"\212\001\n\023ListBindingsRequest\0229\n" +
-      "\020operation_params\030\001 \001(\0132\037.Ydb.Operations" +
-      ".OperationParams\022\033\n\npage_token\030\002 \001(\tB\007\242\346" +
-      "*\003\030\200\010\022\033\n\005limit\030\003 \001(\005B\014\262\346*\010[1; 100]\"D\n\024Li" +
-      "stBindingsResponse\022,\n\toperation\030\001 \001(\0132\031." +
-      "Ydb.Operations.Operation\"b\n\022ListBindings" +
-      "Result\022*\n\007binding\030\001 \003(\0132\031.YandexQuery.Br" +
-      "iefBinding\022 \n\017next_page_token\030\002 \001(\tB\007\242\346*" +
-      "\003\030\200\010\"t\n\026DescribeBindingRequest\0229\n\020operat" +
-      "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat" +
-      "ionParams\022\037\n\nbinding_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020" +
-      "\200\010\"G\n\027DescribeBindingResponse\022,\n\toperati" +
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\">\n\025D" +
-      "escribeBindingResult\022%\n\007binding\030\001 \001(\0132\024." +
-      "YandexQuery.Binding\"\347\001\n\024ModifyBindingReq" +
-      "uest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Ope" +
-      "rations.OperationParams\022\037\n\nbinding_id\030\002 " +
-      "\001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022,\n\007content\030\003 \001(\0132\033.Yand" +
-      "exQuery.BindingContent\022#\n\021previous_revis" +
-      "ion\030\004 \001(\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\005" +
-      " \001(\tB\007\242\346*\003\030\200\010\"E\n\025ModifyBindingResponse\022," +
-      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
-      "tion\"\025\n\023ModifyBindingResult\"\271\001\n\024DeleteBi" +
-      "ndingRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
-      ".Ydb.Operations.OperationParams\022\037\n\nbindi" +
-      "ng_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022#\n\021previous_rev" +
-      "ision\030\003 \001(\003B\010\262\346*\004>= 0\022 \n\017idempotency_key" +
-      "\030\004 \001(\tB\007\242\346*\003\030\200\010\"E\n\025DeleteBindingResponse" +
-      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
-      "ration\"\025\n\023DeleteBindingResult*q\n\013Execute" +
-      "Mode\022\034\n\030EXECUTE_MODE_UNSPECIFIED\020\000\022\010\n\004SA" +
-      "VE\020\001\022\t\n\005PARSE\020\002\022\013\n\007COMPILE\020\003\022\014\n\010VALIDATE" +
-      "\020\004\022\013\n\007EXPLAIN\020\005\022\007\n\003RUN\020\006*y\n\013QueryAction\022" +
-      "\034\n\030QUERY_ACTION_UNSPECIFIED\020\000\022\t\n\005PAUSE\020\001" +
-      "\022\024\n\020PAUSE_GRACEFULLY\020\002\022\t\n\005ABORT\020\003\022\024\n\020ABO" +
-      "RT_GRACEFULLY\020\004\022\n\n\006RESUME\020\005*U\n\rStateLoad" +
-      "Mode\022\037\n\033STATE_LOAD_MODE_UNSPECIFIED\020\000\022\t\n" +
-      "\005EMPTY\020\001\022\030\n\024FROM_LAST_CHECKPOINT\020\002*Q\n\013Bi" +
-      "ndingType\022\034\n\030BINDING_TYPE_UNSPECIFIED\020\000\022" +
-      "\020\n\014DATA_STREAMS\020\001\022\022\n\016OBJECT_STORAGE\020\002B(\n" +
-      "\020com.yandex.queryB\021YandexQueryProtos\370\001\001b" +
-      "\006proto3"
+      "\022\037\n\nbinding_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"G\n\027Des" +
+      "cribeBindingResponse\022,\n\toperation\030\001 \001(\0132" +
+      "\031.Ydb.Operations.Operation\">\n\025DescribeBi" +
+      "ndingResult\022%\n\007binding\030\001 \001(\0132\024.YandexQue" +
+      "ry.Binding\"\347\001\n\024ModifyBindingRequest\0229\n\020o" +
+      "peration_params\030\001 \001(\0132\037.Ydb.Operations.O" +
+      "perationParams\022\037\n\nbinding_id\030\002 \001(\tB\013\242\346*\007" +
+      "\n\005\010\001\020\200\010\022,\n\007content\030\003 \001(\0132\033.YandexQuery.B" +
+      "indingContent\022#\n\021previous_revision\030\004 \001(\003" +
+      "B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\005 \001(\tB\007\242\346*" +
+      "\003\030\200\010\"E\n\025ModifyBindingResponse\022,\n\toperati" +
+      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\025\n\023M" +
+      "odifyBindingResult\"\271\001\n\024DeleteBindingRequ" +
+      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
+      "ations.OperationParams\022\037\n\nbinding_id\030\002 \001" +
+      "(\tB\013\242\346*\007\n\005\010\001\020\200\010\022#\n\021previous_revision\030\003 \001" +
+      "(\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\004 \001(\tB\007\242" +
+      "\346*\003\030\200\010\"E\n\025DeleteBindingResponse\022,\n\topera" +
+      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\025\n" +
+      "\023DeleteBindingResult*q\n\013ExecuteMode\022\034\n\030E" +
+      "XECUTE_MODE_UNSPECIFIED\020\000\022\010\n\004SAVE\020\001\022\t\n\005P" +
+      "ARSE\020\002\022\013\n\007COMPILE\020\003\022\014\n\010VALIDATE\020\004\022\013\n\007EXP" +
+      "LAIN\020\005\022\007\n\003RUN\020\006*y\n\013QueryAction\022\034\n\030QUERY_" +
+      "ACTION_UNSPECIFIED\020\000\022\t\n\005PAUSE\020\001\022\024\n\020PAUSE" +
+      "_GRACEFULLY\020\002\022\t\n\005ABORT\020\003\022\024\n\020ABORT_GRACEF" +
+      "ULLY\020\004\022\n\n\006RESUME\020\005*U\n\rStateLoadMode\022\037\n\033S" +
+      "TATE_LOAD_MODE_UNSPECIFIED\020\000\022\t\n\005EMPTY\020\001\022" +
+      "\030\n\024FROM_LAST_CHECKPOINT\020\002*Q\n\013BindingType" +
+      "\022\034\n\030BINDING_TYPE_UNSPECIFIED\020\000\022\020\n\014DATA_S" +
+      "TREAMS\020\001\022\022\n\016OBJECT_STORAGE\020\002B(\n\020com.yand" +
+      "ex.queryB\021YandexQueryProtos\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

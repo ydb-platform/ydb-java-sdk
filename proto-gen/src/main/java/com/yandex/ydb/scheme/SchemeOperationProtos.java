@@ -5365,6 +5365,10 @@ public final class SchemeOperationProtos {
        * <code>COORDINATION_NODE = 7;</code>
        */
       COORDINATION_NODE(7),
+      /**
+       * <code>SEQUENCE = 15;</code>
+       */
+      SEQUENCE(15),
       UNRECOGNIZED(-1),
       ;
 
@@ -5400,6 +5404,10 @@ public final class SchemeOperationProtos {
        * <code>COORDINATION_NODE = 7;</code>
        */
       public static final int COORDINATION_NODE_VALUE = 7;
+      /**
+       * <code>SEQUENCE = 15;</code>
+       */
+      public static final int SEQUENCE_VALUE = 15;
 
 
       public final int getNumber() {
@@ -5434,6 +5442,7 @@ public final class SchemeOperationProtos {
           case 5: return RTMR_VOLUME;
           case 6: return BLOCK_STORE_VOLUME;
           case 7: return COORDINATION_NODE;
+          case 15: return SEQUENCE;
           default: return null;
         }
       }
@@ -13550,36 +13559,36 @@ public final class SchemeOperationProtos {
       "rams\022\014\n\004path\030\002 \001(\t\"E\n\025ListDirectoryRespo" +
       "nse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations." +
       "Operation\"8\n\013Permissions\022\017\n\007subject\030\001 \001(" +
-      "\t\022\030\n\020permission_names\030\002 \003(\t\"\315\002\n\005Entry\022\014\n" +
+      "\t\022\030\n\020permission_names\030\002 \003(\t\"\333\002\n\005Entry\022\014\n" +
       "\004name\030\001 \001(\t\022\r\n\005owner\030\002 \001(\t\022$\n\004type\030\005 \001(\016" +
       "2\026.Ydb.Scheme.Entry.Type\0226\n\025effective_pe" +
       "rmissions\030\006 \003(\0132\027.Ydb.Scheme.Permissions" +
       "\022,\n\013permissions\030\007 \003(\0132\027.Ydb.Scheme.Permi" +
-      "ssions\"\232\001\n\004Type\022\024\n\020TYPE_UNSPECIFIED\020\000\022\r\n" +
+      "ssions\"\250\001\n\004Type\022\024\n\020TYPE_UNSPECIFIED\020\000\022\r\n" +
       "\tDIRECTORY\020\001\022\t\n\005TABLE\020\002\022\024\n\020PERS_QUEUE_GR" +
       "OUP\020\003\022\014\n\010DATABASE\020\004\022\017\n\013RTMR_VOLUME\020\005\022\026\n\022" +
       "BLOCK_STORE_VOLUME\020\006\022\025\n\021COORDINATION_NOD" +
-      "E\020\007\"[\n\023ListDirectoryResult\022\037\n\004self\030\001 \001(\013" +
-      "2\021.Ydb.Scheme.Entry\022#\n\010children\030\002 \003(\0132\021." +
-      "Ydb.Scheme.Entry\"^\n\023DescribePathRequest\022" +
-      "9\n\020operation_params\030\001 \001(\0132\037.Ydb.Operatio" +
-      "ns.OperationParams\022\014\n\004path\030\002 \001(\t\"D\n\024Desc" +
-      "ribePathResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
-      "b.Operations.Operation\"5\n\022DescribePathRe" +
-      "sult\022\037\n\004self\030\001 \001(\0132\021.Ydb.Scheme.Entry\"\262\001" +
-      "\n\021PermissionsAction\022(\n\005grant\030\001 \001(\0132\027.Ydb" +
-      ".Scheme.PermissionsH\000\022)\n\006revoke\030\002 \001(\0132\027." +
-      "Ydb.Scheme.PermissionsH\000\022&\n\003set\030\003 \001(\0132\027." +
-      "Ydb.Scheme.PermissionsH\000\022\026\n\014change_owner" +
-      "\030\004 \001(\tH\000B\010\n\006action\"\256\001\n\030ModifyPermissions" +
-      "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb." +
-      "Operations.OperationParams\022\014\n\004path\030\002 \001(\t" +
-      "\022.\n\007actions\030\003 \003(\0132\035.Ydb.Scheme.Permissio" +
-      "nsAction\022\031\n\021clear_permissions\030\004 \001(\010\"I\n\031M" +
-      "odifyPermissionsResponse\022,\n\toperation\030\001 " +
-      "\001(\0132\031.Ydb.Operations.OperationB1\n\025com.ya" +
-      "ndex.ydb.schemeB\025SchemeOperationProtos\370\001" +
-      "\001b\006proto3"
+      "E\020\007\022\014\n\010SEQUENCE\020\017\"[\n\023ListDirectoryResult" +
+      "\022\037\n\004self\030\001 \001(\0132\021.Ydb.Scheme.Entry\022#\n\010chi" +
+      "ldren\030\002 \003(\0132\021.Ydb.Scheme.Entry\"^\n\023Descri" +
+      "bePathRequest\0229\n\020operation_params\030\001 \001(\0132" +
+      "\037.Ydb.Operations.OperationParams\022\014\n\004path" +
+      "\030\002 \001(\t\"D\n\024DescribePathResponse\022,\n\toperat" +
+      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"5\n\022" +
+      "DescribePathResult\022\037\n\004self\030\001 \001(\0132\021.Ydb.S" +
+      "cheme.Entry\"\262\001\n\021PermissionsAction\022(\n\005gra" +
+      "nt\030\001 \001(\0132\027.Ydb.Scheme.PermissionsH\000\022)\n\006r" +
+      "evoke\030\002 \001(\0132\027.Ydb.Scheme.PermissionsH\000\022&" +
+      "\n\003set\030\003 \001(\0132\027.Ydb.Scheme.PermissionsH\000\022\026" +
+      "\n\014change_owner\030\004 \001(\tH\000B\010\n\006action\"\256\001\n\030Mod" +
+      "ifyPermissionsRequest\0229\n\020operation_param" +
+      "s\030\001 \001(\0132\037.Ydb.Operations.OperationParams" +
+      "\022\014\n\004path\030\002 \001(\t\022.\n\007actions\030\003 \003(\0132\035.Ydb.Sc" +
+      "heme.PermissionsAction\022\031\n\021clear_permissi" +
+      "ons\030\004 \001(\010\"I\n\031ModifyPermissionsResponse\022," +
+      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
+      "tionB1\n\025tech.ydb.schemeB\025SchemeOpe" +
+      "rationProtos\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
