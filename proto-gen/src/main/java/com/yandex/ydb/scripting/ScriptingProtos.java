@@ -2951,7 +2951,7 @@ public final class ScriptingProtos {
                 mutable_bitField0_ |= 0x00000001;
               }
               issues_.add(
-                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
+                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.parser(), extensionRegistry));
               break;
             }
             case 26: {

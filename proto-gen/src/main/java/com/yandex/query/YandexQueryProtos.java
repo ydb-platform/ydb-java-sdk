@@ -13043,7 +13043,7 @@ public final class YandexQueryProtos {
                 mutable_bitField0_ |= 0x00000001;
               }
               issue_.add(
-                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
+                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.parser(), extensionRegistry));
               break;
             }
             case 42: {
@@ -13052,7 +13052,7 @@ public final class YandexQueryProtos {
                 mutable_bitField0_ |= 0x00000002;
               }
               transientIssue_.add(
-                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
+                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.parser(), extensionRegistry));
               break;
             }
             case 50: {
@@ -31641,7 +31641,7 @@ public final class YandexQueryProtos {
                 mutable_bitField0_ |= 0x00000001;
               }
               issue_.add(
-                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
+                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.parser(), extensionRegistry));
               break;
             }
             case 50: {

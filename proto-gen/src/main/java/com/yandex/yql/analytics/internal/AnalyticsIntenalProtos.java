@@ -2041,6 +2041,30 @@ public final class AnalyticsIntenalProtos {
      */
     com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder getServiceAccountsOrBuilder(
         int index);
+
+    /**
+     * <code>string user_id = 13;</code>
+     * @return The userId.
+     */
+    java.lang.String getUserId();
+    /**
+     * <code>string user_id = 13;</code>
+     * @return The bytes for userId.
+     */
+    com.google.protobuf.ByteString
+        getUserIdBytes();
+
+    /**
+     * <code>string scope = 14;</code>
+     * @return The scope.
+     */
+    java.lang.String getScope();
+    /**
+     * <code>string scope = 14;</code>
+     * @return The bytes for scope.
+     */
+    com.google.protobuf.ByteString
+        getScopeBytes();
   }
   /**
    * Protobuf type {@code Yql.Analytics.GetTaskResult}
@@ -2061,6 +2085,8 @@ public final class AnalyticsIntenalProtos {
       binding_ = java.util.Collections.emptyList();
       userToken_ = "";
       serviceAccounts_ = java.util.Collections.emptyList();
+      userId_ = "";
+      scope_ = "";
     }
 
     @java.lang.Override
@@ -2191,6 +2217,18 @@ public final class AnalyticsIntenalProtos {
               }
               serviceAccounts_.add(
                   input.readMessage(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.parser(), extensionRegistry));
+              break;
+            }
+            case 106: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              userId_ = s;
+              break;
+            }
+            case 114: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              scope_ = s;
               break;
             }
             default: {
@@ -2607,6 +2645,82 @@ public final class AnalyticsIntenalProtos {
       return serviceAccounts_.get(index);
     }
 
+    public static final int USER_ID_FIELD_NUMBER = 13;
+    private volatile java.lang.Object userId_;
+    /**
+     * <code>string user_id = 13;</code>
+     * @return The userId.
+     */
+    @java.lang.Override
+    public java.lang.String getUserId() {
+      java.lang.Object ref = userId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        userId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string user_id = 13;</code>
+     * @return The bytes for userId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getUserIdBytes() {
+      java.lang.Object ref = userId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        userId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SCOPE_FIELD_NUMBER = 14;
+    private volatile java.lang.Object scope_;
+    /**
+     * <code>string scope = 14;</code>
+     * @return The scope.
+     */
+    @java.lang.Override
+    public java.lang.String getScope() {
+      java.lang.Object ref = scope_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        scope_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string scope = 14;</code>
+     * @return The bytes for scope.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getScopeBytes() {
+      java.lang.Object ref = scope_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        scope_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -2656,6 +2770,12 @@ public final class AnalyticsIntenalProtos {
       }
       for (int i = 0; i < serviceAccounts_.size(); i++) {
         output.writeMessage(12, serviceAccounts_.get(i));
+      }
+      if (!getUserIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 13, userId_);
+      }
+      if (!getScopeBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 14, scope_);
       }
       unknownFields.writeTo(output);
     }
@@ -2711,6 +2831,12 @@ public final class AnalyticsIntenalProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(12, serviceAccounts_.get(i));
       }
+      if (!getUserIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(13, userId_);
+      }
+      if (!getScopeBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(14, scope_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -2759,6 +2885,10 @@ public final class AnalyticsIntenalProtos {
           .equals(other.getUserToken())) return false;
       if (!getServiceAccountsList()
           .equals(other.getServiceAccountsList())) return false;
+      if (!getUserId()
+          .equals(other.getUserId())) return false;
+      if (!getScope()
+          .equals(other.getScope())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -2809,6 +2939,10 @@ public final class AnalyticsIntenalProtos {
         hash = (37 * hash) + SERVICE_ACCOUNTS_FIELD_NUMBER;
         hash = (53 * hash) + getServiceAccountsList().hashCode();
       }
+      hash = (37 * hash) + USER_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getUserId().hashCode();
+      hash = (37 * hash) + SCOPE_FIELD_NUMBER;
+      hash = (53 * hash) + getScope().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2993,6 +3127,10 @@ public final class AnalyticsIntenalProtos {
         } else {
           serviceAccountsBuilder_.clear();
         }
+        userId_ = "";
+
+        scope_ = "";
+
         return this;
       }
 
@@ -3068,6 +3206,8 @@ public final class AnalyticsIntenalProtos {
         } else {
           result.serviceAccounts_ = serviceAccountsBuilder_.build();
         }
+        result.userId_ = userId_;
+        result.scope_ = scope_;
         onBuilt();
         return result;
       }
@@ -3223,6 +3363,14 @@ public final class AnalyticsIntenalProtos {
               serviceAccountsBuilder_.addAllMessages(other.serviceAccounts_);
             }
           }
+        }
+        if (!other.getUserId().isEmpty()) {
+          userId_ = other.userId_;
+          onChanged();
+        }
+        if (!other.getScope().isEmpty()) {
+          scope_ = other.scope_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -4727,6 +4875,158 @@ public final class AnalyticsIntenalProtos {
         }
         return serviceAccountsBuilder_;
       }
+
+      private java.lang.Object userId_ = "";
+      /**
+       * <code>string user_id = 13;</code>
+       * @return The userId.
+       */
+      public java.lang.String getUserId() {
+        java.lang.Object ref = userId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          userId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string user_id = 13;</code>
+       * @return The bytes for userId.
+       */
+      public com.google.protobuf.ByteString
+          getUserIdBytes() {
+        java.lang.Object ref = userId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          userId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string user_id = 13;</code>
+       * @param value The userId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUserId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        userId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string user_id = 13;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearUserId() {
+        
+        userId_ = getDefaultInstance().getUserId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string user_id = 13;</code>
+       * @param value The bytes for userId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUserIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        userId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object scope_ = "";
+      /**
+       * <code>string scope = 14;</code>
+       * @return The scope.
+       */
+      public java.lang.String getScope() {
+        java.lang.Object ref = scope_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          scope_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string scope = 14;</code>
+       * @return The bytes for scope.
+       */
+      public com.google.protobuf.ByteString
+          getScopeBytes() {
+        java.lang.Object ref = scope_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          scope_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string scope = 14;</code>
+       * @param value The scope to set.
+       * @return This builder for chaining.
+       */
+      public Builder setScope(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        scope_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string scope = 14;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearScope() {
+        
+        scope_ = getDefaultInstance().getScope();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string scope = 14;</code>
+       * @param value The bytes for scope to set.
+       * @return This builder for chaining.
+       */
+      public Builder setScopeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        scope_ = value;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -5783,7 +6083,7 @@ public final class AnalyticsIntenalProtos {
                 mutable_bitField0_ |= 0x00000001;
               }
               issues_.add(
-                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
+                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.parser(), extensionRegistry));
               break;
             }
             case 56: {
@@ -12107,7 +12407,7 @@ public final class AnalyticsIntenalProtos {
       "\n\010owner_id\030\002 \001(\t\022\014\n\004host\030\003 \001(\t\0229\n\020operat" +
       "ion_params\030\004 \001(\0132\037.Ydb.Operations.Operat" +
       "ionParams\"2\n\016SignedIdentity\022\r\n\005value\030\001 \001" +
-      "(\t\022\021\n\tsignature\030\002 \001(\t\"\233\003\n\rGetTaskResult\022" +
+      "(\t\022\021\n\tsignature\030\002 \001(\t\"\273\003\n\rGetTaskResult\022" +
       "\020\n\010has_task\030\001 \001(\010\0220\n\tresult_id\030\002 \001(\0132\035.Y" +
       "ql.Analytics.SignedIdentity\022/\n\010query_id\030" +
       "\003 \001(\0132\035.Yql.Analytics.SignedIdentity\022-\n\006" +
@@ -12117,34 +12417,35 @@ public final class AnalyticsIntenalProtos {
       "nnection\030\t \003(\0132\027.YandexQuery.Connection\022" +
       "%\n\007binding\030\n \003(\0132\024.YandexQuery.Binding\022\022" +
       "\n\nuser_token\030\013 \001(\t\0227\n\020service_accounts\030\014" +
-      " \003(\0132\035.Yql.Analytics.SignedIdentity\"?\n\017G" +
-      "etTaskResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
-      "Operations.Operation\"\202\004\n\017PingTaskRequest" +
-      "\022\020\n\010owner_id\030\001 \001(\t\022/\n\010query_id\030\002 \001(\0132\035.Y" +
-      "ql.Analytics.SignedIdentity\022-\n\006job_id\030\003 " +
-      "\001(\0132\035.Yql.Analytics.SignedIdentity\0220\n\tre" +
-      "sult_id\030\004 \001(\0132\035.Yql.Analytics.SignedIden" +
-      "tity\0224\n\006status\030\005 \001(\0162$.YandexQuery.Query" +
-      "Meta.ComputeStatus\022\'\n\006issues\030\006 \003(\0132\027.Ydb" +
-      ".Issue.IssueMessage\022\030\n\020result_set_count\030" +
-      "\007 \001(\r\022\022\n\nstatistics\030\010 \001(\t\022\032\n\022serialized_" +
-      "headers\030\t \001(\014\022\025\n\rexecuter_info\030\n \001(\t\022\020\n\010" +
-      "dq_graph\030\013 \001(\t\022\013\n\003ast\030\014 \001(\t\022\014\n\004plan\030\r \001(" +
-      "\t\022\024\n\014resign_query\030\016 \001(\010\0229\n\020operation_par" +
-      "ams\030\017 \001(\0132\037.Ydb.Operations.OperationPara" +
-      "ms\022\r\n\005scope\030d \001(\t\":\n\016PingTaskResult\022(\n\006a" +
-      "ction\030\001 \001(\0162\030.YandexQuery.QueryAction\"@\n" +
-      "\020PingTaskResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
-      "db.Operations.Operation\"\267\001\n\026WriteTaskRes" +
-      "ultRequest\022\020\n\010owner_id\030\001 \001(\t\0220\n\tresult_i" +
-      "d\030\002 \001(\0132\035.Yql.Analytics.SignedIdentity\022\"" +
-      "\n\nresult_set\030\003 \001(\0132\016.Ydb.ResultSet\022\025\n\rre" +
-      "sult_set_id\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\016\n\006coo" +
-      "kie\030\006 \001(\004\"\'\n\025WriteTaskResultResult\022\016\n\006co" +
-      "okie\030\001 \001(\004\"G\n\027WriteTaskResultResponse\022,\n" +
-      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
-      "ionB>\n!com.yandex.yql.analytics.internal" +
-      "B\026AnalyticsIntenalProtos\370\001\001b\006proto3"
+      " \003(\0132\035.Yql.Analytics.SignedIdentity\022\017\n\007u" +
+      "ser_id\030\r \001(\t\022\r\n\005scope\030\016 \001(\t\"?\n\017GetTaskRe" +
+      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
+      "ns.Operation\"\202\004\n\017PingTaskRequest\022\020\n\010owne" +
+      "r_id\030\001 \001(\t\022/\n\010query_id\030\002 \001(\0132\035.Yql.Analy" +
+      "tics.SignedIdentity\022-\n\006job_id\030\003 \001(\0132\035.Yq" +
+      "l.Analytics.SignedIdentity\0220\n\tresult_id\030" +
+      "\004 \001(\0132\035.Yql.Analytics.SignedIdentity\0224\n\006" +
+      "status\030\005 \001(\0162$.YandexQuery.QueryMeta.Com" +
+      "puteStatus\022\'\n\006issues\030\006 \003(\0132\027.Ydb.Issue.I" +
+      "ssueMessage\022\030\n\020result_set_count\030\007 \001(\r\022\022\n" +
+      "\nstatistics\030\010 \001(\t\022\032\n\022serialized_headers\030" +
+      "\t \001(\014\022\025\n\rexecuter_info\030\n \001(\t\022\020\n\010dq_graph" +
+      "\030\013 \001(\t\022\013\n\003ast\030\014 \001(\t\022\014\n\004plan\030\r \001(\t\022\024\n\014res" +
+      "ign_query\030\016 \001(\010\0229\n\020operation_params\030\017 \001(" +
+      "\0132\037.Ydb.Operations.OperationParams\022\r\n\005sc" +
+      "ope\030d \001(\t\":\n\016PingTaskResult\022(\n\006action\030\001 " +
+      "\001(\0162\030.YandexQuery.QueryAction\"@\n\020PingTas" +
+      "kResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
+      "tions.Operation\"\267\001\n\026WriteTaskResultReque" +
+      "st\022\020\n\010owner_id\030\001 \001(\t\0220\n\tresult_id\030\002 \001(\0132" +
+      "\035.Yql.Analytics.SignedIdentity\022\"\n\nresult" +
+      "_set\030\003 \001(\0132\016.Ydb.ResultSet\022\025\n\rresult_set" +
+      "_id\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\016\n\006cookie\030\006 \001(" +
+      "\004\"\'\n\025WriteTaskResultResult\022\016\n\006cookie\030\001 \001" +
+      "(\004\"G\n\027WriteTaskResultResponse\022,\n\toperati" +
+      "on\030\001 \001(\0132\031.Ydb.Operations.OperationB>\n!c" +
+      "om.yandex.yql.analytics.internalB\026Analyt" +
+      "icsIntenalProtos\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -12173,7 +12474,7 @@ public final class AnalyticsIntenalProtos {
     internal_static_Yql_Analytics_GetTaskResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetTaskResult_descriptor,
-        new java.lang.String[] { "HasTask", "ResultId", "QueryId", "JobId", "Generation", "Streaming", "DqGraph", "Text", "Connection", "Binding", "UserToken", "ServiceAccounts", });
+        new java.lang.String[] { "HasTask", "ResultId", "QueryId", "JobId", "Generation", "Streaming", "DqGraph", "Text", "Connection", "Binding", "UserToken", "ServiceAccounts", "UserId", "Scope", });
     internal_static_Yql_Analytics_GetTaskResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_Yql_Analytics_GetTaskResponse_fieldAccessorTable = new

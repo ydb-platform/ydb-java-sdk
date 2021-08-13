@@ -19,59 +19,49 @@ public final class YdbIssueMessage {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional .Ydb.Issue.IssueMessage.Position position = 1;</code>
+     * <code>.Ydb.Issue.IssueMessage.Position position = 1;</code>
      * @return Whether the position field is set.
      */
     boolean hasPosition();
     /**
-     * <code>optional .Ydb.Issue.IssueMessage.Position position = 1;</code>
+     * <code>.Ydb.Issue.IssueMessage.Position position = 1;</code>
      * @return The position.
      */
     tech.ydb.YdbIssueMessage.IssueMessage.Position getPosition();
     /**
-     * <code>optional .Ydb.Issue.IssueMessage.Position position = 1;</code>
+     * <code>.Ydb.Issue.IssueMessage.Position position = 1;</code>
      */
     tech.ydb.YdbIssueMessage.IssueMessage.PositionOrBuilder getPositionOrBuilder();
 
     /**
-     * <code>optional string message = 2;</code>
-     * @return Whether the message field is set.
-     */
-    boolean hasMessage();
-    /**
-     * <code>optional string message = 2;</code>
+     * <code>string message = 2;</code>
      * @return The message.
      */
     java.lang.String getMessage();
     /**
-     * <code>optional string message = 2;</code>
+     * <code>string message = 2;</code>
      * @return The bytes for message.
      */
     com.google.protobuf.ByteString
         getMessageBytes();
 
     /**
-     * <code>optional .Ydb.Issue.IssueMessage.Position end_position = 3;</code>
+     * <code>.Ydb.Issue.IssueMessage.Position end_position = 3;</code>
      * @return Whether the endPosition field is set.
      */
     boolean hasEndPosition();
     /**
-     * <code>optional .Ydb.Issue.IssueMessage.Position end_position = 3;</code>
+     * <code>.Ydb.Issue.IssueMessage.Position end_position = 3;</code>
      * @return The endPosition.
      */
     tech.ydb.YdbIssueMessage.IssueMessage.Position getEndPosition();
     /**
-     * <code>optional .Ydb.Issue.IssueMessage.Position end_position = 3;</code>
+     * <code>.Ydb.Issue.IssueMessage.Position end_position = 3;</code>
      */
     tech.ydb.YdbIssueMessage.IssueMessage.PositionOrBuilder getEndPositionOrBuilder();
 
     /**
-     * <code>optional uint32 issue_code = 4;</code>
-     * @return Whether the issueCode field is set.
-     */
-    boolean hasIssueCode();
-    /**
-     * <code>optional uint32 issue_code = 4;</code>
+     * <code>uint32 issue_code = 4;</code>
      * @return The issueCode.
      */
     int getIssueCode();
@@ -85,20 +75,7 @@ public final class YdbIssueMessage {
      * INFO = 3;
      * </pre>
      *
-     * <code>optional uint32 severity = 5;</code>
-     * @return Whether the severity field is set.
-     */
-    boolean hasSeverity();
-    /**
-     * <pre>
-     * Severity values from yql/public/issue/protos/issue_severity.proto
-     * FATAL = 0;
-     * ERROR = 1;
-     * WARNING = 2;
-     * INFO = 3;
-     * </pre>
-     *
-     * <code>optional uint32 severity = 5;</code>
+     * <code>uint32 severity = 5;</code>
      * @return The severity.
      */
     int getSeverity();
@@ -181,53 +158,53 @@ public final class YdbIssueMessage {
               break;
             case 10: {
               tech.ydb.YdbIssueMessage.IssueMessage.Position.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000001) != 0)) {
+              if (position_ != null) {
                 subBuilder = position_.toBuilder();
               }
-              position_ = input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.Position.PARSER, extensionRegistry);
+              position_ = input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.Position.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(position_);
                 position_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000001;
+
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000002;
-              message_ = bs;
+              java.lang.String s = input.readStringRequireUtf8();
+
+              message_ = s;
               break;
             }
             case 26: {
               tech.ydb.YdbIssueMessage.IssueMessage.Position.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000004) != 0)) {
+              if (endPosition_ != null) {
                 subBuilder = endPosition_.toBuilder();
               }
-              endPosition_ = input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.Position.PARSER, extensionRegistry);
+              endPosition_ = input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.Position.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(endPosition_);
                 endPosition_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000004;
+
               break;
             }
             case 32: {
-              bitField0_ |= 0x00000008;
+
               issueCode_ = input.readUInt32();
               break;
             }
             case 40: {
-              bitField0_ |= 0x00000010;
+
               severity_ = input.readUInt32();
               break;
             }
             case 50: {
-              if (!((mutable_bitField0_ & 0x00000020) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 issues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>();
-                mutable_bitField0_ |= 0x00000020;
+                mutable_bitField0_ |= 0x00000001;
               }
               issues_.add(
-                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
+                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.parser(), extensionRegistry));
               break;
             }
             default: {
@@ -245,7 +222,7 @@ public final class YdbIssueMessage {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000020) != 0)) {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
           issues_ = java.util.Collections.unmodifiableList(issues_);
         }
         this.unknownFields = unknownFields.build();
@@ -270,39 +247,24 @@ public final class YdbIssueMessage {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>optional uint32 row = 1;</code>
-       * @return Whether the row field is set.
-       */
-      boolean hasRow();
-      /**
-       * <code>optional uint32 row = 1;</code>
+       * <code>uint32 row = 1;</code>
        * @return The row.
        */
       int getRow();
 
       /**
-       * <code>optional uint32 column = 2;</code>
-       * @return Whether the column field is set.
-       */
-      boolean hasColumn();
-      /**
-       * <code>optional uint32 column = 2;</code>
+       * <code>uint32 column = 2;</code>
        * @return The column.
        */
       int getColumn();
 
       /**
-       * <code>optional string file = 3;</code>
-       * @return Whether the file field is set.
-       */
-      boolean hasFile();
-      /**
-       * <code>optional string file = 3;</code>
+       * <code>string file = 3;</code>
        * @return The file.
        */
       java.lang.String getFile();
       /**
-       * <code>optional string file = 3;</code>
+       * <code>string file = 3;</code>
        * @return The bytes for file.
        */
       com.google.protobuf.ByteString
@@ -344,7 +306,6 @@ public final class YdbIssueMessage {
         if (extensionRegistry == null) {
           throw new java.lang.NullPointerException();
         }
-        int mutable_bitField0_ = 0;
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
             com.google.protobuf.UnknownFieldSet.newBuilder();
         try {
@@ -356,19 +317,19 @@ public final class YdbIssueMessage {
                 done = true;
                 break;
               case 8: {
-                bitField0_ |= 0x00000001;
+
                 row_ = input.readUInt32();
                 break;
               }
               case 16: {
-                bitField0_ |= 0x00000002;
+
                 column_ = input.readUInt32();
                 break;
               }
               case 26: {
-                com.google.protobuf.ByteString bs = input.readBytes();
-                bitField0_ |= 0x00000004;
-                file_ = bs;
+                java.lang.String s = input.readStringRequireUtf8();
+
+                file_ = s;
                 break;
               }
               default: {
@@ -403,19 +364,10 @@ public final class YdbIssueMessage {
                 tech.ydb.YdbIssueMessage.IssueMessage.Position.class, tech.ydb.YdbIssueMessage.IssueMessage.Position.Builder.class);
       }
 
-      private int bitField0_;
       public static final int ROW_FIELD_NUMBER = 1;
       private int row_;
       /**
-       * <code>optional uint32 row = 1;</code>
-       * @return Whether the row field is set.
-       */
-      @java.lang.Override
-      public boolean hasRow() {
-        return ((bitField0_ & 0x00000001) != 0);
-      }
-      /**
-       * <code>optional uint32 row = 1;</code>
+       * <code>uint32 row = 1;</code>
        * @return The row.
        */
       @java.lang.Override
@@ -426,15 +378,7 @@ public final class YdbIssueMessage {
       public static final int COLUMN_FIELD_NUMBER = 2;
       private int column_;
       /**
-       * <code>optional uint32 column = 2;</code>
-       * @return Whether the column field is set.
-       */
-      @java.lang.Override
-      public boolean hasColumn() {
-        return ((bitField0_ & 0x00000002) != 0);
-      }
-      /**
-       * <code>optional uint32 column = 2;</code>
+       * <code>uint32 column = 2;</code>
        * @return The column.
        */
       @java.lang.Override
@@ -445,15 +389,7 @@ public final class YdbIssueMessage {
       public static final int FILE_FIELD_NUMBER = 3;
       private volatile java.lang.Object file_;
       /**
-       * <code>optional string file = 3;</code>
-       * @return Whether the file field is set.
-       */
-      @java.lang.Override
-      public boolean hasFile() {
-        return ((bitField0_ & 0x00000004) != 0);
-      }
-      /**
-       * <code>optional string file = 3;</code>
+       * <code>string file = 3;</code>
        * @return The file.
        */
       @java.lang.Override
@@ -465,14 +401,12 @@ public final class YdbIssueMessage {
           com.google.protobuf.ByteString bs = 
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            file_ = s;
-          }
+          file_ = s;
           return s;
         }
       }
       /**
-       * <code>optional string file = 3;</code>
+       * <code>string file = 3;</code>
        * @return The bytes for file.
        */
       @java.lang.Override
@@ -504,13 +438,13 @@ public final class YdbIssueMessage {
       @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
-        if (((bitField0_ & 0x00000001) != 0)) {
+        if (row_ != 0) {
           output.writeUInt32(1, row_);
         }
-        if (((bitField0_ & 0x00000002) != 0)) {
+        if (column_ != 0) {
           output.writeUInt32(2, column_);
         }
-        if (((bitField0_ & 0x00000004) != 0)) {
+        if (!getFileBytes().isEmpty()) {
           com.google.protobuf.GeneratedMessageV3.writeString(output, 3, file_);
         }
         unknownFields.writeTo(output);
@@ -522,15 +456,15 @@ public final class YdbIssueMessage {
         if (size != -1) return size;
 
         size = 0;
-        if (((bitField0_ & 0x00000001) != 0)) {
+        if (row_ != 0) {
           size += com.google.protobuf.CodedOutputStream
             .computeUInt32Size(1, row_);
         }
-        if (((bitField0_ & 0x00000002) != 0)) {
+        if (column_ != 0) {
           size += com.google.protobuf.CodedOutputStream
             .computeUInt32Size(2, column_);
         }
-        if (((bitField0_ & 0x00000004) != 0)) {
+        if (!getFileBytes().isEmpty()) {
           size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, file_);
         }
         size += unknownFields.getSerializedSize();
@@ -548,21 +482,12 @@ public final class YdbIssueMessage {
         }
         tech.ydb.YdbIssueMessage.IssueMessage.Position other = (tech.ydb.YdbIssueMessage.IssueMessage.Position) obj;
 
-        if (hasRow() != other.hasRow()) return false;
-        if (hasRow()) {
-          if (getRow()
-              != other.getRow()) return false;
-        }
-        if (hasColumn() != other.hasColumn()) return false;
-        if (hasColumn()) {
-          if (getColumn()
-              != other.getColumn()) return false;
-        }
-        if (hasFile() != other.hasFile()) return false;
-        if (hasFile()) {
-          if (!getFile()
-              .equals(other.getFile())) return false;
-        }
+        if (getRow()
+            != other.getRow()) return false;
+        if (getColumn()
+            != other.getColumn()) return false;
+        if (!getFile()
+            .equals(other.getFile())) return false;
         if (!unknownFields.equals(other.unknownFields)) return false;
         return true;
       }
@@ -574,18 +499,12 @@ public final class YdbIssueMessage {
         }
         int hash = 41;
         hash = (19 * hash) + getDescriptor().hashCode();
-        if (hasRow()) {
-          hash = (37 * hash) + ROW_FIELD_NUMBER;
-          hash = (53 * hash) + getRow();
-        }
-        if (hasColumn()) {
-          hash = (37 * hash) + COLUMN_FIELD_NUMBER;
-          hash = (53 * hash) + getColumn();
-        }
-        if (hasFile()) {
-          hash = (37 * hash) + FILE_FIELD_NUMBER;
-          hash = (53 * hash) + getFile().hashCode();
-        }
+        hash = (37 * hash) + ROW_FIELD_NUMBER;
+        hash = (53 * hash) + getRow();
+        hash = (37 * hash) + COLUMN_FIELD_NUMBER;
+        hash = (53 * hash) + getColumn();
+        hash = (37 * hash) + FILE_FIELD_NUMBER;
+        hash = (53 * hash) + getFile().hashCode();
         hash = (29 * hash) + unknownFields.hashCode();
         memoizedHashCode = hash;
         return hash;
@@ -720,11 +639,11 @@ public final class YdbIssueMessage {
         public Builder clear() {
           super.clear();
           row_ = 0;
-          bitField0_ = (bitField0_ & ~0x00000001);
+
           column_ = 0;
-          bitField0_ = (bitField0_ & ~0x00000002);
+
           file_ = "";
-          bitField0_ = (bitField0_ & ~0x00000004);
+
           return this;
         }
 
@@ -751,21 +670,9 @@ public final class YdbIssueMessage {
         @java.lang.Override
         public tech.ydb.YdbIssueMessage.IssueMessage.Position buildPartial() {
           tech.ydb.YdbIssueMessage.IssueMessage.Position result = new tech.ydb.YdbIssueMessage.IssueMessage.Position(this);
-          int from_bitField0_ = bitField0_;
-          int to_bitField0_ = 0;
-          if (((from_bitField0_ & 0x00000001) != 0)) {
-            result.row_ = row_;
-            to_bitField0_ |= 0x00000001;
-          }
-          if (((from_bitField0_ & 0x00000002) != 0)) {
-            result.column_ = column_;
-            to_bitField0_ |= 0x00000002;
-          }
-          if (((from_bitField0_ & 0x00000004) != 0)) {
-            to_bitField0_ |= 0x00000004;
-          }
+          result.row_ = row_;
+          result.column_ = column_;
           result.file_ = file_;
-          result.bitField0_ = to_bitField0_;
           onBuilt();
           return result;
         }
@@ -814,14 +721,13 @@ public final class YdbIssueMessage {
 
         public Builder mergeFrom(tech.ydb.YdbIssueMessage.IssueMessage.Position other) {
           if (other == tech.ydb.YdbIssueMessage.IssueMessage.Position.getDefaultInstance()) return this;
-          if (other.hasRow()) {
+          if (other.getRow() != 0) {
             setRow(other.getRow());
           }
-          if (other.hasColumn()) {
+          if (other.getColumn() != 0) {
             setColumn(other.getColumn());
           }
-          if (other.hasFile()) {
-            bitField0_ |= 0x00000004;
+          if (!other.getFile().isEmpty()) {
             file_ = other.file_;
             onChanged();
           }
@@ -853,19 +759,10 @@ public final class YdbIssueMessage {
           }
           return this;
         }
-        private int bitField0_;
 
         private int row_ ;
         /**
-         * <code>optional uint32 row = 1;</code>
-         * @return Whether the row field is set.
-         */
-        @java.lang.Override
-        public boolean hasRow() {
-          return ((bitField0_ & 0x00000001) != 0);
-        }
-        /**
-         * <code>optional uint32 row = 1;</code>
+         * <code>uint32 row = 1;</code>
          * @return The row.
          */
         @java.lang.Override
@@ -873,22 +770,22 @@ public final class YdbIssueMessage {
           return row_;
         }
         /**
-         * <code>optional uint32 row = 1;</code>
+         * <code>uint32 row = 1;</code>
          * @param value The row to set.
          * @return This builder for chaining.
          */
         public Builder setRow(int value) {
-          bitField0_ |= 0x00000001;
+          
           row_ = value;
           onChanged();
           return this;
         }
         /**
-         * <code>optional uint32 row = 1;</code>
+         * <code>uint32 row = 1;</code>
          * @return This builder for chaining.
          */
         public Builder clearRow() {
-          bitField0_ = (bitField0_ & ~0x00000001);
+          
           row_ = 0;
           onChanged();
           return this;
@@ -896,15 +793,7 @@ public final class YdbIssueMessage {
 
         private int column_ ;
         /**
-         * <code>optional uint32 column = 2;</code>
-         * @return Whether the column field is set.
-         */
-        @java.lang.Override
-        public boolean hasColumn() {
-          return ((bitField0_ & 0x00000002) != 0);
-        }
-        /**
-         * <code>optional uint32 column = 2;</code>
+         * <code>uint32 column = 2;</code>
          * @return The column.
          */
         @java.lang.Override
@@ -912,22 +801,22 @@ public final class YdbIssueMessage {
           return column_;
         }
         /**
-         * <code>optional uint32 column = 2;</code>
+         * <code>uint32 column = 2;</code>
          * @param value The column to set.
          * @return This builder for chaining.
          */
         public Builder setColumn(int value) {
-          bitField0_ |= 0x00000002;
+          
           column_ = value;
           onChanged();
           return this;
         }
         /**
-         * <code>optional uint32 column = 2;</code>
+         * <code>uint32 column = 2;</code>
          * @return This builder for chaining.
          */
         public Builder clearColumn() {
-          bitField0_ = (bitField0_ & ~0x00000002);
+          
           column_ = 0;
           onChanged();
           return this;
@@ -935,14 +824,7 @@ public final class YdbIssueMessage {
 
         private java.lang.Object file_ = "";
         /**
-         * <code>optional string file = 3;</code>
-         * @return Whether the file field is set.
-         */
-        public boolean hasFile() {
-          return ((bitField0_ & 0x00000004) != 0);
-        }
-        /**
-         * <code>optional string file = 3;</code>
+         * <code>string file = 3;</code>
          * @return The file.
          */
         public java.lang.String getFile() {
@@ -951,16 +833,14 @@ public final class YdbIssueMessage {
             com.google.protobuf.ByteString bs =
                 (com.google.protobuf.ByteString) ref;
             java.lang.String s = bs.toStringUtf8();
-            if (bs.isValidUtf8()) {
-              file_ = s;
-            }
+            file_ = s;
             return s;
           } else {
             return (java.lang.String) ref;
           }
         }
         /**
-         * <code>optional string file = 3;</code>
+         * <code>string file = 3;</code>
          * @return The bytes for file.
          */
         public com.google.protobuf.ByteString
@@ -977,7 +857,7 @@ public final class YdbIssueMessage {
           }
         }
         /**
-         * <code>optional string file = 3;</code>
+         * <code>string file = 3;</code>
          * @param value The file to set.
          * @return This builder for chaining.
          */
@@ -986,23 +866,23 @@ public final class YdbIssueMessage {
           if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  
           file_ = value;
           onChanged();
           return this;
         }
         /**
-         * <code>optional string file = 3;</code>
+         * <code>string file = 3;</code>
          * @return This builder for chaining.
          */
         public Builder clearFile() {
-          bitField0_ = (bitField0_ & ~0x00000004);
+          
           file_ = getDefaultInstance().getFile();
           onChanged();
           return this;
         }
         /**
-         * <code>optional string file = 3;</code>
+         * <code>string file = 3;</code>
          * @param value The bytes for file to set.
          * @return This builder for chaining.
          */
@@ -1011,7 +891,8 @@ public final class YdbIssueMessage {
           if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  checkByteStringIsUtf8(value);
+          
           file_ = value;
           onChanged();
           return this;
@@ -1042,7 +923,7 @@ public final class YdbIssueMessage {
         return DEFAULT_INSTANCE;
       }
 
-      @java.lang.Deprecated public static final com.google.protobuf.Parser<Position>
+      private static final com.google.protobuf.Parser<Position>
           PARSER = new com.google.protobuf.AbstractParser<Position>() {
         @java.lang.Override
         public Position parsePartialFrom(
@@ -1069,19 +950,18 @@ public final class YdbIssueMessage {
 
     }
 
-    private int bitField0_;
     public static final int POSITION_FIELD_NUMBER = 1;
     private tech.ydb.YdbIssueMessage.IssueMessage.Position position_;
     /**
-     * <code>optional .Ydb.Issue.IssueMessage.Position position = 1;</code>
+     * <code>.Ydb.Issue.IssueMessage.Position position = 1;</code>
      * @return Whether the position field is set.
      */
     @java.lang.Override
     public boolean hasPosition() {
-      return ((bitField0_ & 0x00000001) != 0);
+      return position_ != null;
     }
     /**
-     * <code>optional .Ydb.Issue.IssueMessage.Position position = 1;</code>
+     * <code>.Ydb.Issue.IssueMessage.Position position = 1;</code>
      * @return The position.
      */
     @java.lang.Override
@@ -1089,25 +969,17 @@ public final class YdbIssueMessage {
       return position_ == null ? tech.ydb.YdbIssueMessage.IssueMessage.Position.getDefaultInstance() : position_;
     }
     /**
-     * <code>optional .Ydb.Issue.IssueMessage.Position position = 1;</code>
+     * <code>.Ydb.Issue.IssueMessage.Position position = 1;</code>
      */
     @java.lang.Override
     public tech.ydb.YdbIssueMessage.IssueMessage.PositionOrBuilder getPositionOrBuilder() {
-      return position_ == null ? tech.ydb.YdbIssueMessage.IssueMessage.Position.getDefaultInstance() : position_;
+      return getPosition();
     }
 
     public static final int MESSAGE_FIELD_NUMBER = 2;
     private volatile java.lang.Object message_;
     /**
-     * <code>optional string message = 2;</code>
-     * @return Whether the message field is set.
-     */
-    @java.lang.Override
-    public boolean hasMessage() {
-      return ((bitField0_ & 0x00000002) != 0);
-    }
-    /**
-     * <code>optional string message = 2;</code>
+     * <code>string message = 2;</code>
      * @return The message.
      */
     @java.lang.Override
@@ -1119,14 +991,12 @@ public final class YdbIssueMessage {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          message_ = s;
-        }
+        message_ = s;
         return s;
       }
     }
     /**
-     * <code>optional string message = 2;</code>
+     * <code>string message = 2;</code>
      * @return The bytes for message.
      */
     @java.lang.Override
@@ -1147,15 +1017,15 @@ public final class YdbIssueMessage {
     public static final int END_POSITION_FIELD_NUMBER = 3;
     private tech.ydb.YdbIssueMessage.IssueMessage.Position endPosition_;
     /**
-     * <code>optional .Ydb.Issue.IssueMessage.Position end_position = 3;</code>
+     * <code>.Ydb.Issue.IssueMessage.Position end_position = 3;</code>
      * @return Whether the endPosition field is set.
      */
     @java.lang.Override
     public boolean hasEndPosition() {
-      return ((bitField0_ & 0x00000004) != 0);
+      return endPosition_ != null;
     }
     /**
-     * <code>optional .Ydb.Issue.IssueMessage.Position end_position = 3;</code>
+     * <code>.Ydb.Issue.IssueMessage.Position end_position = 3;</code>
      * @return The endPosition.
      */
     @java.lang.Override
@@ -1163,25 +1033,17 @@ public final class YdbIssueMessage {
       return endPosition_ == null ? tech.ydb.YdbIssueMessage.IssueMessage.Position.getDefaultInstance() : endPosition_;
     }
     /**
-     * <code>optional .Ydb.Issue.IssueMessage.Position end_position = 3;</code>
+     * <code>.Ydb.Issue.IssueMessage.Position end_position = 3;</code>
      */
     @java.lang.Override
     public tech.ydb.YdbIssueMessage.IssueMessage.PositionOrBuilder getEndPositionOrBuilder() {
-      return endPosition_ == null ? tech.ydb.YdbIssueMessage.IssueMessage.Position.getDefaultInstance() : endPosition_;
+      return getEndPosition();
     }
 
     public static final int ISSUE_CODE_FIELD_NUMBER = 4;
     private int issueCode_;
     /**
-     * <code>optional uint32 issue_code = 4;</code>
-     * @return Whether the issueCode field is set.
-     */
-    @java.lang.Override
-    public boolean hasIssueCode() {
-      return ((bitField0_ & 0x00000008) != 0);
-    }
-    /**
-     * <code>optional uint32 issue_code = 4;</code>
+     * <code>uint32 issue_code = 4;</code>
      * @return The issueCode.
      */
     @java.lang.Override
@@ -1200,23 +1062,7 @@ public final class YdbIssueMessage {
      * INFO = 3;
      * </pre>
      *
-     * <code>optional uint32 severity = 5;</code>
-     * @return Whether the severity field is set.
-     */
-    @java.lang.Override
-    public boolean hasSeverity() {
-      return ((bitField0_ & 0x00000010) != 0);
-    }
-    /**
-     * <pre>
-     * Severity values from yql/public/issue/protos/issue_severity.proto
-     * FATAL = 0;
-     * ERROR = 1;
-     * WARNING = 2;
-     * INFO = 3;
-     * </pre>
-     *
-     * <code>optional uint32 severity = 5;</code>
+     * <code>uint32 severity = 5;</code>
      * @return The severity.
      */
     @java.lang.Override
@@ -1278,19 +1124,19 @@ public final class YdbIssueMessage {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) != 0)) {
+      if (position_ != null) {
         output.writeMessage(1, getPosition());
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
+      if (!getMessageBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, message_);
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
+      if (endPosition_ != null) {
         output.writeMessage(3, getEndPosition());
       }
-      if (((bitField0_ & 0x00000008) != 0)) {
+      if (issueCode_ != 0) {
         output.writeUInt32(4, issueCode_);
       }
-      if (((bitField0_ & 0x00000010) != 0)) {
+      if (severity_ != 0) {
         output.writeUInt32(5, severity_);
       }
       for (int i = 0; i < issues_.size(); i++) {
@@ -1305,22 +1151,22 @@ public final class YdbIssueMessage {
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) != 0)) {
+      if (position_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getPosition());
       }
-      if (((bitField0_ & 0x00000002) != 0)) {
+      if (!getMessageBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, message_);
       }
-      if (((bitField0_ & 0x00000004) != 0)) {
+      if (endPosition_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, getEndPosition());
       }
-      if (((bitField0_ & 0x00000008) != 0)) {
+      if (issueCode_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(4, issueCode_);
       }
-      if (((bitField0_ & 0x00000010) != 0)) {
+      if (severity_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(5, severity_);
       }
@@ -1348,26 +1194,17 @@ public final class YdbIssueMessage {
         if (!getPosition()
             .equals(other.getPosition())) return false;
       }
-      if (hasMessage() != other.hasMessage()) return false;
-      if (hasMessage()) {
-        if (!getMessage()
-            .equals(other.getMessage())) return false;
-      }
+      if (!getMessage()
+          .equals(other.getMessage())) return false;
       if (hasEndPosition() != other.hasEndPosition()) return false;
       if (hasEndPosition()) {
         if (!getEndPosition()
             .equals(other.getEndPosition())) return false;
       }
-      if (hasIssueCode() != other.hasIssueCode()) return false;
-      if (hasIssueCode()) {
-        if (getIssueCode()
-            != other.getIssueCode()) return false;
-      }
-      if (hasSeverity() != other.hasSeverity()) return false;
-      if (hasSeverity()) {
-        if (getSeverity()
-            != other.getSeverity()) return false;
-      }
+      if (getIssueCode()
+          != other.getIssueCode()) return false;
+      if (getSeverity()
+          != other.getSeverity()) return false;
       if (!getIssuesList()
           .equals(other.getIssuesList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
@@ -1385,22 +1222,16 @@ public final class YdbIssueMessage {
         hash = (37 * hash) + POSITION_FIELD_NUMBER;
         hash = (53 * hash) + getPosition().hashCode();
       }
-      if (hasMessage()) {
-        hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
-        hash = (53 * hash) + getMessage().hashCode();
-      }
+      hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
+      hash = (53 * hash) + getMessage().hashCode();
       if (hasEndPosition()) {
         hash = (37 * hash) + END_POSITION_FIELD_NUMBER;
         hash = (53 * hash) + getEndPosition().hashCode();
       }
-      if (hasIssueCode()) {
-        hash = (37 * hash) + ISSUE_CODE_FIELD_NUMBER;
-        hash = (53 * hash) + getIssueCode();
-      }
-      if (hasSeverity()) {
-        hash = (37 * hash) + SEVERITY_FIELD_NUMBER;
-        hash = (53 * hash) + getSeverity();
-      }
+      hash = (37 * hash) + ISSUE_CODE_FIELD_NUMBER;
+      hash = (53 * hash) + getIssueCode();
+      hash = (37 * hash) + SEVERITY_FIELD_NUMBER;
+      hash = (53 * hash) + getSeverity();
       if (getIssuesCount() > 0) {
         hash = (37 * hash) + ISSUES_FIELD_NUMBER;
         hash = (53 * hash) + getIssuesList().hashCode();
@@ -1537,8 +1368,6 @@ public final class YdbIssueMessage {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
-          getPositionFieldBuilder();
-          getEndPositionFieldBuilder();
           getIssuesFieldBuilder();
         }
       }
@@ -1548,24 +1377,24 @@ public final class YdbIssueMessage {
         if (positionBuilder_ == null) {
           position_ = null;
         } else {
-          positionBuilder_.clear();
+          position_ = null;
+          positionBuilder_ = null;
         }
-        bitField0_ = (bitField0_ & ~0x00000001);
         message_ = "";
-        bitField0_ = (bitField0_ & ~0x00000002);
+
         if (endPositionBuilder_ == null) {
           endPosition_ = null;
         } else {
-          endPositionBuilder_.clear();
+          endPosition_ = null;
+          endPositionBuilder_ = null;
         }
-        bitField0_ = (bitField0_ & ~0x00000004);
         issueCode_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
+
         severity_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000010);
+
         if (issuesBuilder_ == null) {
           issues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           issuesBuilder_.clear();
         }
@@ -1596,45 +1425,28 @@ public final class YdbIssueMessage {
       public tech.ydb.YdbIssueMessage.IssueMessage buildPartial() {
         tech.ydb.YdbIssueMessage.IssueMessage result = new tech.ydb.YdbIssueMessage.IssueMessage(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          if (positionBuilder_ == null) {
-            result.position_ = position_;
-          } else {
-            result.position_ = positionBuilder_.build();
-          }
-          to_bitField0_ |= 0x00000001;
-        }
-        if (((from_bitField0_ & 0x00000002) != 0)) {
-          to_bitField0_ |= 0x00000002;
+        if (positionBuilder_ == null) {
+          result.position_ = position_;
+        } else {
+          result.position_ = positionBuilder_.build();
         }
         result.message_ = message_;
-        if (((from_bitField0_ & 0x00000004) != 0)) {
-          if (endPositionBuilder_ == null) {
-            result.endPosition_ = endPosition_;
-          } else {
-            result.endPosition_ = endPositionBuilder_.build();
-          }
-          to_bitField0_ |= 0x00000004;
+        if (endPositionBuilder_ == null) {
+          result.endPosition_ = endPosition_;
+        } else {
+          result.endPosition_ = endPositionBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.issueCode_ = issueCode_;
-          to_bitField0_ |= 0x00000008;
-        }
-        if (((from_bitField0_ & 0x00000010) != 0)) {
-          result.severity_ = severity_;
-          to_bitField0_ |= 0x00000010;
-        }
+        result.issueCode_ = issueCode_;
+        result.severity_ = severity_;
         if (issuesBuilder_ == null) {
-          if (((bitField0_ & 0x00000020) != 0)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             issues_ = java.util.Collections.unmodifiableList(issues_);
-            bitField0_ = (bitField0_ & ~0x00000020);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.issues_ = issues_;
         } else {
           result.issues_ = issuesBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -1686,25 +1498,24 @@ public final class YdbIssueMessage {
         if (other.hasPosition()) {
           mergePosition(other.getPosition());
         }
-        if (other.hasMessage()) {
-          bitField0_ |= 0x00000002;
+        if (!other.getMessage().isEmpty()) {
           message_ = other.message_;
           onChanged();
         }
         if (other.hasEndPosition()) {
           mergeEndPosition(other.getEndPosition());
         }
-        if (other.hasIssueCode()) {
+        if (other.getIssueCode() != 0) {
           setIssueCode(other.getIssueCode());
         }
-        if (other.hasSeverity()) {
+        if (other.getSeverity() != 0) {
           setSeverity(other.getSeverity());
         }
         if (issuesBuilder_ == null) {
           if (!other.issues_.isEmpty()) {
             if (issues_.isEmpty()) {
               issues_ = other.issues_;
-              bitField0_ = (bitField0_ & ~0x00000020);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureIssuesIsMutable();
               issues_.addAll(other.issues_);
@@ -1717,7 +1528,7 @@ public final class YdbIssueMessage {
               issuesBuilder_.dispose();
               issuesBuilder_ = null;
               issues_ = other.issues_;
-              bitField0_ = (bitField0_ & ~0x00000020);
+              bitField0_ = (bitField0_ & ~0x00000001);
               issuesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getIssuesFieldBuilder() : null;
@@ -1760,14 +1571,14 @@ public final class YdbIssueMessage {
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.YdbIssueMessage.IssueMessage.Position, tech.ydb.YdbIssueMessage.IssueMessage.Position.Builder, tech.ydb.YdbIssueMessage.IssueMessage.PositionOrBuilder> positionBuilder_;
       /**
-       * <code>optional .Ydb.Issue.IssueMessage.Position position = 1;</code>
+       * <code>.Ydb.Issue.IssueMessage.Position position = 1;</code>
        * @return Whether the position field is set.
        */
       public boolean hasPosition() {
-        return ((bitField0_ & 0x00000001) != 0);
+        return positionBuilder_ != null || position_ != null;
       }
       /**
-       * <code>optional .Ydb.Issue.IssueMessage.Position position = 1;</code>
+       * <code>.Ydb.Issue.IssueMessage.Position position = 1;</code>
        * @return The position.
        */
       public tech.ydb.YdbIssueMessage.IssueMessage.Position getPosition() {
@@ -1778,7 +1589,7 @@ public final class YdbIssueMessage {
         }
       }
       /**
-       * <code>optional .Ydb.Issue.IssueMessage.Position position = 1;</code>
+       * <code>.Ydb.Issue.IssueMessage.Position position = 1;</code>
        */
       public Builder setPosition(tech.ydb.YdbIssueMessage.IssueMessage.Position value) {
         if (positionBuilder_ == null) {
@@ -1790,11 +1601,11 @@ public final class YdbIssueMessage {
         } else {
           positionBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000001;
+
         return this;
       }
       /**
-       * <code>optional .Ydb.Issue.IssueMessage.Position position = 1;</code>
+       * <code>.Ydb.Issue.IssueMessage.Position position = 1;</code>
        */
       public Builder setPosition(
           tech.ydb.YdbIssueMessage.IssueMessage.Position.Builder builderForValue) {
@@ -1804,17 +1615,15 @@ public final class YdbIssueMessage {
         } else {
           positionBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000001;
+
         return this;
       }
       /**
-       * <code>optional .Ydb.Issue.IssueMessage.Position position = 1;</code>
+       * <code>.Ydb.Issue.IssueMessage.Position position = 1;</code>
        */
       public Builder mergePosition(tech.ydb.YdbIssueMessage.IssueMessage.Position value) {
         if (positionBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) != 0) &&
-              position_ != null &&
-              position_ != tech.ydb.YdbIssueMessage.IssueMessage.Position.getDefaultInstance()) {
+          if (position_ != null) {
             position_ =
               tech.ydb.YdbIssueMessage.IssueMessage.Position.newBuilder(position_).mergeFrom(value).buildPartial();
           } else {
@@ -1824,32 +1633,33 @@ public final class YdbIssueMessage {
         } else {
           positionBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000001;
+
         return this;
       }
       /**
-       * <code>optional .Ydb.Issue.IssueMessage.Position position = 1;</code>
+       * <code>.Ydb.Issue.IssueMessage.Position position = 1;</code>
        */
       public Builder clearPosition() {
         if (positionBuilder_ == null) {
           position_ = null;
           onChanged();
         } else {
-          positionBuilder_.clear();
+          position_ = null;
+          positionBuilder_ = null;
         }
-        bitField0_ = (bitField0_ & ~0x00000001);
+
         return this;
       }
       /**
-       * <code>optional .Ydb.Issue.IssueMessage.Position position = 1;</code>
+       * <code>.Ydb.Issue.IssueMessage.Position position = 1;</code>
        */
       public tech.ydb.YdbIssueMessage.IssueMessage.Position.Builder getPositionBuilder() {
-        bitField0_ |= 0x00000001;
+        
         onChanged();
         return getPositionFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .Ydb.Issue.IssueMessage.Position position = 1;</code>
+       * <code>.Ydb.Issue.IssueMessage.Position position = 1;</code>
        */
       public tech.ydb.YdbIssueMessage.IssueMessage.PositionOrBuilder getPositionOrBuilder() {
         if (positionBuilder_ != null) {
@@ -1860,7 +1670,7 @@ public final class YdbIssueMessage {
         }
       }
       /**
-       * <code>optional .Ydb.Issue.IssueMessage.Position position = 1;</code>
+       * <code>.Ydb.Issue.IssueMessage.Position position = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.YdbIssueMessage.IssueMessage.Position, tech.ydb.YdbIssueMessage.IssueMessage.Position.Builder, tech.ydb.YdbIssueMessage.IssueMessage.PositionOrBuilder> 
@@ -1878,14 +1688,7 @@ public final class YdbIssueMessage {
 
       private java.lang.Object message_ = "";
       /**
-       * <code>optional string message = 2;</code>
-       * @return Whether the message field is set.
-       */
-      public boolean hasMessage() {
-        return ((bitField0_ & 0x00000002) != 0);
-      }
-      /**
-       * <code>optional string message = 2;</code>
+       * <code>string message = 2;</code>
        * @return The message.
        */
       public java.lang.String getMessage() {
@@ -1894,16 +1697,14 @@ public final class YdbIssueMessage {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            message_ = s;
-          }
+          message_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>optional string message = 2;</code>
+       * <code>string message = 2;</code>
        * @return The bytes for message.
        */
       public com.google.protobuf.ByteString
@@ -1920,7 +1721,7 @@ public final class YdbIssueMessage {
         }
       }
       /**
-       * <code>optional string message = 2;</code>
+       * <code>string message = 2;</code>
        * @param value The message to set.
        * @return This builder for chaining.
        */
@@ -1929,23 +1730,23 @@ public final class YdbIssueMessage {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  
         message_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string message = 2;</code>
+       * <code>string message = 2;</code>
        * @return This builder for chaining.
        */
       public Builder clearMessage() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        
         message_ = getDefaultInstance().getMessage();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string message = 2;</code>
+       * <code>string message = 2;</code>
        * @param value The bytes for message to set.
        * @return This builder for chaining.
        */
@@ -1954,7 +1755,8 @@ public final class YdbIssueMessage {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  checkByteStringIsUtf8(value);
+        
         message_ = value;
         onChanged();
         return this;
@@ -1964,14 +1766,14 @@ public final class YdbIssueMessage {
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.YdbIssueMessage.IssueMessage.Position, tech.ydb.YdbIssueMessage.IssueMessage.Position.Builder, tech.ydb.YdbIssueMessage.IssueMessage.PositionOrBuilder> endPositionBuilder_;
       /**
-       * <code>optional .Ydb.Issue.IssueMessage.Position end_position = 3;</code>
+       * <code>.Ydb.Issue.IssueMessage.Position end_position = 3;</code>
        * @return Whether the endPosition field is set.
        */
       public boolean hasEndPosition() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return endPositionBuilder_ != null || endPosition_ != null;
       }
       /**
-       * <code>optional .Ydb.Issue.IssueMessage.Position end_position = 3;</code>
+       * <code>.Ydb.Issue.IssueMessage.Position end_position = 3;</code>
        * @return The endPosition.
        */
       public tech.ydb.YdbIssueMessage.IssueMessage.Position getEndPosition() {
@@ -1982,7 +1784,7 @@ public final class YdbIssueMessage {
         }
       }
       /**
-       * <code>optional .Ydb.Issue.IssueMessage.Position end_position = 3;</code>
+       * <code>.Ydb.Issue.IssueMessage.Position end_position = 3;</code>
        */
       public Builder setEndPosition(tech.ydb.YdbIssueMessage.IssueMessage.Position value) {
         if (endPositionBuilder_ == null) {
@@ -1994,11 +1796,11 @@ public final class YdbIssueMessage {
         } else {
           endPositionBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000004;
+
         return this;
       }
       /**
-       * <code>optional .Ydb.Issue.IssueMessage.Position end_position = 3;</code>
+       * <code>.Ydb.Issue.IssueMessage.Position end_position = 3;</code>
        */
       public Builder setEndPosition(
           tech.ydb.YdbIssueMessage.IssueMessage.Position.Builder builderForValue) {
@@ -2008,17 +1810,15 @@ public final class YdbIssueMessage {
         } else {
           endPositionBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000004;
+
         return this;
       }
       /**
-       * <code>optional .Ydb.Issue.IssueMessage.Position end_position = 3;</code>
+       * <code>.Ydb.Issue.IssueMessage.Position end_position = 3;</code>
        */
       public Builder mergeEndPosition(tech.ydb.YdbIssueMessage.IssueMessage.Position value) {
         if (endPositionBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) != 0) &&
-              endPosition_ != null &&
-              endPosition_ != tech.ydb.YdbIssueMessage.IssueMessage.Position.getDefaultInstance()) {
+          if (endPosition_ != null) {
             endPosition_ =
               tech.ydb.YdbIssueMessage.IssueMessage.Position.newBuilder(endPosition_).mergeFrom(value).buildPartial();
           } else {
@@ -2028,32 +1828,33 @@ public final class YdbIssueMessage {
         } else {
           endPositionBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000004;
+
         return this;
       }
       /**
-       * <code>optional .Ydb.Issue.IssueMessage.Position end_position = 3;</code>
+       * <code>.Ydb.Issue.IssueMessage.Position end_position = 3;</code>
        */
       public Builder clearEndPosition() {
         if (endPositionBuilder_ == null) {
           endPosition_ = null;
           onChanged();
         } else {
-          endPositionBuilder_.clear();
+          endPosition_ = null;
+          endPositionBuilder_ = null;
         }
-        bitField0_ = (bitField0_ & ~0x00000004);
+
         return this;
       }
       /**
-       * <code>optional .Ydb.Issue.IssueMessage.Position end_position = 3;</code>
+       * <code>.Ydb.Issue.IssueMessage.Position end_position = 3;</code>
        */
       public tech.ydb.YdbIssueMessage.IssueMessage.Position.Builder getEndPositionBuilder() {
-        bitField0_ |= 0x00000004;
+        
         onChanged();
         return getEndPositionFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .Ydb.Issue.IssueMessage.Position end_position = 3;</code>
+       * <code>.Ydb.Issue.IssueMessage.Position end_position = 3;</code>
        */
       public tech.ydb.YdbIssueMessage.IssueMessage.PositionOrBuilder getEndPositionOrBuilder() {
         if (endPositionBuilder_ != null) {
@@ -2064,7 +1865,7 @@ public final class YdbIssueMessage {
         }
       }
       /**
-       * <code>optional .Ydb.Issue.IssueMessage.Position end_position = 3;</code>
+       * <code>.Ydb.Issue.IssueMessage.Position end_position = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.YdbIssueMessage.IssueMessage.Position, tech.ydb.YdbIssueMessage.IssueMessage.Position.Builder, tech.ydb.YdbIssueMessage.IssueMessage.PositionOrBuilder> 
@@ -2082,15 +1883,7 @@ public final class YdbIssueMessage {
 
       private int issueCode_ ;
       /**
-       * <code>optional uint32 issue_code = 4;</code>
-       * @return Whether the issueCode field is set.
-       */
-      @java.lang.Override
-      public boolean hasIssueCode() {
-        return ((bitField0_ & 0x00000008) != 0);
-      }
-      /**
-       * <code>optional uint32 issue_code = 4;</code>
+       * <code>uint32 issue_code = 4;</code>
        * @return The issueCode.
        */
       @java.lang.Override
@@ -2098,22 +1891,22 @@ public final class YdbIssueMessage {
         return issueCode_;
       }
       /**
-       * <code>optional uint32 issue_code = 4;</code>
+       * <code>uint32 issue_code = 4;</code>
        * @param value The issueCode to set.
        * @return This builder for chaining.
        */
       public Builder setIssueCode(int value) {
-        bitField0_ |= 0x00000008;
+        
         issueCode_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional uint32 issue_code = 4;</code>
+       * <code>uint32 issue_code = 4;</code>
        * @return This builder for chaining.
        */
       public Builder clearIssueCode() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        
         issueCode_ = 0;
         onChanged();
         return this;
@@ -2129,23 +1922,7 @@ public final class YdbIssueMessage {
        * INFO = 3;
        * </pre>
        *
-       * <code>optional uint32 severity = 5;</code>
-       * @return Whether the severity field is set.
-       */
-      @java.lang.Override
-      public boolean hasSeverity() {
-        return ((bitField0_ & 0x00000010) != 0);
-      }
-      /**
-       * <pre>
-       * Severity values from yql/public/issue/protos/issue_severity.proto
-       * FATAL = 0;
-       * ERROR = 1;
-       * WARNING = 2;
-       * INFO = 3;
-       * </pre>
-       *
-       * <code>optional uint32 severity = 5;</code>
+       * <code>uint32 severity = 5;</code>
        * @return The severity.
        */
       @java.lang.Override
@@ -2161,12 +1938,12 @@ public final class YdbIssueMessage {
        * INFO = 3;
        * </pre>
        *
-       * <code>optional uint32 severity = 5;</code>
+       * <code>uint32 severity = 5;</code>
        * @param value The severity to set.
        * @return This builder for chaining.
        */
       public Builder setSeverity(int value) {
-        bitField0_ |= 0x00000010;
+        
         severity_ = value;
         onChanged();
         return this;
@@ -2180,11 +1957,11 @@ public final class YdbIssueMessage {
        * INFO = 3;
        * </pre>
        *
-       * <code>optional uint32 severity = 5;</code>
+       * <code>uint32 severity = 5;</code>
        * @return This builder for chaining.
        */
       public Builder clearSeverity() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        
         severity_ = 0;
         onChanged();
         return this;
@@ -2193,9 +1970,9 @@ public final class YdbIssueMessage {
       private java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> issues_ =
         java.util.Collections.emptyList();
       private void ensureIssuesIsMutable() {
-        if (!((bitField0_ & 0x00000020) != 0)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           issues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>(issues_);
-          bitField0_ |= 0x00000020;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -2345,7 +2122,7 @@ public final class YdbIssueMessage {
       public Builder clearIssues() {
         if (issuesBuilder_ == null) {
           issues_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           issuesBuilder_.clear();
@@ -2422,7 +2199,7 @@ public final class YdbIssueMessage {
           issuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               tech.ydb.YdbIssueMessage.IssueMessage, tech.ydb.YdbIssueMessage.IssueMessage.Builder, tech.ydb.YdbIssueMessage.IssueMessageOrBuilder>(
                   issues_,
-                  ((bitField0_ & 0x00000020) != 0),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           issues_ = null;
@@ -2455,7 +2232,7 @@ public final class YdbIssueMessage {
       return DEFAULT_INSTANCE;
     }
 
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<IssueMessage>
+    private static final com.google.protobuf.Parser<IssueMessage>
         PARSER = new com.google.protobuf.AbstractParser<IssueMessage>() {
       @java.lang.Override
       public IssueMessage parsePartialFrom(
@@ -2509,7 +2286,8 @@ public final class YdbIssueMessage {
       "ion\022\022\n\nissue_code\030\004 \001(\r\022\020\n\010severity\030\005 \001(" +
       "\r\022\'\n\006issues\030\006 \003(\0132\027.Ydb.Issue.IssueMessa" +
       "ge\0325\n\010Position\022\013\n\003row\030\001 \001(\r\022\016\n\006column\030\002 " +
-      "\001(\r\022\014\n\004file\030\003 \001(\tB\020\n\016tech.ydb"
+      "\001(\r\022\014\n\004file\030\003 \001(\tB\023\n\016tech.ydb\370\001\001b\006" +
+      "proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

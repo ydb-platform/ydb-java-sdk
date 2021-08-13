@@ -960,7 +960,7 @@ private static final long serialVersionUID = 0L;
                 mutable_bitField0_ |= 0x00000001;
               }
               issues_.add(
-                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
+                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.parser(), extensionRegistry));
               break;
             }
             default: {
@@ -3499,7 +3499,7 @@ private static final long serialVersionUID = 0L;
                 mutable_bitField0_ |= 0x00000001;
               }
               issues_.add(
-                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
+                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.parser(), extensionRegistry));
               break;
             }
             case 32: {
@@ -4571,7 +4571,7 @@ private static final long serialVersionUID = 0L;
                 mutable_bitField0_ |= 0x00000001;
               }
               issues_.add(
-                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
+                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.parser(), extensionRegistry));
               break;
             }
             case 32: {
@@ -5658,7 +5658,7 @@ private static final long serialVersionUID = 0L;
                 mutable_bitField0_ |= 0x00000001;
               }
               issues_.add(
-                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
+                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.parser(), extensionRegistry));
               break;
             }
             case 34: {
@@ -7549,7 +7549,7 @@ private static final long serialVersionUID = 0L;
                 mutable_bitField0_ |= 0x00000001;
               }
               issues_.add(
-                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
+                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.parser(), extensionRegistry));
               break;
             }
             default: {
@@ -8530,7 +8530,7 @@ private static final long serialVersionUID = 0L;
                 mutable_bitField0_ |= 0x00000001;
               }
               issues_.add(
-                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
+                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.parser(), extensionRegistry));
               break;
             }
             default: {
@@ -9511,7 +9511,7 @@ private static final long serialVersionUID = 0L;
                 mutable_bitField0_ |= 0x00000001;
               }
               issues_.add(
-                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.PARSER, extensionRegistry));
+                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.parser(), extensionRegistry));
               break;
             }
             default: {
