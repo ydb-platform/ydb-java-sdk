@@ -49765,20 +49765,20 @@ public final class Datastreams {
      * Кажется в нашей модели поле не нужно. Нужно только валидировать его
      * </pre>
      *
-     * <code>string sequence_number = 5;</code>
-     * @return The sequenceNumber.
+     * <code>string sequence_number_for_ordering = 5;</code>
+     * @return The sequenceNumberForOrdering.
      */
-    java.lang.String getSequenceNumber();
+    java.lang.String getSequenceNumberForOrdering();
     /**
      * <pre>
      * Кажется в нашей модели поле не нужно. Нужно только валидировать его
      * </pre>
      *
-     * <code>string sequence_number = 5;</code>
-     * @return The bytes for sequenceNumber.
+     * <code>string sequence_number_for_ordering = 5;</code>
+     * @return The bytes for sequenceNumberForOrdering.
      */
     com.google.protobuf.ByteString
-        getSequenceNumberBytes();
+        getSequenceNumberForOrderingBytes();
 
     /**
      * <pre>
@@ -49816,7 +49816,7 @@ public final class Datastreams {
       data_ = com.google.protobuf.ByteString.EMPTY;
       explicitHashKey_ = "";
       partitionKey_ = "";
-      sequenceNumber_ = "";
+      sequenceNumberForOrdering_ = "";
       streamName_ = "";
     }
 
@@ -49883,7 +49883,7 @@ public final class Datastreams {
             case 42: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              sequenceNumber_ = s;
+              sequenceNumberForOrdering_ = s;
               break;
             }
             case 50: {
@@ -50057,26 +50057,26 @@ public final class Datastreams {
       }
     }
 
-    public static final int SEQUENCE_NUMBER_FIELD_NUMBER = 5;
-    private volatile java.lang.Object sequenceNumber_;
+    public static final int SEQUENCE_NUMBER_FOR_ORDERING_FIELD_NUMBER = 5;
+    private volatile java.lang.Object sequenceNumberForOrdering_;
     /**
      * <pre>
      * Кажется в нашей модели поле не нужно. Нужно только валидировать его
      * </pre>
      *
-     * <code>string sequence_number = 5;</code>
-     * @return The sequenceNumber.
+     * <code>string sequence_number_for_ordering = 5;</code>
+     * @return The sequenceNumberForOrdering.
      */
     @java.lang.Override
-    public java.lang.String getSequenceNumber() {
-      java.lang.Object ref = sequenceNumber_;
+    public java.lang.String getSequenceNumberForOrdering() {
+      java.lang.Object ref = sequenceNumberForOrdering_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        sequenceNumber_ = s;
+        sequenceNumberForOrdering_ = s;
         return s;
       }
     }
@@ -50085,18 +50085,18 @@ public final class Datastreams {
      * Кажется в нашей модели поле не нужно. Нужно только валидировать его
      * </pre>
      *
-     * <code>string sequence_number = 5;</code>
-     * @return The bytes for sequenceNumber.
+     * <code>string sequence_number_for_ordering = 5;</code>
+     * @return The bytes for sequenceNumberForOrdering.
      */
     @java.lang.Override
     public com.google.protobuf.ByteString
-        getSequenceNumberBytes() {
-      java.lang.Object ref = sequenceNumber_;
+        getSequenceNumberForOrderingBytes() {
+      java.lang.Object ref = sequenceNumberForOrdering_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        sequenceNumber_ = b;
+        sequenceNumberForOrdering_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -50175,8 +50175,8 @@ public final class Datastreams {
       if (!getPartitionKeyBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, partitionKey_);
       }
-      if (!getSequenceNumberBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, sequenceNumber_);
+      if (!getSequenceNumberForOrderingBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, sequenceNumberForOrdering_);
       }
       if (!getStreamNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, streamName_);
@@ -50204,8 +50204,8 @@ public final class Datastreams {
       if (!getPartitionKeyBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, partitionKey_);
       }
-      if (!getSequenceNumberBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, sequenceNumber_);
+      if (!getSequenceNumberForOrderingBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, sequenceNumberForOrdering_);
       }
       if (!getStreamNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, streamName_);
@@ -50236,8 +50236,8 @@ public final class Datastreams {
           .equals(other.getExplicitHashKey())) return false;
       if (!getPartitionKey()
           .equals(other.getPartitionKey())) return false;
-      if (!getSequenceNumber()
-          .equals(other.getSequenceNumber())) return false;
+      if (!getSequenceNumberForOrdering()
+          .equals(other.getSequenceNumberForOrdering())) return false;
       if (!getStreamName()
           .equals(other.getStreamName())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
@@ -50261,8 +50261,8 @@ public final class Datastreams {
       hash = (53 * hash) + getExplicitHashKey().hashCode();
       hash = (37 * hash) + PARTITION_KEY_FIELD_NUMBER;
       hash = (53 * hash) + getPartitionKey().hashCode();
-      hash = (37 * hash) + SEQUENCE_NUMBER_FIELD_NUMBER;
-      hash = (53 * hash) + getSequenceNumber().hashCode();
+      hash = (37 * hash) + SEQUENCE_NUMBER_FOR_ORDERING_FIELD_NUMBER;
+      hash = (53 * hash) + getSequenceNumberForOrdering().hashCode();
       hash = (37 * hash) + STREAM_NAME_FIELD_NUMBER;
       hash = (53 * hash) + getStreamName().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
@@ -50410,7 +50410,7 @@ public final class Datastreams {
 
         partitionKey_ = "";
 
-        sequenceNumber_ = "";
+        sequenceNumberForOrdering_ = "";
 
         streamName_ = "";
 
@@ -50448,7 +50448,7 @@ public final class Datastreams {
         result.data_ = data_;
         result.explicitHashKey_ = explicitHashKey_;
         result.partitionKey_ = partitionKey_;
-        result.sequenceNumber_ = sequenceNumber_;
+        result.sequenceNumberForOrdering_ = sequenceNumberForOrdering_;
         result.streamName_ = streamName_;
         onBuilt();
         return result;
@@ -50512,8 +50512,8 @@ public final class Datastreams {
           partitionKey_ = other.partitionKey_;
           onChanged();
         }
-        if (!other.getSequenceNumber().isEmpty()) {
-          sequenceNumber_ = other.sequenceNumber_;
+        if (!other.getSequenceNumberForOrdering().isEmpty()) {
+          sequenceNumberForOrdering_ = other.sequenceNumberForOrdering_;
           onChanged();
         }
         if (!other.getStreamName().isEmpty()) {
@@ -50906,22 +50906,22 @@ public final class Datastreams {
         return this;
       }
 
-      private java.lang.Object sequenceNumber_ = "";
+      private java.lang.Object sequenceNumberForOrdering_ = "";
       /**
        * <pre>
        * Кажется в нашей модели поле не нужно. Нужно только валидировать его
        * </pre>
        *
-       * <code>string sequence_number = 5;</code>
-       * @return The sequenceNumber.
+       * <code>string sequence_number_for_ordering = 5;</code>
+       * @return The sequenceNumberForOrdering.
        */
-      public java.lang.String getSequenceNumber() {
-        java.lang.Object ref = sequenceNumber_;
+      public java.lang.String getSequenceNumberForOrdering() {
+        java.lang.Object ref = sequenceNumberForOrdering_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          sequenceNumber_ = s;
+          sequenceNumberForOrdering_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -50932,17 +50932,17 @@ public final class Datastreams {
        * Кажется в нашей модели поле не нужно. Нужно только валидировать его
        * </pre>
        *
-       * <code>string sequence_number = 5;</code>
-       * @return The bytes for sequenceNumber.
+       * <code>string sequence_number_for_ordering = 5;</code>
+       * @return The bytes for sequenceNumberForOrdering.
        */
       public com.google.protobuf.ByteString
-          getSequenceNumberBytes() {
-        java.lang.Object ref = sequenceNumber_;
+          getSequenceNumberForOrderingBytes() {
+        java.lang.Object ref = sequenceNumberForOrdering_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          sequenceNumber_ = b;
+          sequenceNumberForOrdering_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
@@ -50953,17 +50953,17 @@ public final class Datastreams {
        * Кажется в нашей модели поле не нужно. Нужно только валидировать его
        * </pre>
        *
-       * <code>string sequence_number = 5;</code>
-       * @param value The sequenceNumber to set.
+       * <code>string sequence_number_for_ordering = 5;</code>
+       * @param value The sequenceNumberForOrdering to set.
        * @return This builder for chaining.
        */
-      public Builder setSequenceNumber(
+      public Builder setSequenceNumberForOrdering(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        sequenceNumber_ = value;
+        sequenceNumberForOrdering_ = value;
         onChanged();
         return this;
       }
@@ -50972,12 +50972,12 @@ public final class Datastreams {
        * Кажется в нашей модели поле не нужно. Нужно только валидировать его
        * </pre>
        *
-       * <code>string sequence_number = 5;</code>
+       * <code>string sequence_number_for_ordering = 5;</code>
        * @return This builder for chaining.
        */
-      public Builder clearSequenceNumber() {
+      public Builder clearSequenceNumberForOrdering() {
         
-        sequenceNumber_ = getDefaultInstance().getSequenceNumber();
+        sequenceNumberForOrdering_ = getDefaultInstance().getSequenceNumberForOrdering();
         onChanged();
         return this;
       }
@@ -50986,18 +50986,18 @@ public final class Datastreams {
        * Кажется в нашей модели поле не нужно. Нужно только валидировать его
        * </pre>
        *
-       * <code>string sequence_number = 5;</code>
-       * @param value The bytes for sequenceNumber to set.
+       * <code>string sequence_number_for_ordering = 5;</code>
+       * @param value The bytes for sequenceNumberForOrdering to set.
        * @return This builder for chaining.
        */
-      public Builder setSequenceNumberBytes(
+      public Builder setSequenceNumberForOrderingBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        sequenceNumber_ = value;
+        sequenceNumberForOrdering_ = value;
         onChanged();
         return this;
       }
@@ -57388,16 +57388,16 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string iterator = 1;</code>
-     * @return The iterator.
+     * <code>string shard_iterator = 1;</code>
+     * @return The shardIterator.
      */
-    java.lang.String getIterator();
+    java.lang.String getShardIterator();
     /**
-     * <code>string iterator = 1;</code>
-     * @return The bytes for iterator.
+     * <code>string shard_iterator = 1;</code>
+     * @return The bytes for shardIterator.
      */
     com.google.protobuf.ByteString
-        getIteratorBytes();
+        getShardIteratorBytes();
   }
   /**
    * Protobuf type {@code Ydb.DataStreams.V1.GetShardIteratorResult}
@@ -57412,7 +57412,7 @@ public final class Datastreams {
       super(builder);
     }
     private GetShardIteratorResult() {
-      iterator_ = "";
+      shardIterator_ = "";
     }
 
     @java.lang.Override
@@ -57448,7 +57448,7 @@ public final class Datastreams {
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              iterator_ = s;
+              shardIterator_ = s;
               break;
             }
             default: {
@@ -57483,38 +57483,38 @@ public final class Datastreams {
               tech.ydb.datastreams.v1.Datastreams.GetShardIteratorResult.class, tech.ydb.datastreams.v1.Datastreams.GetShardIteratorResult.Builder.class);
     }
 
-    public static final int ITERATOR_FIELD_NUMBER = 1;
-    private volatile java.lang.Object iterator_;
+    public static final int SHARD_ITERATOR_FIELD_NUMBER = 1;
+    private volatile java.lang.Object shardIterator_;
     /**
-     * <code>string iterator = 1;</code>
-     * @return The iterator.
+     * <code>string shard_iterator = 1;</code>
+     * @return The shardIterator.
      */
     @java.lang.Override
-    public java.lang.String getIterator() {
-      java.lang.Object ref = iterator_;
+    public java.lang.String getShardIterator() {
+      java.lang.Object ref = shardIterator_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        iterator_ = s;
+        shardIterator_ = s;
         return s;
       }
     }
     /**
-     * <code>string iterator = 1;</code>
-     * @return The bytes for iterator.
+     * <code>string shard_iterator = 1;</code>
+     * @return The bytes for shardIterator.
      */
     @java.lang.Override
     public com.google.protobuf.ByteString
-        getIteratorBytes() {
-      java.lang.Object ref = iterator_;
+        getShardIteratorBytes() {
+      java.lang.Object ref = shardIterator_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        iterator_ = b;
+        shardIterator_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -57535,8 +57535,8 @@ public final class Datastreams {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getIteratorBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, iterator_);
+      if (!getShardIteratorBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, shardIterator_);
       }
       unknownFields.writeTo(output);
     }
@@ -57547,8 +57547,8 @@ public final class Datastreams {
       if (size != -1) return size;
 
       size = 0;
-      if (!getIteratorBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, iterator_);
+      if (!getShardIteratorBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, shardIterator_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -57565,8 +57565,8 @@ public final class Datastreams {
       }
       tech.ydb.datastreams.v1.Datastreams.GetShardIteratorResult other = (tech.ydb.datastreams.v1.Datastreams.GetShardIteratorResult) obj;
 
-      if (!getIterator()
-          .equals(other.getIterator())) return false;
+      if (!getShardIterator()
+          .equals(other.getShardIterator())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -57578,8 +57578,8 @@ public final class Datastreams {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + ITERATOR_FIELD_NUMBER;
-      hash = (53 * hash) + getIterator().hashCode();
+      hash = (37 * hash) + SHARD_ITERATOR_FIELD_NUMBER;
+      hash = (53 * hash) + getShardIterator().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -57713,7 +57713,7 @@ public final class Datastreams {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        iterator_ = "";
+        shardIterator_ = "";
 
         return this;
       }
@@ -57741,7 +57741,7 @@ public final class Datastreams {
       @java.lang.Override
       public tech.ydb.datastreams.v1.Datastreams.GetShardIteratorResult buildPartial() {
         tech.ydb.datastreams.v1.Datastreams.GetShardIteratorResult result = new tech.ydb.datastreams.v1.Datastreams.GetShardIteratorResult(this);
-        result.iterator_ = iterator_;
+        result.shardIterator_ = shardIterator_;
         onBuilt();
         return result;
       }
@@ -57790,8 +57790,8 @@ public final class Datastreams {
 
       public Builder mergeFrom(tech.ydb.datastreams.v1.Datastreams.GetShardIteratorResult other) {
         if (other == tech.ydb.datastreams.v1.Datastreams.GetShardIteratorResult.getDefaultInstance()) return this;
-        if (!other.getIterator().isEmpty()) {
-          iterator_ = other.iterator_;
+        if (!other.getShardIterator().isEmpty()) {
+          shardIterator_ = other.shardIterator_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -57823,78 +57823,78 @@ public final class Datastreams {
         return this;
       }
 
-      private java.lang.Object iterator_ = "";
+      private java.lang.Object shardIterator_ = "";
       /**
-       * <code>string iterator = 1;</code>
-       * @return The iterator.
+       * <code>string shard_iterator = 1;</code>
+       * @return The shardIterator.
        */
-      public java.lang.String getIterator() {
-        java.lang.Object ref = iterator_;
+      public java.lang.String getShardIterator() {
+        java.lang.Object ref = shardIterator_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          iterator_ = s;
+          shardIterator_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string iterator = 1;</code>
-       * @return The bytes for iterator.
+       * <code>string shard_iterator = 1;</code>
+       * @return The bytes for shardIterator.
        */
       public com.google.protobuf.ByteString
-          getIteratorBytes() {
-        java.lang.Object ref = iterator_;
+          getShardIteratorBytes() {
+        java.lang.Object ref = shardIterator_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          iterator_ = b;
+          shardIterator_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string iterator = 1;</code>
-       * @param value The iterator to set.
+       * <code>string shard_iterator = 1;</code>
+       * @param value The shardIterator to set.
        * @return This builder for chaining.
        */
-      public Builder setIterator(
+      public Builder setShardIterator(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        iterator_ = value;
+        shardIterator_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string iterator = 1;</code>
+       * <code>string shard_iterator = 1;</code>
        * @return This builder for chaining.
        */
-      public Builder clearIterator() {
+      public Builder clearShardIterator() {
         
-        iterator_ = getDefaultInstance().getIterator();
+        shardIterator_ = getDefaultInstance().getShardIterator();
         onChanged();
         return this;
       }
       /**
-       * <code>string iterator = 1;</code>
-       * @param value The bytes for iterator to set.
+       * <code>string shard_iterator = 1;</code>
+       * @param value The bytes for shardIterator to set.
        * @return This builder for chaining.
        */
-      public Builder setIteratorBytes(
+      public Builder setShardIteratorBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        iterator_ = value;
+        shardIterator_ = value;
         onChanged();
         return this;
       }
@@ -92015,156 +92015,157 @@ public final class Datastreams {
       "Streams.V1.ChildShard\022\034\n\024millis_behind_l" +
       "atest\030\002 \001(\003\022\033\n\023next_shard_iterator\030\003 \001(\t" +
       "\022+\n\007records\030\004 \003(\0132\032.Ydb.DataStreams.V1.R" +
-      "ecord\"\301\001\n\020PutRecordRequest\0229\n\020operation_" +
+      "ecord\"\316\001\n\020PutRecordRequest\0229\n\020operation_" +
       "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
       "arams\022\022\n\004data\030\002 \001(\014B\004\330\260\034\001\022\031\n\021explicit_ha" +
-      "sh_key\030\003 \001(\t\022\025\n\rpartition_key\030\004 \001(\t\022\027\n\017s" +
-      "equence_number\030\005 \001(\t\022\023\n\013stream_name\030\006 \001(" +
-      "\t\"A\n\021PutRecordResponse\022,\n\toperation\030\001 \001(" +
-      "\0132\031.Ydb.Operations.Operation\"y\n\017PutRecor" +
-      "dResult\022;\n\017encryption_type\030\001 \001(\0162\".Ydb.D" +
-      "ataStreams.V1.EncryptionType\022\027\n\017sequence" +
-      "_number\030\002 \001(\t\022\020\n\010shard_id\030\003 \001(\t\"\240\001\n\021PutR" +
-      "ecordsRequest\0229\n\020operation_params\030\001 \001(\0132" +
-      "\037.Ydb.Operations.OperationParams\022;\n\007reco" +
-      "rds\030\002 \003(\0132*.Ydb.DataStreams.V1.PutRecord" +
-      "sRequestEntry\022\023\n\013stream_name\030\003 \001(\t\"B\n\022Pu" +
-      "tRecordsResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
-      "b.Operations.Operation\"\250\001\n\020PutRecordsRes" +
-      "ult\022;\n\017encryption_type\030\001 \001(\0162\".Ydb.DataS" +
-      "treams.V1.EncryptionType\022\033\n\023failed_recor" +
-      "d_count\030\002 \001(\005\022:\n\007records\030\003 \003(\0132).Ydb.Dat" +
-      "aStreams.V1.PutRecordsResultEntry\"\364\001\n\027Ge" +
-      "tShardIteratorRequest\0229\n\020operation_param" +
-      "s\030\001 \001(\0132\037.Ydb.Operations.OperationParams" +
-      "\022\020\n\010shard_id\030\002 \001(\t\022B\n\023shard_iterator_typ" +
-      "e\030\003 \001(\0162%.Ydb.DataStreams.V1.ShardIterat" +
-      "orType\022 \n\030starting_sequence_number\030\004 \001(\t" +
-      "\022\023\n\013stream_name\030\005 \001(\t\022\021\n\ttimestamp\030\006 \001(\003" +
-      "\"H\n\030GetShardIteratorResponse\022,\n\toperatio" +
-      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"*\n\026Ge" +
-      "tShardIteratorResult\022\020\n\010iterator\030\001 \001(\t\"\275" +
-      "\001\n\027SubscribeToShardRequest\0229\n\020operation_" +
+      "sh_key\030\003 \001(\t\022\025\n\rpartition_key\030\004 \001(\t\022$\n\034s" +
+      "equence_number_for_ordering\030\005 \001(\t\022\023\n\013str" +
+      "eam_name\030\006 \001(\t\"A\n\021PutRecordResponse\022,\n\to" +
+      "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
+      "n\"y\n\017PutRecordResult\022;\n\017encryption_type\030" +
+      "\001 \001(\0162\".Ydb.DataStreams.V1.EncryptionTyp" +
+      "e\022\027\n\017sequence_number\030\002 \001(\t\022\020\n\010shard_id\030\003" +
+      " \001(\t\"\240\001\n\021PutRecordsRequest\0229\n\020operation_" +
       "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\022\024\n\014consumer_arn\030\002 \001(\t\022\020\n\010shard_id\030" +
-      "\003 \001(\t\022?\n\021starting_position\030\004 \001(\0132$.Ydb.D" +
-      "ataStreams.V1.StartingPosition\"H\n\030Subscr" +
-      "ibeToShardResponse\022,\n\toperation\030\001 \001(\0132\031." +
-      "Ydb.Operations.Operation\"_\n\026SubscribeToS" +
-      "hardResult\022E\n\014event_stream\030\001 \001(\0132/.Ydb.D" +
-      "ataStreams.V1.SubscribeToShardEventStrea" +
-      "m\"v\n\026AddTagsToStreamRequest\0229\n\020operation" +
-      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
-      "Params\022\023\n\013stream_name\030\002 \001(\t\022\014\n\004tags\030\003 \003(" +
-      "\t\"G\n\027AddTagsToStreamResponse\022,\n\toperatio" +
-      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\027\n\025Ad" +
-      "dTagsToStreamResult\"\226\001\n$DecreaseStreamRe" +
-      "tentionPeriodRequest\0229\n\020operation_params" +
-      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\022" +
-      "\023\n\013stream_name\030\002 \001(\t\022\036\n\026retention_period" +
-      "_hours\030\003 \001(\005\"U\n%DecreaseStreamRetentionP" +
-      "eriodResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
-      "perations.Operation\"%\n#DecreaseStreamRet" +
-      "entionPeriodResult\"R\n\025DescribeLimitsRequ" +
-      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
-      "ations.OperationParams\"F\n\026DescribeLimits" +
-      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
-      "ions.Operation\"E\n\024DescribeLimitsResult\022\030" +
-      "\n\020open_shard_count\030\001 \001(\005\022\023\n\013shard_limit\030" +
-      "\002 \001(\005\"n\n\034DescribeStreamSummaryRequest\0229\n" +
-      "\020operation_params\030\001 \001(\0132\037.Ydb.Operations" +
-      ".OperationParams\022\023\n\013stream_name\030\002 \001(\t\"M\n" +
-      "\035DescribeStreamSummaryResponse\022,\n\toperat" +
-      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\035\n\033" +
-      "DescribeStreamSummaryResult\"\217\001\n DisableE" +
-      "nhancedMonitoringRequest\0229\n\020operation_pa" +
-      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
-      "ams\022\033\n\023shard_level_metrics\030\002 \003(\t\022\023\n\013stre" +
-      "am_name\030\003 \001(\t\"Q\n!DisableEnhancedMonitori" +
-      "ngResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
-      "ations.Operation\"\200\001\n\037DisableEnhancedMoni" +
-      "toringResult\022#\n\033current_shard_level_metr" +
-      "ics\030\001 \003(\t\022#\n\033desired_shard_level_metrics" +
-      "\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"\216\001\n\037EnableEn" +
-      "hancedMonitoringRequest\0229\n\020operation_par" +
-      "ams\030\001 \001(\0132\037.Ydb.Operations.OperationPara" +
-      "ms\022\033\n\023shard_level_metrics\030\002 \003(\t\022\023\n\013strea" +
-      "m_name\030\003 \001(\t\"P\n EnableEnhancedMonitoring" +
-      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
-      "ions.Operation\"\177\n\036EnableEnhancedMonitori" +
-      "ngResult\022#\n\033current_shard_level_metrics\030" +
-      "\001 \003(\t\022#\n\033desired_shard_level_metrics\030\002 \003" +
-      "(\t\022\023\n\013stream_name\030\003 \001(\t\"\226\001\n$IncreaseStre" +
-      "amRetentionPeriodRequest\0229\n\020operation_pa" +
-      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
-      "ams\022\036\n\026retention_period_hours\030\002 \001(\005\022\023\n\013s" +
-      "tream_name\030\003 \001(\t\"U\n%IncreaseStreamRetent" +
-      "ionPeriodResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
-      "db.Operations.Operation\"%\n#IncreaseStrea" +
-      "mRetentionPeriodResult\"\232\001\n\030ListTagsForSt" +
-      "reamRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
-      "Ydb.Operations.OperationParams\022\037\n\027exclus" +
-      "ive_start_tag_key\030\002 \001(\t\022\r\n\005limit\030\003 \001(\005\022\023" +
-      "\n\013stream_name\030\004 \001(\t\"I\n\031ListTagsForStream" +
-      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
-      "ions.Operation\"W\n\027ListTagsForStreamResul" +
-      "t\022\025\n\rhas_more_tags\030\001 \001(\010\022%\n\004tags\030\002 \003(\0132\027" +
-      ".Ydb.DataStreams.V1.Tag\"\235\001\n\022MergeShardsR" +
+      "arams\022;\n\007records\030\002 \003(\0132*.Ydb.DataStreams" +
+      ".V1.PutRecordsRequestEntry\022\023\n\013stream_nam" +
+      "e\030\003 \001(\t\"B\n\022PutRecordsResponse\022,\n\toperati" +
+      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\250\001\n\020" +
+      "PutRecordsResult\022;\n\017encryption_type\030\001 \001(" +
+      "\0162\".Ydb.DataStreams.V1.EncryptionType\022\033\n" +
+      "\023failed_record_count\030\002 \001(\005\022:\n\007records\030\003 " +
+      "\003(\0132).Ydb.DataStreams.V1.PutRecordsResul" +
+      "tEntry\"\364\001\n\027GetShardIteratorRequest\0229\n\020op" +
+      "eration_params\030\001 \001(\0132\037.Ydb.Operations.Op" +
+      "erationParams\022\020\n\010shard_id\030\002 \001(\t\022B\n\023shard" +
+      "_iterator_type\030\003 \001(\0162%.Ydb.DataStreams.V" +
+      "1.ShardIteratorType\022 \n\030starting_sequence" +
+      "_number\030\004 \001(\t\022\023\n\013stream_name\030\005 \001(\t\022\021\n\tti" +
+      "mestamp\030\006 \001(\003\"H\n\030GetShardIteratorRespons" +
+      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
+      "eration\"0\n\026GetShardIteratorResult\022\026\n\016sha" +
+      "rd_iterator\030\001 \001(\t\"\275\001\n\027SubscribeToShardRe" +
+      "quest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Op" +
+      "erations.OperationParams\022\024\n\014consumer_arn" +
+      "\030\002 \001(\t\022\020\n\010shard_id\030\003 \001(\t\022?\n\021starting_pos" +
+      "ition\030\004 \001(\0132$.Ydb.DataStreams.V1.Startin" +
+      "gPosition\"H\n\030SubscribeToShardResponse\022,\n" +
+      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
+      "ion\"_\n\026SubscribeToShardResult\022E\n\014event_s" +
+      "tream\030\001 \001(\0132/.Ydb.DataStreams.V1.Subscri" +
+      "beToShardEventStream\"v\n\026AddTagsToStreamR" +
       "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O" +
-      "perations.OperationParams\022\037\n\027adjacent_sh" +
-      "ard_to_merge\030\002 \001(\t\022\026\n\016shard_to_merge\030\003 \001" +
-      "(\t\022\023\n\013stream_name\030\004 \001(\t\"C\n\023MergeShardsRe" +
-      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
-      "ns.Operation\"\023\n\021MergeShardsResult\"\177\n\033Rem" +
-      "oveTagsFromStreamRequest\0229\n\020operation_pa" +
-      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
-      "ams\022\023\n\013stream_name\030\002 \001(\t\022\020\n\010tag_keys\030\003 \003" +
-      "(\t\"L\n\034RemoveTagsFromStreamResponse\022,\n\top" +
-      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
-      "\"\034\n\032RemoveTagsFromStreamResult\"\232\001\n\021Split" +
-      "ShardRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
-      ".Ydb.Operations.OperationParams\022\035\n\025new_s" +
-      "tarting_hash_key\030\002 \001(\t\022\026\n\016shard_to_split" +
-      "\030\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t\"B\n\022SplitShar" +
-      "dResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
-      "tions.Operation\"\022\n\020SplitShardResult\"\273\001\n\034" +
-      "StartStreamEncryptionRequest\0229\n\020operatio" +
-      "n_params\030\001 \001(\0132\037.Ydb.Operations.Operatio" +
-      "nParams\022;\n\017encryption_type\030\002 \001(\0162\".Ydb.D" +
-      "ataStreams.V1.EncryptionType\022\016\n\006key_id\030\003" +
-      " \001(\t\022\023\n\013stream_name\030\004 \001(\t\"M\n\035StartStream" +
-      "EncryptionResponse\022,\n\toperation\030\001 \001(\0132\031." +
-      "Ydb.Operations.Operation\"\035\n\033StartStreamE" +
-      "ncryptionResult\"\272\001\n\033StopStreamEncryption" +
+      "perations.OperationParams\022\023\n\013stream_name" +
+      "\030\002 \001(\t\022\014\n\004tags\030\003 \003(\t\"G\n\027AddTagsToStreamR" +
+      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
+      "ons.Operation\"\027\n\025AddTagsToStreamResult\"\226" +
+      "\001\n$DecreaseStreamRetentionPeriodRequest\022" +
+      "9\n\020operation_params\030\001 \001(\0132\037.Ydb.Operatio" +
+      "ns.OperationParams\022\023\n\013stream_name\030\002 \001(\t\022" +
+      "\036\n\026retention_period_hours\030\003 \001(\005\"U\n%Decre" +
+      "aseStreamRetentionPeriodResponse\022,\n\toper" +
+      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"%" +
+      "\n#DecreaseStreamRetentionPeriodResult\"R\n" +
+      "\025DescribeLimitsRequest\0229\n\020operation_para" +
+      "ms\030\001 \001(\0132\037.Ydb.Operations.OperationParam" +
+      "s\"F\n\026DescribeLimitsResponse\022,\n\toperation" +
+      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"E\n\024Des" +
+      "cribeLimitsResult\022\030\n\020open_shard_count\030\001 " +
+      "\001(\005\022\023\n\013shard_limit\030\002 \001(\005\"n\n\034DescribeStre" +
+      "amSummaryRequest\0229\n\020operation_params\030\001 \001" +
+      "(\0132\037.Ydb.Operations.OperationParams\022\023\n\013s" +
+      "tream_name\030\002 \001(\t\"M\n\035DescribeStreamSummar" +
+      "yResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
+      "tions.Operation\"\035\n\033DescribeStreamSummary" +
+      "Result\"\217\001\n DisableEnhancedMonitoringRequ" +
+      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
+      "ations.OperationParams\022\033\n\023shard_level_me" +
+      "trics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"Q\n!Disa" +
+      "bleEnhancedMonitoringResponse\022,\n\toperati" +
+      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\200\001\n\037" +
+      "DisableEnhancedMonitoringResult\022#\n\033curre" +
+      "nt_shard_level_metrics\030\001 \003(\t\022#\n\033desired_" +
+      "shard_level_metrics\030\002 \003(\t\022\023\n\013stream_name" +
+      "\030\003 \001(\t\"\216\001\n\037EnableEnhancedMonitoringReque" +
+      "st\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Opera" +
+      "tions.OperationParams\022\033\n\023shard_level_met" +
+      "rics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"P\n Enabl" +
+      "eEnhancedMonitoringResponse\022,\n\toperation" +
+      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\177\n\036Ena" +
+      "bleEnhancedMonitoringResult\022#\n\033current_s" +
+      "hard_level_metrics\030\001 \003(\t\022#\n\033desired_shar" +
+      "d_level_metrics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001" +
+      "(\t\"\226\001\n$IncreaseStreamRetentionPeriodRequ" +
+      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
+      "ations.OperationParams\022\036\n\026retention_peri" +
+      "od_hours\030\002 \001(\005\022\023\n\013stream_name\030\003 \001(\t\"U\n%I" +
+      "ncreaseStreamRetentionPeriodResponse\022,\n\t" +
+      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
+      "on\"%\n#IncreaseStreamRetentionPeriodResul" +
+      "t\"\232\001\n\030ListTagsForStreamRequest\0229\n\020operat" +
+      "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat" +
+      "ionParams\022\037\n\027exclusive_start_tag_key\030\002 \001" +
+      "(\t\022\r\n\005limit\030\003 \001(\005\022\023\n\013stream_name\030\004 \001(\t\"I" +
+      "\n\031ListTagsForStreamResponse\022,\n\toperation" +
+      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"W\n\027Lis" +
+      "tTagsForStreamResult\022\025\n\rhas_more_tags\030\001 " +
+      "\001(\010\022%\n\004tags\030\002 \003(\0132\027.Ydb.DataStreams.V1.T" +
+      "ag\"\235\001\n\022MergeShardsRequest\0229\n\020operation_p" +
+      "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa" +
+      "rams\022\037\n\027adjacent_shard_to_merge\030\002 \001(\t\022\026\n" +
+      "\016shard_to_merge\030\003 \001(\t\022\023\n\013stream_name\030\004 \001" +
+      "(\t\"C\n\023MergeShardsResponse\022,\n\toperation\030\001" +
+      " \001(\0132\031.Ydb.Operations.Operation\"\023\n\021Merge" +
+      "ShardsResult\"\177\n\033RemoveTagsFromStreamRequ" +
+      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
+      "ations.OperationParams\022\023\n\013stream_name\030\002 " +
+      "\001(\t\022\020\n\010tag_keys\030\003 \003(\t\"L\n\034RemoveTagsFromS" +
+      "treamResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
+      "perations.Operation\"\034\n\032RemoveTagsFromStr" +
+      "eamResult\"\232\001\n\021SplitShardRequest\0229\n\020opera" +
+      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
+      "tionParams\022\035\n\025new_starting_hash_key\030\002 \001(" +
+      "\t\022\026\n\016shard_to_split\030\003 \001(\t\022\023\n\013stream_name" +
+      "\030\004 \001(\t\"B\n\022SplitShardResponse\022,\n\toperatio" +
+      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\022\n\020Sp" +
+      "litShardResult\"\273\001\n\034StartStreamEncryption" +
       "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb." +
       "Operations.OperationParams\022;\n\017encryption" +
       "_type\030\002 \001(\0162\".Ydb.DataStreams.V1.Encrypt" +
       "ionType\022\016\n\006key_id\030\003 \001(\t\022\023\n\013stream_name\030\004" +
-      " \001(\t\"L\n\034StopStreamEncryptionResponse\022,\n\t" +
+      " \001(\t\"M\n\035StartStreamEncryptionResponse\022,\n" +
+      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
+      "ion\"\035\n\033StartStreamEncryptionResult\"\272\001\n\033S" +
+      "topStreamEncryptionRequest\0229\n\020operation_" +
+      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
+      "arams\022;\n\017encryption_type\030\002 \001(\0162\".Ydb.Dat" +
+      "aStreams.V1.EncryptionType\022\016\n\006key_id\030\003 \001" +
+      "(\t\022\023\n\013stream_name\030\004 \001(\t\"L\n\034StopStreamEnc" +
+      "ryptionResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
+      ".Operations.Operation\"\034\n\032StopStreamEncry" +
+      "ptionResult\"\222\002\n\027UpdateShardCountRequest\022" +
+      "9\n\020operation_params\030\001 \001(\0132\037.Ydb.Operatio" +
+      "ns.OperationParams\022M\n\014scaling_type\030\002 \001(\016" +
+      "27.Ydb.DataStreams.V1.UpdateShardCountRe" +
+      "quest.ScalingType\022\023\n\013stream_name\030\003 \001(\t\022\032" +
+      "\n\022target_shard_count\030\004 \001(\005\"<\n\013ScalingTyp" +
+      "e\022\030\n\024SCALING_TYPE_UNKNOWN\020\000\022\023\n\017UNIFORM_S" +
+      "CALING\020\001\"H\n\030UpdateShardCountResponse\022,\n\t" +
       "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
-      "on\"\034\n\032StopStreamEncryptionResult\"\222\002\n\027Upd" +
-      "ateShardCountRequest\0229\n\020operation_params" +
-      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\022" +
-      "M\n\014scaling_type\030\002 \001(\01627.Ydb.DataStreams." +
-      "V1.UpdateShardCountRequest.ScalingType\022\023" +
-      "\n\013stream_name\030\003 \001(\t\022\032\n\022target_shard_coun" +
-      "t\030\004 \001(\005\"<\n\013ScalingType\022\030\n\024SCALING_TYPE_U" +
-      "NKNOWN\020\000\022\023\n\017UNIFORM_SCALING\020\001\"H\n\030UpdateS" +
-      "hardCountResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
-      "db.Operations.Operation\"f\n\026UpdateShardCo" +
-      "untResult\022\033\n\023current_shard_count\030\001 \001(\005\022\023" +
-      "\n\013stream_name\030\002 \001(\t\022\032\n\022target_shard_coun" +
-      "t\030\003 \001(\005*D\n\030EFieldTransformationType\022\022\n\016T" +
-      "RANSFORM_NONE\020\000\022\024\n\020TRANSFORM_BASE64\020\001*=\n" +
-      "\016EncryptionType\022\030\n\024ENCRYPTION_UNDEFINED\020" +
-      "\000\022\010\n\004NONE\020\001\022\007\n\003KMS\020\002*\224\001\n\021ShardIteratorTy" +
-      "pe\022\034\n\030SHARD_ITERATOR_UNDEFINED\020\000\022\026\n\022AT_S" +
-      "EQUENCE_NUMBER\020\001\022\031\n\025AFTER_SEQUENCE_NUMBE" +
-      "R\020\002\022\020\n\014AT_TIMESTAMP\020\003\022\020\n\014TRIM_HORIZON\020\004\022" +
-      "\n\n\006LATEST\020\005:g\n\020FieldTransformer\022\035.google" +
-      ".protobuf.FieldOptions\030\213\306\003 \001(\0162,.Ydb.Dat" +
-      "aStreams.V1.EFieldTransformationTypeB\"\n\035" +
-      "tech.ydb.datastreams.v1\370\001\001b\006proto3"
+      "on\"f\n\026UpdateShardCountResult\022\033\n\023current_" +
+      "shard_count\030\001 \001(\005\022\023\n\013stream_name\030\002 \001(\t\022\032" +
+      "\n\022target_shard_count\030\003 \001(\005*D\n\030EFieldTran" +
+      "sformationType\022\022\n\016TRANSFORM_NONE\020\000\022\024\n\020TR" +
+      "ANSFORM_BASE64\020\001*=\n\016EncryptionType\022\030\n\024EN" +
+      "CRYPTION_UNDEFINED\020\000\022\010\n\004NONE\020\001\022\007\n\003KMS\020\002*" +
+      "\224\001\n\021ShardIteratorType\022\034\n\030SHARD_ITERATOR_" +
+      "UNDEFINED\020\000\022\026\n\022AT_SEQUENCE_NUMBER\020\001\022\031\n\025A" +
+      "FTER_SEQUENCE_NUMBER\020\002\022\020\n\014AT_TIMESTAMP\020\003" +
+      "\022\020\n\014TRIM_HORIZON\020\004\022\n\n\006LATEST\020\005:g\n\020FieldT" +
+      "ransformer\022\035.google.protobuf.FieldOption" +
+      "s\030\213\306\003 \001(\0162,.Ydb.DataStreams.V1.EFieldTra" +
+      "nsformationTypeB\"\n\035tech.ydb.datast" +
+      "reams.v1\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -92503,7 +92504,7 @@ public final class Datastreams {
     internal_static_Ydb_DataStreams_V1_PutRecordRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_PutRecordRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "Data", "ExplicitHashKey", "PartitionKey", "SequenceNumber", "StreamName", });
+        new java.lang.String[] { "OperationParams", "Data", "ExplicitHashKey", "PartitionKey", "SequenceNumberForOrdering", "StreamName", });
     internal_static_Ydb_DataStreams_V1_PutRecordResponse_descriptor =
       getDescriptor().getMessageTypes().get(54);
     internal_static_Ydb_DataStreams_V1_PutRecordResponse_fieldAccessorTable = new
@@ -92551,7 +92552,7 @@ public final class Datastreams {
     internal_static_Ydb_DataStreams_V1_GetShardIteratorResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_GetShardIteratorResult_descriptor,
-        new java.lang.String[] { "Iterator", });
+        new java.lang.String[] { "ShardIterator", });
     internal_static_Ydb_DataStreams_V1_SubscribeToShardRequest_descriptor =
       getDescriptor().getMessageTypes().get(62);
     internal_static_Ydb_DataStreams_V1_SubscribeToShardRequest_fieldAccessorTable = new

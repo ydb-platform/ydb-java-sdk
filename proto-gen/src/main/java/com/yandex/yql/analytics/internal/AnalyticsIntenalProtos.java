@@ -2055,12 +2055,23 @@ public final class AnalyticsIntenalProtos {
         getUserIdBytes();
 
     /**
-     * <code>string scope = 14;</code>
+     * <code>.YandexQuery.QueryContent.QueryType query_type = 14;</code>
+     * @return The enum numeric value on the wire for queryType.
+     */
+    int getQueryTypeValue();
+    /**
+     * <code>.YandexQuery.QueryContent.QueryType query_type = 14;</code>
+     * @return The queryType.
+     */
+    com.yandex.query.YandexQueryProtos.QueryContent.QueryType getQueryType();
+
+    /**
+     * <code>string scope = 15;</code>
      * @return The scope.
      */
     java.lang.String getScope();
     /**
-     * <code>string scope = 14;</code>
+     * <code>string scope = 15;</code>
      * @return The bytes for scope.
      */
     com.google.protobuf.ByteString
@@ -2086,6 +2097,7 @@ public final class AnalyticsIntenalProtos {
       userToken_ = "";
       serviceAccounts_ = java.util.Collections.emptyList();
       userId_ = "";
+      queryType_ = 0;
       scope_ = "";
     }
 
@@ -2225,7 +2237,13 @@ public final class AnalyticsIntenalProtos {
               userId_ = s;
               break;
             }
-            case 114: {
+            case 112: {
+              int rawValue = input.readEnum();
+
+              queryType_ = rawValue;
+              break;
+            }
+            case 122: {
               java.lang.String s = input.readStringRequireUtf8();
 
               scope_ = s;
@@ -2683,10 +2701,29 @@ public final class AnalyticsIntenalProtos {
       }
     }
 
-    public static final int SCOPE_FIELD_NUMBER = 14;
+    public static final int QUERY_TYPE_FIELD_NUMBER = 14;
+    private int queryType_;
+    /**
+     * <code>.YandexQuery.QueryContent.QueryType query_type = 14;</code>
+     * @return The enum numeric value on the wire for queryType.
+     */
+    @java.lang.Override public int getQueryTypeValue() {
+      return queryType_;
+    }
+    /**
+     * <code>.YandexQuery.QueryContent.QueryType query_type = 14;</code>
+     * @return The queryType.
+     */
+    @java.lang.Override public com.yandex.query.YandexQueryProtos.QueryContent.QueryType getQueryType() {
+      @SuppressWarnings("deprecation")
+      com.yandex.query.YandexQueryProtos.QueryContent.QueryType result = com.yandex.query.YandexQueryProtos.QueryContent.QueryType.valueOf(queryType_);
+      return result == null ? com.yandex.query.YandexQueryProtos.QueryContent.QueryType.UNRECOGNIZED : result;
+    }
+
+    public static final int SCOPE_FIELD_NUMBER = 15;
     private volatile java.lang.Object scope_;
     /**
-     * <code>string scope = 14;</code>
+     * <code>string scope = 15;</code>
      * @return The scope.
      */
     @java.lang.Override
@@ -2703,7 +2740,7 @@ public final class AnalyticsIntenalProtos {
       }
     }
     /**
-     * <code>string scope = 14;</code>
+     * <code>string scope = 15;</code>
      * @return The bytes for scope.
      */
     @java.lang.Override
@@ -2774,8 +2811,11 @@ public final class AnalyticsIntenalProtos {
       if (!getUserIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 13, userId_);
       }
+      if (queryType_ != com.yandex.query.YandexQueryProtos.QueryContent.QueryType.QUERY_TYPE_UNSPECIFIED.getNumber()) {
+        output.writeEnum(14, queryType_);
+      }
       if (!getScopeBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 14, scope_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 15, scope_);
       }
       unknownFields.writeTo(output);
     }
@@ -2834,8 +2874,12 @@ public final class AnalyticsIntenalProtos {
       if (!getUserIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(13, userId_);
       }
+      if (queryType_ != com.yandex.query.YandexQueryProtos.QueryContent.QueryType.QUERY_TYPE_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(14, queryType_);
+      }
       if (!getScopeBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(14, scope_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(15, scope_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2887,6 +2931,7 @@ public final class AnalyticsIntenalProtos {
           .equals(other.getServiceAccountsList())) return false;
       if (!getUserId()
           .equals(other.getUserId())) return false;
+      if (queryType_ != other.queryType_) return false;
       if (!getScope()
           .equals(other.getScope())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
@@ -2941,6 +2986,8 @@ public final class AnalyticsIntenalProtos {
       }
       hash = (37 * hash) + USER_ID_FIELD_NUMBER;
       hash = (53 * hash) + getUserId().hashCode();
+      hash = (37 * hash) + QUERY_TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + queryType_;
       hash = (37 * hash) + SCOPE_FIELD_NUMBER;
       hash = (53 * hash) + getScope().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
@@ -3129,6 +3176,8 @@ public final class AnalyticsIntenalProtos {
         }
         userId_ = "";
 
+        queryType_ = 0;
+
         scope_ = "";
 
         return this;
@@ -3207,6 +3256,7 @@ public final class AnalyticsIntenalProtos {
           result.serviceAccounts_ = serviceAccountsBuilder_.build();
         }
         result.userId_ = userId_;
+        result.queryType_ = queryType_;
         result.scope_ = scope_;
         onBuilt();
         return result;
@@ -3367,6 +3417,9 @@ public final class AnalyticsIntenalProtos {
         if (!other.getUserId().isEmpty()) {
           userId_ = other.userId_;
           onChanged();
+        }
+        if (other.queryType_ != 0) {
+          setQueryTypeValue(other.getQueryTypeValue());
         }
         if (!other.getScope().isEmpty()) {
           scope_ = other.scope_;
@@ -4952,9 +5005,63 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
 
+      private int queryType_ = 0;
+      /**
+       * <code>.YandexQuery.QueryContent.QueryType query_type = 14;</code>
+       * @return The enum numeric value on the wire for queryType.
+       */
+      @java.lang.Override public int getQueryTypeValue() {
+        return queryType_;
+      }
+      /**
+       * <code>.YandexQuery.QueryContent.QueryType query_type = 14;</code>
+       * @param value The enum numeric value on the wire for queryType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setQueryTypeValue(int value) {
+        
+        queryType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.YandexQuery.QueryContent.QueryType query_type = 14;</code>
+       * @return The queryType.
+       */
+      @java.lang.Override
+      public com.yandex.query.YandexQueryProtos.QueryContent.QueryType getQueryType() {
+        @SuppressWarnings("deprecation")
+        com.yandex.query.YandexQueryProtos.QueryContent.QueryType result = com.yandex.query.YandexQueryProtos.QueryContent.QueryType.valueOf(queryType_);
+        return result == null ? com.yandex.query.YandexQueryProtos.QueryContent.QueryType.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.YandexQuery.QueryContent.QueryType query_type = 14;</code>
+       * @param value The queryType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setQueryType(com.yandex.query.YandexQueryProtos.QueryContent.QueryType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        queryType_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.YandexQuery.QueryContent.QueryType query_type = 14;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearQueryType() {
+        
+        queryType_ = 0;
+        onChanged();
+        return this;
+      }
+
       private java.lang.Object scope_ = "";
       /**
-       * <code>string scope = 14;</code>
+       * <code>string scope = 15;</code>
        * @return The scope.
        */
       public java.lang.String getScope() {
@@ -4970,7 +5077,7 @@ public final class AnalyticsIntenalProtos {
         }
       }
       /**
-       * <code>string scope = 14;</code>
+       * <code>string scope = 15;</code>
        * @return The bytes for scope.
        */
       public com.google.protobuf.ByteString
@@ -4987,7 +5094,7 @@ public final class AnalyticsIntenalProtos {
         }
       }
       /**
-       * <code>string scope = 14;</code>
+       * <code>string scope = 15;</code>
        * @param value The scope to set.
        * @return This builder for chaining.
        */
@@ -5002,7 +5109,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>string scope = 14;</code>
+       * <code>string scope = 15;</code>
        * @return This builder for chaining.
        */
       public Builder clearScope() {
@@ -5012,7 +5119,7 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
       /**
-       * <code>string scope = 14;</code>
+       * <code>string scope = 15;</code>
        * @param value The bytes for scope to set.
        * @return This builder for chaining.
        */
@@ -5876,10 +5983,28 @@ public final class AnalyticsIntenalProtos {
         getStatisticsBytes();
 
     /**
-     * <code>bytes serialized_headers = 9;</code>
-     * @return The serializedHeaders.
+     * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
      */
-    com.google.protobuf.ByteString getSerializedHeaders();
+    java.util.List<com.yandex.query.YandexQueryProtos.ResultSetMeta> 
+        getResultSetMetaList();
+    /**
+     * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+     */
+    com.yandex.query.YandexQueryProtos.ResultSetMeta getResultSetMeta(int index);
+    /**
+     * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+     */
+    int getResultSetMetaCount();
+    /**
+     * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+     */
+    java.util.List<? extends com.yandex.query.YandexQueryProtos.ResultSetMetaOrBuilder> 
+        getResultSetMetaOrBuilderList();
+    /**
+     * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+     */
+    com.yandex.query.YandexQueryProtos.ResultSetMetaOrBuilder getResultSetMetaOrBuilder(
+        int index);
 
     /**
      * <code>string executer_info = 10;</code>
@@ -5952,7 +6077,7 @@ public final class AnalyticsIntenalProtos {
 
     /**
      * <pre>
-     * TODO: delete
+     *TODO remove
      * </pre>
      *
      * <code>string scope = 100;</code>
@@ -5961,7 +6086,7 @@ public final class AnalyticsIntenalProtos {
     java.lang.String getScope();
     /**
      * <pre>
-     * TODO: delete
+     *TODO remove
      * </pre>
      *
      * <code>string scope = 100;</code>
@@ -5969,6 +6094,36 @@ public final class AnalyticsIntenalProtos {
      */
     com.google.protobuf.ByteString
         getScopeBytes();
+
+    /**
+     * <code>.google.protobuf.Timestamp started_at = 101;</code>
+     * @return Whether the startedAt field is set.
+     */
+    boolean hasStartedAt();
+    /**
+     * <code>.google.protobuf.Timestamp started_at = 101;</code>
+     * @return The startedAt.
+     */
+    com.google.protobuf.Timestamp getStartedAt();
+    /**
+     * <code>.google.protobuf.Timestamp started_at = 101;</code>
+     */
+    com.google.protobuf.TimestampOrBuilder getStartedAtOrBuilder();
+
+    /**
+     * <code>.google.protobuf.Timestamp finished_at = 102;</code>
+     * @return Whether the finishedAt field is set.
+     */
+    boolean hasFinishedAt();
+    /**
+     * <code>.google.protobuf.Timestamp finished_at = 102;</code>
+     * @return The finishedAt.
+     */
+    com.google.protobuf.Timestamp getFinishedAt();
+    /**
+     * <code>.google.protobuf.Timestamp finished_at = 102;</code>
+     */
+    com.google.protobuf.TimestampOrBuilder getFinishedAtOrBuilder();
   }
   /**
    * Protobuf type {@code Yql.Analytics.PingTaskRequest}
@@ -5987,7 +6142,7 @@ public final class AnalyticsIntenalProtos {
       status_ = 0;
       issues_ = java.util.Collections.emptyList();
       statistics_ = "";
-      serializedHeaders_ = com.google.protobuf.ByteString.EMPTY;
+      resultSetMeta_ = java.util.Collections.emptyList();
       executerInfo_ = "";
       dqGraph_ = "";
       ast_ = "";
@@ -6098,8 +6253,12 @@ public final class AnalyticsIntenalProtos {
               break;
             }
             case 74: {
-
-              serializedHeaders_ = input.readBytes();
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                resultSetMeta_ = new java.util.ArrayList<com.yandex.query.YandexQueryProtos.ResultSetMeta>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              resultSetMeta_.add(
+                  input.readMessage(com.yandex.query.YandexQueryProtos.ResultSetMeta.parser(), extensionRegistry));
               break;
             }
             case 82: {
@@ -6150,6 +6309,32 @@ public final class AnalyticsIntenalProtos {
               scope_ = s;
               break;
             }
+            case 810: {
+              com.google.protobuf.Timestamp.Builder subBuilder = null;
+              if (startedAt_ != null) {
+                subBuilder = startedAt_.toBuilder();
+              }
+              startedAt_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(startedAt_);
+                startedAt_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 818: {
+              com.google.protobuf.Timestamp.Builder subBuilder = null;
+              if (finishedAt_ != null) {
+                subBuilder = finishedAt_.toBuilder();
+              }
+              finishedAt_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(finishedAt_);
+                finishedAt_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -6167,6 +6352,9 @@ public final class AnalyticsIntenalProtos {
       } finally {
         if (((mutable_bitField0_ & 0x00000001) != 0)) {
           issues_ = java.util.Collections.unmodifiableList(issues_);
+        }
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          resultSetMeta_ = java.util.Collections.unmodifiableList(resultSetMeta_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -6409,15 +6597,44 @@ public final class AnalyticsIntenalProtos {
       }
     }
 
-    public static final int SERIALIZED_HEADERS_FIELD_NUMBER = 9;
-    private com.google.protobuf.ByteString serializedHeaders_;
+    public static final int RESULT_SET_META_FIELD_NUMBER = 9;
+    private java.util.List<com.yandex.query.YandexQueryProtos.ResultSetMeta> resultSetMeta_;
     /**
-     * <code>bytes serialized_headers = 9;</code>
-     * @return The serializedHeaders.
+     * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString getSerializedHeaders() {
-      return serializedHeaders_;
+    public java.util.List<com.yandex.query.YandexQueryProtos.ResultSetMeta> getResultSetMetaList() {
+      return resultSetMeta_;
+    }
+    /**
+     * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends com.yandex.query.YandexQueryProtos.ResultSetMetaOrBuilder> 
+        getResultSetMetaOrBuilderList() {
+      return resultSetMeta_;
+    }
+    /**
+     * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+     */
+    @java.lang.Override
+    public int getResultSetMetaCount() {
+      return resultSetMeta_.size();
+    }
+    /**
+     * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+     */
+    @java.lang.Override
+    public com.yandex.query.YandexQueryProtos.ResultSetMeta getResultSetMeta(int index) {
+      return resultSetMeta_.get(index);
+    }
+    /**
+     * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+     */
+    @java.lang.Override
+    public com.yandex.query.YandexQueryProtos.ResultSetMetaOrBuilder getResultSetMetaOrBuilder(
+        int index) {
+      return resultSetMeta_.get(index);
     }
 
     public static final int EXECUTER_INFO_FIELD_NUMBER = 10;
@@ -6613,7 +6830,7 @@ public final class AnalyticsIntenalProtos {
     private volatile java.lang.Object scope_;
     /**
      * <pre>
-     * TODO: delete
+     *TODO remove
      * </pre>
      *
      * <code>string scope = 100;</code>
@@ -6634,7 +6851,7 @@ public final class AnalyticsIntenalProtos {
     }
     /**
      * <pre>
-     * TODO: delete
+     *TODO remove
      * </pre>
      *
      * <code>string scope = 100;</code>
@@ -6653,6 +6870,58 @@ public final class AnalyticsIntenalProtos {
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
+    }
+
+    public static final int STARTED_AT_FIELD_NUMBER = 101;
+    private com.google.protobuf.Timestamp startedAt_;
+    /**
+     * <code>.google.protobuf.Timestamp started_at = 101;</code>
+     * @return Whether the startedAt field is set.
+     */
+    @java.lang.Override
+    public boolean hasStartedAt() {
+      return startedAt_ != null;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp started_at = 101;</code>
+     * @return The startedAt.
+     */
+    @java.lang.Override
+    public com.google.protobuf.Timestamp getStartedAt() {
+      return startedAt_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : startedAt_;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp started_at = 101;</code>
+     */
+    @java.lang.Override
+    public com.google.protobuf.TimestampOrBuilder getStartedAtOrBuilder() {
+      return getStartedAt();
+    }
+
+    public static final int FINISHED_AT_FIELD_NUMBER = 102;
+    private com.google.protobuf.Timestamp finishedAt_;
+    /**
+     * <code>.google.protobuf.Timestamp finished_at = 102;</code>
+     * @return Whether the finishedAt field is set.
+     */
+    @java.lang.Override
+    public boolean hasFinishedAt() {
+      return finishedAt_ != null;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp finished_at = 102;</code>
+     * @return The finishedAt.
+     */
+    @java.lang.Override
+    public com.google.protobuf.Timestamp getFinishedAt() {
+      return finishedAt_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : finishedAt_;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp finished_at = 102;</code>
+     */
+    @java.lang.Override
+    public com.google.protobuf.TimestampOrBuilder getFinishedAtOrBuilder() {
+      return getFinishedAt();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -6693,8 +6962,8 @@ public final class AnalyticsIntenalProtos {
       if (!getStatisticsBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 8, statistics_);
       }
-      if (!serializedHeaders_.isEmpty()) {
-        output.writeBytes(9, serializedHeaders_);
+      for (int i = 0; i < resultSetMeta_.size(); i++) {
+        output.writeMessage(9, resultSetMeta_.get(i));
       }
       if (!getExecuterInfoBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 10, executerInfo_);
@@ -6716,6 +6985,12 @@ public final class AnalyticsIntenalProtos {
       }
       if (!getScopeBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 100, scope_);
+      }
+      if (startedAt_ != null) {
+        output.writeMessage(101, getStartedAt());
+      }
+      if (finishedAt_ != null) {
+        output.writeMessage(102, getFinishedAt());
       }
       unknownFields.writeTo(output);
     }
@@ -6756,9 +7031,9 @@ public final class AnalyticsIntenalProtos {
       if (!getStatisticsBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, statistics_);
       }
-      if (!serializedHeaders_.isEmpty()) {
+      for (int i = 0; i < resultSetMeta_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(9, serializedHeaders_);
+          .computeMessageSize(9, resultSetMeta_.get(i));
       }
       if (!getExecuterInfoBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, executerInfo_);
@@ -6782,6 +7057,14 @@ public final class AnalyticsIntenalProtos {
       }
       if (!getScopeBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(100, scope_);
+      }
+      if (startedAt_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(101, getStartedAt());
+      }
+      if (finishedAt_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(102, getFinishedAt());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -6822,8 +7105,8 @@ public final class AnalyticsIntenalProtos {
           != other.getResultSetCount()) return false;
       if (!getStatistics()
           .equals(other.getStatistics())) return false;
-      if (!getSerializedHeaders()
-          .equals(other.getSerializedHeaders())) return false;
+      if (!getResultSetMetaList()
+          .equals(other.getResultSetMetaList())) return false;
       if (!getExecuterInfo()
           .equals(other.getExecuterInfo())) return false;
       if (!getDqGraph()
@@ -6841,6 +7124,16 @@ public final class AnalyticsIntenalProtos {
       }
       if (!getScope()
           .equals(other.getScope())) return false;
+      if (hasStartedAt() != other.hasStartedAt()) return false;
+      if (hasStartedAt()) {
+        if (!getStartedAt()
+            .equals(other.getStartedAt())) return false;
+      }
+      if (hasFinishedAt() != other.hasFinishedAt()) return false;
+      if (hasFinishedAt()) {
+        if (!getFinishedAt()
+            .equals(other.getFinishedAt())) return false;
+      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -6876,8 +7169,10 @@ public final class AnalyticsIntenalProtos {
       hash = (53 * hash) + getResultSetCount();
       hash = (37 * hash) + STATISTICS_FIELD_NUMBER;
       hash = (53 * hash) + getStatistics().hashCode();
-      hash = (37 * hash) + SERIALIZED_HEADERS_FIELD_NUMBER;
-      hash = (53 * hash) + getSerializedHeaders().hashCode();
+      if (getResultSetMetaCount() > 0) {
+        hash = (37 * hash) + RESULT_SET_META_FIELD_NUMBER;
+        hash = (53 * hash) + getResultSetMetaList().hashCode();
+      }
       hash = (37 * hash) + EXECUTER_INFO_FIELD_NUMBER;
       hash = (53 * hash) + getExecuterInfo().hashCode();
       hash = (37 * hash) + DQ_GRAPH_FIELD_NUMBER;
@@ -6895,6 +7190,14 @@ public final class AnalyticsIntenalProtos {
       }
       hash = (37 * hash) + SCOPE_FIELD_NUMBER;
       hash = (53 * hash) + getScope().hashCode();
+      if (hasStartedAt()) {
+        hash = (37 * hash) + STARTED_AT_FIELD_NUMBER;
+        hash = (53 * hash) + getStartedAt().hashCode();
+      }
+      if (hasFinishedAt()) {
+        hash = (37 * hash) + FINISHED_AT_FIELD_NUMBER;
+        hash = (53 * hash) + getFinishedAt().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -7024,6 +7327,7 @@ public final class AnalyticsIntenalProtos {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
           getIssuesFieldBuilder();
+          getResultSetMetaFieldBuilder();
         }
       }
       @java.lang.Override
@@ -7061,8 +7365,12 @@ public final class AnalyticsIntenalProtos {
 
         statistics_ = "";
 
-        serializedHeaders_ = com.google.protobuf.ByteString.EMPTY;
-
+        if (resultSetMetaBuilder_ == null) {
+          resultSetMeta_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          resultSetMetaBuilder_.clear();
+        }
         executerInfo_ = "";
 
         dqGraph_ = "";
@@ -7081,6 +7389,18 @@ public final class AnalyticsIntenalProtos {
         }
         scope_ = "";
 
+        if (startedAtBuilder_ == null) {
+          startedAt_ = null;
+        } else {
+          startedAt_ = null;
+          startedAtBuilder_ = null;
+        }
+        if (finishedAtBuilder_ == null) {
+          finishedAt_ = null;
+        } else {
+          finishedAt_ = null;
+          finishedAtBuilder_ = null;
+        }
         return this;
       }
 
@@ -7136,7 +7456,15 @@ public final class AnalyticsIntenalProtos {
         }
         result.resultSetCount_ = resultSetCount_;
         result.statistics_ = statistics_;
-        result.serializedHeaders_ = serializedHeaders_;
+        if (resultSetMetaBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) != 0)) {
+            resultSetMeta_ = java.util.Collections.unmodifiableList(resultSetMeta_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.resultSetMeta_ = resultSetMeta_;
+        } else {
+          result.resultSetMeta_ = resultSetMetaBuilder_.build();
+        }
         result.executerInfo_ = executerInfo_;
         result.dqGraph_ = dqGraph_;
         result.ast_ = ast_;
@@ -7148,6 +7476,16 @@ public final class AnalyticsIntenalProtos {
           result.operationParams_ = operationParamsBuilder_.build();
         }
         result.scope_ = scope_;
+        if (startedAtBuilder_ == null) {
+          result.startedAt_ = startedAt_;
+        } else {
+          result.startedAt_ = startedAtBuilder_.build();
+        }
+        if (finishedAtBuilder_ == null) {
+          result.finishedAt_ = finishedAt_;
+        } else {
+          result.finishedAt_ = finishedAtBuilder_.build();
+        }
         onBuilt();
         return result;
       }
@@ -7245,8 +7583,31 @@ public final class AnalyticsIntenalProtos {
           statistics_ = other.statistics_;
           onChanged();
         }
-        if (other.getSerializedHeaders() != com.google.protobuf.ByteString.EMPTY) {
-          setSerializedHeaders(other.getSerializedHeaders());
+        if (resultSetMetaBuilder_ == null) {
+          if (!other.resultSetMeta_.isEmpty()) {
+            if (resultSetMeta_.isEmpty()) {
+              resultSetMeta_ = other.resultSetMeta_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureResultSetMetaIsMutable();
+              resultSetMeta_.addAll(other.resultSetMeta_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.resultSetMeta_.isEmpty()) {
+            if (resultSetMetaBuilder_.isEmpty()) {
+              resultSetMetaBuilder_.dispose();
+              resultSetMetaBuilder_ = null;
+              resultSetMeta_ = other.resultSetMeta_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              resultSetMetaBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getResultSetMetaFieldBuilder() : null;
+            } else {
+              resultSetMetaBuilder_.addAllMessages(other.resultSetMeta_);
+            }
+          }
         }
         if (!other.getExecuterInfo().isEmpty()) {
           executerInfo_ = other.executerInfo_;
@@ -7273,6 +7634,12 @@ public final class AnalyticsIntenalProtos {
         if (!other.getScope().isEmpty()) {
           scope_ = other.scope_;
           onChanged();
+        }
+        if (other.hasStartedAt()) {
+          mergeStartedAt(other.getStartedAt());
+        }
+        if (other.hasFinishedAt()) {
+          mergeFinishedAt(other.getFinishedAt());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -8138,38 +8505,244 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
 
-      private com.google.protobuf.ByteString serializedHeaders_ = com.google.protobuf.ByteString.EMPTY;
+      private java.util.List<com.yandex.query.YandexQueryProtos.ResultSetMeta> resultSetMeta_ =
+        java.util.Collections.emptyList();
+      private void ensureResultSetMetaIsMutable() {
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          resultSetMeta_ = new java.util.ArrayList<com.yandex.query.YandexQueryProtos.ResultSetMeta>(resultSetMeta_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.yandex.query.YandexQueryProtos.ResultSetMeta, com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder, com.yandex.query.YandexQueryProtos.ResultSetMetaOrBuilder> resultSetMetaBuilder_;
+
       /**
-       * <code>bytes serialized_headers = 9;</code>
-       * @return The serializedHeaders.
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
        */
-      @java.lang.Override
-      public com.google.protobuf.ByteString getSerializedHeaders() {
-        return serializedHeaders_;
+      public java.util.List<com.yandex.query.YandexQueryProtos.ResultSetMeta> getResultSetMetaList() {
+        if (resultSetMetaBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(resultSetMeta_);
+        } else {
+          return resultSetMetaBuilder_.getMessageList();
+        }
       }
       /**
-       * <code>bytes serialized_headers = 9;</code>
-       * @param value The serializedHeaders to set.
-       * @return This builder for chaining.
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
        */
-      public Builder setSerializedHeaders(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        serializedHeaders_ = value;
-        onChanged();
+      public int getResultSetMetaCount() {
+        if (resultSetMetaBuilder_ == null) {
+          return resultSetMeta_.size();
+        } else {
+          return resultSetMetaBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+       */
+      public com.yandex.query.YandexQueryProtos.ResultSetMeta getResultSetMeta(int index) {
+        if (resultSetMetaBuilder_ == null) {
+          return resultSetMeta_.get(index);
+        } else {
+          return resultSetMetaBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+       */
+      public Builder setResultSetMeta(
+          int index, com.yandex.query.YandexQueryProtos.ResultSetMeta value) {
+        if (resultSetMetaBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureResultSetMetaIsMutable();
+          resultSetMeta_.set(index, value);
+          onChanged();
+        } else {
+          resultSetMetaBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>bytes serialized_headers = 9;</code>
-       * @return This builder for chaining.
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
        */
-      public Builder clearSerializedHeaders() {
-        
-        serializedHeaders_ = getDefaultInstance().getSerializedHeaders();
-        onChanged();
+      public Builder setResultSetMeta(
+          int index, com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder builderForValue) {
+        if (resultSetMetaBuilder_ == null) {
+          ensureResultSetMetaIsMutable();
+          resultSetMeta_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          resultSetMetaBuilder_.setMessage(index, builderForValue.build());
+        }
         return this;
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+       */
+      public Builder addResultSetMeta(com.yandex.query.YandexQueryProtos.ResultSetMeta value) {
+        if (resultSetMetaBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureResultSetMetaIsMutable();
+          resultSetMeta_.add(value);
+          onChanged();
+        } else {
+          resultSetMetaBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+       */
+      public Builder addResultSetMeta(
+          int index, com.yandex.query.YandexQueryProtos.ResultSetMeta value) {
+        if (resultSetMetaBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureResultSetMetaIsMutable();
+          resultSetMeta_.add(index, value);
+          onChanged();
+        } else {
+          resultSetMetaBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+       */
+      public Builder addResultSetMeta(
+          com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder builderForValue) {
+        if (resultSetMetaBuilder_ == null) {
+          ensureResultSetMetaIsMutable();
+          resultSetMeta_.add(builderForValue.build());
+          onChanged();
+        } else {
+          resultSetMetaBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+       */
+      public Builder addResultSetMeta(
+          int index, com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder builderForValue) {
+        if (resultSetMetaBuilder_ == null) {
+          ensureResultSetMetaIsMutable();
+          resultSetMeta_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          resultSetMetaBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+       */
+      public Builder addAllResultSetMeta(
+          java.lang.Iterable<? extends com.yandex.query.YandexQueryProtos.ResultSetMeta> values) {
+        if (resultSetMetaBuilder_ == null) {
+          ensureResultSetMetaIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, resultSetMeta_);
+          onChanged();
+        } else {
+          resultSetMetaBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+       */
+      public Builder clearResultSetMeta() {
+        if (resultSetMetaBuilder_ == null) {
+          resultSetMeta_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          resultSetMetaBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+       */
+      public Builder removeResultSetMeta(int index) {
+        if (resultSetMetaBuilder_ == null) {
+          ensureResultSetMetaIsMutable();
+          resultSetMeta_.remove(index);
+          onChanged();
+        } else {
+          resultSetMetaBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+       */
+      public com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder getResultSetMetaBuilder(
+          int index) {
+        return getResultSetMetaFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+       */
+      public com.yandex.query.YandexQueryProtos.ResultSetMetaOrBuilder getResultSetMetaOrBuilder(
+          int index) {
+        if (resultSetMetaBuilder_ == null) {
+          return resultSetMeta_.get(index);  } else {
+          return resultSetMetaBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+       */
+      public java.util.List<? extends com.yandex.query.YandexQueryProtos.ResultSetMetaOrBuilder> 
+           getResultSetMetaOrBuilderList() {
+        if (resultSetMetaBuilder_ != null) {
+          return resultSetMetaBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(resultSetMeta_);
+        }
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+       */
+      public com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder addResultSetMetaBuilder() {
+        return getResultSetMetaFieldBuilder().addBuilder(
+            com.yandex.query.YandexQueryProtos.ResultSetMeta.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+       */
+      public com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder addResultSetMetaBuilder(
+          int index) {
+        return getResultSetMetaFieldBuilder().addBuilder(
+            index, com.yandex.query.YandexQueryProtos.ResultSetMeta.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 9;</code>
+       */
+      public java.util.List<com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder> 
+           getResultSetMetaBuilderList() {
+        return getResultSetMetaFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.yandex.query.YandexQueryProtos.ResultSetMeta, com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder, com.yandex.query.YandexQueryProtos.ResultSetMetaOrBuilder> 
+          getResultSetMetaFieldBuilder() {
+        if (resultSetMetaBuilder_ == null) {
+          resultSetMetaBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              com.yandex.query.YandexQueryProtos.ResultSetMeta, com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder, com.yandex.query.YandexQueryProtos.ResultSetMetaOrBuilder>(
+                  resultSetMeta_,
+                  ((bitField0_ & 0x00000002) != 0),
+                  getParentForChildren(),
+                  isClean());
+          resultSetMeta_ = null;
+        }
+        return resultSetMetaBuilder_;
       }
 
       private java.lang.Object executerInfo_ = "";
@@ -8629,7 +9202,7 @@ public final class AnalyticsIntenalProtos {
       private java.lang.Object scope_ = "";
       /**
        * <pre>
-       * TODO: delete
+       *TODO remove
        * </pre>
        *
        * <code>string scope = 100;</code>
@@ -8649,7 +9222,7 @@ public final class AnalyticsIntenalProtos {
       }
       /**
        * <pre>
-       * TODO: delete
+       *TODO remove
        * </pre>
        *
        * <code>string scope = 100;</code>
@@ -8670,7 +9243,7 @@ public final class AnalyticsIntenalProtos {
       }
       /**
        * <pre>
-       * TODO: delete
+       *TODO remove
        * </pre>
        *
        * <code>string scope = 100;</code>
@@ -8689,7 +9262,7 @@ public final class AnalyticsIntenalProtos {
       }
       /**
        * <pre>
-       * TODO: delete
+       *TODO remove
        * </pre>
        *
        * <code>string scope = 100;</code>
@@ -8703,7 +9276,7 @@ public final class AnalyticsIntenalProtos {
       }
       /**
        * <pre>
-       * TODO: delete
+       *TODO remove
        * </pre>
        *
        * <code>string scope = 100;</code>
@@ -8720,6 +9293,244 @@ public final class AnalyticsIntenalProtos {
         scope_ = value;
         onChanged();
         return this;
+      }
+
+      private com.google.protobuf.Timestamp startedAt_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> startedAtBuilder_;
+      /**
+       * <code>.google.protobuf.Timestamp started_at = 101;</code>
+       * @return Whether the startedAt field is set.
+       */
+      public boolean hasStartedAt() {
+        return startedAtBuilder_ != null || startedAt_ != null;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp started_at = 101;</code>
+       * @return The startedAt.
+       */
+      public com.google.protobuf.Timestamp getStartedAt() {
+        if (startedAtBuilder_ == null) {
+          return startedAt_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : startedAt_;
+        } else {
+          return startedAtBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp started_at = 101;</code>
+       */
+      public Builder setStartedAt(com.google.protobuf.Timestamp value) {
+        if (startedAtBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          startedAt_ = value;
+          onChanged();
+        } else {
+          startedAtBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp started_at = 101;</code>
+       */
+      public Builder setStartedAt(
+          com.google.protobuf.Timestamp.Builder builderForValue) {
+        if (startedAtBuilder_ == null) {
+          startedAt_ = builderForValue.build();
+          onChanged();
+        } else {
+          startedAtBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp started_at = 101;</code>
+       */
+      public Builder mergeStartedAt(com.google.protobuf.Timestamp value) {
+        if (startedAtBuilder_ == null) {
+          if (startedAt_ != null) {
+            startedAt_ =
+              com.google.protobuf.Timestamp.newBuilder(startedAt_).mergeFrom(value).buildPartial();
+          } else {
+            startedAt_ = value;
+          }
+          onChanged();
+        } else {
+          startedAtBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp started_at = 101;</code>
+       */
+      public Builder clearStartedAt() {
+        if (startedAtBuilder_ == null) {
+          startedAt_ = null;
+          onChanged();
+        } else {
+          startedAt_ = null;
+          startedAtBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp started_at = 101;</code>
+       */
+      public com.google.protobuf.Timestamp.Builder getStartedAtBuilder() {
+        
+        onChanged();
+        return getStartedAtFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.google.protobuf.Timestamp started_at = 101;</code>
+       */
+      public com.google.protobuf.TimestampOrBuilder getStartedAtOrBuilder() {
+        if (startedAtBuilder_ != null) {
+          return startedAtBuilder_.getMessageOrBuilder();
+        } else {
+          return startedAt_ == null ?
+              com.google.protobuf.Timestamp.getDefaultInstance() : startedAt_;
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp started_at = 101;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
+          getStartedAtFieldBuilder() {
+        if (startedAtBuilder_ == null) {
+          startedAtBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
+                  getStartedAt(),
+                  getParentForChildren(),
+                  isClean());
+          startedAt_ = null;
+        }
+        return startedAtBuilder_;
+      }
+
+      private com.google.protobuf.Timestamp finishedAt_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> finishedAtBuilder_;
+      /**
+       * <code>.google.protobuf.Timestamp finished_at = 102;</code>
+       * @return Whether the finishedAt field is set.
+       */
+      public boolean hasFinishedAt() {
+        return finishedAtBuilder_ != null || finishedAt_ != null;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp finished_at = 102;</code>
+       * @return The finishedAt.
+       */
+      public com.google.protobuf.Timestamp getFinishedAt() {
+        if (finishedAtBuilder_ == null) {
+          return finishedAt_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : finishedAt_;
+        } else {
+          return finishedAtBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp finished_at = 102;</code>
+       */
+      public Builder setFinishedAt(com.google.protobuf.Timestamp value) {
+        if (finishedAtBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          finishedAt_ = value;
+          onChanged();
+        } else {
+          finishedAtBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp finished_at = 102;</code>
+       */
+      public Builder setFinishedAt(
+          com.google.protobuf.Timestamp.Builder builderForValue) {
+        if (finishedAtBuilder_ == null) {
+          finishedAt_ = builderForValue.build();
+          onChanged();
+        } else {
+          finishedAtBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp finished_at = 102;</code>
+       */
+      public Builder mergeFinishedAt(com.google.protobuf.Timestamp value) {
+        if (finishedAtBuilder_ == null) {
+          if (finishedAt_ != null) {
+            finishedAt_ =
+              com.google.protobuf.Timestamp.newBuilder(finishedAt_).mergeFrom(value).buildPartial();
+          } else {
+            finishedAt_ = value;
+          }
+          onChanged();
+        } else {
+          finishedAtBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp finished_at = 102;</code>
+       */
+      public Builder clearFinishedAt() {
+        if (finishedAtBuilder_ == null) {
+          finishedAt_ = null;
+          onChanged();
+        } else {
+          finishedAt_ = null;
+          finishedAtBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp finished_at = 102;</code>
+       */
+      public com.google.protobuf.Timestamp.Builder getFinishedAtBuilder() {
+        
+        onChanged();
+        return getFinishedAtFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.google.protobuf.Timestamp finished_at = 102;</code>
+       */
+      public com.google.protobuf.TimestampOrBuilder getFinishedAtOrBuilder() {
+        if (finishedAtBuilder_ != null) {
+          return finishedAtBuilder_.getMessageOrBuilder();
+        } else {
+          return finishedAt_ == null ?
+              com.google.protobuf.Timestamp.getDefaultInstance() : finishedAt_;
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp finished_at = 102;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
+          getFinishedAtFieldBuilder() {
+        if (finishedAtBuilder_ == null) {
+          finishedAtBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
+                  getFinishedAt(),
+                  getParentForChildren(),
+                  isClean());
+          finishedAt_ = null;
+        }
+        return finishedAtBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -10039,10 +10850,25 @@ public final class AnalyticsIntenalProtos {
     long getOffset();
 
     /**
-     * <code>uint64 cookie = 6;</code>
-     * @return The cookie.
+     * <code>uint64 request_id = 6;</code>
+     * @return The requestId.
      */
-    long getCookie();
+    long getRequestId();
+
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+     * @return Whether the operationParams field is set.
+     */
+    boolean hasOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+     * @return The operationParams.
+     */
+    tech.ydb.OperationProtos.OperationParams getOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+     */
+    tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
   }
   /**
    * Protobuf type {@code Yql.Analytics.WriteTaskResultRequest}
@@ -10134,7 +10960,20 @@ public final class AnalyticsIntenalProtos {
             }
             case 48: {
 
-              cookie_ = input.readUInt64();
+              requestId_ = input.readUInt64();
+              break;
+            }
+            case 58: {
+              tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
+              if (operationParams_ != null) {
+                subBuilder = operationParams_.toBuilder();
+              }
+              operationParams_ = input.readMessage(tech.ydb.OperationProtos.OperationParams.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operationParams_);
+                operationParams_ = subBuilder.buildPartial();
+              }
+
               break;
             }
             default: {
@@ -10281,15 +11120,41 @@ public final class AnalyticsIntenalProtos {
       return offset_;
     }
 
-    public static final int COOKIE_FIELD_NUMBER = 6;
-    private long cookie_;
+    public static final int REQUEST_ID_FIELD_NUMBER = 6;
+    private long requestId_;
     /**
-     * <code>uint64 cookie = 6;</code>
-     * @return The cookie.
+     * <code>uint64 request_id = 6;</code>
+     * @return The requestId.
      */
     @java.lang.Override
-    public long getCookie() {
-      return cookie_;
+    public long getRequestId() {
+      return requestId_;
+    }
+
+    public static final int OPERATION_PARAMS_FIELD_NUMBER = 7;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+     * @return Whether the operationParams field is set.
+     */
+    @java.lang.Override
+    public boolean hasOperationParams() {
+      return operationParams_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+     * @return The operationParams.
+     */
+    @java.lang.Override
+    public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+      return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+     */
+    @java.lang.Override
+    public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+      return getOperationParams();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -10321,8 +11186,11 @@ public final class AnalyticsIntenalProtos {
       if (offset_ != 0L) {
         output.writeUInt64(5, offset_);
       }
-      if (cookie_ != 0L) {
-        output.writeUInt64(6, cookie_);
+      if (requestId_ != 0L) {
+        output.writeUInt64(6, requestId_);
+      }
+      if (operationParams_ != null) {
+        output.writeMessage(7, getOperationParams());
       }
       unknownFields.writeTo(output);
     }
@@ -10352,9 +11220,13 @@ public final class AnalyticsIntenalProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(5, offset_);
       }
-      if (cookie_ != 0L) {
+      if (requestId_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(6, cookie_);
+          .computeUInt64Size(6, requestId_);
+      }
+      if (operationParams_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, getOperationParams());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -10387,8 +11259,13 @@ public final class AnalyticsIntenalProtos {
           != other.getResultSetId()) return false;
       if (getOffset()
           != other.getOffset()) return false;
-      if (getCookie()
-          != other.getCookie()) return false;
+      if (getRequestId()
+          != other.getRequestId()) return false;
+      if (hasOperationParams() != other.hasOperationParams()) return false;
+      if (hasOperationParams()) {
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
+      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -10415,9 +11292,13 @@ public final class AnalyticsIntenalProtos {
       hash = (37 * hash) + OFFSET_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getOffset());
-      hash = (37 * hash) + COOKIE_FIELD_NUMBER;
+      hash = (37 * hash) + REQUEST_ID_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getCookie());
+          getRequestId());
+      if (hasOperationParams()) {
+        hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationParams().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -10569,8 +11450,14 @@ public final class AnalyticsIntenalProtos {
 
         offset_ = 0L;
 
-        cookie_ = 0L;
+        requestId_ = 0L;
 
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
         return this;
       }
 
@@ -10610,7 +11497,12 @@ public final class AnalyticsIntenalProtos {
         }
         result.resultSetId_ = resultSetId_;
         result.offset_ = offset_;
-        result.cookie_ = cookie_;
+        result.requestId_ = requestId_;
+        if (operationParamsBuilder_ == null) {
+          result.operationParams_ = operationParams_;
+        } else {
+          result.operationParams_ = operationParamsBuilder_.build();
+        }
         onBuilt();
         return result;
       }
@@ -10675,8 +11567,11 @@ public final class AnalyticsIntenalProtos {
         if (other.getOffset() != 0L) {
           setOffset(other.getOffset());
         }
-        if (other.getCookie() != 0L) {
-          setCookie(other.getCookie());
+        if (other.getRequestId() != 0L) {
+          setRequestId(other.getRequestId());
+        }
+        if (other.hasOperationParams()) {
+          mergeOperationParams(other.getOperationParams());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -11083,35 +11978,154 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
 
-      private long cookie_ ;
+      private long requestId_ ;
       /**
-       * <code>uint64 cookie = 6;</code>
-       * @return The cookie.
+       * <code>uint64 request_id = 6;</code>
+       * @return The requestId.
        */
       @java.lang.Override
-      public long getCookie() {
-        return cookie_;
+      public long getRequestId() {
+        return requestId_;
       }
       /**
-       * <code>uint64 cookie = 6;</code>
-       * @param value The cookie to set.
+       * <code>uint64 request_id = 6;</code>
+       * @param value The requestId to set.
        * @return This builder for chaining.
        */
-      public Builder setCookie(long value) {
+      public Builder setRequestId(long value) {
         
-        cookie_ = value;
+        requestId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>uint64 cookie = 6;</code>
+       * <code>uint64 request_id = 6;</code>
        * @return This builder for chaining.
        */
-      public Builder clearCookie() {
+      public Builder clearRequestId() {
         
-        cookie_ = 0L;
+        requestId_ = 0L;
         onChanged();
         return this;
+      }
+
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+       * @return Whether the operationParams field is set.
+       */
+      public boolean hasOperationParams() {
+        return operationParamsBuilder_ != null || operationParams_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+       * @return The operationParams.
+       */
+      public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        } else {
+          return operationParamsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+       */
+      public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operationParams_ = value;
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+       */
+      public Builder setOperationParams(
+          tech.ydb.OperationProtos.OperationParams.Builder builderForValue) {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+       */
+      public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (operationParams_ != null) {
+            operationParams_ =
+              tech.ydb.OperationProtos.OperationParams.newBuilder(operationParams_).mergeFrom(value).buildPartial();
+          } else {
+            operationParams_ = value;
+          }
+          onChanged();
+        } else {
+          operationParamsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+       */
+      public Builder clearOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+          onChanged();
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
+        
+        onChanged();
+        return getOperationParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+        if (operationParamsBuilder_ != null) {
+          return operationParamsBuilder_.getMessageOrBuilder();
+        } else {
+          return operationParams_ == null ?
+              tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 7;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> 
+          getOperationParamsFieldBuilder() {
+        if (operationParamsBuilder_ == null) {
+          operationParamsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder>(
+                  getOperationParams(),
+                  getParentForChildren(),
+                  isClean());
+          operationParams_ = null;
+        }
+        return operationParamsBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -11171,10 +12185,10 @@ public final class AnalyticsIntenalProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>uint64 cookie = 1;</code>
-     * @return The cookie.
+     * <code>uint64 request_id = 1;</code>
+     * @return The requestId.
      */
-    long getCookie();
+    long getRequestId();
   }
   /**
    * Protobuf type {@code Yql.Analytics.WriteTaskResultResult}
@@ -11223,7 +12237,7 @@ public final class AnalyticsIntenalProtos {
               break;
             case 8: {
 
-              cookie_ = input.readUInt64();
+              requestId_ = input.readUInt64();
               break;
             }
             default: {
@@ -11258,15 +12272,15 @@ public final class AnalyticsIntenalProtos {
               com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResult.class, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResult.Builder.class);
     }
 
-    public static final int COOKIE_FIELD_NUMBER = 1;
-    private long cookie_;
+    public static final int REQUEST_ID_FIELD_NUMBER = 1;
+    private long requestId_;
     /**
-     * <code>uint64 cookie = 1;</code>
-     * @return The cookie.
+     * <code>uint64 request_id = 1;</code>
+     * @return The requestId.
      */
     @java.lang.Override
-    public long getCookie() {
-      return cookie_;
+    public long getRequestId() {
+      return requestId_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -11283,8 +12297,8 @@ public final class AnalyticsIntenalProtos {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (cookie_ != 0L) {
-        output.writeUInt64(1, cookie_);
+      if (requestId_ != 0L) {
+        output.writeUInt64(1, requestId_);
       }
       unknownFields.writeTo(output);
     }
@@ -11295,9 +12309,9 @@ public final class AnalyticsIntenalProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (cookie_ != 0L) {
+      if (requestId_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(1, cookie_);
+          .computeUInt64Size(1, requestId_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -11314,8 +12328,8 @@ public final class AnalyticsIntenalProtos {
       }
       com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResult other = (com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResult) obj;
 
-      if (getCookie()
-          != other.getCookie()) return false;
+      if (getRequestId()
+          != other.getRequestId()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -11327,9 +12341,9 @@ public final class AnalyticsIntenalProtos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + COOKIE_FIELD_NUMBER;
+      hash = (37 * hash) + REQUEST_ID_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getCookie());
+          getRequestId());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -11463,7 +12477,7 @@ public final class AnalyticsIntenalProtos {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        cookie_ = 0L;
+        requestId_ = 0L;
 
         return this;
       }
@@ -11491,7 +12505,7 @@ public final class AnalyticsIntenalProtos {
       @java.lang.Override
       public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResult buildPartial() {
         com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResult result = new com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResult(this);
-        result.cookie_ = cookie_;
+        result.requestId_ = requestId_;
         onBuilt();
         return result;
       }
@@ -11540,8 +12554,8 @@ public final class AnalyticsIntenalProtos {
 
       public Builder mergeFrom(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResult other) {
         if (other == com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResult.getDefaultInstance()) return this;
-        if (other.getCookie() != 0L) {
-          setCookie(other.getCookie());
+        if (other.getRequestId() != 0L) {
+          setRequestId(other.getRequestId());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -11572,33 +12586,33 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
 
-      private long cookie_ ;
+      private long requestId_ ;
       /**
-       * <code>uint64 cookie = 1;</code>
-       * @return The cookie.
+       * <code>uint64 request_id = 1;</code>
+       * @return The requestId.
        */
       @java.lang.Override
-      public long getCookie() {
-        return cookie_;
+      public long getRequestId() {
+        return requestId_;
       }
       /**
-       * <code>uint64 cookie = 1;</code>
-       * @param value The cookie to set.
+       * <code>uint64 request_id = 1;</code>
+       * @param value The requestId to set.
        * @return This builder for chaining.
        */
-      public Builder setCookie(long value) {
+      public Builder setRequestId(long value) {
         
-        cookie_ = value;
+        requestId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>uint64 cookie = 1;</code>
+       * <code>uint64 request_id = 1;</code>
        * @return This builder for chaining.
        */
-      public Builder clearCookie() {
+      public Builder clearRequestId() {
         
-        cookie_ = 0L;
+        requestId_ = 0L;
         onChanged();
         return this;
       }
@@ -12400,52 +13414,57 @@ public final class AnalyticsIntenalProtos {
       "c/api/protos/ydb_operation.proto\032(kikimr" +
       "/public/api/protos/ydb_value.proto\0320kiki" +
       "mr/public/api/protos/ydb_issue_message.p" +
-      "roto\0322kikimr/public/api/protos/draft/yql" +
-      "_analytics.proto\032!kikimr/public/api/prot" +
-      "os/yq.proto\032\037google/protobuf/timestamp.p" +
-      "roto\"{\n\016GetTaskRequest\022\016\n\006tenant\030\001 \001(\t\022\020" +
-      "\n\010owner_id\030\002 \001(\t\022\014\n\004host\030\003 \001(\t\0229\n\020operat" +
-      "ion_params\030\004 \001(\0132\037.Ydb.Operations.Operat" +
-      "ionParams\"2\n\016SignedIdentity\022\r\n\005value\030\001 \001" +
-      "(\t\022\021\n\tsignature\030\002 \001(\t\"\273\003\n\rGetTaskResult\022" +
-      "\020\n\010has_task\030\001 \001(\010\0220\n\tresult_id\030\002 \001(\0132\035.Y" +
-      "ql.Analytics.SignedIdentity\022/\n\010query_id\030" +
-      "\003 \001(\0132\035.Yql.Analytics.SignedIdentity\022-\n\006" +
-      "job_id\030\004 \001(\0132\035.Yql.Analytics.SignedIdent" +
-      "ity\022\022\n\ngeneration\030\005 \001(\004\022\021\n\tstreaming\030\006 \001" +
-      "(\010\022\020\n\010dq_graph\030\007 \001(\t\022\014\n\004text\030\010 \001(\t\022+\n\nco" +
-      "nnection\030\t \003(\0132\027.YandexQuery.Connection\022" +
-      "%\n\007binding\030\n \003(\0132\024.YandexQuery.Binding\022\022" +
-      "\n\nuser_token\030\013 \001(\t\0227\n\020service_accounts\030\014" +
-      " \003(\0132\035.Yql.Analytics.SignedIdentity\022\017\n\007u" +
-      "ser_id\030\r \001(\t\022\r\n\005scope\030\016 \001(\t\"?\n\017GetTaskRe" +
-      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
-      "ns.Operation\"\202\004\n\017PingTaskRequest\022\020\n\010owne" +
-      "r_id\030\001 \001(\t\022/\n\010query_id\030\002 \001(\0132\035.Yql.Analy" +
-      "tics.SignedIdentity\022-\n\006job_id\030\003 \001(\0132\035.Yq" +
-      "l.Analytics.SignedIdentity\0220\n\tresult_id\030" +
-      "\004 \001(\0132\035.Yql.Analytics.SignedIdentity\0224\n\006" +
-      "status\030\005 \001(\0162$.YandexQuery.QueryMeta.Com" +
-      "puteStatus\022\'\n\006issues\030\006 \003(\0132\027.Ydb.Issue.I" +
-      "ssueMessage\022\030\n\020result_set_count\030\007 \001(\r\022\022\n" +
-      "\nstatistics\030\010 \001(\t\022\032\n\022serialized_headers\030" +
-      "\t \001(\014\022\025\n\rexecuter_info\030\n \001(\t\022\020\n\010dq_graph" +
-      "\030\013 \001(\t\022\013\n\003ast\030\014 \001(\t\022\014\n\004plan\030\r \001(\t\022\024\n\014res" +
-      "ign_query\030\016 \001(\010\0229\n\020operation_params\030\017 \001(" +
-      "\0132\037.Ydb.Operations.OperationParams\022\r\n\005sc" +
-      "ope\030d \001(\t\":\n\016PingTaskResult\022(\n\006action\030\001 " +
-      "\001(\0162\030.YandexQuery.QueryAction\"@\n\020PingTas" +
-      "kResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
-      "tions.Operation\"\267\001\n\026WriteTaskResultReque" +
-      "st\022\020\n\010owner_id\030\001 \001(\t\0220\n\tresult_id\030\002 \001(\0132" +
-      "\035.Yql.Analytics.SignedIdentity\022\"\n\nresult" +
-      "_set\030\003 \001(\0132\016.Ydb.ResultSet\022\025\n\rresult_set" +
-      "_id\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\016\n\006cookie\030\006 \001(" +
-      "\004\"\'\n\025WriteTaskResultResult\022\016\n\006cookie\030\001 \001" +
-      "(\004\"G\n\027WriteTaskResultResponse\022,\n\toperati" +
-      "on\030\001 \001(\0132\031.Ydb.Operations.OperationB>\n!c" +
-      "om.yandex.yql.analytics.internalB\026Analyt" +
-      "icsIntenalProtos\370\001\001b\006proto3"
+      "roto\032!kikimr/public/api/protos/yq.proto\032" +
+      "\037google/protobuf/timestamp.proto\"{\n\016GetT" +
+      "askRequest\022\016\n\006tenant\030\001 \001(\t\022\020\n\010owner_id\030\002" +
+      " \001(\t\022\014\n\004host\030\003 \001(\t\0229\n\020operation_params\030\004" +
+      " \001(\0132\037.Ydb.Operations.OperationParams\"2\n" +
+      "\016SignedIdentity\022\r\n\005value\030\001 \001(\t\022\021\n\tsignat" +
+      "ure\030\002 \001(\t\"\364\003\n\rGetTaskResult\022\020\n\010has_task\030" +
+      "\001 \001(\010\0220\n\tresult_id\030\002 \001(\0132\035.Yql.Analytics" +
+      ".SignedIdentity\022/\n\010query_id\030\003 \001(\0132\035.Yql." +
+      "Analytics.SignedIdentity\022-\n\006job_id\030\004 \001(\013" +
+      "2\035.Yql.Analytics.SignedIdentity\022\022\n\ngener" +
+      "ation\030\005 \001(\004\022\021\n\tstreaming\030\006 \001(\010\022\020\n\010dq_gra" +
+      "ph\030\007 \001(\t\022\014\n\004text\030\010 \001(\t\022+\n\nconnection\030\t \003" +
+      "(\0132\027.YandexQuery.Connection\022%\n\007binding\030\n" +
+      " \003(\0132\024.YandexQuery.Binding\022\022\n\nuser_token" +
+      "\030\013 \001(\t\0227\n\020service_accounts\030\014 \003(\0132\035.Yql.A" +
+      "nalytics.SignedIdentity\022\017\n\007user_id\030\r \001(\t" +
+      "\0227\n\nquery_type\030\016 \001(\0162#.YandexQuery.Query" +
+      "Content.QueryType\022\r\n\005scope\030\017 \001(\t\"?\n\017GetT" +
+      "askResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
+      "rations.Operation\"\374\004\n\017PingTaskRequest\022\020\n" +
+      "\010owner_id\030\001 \001(\t\022/\n\010query_id\030\002 \001(\0132\035.Yql." +
+      "Analytics.SignedIdentity\022-\n\006job_id\030\003 \001(\013" +
+      "2\035.Yql.Analytics.SignedIdentity\0220\n\tresul" +
+      "t_id\030\004 \001(\0132\035.Yql.Analytics.SignedIdentit" +
+      "y\0224\n\006status\030\005 \001(\0162$.YandexQuery.QueryMet" +
+      "a.ComputeStatus\022\'\n\006issues\030\006 \003(\0132\027.Ydb.Is" +
+      "sue.IssueMessage\022\030\n\020result_set_count\030\007 \001" +
+      "(\r\022\022\n\nstatistics\030\010 \001(\t\0223\n\017result_set_met" +
+      "a\030\t \003(\0132\032.YandexQuery.ResultSetMeta\022\025\n\re" +
+      "xecuter_info\030\n \001(\t\022\020\n\010dq_graph\030\013 \001(\t\022\013\n\003" +
+      "ast\030\014 \001(\t\022\014\n\004plan\030\r \001(\t\022\024\n\014resign_query\030" +
+      "\016 \001(\010\0229\n\020operation_params\030\017 \001(\0132\037.Ydb.Op" +
+      "erations.OperationParams\022\r\n\005scope\030d \001(\t\022" +
+      ".\n\nstarted_at\030e \001(\0132\032.google.protobuf.Ti" +
+      "mestamp\022/\n\013finished_at\030f \001(\0132\032.google.pr" +
+      "otobuf.Timestamp\":\n\016PingTaskResult\022(\n\006ac" +
+      "tion\030\001 \001(\0162\030.YandexQuery.QueryAction\"@\n\020" +
+      "PingTaskResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
+      "b.Operations.Operation\"\366\001\n\026WriteTaskResu" +
+      "ltRequest\022\020\n\010owner_id\030\001 \001(\t\0220\n\tresult_id" +
+      "\030\002 \001(\0132\035.Yql.Analytics.SignedIdentity\022\"\n" +
+      "\nresult_set\030\003 \001(\0132\016.Ydb.ResultSet\022\025\n\rres" +
+      "ult_set_id\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\022\n\nrequ" +
+      "est_id\030\006 \001(\004\0229\n\020operation_params\030\007 \001(\0132\037" +
+      ".Ydb.Operations.OperationParams\"+\n\025Write" +
+      "TaskResultResult\022\022\n\nrequest_id\030\001 \001(\004\"G\n\027" +
+      "WriteTaskResultResponse\022,\n\toperation\030\001 \001" +
+      "(\0132\031.Ydb.Operations.OperationB>\n!com.yan" +
+      "dex.yql.analytics.internalB\026AnalyticsInt" +
+      "enalProtos\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -12453,7 +13472,6 @@ public final class AnalyticsIntenalProtos {
           tech.ydb.OperationProtos.getDescriptor(),
           tech.ydb.ValueProtos.getDescriptor(),
           tech.ydb.YdbIssueMessage.getDescriptor(),
-          com.yandex.yql.analytics.AnalyticsProtos.getDescriptor(),
           com.yandex.query.YandexQueryProtos.getDescriptor(),
           com.google.protobuf.TimestampProto.getDescriptor(),
         });
@@ -12474,7 +13492,7 @@ public final class AnalyticsIntenalProtos {
     internal_static_Yql_Analytics_GetTaskResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetTaskResult_descriptor,
-        new java.lang.String[] { "HasTask", "ResultId", "QueryId", "JobId", "Generation", "Streaming", "DqGraph", "Text", "Connection", "Binding", "UserToken", "ServiceAccounts", "UserId", "Scope", });
+        new java.lang.String[] { "HasTask", "ResultId", "QueryId", "JobId", "Generation", "Streaming", "DqGraph", "Text", "Connection", "Binding", "UserToken", "ServiceAccounts", "UserId", "QueryType", "Scope", });
     internal_static_Yql_Analytics_GetTaskResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_Yql_Analytics_GetTaskResponse_fieldAccessorTable = new
@@ -12486,7 +13504,7 @@ public final class AnalyticsIntenalProtos {
     internal_static_Yql_Analytics_PingTaskRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_PingTaskRequest_descriptor,
-        new java.lang.String[] { "OwnerId", "QueryId", "JobId", "ResultId", "Status", "Issues", "ResultSetCount", "Statistics", "SerializedHeaders", "ExecuterInfo", "DqGraph", "Ast", "Plan", "ResignQuery", "OperationParams", "Scope", });
+        new java.lang.String[] { "OwnerId", "QueryId", "JobId", "ResultId", "Status", "Issues", "ResultSetCount", "Statistics", "ResultSetMeta", "ExecuterInfo", "DqGraph", "Ast", "Plan", "ResignQuery", "OperationParams", "Scope", "StartedAt", "FinishedAt", });
     internal_static_Yql_Analytics_PingTaskResult_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_Yql_Analytics_PingTaskResult_fieldAccessorTable = new
@@ -12504,13 +13522,13 @@ public final class AnalyticsIntenalProtos {
     internal_static_Yql_Analytics_WriteTaskResultRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_WriteTaskResultRequest_descriptor,
-        new java.lang.String[] { "OwnerId", "ResultId", "ResultSet", "ResultSetId", "Offset", "Cookie", });
+        new java.lang.String[] { "OwnerId", "ResultId", "ResultSet", "ResultSetId", "Offset", "RequestId", "OperationParams", });
     internal_static_Yql_Analytics_WriteTaskResultResult_descriptor =
       getDescriptor().getMessageTypes().get(8);
     internal_static_Yql_Analytics_WriteTaskResultResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_WriteTaskResultResult_descriptor,
-        new java.lang.String[] { "Cookie", });
+        new java.lang.String[] { "RequestId", });
     internal_static_Yql_Analytics_WriteTaskResultResponse_descriptor =
       getDescriptor().getMessageTypes().get(9);
     internal_static_Yql_Analytics_WriteTaskResultResponse_fieldAccessorTable = new
@@ -12520,7 +13538,6 @@ public final class AnalyticsIntenalProtos {
     tech.ydb.OperationProtos.getDescriptor();
     tech.ydb.ValueProtos.getDescriptor();
     tech.ydb.YdbIssueMessage.getDescriptor();
-    com.yandex.yql.analytics.AnalyticsProtos.getDescriptor();
     com.yandex.query.YandexQueryProtos.getDescriptor();
     com.google.protobuf.TimestampProto.getDescriptor();
   }

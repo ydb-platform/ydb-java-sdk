@@ -26,7 +26,7 @@ public final class YdbLogstoreV1 {
       "\n2kikimr/public/api/grpc/draft/ydb_logst" +
       "ore_v1.proto\022\017Ydb.LogStore.V1\0321kikimr/pu" +
       "blic/api/protos/draft/ydb_logstore.proto" +
-      "2\277\004\n\017LogStoreService\022[\n\016CreateLogStore\022#" +
+      "2\231\005\n\017LogStoreService\022[\n\016CreateLogStore\022#" +
       ".Ydb.LogStore.CreateLogStoreRequest\032$.Yd" +
       "b.LogStore.CreateLogStoreResponse\022a\n\020Des" +
       "cribeLogStore\022%.Ydb.LogStore.DescribeLog" +
@@ -40,8 +40,10 @@ public final class YdbLogstoreV1 {
       "ableRequest\032&.Ydb.LogStore.DescribeLogTa" +
       "bleResponse\022U\n\014DropLogTable\022!.Ydb.LogSto" +
       "re.DropLogTableRequest\032\".Ydb.LogStore.Dr" +
-      "opLogTableResponseB\034\n\032tech.ydb.log" +
-      "store.v1b\006proto3"
+      "opLogTableResponse\022X\n\rAlterLogTable\022\".Yd" +
+      "b.LogStore.AlterLogTableRequest\032#.Ydb.Lo" +
+      "gStore.AlterLogTableResponseB\034\n\032com.yand" +
+      "ex.ydb.logstore.v1b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

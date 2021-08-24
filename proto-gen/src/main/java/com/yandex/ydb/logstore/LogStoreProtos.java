@@ -2746,432 +2746,6 @@ public final class LogStoreProtos {
 
   }
 
-  public interface TtlSettingsOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.LogStore.TtlSettings)
-      com.google.protobuf.MessageOrBuilder {
-  }
-  /**
-   * <pre>
-   * TODO: can we reuse Table TTL settings?
-   * </pre>
-   *
-   * Protobuf type {@code Ydb.LogStore.TtlSettings}
-   */
-  public static final class TtlSettings extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.LogStore.TtlSettings)
-      TtlSettingsOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use TtlSettings.newBuilder() to construct.
-    private TtlSettings(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private TtlSettings() {
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new TtlSettings();
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private TtlSettings(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return tech.ydb.logstore.LogStoreProtos.internal_static_Ydb_LogStore_TtlSettings_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return tech.ydb.logstore.LogStoreProtos.internal_static_Ydb_LogStore_TtlSettings_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              tech.ydb.logstore.LogStoreProtos.TtlSettings.class, tech.ydb.logstore.LogStoreProtos.TtlSettings.Builder.class);
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof tech.ydb.logstore.LogStoreProtos.TtlSettings)) {
-        return super.equals(obj);
-      }
-      tech.ydb.logstore.LogStoreProtos.TtlSettings other = (tech.ydb.logstore.LogStoreProtos.TtlSettings) obj;
-
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static tech.ydb.logstore.LogStoreProtos.TtlSettings parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.logstore.LogStoreProtos.TtlSettings parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.logstore.LogStoreProtos.TtlSettings parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.logstore.LogStoreProtos.TtlSettings parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.logstore.LogStoreProtos.TtlSettings parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.logstore.LogStoreProtos.TtlSettings parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.logstore.LogStoreProtos.TtlSettings parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.logstore.LogStoreProtos.TtlSettings parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.logstore.LogStoreProtos.TtlSettings parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static tech.ydb.logstore.LogStoreProtos.TtlSettings parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.logstore.LogStoreProtos.TtlSettings parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.logstore.LogStoreProtos.TtlSettings parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(tech.ydb.logstore.LogStoreProtos.TtlSettings prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * <pre>
-     * TODO: can we reuse Table TTL settings?
-     * </pre>
-     *
-     * Protobuf type {@code Ydb.LogStore.TtlSettings}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.LogStore.TtlSettings)
-        tech.ydb.logstore.LogStoreProtos.TtlSettingsOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return tech.ydb.logstore.LogStoreProtos.internal_static_Ydb_LogStore_TtlSettings_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return tech.ydb.logstore.LogStoreProtos.internal_static_Ydb_LogStore_TtlSettings_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                tech.ydb.logstore.LogStoreProtos.TtlSettings.class, tech.ydb.logstore.LogStoreProtos.TtlSettings.Builder.class);
-      }
-
-      // Construct using tech.ydb.logstore.LogStoreProtos.TtlSettings.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return tech.ydb.logstore.LogStoreProtos.internal_static_Ydb_LogStore_TtlSettings_descriptor;
-      }
-
-      @java.lang.Override
-      public tech.ydb.logstore.LogStoreProtos.TtlSettings getDefaultInstanceForType() {
-        return tech.ydb.logstore.LogStoreProtos.TtlSettings.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public tech.ydb.logstore.LogStoreProtos.TtlSettings build() {
-        tech.ydb.logstore.LogStoreProtos.TtlSettings result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public tech.ydb.logstore.LogStoreProtos.TtlSettings buildPartial() {
-        tech.ydb.logstore.LogStoreProtos.TtlSettings result = new tech.ydb.logstore.LogStoreProtos.TtlSettings(this);
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.logstore.LogStoreProtos.TtlSettings) {
-          return mergeFrom((tech.ydb.logstore.LogStoreProtos.TtlSettings)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(tech.ydb.logstore.LogStoreProtos.TtlSettings other) {
-        if (other == tech.ydb.logstore.LogStoreProtos.TtlSettings.getDefaultInstance()) return this;
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        tech.ydb.logstore.LogStoreProtos.TtlSettings parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.logstore.LogStoreProtos.TtlSettings) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:Ydb.LogStore.TtlSettings)
-    }
-
-    // @@protoc_insertion_point(class_scope:Ydb.LogStore.TtlSettings)
-    private static final tech.ydb.logstore.LogStoreProtos.TtlSettings DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new tech.ydb.logstore.LogStoreProtos.TtlSettings();
-    }
-
-    public static tech.ydb.logstore.LogStoreProtos.TtlSettings getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<TtlSettings>
-        PARSER = new com.google.protobuf.AbstractParser<TtlSettings>() {
-      @java.lang.Override
-      public TtlSettings parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TtlSettings(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<TtlSettings> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<TtlSettings> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public tech.ydb.logstore.LogStoreProtos.TtlSettings getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
   public interface TtlSettingsPresetOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Ydb.LogStore.TtlSettingsPreset)
       com.google.protobuf.MessageOrBuilder {
@@ -3189,19 +2763,19 @@ public final class LogStoreProtos {
         getNameBytes();
 
     /**
-     * <code>.Ydb.LogStore.TtlSettings ttl_settings = 2;</code>
+     * <code>.Ydb.Table.TtlSettings ttl_settings = 2;</code>
      * @return Whether the ttlSettings field is set.
      */
     boolean hasTtlSettings();
     /**
-     * <code>.Ydb.LogStore.TtlSettings ttl_settings = 2;</code>
+     * <code>.Ydb.Table.TtlSettings ttl_settings = 2;</code>
      * @return The ttlSettings.
      */
-    tech.ydb.logstore.LogStoreProtos.TtlSettings getTtlSettings();
+    tech.ydb.table.YdbTable.TtlSettings getTtlSettings();
     /**
-     * <code>.Ydb.LogStore.TtlSettings ttl_settings = 2;</code>
+     * <code>.Ydb.Table.TtlSettings ttl_settings = 2;</code>
      */
-    tech.ydb.logstore.LogStoreProtos.TtlSettingsOrBuilder getTtlSettingsOrBuilder();
+    tech.ydb.table.YdbTable.TtlSettingsOrBuilder getTtlSettingsOrBuilder();
   }
   /**
    * Protobuf type {@code Ydb.LogStore.TtlSettingsPreset}
@@ -3256,11 +2830,11 @@ public final class LogStoreProtos {
               break;
             }
             case 18: {
-              tech.ydb.logstore.LogStoreProtos.TtlSettings.Builder subBuilder = null;
+              tech.ydb.table.YdbTable.TtlSettings.Builder subBuilder = null;
               if (ttlSettings_ != null) {
                 subBuilder = ttlSettings_.toBuilder();
               }
-              ttlSettings_ = input.readMessage(tech.ydb.logstore.LogStoreProtos.TtlSettings.parser(), extensionRegistry);
+              ttlSettings_ = input.readMessage(tech.ydb.table.YdbTable.TtlSettings.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(ttlSettings_);
                 ttlSettings_ = subBuilder.buildPartial();
@@ -3339,9 +2913,9 @@ public final class LogStoreProtos {
     }
 
     public static final int TTL_SETTINGS_FIELD_NUMBER = 2;
-    private tech.ydb.logstore.LogStoreProtos.TtlSettings ttlSettings_;
+    private tech.ydb.table.YdbTable.TtlSettings ttlSettings_;
     /**
-     * <code>.Ydb.LogStore.TtlSettings ttl_settings = 2;</code>
+     * <code>.Ydb.Table.TtlSettings ttl_settings = 2;</code>
      * @return Whether the ttlSettings field is set.
      */
     @java.lang.Override
@@ -3349,18 +2923,18 @@ public final class LogStoreProtos {
       return ttlSettings_ != null;
     }
     /**
-     * <code>.Ydb.LogStore.TtlSettings ttl_settings = 2;</code>
+     * <code>.Ydb.Table.TtlSettings ttl_settings = 2;</code>
      * @return The ttlSettings.
      */
     @java.lang.Override
-    public tech.ydb.logstore.LogStoreProtos.TtlSettings getTtlSettings() {
-      return ttlSettings_ == null ? tech.ydb.logstore.LogStoreProtos.TtlSettings.getDefaultInstance() : ttlSettings_;
+    public tech.ydb.table.YdbTable.TtlSettings getTtlSettings() {
+      return ttlSettings_ == null ? tech.ydb.table.YdbTable.TtlSettings.getDefaultInstance() : ttlSettings_;
     }
     /**
-     * <code>.Ydb.LogStore.TtlSettings ttl_settings = 2;</code>
+     * <code>.Ydb.Table.TtlSettings ttl_settings = 2;</code>
      */
     @java.lang.Override
-    public tech.ydb.logstore.LogStoreProtos.TtlSettingsOrBuilder getTtlSettingsOrBuilder() {
+    public tech.ydb.table.YdbTable.TtlSettingsOrBuilder getTtlSettingsOrBuilder() {
       return getTtlSettings();
     }
 
@@ -3772,31 +3346,31 @@ public final class LogStoreProtos {
         return this;
       }
 
-      private tech.ydb.logstore.LogStoreProtos.TtlSettings ttlSettings_;
+      private tech.ydb.table.YdbTable.TtlSettings ttlSettings_;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.logstore.LogStoreProtos.TtlSettings, tech.ydb.logstore.LogStoreProtos.TtlSettings.Builder, tech.ydb.logstore.LogStoreProtos.TtlSettingsOrBuilder> ttlSettingsBuilder_;
+          tech.ydb.table.YdbTable.TtlSettings, tech.ydb.table.YdbTable.TtlSettings.Builder, tech.ydb.table.YdbTable.TtlSettingsOrBuilder> ttlSettingsBuilder_;
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 2;</code>
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 2;</code>
        * @return Whether the ttlSettings field is set.
        */
       public boolean hasTtlSettings() {
         return ttlSettingsBuilder_ != null || ttlSettings_ != null;
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 2;</code>
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 2;</code>
        * @return The ttlSettings.
        */
-      public tech.ydb.logstore.LogStoreProtos.TtlSettings getTtlSettings() {
+      public tech.ydb.table.YdbTable.TtlSettings getTtlSettings() {
         if (ttlSettingsBuilder_ == null) {
-          return ttlSettings_ == null ? tech.ydb.logstore.LogStoreProtos.TtlSettings.getDefaultInstance() : ttlSettings_;
+          return ttlSettings_ == null ? tech.ydb.table.YdbTable.TtlSettings.getDefaultInstance() : ttlSettings_;
         } else {
           return ttlSettingsBuilder_.getMessage();
         }
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 2;</code>
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 2;</code>
        */
-      public Builder setTtlSettings(tech.ydb.logstore.LogStoreProtos.TtlSettings value) {
+      public Builder setTtlSettings(tech.ydb.table.YdbTable.TtlSettings value) {
         if (ttlSettingsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -3810,10 +3384,10 @@ public final class LogStoreProtos {
         return this;
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 2;</code>
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 2;</code>
        */
       public Builder setTtlSettings(
-          tech.ydb.logstore.LogStoreProtos.TtlSettings.Builder builderForValue) {
+          tech.ydb.table.YdbTable.TtlSettings.Builder builderForValue) {
         if (ttlSettingsBuilder_ == null) {
           ttlSettings_ = builderForValue.build();
           onChanged();
@@ -3824,13 +3398,13 @@ public final class LogStoreProtos {
         return this;
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 2;</code>
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 2;</code>
        */
-      public Builder mergeTtlSettings(tech.ydb.logstore.LogStoreProtos.TtlSettings value) {
+      public Builder mergeTtlSettings(tech.ydb.table.YdbTable.TtlSettings value) {
         if (ttlSettingsBuilder_ == null) {
           if (ttlSettings_ != null) {
             ttlSettings_ =
-              tech.ydb.logstore.LogStoreProtos.TtlSettings.newBuilder(ttlSettings_).mergeFrom(value).buildPartial();
+              tech.ydb.table.YdbTable.TtlSettings.newBuilder(ttlSettings_).mergeFrom(value).buildPartial();
           } else {
             ttlSettings_ = value;
           }
@@ -3842,7 +3416,7 @@ public final class LogStoreProtos {
         return this;
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 2;</code>
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 2;</code>
        */
       public Builder clearTtlSettings() {
         if (ttlSettingsBuilder_ == null) {
@@ -3856,33 +3430,33 @@ public final class LogStoreProtos {
         return this;
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 2;</code>
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 2;</code>
        */
-      public tech.ydb.logstore.LogStoreProtos.TtlSettings.Builder getTtlSettingsBuilder() {
+      public tech.ydb.table.YdbTable.TtlSettings.Builder getTtlSettingsBuilder() {
         
         onChanged();
         return getTtlSettingsFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 2;</code>
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 2;</code>
        */
-      public tech.ydb.logstore.LogStoreProtos.TtlSettingsOrBuilder getTtlSettingsOrBuilder() {
+      public tech.ydb.table.YdbTable.TtlSettingsOrBuilder getTtlSettingsOrBuilder() {
         if (ttlSettingsBuilder_ != null) {
           return ttlSettingsBuilder_.getMessageOrBuilder();
         } else {
           return ttlSettings_ == null ?
-              tech.ydb.logstore.LogStoreProtos.TtlSettings.getDefaultInstance() : ttlSettings_;
+              tech.ydb.table.YdbTable.TtlSettings.getDefaultInstance() : ttlSettings_;
         }
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 2;</code>
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.logstore.LogStoreProtos.TtlSettings, tech.ydb.logstore.LogStoreProtos.TtlSettings.Builder, tech.ydb.logstore.LogStoreProtos.TtlSettingsOrBuilder> 
+          tech.ydb.table.YdbTable.TtlSettings, tech.ydb.table.YdbTable.TtlSettings.Builder, tech.ydb.table.YdbTable.TtlSettingsOrBuilder> 
           getTtlSettingsFieldBuilder() {
         if (ttlSettingsBuilder_ == null) {
           ttlSettingsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.logstore.LogStoreProtos.TtlSettings, tech.ydb.logstore.LogStoreProtos.TtlSettings.Builder, tech.ydb.logstore.LogStoreProtos.TtlSettingsOrBuilder>(
+              tech.ydb.table.YdbTable.TtlSettings, tech.ydb.table.YdbTable.TtlSettings.Builder, tech.ydb.table.YdbTable.TtlSettingsOrBuilder>(
                   getTtlSettings(),
                   getParentForChildren(),
                   isClean());
@@ -3989,51 +3563,47 @@ public final class LogStoreProtos {
     int getColumnShardCount();
 
     /**
+     * <pre>
+     * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+     * </pre>
+     *
      * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
      */
     java.util.List<tech.ydb.logstore.LogStoreProtos.SchemaPreset> 
         getSchemaPresetsList();
     /**
+     * <pre>
+     * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+     * </pre>
+     *
      * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
      */
     tech.ydb.logstore.LogStoreProtos.SchemaPreset getSchemaPresets(int index);
     /**
+     * <pre>
+     * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+     * </pre>
+     *
      * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
      */
     int getSchemaPresetsCount();
     /**
+     * <pre>
+     * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+     * </pre>
+     *
      * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
      */
     java.util.List<? extends tech.ydb.logstore.LogStoreProtos.SchemaPresetOrBuilder> 
         getSchemaPresetsOrBuilderList();
     /**
+     * <pre>
+     * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+     * </pre>
+     *
      * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
      */
     tech.ydb.logstore.LogStoreProtos.SchemaPresetOrBuilder getSchemaPresetsOrBuilder(
-        int index);
-
-    /**
-     * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-     */
-    java.util.List<tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset> 
-        getTtlSettingsPresetsList();
-    /**
-     * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-     */
-    tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset getTtlSettingsPresets(int index);
-    /**
-     * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-     */
-    int getTtlSettingsPresetsCount();
-    /**
-     * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-     */
-    java.util.List<? extends tech.ydb.logstore.LogStoreProtos.TtlSettingsPresetOrBuilder> 
-        getTtlSettingsPresetsOrBuilderList();
-    /**
-     * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-     */
-    tech.ydb.logstore.LogStoreProtos.TtlSettingsPresetOrBuilder getTtlSettingsPresetsOrBuilder(
         int index);
   }
   /**
@@ -4051,7 +3621,6 @@ public final class LogStoreProtos {
     private CreateLogStoreRequest() {
       path_ = "";
       schemaPresets_ = java.util.Collections.emptyList();
-      ttlSettingsPresets_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -4118,15 +3687,6 @@ public final class LogStoreProtos {
                   input.readMessage(tech.ydb.logstore.LogStoreProtos.SchemaPreset.parser(), extensionRegistry));
               break;
             }
-            case 42: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
-                ttlSettingsPresets_ = new java.util.ArrayList<tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset>();
-                mutable_bitField0_ |= 0x00000002;
-              }
-              ttlSettingsPresets_.add(
-                  input.readMessage(tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.parser(), extensionRegistry));
-              break;
-            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -4144,9 +3704,6 @@ public final class LogStoreProtos {
       } finally {
         if (((mutable_bitField0_ & 0x00000001) != 0)) {
           schemaPresets_ = java.util.Collections.unmodifiableList(schemaPresets_);
-        }
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
-          ttlSettingsPresets_ = java.util.Collections.unmodifiableList(ttlSettingsPresets_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -4251,6 +3808,10 @@ public final class LogStoreProtos {
     public static final int SCHEMA_PRESETS_FIELD_NUMBER = 4;
     private java.util.List<tech.ydb.logstore.LogStoreProtos.SchemaPreset> schemaPresets_;
     /**
+     * <pre>
+     * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+     * </pre>
+     *
      * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
      */
     @java.lang.Override
@@ -4258,6 +3819,10 @@ public final class LogStoreProtos {
       return schemaPresets_;
     }
     /**
+     * <pre>
+     * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+     * </pre>
+     *
      * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
      */
     @java.lang.Override
@@ -4266,6 +3831,10 @@ public final class LogStoreProtos {
       return schemaPresets_;
     }
     /**
+     * <pre>
+     * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+     * </pre>
+     *
      * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
      */
     @java.lang.Override
@@ -4273,6 +3842,10 @@ public final class LogStoreProtos {
       return schemaPresets_.size();
     }
     /**
+     * <pre>
+     * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+     * </pre>
+     *
      * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
      */
     @java.lang.Override
@@ -4280,52 +3853,16 @@ public final class LogStoreProtos {
       return schemaPresets_.get(index);
     }
     /**
+     * <pre>
+     * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+     * </pre>
+     *
      * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
      */
     @java.lang.Override
     public tech.ydb.logstore.LogStoreProtos.SchemaPresetOrBuilder getSchemaPresetsOrBuilder(
         int index) {
       return schemaPresets_.get(index);
-    }
-
-    public static final int TTL_SETTINGS_PRESETS_FIELD_NUMBER = 5;
-    private java.util.List<tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset> ttlSettingsPresets_;
-    /**
-     * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-     */
-    @java.lang.Override
-    public java.util.List<tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset> getTtlSettingsPresetsList() {
-      return ttlSettingsPresets_;
-    }
-    /**
-     * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-     */
-    @java.lang.Override
-    public java.util.List<? extends tech.ydb.logstore.LogStoreProtos.TtlSettingsPresetOrBuilder> 
-        getTtlSettingsPresetsOrBuilderList() {
-      return ttlSettingsPresets_;
-    }
-    /**
-     * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-     */
-    @java.lang.Override
-    public int getTtlSettingsPresetsCount() {
-      return ttlSettingsPresets_.size();
-    }
-    /**
-     * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-     */
-    @java.lang.Override
-    public tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset getTtlSettingsPresets(int index) {
-      return ttlSettingsPresets_.get(index);
-    }
-    /**
-     * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-     */
-    @java.lang.Override
-    public tech.ydb.logstore.LogStoreProtos.TtlSettingsPresetOrBuilder getTtlSettingsPresetsOrBuilder(
-        int index) {
-      return ttlSettingsPresets_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -4354,9 +3891,6 @@ public final class LogStoreProtos {
       for (int i = 0; i < schemaPresets_.size(); i++) {
         output.writeMessage(4, schemaPresets_.get(i));
       }
-      for (int i = 0; i < ttlSettingsPresets_.size(); i++) {
-        output.writeMessage(5, ttlSettingsPresets_.get(i));
-      }
       unknownFields.writeTo(output);
     }
 
@@ -4380,10 +3914,6 @@ public final class LogStoreProtos {
       for (int i = 0; i < schemaPresets_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, schemaPresets_.get(i));
-      }
-      for (int i = 0; i < ttlSettingsPresets_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, ttlSettingsPresets_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4411,8 +3941,6 @@ public final class LogStoreProtos {
           != other.getColumnShardCount()) return false;
       if (!getSchemaPresetsList()
           .equals(other.getSchemaPresetsList())) return false;
-      if (!getTtlSettingsPresetsList()
-          .equals(other.getTtlSettingsPresetsList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -4435,10 +3963,6 @@ public final class LogStoreProtos {
       if (getSchemaPresetsCount() > 0) {
         hash = (37 * hash) + SCHEMA_PRESETS_FIELD_NUMBER;
         hash = (53 * hash) + getSchemaPresetsList().hashCode();
-      }
-      if (getTtlSettingsPresetsCount() > 0) {
-        hash = (37 * hash) + TTL_SETTINGS_PRESETS_FIELD_NUMBER;
-        hash = (53 * hash) + getTtlSettingsPresetsList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -4569,7 +4093,6 @@ public final class LogStoreProtos {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
           getSchemaPresetsFieldBuilder();
-          getTtlSettingsPresetsFieldBuilder();
         }
       }
       @java.lang.Override
@@ -4590,12 +4113,6 @@ public final class LogStoreProtos {
           bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           schemaPresetsBuilder_.clear();
-        }
-        if (ttlSettingsPresetsBuilder_ == null) {
-          ttlSettingsPresets_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-        } else {
-          ttlSettingsPresetsBuilder_.clear();
         }
         return this;
       }
@@ -4639,15 +4156,6 @@ public final class LogStoreProtos {
           result.schemaPresets_ = schemaPresets_;
         } else {
           result.schemaPresets_ = schemaPresetsBuilder_.build();
-        }
-        if (ttlSettingsPresetsBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) != 0)) {
-            ttlSettingsPresets_ = java.util.Collections.unmodifiableList(ttlSettingsPresets_);
-            bitField0_ = (bitField0_ & ~0x00000002);
-          }
-          result.ttlSettingsPresets_ = ttlSettingsPresets_;
-        } else {
-          result.ttlSettingsPresets_ = ttlSettingsPresetsBuilder_.build();
         }
         onBuilt();
         return result;
@@ -4730,32 +4238,6 @@ public final class LogStoreProtos {
                    getSchemaPresetsFieldBuilder() : null;
             } else {
               schemaPresetsBuilder_.addAllMessages(other.schemaPresets_);
-            }
-          }
-        }
-        if (ttlSettingsPresetsBuilder_ == null) {
-          if (!other.ttlSettingsPresets_.isEmpty()) {
-            if (ttlSettingsPresets_.isEmpty()) {
-              ttlSettingsPresets_ = other.ttlSettingsPresets_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-            } else {
-              ensureTtlSettingsPresetsIsMutable();
-              ttlSettingsPresets_.addAll(other.ttlSettingsPresets_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.ttlSettingsPresets_.isEmpty()) {
-            if (ttlSettingsPresetsBuilder_.isEmpty()) {
-              ttlSettingsPresetsBuilder_.dispose();
-              ttlSettingsPresetsBuilder_ = null;
-              ttlSettingsPresets_ = other.ttlSettingsPresets_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-              ttlSettingsPresetsBuilder_ = 
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getTtlSettingsPresetsFieldBuilder() : null;
-            } else {
-              ttlSettingsPresetsBuilder_.addAllMessages(other.ttlSettingsPresets_);
             }
           }
         }
@@ -5048,6 +4530,10 @@ public final class LogStoreProtos {
           tech.ydb.logstore.LogStoreProtos.SchemaPreset, tech.ydb.logstore.LogStoreProtos.SchemaPreset.Builder, tech.ydb.logstore.LogStoreProtos.SchemaPresetOrBuilder> schemaPresetsBuilder_;
 
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
        */
       public java.util.List<tech.ydb.logstore.LogStoreProtos.SchemaPreset> getSchemaPresetsList() {
@@ -5058,6 +4544,10 @@ public final class LogStoreProtos {
         }
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
        */
       public int getSchemaPresetsCount() {
@@ -5068,6 +4558,10 @@ public final class LogStoreProtos {
         }
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
        */
       public tech.ydb.logstore.LogStoreProtos.SchemaPreset getSchemaPresets(int index) {
@@ -5078,6 +4572,10 @@ public final class LogStoreProtos {
         }
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
        */
       public Builder setSchemaPresets(
@@ -5095,6 +4593,10 @@ public final class LogStoreProtos {
         return this;
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
        */
       public Builder setSchemaPresets(
@@ -5109,6 +4611,10 @@ public final class LogStoreProtos {
         return this;
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
        */
       public Builder addSchemaPresets(tech.ydb.logstore.LogStoreProtos.SchemaPreset value) {
@@ -5125,6 +4631,10 @@ public final class LogStoreProtos {
         return this;
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
        */
       public Builder addSchemaPresets(
@@ -5142,6 +4652,10 @@ public final class LogStoreProtos {
         return this;
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
        */
       public Builder addSchemaPresets(
@@ -5156,6 +4670,10 @@ public final class LogStoreProtos {
         return this;
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
        */
       public Builder addSchemaPresets(
@@ -5170,6 +4688,10 @@ public final class LogStoreProtos {
         return this;
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
        */
       public Builder addAllSchemaPresets(
@@ -5185,6 +4707,10 @@ public final class LogStoreProtos {
         return this;
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
        */
       public Builder clearSchemaPresets() {
@@ -5198,6 +4724,10 @@ public final class LogStoreProtos {
         return this;
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
        */
       public Builder removeSchemaPresets(int index) {
@@ -5211,6 +4741,10 @@ public final class LogStoreProtos {
         return this;
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
        */
       public tech.ydb.logstore.LogStoreProtos.SchemaPreset.Builder getSchemaPresetsBuilder(
@@ -5218,6 +4752,10 @@ public final class LogStoreProtos {
         return getSchemaPresetsFieldBuilder().getBuilder(index);
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
        */
       public tech.ydb.logstore.LogStoreProtos.SchemaPresetOrBuilder getSchemaPresetsOrBuilder(
@@ -5228,6 +4766,10 @@ public final class LogStoreProtos {
         }
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
        */
       public java.util.List<? extends tech.ydb.logstore.LogStoreProtos.SchemaPresetOrBuilder> 
@@ -5239,6 +4781,10 @@ public final class LogStoreProtos {
         }
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
        */
       public tech.ydb.logstore.LogStoreProtos.SchemaPreset.Builder addSchemaPresetsBuilder() {
@@ -5246,6 +4792,10 @@ public final class LogStoreProtos {
             tech.ydb.logstore.LogStoreProtos.SchemaPreset.getDefaultInstance());
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
        */
       public tech.ydb.logstore.LogStoreProtos.SchemaPreset.Builder addSchemaPresetsBuilder(
@@ -5254,6 +4804,10 @@ public final class LogStoreProtos {
             index, tech.ydb.logstore.LogStoreProtos.SchemaPreset.getDefaultInstance());
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 5; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 4;</code>
        */
       public java.util.List<tech.ydb.logstore.LogStoreProtos.SchemaPreset.Builder> 
@@ -5273,246 +4827,6 @@ public final class LogStoreProtos {
           schemaPresets_ = null;
         }
         return schemaPresetsBuilder_;
-      }
-
-      private java.util.List<tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset> ttlSettingsPresets_ =
-        java.util.Collections.emptyList();
-      private void ensureTtlSettingsPresetsIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
-          ttlSettingsPresets_ = new java.util.ArrayList<tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset>(ttlSettingsPresets_);
-          bitField0_ |= 0x00000002;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset, tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.Builder, tech.ydb.logstore.LogStoreProtos.TtlSettingsPresetOrBuilder> ttlSettingsPresetsBuilder_;
-
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-       */
-      public java.util.List<tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset> getTtlSettingsPresetsList() {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(ttlSettingsPresets_);
-        } else {
-          return ttlSettingsPresetsBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-       */
-      public int getTtlSettingsPresetsCount() {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          return ttlSettingsPresets_.size();
-        } else {
-          return ttlSettingsPresetsBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-       */
-      public tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset getTtlSettingsPresets(int index) {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          return ttlSettingsPresets_.get(index);
-        } else {
-          return ttlSettingsPresetsBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-       */
-      public Builder setTtlSettingsPresets(
-          int index, tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset value) {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTtlSettingsPresetsIsMutable();
-          ttlSettingsPresets_.set(index, value);
-          onChanged();
-        } else {
-          ttlSettingsPresetsBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-       */
-      public Builder setTtlSettingsPresets(
-          int index, tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.Builder builderForValue) {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          ensureTtlSettingsPresetsIsMutable();
-          ttlSettingsPresets_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          ttlSettingsPresetsBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-       */
-      public Builder addTtlSettingsPresets(tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset value) {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTtlSettingsPresetsIsMutable();
-          ttlSettingsPresets_.add(value);
-          onChanged();
-        } else {
-          ttlSettingsPresetsBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-       */
-      public Builder addTtlSettingsPresets(
-          int index, tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset value) {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTtlSettingsPresetsIsMutable();
-          ttlSettingsPresets_.add(index, value);
-          onChanged();
-        } else {
-          ttlSettingsPresetsBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-       */
-      public Builder addTtlSettingsPresets(
-          tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.Builder builderForValue) {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          ensureTtlSettingsPresetsIsMutable();
-          ttlSettingsPresets_.add(builderForValue.build());
-          onChanged();
-        } else {
-          ttlSettingsPresetsBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-       */
-      public Builder addTtlSettingsPresets(
-          int index, tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.Builder builderForValue) {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          ensureTtlSettingsPresetsIsMutable();
-          ttlSettingsPresets_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          ttlSettingsPresetsBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-       */
-      public Builder addAllTtlSettingsPresets(
-          java.lang.Iterable<? extends tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset> values) {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          ensureTtlSettingsPresetsIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, ttlSettingsPresets_);
-          onChanged();
-        } else {
-          ttlSettingsPresetsBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-       */
-      public Builder clearTtlSettingsPresets() {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          ttlSettingsPresets_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-          onChanged();
-        } else {
-          ttlSettingsPresetsBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-       */
-      public Builder removeTtlSettingsPresets(int index) {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          ensureTtlSettingsPresetsIsMutable();
-          ttlSettingsPresets_.remove(index);
-          onChanged();
-        } else {
-          ttlSettingsPresetsBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-       */
-      public tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.Builder getTtlSettingsPresetsBuilder(
-          int index) {
-        return getTtlSettingsPresetsFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-       */
-      public tech.ydb.logstore.LogStoreProtos.TtlSettingsPresetOrBuilder getTtlSettingsPresetsOrBuilder(
-          int index) {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          return ttlSettingsPresets_.get(index);  } else {
-          return ttlSettingsPresetsBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-       */
-      public java.util.List<? extends tech.ydb.logstore.LogStoreProtos.TtlSettingsPresetOrBuilder> 
-           getTtlSettingsPresetsOrBuilderList() {
-        if (ttlSettingsPresetsBuilder_ != null) {
-          return ttlSettingsPresetsBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(ttlSettingsPresets_);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-       */
-      public tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.Builder addTtlSettingsPresetsBuilder() {
-        return getTtlSettingsPresetsFieldBuilder().addBuilder(
-            tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-       */
-      public tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.Builder addTtlSettingsPresetsBuilder(
-          int index) {
-        return getTtlSettingsPresetsFieldBuilder().addBuilder(
-            index, tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 5;</code>
-       */
-      public java.util.List<tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.Builder> 
-           getTtlSettingsPresetsBuilderList() {
-        return getTtlSettingsPresetsFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset, tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.Builder, tech.ydb.logstore.LogStoreProtos.TtlSettingsPresetOrBuilder> 
-          getTtlSettingsPresetsFieldBuilder() {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          ttlSettingsPresetsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset, tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.Builder, tech.ydb.logstore.LogStoreProtos.TtlSettingsPresetOrBuilder>(
-                  ttlSettingsPresets_,
-                  ((bitField0_ & 0x00000002) != 0),
-                  getParentForChildren(),
-                  isClean());
-          ttlSettingsPresets_ = null;
-        }
-        return ttlSettingsPresetsBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -7033,51 +6347,47 @@ public final class LogStoreProtos {
     int getColumnShardCount();
 
     /**
+     * <pre>
+     * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+     * </pre>
+     *
      * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
      */
     java.util.List<tech.ydb.logstore.LogStoreProtos.SchemaPreset> 
         getSchemaPresetsList();
     /**
+     * <pre>
+     * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+     * </pre>
+     *
      * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
      */
     tech.ydb.logstore.LogStoreProtos.SchemaPreset getSchemaPresets(int index);
     /**
+     * <pre>
+     * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+     * </pre>
+     *
      * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
      */
     int getSchemaPresetsCount();
     /**
+     * <pre>
+     * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+     * </pre>
+     *
      * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
      */
     java.util.List<? extends tech.ydb.logstore.LogStoreProtos.SchemaPresetOrBuilder> 
         getSchemaPresetsOrBuilderList();
     /**
+     * <pre>
+     * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+     * </pre>
+     *
      * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
      */
     tech.ydb.logstore.LogStoreProtos.SchemaPresetOrBuilder getSchemaPresetsOrBuilder(
-        int index);
-
-    /**
-     * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-     */
-    java.util.List<tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset> 
-        getTtlSettingsPresetsList();
-    /**
-     * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-     */
-    tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset getTtlSettingsPresets(int index);
-    /**
-     * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-     */
-    int getTtlSettingsPresetsCount();
-    /**
-     * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-     */
-    java.util.List<? extends tech.ydb.logstore.LogStoreProtos.TtlSettingsPresetOrBuilder> 
-        getTtlSettingsPresetsOrBuilderList();
-    /**
-     * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-     */
-    tech.ydb.logstore.LogStoreProtos.TtlSettingsPresetOrBuilder getTtlSettingsPresetsOrBuilder(
         int index);
   }
   /**
@@ -7094,7 +6404,6 @@ public final class LogStoreProtos {
     }
     private DescribeLogStoreResult() {
       schemaPresets_ = java.util.Collections.emptyList();
-      ttlSettingsPresets_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -7155,15 +6464,6 @@ public final class LogStoreProtos {
                   input.readMessage(tech.ydb.logstore.LogStoreProtos.SchemaPreset.parser(), extensionRegistry));
               break;
             }
-            case 34: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
-                ttlSettingsPresets_ = new java.util.ArrayList<tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset>();
-                mutable_bitField0_ |= 0x00000002;
-              }
-              ttlSettingsPresets_.add(
-                  input.readMessage(tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.parser(), extensionRegistry));
-              break;
-            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -7181,9 +6481,6 @@ public final class LogStoreProtos {
       } finally {
         if (((mutable_bitField0_ & 0x00000001) != 0)) {
           schemaPresets_ = java.util.Collections.unmodifiableList(schemaPresets_);
-        }
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
-          ttlSettingsPresets_ = java.util.Collections.unmodifiableList(ttlSettingsPresets_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -7254,6 +6551,10 @@ public final class LogStoreProtos {
     public static final int SCHEMA_PRESETS_FIELD_NUMBER = 3;
     private java.util.List<tech.ydb.logstore.LogStoreProtos.SchemaPreset> schemaPresets_;
     /**
+     * <pre>
+     * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+     * </pre>
+     *
      * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
      */
     @java.lang.Override
@@ -7261,6 +6562,10 @@ public final class LogStoreProtos {
       return schemaPresets_;
     }
     /**
+     * <pre>
+     * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+     * </pre>
+     *
      * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
      */
     @java.lang.Override
@@ -7269,6 +6574,10 @@ public final class LogStoreProtos {
       return schemaPresets_;
     }
     /**
+     * <pre>
+     * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+     * </pre>
+     *
      * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
      */
     @java.lang.Override
@@ -7276,6 +6585,10 @@ public final class LogStoreProtos {
       return schemaPresets_.size();
     }
     /**
+     * <pre>
+     * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+     * </pre>
+     *
      * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
      */
     @java.lang.Override
@@ -7283,52 +6596,16 @@ public final class LogStoreProtos {
       return schemaPresets_.get(index);
     }
     /**
+     * <pre>
+     * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+     * </pre>
+     *
      * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
      */
     @java.lang.Override
     public tech.ydb.logstore.LogStoreProtos.SchemaPresetOrBuilder getSchemaPresetsOrBuilder(
         int index) {
       return schemaPresets_.get(index);
-    }
-
-    public static final int TTL_SETTINGS_PRESETS_FIELD_NUMBER = 4;
-    private java.util.List<tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset> ttlSettingsPresets_;
-    /**
-     * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-     */
-    @java.lang.Override
-    public java.util.List<tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset> getTtlSettingsPresetsList() {
-      return ttlSettingsPresets_;
-    }
-    /**
-     * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-     */
-    @java.lang.Override
-    public java.util.List<? extends tech.ydb.logstore.LogStoreProtos.TtlSettingsPresetOrBuilder> 
-        getTtlSettingsPresetsOrBuilderList() {
-      return ttlSettingsPresets_;
-    }
-    /**
-     * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-     */
-    @java.lang.Override
-    public int getTtlSettingsPresetsCount() {
-      return ttlSettingsPresets_.size();
-    }
-    /**
-     * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-     */
-    @java.lang.Override
-    public tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset getTtlSettingsPresets(int index) {
-      return ttlSettingsPresets_.get(index);
-    }
-    /**
-     * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-     */
-    @java.lang.Override
-    public tech.ydb.logstore.LogStoreProtos.TtlSettingsPresetOrBuilder getTtlSettingsPresetsOrBuilder(
-        int index) {
-      return ttlSettingsPresets_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -7354,9 +6631,6 @@ public final class LogStoreProtos {
       for (int i = 0; i < schemaPresets_.size(); i++) {
         output.writeMessage(3, schemaPresets_.get(i));
       }
-      for (int i = 0; i < ttlSettingsPresets_.size(); i++) {
-        output.writeMessage(4, ttlSettingsPresets_.get(i));
-      }
       unknownFields.writeTo(output);
     }
 
@@ -7377,10 +6651,6 @@ public final class LogStoreProtos {
       for (int i = 0; i < schemaPresets_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, schemaPresets_.get(i));
-      }
-      for (int i = 0; i < ttlSettingsPresets_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, ttlSettingsPresets_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -7406,8 +6676,6 @@ public final class LogStoreProtos {
           != other.getColumnShardCount()) return false;
       if (!getSchemaPresetsList()
           .equals(other.getSchemaPresetsList())) return false;
-      if (!getTtlSettingsPresetsList()
-          .equals(other.getTtlSettingsPresetsList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -7428,10 +6696,6 @@ public final class LogStoreProtos {
       if (getSchemaPresetsCount() > 0) {
         hash = (37 * hash) + SCHEMA_PRESETS_FIELD_NUMBER;
         hash = (53 * hash) + getSchemaPresetsList().hashCode();
-      }
-      if (getTtlSettingsPresetsCount() > 0) {
-        hash = (37 * hash) + TTL_SETTINGS_PRESETS_FIELD_NUMBER;
-        hash = (53 * hash) + getTtlSettingsPresetsList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -7562,7 +6826,6 @@ public final class LogStoreProtos {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
           getSchemaPresetsFieldBuilder();
-          getTtlSettingsPresetsFieldBuilder();
         }
       }
       @java.lang.Override
@@ -7581,12 +6844,6 @@ public final class LogStoreProtos {
           bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           schemaPresetsBuilder_.clear();
-        }
-        if (ttlSettingsPresetsBuilder_ == null) {
-          ttlSettingsPresets_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-        } else {
-          ttlSettingsPresetsBuilder_.clear();
         }
         return this;
       }
@@ -7629,15 +6886,6 @@ public final class LogStoreProtos {
           result.schemaPresets_ = schemaPresets_;
         } else {
           result.schemaPresets_ = schemaPresetsBuilder_.build();
-        }
-        if (ttlSettingsPresetsBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) != 0)) {
-            ttlSettingsPresets_ = java.util.Collections.unmodifiableList(ttlSettingsPresets_);
-            bitField0_ = (bitField0_ & ~0x00000002);
-          }
-          result.ttlSettingsPresets_ = ttlSettingsPresets_;
-        } else {
-          result.ttlSettingsPresets_ = ttlSettingsPresetsBuilder_.build();
         }
         onBuilt();
         return result;
@@ -7716,32 +6964,6 @@ public final class LogStoreProtos {
                    getSchemaPresetsFieldBuilder() : null;
             } else {
               schemaPresetsBuilder_.addAllMessages(other.schemaPresets_);
-            }
-          }
-        }
-        if (ttlSettingsPresetsBuilder_ == null) {
-          if (!other.ttlSettingsPresets_.isEmpty()) {
-            if (ttlSettingsPresets_.isEmpty()) {
-              ttlSettingsPresets_ = other.ttlSettingsPresets_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-            } else {
-              ensureTtlSettingsPresetsIsMutable();
-              ttlSettingsPresets_.addAll(other.ttlSettingsPresets_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.ttlSettingsPresets_.isEmpty()) {
-            if (ttlSettingsPresetsBuilder_.isEmpty()) {
-              ttlSettingsPresetsBuilder_.dispose();
-              ttlSettingsPresetsBuilder_ = null;
-              ttlSettingsPresets_ = other.ttlSettingsPresets_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-              ttlSettingsPresetsBuilder_ = 
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getTtlSettingsPresetsFieldBuilder() : null;
-            } else {
-              ttlSettingsPresetsBuilder_.addAllMessages(other.ttlSettingsPresets_);
             }
           }
         }
@@ -7974,6 +7196,10 @@ public final class LogStoreProtos {
           tech.ydb.logstore.LogStoreProtos.SchemaPreset, tech.ydb.logstore.LogStoreProtos.SchemaPreset.Builder, tech.ydb.logstore.LogStoreProtos.SchemaPresetOrBuilder> schemaPresetsBuilder_;
 
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
        */
       public java.util.List<tech.ydb.logstore.LogStoreProtos.SchemaPreset> getSchemaPresetsList() {
@@ -7984,6 +7210,10 @@ public final class LogStoreProtos {
         }
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
        */
       public int getSchemaPresetsCount() {
@@ -7994,6 +7224,10 @@ public final class LogStoreProtos {
         }
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
        */
       public tech.ydb.logstore.LogStoreProtos.SchemaPreset getSchemaPresets(int index) {
@@ -8004,6 +7238,10 @@ public final class LogStoreProtos {
         }
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
        */
       public Builder setSchemaPresets(
@@ -8021,6 +7259,10 @@ public final class LogStoreProtos {
         return this;
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
        */
       public Builder setSchemaPresets(
@@ -8035,6 +7277,10 @@ public final class LogStoreProtos {
         return this;
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
        */
       public Builder addSchemaPresets(tech.ydb.logstore.LogStoreProtos.SchemaPreset value) {
@@ -8051,6 +7297,10 @@ public final class LogStoreProtos {
         return this;
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
        */
       public Builder addSchemaPresets(
@@ -8068,6 +7318,10 @@ public final class LogStoreProtos {
         return this;
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
        */
       public Builder addSchemaPresets(
@@ -8082,6 +7336,10 @@ public final class LogStoreProtos {
         return this;
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
        */
       public Builder addSchemaPresets(
@@ -8096,6 +7354,10 @@ public final class LogStoreProtos {
         return this;
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
        */
       public Builder addAllSchemaPresets(
@@ -8111,6 +7373,10 @@ public final class LogStoreProtos {
         return this;
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
        */
       public Builder clearSchemaPresets() {
@@ -8124,6 +7390,10 @@ public final class LogStoreProtos {
         return this;
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
        */
       public Builder removeSchemaPresets(int index) {
@@ -8137,6 +7407,10 @@ public final class LogStoreProtos {
         return this;
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
        */
       public tech.ydb.logstore.LogStoreProtos.SchemaPreset.Builder getSchemaPresetsBuilder(
@@ -8144,6 +7418,10 @@ public final class LogStoreProtos {
         return getSchemaPresetsFieldBuilder().getBuilder(index);
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
        */
       public tech.ydb.logstore.LogStoreProtos.SchemaPresetOrBuilder getSchemaPresetsOrBuilder(
@@ -8154,6 +7432,10 @@ public final class LogStoreProtos {
         }
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
        */
       public java.util.List<? extends tech.ydb.logstore.LogStoreProtos.SchemaPresetOrBuilder> 
@@ -8165,6 +7447,10 @@ public final class LogStoreProtos {
         }
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
        */
       public tech.ydb.logstore.LogStoreProtos.SchemaPreset.Builder addSchemaPresetsBuilder() {
@@ -8172,6 +7458,10 @@ public final class LogStoreProtos {
             tech.ydb.logstore.LogStoreProtos.SchemaPreset.getDefaultInstance());
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
        */
       public tech.ydb.logstore.LogStoreProtos.SchemaPreset.Builder addSchemaPresetsBuilder(
@@ -8180,6 +7470,10 @@ public final class LogStoreProtos {
             index, tech.ydb.logstore.LogStoreProtos.SchemaPreset.getDefaultInstance());
       }
       /**
+       * <pre>
+       * repeated TtlSettingsPreset ttl_settings_presets = 4; // Unimplemented
+       * </pre>
+       *
        * <code>repeated .Ydb.LogStore.SchemaPreset schema_presets = 3;</code>
        */
       public java.util.List<tech.ydb.logstore.LogStoreProtos.SchemaPreset.Builder> 
@@ -8199,246 +7493,6 @@ public final class LogStoreProtos {
           schemaPresets_ = null;
         }
         return schemaPresetsBuilder_;
-      }
-
-      private java.util.List<tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset> ttlSettingsPresets_ =
-        java.util.Collections.emptyList();
-      private void ensureTtlSettingsPresetsIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
-          ttlSettingsPresets_ = new java.util.ArrayList<tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset>(ttlSettingsPresets_);
-          bitField0_ |= 0x00000002;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset, tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.Builder, tech.ydb.logstore.LogStoreProtos.TtlSettingsPresetOrBuilder> ttlSettingsPresetsBuilder_;
-
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-       */
-      public java.util.List<tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset> getTtlSettingsPresetsList() {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(ttlSettingsPresets_);
-        } else {
-          return ttlSettingsPresetsBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-       */
-      public int getTtlSettingsPresetsCount() {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          return ttlSettingsPresets_.size();
-        } else {
-          return ttlSettingsPresetsBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-       */
-      public tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset getTtlSettingsPresets(int index) {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          return ttlSettingsPresets_.get(index);
-        } else {
-          return ttlSettingsPresetsBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-       */
-      public Builder setTtlSettingsPresets(
-          int index, tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset value) {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTtlSettingsPresetsIsMutable();
-          ttlSettingsPresets_.set(index, value);
-          onChanged();
-        } else {
-          ttlSettingsPresetsBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-       */
-      public Builder setTtlSettingsPresets(
-          int index, tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.Builder builderForValue) {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          ensureTtlSettingsPresetsIsMutable();
-          ttlSettingsPresets_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          ttlSettingsPresetsBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-       */
-      public Builder addTtlSettingsPresets(tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset value) {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTtlSettingsPresetsIsMutable();
-          ttlSettingsPresets_.add(value);
-          onChanged();
-        } else {
-          ttlSettingsPresetsBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-       */
-      public Builder addTtlSettingsPresets(
-          int index, tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset value) {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTtlSettingsPresetsIsMutable();
-          ttlSettingsPresets_.add(index, value);
-          onChanged();
-        } else {
-          ttlSettingsPresetsBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-       */
-      public Builder addTtlSettingsPresets(
-          tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.Builder builderForValue) {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          ensureTtlSettingsPresetsIsMutable();
-          ttlSettingsPresets_.add(builderForValue.build());
-          onChanged();
-        } else {
-          ttlSettingsPresetsBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-       */
-      public Builder addTtlSettingsPresets(
-          int index, tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.Builder builderForValue) {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          ensureTtlSettingsPresetsIsMutable();
-          ttlSettingsPresets_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          ttlSettingsPresetsBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-       */
-      public Builder addAllTtlSettingsPresets(
-          java.lang.Iterable<? extends tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset> values) {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          ensureTtlSettingsPresetsIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, ttlSettingsPresets_);
-          onChanged();
-        } else {
-          ttlSettingsPresetsBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-       */
-      public Builder clearTtlSettingsPresets() {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          ttlSettingsPresets_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-          onChanged();
-        } else {
-          ttlSettingsPresetsBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-       */
-      public Builder removeTtlSettingsPresets(int index) {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          ensureTtlSettingsPresetsIsMutable();
-          ttlSettingsPresets_.remove(index);
-          onChanged();
-        } else {
-          ttlSettingsPresetsBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-       */
-      public tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.Builder getTtlSettingsPresetsBuilder(
-          int index) {
-        return getTtlSettingsPresetsFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-       */
-      public tech.ydb.logstore.LogStoreProtos.TtlSettingsPresetOrBuilder getTtlSettingsPresetsOrBuilder(
-          int index) {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          return ttlSettingsPresets_.get(index);  } else {
-          return ttlSettingsPresetsBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-       */
-      public java.util.List<? extends tech.ydb.logstore.LogStoreProtos.TtlSettingsPresetOrBuilder> 
-           getTtlSettingsPresetsOrBuilderList() {
-        if (ttlSettingsPresetsBuilder_ != null) {
-          return ttlSettingsPresetsBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(ttlSettingsPresets_);
-        }
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-       */
-      public tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.Builder addTtlSettingsPresetsBuilder() {
-        return getTtlSettingsPresetsFieldBuilder().addBuilder(
-            tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-       */
-      public tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.Builder addTtlSettingsPresetsBuilder(
-          int index) {
-        return getTtlSettingsPresetsFieldBuilder().addBuilder(
-            index, tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .Ydb.LogStore.TtlSettingsPreset ttl_settings_presets = 4;</code>
-       */
-      public java.util.List<tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.Builder> 
-           getTtlSettingsPresetsBuilderList() {
-        return getTtlSettingsPresetsFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset, tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.Builder, tech.ydb.logstore.LogStoreProtos.TtlSettingsPresetOrBuilder> 
-          getTtlSettingsPresetsFieldBuilder() {
-        if (ttlSettingsPresetsBuilder_ == null) {
-          ttlSettingsPresetsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset, tech.ydb.logstore.LogStoreProtos.TtlSettingsPreset.Builder, tech.ydb.logstore.LogStoreProtos.TtlSettingsPresetOrBuilder>(
-                  ttlSettingsPresets_,
-                  ((bitField0_ & 0x00000002) != 0),
-                  getParentForChildren(),
-                  isClean());
-          ttlSettingsPresets_ = null;
-        }
-        return ttlSettingsPresetsBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -10687,47 +9741,30 @@ public final class LogStoreProtos {
 
     /**
      * <pre>
-     * From LogStore
+     * string ttl_settings_preset_name = 6;    // Unimplemented for now
      * </pre>
      *
-     * <code>string ttl_settings_preset_name = 5;</code>
-     * @return Whether the ttlSettingsPresetName field is set.
-     */
-    boolean hasTtlSettingsPresetName();
-    /**
-     * <pre>
-     * From LogStore
-     * </pre>
-     *
-     * <code>string ttl_settings_preset_name = 5;</code>
-     * @return The ttlSettingsPresetName.
-     */
-    java.lang.String getTtlSettingsPresetName();
-    /**
-     * <pre>
-     * From LogStore
-     * </pre>
-     *
-     * <code>string ttl_settings_preset_name = 5;</code>
-     * @return The bytes for ttlSettingsPresetName.
-     */
-    com.google.protobuf.ByteString
-        getTtlSettingsPresetNameBytes();
-
-    /**
-     * <code>.Ydb.LogStore.TtlSettings ttl_settings = 6;</code>
+     * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
      * @return Whether the ttlSettings field is set.
      */
     boolean hasTtlSettings();
     /**
-     * <code>.Ydb.LogStore.TtlSettings ttl_settings = 6;</code>
+     * <pre>
+     * string ttl_settings_preset_name = 6;    // Unimplemented for now
+     * </pre>
+     *
+     * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
      * @return The ttlSettings.
      */
-    tech.ydb.logstore.LogStoreProtos.TtlSettings getTtlSettings();
+    tech.ydb.table.YdbTable.TtlSettings getTtlSettings();
     /**
-     * <code>.Ydb.LogStore.TtlSettings ttl_settings = 6;</code>
+     * <pre>
+     * string ttl_settings_preset_name = 6;    // Unimplemented for now
+     * </pre>
+     *
+     * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
      */
-    tech.ydb.logstore.LogStoreProtos.TtlSettingsOrBuilder getTtlSettingsOrBuilder();
+    tech.ydb.table.YdbTable.TtlSettingsOrBuilder getTtlSettingsOrBuilder();
 
     /**
      * <pre>
@@ -10856,23 +9893,17 @@ public final class LogStoreProtos {
               break;
             }
             case 42: {
-              java.lang.String s = input.readStringRequireUtf8();
-              ttlSpecificationCase_ = 5;
-              ttlSpecification_ = s;
-              break;
-            }
-            case 50: {
-              tech.ydb.logstore.LogStoreProtos.TtlSettings.Builder subBuilder = null;
-              if (ttlSpecificationCase_ == 6) {
-                subBuilder = ((tech.ydb.logstore.LogStoreProtos.TtlSettings) ttlSpecification_).toBuilder();
+              tech.ydb.table.YdbTable.TtlSettings.Builder subBuilder = null;
+              if (ttlSpecificationCase_ == 5) {
+                subBuilder = ((tech.ydb.table.YdbTable.TtlSettings) ttlSpecification_).toBuilder();
               }
               ttlSpecification_ =
-                  input.readMessage(tech.ydb.logstore.LogStoreProtos.TtlSettings.parser(), extensionRegistry);
+                  input.readMessage(tech.ydb.table.YdbTable.TtlSettings.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((tech.ydb.logstore.LogStoreProtos.TtlSettings) ttlSpecification_);
+                subBuilder.mergeFrom((tech.ydb.table.YdbTable.TtlSettings) ttlSpecification_);
                 ttlSpecification_ = subBuilder.buildPartial();
               }
-              ttlSpecificationCase_ = 6;
+              ttlSpecificationCase_ = 5;
               break;
             }
             case 56: {
@@ -10970,8 +10001,7 @@ public final class LogStoreProtos {
     public enum TtlSpecificationCase
         implements com.google.protobuf.Internal.EnumLite,
             com.google.protobuf.AbstractMessage.InternalOneOfEnum {
-      TTL_SETTINGS_PRESET_NAME(5),
-      TTL_SETTINGS(6),
+      TTL_SETTINGS(5),
       TTLSPECIFICATION_NOT_SET(0);
       private final int value;
       private TtlSpecificationCase(int value) {
@@ -10989,8 +10019,7 @@ public final class LogStoreProtos {
 
       public static TtlSpecificationCase forNumber(int value) {
         switch (value) {
-          case 5: return TTL_SETTINGS_PRESET_NAME;
-          case 6: return TTL_SETTINGS;
+          case 5: return TTL_SETTINGS;
           case 0: return TTLSPECIFICATION_NOT_SET;
           default: return null;
         }
@@ -11173,99 +10202,47 @@ public final class LogStoreProtos {
       return tech.ydb.logstore.LogStoreProtos.Schema.getDefaultInstance();
     }
 
-    public static final int TTL_SETTINGS_PRESET_NAME_FIELD_NUMBER = 5;
+    public static final int TTL_SETTINGS_FIELD_NUMBER = 5;
     /**
      * <pre>
-     * From LogStore
+     * string ttl_settings_preset_name = 6;    // Unimplemented for now
      * </pre>
      *
-     * <code>string ttl_settings_preset_name = 5;</code>
-     * @return Whether the ttlSettingsPresetName field is set.
-     */
-    public boolean hasTtlSettingsPresetName() {
-      return ttlSpecificationCase_ == 5;
-    }
-    /**
-     * <pre>
-     * From LogStore
-     * </pre>
-     *
-     * <code>string ttl_settings_preset_name = 5;</code>
-     * @return The ttlSettingsPresetName.
-     */
-    public java.lang.String getTtlSettingsPresetName() {
-      java.lang.Object ref = "";
-      if (ttlSpecificationCase_ == 5) {
-        ref = ttlSpecification_;
-      }
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (ttlSpecificationCase_ == 5) {
-          ttlSpecification_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <pre>
-     * From LogStore
-     * </pre>
-     *
-     * <code>string ttl_settings_preset_name = 5;</code>
-     * @return The bytes for ttlSettingsPresetName.
-     */
-    public com.google.protobuf.ByteString
-        getTtlSettingsPresetNameBytes() {
-      java.lang.Object ref = "";
-      if (ttlSpecificationCase_ == 5) {
-        ref = ttlSpecification_;
-      }
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        if (ttlSpecificationCase_ == 5) {
-          ttlSpecification_ = b;
-        }
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int TTL_SETTINGS_FIELD_NUMBER = 6;
-    /**
-     * <code>.Ydb.LogStore.TtlSettings ttl_settings = 6;</code>
+     * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
      * @return Whether the ttlSettings field is set.
      */
     @java.lang.Override
     public boolean hasTtlSettings() {
-      return ttlSpecificationCase_ == 6;
+      return ttlSpecificationCase_ == 5;
     }
     /**
-     * <code>.Ydb.LogStore.TtlSettings ttl_settings = 6;</code>
+     * <pre>
+     * string ttl_settings_preset_name = 6;    // Unimplemented for now
+     * </pre>
+     *
+     * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
      * @return The ttlSettings.
      */
     @java.lang.Override
-    public tech.ydb.logstore.LogStoreProtos.TtlSettings getTtlSettings() {
-      if (ttlSpecificationCase_ == 6) {
-         return (tech.ydb.logstore.LogStoreProtos.TtlSettings) ttlSpecification_;
+    public tech.ydb.table.YdbTable.TtlSettings getTtlSettings() {
+      if (ttlSpecificationCase_ == 5) {
+         return (tech.ydb.table.YdbTable.TtlSettings) ttlSpecification_;
       }
-      return tech.ydb.logstore.LogStoreProtos.TtlSettings.getDefaultInstance();
+      return tech.ydb.table.YdbTable.TtlSettings.getDefaultInstance();
     }
     /**
-     * <code>.Ydb.LogStore.TtlSettings ttl_settings = 6;</code>
+     * <pre>
+     * string ttl_settings_preset_name = 6;    // Unimplemented for now
+     * </pre>
+     *
+     * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
      */
     @java.lang.Override
-    public tech.ydb.logstore.LogStoreProtos.TtlSettingsOrBuilder getTtlSettingsOrBuilder() {
-      if (ttlSpecificationCase_ == 6) {
-         return (tech.ydb.logstore.LogStoreProtos.TtlSettings) ttlSpecification_;
+    public tech.ydb.table.YdbTable.TtlSettingsOrBuilder getTtlSettingsOrBuilder() {
+      if (ttlSpecificationCase_ == 5) {
+         return (tech.ydb.table.YdbTable.TtlSettings) ttlSpecification_;
       }
-      return tech.ydb.logstore.LogStoreProtos.TtlSettings.getDefaultInstance();
+      return tech.ydb.table.YdbTable.TtlSettings.getDefaultInstance();
     }
 
     public static final int COLUMN_SHARD_COUNT_FIELD_NUMBER = 7;
@@ -11345,10 +10322,7 @@ public final class LogStoreProtos {
         output.writeMessage(4, (tech.ydb.logstore.LogStoreProtos.Schema) schemaSpecification_);
       }
       if (ttlSpecificationCase_ == 5) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, ttlSpecification_);
-      }
-      if (ttlSpecificationCase_ == 6) {
-        output.writeMessage(6, (tech.ydb.logstore.LogStoreProtos.TtlSettings) ttlSpecification_);
+        output.writeMessage(5, (tech.ydb.table.YdbTable.TtlSettings) ttlSpecification_);
       }
       if (columnShardCount_ != 0) {
         output.writeUInt32(7, columnShardCount_);
@@ -11380,11 +10354,8 @@ public final class LogStoreProtos {
           .computeMessageSize(4, (tech.ydb.logstore.LogStoreProtos.Schema) schemaSpecification_);
       }
       if (ttlSpecificationCase_ == 5) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, ttlSpecification_);
-      }
-      if (ttlSpecificationCase_ == 6) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, (tech.ydb.logstore.LogStoreProtos.TtlSettings) ttlSpecification_);
+          .computeMessageSize(5, (tech.ydb.table.YdbTable.TtlSettings) ttlSpecification_);
       }
       if (columnShardCount_ != 0) {
         size += com.google.protobuf.CodedOutputStream
@@ -11440,10 +10411,6 @@ public final class LogStoreProtos {
       if (!getTtlSpecificationCase().equals(other.getTtlSpecificationCase())) return false;
       switch (ttlSpecificationCase_) {
         case 5:
-          if (!getTtlSettingsPresetName()
-              .equals(other.getTtlSettingsPresetName())) return false;
-          break;
-        case 6:
           if (!getTtlSettings()
               .equals(other.getTtlSettings())) return false;
           break;
@@ -11487,10 +10454,6 @@ public final class LogStoreProtos {
       }
       switch (ttlSpecificationCase_) {
         case 5:
-          hash = (37 * hash) + TTL_SETTINGS_PRESET_NAME_FIELD_NUMBER;
-          hash = (53 * hash) + getTtlSettingsPresetName().hashCode();
-          break;
-        case 6:
           hash = (37 * hash) + TTL_SETTINGS_FIELD_NUMBER;
           hash = (53 * hash) + getTtlSettings().hashCode();
           break;
@@ -11690,9 +10653,6 @@ public final class LogStoreProtos {
           }
         }
         if (ttlSpecificationCase_ == 5) {
-          result.ttlSpecification_ = ttlSpecification_;
-        }
-        if (ttlSpecificationCase_ == 6) {
           if (ttlSettingsBuilder_ == null) {
             result.ttlSpecification_ = ttlSpecification_;
           } else {
@@ -11791,12 +10751,6 @@ public final class LogStoreProtos {
           }
         }
         switch (other.getTtlSpecificationCase()) {
-          case TTL_SETTINGS_PRESET_NAME: {
-            ttlSpecificationCase_ = 5;
-            ttlSpecification_ = other.ttlSpecification_;
-            onChanged();
-            break;
-          }
           case TTL_SETTINGS: {
             mergeTtlSettings(other.getTtlSettings());
             break;
@@ -12342,159 +11296,50 @@ public final class LogStoreProtos {
         return schemaBuilder_;
       }
 
-      /**
-       * <pre>
-       * From LogStore
-       * </pre>
-       *
-       * <code>string ttl_settings_preset_name = 5;</code>
-       * @return Whether the ttlSettingsPresetName field is set.
-       */
-      @java.lang.Override
-      public boolean hasTtlSettingsPresetName() {
-        return ttlSpecificationCase_ == 5;
-      }
-      /**
-       * <pre>
-       * From LogStore
-       * </pre>
-       *
-       * <code>string ttl_settings_preset_name = 5;</code>
-       * @return The ttlSettingsPresetName.
-       */
-      @java.lang.Override
-      public java.lang.String getTtlSettingsPresetName() {
-        java.lang.Object ref = "";
-        if (ttlSpecificationCase_ == 5) {
-          ref = ttlSpecification_;
-        }
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (ttlSpecificationCase_ == 5) {
-            ttlSpecification_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <pre>
-       * From LogStore
-       * </pre>
-       *
-       * <code>string ttl_settings_preset_name = 5;</code>
-       * @return The bytes for ttlSettingsPresetName.
-       */
-      @java.lang.Override
-      public com.google.protobuf.ByteString
-          getTtlSettingsPresetNameBytes() {
-        java.lang.Object ref = "";
-        if (ttlSpecificationCase_ == 5) {
-          ref = ttlSpecification_;
-        }
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          if (ttlSpecificationCase_ == 5) {
-            ttlSpecification_ = b;
-          }
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <pre>
-       * From LogStore
-       * </pre>
-       *
-       * <code>string ttl_settings_preset_name = 5;</code>
-       * @param value The ttlSettingsPresetName to set.
-       * @return This builder for chaining.
-       */
-      public Builder setTtlSettingsPresetName(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ttlSpecificationCase_ = 5;
-        ttlSpecification_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * From LogStore
-       * </pre>
-       *
-       * <code>string ttl_settings_preset_name = 5;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearTtlSettingsPresetName() {
-        if (ttlSpecificationCase_ == 5) {
-          ttlSpecificationCase_ = 0;
-          ttlSpecification_ = null;
-          onChanged();
-        }
-        return this;
-      }
-      /**
-       * <pre>
-       * From LogStore
-       * </pre>
-       *
-       * <code>string ttl_settings_preset_name = 5;</code>
-       * @param value The bytes for ttlSettingsPresetName to set.
-       * @return This builder for chaining.
-       */
-      public Builder setTtlSettingsPresetNameBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        ttlSpecificationCase_ = 5;
-        ttlSpecification_ = value;
-        onChanged();
-        return this;
-      }
-
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.logstore.LogStoreProtos.TtlSettings, tech.ydb.logstore.LogStoreProtos.TtlSettings.Builder, tech.ydb.logstore.LogStoreProtos.TtlSettingsOrBuilder> ttlSettingsBuilder_;
+          tech.ydb.table.YdbTable.TtlSettings, tech.ydb.table.YdbTable.TtlSettings.Builder, tech.ydb.table.YdbTable.TtlSettingsOrBuilder> ttlSettingsBuilder_;
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 6;</code>
+       * <pre>
+       * string ttl_settings_preset_name = 6;    // Unimplemented for now
+       * </pre>
+       *
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
        * @return Whether the ttlSettings field is set.
        */
       @java.lang.Override
       public boolean hasTtlSettings() {
-        return ttlSpecificationCase_ == 6;
+        return ttlSpecificationCase_ == 5;
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 6;</code>
+       * <pre>
+       * string ttl_settings_preset_name = 6;    // Unimplemented for now
+       * </pre>
+       *
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
        * @return The ttlSettings.
        */
       @java.lang.Override
-      public tech.ydb.logstore.LogStoreProtos.TtlSettings getTtlSettings() {
+      public tech.ydb.table.YdbTable.TtlSettings getTtlSettings() {
         if (ttlSettingsBuilder_ == null) {
-          if (ttlSpecificationCase_ == 6) {
-            return (tech.ydb.logstore.LogStoreProtos.TtlSettings) ttlSpecification_;
+          if (ttlSpecificationCase_ == 5) {
+            return (tech.ydb.table.YdbTable.TtlSettings) ttlSpecification_;
           }
-          return tech.ydb.logstore.LogStoreProtos.TtlSettings.getDefaultInstance();
+          return tech.ydb.table.YdbTable.TtlSettings.getDefaultInstance();
         } else {
-          if (ttlSpecificationCase_ == 6) {
+          if (ttlSpecificationCase_ == 5) {
             return ttlSettingsBuilder_.getMessage();
           }
-          return tech.ydb.logstore.LogStoreProtos.TtlSettings.getDefaultInstance();
+          return tech.ydb.table.YdbTable.TtlSettings.getDefaultInstance();
         }
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 6;</code>
+       * <pre>
+       * string ttl_settings_preset_name = 6;    // Unimplemented for now
+       * </pre>
+       *
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
        */
-      public Builder setTtlSettings(tech.ydb.logstore.LogStoreProtos.TtlSettings value) {
+      public Builder setTtlSettings(tech.ydb.table.YdbTable.TtlSettings value) {
         if (ttlSettingsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -12504,57 +11349,69 @@ public final class LogStoreProtos {
         } else {
           ttlSettingsBuilder_.setMessage(value);
         }
-        ttlSpecificationCase_ = 6;
+        ttlSpecificationCase_ = 5;
         return this;
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 6;</code>
+       * <pre>
+       * string ttl_settings_preset_name = 6;    // Unimplemented for now
+       * </pre>
+       *
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
        */
       public Builder setTtlSettings(
-          tech.ydb.logstore.LogStoreProtos.TtlSettings.Builder builderForValue) {
+          tech.ydb.table.YdbTable.TtlSettings.Builder builderForValue) {
         if (ttlSettingsBuilder_ == null) {
           ttlSpecification_ = builderForValue.build();
           onChanged();
         } else {
           ttlSettingsBuilder_.setMessage(builderForValue.build());
         }
-        ttlSpecificationCase_ = 6;
+        ttlSpecificationCase_ = 5;
         return this;
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 6;</code>
+       * <pre>
+       * string ttl_settings_preset_name = 6;    // Unimplemented for now
+       * </pre>
+       *
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
        */
-      public Builder mergeTtlSettings(tech.ydb.logstore.LogStoreProtos.TtlSettings value) {
+      public Builder mergeTtlSettings(tech.ydb.table.YdbTable.TtlSettings value) {
         if (ttlSettingsBuilder_ == null) {
-          if (ttlSpecificationCase_ == 6 &&
-              ttlSpecification_ != tech.ydb.logstore.LogStoreProtos.TtlSettings.getDefaultInstance()) {
-            ttlSpecification_ = tech.ydb.logstore.LogStoreProtos.TtlSettings.newBuilder((tech.ydb.logstore.LogStoreProtos.TtlSettings) ttlSpecification_)
+          if (ttlSpecificationCase_ == 5 &&
+              ttlSpecification_ != tech.ydb.table.YdbTable.TtlSettings.getDefaultInstance()) {
+            ttlSpecification_ = tech.ydb.table.YdbTable.TtlSettings.newBuilder((tech.ydb.table.YdbTable.TtlSettings) ttlSpecification_)
                 .mergeFrom(value).buildPartial();
           } else {
             ttlSpecification_ = value;
           }
           onChanged();
         } else {
-          if (ttlSpecificationCase_ == 6) {
+          if (ttlSpecificationCase_ == 5) {
             ttlSettingsBuilder_.mergeFrom(value);
           }
           ttlSettingsBuilder_.setMessage(value);
         }
-        ttlSpecificationCase_ = 6;
+        ttlSpecificationCase_ = 5;
         return this;
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 6;</code>
+       * <pre>
+       * string ttl_settings_preset_name = 6;    // Unimplemented for now
+       * </pre>
+       *
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
        */
       public Builder clearTtlSettings() {
         if (ttlSettingsBuilder_ == null) {
-          if (ttlSpecificationCase_ == 6) {
+          if (ttlSpecificationCase_ == 5) {
             ttlSpecificationCase_ = 0;
             ttlSpecification_ = null;
             onChanged();
           }
         } else {
-          if (ttlSpecificationCase_ == 6) {
+          if (ttlSpecificationCase_ == 5) {
             ttlSpecificationCase_ = 0;
             ttlSpecification_ = null;
           }
@@ -12563,43 +11420,55 @@ public final class LogStoreProtos {
         return this;
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 6;</code>
+       * <pre>
+       * string ttl_settings_preset_name = 6;    // Unimplemented for now
+       * </pre>
+       *
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
        */
-      public tech.ydb.logstore.LogStoreProtos.TtlSettings.Builder getTtlSettingsBuilder() {
+      public tech.ydb.table.YdbTable.TtlSettings.Builder getTtlSettingsBuilder() {
         return getTtlSettingsFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 6;</code>
+       * <pre>
+       * string ttl_settings_preset_name = 6;    // Unimplemented for now
+       * </pre>
+       *
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
        */
       @java.lang.Override
-      public tech.ydb.logstore.LogStoreProtos.TtlSettingsOrBuilder getTtlSettingsOrBuilder() {
-        if ((ttlSpecificationCase_ == 6) && (ttlSettingsBuilder_ != null)) {
+      public tech.ydb.table.YdbTable.TtlSettingsOrBuilder getTtlSettingsOrBuilder() {
+        if ((ttlSpecificationCase_ == 5) && (ttlSettingsBuilder_ != null)) {
           return ttlSettingsBuilder_.getMessageOrBuilder();
         } else {
-          if (ttlSpecificationCase_ == 6) {
-            return (tech.ydb.logstore.LogStoreProtos.TtlSettings) ttlSpecification_;
+          if (ttlSpecificationCase_ == 5) {
+            return (tech.ydb.table.YdbTable.TtlSettings) ttlSpecification_;
           }
-          return tech.ydb.logstore.LogStoreProtos.TtlSettings.getDefaultInstance();
+          return tech.ydb.table.YdbTable.TtlSettings.getDefaultInstance();
         }
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 6;</code>
+       * <pre>
+       * string ttl_settings_preset_name = 6;    // Unimplemented for now
+       * </pre>
+       *
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.logstore.LogStoreProtos.TtlSettings, tech.ydb.logstore.LogStoreProtos.TtlSettings.Builder, tech.ydb.logstore.LogStoreProtos.TtlSettingsOrBuilder> 
+          tech.ydb.table.YdbTable.TtlSettings, tech.ydb.table.YdbTable.TtlSettings.Builder, tech.ydb.table.YdbTable.TtlSettingsOrBuilder> 
           getTtlSettingsFieldBuilder() {
         if (ttlSettingsBuilder_ == null) {
-          if (!(ttlSpecificationCase_ == 6)) {
-            ttlSpecification_ = tech.ydb.logstore.LogStoreProtos.TtlSettings.getDefaultInstance();
+          if (!(ttlSpecificationCase_ == 5)) {
+            ttlSpecification_ = tech.ydb.table.YdbTable.TtlSettings.getDefaultInstance();
           }
           ttlSettingsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.logstore.LogStoreProtos.TtlSettings, tech.ydb.logstore.LogStoreProtos.TtlSettings.Builder, tech.ydb.logstore.LogStoreProtos.TtlSettingsOrBuilder>(
-                  (tech.ydb.logstore.LogStoreProtos.TtlSettings) ttlSpecification_,
+              tech.ydb.table.YdbTable.TtlSettings, tech.ydb.table.YdbTable.TtlSettings.Builder, tech.ydb.table.YdbTable.TtlSettingsOrBuilder>(
+                  (tech.ydb.table.YdbTable.TtlSettings) ttlSpecification_,
                   getParentForChildren(),
                   isClean());
           ttlSpecification_ = null;
         }
-        ttlSpecificationCase_ = 6;
+        ttlSpecificationCase_ = 5;
         onChanged();;
         return ttlSettingsBuilder_;
       }
@@ -14308,19 +13177,19 @@ public final class LogStoreProtos {
         getTtlSettingsPresetNameBytes();
 
     /**
-     * <code>.Ydb.LogStore.TtlSettings ttl_settings = 5;</code>
+     * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
      * @return Whether the ttlSettings field is set.
      */
     boolean hasTtlSettings();
     /**
-     * <code>.Ydb.LogStore.TtlSettings ttl_settings = 5;</code>
+     * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
      * @return The ttlSettings.
      */
-    tech.ydb.logstore.LogStoreProtos.TtlSettings getTtlSettings();
+    tech.ydb.table.YdbTable.TtlSettings getTtlSettings();
     /**
-     * <code>.Ydb.LogStore.TtlSettings ttl_settings = 5;</code>
+     * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
      */
-    tech.ydb.logstore.LogStoreProtos.TtlSettingsOrBuilder getTtlSettingsOrBuilder();
+    tech.ydb.table.YdbTable.TtlSettingsOrBuilder getTtlSettingsOrBuilder();
 
     /**
      * <pre>
@@ -14445,11 +13314,11 @@ public final class LogStoreProtos {
               break;
             }
             case 42: {
-              tech.ydb.logstore.LogStoreProtos.TtlSettings.Builder subBuilder = null;
+              tech.ydb.table.YdbTable.TtlSettings.Builder subBuilder = null;
               if (ttlSettings_ != null) {
                 subBuilder = ttlSettings_.toBuilder();
               }
-              ttlSettings_ = input.readMessage(tech.ydb.logstore.LogStoreProtos.TtlSettings.parser(), extensionRegistry);
+              ttlSettings_ = input.readMessage(tech.ydb.table.YdbTable.TtlSettings.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(ttlSettings_);
                 ttlSettings_ = subBuilder.buildPartial();
@@ -14647,9 +13516,9 @@ public final class LogStoreProtos {
     }
 
     public static final int TTL_SETTINGS_FIELD_NUMBER = 5;
-    private tech.ydb.logstore.LogStoreProtos.TtlSettings ttlSettings_;
+    private tech.ydb.table.YdbTable.TtlSettings ttlSettings_;
     /**
-     * <code>.Ydb.LogStore.TtlSettings ttl_settings = 5;</code>
+     * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
      * @return Whether the ttlSettings field is set.
      */
     @java.lang.Override
@@ -14657,18 +13526,18 @@ public final class LogStoreProtos {
       return ttlSettings_ != null;
     }
     /**
-     * <code>.Ydb.LogStore.TtlSettings ttl_settings = 5;</code>
+     * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
      * @return The ttlSettings.
      */
     @java.lang.Override
-    public tech.ydb.logstore.LogStoreProtos.TtlSettings getTtlSettings() {
-      return ttlSettings_ == null ? tech.ydb.logstore.LogStoreProtos.TtlSettings.getDefaultInstance() : ttlSettings_;
+    public tech.ydb.table.YdbTable.TtlSettings getTtlSettings() {
+      return ttlSettings_ == null ? tech.ydb.table.YdbTable.TtlSettings.getDefaultInstance() : ttlSettings_;
     }
     /**
-     * <code>.Ydb.LogStore.TtlSettings ttl_settings = 5;</code>
+     * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
      */
     @java.lang.Override
-    public tech.ydb.logstore.LogStoreProtos.TtlSettingsOrBuilder getTtlSettingsOrBuilder() {
+    public tech.ydb.table.YdbTable.TtlSettingsOrBuilder getTtlSettingsOrBuilder() {
       return getTtlSettings();
     }
 
@@ -15610,31 +14479,31 @@ public final class LogStoreProtos {
         return this;
       }
 
-      private tech.ydb.logstore.LogStoreProtos.TtlSettings ttlSettings_;
+      private tech.ydb.table.YdbTable.TtlSettings ttlSettings_;
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.logstore.LogStoreProtos.TtlSettings, tech.ydb.logstore.LogStoreProtos.TtlSettings.Builder, tech.ydb.logstore.LogStoreProtos.TtlSettingsOrBuilder> ttlSettingsBuilder_;
+          tech.ydb.table.YdbTable.TtlSettings, tech.ydb.table.YdbTable.TtlSettings.Builder, tech.ydb.table.YdbTable.TtlSettingsOrBuilder> ttlSettingsBuilder_;
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 5;</code>
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
        * @return Whether the ttlSettings field is set.
        */
       public boolean hasTtlSettings() {
         return ttlSettingsBuilder_ != null || ttlSettings_ != null;
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 5;</code>
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
        * @return The ttlSettings.
        */
-      public tech.ydb.logstore.LogStoreProtos.TtlSettings getTtlSettings() {
+      public tech.ydb.table.YdbTable.TtlSettings getTtlSettings() {
         if (ttlSettingsBuilder_ == null) {
-          return ttlSettings_ == null ? tech.ydb.logstore.LogStoreProtos.TtlSettings.getDefaultInstance() : ttlSettings_;
+          return ttlSettings_ == null ? tech.ydb.table.YdbTable.TtlSettings.getDefaultInstance() : ttlSettings_;
         } else {
           return ttlSettingsBuilder_.getMessage();
         }
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 5;</code>
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
        */
-      public Builder setTtlSettings(tech.ydb.logstore.LogStoreProtos.TtlSettings value) {
+      public Builder setTtlSettings(tech.ydb.table.YdbTable.TtlSettings value) {
         if (ttlSettingsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -15648,10 +14517,10 @@ public final class LogStoreProtos {
         return this;
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 5;</code>
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
        */
       public Builder setTtlSettings(
-          tech.ydb.logstore.LogStoreProtos.TtlSettings.Builder builderForValue) {
+          tech.ydb.table.YdbTable.TtlSettings.Builder builderForValue) {
         if (ttlSettingsBuilder_ == null) {
           ttlSettings_ = builderForValue.build();
           onChanged();
@@ -15662,13 +14531,13 @@ public final class LogStoreProtos {
         return this;
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 5;</code>
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
        */
-      public Builder mergeTtlSettings(tech.ydb.logstore.LogStoreProtos.TtlSettings value) {
+      public Builder mergeTtlSettings(tech.ydb.table.YdbTable.TtlSettings value) {
         if (ttlSettingsBuilder_ == null) {
           if (ttlSettings_ != null) {
             ttlSettings_ =
-              tech.ydb.logstore.LogStoreProtos.TtlSettings.newBuilder(ttlSettings_).mergeFrom(value).buildPartial();
+              tech.ydb.table.YdbTable.TtlSettings.newBuilder(ttlSettings_).mergeFrom(value).buildPartial();
           } else {
             ttlSettings_ = value;
           }
@@ -15680,7 +14549,7 @@ public final class LogStoreProtos {
         return this;
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 5;</code>
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
        */
       public Builder clearTtlSettings() {
         if (ttlSettingsBuilder_ == null) {
@@ -15694,33 +14563,33 @@ public final class LogStoreProtos {
         return this;
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 5;</code>
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
        */
-      public tech.ydb.logstore.LogStoreProtos.TtlSettings.Builder getTtlSettingsBuilder() {
+      public tech.ydb.table.YdbTable.TtlSettings.Builder getTtlSettingsBuilder() {
         
         onChanged();
         return getTtlSettingsFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 5;</code>
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
        */
-      public tech.ydb.logstore.LogStoreProtos.TtlSettingsOrBuilder getTtlSettingsOrBuilder() {
+      public tech.ydb.table.YdbTable.TtlSettingsOrBuilder getTtlSettingsOrBuilder() {
         if (ttlSettingsBuilder_ != null) {
           return ttlSettingsBuilder_.getMessageOrBuilder();
         } else {
           return ttlSettings_ == null ?
-              tech.ydb.logstore.LogStoreProtos.TtlSettings.getDefaultInstance() : ttlSettings_;
+              tech.ydb.table.YdbTable.TtlSettings.getDefaultInstance() : ttlSettings_;
         }
       }
       /**
-       * <code>.Ydb.LogStore.TtlSettings ttl_settings = 5;</code>
+       * <code>.Ydb.Table.TtlSettings ttl_settings = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          tech.ydb.logstore.LogStoreProtos.TtlSettings, tech.ydb.logstore.LogStoreProtos.TtlSettings.Builder, tech.ydb.logstore.LogStoreProtos.TtlSettingsOrBuilder> 
+          tech.ydb.table.YdbTable.TtlSettings, tech.ydb.table.YdbTable.TtlSettings.Builder, tech.ydb.table.YdbTable.TtlSettingsOrBuilder> 
           getTtlSettingsFieldBuilder() {
         if (ttlSettingsBuilder_ == null) {
           ttlSettingsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              tech.ydb.logstore.LogStoreProtos.TtlSettings, tech.ydb.logstore.LogStoreProtos.TtlSettings.Builder, tech.ydb.logstore.LogStoreProtos.TtlSettingsOrBuilder>(
+              tech.ydb.table.YdbTable.TtlSettings, tech.ydb.table.YdbTable.TtlSettings.Builder, tech.ydb.table.YdbTable.TtlSettingsOrBuilder>(
                   getTtlSettings(),
                   getParentForChildren(),
                   isClean());
@@ -18043,6 +16912,2023 @@ public final class LogStoreProtos {
 
   }
 
+  public interface AlterLogTableRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.LogStore.AlterLogTableRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
+     */
+    boolean hasOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
+     */
+    tech.ydb.OperationProtos.OperationParams getOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
+
+    /**
+     * <pre>
+     * Full path
+     * </pre>
+     *
+     * <code>string path = 2;</code>
+     * @return The path.
+     */
+    java.lang.String getPath();
+    /**
+     * <pre>
+     * Full path
+     * </pre>
+     *
+     * <code>string path = 2;</code>
+     * @return The bytes for path.
+     */
+    com.google.protobuf.ByteString
+        getPathBytes();
+
+    /**
+     * <code>.google.protobuf.Empty drop_ttl_settings = 3;</code>
+     * @return Whether the dropTtlSettings field is set.
+     */
+    boolean hasDropTtlSettings();
+    /**
+     * <code>.google.protobuf.Empty drop_ttl_settings = 3;</code>
+     * @return The dropTtlSettings.
+     */
+    com.google.protobuf.Empty getDropTtlSettings();
+    /**
+     * <code>.google.protobuf.Empty drop_ttl_settings = 3;</code>
+     */
+    com.google.protobuf.EmptyOrBuilder getDropTtlSettingsOrBuilder();
+
+    /**
+     * <pre>
+     * string set_ttl_preset_name = 5;    // Unimplemened for now
+     * </pre>
+     *
+     * <code>.Ydb.Table.TtlSettings set_ttl_settings = 4;</code>
+     * @return Whether the setTtlSettings field is set.
+     */
+    boolean hasSetTtlSettings();
+    /**
+     * <pre>
+     * string set_ttl_preset_name = 5;    // Unimplemened for now
+     * </pre>
+     *
+     * <code>.Ydb.Table.TtlSettings set_ttl_settings = 4;</code>
+     * @return The setTtlSettings.
+     */
+    tech.ydb.table.YdbTable.TtlSettings getSetTtlSettings();
+    /**
+     * <pre>
+     * string set_ttl_preset_name = 5;    // Unimplemened for now
+     * </pre>
+     *
+     * <code>.Ydb.Table.TtlSettings set_ttl_settings = 4;</code>
+     */
+    tech.ydb.table.YdbTable.TtlSettingsOrBuilder getSetTtlSettingsOrBuilder();
+
+    public tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest.TtlActionCase getTtlActionCase();
+  }
+  /**
+   * Protobuf type {@code Ydb.LogStore.AlterLogTableRequest}
+   */
+  public static final class AlterLogTableRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.LogStore.AlterLogTableRequest)
+      AlterLogTableRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use AlterLogTableRequest.newBuilder() to construct.
+    private AlterLogTableRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private AlterLogTableRequest() {
+      path_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new AlterLogTableRequest();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AlterLogTableRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
+              if (operationParams_ != null) {
+                subBuilder = operationParams_.toBuilder();
+              }
+              operationParams_ = input.readMessage(tech.ydb.OperationProtos.OperationParams.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operationParams_);
+                operationParams_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              path_ = s;
+              break;
+            }
+            case 26: {
+              com.google.protobuf.Empty.Builder subBuilder = null;
+              if (ttlActionCase_ == 3) {
+                subBuilder = ((com.google.protobuf.Empty) ttlAction_).toBuilder();
+              }
+              ttlAction_ =
+                  input.readMessage(com.google.protobuf.Empty.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((com.google.protobuf.Empty) ttlAction_);
+                ttlAction_ = subBuilder.buildPartial();
+              }
+              ttlActionCase_ = 3;
+              break;
+            }
+            case 34: {
+              tech.ydb.table.YdbTable.TtlSettings.Builder subBuilder = null;
+              if (ttlActionCase_ == 4) {
+                subBuilder = ((tech.ydb.table.YdbTable.TtlSettings) ttlAction_).toBuilder();
+              }
+              ttlAction_ =
+                  input.readMessage(tech.ydb.table.YdbTable.TtlSettings.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((tech.ydb.table.YdbTable.TtlSettings) ttlAction_);
+                ttlAction_ = subBuilder.buildPartial();
+              }
+              ttlActionCase_ = 4;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.logstore.LogStoreProtos.internal_static_Ydb_LogStore_AlterLogTableRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.logstore.LogStoreProtos.internal_static_Ydb_LogStore_AlterLogTableRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest.class, tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest.Builder.class);
+    }
+
+    private int ttlActionCase_ = 0;
+    private java.lang.Object ttlAction_;
+    public enum TtlActionCase
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
+      DROP_TTL_SETTINGS(3),
+      SET_TTL_SETTINGS(4),
+      TTLACTION_NOT_SET(0);
+      private final int value;
+      private TtlActionCase(int value) {
+        this.value = value;
+      }
+      /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static TtlActionCase valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static TtlActionCase forNumber(int value) {
+        switch (value) {
+          case 3: return DROP_TTL_SETTINGS;
+          case 4: return SET_TTL_SETTINGS;
+          case 0: return TTLACTION_NOT_SET;
+          default: return null;
+        }
+      }
+      public int getNumber() {
+        return this.value;
+      }
+    };
+
+    public TtlActionCase
+    getTtlActionCase() {
+      return TtlActionCase.forNumber(
+          ttlActionCase_);
+    }
+
+    public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return Whether the operationParams field is set.
+     */
+    @java.lang.Override
+    public boolean hasOperationParams() {
+      return operationParams_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     * @return The operationParams.
+     */
+    @java.lang.Override
+    public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+      return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+     */
+    @java.lang.Override
+    public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+      return getOperationParams();
+    }
+
+    public static final int PATH_FIELD_NUMBER = 2;
+    private volatile java.lang.Object path_;
+    /**
+     * <pre>
+     * Full path
+     * </pre>
+     *
+     * <code>string path = 2;</code>
+     * @return The path.
+     */
+    @java.lang.Override
+    public java.lang.String getPath() {
+      java.lang.Object ref = path_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        path_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Full path
+     * </pre>
+     *
+     * <code>string path = 2;</code>
+     * @return The bytes for path.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getPathBytes() {
+      java.lang.Object ref = path_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        path_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DROP_TTL_SETTINGS_FIELD_NUMBER = 3;
+    /**
+     * <code>.google.protobuf.Empty drop_ttl_settings = 3;</code>
+     * @return Whether the dropTtlSettings field is set.
+     */
+    @java.lang.Override
+    public boolean hasDropTtlSettings() {
+      return ttlActionCase_ == 3;
+    }
+    /**
+     * <code>.google.protobuf.Empty drop_ttl_settings = 3;</code>
+     * @return The dropTtlSettings.
+     */
+    @java.lang.Override
+    public com.google.protobuf.Empty getDropTtlSettings() {
+      if (ttlActionCase_ == 3) {
+         return (com.google.protobuf.Empty) ttlAction_;
+      }
+      return com.google.protobuf.Empty.getDefaultInstance();
+    }
+    /**
+     * <code>.google.protobuf.Empty drop_ttl_settings = 3;</code>
+     */
+    @java.lang.Override
+    public com.google.protobuf.EmptyOrBuilder getDropTtlSettingsOrBuilder() {
+      if (ttlActionCase_ == 3) {
+         return (com.google.protobuf.Empty) ttlAction_;
+      }
+      return com.google.protobuf.Empty.getDefaultInstance();
+    }
+
+    public static final int SET_TTL_SETTINGS_FIELD_NUMBER = 4;
+    /**
+     * <pre>
+     * string set_ttl_preset_name = 5;    // Unimplemened for now
+     * </pre>
+     *
+     * <code>.Ydb.Table.TtlSettings set_ttl_settings = 4;</code>
+     * @return Whether the setTtlSettings field is set.
+     */
+    @java.lang.Override
+    public boolean hasSetTtlSettings() {
+      return ttlActionCase_ == 4;
+    }
+    /**
+     * <pre>
+     * string set_ttl_preset_name = 5;    // Unimplemened for now
+     * </pre>
+     *
+     * <code>.Ydb.Table.TtlSettings set_ttl_settings = 4;</code>
+     * @return The setTtlSettings.
+     */
+    @java.lang.Override
+    public tech.ydb.table.YdbTable.TtlSettings getSetTtlSettings() {
+      if (ttlActionCase_ == 4) {
+         return (tech.ydb.table.YdbTable.TtlSettings) ttlAction_;
+      }
+      return tech.ydb.table.YdbTable.TtlSettings.getDefaultInstance();
+    }
+    /**
+     * <pre>
+     * string set_ttl_preset_name = 5;    // Unimplemened for now
+     * </pre>
+     *
+     * <code>.Ydb.Table.TtlSettings set_ttl_settings = 4;</code>
+     */
+    @java.lang.Override
+    public tech.ydb.table.YdbTable.TtlSettingsOrBuilder getSetTtlSettingsOrBuilder() {
+      if (ttlActionCase_ == 4) {
+         return (tech.ydb.table.YdbTable.TtlSettings) ttlAction_;
+      }
+      return tech.ydb.table.YdbTable.TtlSettings.getDefaultInstance();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operationParams_ != null) {
+        output.writeMessage(1, getOperationParams());
+      }
+      if (!getPathBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, path_);
+      }
+      if (ttlActionCase_ == 3) {
+        output.writeMessage(3, (com.google.protobuf.Empty) ttlAction_);
+      }
+      if (ttlActionCase_ == 4) {
+        output.writeMessage(4, (tech.ydb.table.YdbTable.TtlSettings) ttlAction_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operationParams_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperationParams());
+      }
+      if (!getPathBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, path_);
+      }
+      if (ttlActionCase_ == 3) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, (com.google.protobuf.Empty) ttlAction_);
+      }
+      if (ttlActionCase_ == 4) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, (tech.ydb.table.YdbTable.TtlSettings) ttlAction_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest)) {
+        return super.equals(obj);
+      }
+      tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest other = (tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest) obj;
+
+      if (hasOperationParams() != other.hasOperationParams()) return false;
+      if (hasOperationParams()) {
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
+      }
+      if (!getPath()
+          .equals(other.getPath())) return false;
+      if (!getTtlActionCase().equals(other.getTtlActionCase())) return false;
+      switch (ttlActionCase_) {
+        case 3:
+          if (!getDropTtlSettings()
+              .equals(other.getDropTtlSettings())) return false;
+          break;
+        case 4:
+          if (!getSetTtlSettings()
+              .equals(other.getSetTtlSettings())) return false;
+          break;
+        case 0:
+        default:
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperationParams()) {
+        hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationParams().hashCode();
+      }
+      hash = (37 * hash) + PATH_FIELD_NUMBER;
+      hash = (53 * hash) + getPath().hashCode();
+      switch (ttlActionCase_) {
+        case 3:
+          hash = (37 * hash) + DROP_TTL_SETTINGS_FIELD_NUMBER;
+          hash = (53 * hash) + getDropTtlSettings().hashCode();
+          break;
+        case 4:
+          hash = (37 * hash) + SET_TTL_SETTINGS_FIELD_NUMBER;
+          hash = (53 * hash) + getSetTtlSettings().hashCode();
+          break;
+        case 0:
+        default:
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.LogStore.AlterLogTableRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.LogStore.AlterLogTableRequest)
+        tech.ydb.logstore.LogStoreProtos.AlterLogTableRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.logstore.LogStoreProtos.internal_static_Ydb_LogStore_AlterLogTableRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.logstore.LogStoreProtos.internal_static_Ydb_LogStore_AlterLogTableRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest.class, tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest.Builder.class);
+      }
+
+      // Construct using tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+        path_ = "";
+
+        ttlActionCase_ = 0;
+        ttlAction_ = null;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.logstore.LogStoreProtos.internal_static_Ydb_LogStore_AlterLogTableRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest getDefaultInstanceForType() {
+        return tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest build() {
+        tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest buildPartial() {
+        tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest result = new tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest(this);
+        if (operationParamsBuilder_ == null) {
+          result.operationParams_ = operationParams_;
+        } else {
+          result.operationParams_ = operationParamsBuilder_.build();
+        }
+        result.path_ = path_;
+        if (ttlActionCase_ == 3) {
+          if (dropTtlSettingsBuilder_ == null) {
+            result.ttlAction_ = ttlAction_;
+          } else {
+            result.ttlAction_ = dropTtlSettingsBuilder_.build();
+          }
+        }
+        if (ttlActionCase_ == 4) {
+          if (setTtlSettingsBuilder_ == null) {
+            result.ttlAction_ = ttlAction_;
+          } else {
+            result.ttlAction_ = setTtlSettingsBuilder_.build();
+          }
+        }
+        result.ttlActionCase_ = ttlActionCase_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest) {
+          return mergeFrom((tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest other) {
+        if (other == tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest.getDefaultInstance()) return this;
+        if (other.hasOperationParams()) {
+          mergeOperationParams(other.getOperationParams());
+        }
+        if (!other.getPath().isEmpty()) {
+          path_ = other.path_;
+          onChanged();
+        }
+        switch (other.getTtlActionCase()) {
+          case DROP_TTL_SETTINGS: {
+            mergeDropTtlSettings(other.getDropTtlSettings());
+            break;
+          }
+          case SET_TTL_SETTINGS: {
+            mergeSetTtlSettings(other.getSetTtlSettings());
+            break;
+          }
+          case TTLACTION_NOT_SET: {
+            break;
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int ttlActionCase_ = 0;
+      private java.lang.Object ttlAction_;
+      public TtlActionCase
+          getTtlActionCase() {
+        return TtlActionCase.forNumber(
+            ttlActionCase_);
+      }
+
+      public Builder clearTtlAction() {
+        ttlActionCase_ = 0;
+        ttlAction_ = null;
+        onChanged();
+        return this;
+      }
+
+
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return Whether the operationParams field is set.
+       */
+      public boolean hasOperationParams() {
+        return operationParamsBuilder_ != null || operationParams_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       * @return The operationParams.
+       */
+      public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        } else {
+          return operationParamsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operationParams_ = value;
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder setOperationParams(
+          tech.ydb.OperationProtos.OperationParams.Builder builderForValue) {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (operationParams_ != null) {
+            operationParams_ =
+              tech.ydb.OperationProtos.OperationParams.newBuilder(operationParams_).mergeFrom(value).buildPartial();
+          } else {
+            operationParams_ = value;
+          }
+          onChanged();
+        } else {
+          operationParamsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public Builder clearOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+          onChanged();
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
+        
+        onChanged();
+        return getOperationParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+        if (operationParamsBuilder_ != null) {
+          return operationParamsBuilder_.getMessageOrBuilder();
+        } else {
+          return operationParams_ == null ?
+              tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> 
+          getOperationParamsFieldBuilder() {
+        if (operationParamsBuilder_ == null) {
+          operationParamsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder>(
+                  getOperationParams(),
+                  getParentForChildren(),
+                  isClean());
+          operationParams_ = null;
+        }
+        return operationParamsBuilder_;
+      }
+
+      private java.lang.Object path_ = "";
+      /**
+       * <pre>
+       * Full path
+       * </pre>
+       *
+       * <code>string path = 2;</code>
+       * @return The path.
+       */
+      public java.lang.String getPath() {
+        java.lang.Object ref = path_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          path_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Full path
+       * </pre>
+       *
+       * <code>string path = 2;</code>
+       * @return The bytes for path.
+       */
+      public com.google.protobuf.ByteString
+          getPathBytes() {
+        java.lang.Object ref = path_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          path_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Full path
+       * </pre>
+       *
+       * <code>string path = 2;</code>
+       * @param value The path to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPath(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        path_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Full path
+       * </pre>
+       *
+       * <code>string path = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPath() {
+        
+        path_ = getDefaultInstance().getPath();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Full path
+       * </pre>
+       *
+       * <code>string path = 2;</code>
+       * @param value The bytes for path to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPathBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        path_ = value;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Empty, com.google.protobuf.Empty.Builder, com.google.protobuf.EmptyOrBuilder> dropTtlSettingsBuilder_;
+      /**
+       * <code>.google.protobuf.Empty drop_ttl_settings = 3;</code>
+       * @return Whether the dropTtlSettings field is set.
+       */
+      @java.lang.Override
+      public boolean hasDropTtlSettings() {
+        return ttlActionCase_ == 3;
+      }
+      /**
+       * <code>.google.protobuf.Empty drop_ttl_settings = 3;</code>
+       * @return The dropTtlSettings.
+       */
+      @java.lang.Override
+      public com.google.protobuf.Empty getDropTtlSettings() {
+        if (dropTtlSettingsBuilder_ == null) {
+          if (ttlActionCase_ == 3) {
+            return (com.google.protobuf.Empty) ttlAction_;
+          }
+          return com.google.protobuf.Empty.getDefaultInstance();
+        } else {
+          if (ttlActionCase_ == 3) {
+            return dropTtlSettingsBuilder_.getMessage();
+          }
+          return com.google.protobuf.Empty.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.google.protobuf.Empty drop_ttl_settings = 3;</code>
+       */
+      public Builder setDropTtlSettings(com.google.protobuf.Empty value) {
+        if (dropTtlSettingsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ttlAction_ = value;
+          onChanged();
+        } else {
+          dropTtlSettingsBuilder_.setMessage(value);
+        }
+        ttlActionCase_ = 3;
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Empty drop_ttl_settings = 3;</code>
+       */
+      public Builder setDropTtlSettings(
+          com.google.protobuf.Empty.Builder builderForValue) {
+        if (dropTtlSettingsBuilder_ == null) {
+          ttlAction_ = builderForValue.build();
+          onChanged();
+        } else {
+          dropTtlSettingsBuilder_.setMessage(builderForValue.build());
+        }
+        ttlActionCase_ = 3;
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Empty drop_ttl_settings = 3;</code>
+       */
+      public Builder mergeDropTtlSettings(com.google.protobuf.Empty value) {
+        if (dropTtlSettingsBuilder_ == null) {
+          if (ttlActionCase_ == 3 &&
+              ttlAction_ != com.google.protobuf.Empty.getDefaultInstance()) {
+            ttlAction_ = com.google.protobuf.Empty.newBuilder((com.google.protobuf.Empty) ttlAction_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            ttlAction_ = value;
+          }
+          onChanged();
+        } else {
+          if (ttlActionCase_ == 3) {
+            dropTtlSettingsBuilder_.mergeFrom(value);
+          }
+          dropTtlSettingsBuilder_.setMessage(value);
+        }
+        ttlActionCase_ = 3;
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Empty drop_ttl_settings = 3;</code>
+       */
+      public Builder clearDropTtlSettings() {
+        if (dropTtlSettingsBuilder_ == null) {
+          if (ttlActionCase_ == 3) {
+            ttlActionCase_ = 0;
+            ttlAction_ = null;
+            onChanged();
+          }
+        } else {
+          if (ttlActionCase_ == 3) {
+            ttlActionCase_ = 0;
+            ttlAction_ = null;
+          }
+          dropTtlSettingsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Empty drop_ttl_settings = 3;</code>
+       */
+      public com.google.protobuf.Empty.Builder getDropTtlSettingsBuilder() {
+        return getDropTtlSettingsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.google.protobuf.Empty drop_ttl_settings = 3;</code>
+       */
+      @java.lang.Override
+      public com.google.protobuf.EmptyOrBuilder getDropTtlSettingsOrBuilder() {
+        if ((ttlActionCase_ == 3) && (dropTtlSettingsBuilder_ != null)) {
+          return dropTtlSettingsBuilder_.getMessageOrBuilder();
+        } else {
+          if (ttlActionCase_ == 3) {
+            return (com.google.protobuf.Empty) ttlAction_;
+          }
+          return com.google.protobuf.Empty.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.google.protobuf.Empty drop_ttl_settings = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Empty, com.google.protobuf.Empty.Builder, com.google.protobuf.EmptyOrBuilder> 
+          getDropTtlSettingsFieldBuilder() {
+        if (dropTtlSettingsBuilder_ == null) {
+          if (!(ttlActionCase_ == 3)) {
+            ttlAction_ = com.google.protobuf.Empty.getDefaultInstance();
+          }
+          dropTtlSettingsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.google.protobuf.Empty, com.google.protobuf.Empty.Builder, com.google.protobuf.EmptyOrBuilder>(
+                  (com.google.protobuf.Empty) ttlAction_,
+                  getParentForChildren(),
+                  isClean());
+          ttlAction_ = null;
+        }
+        ttlActionCase_ = 3;
+        onChanged();;
+        return dropTtlSettingsBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.table.YdbTable.TtlSettings, tech.ydb.table.YdbTable.TtlSettings.Builder, tech.ydb.table.YdbTable.TtlSettingsOrBuilder> setTtlSettingsBuilder_;
+      /**
+       * <pre>
+       * string set_ttl_preset_name = 5;    // Unimplemened for now
+       * </pre>
+       *
+       * <code>.Ydb.Table.TtlSettings set_ttl_settings = 4;</code>
+       * @return Whether the setTtlSettings field is set.
+       */
+      @java.lang.Override
+      public boolean hasSetTtlSettings() {
+        return ttlActionCase_ == 4;
+      }
+      /**
+       * <pre>
+       * string set_ttl_preset_name = 5;    // Unimplemened for now
+       * </pre>
+       *
+       * <code>.Ydb.Table.TtlSettings set_ttl_settings = 4;</code>
+       * @return The setTtlSettings.
+       */
+      @java.lang.Override
+      public tech.ydb.table.YdbTable.TtlSettings getSetTtlSettings() {
+        if (setTtlSettingsBuilder_ == null) {
+          if (ttlActionCase_ == 4) {
+            return (tech.ydb.table.YdbTable.TtlSettings) ttlAction_;
+          }
+          return tech.ydb.table.YdbTable.TtlSettings.getDefaultInstance();
+        } else {
+          if (ttlActionCase_ == 4) {
+            return setTtlSettingsBuilder_.getMessage();
+          }
+          return tech.ydb.table.YdbTable.TtlSettings.getDefaultInstance();
+        }
+      }
+      /**
+       * <pre>
+       * string set_ttl_preset_name = 5;    // Unimplemened for now
+       * </pre>
+       *
+       * <code>.Ydb.Table.TtlSettings set_ttl_settings = 4;</code>
+       */
+      public Builder setSetTtlSettings(tech.ydb.table.YdbTable.TtlSettings value) {
+        if (setTtlSettingsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ttlAction_ = value;
+          onChanged();
+        } else {
+          setTtlSettingsBuilder_.setMessage(value);
+        }
+        ttlActionCase_ = 4;
+        return this;
+      }
+      /**
+       * <pre>
+       * string set_ttl_preset_name = 5;    // Unimplemened for now
+       * </pre>
+       *
+       * <code>.Ydb.Table.TtlSettings set_ttl_settings = 4;</code>
+       */
+      public Builder setSetTtlSettings(
+          tech.ydb.table.YdbTable.TtlSettings.Builder builderForValue) {
+        if (setTtlSettingsBuilder_ == null) {
+          ttlAction_ = builderForValue.build();
+          onChanged();
+        } else {
+          setTtlSettingsBuilder_.setMessage(builderForValue.build());
+        }
+        ttlActionCase_ = 4;
+        return this;
+      }
+      /**
+       * <pre>
+       * string set_ttl_preset_name = 5;    // Unimplemened for now
+       * </pre>
+       *
+       * <code>.Ydb.Table.TtlSettings set_ttl_settings = 4;</code>
+       */
+      public Builder mergeSetTtlSettings(tech.ydb.table.YdbTable.TtlSettings value) {
+        if (setTtlSettingsBuilder_ == null) {
+          if (ttlActionCase_ == 4 &&
+              ttlAction_ != tech.ydb.table.YdbTable.TtlSettings.getDefaultInstance()) {
+            ttlAction_ = tech.ydb.table.YdbTable.TtlSettings.newBuilder((tech.ydb.table.YdbTable.TtlSettings) ttlAction_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            ttlAction_ = value;
+          }
+          onChanged();
+        } else {
+          if (ttlActionCase_ == 4) {
+            setTtlSettingsBuilder_.mergeFrom(value);
+          }
+          setTtlSettingsBuilder_.setMessage(value);
+        }
+        ttlActionCase_ = 4;
+        return this;
+      }
+      /**
+       * <pre>
+       * string set_ttl_preset_name = 5;    // Unimplemened for now
+       * </pre>
+       *
+       * <code>.Ydb.Table.TtlSettings set_ttl_settings = 4;</code>
+       */
+      public Builder clearSetTtlSettings() {
+        if (setTtlSettingsBuilder_ == null) {
+          if (ttlActionCase_ == 4) {
+            ttlActionCase_ = 0;
+            ttlAction_ = null;
+            onChanged();
+          }
+        } else {
+          if (ttlActionCase_ == 4) {
+            ttlActionCase_ = 0;
+            ttlAction_ = null;
+          }
+          setTtlSettingsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * string set_ttl_preset_name = 5;    // Unimplemened for now
+       * </pre>
+       *
+       * <code>.Ydb.Table.TtlSettings set_ttl_settings = 4;</code>
+       */
+      public tech.ydb.table.YdbTable.TtlSettings.Builder getSetTtlSettingsBuilder() {
+        return getSetTtlSettingsFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * string set_ttl_preset_name = 5;    // Unimplemened for now
+       * </pre>
+       *
+       * <code>.Ydb.Table.TtlSettings set_ttl_settings = 4;</code>
+       */
+      @java.lang.Override
+      public tech.ydb.table.YdbTable.TtlSettingsOrBuilder getSetTtlSettingsOrBuilder() {
+        if ((ttlActionCase_ == 4) && (setTtlSettingsBuilder_ != null)) {
+          return setTtlSettingsBuilder_.getMessageOrBuilder();
+        } else {
+          if (ttlActionCase_ == 4) {
+            return (tech.ydb.table.YdbTable.TtlSettings) ttlAction_;
+          }
+          return tech.ydb.table.YdbTable.TtlSettings.getDefaultInstance();
+        }
+      }
+      /**
+       * <pre>
+       * string set_ttl_preset_name = 5;    // Unimplemened for now
+       * </pre>
+       *
+       * <code>.Ydb.Table.TtlSettings set_ttl_settings = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.table.YdbTable.TtlSettings, tech.ydb.table.YdbTable.TtlSettings.Builder, tech.ydb.table.YdbTable.TtlSettingsOrBuilder> 
+          getSetTtlSettingsFieldBuilder() {
+        if (setTtlSettingsBuilder_ == null) {
+          if (!(ttlActionCase_ == 4)) {
+            ttlAction_ = tech.ydb.table.YdbTable.TtlSettings.getDefaultInstance();
+          }
+          setTtlSettingsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.table.YdbTable.TtlSettings, tech.ydb.table.YdbTable.TtlSettings.Builder, tech.ydb.table.YdbTable.TtlSettingsOrBuilder>(
+                  (tech.ydb.table.YdbTable.TtlSettings) ttlAction_,
+                  getParentForChildren(),
+                  isClean());
+          ttlAction_ = null;
+        }
+        ttlActionCase_ = 4;
+        onChanged();;
+        return setTtlSettingsBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.LogStore.AlterLogTableRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.LogStore.AlterLogTableRequest)
+    private static final tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest();
+    }
+
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<AlterLogTableRequest>
+        PARSER = new com.google.protobuf.AbstractParser<AlterLogTableRequest>() {
+      @java.lang.Override
+      public AlterLogTableRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AlterLogTableRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<AlterLogTableRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AlterLogTableRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public tech.ydb.logstore.LogStoreProtos.AlterLogTableRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface AlterLogTableResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.LogStore.AlterLogTableResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
+     */
+    boolean hasOperation();
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
+     */
+    tech.ydb.OperationProtos.Operation getOperation();
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Ydb.LogStore.AlterLogTableResponse}
+   */
+  public static final class AlterLogTableResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.LogStore.AlterLogTableResponse)
+      AlterLogTableResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use AlterLogTableResponse.newBuilder() to construct.
+    private AlterLogTableResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private AlterLogTableResponse() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new AlterLogTableResponse();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AlterLogTableResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
+              if (operation_ != null) {
+                subBuilder = operation_.toBuilder();
+              }
+              operation_ = input.readMessage(tech.ydb.OperationProtos.Operation.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operation_);
+                operation_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.logstore.LogStoreProtos.internal_static_Ydb_LogStore_AlterLogTableResponse_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.logstore.LogStoreProtos.internal_static_Ydb_LogStore_AlterLogTableResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse.class, tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse.Builder.class);
+    }
+
+    public static final int OPERATION_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.Operation operation_;
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
+     */
+    @java.lang.Override
+    public boolean hasOperation() {
+      return operation_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
+     */
+    @java.lang.Override
+    public tech.ydb.OperationProtos.Operation getOperation() {
+      return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+    }
+    /**
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    @java.lang.Override
+    public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+      return getOperation();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operation_ != null) {
+        output.writeMessage(1, getOperation());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operation_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperation());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse)) {
+        return super.equals(obj);
+      }
+      tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse other = (tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse) obj;
+
+      if (hasOperation() != other.hasOperation()) return false;
+      if (hasOperation()) {
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperation()) {
+        hash = (37 * hash) + OPERATION_FIELD_NUMBER;
+        hash = (53 * hash) + getOperation().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.LogStore.AlterLogTableResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.LogStore.AlterLogTableResponse)
+        tech.ydb.logstore.LogStoreProtos.AlterLogTableResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.logstore.LogStoreProtos.internal_static_Ydb_LogStore_AlterLogTableResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.logstore.LogStoreProtos.internal_static_Ydb_LogStore_AlterLogTableResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse.class, tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse.Builder.class);
+      }
+
+      // Construct using tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        if (operationBuilder_ == null) {
+          operation_ = null;
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.logstore.LogStoreProtos.internal_static_Ydb_LogStore_AlterLogTableResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse getDefaultInstanceForType() {
+        return tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse build() {
+        tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse buildPartial() {
+        tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse result = new tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse(this);
+        if (operationBuilder_ == null) {
+          result.operation_ = operation_;
+        } else {
+          result.operation_ = operationBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse) {
+          return mergeFrom((tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse other) {
+        if (other == tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse.getDefaultInstance()) return this;
+        if (other.hasOperation()) {
+          mergeOperation(other.getOperation());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.Operation operation_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
+       */
+      public boolean hasOperation() {
+        return operationBuilder_ != null || operation_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
+       */
+      public tech.ydb.OperationProtos.Operation getOperation() {
+        if (operationBuilder_ == null) {
+          return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        } else {
+          return operationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operation_ = value;
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(
+          tech.ydb.OperationProtos.Operation.Builder builderForValue) {
+        if (operationBuilder_ == null) {
+          operation_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder mergeOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (operation_ != null) {
+            operation_ =
+              tech.ydb.OperationProtos.Operation.newBuilder(operation_).mergeFrom(value).buildPartial();
+          } else {
+            operation_ = value;
+          }
+          onChanged();
+        } else {
+          operationBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder clearOperation() {
+        if (operationBuilder_ == null) {
+          operation_ = null;
+          onChanged();
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation.Builder getOperationBuilder() {
+        
+        onChanged();
+        return getOperationFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+        if (operationBuilder_ != null) {
+          return operationBuilder_.getMessageOrBuilder();
+        } else {
+          return operation_ == null ?
+              tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> 
+          getOperationFieldBuilder() {
+        if (operationBuilder_ == null) {
+          operationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder>(
+                  getOperation(),
+                  getParentForChildren(),
+                  isClean());
+          operation_ = null;
+        }
+        return operationBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.LogStore.AlterLogTableResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.LogStore.AlterLogTableResponse)
+    private static final tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse();
+    }
+
+    public static tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<AlterLogTableResponse>
+        PARSER = new com.google.protobuf.AbstractParser<AlterLogTableResponse>() {
+      @java.lang.Override
+      public AlterLogTableResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AlterLogTableResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<AlterLogTableResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AlterLogTableResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public tech.ydb.logstore.LogStoreProtos.AlterLogTableResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_LogStore_ColumnMeta_descriptor;
   private static final 
@@ -18058,11 +18944,6 @@ public final class LogStoreProtos {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_LogStore_SchemaPreset_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_LogStore_TtlSettings_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_LogStore_TtlSettings_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_LogStore_TtlSettingsPreset_descriptor;
   private static final 
@@ -18138,6 +19019,16 @@ public final class LogStoreProtos {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_LogStore_DropLogTableResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_LogStore_AlterLogTableRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_LogStore_AlterLogTableRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_LogStore_AlterLogTableResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_LogStore_AlterLogTableResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -18151,63 +19042,68 @@ public final class LogStoreProtos {
       "store.proto\022\014Ydb.LogStore\032,kikimr/public" +
       "/api/protos/ydb_operation.proto\032(kikimr/" +
       "public/api/protos/ydb_value.proto\032)kikim" +
-      "r/public/api/protos/ydb_scheme.proto\"3\n\n" +
-      "ColumnMeta\022\014\n\004name\030\001 \001(\t\022\027\n\004type\030\002 \001(\0132\t" +
-      ".Ydb.Type\"H\n\006Schema\022)\n\007columns\030\001 \003(\0132\030.Y" +
-      "db.LogStore.ColumnMeta\022\023\n\013primary_key\030\002 " +
-      "\003(\t\"B\n\014SchemaPreset\022\014\n\004name\030\001 \001(\t\022$\n\006sch" +
-      "ema\030\002 \001(\0132\024.Ydb.LogStore.Schema\"\r\n\013TtlSe" +
-      "ttings\"R\n\021TtlSettingsPreset\022\014\n\004name\030\001 \001(" +
-      "\t\022/\n\014ttl_settings\030\002 \001(\0132\031.Ydb.LogStore.T" +
-      "tlSettings\"\357\001\n\025CreateLogStoreRequest\0229\n\020" +
-      "operation_params\030\001 \001(\0132\037.Ydb.Operations." +
-      "OperationParams\022\014\n\004path\030\002 \001(\t\022\032\n\022column_" +
-      "shard_count\030\003 \001(\r\0222\n\016schema_presets\030\004 \003(" +
-      "\0132\032.Ydb.LogStore.SchemaPreset\022=\n\024ttl_set" +
-      "tings_presets\030\005 \003(\0132\037.Ydb.LogStore.TtlSe" +
-      "ttingsPreset\"F\n\026CreateLogStoreResponse\022," +
-      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
-      "tion\"b\n\027DescribeLogStoreRequest\0229\n\020opera" +
-      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
-      "tionParams\022\014\n\004path\030\002 \001(\t\"\310\001\n\026DescribeLog" +
-      "StoreResult\022\037\n\004self\030\001 \001(\0132\021.Ydb.Scheme.E" +
-      "ntry\022\032\n\022column_shard_count\030\002 \001(\r\0222\n\016sche" +
-      "ma_presets\030\003 \003(\0132\032.Ydb.LogStore.SchemaPr" +
-      "eset\022=\n\024ttl_settings_presets\030\004 \003(\0132\037.Ydb" +
-      ".LogStore.TtlSettingsPreset\"H\n\030DescribeL" +
-      "ogStoreResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
-      ".Operations.Operation\"^\n\023DropLogStoreReq" +
-      "uest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Ope" +
-      "rations.OperationParams\022\014\n\004path\030\002 \001(\t\"D\n" +
-      "\024DropLogStoreResponse\022,\n\toperation\030\001 \001(\013" +
-      "2\031.Ydb.Operations.Operation\"\340\002\n\025CreateLo" +
-      "gTableRequest\0229\n\020operation_params\030\001 \001(\0132" +
-      "\037.Ydb.Operations.OperationParams\022\014\n\004path" +
-      "\030\002 \001(\t\022\034\n\022schema_preset_name\030\003 \001(\tH\000\022&\n\006" +
-      "schema\030\004 \001(\0132\024.Ydb.LogStore.SchemaH\000\022\"\n\030" +
-      "ttl_settings_preset_name\030\005 \001(\tH\001\0221\n\014ttl_" +
-      "settings\030\006 \001(\0132\031.Ydb.LogStore.TtlSetting" +
-      "sH\001\022\032\n\022column_shard_count\030\007 \001(\r\022\030\n\020shard" +
-      "ing_columns\030\010 \003(\tB\026\n\024schema_specificatio" +
-      "nB\023\n\021ttl_specification\"F\n\026CreateLogTable" +
-      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
-      "ions.Operation\"b\n\027DescribeLogTableReques" +
-      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
-      "ions.OperationParams\022\014\n\004path\030\002 \001(\t\"\204\002\n\026D" +
-      "escribeLogTableResult\022\037\n\004self\030\001 \001(\0132\021.Yd" +
-      "b.Scheme.Entry\022\032\n\022schema_preset_name\030\002 \001" +
-      "(\t\022$\n\006schema\030\003 \001(\0132\024.Ydb.LogStore.Schema" +
-      "\022 \n\030ttl_settings_preset_name\030\004 \001(\t\022/\n\014tt" +
-      "l_settings\030\005 \001(\0132\031.Ydb.LogStore.TtlSetti" +
-      "ngs\022\032\n\022column_shard_count\030\006 \001(\r\022\030\n\020shard" +
-      "ing_columns\030\007 \003(\t\"H\n\030DescribeLogTableRes" +
-      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
-      "s.Operation\"^\n\023DropLogTableRequest\0229\n\020op" +
-      "eration_params\030\001 \001(\0132\037.Ydb.Operations.Op" +
-      "erationParams\022\014\n\004path\030\002 \001(\t\"D\n\024DropLogTa" +
-      "bleResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
-      "rations.OperationB,\n\027tech.ydb.logs" +
-      "toreB\016LogStoreProtos\370\001\001b\006proto3"
+      "r/public/api/protos/ydb_scheme.proto\032(ki" +
+      "kimr/public/api/protos/ydb_table.proto\032\033" +
+      "google/protobuf/empty.proto\"3\n\nColumnMet" +
+      "a\022\014\n\004name\030\001 \001(\t\022\027\n\004type\030\002 \001(\0132\t.Ydb.Type" +
+      "\"H\n\006Schema\022)\n\007columns\030\001 \003(\0132\030.Ydb.LogSto" +
+      "re.ColumnMeta\022\023\n\013primary_key\030\002 \003(\t\"B\n\014Sc" +
+      "hemaPreset\022\014\n\004name\030\001 \001(\t\022$\n\006schema\030\002 \001(\013" +
+      "2\024.Ydb.LogStore.Schema\"O\n\021TtlSettingsPre" +
+      "set\022\014\n\004name\030\001 \001(\t\022,\n\014ttl_settings\030\002 \001(\0132" +
+      "\026.Ydb.Table.TtlSettings\"\260\001\n\025CreateLogSto" +
+      "reRequest\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
+      "b.Operations.OperationParams\022\014\n\004path\030\002 \001" +
+      "(\t\022\032\n\022column_shard_count\030\003 \001(\r\0222\n\016schema" +
+      "_presets\030\004 \003(\0132\032.Ydb.LogStore.SchemaPres" +
+      "et\"F\n\026CreateLogStoreResponse\022,\n\toperatio" +
+      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"b\n\027De" +
+      "scribeLogStoreRequest\0229\n\020operation_param" +
+      "s\030\001 \001(\0132\037.Ydb.Operations.OperationParams" +
+      "\022\014\n\004path\030\002 \001(\t\"\211\001\n\026DescribeLogStoreResul" +
+      "t\022\037\n\004self\030\001 \001(\0132\021.Ydb.Scheme.Entry\022\032\n\022co" +
+      "lumn_shard_count\030\002 \001(\r\0222\n\016schema_presets" +
+      "\030\003 \003(\0132\032.Ydb.LogStore.SchemaPreset\"H\n\030De" +
+      "scribeLogStoreResponse\022,\n\toperation\030\001 \001(" +
+      "\0132\031.Ydb.Operations.Operation\"^\n\023DropLogS" +
+      "toreRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
+      "Ydb.Operations.OperationParams\022\014\n\004path\030\002" +
+      " \001(\t\"D\n\024DropLogStoreResponse\022,\n\toperatio" +
+      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\271\002\n\025C" +
+      "reateLogTableRequest\0229\n\020operation_params" +
+      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\022" +
+      "\014\n\004path\030\002 \001(\t\022\034\n\022schema_preset_name\030\003 \001(" +
+      "\tH\000\022&\n\006schema\030\004 \001(\0132\024.Ydb.LogStore.Schem" +
+      "aH\000\022.\n\014ttl_settings\030\005 \001(\0132\026.Ydb.Table.Tt" +
+      "lSettingsH\001\022\032\n\022column_shard_count\030\007 \001(\r\022" +
+      "\030\n\020sharding_columns\030\010 \003(\tB\026\n\024schema_spec" +
+      "ificationB\023\n\021ttl_specification\"F\n\026Create" +
+      "LogTableResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
+      "b.Operations.Operation\"b\n\027DescribeLogTab" +
+      "leRequest\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
+      "b.Operations.OperationParams\022\014\n\004path\030\002 \001" +
+      "(\t\"\201\002\n\026DescribeLogTableResult\022\037\n\004self\030\001 " +
+      "\001(\0132\021.Ydb.Scheme.Entry\022\032\n\022schema_preset_" +
+      "name\030\002 \001(\t\022$\n\006schema\030\003 \001(\0132\024.Ydb.LogStor" +
+      "e.Schema\022 \n\030ttl_settings_preset_name\030\004 \001" +
+      "(\t\022,\n\014ttl_settings\030\005 \001(\0132\026.Ydb.Table.Ttl" +
+      "Settings\022\032\n\022column_shard_count\030\006 \001(\r\022\030\n\020" +
+      "sharding_columns\030\007 \003(\t\"H\n\030DescribeLogTab" +
+      "leResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
+      "ations.Operation\"^\n\023DropLogTableRequest\022" +
+      "9\n\020operation_params\030\001 \001(\0132\037.Ydb.Operatio" +
+      "ns.OperationParams\022\014\n\004path\030\002 \001(\t\"D\n\024Drop" +
+      "LogTableResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
+      "b.Operations.Operation\"\326\001\n\024AlterLogTable" +
+      "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb." +
+      "Operations.OperationParams\022\014\n\004path\030\002 \001(\t" +
+      "\0223\n\021drop_ttl_settings\030\003 \001(\0132\026.google.pro" +
+      "tobuf.EmptyH\000\0222\n\020set_ttl_settings\030\004 \001(\0132" +
+      "\026.Ydb.Table.TtlSettingsH\000B\014\n\nttl_action\"" +
+      "E\n\025AlterLogTableResponse\022,\n\toperation\030\001 " +
+      "\001(\0132\031.Ydb.Operations.OperationB,\n\027com.ya" +
+      "ndex.ydb.logstoreB\016LogStoreProtos\370\001\001b\006pr" +
+      "oto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -18215,6 +19111,8 @@ public final class LogStoreProtos {
           tech.ydb.OperationProtos.getDescriptor(),
           tech.ydb.ValueProtos.getDescriptor(),
           tech.ydb.scheme.SchemeOperationProtos.getDescriptor(),
+          tech.ydb.table.YdbTable.getDescriptor(),
+          com.google.protobuf.EmptyProto.getDescriptor(),
         });
     internal_static_Ydb_LogStore_ColumnMeta_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -18234,105 +19132,113 @@ public final class LogStoreProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LogStore_SchemaPreset_descriptor,
         new java.lang.String[] { "Name", "Schema", });
-    internal_static_Ydb_LogStore_TtlSettings_descriptor =
-      getDescriptor().getMessageTypes().get(3);
-    internal_static_Ydb_LogStore_TtlSettings_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_LogStore_TtlSettings_descriptor,
-        new java.lang.String[] { });
     internal_static_Ydb_LogStore_TtlSettingsPreset_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_Ydb_LogStore_TtlSettingsPreset_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LogStore_TtlSettingsPreset_descriptor,
         new java.lang.String[] { "Name", "TtlSettings", });
     internal_static_Ydb_LogStore_CreateLogStoreRequest_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_Ydb_LogStore_CreateLogStoreRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LogStore_CreateLogStoreRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "Path", "ColumnShardCount", "SchemaPresets", "TtlSettingsPresets", });
+        new java.lang.String[] { "OperationParams", "Path", "ColumnShardCount", "SchemaPresets", });
     internal_static_Ydb_LogStore_CreateLogStoreResponse_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_Ydb_LogStore_CreateLogStoreResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LogStore_CreateLogStoreResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_LogStore_DescribeLogStoreRequest_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_Ydb_LogStore_DescribeLogStoreRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LogStore_DescribeLogStoreRequest_descriptor,
         new java.lang.String[] { "OperationParams", "Path", });
     internal_static_Ydb_LogStore_DescribeLogStoreResult_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_Ydb_LogStore_DescribeLogStoreResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LogStore_DescribeLogStoreResult_descriptor,
-        new java.lang.String[] { "Self", "ColumnShardCount", "SchemaPresets", "TtlSettingsPresets", });
+        new java.lang.String[] { "Self", "ColumnShardCount", "SchemaPresets", });
     internal_static_Ydb_LogStore_DescribeLogStoreResponse_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_Ydb_LogStore_DescribeLogStoreResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LogStore_DescribeLogStoreResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_LogStore_DropLogStoreRequest_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_Ydb_LogStore_DropLogStoreRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LogStore_DropLogStoreRequest_descriptor,
         new java.lang.String[] { "OperationParams", "Path", });
     internal_static_Ydb_LogStore_DropLogStoreResponse_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_Ydb_LogStore_DropLogStoreResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LogStore_DropLogStoreResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_LogStore_CreateLogTableRequest_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_Ydb_LogStore_CreateLogTableRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LogStore_CreateLogTableRequest_descriptor,
-        new java.lang.String[] { "OperationParams", "Path", "SchemaPresetName", "Schema", "TtlSettingsPresetName", "TtlSettings", "ColumnShardCount", "ShardingColumns", "SchemaSpecification", "TtlSpecification", });
+        new java.lang.String[] { "OperationParams", "Path", "SchemaPresetName", "Schema", "TtlSettings", "ColumnShardCount", "ShardingColumns", "SchemaSpecification", "TtlSpecification", });
     internal_static_Ydb_LogStore_CreateLogTableResponse_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_Ydb_LogStore_CreateLogTableResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LogStore_CreateLogTableResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_LogStore_DescribeLogTableRequest_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_Ydb_LogStore_DescribeLogTableRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LogStore_DescribeLogTableRequest_descriptor,
         new java.lang.String[] { "OperationParams", "Path", });
     internal_static_Ydb_LogStore_DescribeLogTableResult_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_Ydb_LogStore_DescribeLogTableResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LogStore_DescribeLogTableResult_descriptor,
         new java.lang.String[] { "Self", "SchemaPresetName", "Schema", "TtlSettingsPresetName", "TtlSettings", "ColumnShardCount", "ShardingColumns", });
     internal_static_Ydb_LogStore_DescribeLogTableResponse_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_Ydb_LogStore_DescribeLogTableResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LogStore_DescribeLogTableResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_LogStore_DropLogTableRequest_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_Ydb_LogStore_DropLogTableRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LogStore_DropLogTableRequest_descriptor,
         new java.lang.String[] { "OperationParams", "Path", });
     internal_static_Ydb_LogStore_DropLogTableResponse_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_Ydb_LogStore_DropLogTableResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_LogStore_DropLogTableResponse_descriptor,
         new java.lang.String[] { "Operation", });
+    internal_static_Ydb_LogStore_AlterLogTableRequest_descriptor =
+      getDescriptor().getMessageTypes().get(18);
+    internal_static_Ydb_LogStore_AlterLogTableRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_LogStore_AlterLogTableRequest_descriptor,
+        new java.lang.String[] { "OperationParams", "Path", "DropTtlSettings", "SetTtlSettings", "TtlAction", });
+    internal_static_Ydb_LogStore_AlterLogTableResponse_descriptor =
+      getDescriptor().getMessageTypes().get(19);
+    internal_static_Ydb_LogStore_AlterLogTableResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_LogStore_AlterLogTableResponse_descriptor,
+        new java.lang.String[] { "Operation", });
     tech.ydb.OperationProtos.getDescriptor();
     tech.ydb.ValueProtos.getDescriptor();
     tech.ydb.scheme.SchemeOperationProtos.getDescriptor();
+    tech.ydb.table.YdbTable.getDescriptor();
+    com.google.protobuf.EmptyProto.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)
