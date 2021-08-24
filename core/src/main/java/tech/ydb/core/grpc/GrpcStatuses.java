@@ -4,6 +4,8 @@ import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
 import io.grpc.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId.S_ERROR;
 
@@ -12,6 +14,9 @@ import static com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId.S_ERRO
  * @author Sergey Polovko
  */
 public final class GrpcStatuses {
+
+    private static final Logger logger = LoggerFactory.getLogger(GrpcStatuses.class);
+
     private GrpcStatuses() {}
 
     public static <T> Result<T> toResult(Status status) {
@@ -37,6 +42,7 @@ public final class GrpcStatuses {
     }
 
     private static String getMessage(Status status) {
+        logger.warn("gRPC issue", status.asException());
         String message = "gRPC error: (" + status.getCode() + ')';
         return status.getDescription() == null
             ? message
