@@ -25,7 +25,7 @@ public final class YdbTableV1 {
     java.lang.String[] descriptorData = {
       "\n)kikimr/public/api/grpc/ydb_table_v1.pr" +
       "oto\022\014Ydb.Table.V1\032(kikimr/public/api/pro" +
-      "tos/ydb_table.proto2\323\r\n\014TableService\022R\n\r" +
+      "tos/ydb_table.proto2\244\016\n\014TableService\022R\n\r" +
       "CreateSession\022\037.Ydb.Table.CreateSessionR" +
       "equest\032 .Ydb.Table.CreateSessionResponse" +
       "\022R\n\rDeleteSession\022\037.Ydb.Table.DeleteSess" +
@@ -41,36 +41,38 @@ public final class YdbTableV1 {
       ".Table.CopyTableRequest\032\034.Ydb.Table.Copy" +
       "TableResponse\022I\n\nCopyTables\022\034.Ydb.Table." +
       "CopyTablesRequest\032\035.Ydb.Table.CopyTables" +
-      "Response\022R\n\rDescribeTable\022\037.Ydb.Table.De" +
-      "scribeTableRequest\032 .Ydb.Table.DescribeT" +
-      "ableResponse\022[\n\020ExplainDataQuery\022\".Ydb.T" +
-      "able.ExplainDataQueryRequest\032#.Ydb.Table" +
-      ".ExplainDataQueryResponse\022[\n\020PrepareData" +
-      "Query\022\".Ydb.Table.PrepareDataQueryReques" +
-      "t\032#.Ydb.Table.PrepareDataQueryResponse\022[" +
-      "\n\020ExecuteDataQuery\022\".Ydb.Table.ExecuteDa" +
-      "taQueryRequest\032#.Ydb.Table.ExecuteDataQu" +
-      "eryResponse\022a\n\022ExecuteSchemeQuery\022$.Ydb." +
-      "Table.ExecuteSchemeQueryRequest\032%.Ydb.Ta" +
-      "ble.ExecuteSchemeQueryResponse\022[\n\020BeginT" +
-      "ransaction\022\".Ydb.Table.BeginTransactionR" +
-      "equest\032#.Ydb.Table.BeginTransactionRespo" +
-      "nse\022^\n\021CommitTransaction\022#.Ydb.Table.Com" +
-      "mitTransactionRequest\032$.Ydb.Table.Commit" +
-      "TransactionResponse\022d\n\023RollbackTransacti" +
-      "on\022%.Ydb.Table.RollbackTransactionReques" +
-      "t\032&.Ydb.Table.RollbackTransactionRespons" +
-      "e\022g\n\024DescribeTableOptions\022&.Ydb.Table.De" +
-      "scribeTableOptionsRequest\032\'.Ydb.Table.De" +
-      "scribeTableOptionsResponse\022N\n\017StreamRead" +
-      "Table\022\033.Ydb.Table.ReadTableRequest\032\034.Ydb" +
-      ".Table.ReadTableResponse0\001\022I\n\nBulkUpsert" +
-      "\022\034.Ydb.Table.BulkUpsertRequest\032\035.Ydb.Tab" +
-      "le.BulkUpsertResponse\022j\n\026StreamExecuteSc" +
-      "anQuery\022\".Ydb.Table.ExecuteScanQueryRequ" +
-      "est\032*.Ydb.Table.ExecuteScanQueryPartialR" +
-      "esponse0\001B\031\n\027tech.ydb.table.v1b\006pr" +
-      "oto3"
+      "Response\022O\n\014RenameTables\022\036.Ydb.Table.Ren" +
+      "ameTablesRequest\032\037.Ydb.Table.RenameTable" +
+      "sResponse\022R\n\rDescribeTable\022\037.Ydb.Table.D" +
+      "escribeTableRequest\032 .Ydb.Table.Describe" +
+      "TableResponse\022[\n\020ExplainDataQuery\022\".Ydb." +
+      "Table.ExplainDataQueryRequest\032#.Ydb.Tabl" +
+      "e.ExplainDataQueryResponse\022[\n\020PrepareDat" +
+      "aQuery\022\".Ydb.Table.PrepareDataQueryReque" +
+      "st\032#.Ydb.Table.PrepareDataQueryResponse\022" +
+      "[\n\020ExecuteDataQuery\022\".Ydb.Table.ExecuteD" +
+      "ataQueryRequest\032#.Ydb.Table.ExecuteDataQ" +
+      "ueryResponse\022a\n\022ExecuteSchemeQuery\022$.Ydb" +
+      ".Table.ExecuteSchemeQueryRequest\032%.Ydb.T" +
+      "able.ExecuteSchemeQueryResponse\022[\n\020Begin" +
+      "Transaction\022\".Ydb.Table.BeginTransaction" +
+      "Request\032#.Ydb.Table.BeginTransactionResp" +
+      "onse\022^\n\021CommitTransaction\022#.Ydb.Table.Co" +
+      "mmitTransactionRequest\032$.Ydb.Table.Commi" +
+      "tTransactionResponse\022d\n\023RollbackTransact" +
+      "ion\022%.Ydb.Table.RollbackTransactionReque" +
+      "st\032&.Ydb.Table.RollbackTransactionRespon" +
+      "se\022g\n\024DescribeTableOptions\022&.Ydb.Table.D" +
+      "escribeTableOptionsRequest\032\'.Ydb.Table.D" +
+      "escribeTableOptionsResponse\022N\n\017StreamRea" +
+      "dTable\022\033.Ydb.Table.ReadTableRequest\032\034.Yd" +
+      "b.Table.ReadTableResponse0\001\022I\n\nBulkUpser" +
+      "t\022\034.Ydb.Table.BulkUpsertRequest\032\035.Ydb.Ta" +
+      "ble.BulkUpsertResponse\022j\n\026StreamExecuteS" +
+      "canQuery\022\".Ydb.Table.ExecuteScanQueryReq" +
+      "uest\032*.Ydb.Table.ExecuteScanQueryPartial" +
+      "Response0\001B\031\n\027tech.ydb.table.v1b\006p" +
+      "roto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

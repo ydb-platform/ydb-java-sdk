@@ -275,6 +275,37 @@ public final class TableServiceGrpc {
     return getCopyTablesMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.RenameTablesRequest,
+      tech.ydb.table.YdbTable.RenameTablesResponse> getRenameTablesMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "RenameTables",
+      requestType = tech.ydb.table.YdbTable.RenameTablesRequest.class,
+      responseType = tech.ydb.table.YdbTable.RenameTablesResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.RenameTablesRequest,
+      tech.ydb.table.YdbTable.RenameTablesResponse> getRenameTablesMethod() {
+    io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.RenameTablesRequest, tech.ydb.table.YdbTable.RenameTablesResponse> getRenameTablesMethod;
+    if ((getRenameTablesMethod = TableServiceGrpc.getRenameTablesMethod) == null) {
+      synchronized (TableServiceGrpc.class) {
+        if ((getRenameTablesMethod = TableServiceGrpc.getRenameTablesMethod) == null) {
+          TableServiceGrpc.getRenameTablesMethod = getRenameTablesMethod =
+              io.grpc.MethodDescriptor.<tech.ydb.table.YdbTable.RenameTablesRequest, tech.ydb.table.YdbTable.RenameTablesResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "RenameTables"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.RenameTablesRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  tech.ydb.table.YdbTable.RenameTablesResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new TableServiceMethodDescriptorSupplier("RenameTables"))
+              .build();
+        }
+      }
+    }
+    return getRenameTablesMethod;
+  }
+
   private static volatile io.grpc.MethodDescriptor<tech.ydb.table.YdbTable.DescribeTableRequest,
       tech.ydb.table.YdbTable.DescribeTableResponse> getDescribeTableMethod;
 
@@ -783,6 +814,16 @@ public final class TableServiceGrpc {
 
     /**
      * <pre>
+     * Creates consistent move of given tables.
+     * </pre>
+     */
+    public void renameTables(tech.ydb.table.YdbTable.RenameTablesRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.RenameTablesResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getRenameTablesMethod(), responseObserver);
+    }
+
+    /**
+     * <pre>
      * Returns information about given table (metadata).
      * </pre>
      */
@@ -965,6 +1006,13 @@ public final class TableServiceGrpc {
                 tech.ydb.table.YdbTable.CopyTablesRequest,
                 tech.ydb.table.YdbTable.CopyTablesResponse>(
                   this, METHODID_COPY_TABLES)))
+          .addMethod(
+            getRenameTablesMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                tech.ydb.table.YdbTable.RenameTablesRequest,
+                tech.ydb.table.YdbTable.RenameTablesResponse>(
+                  this, METHODID_RENAME_TABLES)))
           .addMethod(
             getDescribeTableMethod(),
             asyncUnaryCall(
@@ -1159,6 +1207,17 @@ public final class TableServiceGrpc {
         io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.CopyTablesResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getCopyTablesMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Creates consistent move of given tables.
+     * </pre>
+     */
+    public void renameTables(tech.ydb.table.YdbTable.RenameTablesRequest request,
+        io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.RenameTablesResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getRenameTablesMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -1402,6 +1461,16 @@ public final class TableServiceGrpc {
 
     /**
      * <pre>
+     * Creates consistent move of given tables.
+     * </pre>
+     */
+    public tech.ydb.table.YdbTable.RenameTablesResponse renameTables(tech.ydb.table.YdbTable.RenameTablesRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getRenameTablesMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
      * Returns information about given table (metadata).
      * </pre>
      */
@@ -1639,6 +1708,17 @@ public final class TableServiceGrpc {
 
     /**
      * <pre>
+     * Creates consistent move of given tables.
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<tech.ydb.table.YdbTable.RenameTablesResponse> renameTables(
+        tech.ydb.table.YdbTable.RenameTablesRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getRenameTablesMethod(), getCallOptions()), request);
+    }
+
+    /**
+     * <pre>
      * Returns information about given table (metadata).
      * </pre>
      */
@@ -1762,18 +1842,19 @@ public final class TableServiceGrpc {
   private static final int METHODID_ALTER_TABLE = 5;
   private static final int METHODID_COPY_TABLE = 6;
   private static final int METHODID_COPY_TABLES = 7;
-  private static final int METHODID_DESCRIBE_TABLE = 8;
-  private static final int METHODID_EXPLAIN_DATA_QUERY = 9;
-  private static final int METHODID_PREPARE_DATA_QUERY = 10;
-  private static final int METHODID_EXECUTE_DATA_QUERY = 11;
-  private static final int METHODID_EXECUTE_SCHEME_QUERY = 12;
-  private static final int METHODID_BEGIN_TRANSACTION = 13;
-  private static final int METHODID_COMMIT_TRANSACTION = 14;
-  private static final int METHODID_ROLLBACK_TRANSACTION = 15;
-  private static final int METHODID_DESCRIBE_TABLE_OPTIONS = 16;
-  private static final int METHODID_STREAM_READ_TABLE = 17;
-  private static final int METHODID_BULK_UPSERT = 18;
-  private static final int METHODID_STREAM_EXECUTE_SCAN_QUERY = 19;
+  private static final int METHODID_RENAME_TABLES = 8;
+  private static final int METHODID_DESCRIBE_TABLE = 9;
+  private static final int METHODID_EXPLAIN_DATA_QUERY = 10;
+  private static final int METHODID_PREPARE_DATA_QUERY = 11;
+  private static final int METHODID_EXECUTE_DATA_QUERY = 12;
+  private static final int METHODID_EXECUTE_SCHEME_QUERY = 13;
+  private static final int METHODID_BEGIN_TRANSACTION = 14;
+  private static final int METHODID_COMMIT_TRANSACTION = 15;
+  private static final int METHODID_ROLLBACK_TRANSACTION = 16;
+  private static final int METHODID_DESCRIBE_TABLE_OPTIONS = 17;
+  private static final int METHODID_STREAM_READ_TABLE = 18;
+  private static final int METHODID_BULK_UPSERT = 19;
+  private static final int METHODID_STREAM_EXECUTE_SCAN_QUERY = 20;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -1823,6 +1904,10 @@ public final class TableServiceGrpc {
         case METHODID_COPY_TABLES:
           serviceImpl.copyTables((tech.ydb.table.YdbTable.CopyTablesRequest) request,
               (io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.CopyTablesResponse>) responseObserver);
+          break;
+        case METHODID_RENAME_TABLES:
+          serviceImpl.renameTables((tech.ydb.table.YdbTable.RenameTablesRequest) request,
+              (io.grpc.stub.StreamObserver<tech.ydb.table.YdbTable.RenameTablesResponse>) responseObserver);
           break;
         case METHODID_DESCRIBE_TABLE:
           serviceImpl.describeTable((tech.ydb.table.YdbTable.DescribeTableRequest) request,
@@ -1941,6 +2026,7 @@ public final class TableServiceGrpc {
               .addMethod(getAlterTableMethod())
               .addMethod(getCopyTableMethod())
               .addMethod(getCopyTablesMethod())
+              .addMethod(getRenameTablesMethod())
               .addMethod(getDescribeTableMethod())
               .addMethod(getExplainDataQueryMethod())
               .addMethod(getPrepareDataQueryMethod())

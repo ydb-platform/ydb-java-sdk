@@ -120,6 +120,37 @@ public final class YqlInternalTaskServiceGrpc {
     return getWriteTaskResultMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest,
+      com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse> getNodesHealthCheckMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "NodesHealthCheck",
+      requestType = com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest.class,
+      responseType = com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest,
+      com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse> getNodesHealthCheckMethod() {
+    io.grpc.MethodDescriptor<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse> getNodesHealthCheckMethod;
+    if ((getNodesHealthCheckMethod = YqlInternalTaskServiceGrpc.getNodesHealthCheckMethod) == null) {
+      synchronized (YqlInternalTaskServiceGrpc.class) {
+        if ((getNodesHealthCheckMethod = YqlInternalTaskServiceGrpc.getNodesHealthCheckMethod) == null) {
+          YqlInternalTaskServiceGrpc.getNodesHealthCheckMethod = getNodesHealthCheckMethod =
+              io.grpc.MethodDescriptor.<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "NodesHealthCheck"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new YqlInternalTaskServiceMethodDescriptorSupplier("NodesHealthCheck"))
+              .build();
+        }
+      }
+    }
+    return getNodesHealthCheckMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -198,6 +229,16 @@ public final class YqlInternalTaskServiceGrpc {
       asyncUnimplementedUnaryCall(getWriteTaskResultMethod(), responseObserver);
     }
 
+    /**
+     * <pre>
+     *Nodes
+     * </pre>
+     */
+    public void nodesHealthCheck(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getNodesHealthCheckMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -221,6 +262,13 @@ public final class YqlInternalTaskServiceGrpc {
                 com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultRequest,
                 com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResponse>(
                   this, METHODID_WRITE_TASK_RESULT)))
+          .addMethod(
+            getNodesHealthCheckMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest,
+                com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse>(
+                  this, METHODID_NODES_HEALTH_CHECK)))
           .build();
     }
   }
@@ -271,6 +319,17 @@ public final class YqlInternalTaskServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(getWriteTaskResultMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     * <pre>
+     *Nodes
+     * </pre>
+     */
+    public void nodesHealthCheck(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getNodesHealthCheckMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -315,6 +374,16 @@ public final class YqlInternalTaskServiceGrpc {
     public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResponse writeTaskResult(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultRequest request) {
       return blockingUnaryCall(
           getChannel(), getWriteTaskResultMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     *Nodes
+     * </pre>
+     */
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse nodesHealthCheck(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getNodesHealthCheckMethod(), getCallOptions(), request);
     }
   }
 
@@ -364,11 +433,23 @@ public final class YqlInternalTaskServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(getWriteTaskResultMethod(), getCallOptions()), request);
     }
+
+    /**
+     * <pre>
+     *Nodes
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse> nodesHealthCheck(
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getNodesHealthCheckMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GET_TASK = 0;
   private static final int METHODID_PING_TASK = 1;
   private static final int METHODID_WRITE_TASK_RESULT = 2;
+  private static final int METHODID_NODES_HEALTH_CHECK = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -398,6 +479,10 @@ public final class YqlInternalTaskServiceGrpc {
         case METHODID_WRITE_TASK_RESULT:
           serviceImpl.writeTaskResult((com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultRequest) request,
               (io.grpc.stub.StreamObserver<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.WriteTaskResultResponse>) responseObserver);
+          break;
+        case METHODID_NODES_HEALTH_CHECK:
+          serviceImpl.nodesHealthCheck((com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest) request,
+              (io.grpc.stub.StreamObserver<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -463,6 +548,7 @@ public final class YqlInternalTaskServiceGrpc {
               .addMethod(getGetTaskMethod())
               .addMethod(getPingTaskMethod())
               .addMethod(getWriteTaskResultMethod())
+              .addMethod(getNodesHealthCheckMethod())
               .build();
         }
       }

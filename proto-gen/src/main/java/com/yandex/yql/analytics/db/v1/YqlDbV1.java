@@ -25,15 +25,18 @@ public final class YqlDbV1 {
     java.lang.String[] descriptorData = {
       "\n,kikimr/public/api/grpc/draft/yql_db_v1" +
       ".proto\022\020Yql.Analytics.V1\0321kikimr/public/" +
-      "api/protos/draft/yql_internal.proto2\221\002\n\026" +
+      "api/protos/draft/yql_internal.proto2\366\002\n\026" +
       "YqlInternalTaskService\022H\n\007GetTask\022\035.Yql." +
       "Analytics.GetTaskRequest\032\036.Yql.Analytics" +
       ".GetTaskResponse\022K\n\010PingTask\022\036.Yql.Analy" +
       "tics.PingTaskRequest\032\037.Yql.Analytics.Pin" +
       "gTaskResponse\022`\n\017WriteTaskResult\022%.Yql.A" +
       "nalytics.WriteTaskResultRequest\032&.Yql.An" +
-      "alytics.WriteTaskResultResponseB \n\036com.y" +
-      "andex.yql.analytics.db.v1b\006proto3"
+      "alytics.WriteTaskResultResponse\022c\n\020Nodes" +
+      "HealthCheck\022&.Yql.Analytics.NodesHealthC" +
+      "heckRequest\032\'.Yql.Analytics.NodesHealthC" +
+      "heckResponseB \n\036com.yandex.yql.analytics" +
+      ".db.v1b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

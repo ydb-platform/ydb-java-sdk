@@ -13350,6 +13350,3480 @@ public final class AnalyticsIntenalProtos {
 
   }
 
+  public interface NodesHealthCheckRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Yql.Analytics.NodesHealthCheckRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string tenant = 1;</code>
+     * @return The tenant.
+     */
+    java.lang.String getTenant();
+    /**
+     * <code>string tenant = 1;</code>
+     * @return The bytes for tenant.
+     */
+    com.google.protobuf.ByteString
+        getTenantBytes();
+
+    /**
+     * <code>uint32 node_id = 2;</code>
+     * @return The nodeId.
+     */
+    int getNodeId();
+
+    /**
+     * <code>string instance_id = 3;</code>
+     * @return The instanceId.
+     */
+    java.lang.String getInstanceId();
+    /**
+     * <code>string instance_id = 3;</code>
+     * @return The bytes for instanceId.
+     */
+    com.google.protobuf.ByteString
+        getInstanceIdBytes();
+
+    /**
+     * <code>string hostname = 4;</code>
+     * @return The hostname.
+     */
+    java.lang.String getHostname();
+    /**
+     * <code>string hostname = 4;</code>
+     * @return The bytes for hostname.
+     */
+    com.google.protobuf.ByteString
+        getHostnameBytes();
+
+    /**
+     * <code>uint64 active_workers = 5;</code>
+     * @return The activeWorkers.
+     */
+    long getActiveWorkers();
+
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 6;</code>
+     * @return Whether the operationParams field is set.
+     */
+    boolean hasOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 6;</code>
+     * @return The operationParams.
+     */
+    tech.ydb.OperationProtos.OperationParams getOperationParams();
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 6;</code>
+     */
+    tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Yql.Analytics.NodesHealthCheckRequest}
+   */
+  public static final class NodesHealthCheckRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Yql.Analytics.NodesHealthCheckRequest)
+      NodesHealthCheckRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use NodesHealthCheckRequest.newBuilder() to construct.
+    private NodesHealthCheckRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private NodesHealthCheckRequest() {
+      tenant_ = "";
+      instanceId_ = "";
+      hostname_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new NodesHealthCheckRequest();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private NodesHealthCheckRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              tenant_ = s;
+              break;
+            }
+            case 16: {
+
+              nodeId_ = input.readUInt32();
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              instanceId_ = s;
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              hostname_ = s;
+              break;
+            }
+            case 40: {
+
+              activeWorkers_ = input.readUInt64();
+              break;
+            }
+            case 50: {
+              tech.ydb.OperationProtos.OperationParams.Builder subBuilder = null;
+              if (operationParams_ != null) {
+                subBuilder = operationParams_.toBuilder();
+              }
+              operationParams_ = input.readMessage(tech.ydb.OperationProtos.OperationParams.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operationParams_);
+                operationParams_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_NodesHealthCheckRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_NodesHealthCheckRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest.class, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest.Builder.class);
+    }
+
+    public static final int TENANT_FIELD_NUMBER = 1;
+    private volatile java.lang.Object tenant_;
+    /**
+     * <code>string tenant = 1;</code>
+     * @return The tenant.
+     */
+    @java.lang.Override
+    public java.lang.String getTenant() {
+      java.lang.Object ref = tenant_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        tenant_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string tenant = 1;</code>
+     * @return The bytes for tenant.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTenantBytes() {
+      java.lang.Object ref = tenant_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tenant_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int NODE_ID_FIELD_NUMBER = 2;
+    private int nodeId_;
+    /**
+     * <code>uint32 node_id = 2;</code>
+     * @return The nodeId.
+     */
+    @java.lang.Override
+    public int getNodeId() {
+      return nodeId_;
+    }
+
+    public static final int INSTANCE_ID_FIELD_NUMBER = 3;
+    private volatile java.lang.Object instanceId_;
+    /**
+     * <code>string instance_id = 3;</code>
+     * @return The instanceId.
+     */
+    @java.lang.Override
+    public java.lang.String getInstanceId() {
+      java.lang.Object ref = instanceId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        instanceId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string instance_id = 3;</code>
+     * @return The bytes for instanceId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getInstanceIdBytes() {
+      java.lang.Object ref = instanceId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        instanceId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int HOSTNAME_FIELD_NUMBER = 4;
+    private volatile java.lang.Object hostname_;
+    /**
+     * <code>string hostname = 4;</code>
+     * @return The hostname.
+     */
+    @java.lang.Override
+    public java.lang.String getHostname() {
+      java.lang.Object ref = hostname_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        hostname_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string hostname = 4;</code>
+     * @return The bytes for hostname.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getHostnameBytes() {
+      java.lang.Object ref = hostname_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        hostname_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ACTIVE_WORKERS_FIELD_NUMBER = 5;
+    private long activeWorkers_;
+    /**
+     * <code>uint64 active_workers = 5;</code>
+     * @return The activeWorkers.
+     */
+    @java.lang.Override
+    public long getActiveWorkers() {
+      return activeWorkers_;
+    }
+
+    public static final int OPERATION_PARAMS_FIELD_NUMBER = 6;
+    private tech.ydb.OperationProtos.OperationParams operationParams_;
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 6;</code>
+     * @return Whether the operationParams field is set.
+     */
+    @java.lang.Override
+    public boolean hasOperationParams() {
+      return operationParams_ != null;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 6;</code>
+     * @return The operationParams.
+     */
+    @java.lang.Override
+    public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+      return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+    }
+    /**
+     * <code>.Ydb.Operations.OperationParams operation_params = 6;</code>
+     */
+    @java.lang.Override
+    public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+      return getOperationParams();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getTenantBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, tenant_);
+      }
+      if (nodeId_ != 0) {
+        output.writeUInt32(2, nodeId_);
+      }
+      if (!getInstanceIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, instanceId_);
+      }
+      if (!getHostnameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, hostname_);
+      }
+      if (activeWorkers_ != 0L) {
+        output.writeUInt64(5, activeWorkers_);
+      }
+      if (operationParams_ != null) {
+        output.writeMessage(6, getOperationParams());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getTenantBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, tenant_);
+      }
+      if (nodeId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, nodeId_);
+      }
+      if (!getInstanceIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, instanceId_);
+      }
+      if (!getHostnameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, hostname_);
+      }
+      if (activeWorkers_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(5, activeWorkers_);
+      }
+      if (operationParams_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, getOperationParams());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest)) {
+        return super.equals(obj);
+      }
+      com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest other = (com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest) obj;
+
+      if (!getTenant()
+          .equals(other.getTenant())) return false;
+      if (getNodeId()
+          != other.getNodeId()) return false;
+      if (!getInstanceId()
+          .equals(other.getInstanceId())) return false;
+      if (!getHostname()
+          .equals(other.getHostname())) return false;
+      if (getActiveWorkers()
+          != other.getActiveWorkers()) return false;
+      if (hasOperationParams() != other.hasOperationParams()) return false;
+      if (hasOperationParams()) {
+        if (!getOperationParams()
+            .equals(other.getOperationParams())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TENANT_FIELD_NUMBER;
+      hash = (53 * hash) + getTenant().hashCode();
+      hash = (37 * hash) + NODE_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getNodeId();
+      hash = (37 * hash) + INSTANCE_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getInstanceId().hashCode();
+      hash = (37 * hash) + HOSTNAME_FIELD_NUMBER;
+      hash = (53 * hash) + getHostname().hashCode();
+      hash = (37 * hash) + ACTIVE_WORKERS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getActiveWorkers());
+      if (hasOperationParams()) {
+        hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getOperationParams().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Yql.Analytics.NodesHealthCheckRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Yql.Analytics.NodesHealthCheckRequest)
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_NodesHealthCheckRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_NodesHealthCheckRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest.class, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest.Builder.class);
+      }
+
+      // Construct using com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        tenant_ = "";
+
+        nodeId_ = 0;
+
+        instanceId_ = "";
+
+        hostname_ = "";
+
+        activeWorkers_ = 0L;
+
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_NodesHealthCheckRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest getDefaultInstanceForType() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest build() {
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest buildPartial() {
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest result = new com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest(this);
+        result.tenant_ = tenant_;
+        result.nodeId_ = nodeId_;
+        result.instanceId_ = instanceId_;
+        result.hostname_ = hostname_;
+        result.activeWorkers_ = activeWorkers_;
+        if (operationParamsBuilder_ == null) {
+          result.operationParams_ = operationParams_;
+        } else {
+          result.operationParams_ = operationParamsBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest) {
+          return mergeFrom((com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest other) {
+        if (other == com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest.getDefaultInstance()) return this;
+        if (!other.getTenant().isEmpty()) {
+          tenant_ = other.tenant_;
+          onChanged();
+        }
+        if (other.getNodeId() != 0) {
+          setNodeId(other.getNodeId());
+        }
+        if (!other.getInstanceId().isEmpty()) {
+          instanceId_ = other.instanceId_;
+          onChanged();
+        }
+        if (!other.getHostname().isEmpty()) {
+          hostname_ = other.hostname_;
+          onChanged();
+        }
+        if (other.getActiveWorkers() != 0L) {
+          setActiveWorkers(other.getActiveWorkers());
+        }
+        if (other.hasOperationParams()) {
+          mergeOperationParams(other.getOperationParams());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object tenant_ = "";
+      /**
+       * <code>string tenant = 1;</code>
+       * @return The tenant.
+       */
+      public java.lang.String getTenant() {
+        java.lang.Object ref = tenant_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          tenant_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string tenant = 1;</code>
+       * @return The bytes for tenant.
+       */
+      public com.google.protobuf.ByteString
+          getTenantBytes() {
+        java.lang.Object ref = tenant_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tenant_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string tenant = 1;</code>
+       * @param value The tenant to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTenant(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        tenant_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string tenant = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTenant() {
+        
+        tenant_ = getDefaultInstance().getTenant();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string tenant = 1;</code>
+       * @param value The bytes for tenant to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTenantBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        tenant_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int nodeId_ ;
+      /**
+       * <code>uint32 node_id = 2;</code>
+       * @return The nodeId.
+       */
+      @java.lang.Override
+      public int getNodeId() {
+        return nodeId_;
+      }
+      /**
+       * <code>uint32 node_id = 2;</code>
+       * @param value The nodeId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNodeId(int value) {
+        
+        nodeId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 node_id = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNodeId() {
+        
+        nodeId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object instanceId_ = "";
+      /**
+       * <code>string instance_id = 3;</code>
+       * @return The instanceId.
+       */
+      public java.lang.String getInstanceId() {
+        java.lang.Object ref = instanceId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          instanceId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string instance_id = 3;</code>
+       * @return The bytes for instanceId.
+       */
+      public com.google.protobuf.ByteString
+          getInstanceIdBytes() {
+        java.lang.Object ref = instanceId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          instanceId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string instance_id = 3;</code>
+       * @param value The instanceId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setInstanceId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        instanceId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string instance_id = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearInstanceId() {
+        
+        instanceId_ = getDefaultInstance().getInstanceId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string instance_id = 3;</code>
+       * @param value The bytes for instanceId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setInstanceIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        instanceId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object hostname_ = "";
+      /**
+       * <code>string hostname = 4;</code>
+       * @return The hostname.
+       */
+      public java.lang.String getHostname() {
+        java.lang.Object ref = hostname_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          hostname_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string hostname = 4;</code>
+       * @return The bytes for hostname.
+       */
+      public com.google.protobuf.ByteString
+          getHostnameBytes() {
+        java.lang.Object ref = hostname_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          hostname_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string hostname = 4;</code>
+       * @param value The hostname to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHostname(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        hostname_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string hostname = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHostname() {
+        
+        hostname_ = getDefaultInstance().getHostname();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string hostname = 4;</code>
+       * @param value The bytes for hostname to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHostnameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        hostname_ = value;
+        onChanged();
+        return this;
+      }
+
+      private long activeWorkers_ ;
+      /**
+       * <code>uint64 active_workers = 5;</code>
+       * @return The activeWorkers.
+       */
+      @java.lang.Override
+      public long getActiveWorkers() {
+        return activeWorkers_;
+      }
+      /**
+       * <code>uint64 active_workers = 5;</code>
+       * @param value The activeWorkers to set.
+       * @return This builder for chaining.
+       */
+      public Builder setActiveWorkers(long value) {
+        
+        activeWorkers_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 active_workers = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearActiveWorkers() {
+        
+        activeWorkers_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.OperationParams operationParams_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 6;</code>
+       * @return Whether the operationParams field is set.
+       */
+      public boolean hasOperationParams() {
+        return operationParamsBuilder_ != null || operationParams_ != null;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 6;</code>
+       * @return The operationParams.
+       */
+      public tech.ydb.OperationProtos.OperationParams getOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        } else {
+          return operationParamsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 6;</code>
+       */
+      public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operationParams_ = value;
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 6;</code>
+       */
+      public Builder setOperationParams(
+          tech.ydb.OperationProtos.OperationParams.Builder builderForValue) {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationParamsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 6;</code>
+       */
+      public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
+        if (operationParamsBuilder_ == null) {
+          if (operationParams_ != null) {
+            operationParams_ =
+              tech.ydb.OperationProtos.OperationParams.newBuilder(operationParams_).mergeFrom(value).buildPartial();
+          } else {
+            operationParams_ = value;
+          }
+          onChanged();
+        } else {
+          operationParamsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 6;</code>
+       */
+      public Builder clearOperationParams() {
+        if (operationParamsBuilder_ == null) {
+          operationParams_ = null;
+          onChanged();
+        } else {
+          operationParams_ = null;
+          operationParamsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 6;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
+        
+        onChanged();
+        return getOperationParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 6;</code>
+       */
+      public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
+        if (operationParamsBuilder_ != null) {
+          return operationParamsBuilder_.getMessageOrBuilder();
+        } else {
+          return operationParams_ == null ?
+              tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
+        }
+      }
+      /**
+       * <code>.Ydb.Operations.OperationParams operation_params = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> 
+          getOperationParamsFieldBuilder() {
+        if (operationParamsBuilder_ == null) {
+          operationParamsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder>(
+                  getOperationParams(),
+                  getParentForChildren(),
+                  isClean());
+          operationParams_ = null;
+        }
+        return operationParamsBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Yql.Analytics.NodesHealthCheckRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:Yql.Analytics.NodesHealthCheckRequest)
+    private static final com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest();
+    }
+
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<NodesHealthCheckRequest>
+        PARSER = new com.google.protobuf.AbstractParser<NodesHealthCheckRequest>() {
+      @java.lang.Override
+      public NodesHealthCheckRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new NodesHealthCheckRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<NodesHealthCheckRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<NodesHealthCheckRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface NodesHealthCheckResultOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Yql.Analytics.NodesHealthCheckResult)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+     */
+    java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo> 
+        getNodesList();
+    /**
+     * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+     */
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo getNodes(int index);
+    /**
+     * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+     */
+    int getNodesCount();
+    /**
+     * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+     */
+    java.util.List<? extends com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfoOrBuilder> 
+        getNodesOrBuilderList();
+    /**
+     * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+     */
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfoOrBuilder getNodesOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code Yql.Analytics.NodesHealthCheckResult}
+   */
+  public static final class NodesHealthCheckResult extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Yql.Analytics.NodesHealthCheckResult)
+      NodesHealthCheckResultOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use NodesHealthCheckResult.newBuilder() to construct.
+    private NodesHealthCheckResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private NodesHealthCheckResult() {
+      nodes_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new NodesHealthCheckResult();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private NodesHealthCheckResult(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                nodes_ = new java.util.ArrayList<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              nodes_.add(
+                  input.readMessage(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          nodes_ = java.util.Collections.unmodifiableList(nodes_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_NodesHealthCheckResult_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_NodesHealthCheckResult_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.class, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.Builder.class);
+    }
+
+    public interface NodeInfoOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:Yql.Analytics.NodesHealthCheckResult.NodeInfo)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>uint32 node_id = 1;</code>
+       * @return The nodeId.
+       */
+      int getNodeId();
+
+      /**
+       * <code>string instance_id = 2;</code>
+       * @return The instanceId.
+       */
+      java.lang.String getInstanceId();
+      /**
+       * <code>string instance_id = 2;</code>
+       * @return The bytes for instanceId.
+       */
+      com.google.protobuf.ByteString
+          getInstanceIdBytes();
+
+      /**
+       * <code>string hostname = 3;</code>
+       * @return The hostname.
+       */
+      java.lang.String getHostname();
+      /**
+       * <code>string hostname = 3;</code>
+       * @return The bytes for hostname.
+       */
+      com.google.protobuf.ByteString
+          getHostnameBytes();
+    }
+    /**
+     * Protobuf type {@code Yql.Analytics.NodesHealthCheckResult.NodeInfo}
+     */
+    public static final class NodeInfo extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:Yql.Analytics.NodesHealthCheckResult.NodeInfo)
+        NodeInfoOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use NodeInfo.newBuilder() to construct.
+      private NodeInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private NodeInfo() {
+        instanceId_ = "";
+        hostname_ = "";
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new NodeInfo();
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private NodeInfo(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+
+                nodeId_ = input.readUInt32();
+                break;
+              }
+              case 18: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                instanceId_ = s;
+                break;
+              }
+              case 26: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                hostname_ = s;
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_NodesHealthCheckResult_NodeInfo_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_NodesHealthCheckResult_NodeInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo.class, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo.Builder.class);
+      }
+
+      public static final int NODE_ID_FIELD_NUMBER = 1;
+      private int nodeId_;
+      /**
+       * <code>uint32 node_id = 1;</code>
+       * @return The nodeId.
+       */
+      @java.lang.Override
+      public int getNodeId() {
+        return nodeId_;
+      }
+
+      public static final int INSTANCE_ID_FIELD_NUMBER = 2;
+      private volatile java.lang.Object instanceId_;
+      /**
+       * <code>string instance_id = 2;</code>
+       * @return The instanceId.
+       */
+      @java.lang.Override
+      public java.lang.String getInstanceId() {
+        java.lang.Object ref = instanceId_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          instanceId_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string instance_id = 2;</code>
+       * @return The bytes for instanceId.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getInstanceIdBytes() {
+        java.lang.Object ref = instanceId_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          instanceId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int HOSTNAME_FIELD_NUMBER = 3;
+      private volatile java.lang.Object hostname_;
+      /**
+       * <code>string hostname = 3;</code>
+       * @return The hostname.
+       */
+      @java.lang.Override
+      public java.lang.String getHostname() {
+        java.lang.Object ref = hostname_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          hostname_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string hostname = 3;</code>
+       * @return The bytes for hostname.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getHostnameBytes() {
+        java.lang.Object ref = hostname_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          hostname_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (nodeId_ != 0) {
+          output.writeUInt32(1, nodeId_);
+        }
+        if (!getInstanceIdBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 2, instanceId_);
+        }
+        if (!getHostnameBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 3, hostname_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (nodeId_ != 0) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeUInt32Size(1, nodeId_);
+        }
+        if (!getInstanceIdBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, instanceId_);
+        }
+        if (!getHostnameBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, hostname_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo)) {
+          return super.equals(obj);
+        }
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo other = (com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo) obj;
+
+        if (getNodeId()
+            != other.getNodeId()) return false;
+        if (!getInstanceId()
+            .equals(other.getInstanceId())) return false;
+        if (!getHostname()
+            .equals(other.getHostname())) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + NODE_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getNodeId();
+        hash = (37 * hash) + INSTANCE_ID_FIELD_NUMBER;
+        hash = (53 * hash) + getInstanceId().hashCode();
+        hash = (37 * hash) + HOSTNAME_FIELD_NUMBER;
+        hash = (53 * hash) + getHostname().hashCode();
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code Yql.Analytics.NodesHealthCheckResult.NodeInfo}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:Yql.Analytics.NodesHealthCheckResult.NodeInfo)
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfoOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_NodesHealthCheckResult_NodeInfo_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_NodesHealthCheckResult_NodeInfo_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo.class, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo.Builder.class);
+        }
+
+        // Construct using com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          nodeId_ = 0;
+
+          instanceId_ = "";
+
+          hostname_ = "";
+
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_NodesHealthCheckResult_NodeInfo_descriptor;
+        }
+
+        @java.lang.Override
+        public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo getDefaultInstanceForType() {
+          return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo build() {
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo buildPartial() {
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo result = new com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo(this);
+          result.nodeId_ = nodeId_;
+          result.instanceId_ = instanceId_;
+          result.hostname_ = hostname_;
+          onBuilt();
+          return result;
+        }
+
+        @java.lang.Override
+        public Builder clone() {
+          return super.clone();
+        }
+        @java.lang.Override
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return super.setField(field, value);
+        }
+        @java.lang.Override
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return super.clearField(field);
+        }
+        @java.lang.Override
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return super.clearOneof(oneof);
+        }
+        @java.lang.Override
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return super.setRepeatedField(field, index, value);
+        }
+        @java.lang.Override
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return super.addRepeatedField(field, value);
+        }
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo) {
+            return mergeFrom((com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo other) {
+          if (other == com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo.getDefaultInstance()) return this;
+          if (other.getNodeId() != 0) {
+            setNodeId(other.getNodeId());
+          }
+          if (!other.getInstanceId().isEmpty()) {
+            instanceId_ = other.instanceId_;
+            onChanged();
+          }
+          if (!other.getHostname().isEmpty()) {
+            hostname_ = other.hostname_;
+            onChanged();
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+
+        private int nodeId_ ;
+        /**
+         * <code>uint32 node_id = 1;</code>
+         * @return The nodeId.
+         */
+        @java.lang.Override
+        public int getNodeId() {
+          return nodeId_;
+        }
+        /**
+         * <code>uint32 node_id = 1;</code>
+         * @param value The nodeId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setNodeId(int value) {
+          
+          nodeId_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>uint32 node_id = 1;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearNodeId() {
+          
+          nodeId_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object instanceId_ = "";
+        /**
+         * <code>string instance_id = 2;</code>
+         * @return The instanceId.
+         */
+        public java.lang.String getInstanceId() {
+          java.lang.Object ref = instanceId_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            instanceId_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string instance_id = 2;</code>
+         * @return The bytes for instanceId.
+         */
+        public com.google.protobuf.ByteString
+            getInstanceIdBytes() {
+          java.lang.Object ref = instanceId_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            instanceId_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string instance_id = 2;</code>
+         * @param value The instanceId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setInstanceId(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          instanceId_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string instance_id = 2;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearInstanceId() {
+          
+          instanceId_ = getDefaultInstance().getInstanceId();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string instance_id = 2;</code>
+         * @param value The bytes for instanceId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setInstanceIdBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          instanceId_ = value;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object hostname_ = "";
+        /**
+         * <code>string hostname = 3;</code>
+         * @return The hostname.
+         */
+        public java.lang.String getHostname() {
+          java.lang.Object ref = hostname_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            hostname_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string hostname = 3;</code>
+         * @return The bytes for hostname.
+         */
+        public com.google.protobuf.ByteString
+            getHostnameBytes() {
+          java.lang.Object ref = hostname_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            hostname_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string hostname = 3;</code>
+         * @param value The hostname to set.
+         * @return This builder for chaining.
+         */
+        public Builder setHostname(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          hostname_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string hostname = 3;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearHostname() {
+          
+          hostname_ = getDefaultInstance().getHostname();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string hostname = 3;</code>
+         * @param value The bytes for hostname to set.
+         * @return This builder for chaining.
+         */
+        public Builder setHostnameBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          hostname_ = value;
+          onChanged();
+          return this;
+        }
+        @java.lang.Override
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFields(unknownFields);
+        }
+
+        @java.lang.Override
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:Yql.Analytics.NodesHealthCheckResult.NodeInfo)
+      }
+
+      // @@protoc_insertion_point(class_scope:Yql.Analytics.NodesHealthCheckResult.NodeInfo)
+      private static final com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo();
+      }
+
+      public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<NodeInfo>
+          PARSER = new com.google.protobuf.AbstractParser<NodeInfo>() {
+        @java.lang.Override
+        public NodeInfo parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new NodeInfo(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<NodeInfo> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<NodeInfo> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
+    public static final int NODES_FIELD_NUMBER = 1;
+    private java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo> nodes_;
+    /**
+     * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+     */
+    @java.lang.Override
+    public java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo> getNodesList() {
+      return nodes_;
+    }
+    /**
+     * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfoOrBuilder> 
+        getNodesOrBuilderList() {
+      return nodes_;
+    }
+    /**
+     * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+     */
+    @java.lang.Override
+    public int getNodesCount() {
+      return nodes_.size();
+    }
+    /**
+     * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+     */
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo getNodes(int index) {
+      return nodes_.get(index);
+    }
+    /**
+     * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+     */
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfoOrBuilder getNodesOrBuilder(
+        int index) {
+      return nodes_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < nodes_.size(); i++) {
+        output.writeMessage(1, nodes_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < nodes_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, nodes_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult)) {
+        return super.equals(obj);
+      }
+      com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult other = (com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult) obj;
+
+      if (!getNodesList()
+          .equals(other.getNodesList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getNodesCount() > 0) {
+        hash = (37 * hash) + NODES_FIELD_NUMBER;
+        hash = (53 * hash) + getNodesList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Yql.Analytics.NodesHealthCheckResult}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Yql.Analytics.NodesHealthCheckResult)
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResultOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_NodesHealthCheckResult_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_NodesHealthCheckResult_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.class, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.Builder.class);
+      }
+
+      // Construct using com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getNodesFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        if (nodesBuilder_ == null) {
+          nodes_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          nodesBuilder_.clear();
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_NodesHealthCheckResult_descriptor;
+      }
+
+      @java.lang.Override
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult getDefaultInstanceForType() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult build() {
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult buildPartial() {
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult result = new com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult(this);
+        int from_bitField0_ = bitField0_;
+        if (nodesBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            nodes_ = java.util.Collections.unmodifiableList(nodes_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.nodes_ = nodes_;
+        } else {
+          result.nodes_ = nodesBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult) {
+          return mergeFrom((com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult other) {
+        if (other == com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.getDefaultInstance()) return this;
+        if (nodesBuilder_ == null) {
+          if (!other.nodes_.isEmpty()) {
+            if (nodes_.isEmpty()) {
+              nodes_ = other.nodes_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureNodesIsMutable();
+              nodes_.addAll(other.nodes_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.nodes_.isEmpty()) {
+            if (nodesBuilder_.isEmpty()) {
+              nodesBuilder_.dispose();
+              nodesBuilder_ = null;
+              nodes_ = other.nodes_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              nodesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getNodesFieldBuilder() : null;
+            } else {
+              nodesBuilder_.addAllMessages(other.nodes_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo> nodes_ =
+        java.util.Collections.emptyList();
+      private void ensureNodesIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          nodes_ = new java.util.ArrayList<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo>(nodes_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfoOrBuilder> nodesBuilder_;
+
+      /**
+       * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+       */
+      public java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo> getNodesList() {
+        if (nodesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(nodes_);
+        } else {
+          return nodesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+       */
+      public int getNodesCount() {
+        if (nodesBuilder_ == null) {
+          return nodes_.size();
+        } else {
+          return nodesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo getNodes(int index) {
+        if (nodesBuilder_ == null) {
+          return nodes_.get(index);
+        } else {
+          return nodesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+       */
+      public Builder setNodes(
+          int index, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo value) {
+        if (nodesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureNodesIsMutable();
+          nodes_.set(index, value);
+          onChanged();
+        } else {
+          nodesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+       */
+      public Builder setNodes(
+          int index, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo.Builder builderForValue) {
+        if (nodesBuilder_ == null) {
+          ensureNodesIsMutable();
+          nodes_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          nodesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+       */
+      public Builder addNodes(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo value) {
+        if (nodesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureNodesIsMutable();
+          nodes_.add(value);
+          onChanged();
+        } else {
+          nodesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+       */
+      public Builder addNodes(
+          int index, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo value) {
+        if (nodesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureNodesIsMutable();
+          nodes_.add(index, value);
+          onChanged();
+        } else {
+          nodesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+       */
+      public Builder addNodes(
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo.Builder builderForValue) {
+        if (nodesBuilder_ == null) {
+          ensureNodesIsMutable();
+          nodes_.add(builderForValue.build());
+          onChanged();
+        } else {
+          nodesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+       */
+      public Builder addNodes(
+          int index, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo.Builder builderForValue) {
+        if (nodesBuilder_ == null) {
+          ensureNodesIsMutable();
+          nodes_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          nodesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+       */
+      public Builder addAllNodes(
+          java.lang.Iterable<? extends com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo> values) {
+        if (nodesBuilder_ == null) {
+          ensureNodesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, nodes_);
+          onChanged();
+        } else {
+          nodesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+       */
+      public Builder clearNodes() {
+        if (nodesBuilder_ == null) {
+          nodes_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          nodesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+       */
+      public Builder removeNodes(int index) {
+        if (nodesBuilder_ == null) {
+          ensureNodesIsMutable();
+          nodes_.remove(index);
+          onChanged();
+        } else {
+          nodesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo.Builder getNodesBuilder(
+          int index) {
+        return getNodesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfoOrBuilder getNodesOrBuilder(
+          int index) {
+        if (nodesBuilder_ == null) {
+          return nodes_.get(index);  } else {
+          return nodesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+       */
+      public java.util.List<? extends com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfoOrBuilder> 
+           getNodesOrBuilderList() {
+        if (nodesBuilder_ != null) {
+          return nodesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(nodes_);
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo.Builder addNodesBuilder() {
+        return getNodesFieldBuilder().addBuilder(
+            com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo.Builder addNodesBuilder(
+          int index) {
+        return getNodesFieldBuilder().addBuilder(
+            index, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Yql.Analytics.NodesHealthCheckResult.NodeInfo nodes = 1;</code>
+       */
+      public java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo.Builder> 
+           getNodesBuilderList() {
+        return getNodesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfoOrBuilder> 
+          getNodesFieldBuilder() {
+        if (nodesBuilder_ == null) {
+          nodesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfo.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult.NodeInfoOrBuilder>(
+                  nodes_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          nodes_ = null;
+        }
+        return nodesBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Yql.Analytics.NodesHealthCheckResult)
+    }
+
+    // @@protoc_insertion_point(class_scope:Yql.Analytics.NodesHealthCheckResult)
+    private static final com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult();
+    }
+
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<NodesHealthCheckResult>
+        PARSER = new com.google.protobuf.AbstractParser<NodesHealthCheckResult>() {
+      @java.lang.Override
+      public NodesHealthCheckResult parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new NodesHealthCheckResult(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<NodesHealthCheckResult> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<NodesHealthCheckResult> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResult getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface NodesHealthCheckResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Yql.Analytics.NodesHealthCheckResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * NodesHealthCheckResult
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
+     */
+    boolean hasOperation();
+    /**
+     * <pre>
+     * NodesHealthCheckResult
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
+     */
+    tech.ydb.OperationProtos.Operation getOperation();
+    /**
+     * <pre>
+     * NodesHealthCheckResult
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Yql.Analytics.NodesHealthCheckResponse}
+   */
+  public static final class NodesHealthCheckResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Yql.Analytics.NodesHealthCheckResponse)
+      NodesHealthCheckResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use NodesHealthCheckResponse.newBuilder() to construct.
+    private NodesHealthCheckResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private NodesHealthCheckResponse() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new NodesHealthCheckResponse();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private NodesHealthCheckResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              tech.ydb.OperationProtos.Operation.Builder subBuilder = null;
+              if (operation_ != null) {
+                subBuilder = operation_.toBuilder();
+              }
+              operation_ = input.readMessage(tech.ydb.OperationProtos.Operation.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(operation_);
+                operation_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_NodesHealthCheckResponse_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_NodesHealthCheckResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse.class, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse.Builder.class);
+    }
+
+    public static final int OPERATION_FIELD_NUMBER = 1;
+    private tech.ydb.OperationProtos.Operation operation_;
+    /**
+     * <pre>
+     * NodesHealthCheckResult
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return Whether the operation field is set.
+     */
+    @java.lang.Override
+    public boolean hasOperation() {
+      return operation_ != null;
+    }
+    /**
+     * <pre>
+     * NodesHealthCheckResult
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     * @return The operation.
+     */
+    @java.lang.Override
+    public tech.ydb.OperationProtos.Operation getOperation() {
+      return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+    }
+    /**
+     * <pre>
+     * NodesHealthCheckResult
+     * </pre>
+     *
+     * <code>.Ydb.Operations.Operation operation = 1;</code>
+     */
+    @java.lang.Override
+    public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+      return getOperation();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (operation_ != null) {
+        output.writeMessage(1, getOperation());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (operation_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getOperation());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse)) {
+        return super.equals(obj);
+      }
+      com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse other = (com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse) obj;
+
+      if (hasOperation() != other.hasOperation()) return false;
+      if (hasOperation()) {
+        if (!getOperation()
+            .equals(other.getOperation())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasOperation()) {
+        hash = (37 * hash) + OPERATION_FIELD_NUMBER;
+        hash = (53 * hash) + getOperation().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Yql.Analytics.NodesHealthCheckResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Yql.Analytics.NodesHealthCheckResponse)
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_NodesHealthCheckResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_NodesHealthCheckResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse.class, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse.Builder.class);
+      }
+
+      // Construct using com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        if (operationBuilder_ == null) {
+          operation_ = null;
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_NodesHealthCheckResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse getDefaultInstanceForType() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse build() {
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse buildPartial() {
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse result = new com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse(this);
+        if (operationBuilder_ == null) {
+          result.operation_ = operation_;
+        } else {
+          result.operation_ = operationBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse) {
+          return mergeFrom((com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse other) {
+        if (other == com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse.getDefaultInstance()) return this;
+        if (other.hasOperation()) {
+          mergeOperation(other.getOperation());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private tech.ydb.OperationProtos.Operation operation_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
+      /**
+       * <pre>
+       * NodesHealthCheckResult
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return Whether the operation field is set.
+       */
+      public boolean hasOperation() {
+        return operationBuilder_ != null || operation_ != null;
+      }
+      /**
+       * <pre>
+       * NodesHealthCheckResult
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       * @return The operation.
+       */
+      public tech.ydb.OperationProtos.Operation getOperation() {
+        if (operationBuilder_ == null) {
+          return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        } else {
+          return operationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * NodesHealthCheckResult
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          operation_ = value;
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * NodesHealthCheckResult
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder setOperation(
+          tech.ydb.OperationProtos.Operation.Builder builderForValue) {
+        if (operationBuilder_ == null) {
+          operation_ = builderForValue.build();
+          onChanged();
+        } else {
+          operationBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * NodesHealthCheckResult
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder mergeOperation(tech.ydb.OperationProtos.Operation value) {
+        if (operationBuilder_ == null) {
+          if (operation_ != null) {
+            operation_ =
+              tech.ydb.OperationProtos.Operation.newBuilder(operation_).mergeFrom(value).buildPartial();
+          } else {
+            operation_ = value;
+          }
+          onChanged();
+        } else {
+          operationBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * NodesHealthCheckResult
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public Builder clearOperation() {
+        if (operationBuilder_ == null) {
+          operation_ = null;
+          onChanged();
+        } else {
+          operation_ = null;
+          operationBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * NodesHealthCheckResult
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.Operation.Builder getOperationBuilder() {
+        
+        onChanged();
+        return getOperationFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * NodesHealthCheckResult
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
+        if (operationBuilder_ != null) {
+          return operationBuilder_.getMessageOrBuilder();
+        } else {
+          return operation_ == null ?
+              tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
+        }
+      }
+      /**
+       * <pre>
+       * NodesHealthCheckResult
+       * </pre>
+       *
+       * <code>.Ydb.Operations.Operation operation = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> 
+          getOperationFieldBuilder() {
+        if (operationBuilder_ == null) {
+          operationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder>(
+                  getOperation(),
+                  getParentForChildren(),
+                  isClean());
+          operation_ = null;
+        }
+        return operationBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Yql.Analytics.NodesHealthCheckResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:Yql.Analytics.NodesHealthCheckResponse)
+    private static final com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse();
+    }
+
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<NodesHealthCheckResponse>
+        PARSER = new com.google.protobuf.AbstractParser<NodesHealthCheckResponse>() {
+      @java.lang.Override
+      public NodesHealthCheckResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new NodesHealthCheckResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<NodesHealthCheckResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<NodesHealthCheckResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.NodesHealthCheckResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Yql_Analytics_GetTaskRequest_descriptor;
   private static final 
@@ -13400,6 +16874,26 @@ public final class AnalyticsIntenalProtos {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Yql_Analytics_WriteTaskResultResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Yql_Analytics_NodesHealthCheckRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Yql_Analytics_NodesHealthCheckRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Yql_Analytics_NodesHealthCheckResult_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Yql_Analytics_NodesHealthCheckResult_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Yql_Analytics_NodesHealthCheckResult_NodeInfo_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Yql_Analytics_NodesHealthCheckResult_NodeInfo_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Yql_Analytics_NodesHealthCheckResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Yql_Analytics_NodesHealthCheckResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -13462,9 +16956,19 @@ public final class AnalyticsIntenalProtos {
       ".Ydb.Operations.OperationParams\"+\n\025Write" +
       "TaskResultResult\022\022\n\nrequest_id\030\001 \001(\004\"G\n\027" +
       "WriteTaskResultResponse\022,\n\toperation\030\001 \001" +
-      "(\0132\031.Ydb.Operations.OperationB>\n!com.yan" +
-      "dex.yql.analytics.internalB\026AnalyticsInt" +
-      "enalProtos\370\001\001b\006proto3"
+      "(\0132\031.Ydb.Operations.Operation\"\264\001\n\027NodesH" +
+      "ealthCheckRequest\022\016\n\006tenant\030\001 \001(\t\022\017\n\007nod" +
+      "e_id\030\002 \001(\r\022\023\n\013instance_id\030\003 \001(\t\022\020\n\010hostn" +
+      "ame\030\004 \001(\t\022\026\n\016active_workers\030\005 \001(\004\0229\n\020ope" +
+      "ration_params\030\006 \001(\0132\037.Ydb.Operations.Ope" +
+      "rationParams\"\233\001\n\026NodesHealthCheckResult\022" +
+      "=\n\005nodes\030\001 \003(\0132..Yql.Analytics.NodesHeal" +
+      "thCheckResult.NodeInfo\032B\n\010NodeInfo\022\017\n\007no" +
+      "de_id\030\001 \001(\r\022\023\n\013instance_id\030\002 \001(\t\022\020\n\010host" +
+      "name\030\003 \001(\t\"H\n\030NodesHealthCheckResponse\022," +
+      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
+      "tionB>\n!com.yandex.yql.analytics.interna" +
+      "lB\026AnalyticsIntenalProtos\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -13534,6 +17038,30 @@ public final class AnalyticsIntenalProtos {
     internal_static_Yql_Analytics_WriteTaskResultResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_WriteTaskResultResponse_descriptor,
+        new java.lang.String[] { "Operation", });
+    internal_static_Yql_Analytics_NodesHealthCheckRequest_descriptor =
+      getDescriptor().getMessageTypes().get(10);
+    internal_static_Yql_Analytics_NodesHealthCheckRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Yql_Analytics_NodesHealthCheckRequest_descriptor,
+        new java.lang.String[] { "Tenant", "NodeId", "InstanceId", "Hostname", "ActiveWorkers", "OperationParams", });
+    internal_static_Yql_Analytics_NodesHealthCheckResult_descriptor =
+      getDescriptor().getMessageTypes().get(11);
+    internal_static_Yql_Analytics_NodesHealthCheckResult_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Yql_Analytics_NodesHealthCheckResult_descriptor,
+        new java.lang.String[] { "Nodes", });
+    internal_static_Yql_Analytics_NodesHealthCheckResult_NodeInfo_descriptor =
+      internal_static_Yql_Analytics_NodesHealthCheckResult_descriptor.getNestedTypes().get(0);
+    internal_static_Yql_Analytics_NodesHealthCheckResult_NodeInfo_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Yql_Analytics_NodesHealthCheckResult_NodeInfo_descriptor,
+        new java.lang.String[] { "NodeId", "InstanceId", "Hostname", });
+    internal_static_Yql_Analytics_NodesHealthCheckResponse_descriptor =
+      getDescriptor().getMessageTypes().get(12);
+    internal_static_Yql_Analytics_NodesHealthCheckResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Yql_Analytics_NodesHealthCheckResponse_descriptor,
         new java.lang.String[] { "Operation", });
     tech.ydb.OperationProtos.getDescriptor();
     tech.ydb.ValueProtos.getDescriptor();
