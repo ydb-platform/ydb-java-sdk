@@ -16,6 +16,10 @@ public final class Datastreams {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   /**
+   * <pre>
+   * Extsions to simplify json &lt;-&gt; proto conversion
+   * </pre>
+   *
    * Protobuf enum {@code Ydb.DataStreams.V1.EFieldTransformationType}
    */
   public enum EFieldTransformationType
@@ -241,6 +245,10 @@ public final class Datastreams {
   }
 
   /**
+   * <pre>
+   * Determines how the shard iterator is used to start reading records
+   * </pre>
+   *
    * Protobuf enum {@code Ydb.DataStreams.V1.ShardIteratorType}
    */
   public enum ShardIteratorType
@@ -250,22 +258,42 @@ public final class Datastreams {
      */
     SHARD_ITERATOR_UNDEFINED(0),
     /**
+     * <pre>
+     * Start reading exactly from the position denoted by a sequence number
+     * </pre>
+     *
      * <code>AT_SEQUENCE_NUMBER = 1;</code>
      */
     AT_SEQUENCE_NUMBER(1),
     /**
+     * <pre>
+     * Start reading right after the specified position
+     * </pre>
+     *
      * <code>AFTER_SEQUENCE_NUMBER = 2;</code>
      */
     AFTER_SEQUENCE_NUMBER(2),
     /**
+     * <pre>
+     * Start reading from the position denoted by a specific timestamp
+     * </pre>
+     *
      * <code>AT_TIMESTAMP = 3;</code>
      */
     AT_TIMESTAMP(3),
     /**
+     * <pre>
+     * Start reading from the oldest record
+     * </pre>
+     *
      * <code>TRIM_HORIZON = 4;</code>
      */
     TRIM_HORIZON(4),
     /**
+     * <pre>
+     * Start reading latest records
+     * </pre>
+     *
      * <code>LATEST = 5;</code>
      */
     LATEST(5),
@@ -277,22 +305,42 @@ public final class Datastreams {
      */
     public static final int SHARD_ITERATOR_UNDEFINED_VALUE = 0;
     /**
+     * <pre>
+     * Start reading exactly from the position denoted by a sequence number
+     * </pre>
+     *
      * <code>AT_SEQUENCE_NUMBER = 1;</code>
      */
     public static final int AT_SEQUENCE_NUMBER_VALUE = 1;
     /**
+     * <pre>
+     * Start reading right after the specified position
+     * </pre>
+     *
      * <code>AFTER_SEQUENCE_NUMBER = 2;</code>
      */
     public static final int AFTER_SEQUENCE_NUMBER_VALUE = 2;
     /**
+     * <pre>
+     * Start reading from the position denoted by a specific timestamp
+     * </pre>
+     *
      * <code>AT_TIMESTAMP = 3;</code>
      */
     public static final int AT_TIMESTAMP_VALUE = 3;
     /**
+     * <pre>
+     * Start reading from the oldest record
+     * </pre>
+     *
      * <code>TRIM_HORIZON = 4;</code>
      */
     public static final int TRIM_HORIZON_VALUE = 4;
     /**
+     * <pre>
+     * Start reading latest records
+     * </pre>
+     *
      * <code>LATEST = 5;</code>
      */
     public static final int LATEST_VALUE = 5;
@@ -389,23 +437,39 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * List of shard-level metrics
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 1;</code>
      * @return A list containing the shardLevelMetrics.
      */
     java.util.List<java.lang.String>
         getShardLevelMetricsList();
     /**
+     * <pre>
+     * List of shard-level metrics
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 1;</code>
      * @return The count of shardLevelMetrics.
      */
     int getShardLevelMetricsCount();
     /**
+     * <pre>
+     * List of shard-level metrics
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 1;</code>
      * @param index The index of the element to return.
      * @return The shardLevelMetrics at the given index.
      */
     java.lang.String getShardLevelMetrics(int index);
     /**
+     * <pre>
+     * List of shard-level metrics
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 1;</code>
      * @param index The index of the value to return.
      * @return The bytes of the shardLevelMetrics at the given index.
@@ -507,6 +571,10 @@ public final class Datastreams {
     public static final int SHARD_LEVEL_METRICS_FIELD_NUMBER = 1;
     private com.google.protobuf.LazyStringList shardLevelMetrics_;
     /**
+     * <pre>
+     * List of shard-level metrics
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 1;</code>
      * @return A list containing the shardLevelMetrics.
      */
@@ -515,6 +583,10 @@ public final class Datastreams {
       return shardLevelMetrics_;
     }
     /**
+     * <pre>
+     * List of shard-level metrics
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 1;</code>
      * @return The count of shardLevelMetrics.
      */
@@ -522,6 +594,10 @@ public final class Datastreams {
       return shardLevelMetrics_.size();
     }
     /**
+     * <pre>
+     * List of shard-level metrics
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 1;</code>
      * @param index The index of the element to return.
      * @return The shardLevelMetrics at the given index.
@@ -530,6 +606,10 @@ public final class Datastreams {
       return shardLevelMetrics_.get(index);
     }
     /**
+     * <pre>
+     * List of shard-level metrics
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 1;</code>
      * @param index The index of the value to return.
      * @return The bytes of the shardLevelMetrics at the given index.
@@ -868,6 +948,10 @@ public final class Datastreams {
          }
       }
       /**
+       * <pre>
+       * List of shard-level metrics
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 1;</code>
        * @return A list containing the shardLevelMetrics.
        */
@@ -876,6 +960,10 @@ public final class Datastreams {
         return shardLevelMetrics_.getUnmodifiableView();
       }
       /**
+       * <pre>
+       * List of shard-level metrics
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 1;</code>
        * @return The count of shardLevelMetrics.
        */
@@ -883,6 +971,10 @@ public final class Datastreams {
         return shardLevelMetrics_.size();
       }
       /**
+       * <pre>
+       * List of shard-level metrics
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 1;</code>
        * @param index The index of the element to return.
        * @return The shardLevelMetrics at the given index.
@@ -891,6 +983,10 @@ public final class Datastreams {
         return shardLevelMetrics_.get(index);
       }
       /**
+       * <pre>
+       * List of shard-level metrics
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 1;</code>
        * @param index The index of the value to return.
        * @return The bytes of the shardLevelMetrics at the given index.
@@ -900,6 +996,10 @@ public final class Datastreams {
         return shardLevelMetrics_.getByteString(index);
       }
       /**
+       * <pre>
+       * List of shard-level metrics
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 1;</code>
        * @param index The index to set the value at.
        * @param value The shardLevelMetrics to set.
@@ -916,6 +1016,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shard-level metrics
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 1;</code>
        * @param value The shardLevelMetrics to add.
        * @return This builder for chaining.
@@ -931,6 +1035,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shard-level metrics
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 1;</code>
        * @param values The shardLevelMetrics to add.
        * @return This builder for chaining.
@@ -944,6 +1052,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shard-level metrics
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 1;</code>
        * @return This builder for chaining.
        */
@@ -954,6 +1066,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shard-level metrics
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 1;</code>
        * @param value The bytes of the shardLevelMetrics to add.
        * @return This builder for chaining.
@@ -1028,7 +1144,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * partition hash key ranges for a shard
+     * The range of possible hash key values for the shard
      * </pre>
      *
      * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 1;</code>
@@ -1037,7 +1153,7 @@ public final class Datastreams {
     boolean hasHashKeyRange();
     /**
      * <pre>
-     * partition hash key ranges for a shard
+     * The range of possible hash key values for the shard
      * </pre>
      *
      * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 1;</code>
@@ -1046,7 +1162,7 @@ public final class Datastreams {
     tech.ydb.datastreams.v1.Datastreams.HashKeyRange getHashKeyRange();
     /**
      * <pre>
-     * partition hash key ranges for a shard
+     * The range of possible hash key values for the shard
      * </pre>
      *
      * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 1;</code>
@@ -1054,23 +1170,39 @@ public final class Datastreams {
     tech.ydb.datastreams.v1.Datastreams.HashKeyRangeOrBuilder getHashKeyRangeOrBuilder();
 
     /**
+     * <pre>
+     * List of parent shards
+     * </pre>
+     *
      * <code>repeated string parent_shards = 2;</code>
      * @return A list containing the parentShards.
      */
     java.util.List<java.lang.String>
         getParentShardsList();
     /**
+     * <pre>
+     * List of parent shards
+     * </pre>
+     *
      * <code>repeated string parent_shards = 2;</code>
      * @return The count of parentShards.
      */
     int getParentShardsCount();
     /**
+     * <pre>
+     * List of parent shards
+     * </pre>
+     *
      * <code>repeated string parent_shards = 2;</code>
      * @param index The index of the element to return.
      * @return The parentShards at the given index.
      */
     java.lang.String getParentShards(int index);
     /**
+     * <pre>
+     * List of parent shards
+     * </pre>
+     *
      * <code>repeated string parent_shards = 2;</code>
      * @param index The index of the value to return.
      * @return The bytes of the parentShards at the given index.
@@ -1080,7 +1212,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * shard name
+     * Name of the shard
      * </pre>
      *
      * <code>string name = 3;</code>
@@ -1089,7 +1221,7 @@ public final class Datastreams {
     java.lang.String getName();
     /**
      * <pre>
-     * shard name
+     * Name of the shard
      * </pre>
      *
      * <code>string name = 3;</code>
@@ -1213,7 +1345,7 @@ public final class Datastreams {
     private tech.ydb.datastreams.v1.Datastreams.HashKeyRange hashKeyRange_;
     /**
      * <pre>
-     * partition hash key ranges for a shard
+     * The range of possible hash key values for the shard
      * </pre>
      *
      * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 1;</code>
@@ -1225,7 +1357,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * partition hash key ranges for a shard
+     * The range of possible hash key values for the shard
      * </pre>
      *
      * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 1;</code>
@@ -1237,7 +1369,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * partition hash key ranges for a shard
+     * The range of possible hash key values for the shard
      * </pre>
      *
      * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 1;</code>
@@ -1250,6 +1382,10 @@ public final class Datastreams {
     public static final int PARENT_SHARDS_FIELD_NUMBER = 2;
     private com.google.protobuf.LazyStringList parentShards_;
     /**
+     * <pre>
+     * List of parent shards
+     * </pre>
+     *
      * <code>repeated string parent_shards = 2;</code>
      * @return A list containing the parentShards.
      */
@@ -1258,6 +1394,10 @@ public final class Datastreams {
       return parentShards_;
     }
     /**
+     * <pre>
+     * List of parent shards
+     * </pre>
+     *
      * <code>repeated string parent_shards = 2;</code>
      * @return The count of parentShards.
      */
@@ -1265,6 +1405,10 @@ public final class Datastreams {
       return parentShards_.size();
     }
     /**
+     * <pre>
+     * List of parent shards
+     * </pre>
+     *
      * <code>repeated string parent_shards = 2;</code>
      * @param index The index of the element to return.
      * @return The parentShards at the given index.
@@ -1273,6 +1417,10 @@ public final class Datastreams {
       return parentShards_.get(index);
     }
     /**
+     * <pre>
+     * List of parent shards
+     * </pre>
+     *
      * <code>repeated string parent_shards = 2;</code>
      * @param index The index of the value to return.
      * @return The bytes of the parentShards at the given index.
@@ -1286,7 +1434,7 @@ public final class Datastreams {
     private volatile java.lang.Object name_;
     /**
      * <pre>
-     * shard name
+     * Name of the shard
      * </pre>
      *
      * <code>string name = 3;</code>
@@ -1307,7 +1455,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * shard name
+     * Name of the shard
      * </pre>
      *
      * <code>string name = 3;</code>
@@ -1701,7 +1849,7 @@ public final class Datastreams {
           tech.ydb.datastreams.v1.Datastreams.HashKeyRange, tech.ydb.datastreams.v1.Datastreams.HashKeyRange.Builder, tech.ydb.datastreams.v1.Datastreams.HashKeyRangeOrBuilder> hashKeyRangeBuilder_;
       /**
        * <pre>
-       * partition hash key ranges for a shard
+       * The range of possible hash key values for the shard
        * </pre>
        *
        * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 1;</code>
@@ -1712,7 +1860,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * partition hash key ranges for a shard
+       * The range of possible hash key values for the shard
        * </pre>
        *
        * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 1;</code>
@@ -1727,7 +1875,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * partition hash key ranges for a shard
+       * The range of possible hash key values for the shard
        * </pre>
        *
        * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 1;</code>
@@ -1747,7 +1895,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * partition hash key ranges for a shard
+       * The range of possible hash key values for the shard
        * </pre>
        *
        * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 1;</code>
@@ -1765,7 +1913,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * partition hash key ranges for a shard
+       * The range of possible hash key values for the shard
        * </pre>
        *
        * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 1;</code>
@@ -1787,7 +1935,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * partition hash key ranges for a shard
+       * The range of possible hash key values for the shard
        * </pre>
        *
        * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 1;</code>
@@ -1805,7 +1953,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * partition hash key ranges for a shard
+       * The range of possible hash key values for the shard
        * </pre>
        *
        * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 1;</code>
@@ -1817,7 +1965,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * partition hash key ranges for a shard
+       * The range of possible hash key values for the shard
        * </pre>
        *
        * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 1;</code>
@@ -1832,7 +1980,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * partition hash key ranges for a shard
+       * The range of possible hash key values for the shard
        * </pre>
        *
        * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 1;</code>
@@ -1859,6 +2007,10 @@ public final class Datastreams {
          }
       }
       /**
+       * <pre>
+       * List of parent shards
+       * </pre>
+       *
        * <code>repeated string parent_shards = 2;</code>
        * @return A list containing the parentShards.
        */
@@ -1867,6 +2019,10 @@ public final class Datastreams {
         return parentShards_.getUnmodifiableView();
       }
       /**
+       * <pre>
+       * List of parent shards
+       * </pre>
+       *
        * <code>repeated string parent_shards = 2;</code>
        * @return The count of parentShards.
        */
@@ -1874,6 +2030,10 @@ public final class Datastreams {
         return parentShards_.size();
       }
       /**
+       * <pre>
+       * List of parent shards
+       * </pre>
+       *
        * <code>repeated string parent_shards = 2;</code>
        * @param index The index of the element to return.
        * @return The parentShards at the given index.
@@ -1882,6 +2042,10 @@ public final class Datastreams {
         return parentShards_.get(index);
       }
       /**
+       * <pre>
+       * List of parent shards
+       * </pre>
+       *
        * <code>repeated string parent_shards = 2;</code>
        * @param index The index of the value to return.
        * @return The bytes of the parentShards at the given index.
@@ -1891,6 +2055,10 @@ public final class Datastreams {
         return parentShards_.getByteString(index);
       }
       /**
+       * <pre>
+       * List of parent shards
+       * </pre>
+       *
        * <code>repeated string parent_shards = 2;</code>
        * @param index The index to set the value at.
        * @param value The parentShards to set.
@@ -1907,6 +2075,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of parent shards
+       * </pre>
+       *
        * <code>repeated string parent_shards = 2;</code>
        * @param value The parentShards to add.
        * @return This builder for chaining.
@@ -1922,6 +2094,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of parent shards
+       * </pre>
+       *
        * <code>repeated string parent_shards = 2;</code>
        * @param values The parentShards to add.
        * @return This builder for chaining.
@@ -1935,6 +2111,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of parent shards
+       * </pre>
+       *
        * <code>repeated string parent_shards = 2;</code>
        * @return This builder for chaining.
        */
@@ -1945,6 +2125,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of parent shards
+       * </pre>
+       *
        * <code>repeated string parent_shards = 2;</code>
        * @param value The bytes of the parentShards to add.
        * @return This builder for chaining.
@@ -1964,7 +2148,7 @@ public final class Datastreams {
       private java.lang.Object name_ = "";
       /**
        * <pre>
-       * shard name
+       * Name of the shard
        * </pre>
        *
        * <code>string name = 3;</code>
@@ -1984,7 +2168,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * shard name
+       * Name of the shard
        * </pre>
        *
        * <code>string name = 3;</code>
@@ -2005,7 +2189,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * shard name
+       * Name of the shard
        * </pre>
        *
        * <code>string name = 3;</code>
@@ -2024,7 +2208,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * shard name
+       * Name of the shard
        * </pre>
        *
        * <code>string name = 3;</code>
@@ -2038,7 +2222,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * shard name
+       * Name of the shard
        * </pre>
        *
        * <code>string name = 3;</code>
@@ -2155,6 +2339,10 @@ public final class Datastreams {
     tech.ydb.datastreams.v1.Datastreams.ConsumerDescription.ConsumerStatus getConsumerStatus();
   }
   /**
+   * <pre>
+   * Represents details of consumer
+   * </pre>
+   *
    * Protobuf type {@code Ydb.DataStreams.V1.Consumer}
    */
   public static final class Consumer extends
@@ -2550,6 +2738,10 @@ public final class Datastreams {
       return builder;
     }
     /**
+     * <pre>
+     * Represents details of consumer
+     * </pre>
+     *
      * Protobuf type {@code Ydb.DataStreams.V1.Consumer}
      */
     public static final class Builder extends
@@ -3034,6 +3226,10 @@ public final class Datastreams {
         getEndingHashKeyBytes();
   }
   /**
+   * <pre>
+   * The range of possible hash key values for the shard
+   * </pre>
+   *
    * Protobuf type {@code Ydb.DataStreams.V1.HashKeyRange}
    */
   public static final class HashKeyRange extends
@@ -3365,6 +3561,10 @@ public final class Datastreams {
       return builder;
     }
     /**
+     * <pre>
+     * The range of possible hash key values for the shard
+     * </pre>
+     *
      * Protobuf type {@code Ydb.DataStreams.V1.HashKeyRange}
      */
     public static final class Builder extends
@@ -3728,34 +3928,58 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * Timestamp that the record was inserted into the stream
+     * </pre>
+     *
      * <code>int32 timestamp = 1;</code>
      * @return The timestamp.
      */
     int getTimestamp();
 
     /**
+     * <pre>
+     * Data blob
+     * </pre>
+     *
      * <code>bytes data = 2;</code>
      * @return The data.
      */
     com.google.protobuf.ByteString getData();
 
     /**
+     * <pre>
+     * Encryption type used on record
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption = 3;</code>
      * @return The enum numeric value on the wire for encryption.
      */
     int getEncryptionValue();
     /**
+     * <pre>
+     * Encryption type used on record
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption = 3;</code>
      * @return The encryption.
      */
     tech.ydb.datastreams.v1.Datastreams.EncryptionType getEncryption();
 
     /**
+     * <pre>
+     * Identifies shard in the stream the record is assigned to
+     * </pre>
+     *
      * <code>string partition_key = 4;</code>
      * @return The partitionKey.
      */
     java.lang.String getPartitionKey();
     /**
+     * <pre>
+     * Identifies shard in the stream the record is assigned to
+     * </pre>
+     *
      * <code>string partition_key = 4;</code>
      * @return The bytes for partitionKey.
      */
@@ -3763,11 +3987,19 @@ public final class Datastreams {
         getPartitionKeyBytes();
 
     /**
+     * <pre>
+     * Unique id of the record within shard
+     * </pre>
+     *
      * <code>string sequence_number = 5;</code>
      * @return The sequenceNumber.
      */
     java.lang.String getSequenceNumber();
     /**
+     * <pre>
+     * Unique id of the record within shard
+     * </pre>
+     *
      * <code>string sequence_number = 5;</code>
      * @return The bytes for sequenceNumber.
      */
@@ -3886,6 +4118,10 @@ public final class Datastreams {
     public static final int TIMESTAMP_FIELD_NUMBER = 1;
     private int timestamp_;
     /**
+     * <pre>
+     * Timestamp that the record was inserted into the stream
+     * </pre>
+     *
      * <code>int32 timestamp = 1;</code>
      * @return The timestamp.
      */
@@ -3897,6 +4133,10 @@ public final class Datastreams {
     public static final int DATA_FIELD_NUMBER = 2;
     private com.google.protobuf.ByteString data_;
     /**
+     * <pre>
+     * Data blob
+     * </pre>
+     *
      * <code>bytes data = 2;</code>
      * @return The data.
      */
@@ -3908,6 +4148,10 @@ public final class Datastreams {
     public static final int ENCRYPTION_FIELD_NUMBER = 3;
     private int encryption_;
     /**
+     * <pre>
+     * Encryption type used on record
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption = 3;</code>
      * @return The enum numeric value on the wire for encryption.
      */
@@ -3915,6 +4159,10 @@ public final class Datastreams {
       return encryption_;
     }
     /**
+     * <pre>
+     * Encryption type used on record
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption = 3;</code>
      * @return The encryption.
      */
@@ -3927,6 +4175,10 @@ public final class Datastreams {
     public static final int PARTITION_KEY_FIELD_NUMBER = 4;
     private volatile java.lang.Object partitionKey_;
     /**
+     * <pre>
+     * Identifies shard in the stream the record is assigned to
+     * </pre>
+     *
      * <code>string partition_key = 4;</code>
      * @return The partitionKey.
      */
@@ -3944,6 +4196,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Identifies shard in the stream the record is assigned to
+     * </pre>
+     *
      * <code>string partition_key = 4;</code>
      * @return The bytes for partitionKey.
      */
@@ -3965,6 +4221,10 @@ public final class Datastreams {
     public static final int SEQUENCE_NUMBER_FIELD_NUMBER = 5;
     private volatile java.lang.Object sequenceNumber_;
     /**
+     * <pre>
+     * Unique id of the record within shard
+     * </pre>
+     *
      * <code>string sequence_number = 5;</code>
      * @return The sequenceNumber.
      */
@@ -3982,6 +4242,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Unique id of the record within shard
+     * </pre>
+     *
      * <code>string sequence_number = 5;</code>
      * @return The bytes for sequenceNumber.
      */
@@ -4371,6 +4635,10 @@ public final class Datastreams {
 
       private int timestamp_ ;
       /**
+       * <pre>
+       * Timestamp that the record was inserted into the stream
+       * </pre>
+       *
        * <code>int32 timestamp = 1;</code>
        * @return The timestamp.
        */
@@ -4379,6 +4647,10 @@ public final class Datastreams {
         return timestamp_;
       }
       /**
+       * <pre>
+       * Timestamp that the record was inserted into the stream
+       * </pre>
+       *
        * <code>int32 timestamp = 1;</code>
        * @param value The timestamp to set.
        * @return This builder for chaining.
@@ -4390,6 +4662,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Timestamp that the record was inserted into the stream
+       * </pre>
+       *
        * <code>int32 timestamp = 1;</code>
        * @return This builder for chaining.
        */
@@ -4402,6 +4678,10 @@ public final class Datastreams {
 
       private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
       /**
+       * <pre>
+       * Data blob
+       * </pre>
+       *
        * <code>bytes data = 2;</code>
        * @return The data.
        */
@@ -4410,6 +4690,10 @@ public final class Datastreams {
         return data_;
       }
       /**
+       * <pre>
+       * Data blob
+       * </pre>
+       *
        * <code>bytes data = 2;</code>
        * @param value The data to set.
        * @return This builder for chaining.
@@ -4424,6 +4708,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Data blob
+       * </pre>
+       *
        * <code>bytes data = 2;</code>
        * @return This builder for chaining.
        */
@@ -4436,6 +4724,10 @@ public final class Datastreams {
 
       private int encryption_ = 0;
       /**
+       * <pre>
+       * Encryption type used on record
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption = 3;</code>
        * @return The enum numeric value on the wire for encryption.
        */
@@ -4443,6 +4735,10 @@ public final class Datastreams {
         return encryption_;
       }
       /**
+       * <pre>
+       * Encryption type used on record
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption = 3;</code>
        * @param value The enum numeric value on the wire for encryption to set.
        * @return This builder for chaining.
@@ -4454,6 +4750,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Encryption type used on record
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption = 3;</code>
        * @return The encryption.
        */
@@ -4464,6 +4764,10 @@ public final class Datastreams {
         return result == null ? tech.ydb.datastreams.v1.Datastreams.EncryptionType.UNRECOGNIZED : result;
       }
       /**
+       * <pre>
+       * Encryption type used on record
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption = 3;</code>
        * @param value The encryption to set.
        * @return This builder for chaining.
@@ -4478,6 +4782,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Encryption type used on record
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption = 3;</code>
        * @return This builder for chaining.
        */
@@ -4490,6 +4798,10 @@ public final class Datastreams {
 
       private java.lang.Object partitionKey_ = "";
       /**
+       * <pre>
+       * Identifies shard in the stream the record is assigned to
+       * </pre>
+       *
        * <code>string partition_key = 4;</code>
        * @return The partitionKey.
        */
@@ -4506,6 +4818,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Identifies shard in the stream the record is assigned to
+       * </pre>
+       *
        * <code>string partition_key = 4;</code>
        * @return The bytes for partitionKey.
        */
@@ -4523,6 +4839,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Identifies shard in the stream the record is assigned to
+       * </pre>
+       *
        * <code>string partition_key = 4;</code>
        * @param value The partitionKey to set.
        * @return This builder for chaining.
@@ -4538,6 +4858,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Identifies shard in the stream the record is assigned to
+       * </pre>
+       *
        * <code>string partition_key = 4;</code>
        * @return This builder for chaining.
        */
@@ -4548,6 +4872,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Identifies shard in the stream the record is assigned to
+       * </pre>
+       *
        * <code>string partition_key = 4;</code>
        * @param value The bytes for partitionKey to set.
        * @return This builder for chaining.
@@ -4566,6 +4894,10 @@ public final class Datastreams {
 
       private java.lang.Object sequenceNumber_ = "";
       /**
+       * <pre>
+       * Unique id of the record within shard
+       * </pre>
+       *
        * <code>string sequence_number = 5;</code>
        * @return The sequenceNumber.
        */
@@ -4582,6 +4914,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Unique id of the record within shard
+       * </pre>
+       *
        * <code>string sequence_number = 5;</code>
        * @return The bytes for sequenceNumber.
        */
@@ -4599,6 +4935,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Unique id of the record within shard
+       * </pre>
+       *
        * <code>string sequence_number = 5;</code>
        * @param value The sequenceNumber to set.
        * @return This builder for chaining.
@@ -4614,6 +4954,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Unique id of the record within shard
+       * </pre>
+       *
        * <code>string sequence_number = 5;</code>
        * @return This builder for chaining.
        */
@@ -4624,6 +4968,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Unique id of the record within shard
+       * </pre>
+       *
        * <code>string sequence_number = 5;</code>
        * @param value The bytes for sequenceNumber to set.
        * @return This builder for chaining.
@@ -4697,41 +5045,73 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * Encryption type used on record
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
      * @return The enum numeric value on the wire for encryptionType.
      */
     int getEncryptionTypeValue();
     /**
+     * <pre>
+     * Encryption type used on record
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
      * @return The encryptionType.
      */
     tech.ydb.datastreams.v1.Datastreams.EncryptionType getEncryptionType();
 
     /**
+     * <pre>
+     * List of enhanced monitoring settings
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
      */
     java.util.List<tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics> 
         getEnhancedMonitoringList();
     /**
+     * <pre>
+     * List of enhanced monitoring settings
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics getEnhancedMonitoring(int index);
     /**
+     * <pre>
+     * List of enhanced monitoring settings
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
      */
     int getEnhancedMonitoringCount();
     /**
+     * <pre>
+     * List of enhanced monitoring settings
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
      */
     java.util.List<? extends tech.ydb.datastreams.v1.Datastreams.EnhancedMetricsOrBuilder> 
         getEnhancedMonitoringOrBuilderList();
     /**
+     * <pre>
+     * List of enhanced monitoring settings
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.EnhancedMetricsOrBuilder getEnhancedMonitoringOrBuilder(
         int index);
 
     /**
+     * <pre>
+     * If true, more shards are available to describe
+     * </pre>
+     *
      * <code>bool has_more_shards = 3;</code>
      * @return The hasMoreShards.
      */
@@ -4739,7 +5119,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * key used for encryption
+     * Id of the key used to encryption
      * </pre>
      *
      * <code>string key_id = 4;</code>
@@ -4748,7 +5128,7 @@ public final class Datastreams {
     java.lang.String getKeyId();
     /**
      * <pre>
-     * key used for encryption
+     * Id of the key used to encryption
      * </pre>
      *
      * <code>string key_id = 4;</code>
@@ -4758,30 +5138,54 @@ public final class Datastreams {
         getKeyIdBytes();
 
     /**
+     * <pre>
+     * Retention period in hours
+     * </pre>
+     *
      * <code>int32 retention_period_hours = 5;</code>
      * @return The retentionPeriodHours.
      */
     int getRetentionPeriodHours();
 
     /**
+     * <pre>
+     * List of shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
      */
     java.util.List<tech.ydb.datastreams.v1.Datastreams.Shard> 
         getShardsList();
     /**
+     * <pre>
+     * List of shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.Shard getShards(int index);
     /**
+     * <pre>
+     * List of shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
      */
     int getShardsCount();
     /**
+     * <pre>
+     * List of shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
      */
     java.util.List<? extends tech.ydb.datastreams.v1.Datastreams.ShardOrBuilder> 
         getShardsOrBuilderList();
     /**
+     * <pre>
+     * List of shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.ShardOrBuilder getShardsOrBuilder(
@@ -4800,28 +5204,48 @@ public final class Datastreams {
         getStreamArnBytes();
 
     /**
+     * <pre>
+     * Timestamp that the stream was created
+     * </pre>
+     *
      * <code>int64 stream_creation_timestamp = 8;</code>
      * @return The streamCreationTimestamp.
      */
     long getStreamCreationTimestamp();
 
     /**
+     * <pre>
+     * Current status of the stream
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.StreamDescription.StreamStatus stream_status = 9;</code>
      * @return The enum numeric value on the wire for streamStatus.
      */
     int getStreamStatusValue();
     /**
+     * <pre>
+     * Current status of the stream
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.StreamDescription.StreamStatus stream_status = 9;</code>
      * @return The streamStatus.
      */
     tech.ydb.datastreams.v1.Datastreams.StreamDescription.StreamStatus getStreamStatus();
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 10;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 10;</code>
      * @return The bytes for streamName.
      */
@@ -4847,6 +5271,10 @@ public final class Datastreams {
         getOwnerBytes();
   }
   /**
+   * <pre>
+   * Represents the stream description
+   * </pre>
+   *
    * Protobuf type {@code Ydb.DataStreams.V1.StreamDescription}
    */
   public static final class StreamDescription extends
@@ -5013,6 +5441,10 @@ public final class Datastreams {
     }
 
     /**
+     * <pre>
+     * Represents current status of the stream being described
+     * </pre>
+     *
      * Protobuf enum {@code Ydb.DataStreams.V1.StreamDescription.StreamStatus}
      */
     public enum StreamStatus
@@ -5022,18 +5454,34 @@ public final class Datastreams {
        */
       STATUS_UNDEFINED(0),
       /**
+       * <pre>
+       * Stream is being created
+       * </pre>
+       *
        * <code>CREATING = 1;</code>
        */
       CREATING(1),
       /**
+       * <pre>
+       * Stream is being deleted
+       * </pre>
+       *
        * <code>DELETING = 2;</code>
        */
       DELETING(2),
       /**
+       * <pre>
+       * Stream is ready for read &amp; write operations or deletion
+       * </pre>
+       *
        * <code>ACTIVE = 3;</code>
        */
       ACTIVE(3),
       /**
+       * <pre>
+       * Shards in the stream are being merged ot split
+       * </pre>
+       *
        * <code>UPDATING = 4;</code>
        */
       UPDATING(4),
@@ -5045,18 +5493,34 @@ public final class Datastreams {
        */
       public static final int STATUS_UNDEFINED_VALUE = 0;
       /**
+       * <pre>
+       * Stream is being created
+       * </pre>
+       *
        * <code>CREATING = 1;</code>
        */
       public static final int CREATING_VALUE = 1;
       /**
+       * <pre>
+       * Stream is being deleted
+       * </pre>
+       *
        * <code>DELETING = 2;</code>
        */
       public static final int DELETING_VALUE = 2;
       /**
+       * <pre>
+       * Stream is ready for read &amp; write operations or deletion
+       * </pre>
+       *
        * <code>ACTIVE = 3;</code>
        */
       public static final int ACTIVE_VALUE = 3;
       /**
+       * <pre>
+       * Shards in the stream are being merged ot split
+       * </pre>
+       *
        * <code>UPDATING = 4;</code>
        */
       public static final int UPDATING_VALUE = 4;
@@ -5150,6 +5614,10 @@ public final class Datastreams {
     public static final int ENCRYPTION_TYPE_FIELD_NUMBER = 1;
     private int encryptionType_;
     /**
+     * <pre>
+     * Encryption type used on record
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
      * @return The enum numeric value on the wire for encryptionType.
      */
@@ -5157,6 +5625,10 @@ public final class Datastreams {
       return encryptionType_;
     }
     /**
+     * <pre>
+     * Encryption type used on record
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
      * @return The encryptionType.
      */
@@ -5169,6 +5641,10 @@ public final class Datastreams {
     public static final int ENHANCED_MONITORING_FIELD_NUMBER = 2;
     private java.util.List<tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics> enhancedMonitoring_;
     /**
+     * <pre>
+     * List of enhanced monitoring settings
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
      */
     @java.lang.Override
@@ -5176,6 +5652,10 @@ public final class Datastreams {
       return enhancedMonitoring_;
     }
     /**
+     * <pre>
+     * List of enhanced monitoring settings
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
      */
     @java.lang.Override
@@ -5184,6 +5664,10 @@ public final class Datastreams {
       return enhancedMonitoring_;
     }
     /**
+     * <pre>
+     * List of enhanced monitoring settings
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
      */
     @java.lang.Override
@@ -5191,6 +5675,10 @@ public final class Datastreams {
       return enhancedMonitoring_.size();
     }
     /**
+     * <pre>
+     * List of enhanced monitoring settings
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
      */
     @java.lang.Override
@@ -5198,6 +5686,10 @@ public final class Datastreams {
       return enhancedMonitoring_.get(index);
     }
     /**
+     * <pre>
+     * List of enhanced monitoring settings
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
      */
     @java.lang.Override
@@ -5209,6 +5701,10 @@ public final class Datastreams {
     public static final int HAS_MORE_SHARDS_FIELD_NUMBER = 3;
     private boolean hasMoreShards_;
     /**
+     * <pre>
+     * If true, more shards are available to describe
+     * </pre>
+     *
      * <code>bool has_more_shards = 3;</code>
      * @return The hasMoreShards.
      */
@@ -5221,7 +5717,7 @@ public final class Datastreams {
     private volatile java.lang.Object keyId_;
     /**
      * <pre>
-     * key used for encryption
+     * Id of the key used to encryption
      * </pre>
      *
      * <code>string key_id = 4;</code>
@@ -5242,7 +5738,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * key used for encryption
+     * Id of the key used to encryption
      * </pre>
      *
      * <code>string key_id = 4;</code>
@@ -5266,6 +5762,10 @@ public final class Datastreams {
     public static final int RETENTION_PERIOD_HOURS_FIELD_NUMBER = 5;
     private int retentionPeriodHours_;
     /**
+     * <pre>
+     * Retention period in hours
+     * </pre>
+     *
      * <code>int32 retention_period_hours = 5;</code>
      * @return The retentionPeriodHours.
      */
@@ -5277,6 +5777,10 @@ public final class Datastreams {
     public static final int SHARDS_FIELD_NUMBER = 6;
     private java.util.List<tech.ydb.datastreams.v1.Datastreams.Shard> shards_;
     /**
+     * <pre>
+     * List of shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
      */
     @java.lang.Override
@@ -5284,6 +5788,10 @@ public final class Datastreams {
       return shards_;
     }
     /**
+     * <pre>
+     * List of shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
      */
     @java.lang.Override
@@ -5292,6 +5800,10 @@ public final class Datastreams {
       return shards_;
     }
     /**
+     * <pre>
+     * List of shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
      */
     @java.lang.Override
@@ -5299,6 +5811,10 @@ public final class Datastreams {
       return shards_.size();
     }
     /**
+     * <pre>
+     * List of shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
      */
     @java.lang.Override
@@ -5306,6 +5822,10 @@ public final class Datastreams {
       return shards_.get(index);
     }
     /**
+     * <pre>
+     * List of shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
      */
     @java.lang.Override
@@ -5355,6 +5875,10 @@ public final class Datastreams {
     public static final int STREAM_CREATION_TIMESTAMP_FIELD_NUMBER = 8;
     private long streamCreationTimestamp_;
     /**
+     * <pre>
+     * Timestamp that the stream was created
+     * </pre>
+     *
      * <code>int64 stream_creation_timestamp = 8;</code>
      * @return The streamCreationTimestamp.
      */
@@ -5366,6 +5890,10 @@ public final class Datastreams {
     public static final int STREAM_STATUS_FIELD_NUMBER = 9;
     private int streamStatus_;
     /**
+     * <pre>
+     * Current status of the stream
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.StreamDescription.StreamStatus stream_status = 9;</code>
      * @return The enum numeric value on the wire for streamStatus.
      */
@@ -5373,6 +5901,10 @@ public final class Datastreams {
       return streamStatus_;
     }
     /**
+     * <pre>
+     * Current status of the stream
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.StreamDescription.StreamStatus stream_status = 9;</code>
      * @return The streamStatus.
      */
@@ -5385,6 +5917,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 10;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 10;</code>
      * @return The streamName.
      */
@@ -5402,6 +5938,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 10;</code>
      * @return The bytes for streamName.
      */
@@ -5746,6 +6286,10 @@ public final class Datastreams {
       return builder;
     }
     /**
+     * <pre>
+     * Represents the stream description
+     * </pre>
+     *
      * Protobuf type {@code Ydb.DataStreams.V1.StreamDescription}
      */
     public static final class Builder extends
@@ -6038,6 +6582,10 @@ public final class Datastreams {
 
       private int encryptionType_ = 0;
       /**
+       * <pre>
+       * Encryption type used on record
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
        * @return The enum numeric value on the wire for encryptionType.
        */
@@ -6045,6 +6593,10 @@ public final class Datastreams {
         return encryptionType_;
       }
       /**
+       * <pre>
+       * Encryption type used on record
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
        * @param value The enum numeric value on the wire for encryptionType to set.
        * @return This builder for chaining.
@@ -6056,6 +6608,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Encryption type used on record
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
        * @return The encryptionType.
        */
@@ -6066,6 +6622,10 @@ public final class Datastreams {
         return result == null ? tech.ydb.datastreams.v1.Datastreams.EncryptionType.UNRECOGNIZED : result;
       }
       /**
+       * <pre>
+       * Encryption type used on record
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
        * @param value The encryptionType to set.
        * @return This builder for chaining.
@@ -6080,6 +6640,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Encryption type used on record
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
        * @return This builder for chaining.
        */
@@ -6103,6 +6667,10 @@ public final class Datastreams {
           tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics, tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics.Builder, tech.ydb.datastreams.v1.Datastreams.EnhancedMetricsOrBuilder> enhancedMonitoringBuilder_;
 
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
        */
       public java.util.List<tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics> getEnhancedMonitoringList() {
@@ -6113,6 +6681,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
        */
       public int getEnhancedMonitoringCount() {
@@ -6123,6 +6695,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics getEnhancedMonitoring(int index) {
@@ -6133,6 +6709,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
        */
       public Builder setEnhancedMonitoring(
@@ -6150,6 +6730,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
        */
       public Builder setEnhancedMonitoring(
@@ -6164,6 +6748,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
        */
       public Builder addEnhancedMonitoring(tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics value) {
@@ -6180,6 +6768,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
        */
       public Builder addEnhancedMonitoring(
@@ -6197,6 +6789,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
        */
       public Builder addEnhancedMonitoring(
@@ -6211,6 +6807,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
        */
       public Builder addEnhancedMonitoring(
@@ -6225,6 +6825,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
        */
       public Builder addAllEnhancedMonitoring(
@@ -6240,6 +6844,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
        */
       public Builder clearEnhancedMonitoring() {
@@ -6253,6 +6861,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
        */
       public Builder removeEnhancedMonitoring(int index) {
@@ -6266,6 +6878,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics.Builder getEnhancedMonitoringBuilder(
@@ -6273,6 +6889,10 @@ public final class Datastreams {
         return getEnhancedMonitoringFieldBuilder().getBuilder(index);
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.EnhancedMetricsOrBuilder getEnhancedMonitoringOrBuilder(
@@ -6283,6 +6903,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
        */
       public java.util.List<? extends tech.ydb.datastreams.v1.Datastreams.EnhancedMetricsOrBuilder> 
@@ -6294,6 +6918,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics.Builder addEnhancedMonitoringBuilder() {
@@ -6301,6 +6929,10 @@ public final class Datastreams {
             tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics.getDefaultInstance());
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics.Builder addEnhancedMonitoringBuilder(
@@ -6309,6 +6941,10 @@ public final class Datastreams {
             index, tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics.getDefaultInstance());
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 2;</code>
        */
       public java.util.List<tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics.Builder> 
@@ -6332,6 +6968,10 @@ public final class Datastreams {
 
       private boolean hasMoreShards_ ;
       /**
+       * <pre>
+       * If true, more shards are available to describe
+       * </pre>
+       *
        * <code>bool has_more_shards = 3;</code>
        * @return The hasMoreShards.
        */
@@ -6340,6 +6980,10 @@ public final class Datastreams {
         return hasMoreShards_;
       }
       /**
+       * <pre>
+       * If true, more shards are available to describe
+       * </pre>
+       *
        * <code>bool has_more_shards = 3;</code>
        * @param value The hasMoreShards to set.
        * @return This builder for chaining.
@@ -6351,6 +6995,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * If true, more shards are available to describe
+       * </pre>
+       *
        * <code>bool has_more_shards = 3;</code>
        * @return This builder for chaining.
        */
@@ -6364,7 +7012,7 @@ public final class Datastreams {
       private java.lang.Object keyId_ = "";
       /**
        * <pre>
-       * key used for encryption
+       * Id of the key used to encryption
        * </pre>
        *
        * <code>string key_id = 4;</code>
@@ -6384,7 +7032,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * key used for encryption
+       * Id of the key used to encryption
        * </pre>
        *
        * <code>string key_id = 4;</code>
@@ -6405,7 +7053,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * key used for encryption
+       * Id of the key used to encryption
        * </pre>
        *
        * <code>string key_id = 4;</code>
@@ -6424,7 +7072,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * key used for encryption
+       * Id of the key used to encryption
        * </pre>
        *
        * <code>string key_id = 4;</code>
@@ -6438,7 +7086,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * key used for encryption
+       * Id of the key used to encryption
        * </pre>
        *
        * <code>string key_id = 4;</code>
@@ -6459,6 +7107,10 @@ public final class Datastreams {
 
       private int retentionPeriodHours_ ;
       /**
+       * <pre>
+       * Retention period in hours
+       * </pre>
+       *
        * <code>int32 retention_period_hours = 5;</code>
        * @return The retentionPeriodHours.
        */
@@ -6467,6 +7119,10 @@ public final class Datastreams {
         return retentionPeriodHours_;
       }
       /**
+       * <pre>
+       * Retention period in hours
+       * </pre>
+       *
        * <code>int32 retention_period_hours = 5;</code>
        * @param value The retentionPeriodHours to set.
        * @return This builder for chaining.
@@ -6478,6 +7134,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Retention period in hours
+       * </pre>
+       *
        * <code>int32 retention_period_hours = 5;</code>
        * @return This builder for chaining.
        */
@@ -6501,6 +7161,10 @@ public final class Datastreams {
           tech.ydb.datastreams.v1.Datastreams.Shard, tech.ydb.datastreams.v1.Datastreams.Shard.Builder, tech.ydb.datastreams.v1.Datastreams.ShardOrBuilder> shardsBuilder_;
 
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
        */
       public java.util.List<tech.ydb.datastreams.v1.Datastreams.Shard> getShardsList() {
@@ -6511,6 +7175,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
        */
       public int getShardsCount() {
@@ -6521,6 +7189,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.Shard getShards(int index) {
@@ -6531,6 +7203,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
        */
       public Builder setShards(
@@ -6548,6 +7224,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
        */
       public Builder setShards(
@@ -6562,6 +7242,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
        */
       public Builder addShards(tech.ydb.datastreams.v1.Datastreams.Shard value) {
@@ -6578,6 +7262,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
        */
       public Builder addShards(
@@ -6595,6 +7283,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
        */
       public Builder addShards(
@@ -6609,6 +7301,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
        */
       public Builder addShards(
@@ -6623,6 +7319,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
        */
       public Builder addAllShards(
@@ -6638,6 +7338,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
        */
       public Builder clearShards() {
@@ -6651,6 +7355,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
        */
       public Builder removeShards(int index) {
@@ -6664,6 +7372,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.Shard.Builder getShardsBuilder(
@@ -6671,6 +7383,10 @@ public final class Datastreams {
         return getShardsFieldBuilder().getBuilder(index);
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.ShardOrBuilder getShardsOrBuilder(
@@ -6681,6 +7397,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
        */
       public java.util.List<? extends tech.ydb.datastreams.v1.Datastreams.ShardOrBuilder> 
@@ -6692,6 +7412,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.Shard.Builder addShardsBuilder() {
@@ -6699,6 +7423,10 @@ public final class Datastreams {
             tech.ydb.datastreams.v1.Datastreams.Shard.getDefaultInstance());
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.Shard.Builder addShardsBuilder(
@@ -6707,6 +7435,10 @@ public final class Datastreams {
             index, tech.ydb.datastreams.v1.Datastreams.Shard.getDefaultInstance());
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 6;</code>
        */
       public java.util.List<tech.ydb.datastreams.v1.Datastreams.Shard.Builder> 
@@ -6806,6 +7538,10 @@ public final class Datastreams {
 
       private long streamCreationTimestamp_ ;
       /**
+       * <pre>
+       * Timestamp that the stream was created
+       * </pre>
+       *
        * <code>int64 stream_creation_timestamp = 8;</code>
        * @return The streamCreationTimestamp.
        */
@@ -6814,6 +7550,10 @@ public final class Datastreams {
         return streamCreationTimestamp_;
       }
       /**
+       * <pre>
+       * Timestamp that the stream was created
+       * </pre>
+       *
        * <code>int64 stream_creation_timestamp = 8;</code>
        * @param value The streamCreationTimestamp to set.
        * @return This builder for chaining.
@@ -6825,6 +7565,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Timestamp that the stream was created
+       * </pre>
+       *
        * <code>int64 stream_creation_timestamp = 8;</code>
        * @return This builder for chaining.
        */
@@ -6837,6 +7581,10 @@ public final class Datastreams {
 
       private int streamStatus_ = 0;
       /**
+       * <pre>
+       * Current status of the stream
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.StreamDescription.StreamStatus stream_status = 9;</code>
        * @return The enum numeric value on the wire for streamStatus.
        */
@@ -6844,6 +7592,10 @@ public final class Datastreams {
         return streamStatus_;
       }
       /**
+       * <pre>
+       * Current status of the stream
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.StreamDescription.StreamStatus stream_status = 9;</code>
        * @param value The enum numeric value on the wire for streamStatus to set.
        * @return This builder for chaining.
@@ -6855,6 +7607,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Current status of the stream
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.StreamDescription.StreamStatus stream_status = 9;</code>
        * @return The streamStatus.
        */
@@ -6865,6 +7621,10 @@ public final class Datastreams {
         return result == null ? tech.ydb.datastreams.v1.Datastreams.StreamDescription.StreamStatus.UNRECOGNIZED : result;
       }
       /**
+       * <pre>
+       * Current status of the stream
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.StreamDescription.StreamStatus stream_status = 9;</code>
        * @param value The streamStatus to set.
        * @return This builder for chaining.
@@ -6879,6 +7639,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Current status of the stream
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.StreamDescription.StreamStatus stream_status = 9;</code>
        * @return This builder for chaining.
        */
@@ -6891,6 +7655,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 10;</code>
        * @return The streamName.
        */
@@ -6907,6 +7675,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 10;</code>
        * @return The bytes for streamName.
        */
@@ -6924,6 +7696,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 10;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -6939,6 +7715,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 10;</code>
        * @return This builder for chaining.
        */
@@ -6949,6 +7729,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 10;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -7153,6 +7937,10 @@ public final class Datastreams {
         getEndingSequenceNumberBytes();
   }
   /**
+   * <pre>
+   * Represents range of possible sequence numbers for the shard
+   * </pre>
+   *
    * Protobuf type {@code Ydb.DataStreams.V1.SequenceNumberRange}
    */
   public static final class SequenceNumberRange extends
@@ -7484,6 +8272,10 @@ public final class Datastreams {
       return builder;
     }
     /**
+     * <pre>
+     * Represents range of possible sequence numbers for the shard
+     * </pre>
+     *
      * Protobuf type {@code Ydb.DataStreams.V1.SequenceNumberRange}
      */
     public static final class Builder extends
@@ -7847,11 +8639,19 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * Id of the shard adjacent to the shard's parent
+     * </pre>
+     *
      * <code>string adjacent_parent_shard_id = 1;</code>
      * @return The adjacentParentShardId.
      */
     java.lang.String getAdjacentParentShardId();
     /**
+     * <pre>
+     * Id of the shard adjacent to the shard's parent
+     * </pre>
+     *
      * <code>string adjacent_parent_shard_id = 1;</code>
      * @return The bytes for adjacentParentShardId.
      */
@@ -7859,26 +8659,46 @@ public final class Datastreams {
         getAdjacentParentShardIdBytes();
 
     /**
+     * <pre>
+     * The range of possible hash key values for the shard
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 2;</code>
      * @return Whether the hashKeyRange field is set.
      */
     boolean hasHashKeyRange();
     /**
+     * <pre>
+     * The range of possible hash key values for the shard
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 2;</code>
      * @return The hashKeyRange.
      */
     tech.ydb.datastreams.v1.Datastreams.HashKeyRange getHashKeyRange();
     /**
+     * <pre>
+     * The range of possible hash key values for the shard
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 2;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.HashKeyRangeOrBuilder getHashKeyRangeOrBuilder();
 
     /**
+     * <pre>
+     * Id of the shard's parent
+     * </pre>
+     *
      * <code>string parent_shard_id = 3;</code>
      * @return The parentShardId.
      */
     java.lang.String getParentShardId();
     /**
+     * <pre>
+     * Id of the shard's parent
+     * </pre>
+     *
      * <code>string parent_shard_id = 3;</code>
      * @return The bytes for parentShardId.
      */
@@ -7886,26 +8706,46 @@ public final class Datastreams {
         getParentShardIdBytes();
 
     /**
+     * <pre>
+     * The range of possible sequence numbers for the shard
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.SequenceNumberRange sequence_number_range = 4;</code>
      * @return Whether the sequenceNumberRange field is set.
      */
     boolean hasSequenceNumberRange();
     /**
+     * <pre>
+     * The range of possible sequence numbers for the shard
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.SequenceNumberRange sequence_number_range = 4;</code>
      * @return The sequenceNumberRange.
      */
     tech.ydb.datastreams.v1.Datastreams.SequenceNumberRange getSequenceNumberRange();
     /**
+     * <pre>
+     * The range of possible sequence numbers for the shard
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.SequenceNumberRange sequence_number_range = 4;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.SequenceNumberRangeOrBuilder getSequenceNumberRangeOrBuilder();
 
     /**
+     * <pre>
+     * Unique id of the shard within stream
+     * </pre>
+     *
      * <code>string shard_id = 5;</code>
      * @return The shardId.
      */
     java.lang.String getShardId();
     /**
+     * <pre>
+     * Unique id of the shard within stream
+     * </pre>
+     *
      * <code>string shard_id = 5;</code>
      * @return The bytes for shardId.
      */
@@ -7913,6 +8753,10 @@ public final class Datastreams {
         getShardIdBytes();
   }
   /**
+   * <pre>
+   * Represents shard details
+   * </pre>
+   *
    * Protobuf type {@code Ydb.DataStreams.V1.Shard}
    */
   public static final class Shard extends
@@ -8039,6 +8883,10 @@ public final class Datastreams {
     public static final int ADJACENT_PARENT_SHARD_ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object adjacentParentShardId_;
     /**
+     * <pre>
+     * Id of the shard adjacent to the shard's parent
+     * </pre>
+     *
      * <code>string adjacent_parent_shard_id = 1;</code>
      * @return The adjacentParentShardId.
      */
@@ -8056,6 +8904,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Id of the shard adjacent to the shard's parent
+     * </pre>
+     *
      * <code>string adjacent_parent_shard_id = 1;</code>
      * @return The bytes for adjacentParentShardId.
      */
@@ -8077,6 +8929,10 @@ public final class Datastreams {
     public static final int HASH_KEY_RANGE_FIELD_NUMBER = 2;
     private tech.ydb.datastreams.v1.Datastreams.HashKeyRange hashKeyRange_;
     /**
+     * <pre>
+     * The range of possible hash key values for the shard
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 2;</code>
      * @return Whether the hashKeyRange field is set.
      */
@@ -8085,6 +8941,10 @@ public final class Datastreams {
       return hashKeyRange_ != null;
     }
     /**
+     * <pre>
+     * The range of possible hash key values for the shard
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 2;</code>
      * @return The hashKeyRange.
      */
@@ -8093,6 +8953,10 @@ public final class Datastreams {
       return hashKeyRange_ == null ? tech.ydb.datastreams.v1.Datastreams.HashKeyRange.getDefaultInstance() : hashKeyRange_;
     }
     /**
+     * <pre>
+     * The range of possible hash key values for the shard
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 2;</code>
      */
     @java.lang.Override
@@ -8103,6 +8967,10 @@ public final class Datastreams {
     public static final int PARENT_SHARD_ID_FIELD_NUMBER = 3;
     private volatile java.lang.Object parentShardId_;
     /**
+     * <pre>
+     * Id of the shard's parent
+     * </pre>
+     *
      * <code>string parent_shard_id = 3;</code>
      * @return The parentShardId.
      */
@@ -8120,6 +8988,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Id of the shard's parent
+     * </pre>
+     *
      * <code>string parent_shard_id = 3;</code>
      * @return The bytes for parentShardId.
      */
@@ -8141,6 +9013,10 @@ public final class Datastreams {
     public static final int SEQUENCE_NUMBER_RANGE_FIELD_NUMBER = 4;
     private tech.ydb.datastreams.v1.Datastreams.SequenceNumberRange sequenceNumberRange_;
     /**
+     * <pre>
+     * The range of possible sequence numbers for the shard
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.SequenceNumberRange sequence_number_range = 4;</code>
      * @return Whether the sequenceNumberRange field is set.
      */
@@ -8149,6 +9025,10 @@ public final class Datastreams {
       return sequenceNumberRange_ != null;
     }
     /**
+     * <pre>
+     * The range of possible sequence numbers for the shard
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.SequenceNumberRange sequence_number_range = 4;</code>
      * @return The sequenceNumberRange.
      */
@@ -8157,6 +9037,10 @@ public final class Datastreams {
       return sequenceNumberRange_ == null ? tech.ydb.datastreams.v1.Datastreams.SequenceNumberRange.getDefaultInstance() : sequenceNumberRange_;
     }
     /**
+     * <pre>
+     * The range of possible sequence numbers for the shard
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.SequenceNumberRange sequence_number_range = 4;</code>
      */
     @java.lang.Override
@@ -8167,6 +9051,10 @@ public final class Datastreams {
     public static final int SHARD_ID_FIELD_NUMBER = 5;
     private volatile java.lang.Object shardId_;
     /**
+     * <pre>
+     * Unique id of the shard within stream
+     * </pre>
+     *
      * <code>string shard_id = 5;</code>
      * @return The shardId.
      */
@@ -8184,6 +9072,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Unique id of the shard within stream
+     * </pre>
+     *
      * <code>string shard_id = 5;</code>
      * @return The bytes for shardId.
      */
@@ -8409,6 +9301,10 @@ public final class Datastreams {
       return builder;
     }
     /**
+     * <pre>
+     * Represents shard details
+     * </pre>
+     *
      * Protobuf type {@code Ydb.DataStreams.V1.Shard}
      */
     public static final class Builder extends
@@ -8600,6 +9496,10 @@ public final class Datastreams {
 
       private java.lang.Object adjacentParentShardId_ = "";
       /**
+       * <pre>
+       * Id of the shard adjacent to the shard's parent
+       * </pre>
+       *
        * <code>string adjacent_parent_shard_id = 1;</code>
        * @return The adjacentParentShardId.
        */
@@ -8616,6 +9516,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the shard adjacent to the shard's parent
+       * </pre>
+       *
        * <code>string adjacent_parent_shard_id = 1;</code>
        * @return The bytes for adjacentParentShardId.
        */
@@ -8633,6 +9537,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the shard adjacent to the shard's parent
+       * </pre>
+       *
        * <code>string adjacent_parent_shard_id = 1;</code>
        * @param value The adjacentParentShardId to set.
        * @return This builder for chaining.
@@ -8648,6 +9556,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the shard adjacent to the shard's parent
+       * </pre>
+       *
        * <code>string adjacent_parent_shard_id = 1;</code>
        * @return This builder for chaining.
        */
@@ -8658,6 +9570,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the shard adjacent to the shard's parent
+       * </pre>
+       *
        * <code>string adjacent_parent_shard_id = 1;</code>
        * @param value The bytes for adjacentParentShardId to set.
        * @return This builder for chaining.
@@ -8678,6 +9594,10 @@ public final class Datastreams {
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.datastreams.v1.Datastreams.HashKeyRange, tech.ydb.datastreams.v1.Datastreams.HashKeyRange.Builder, tech.ydb.datastreams.v1.Datastreams.HashKeyRangeOrBuilder> hashKeyRangeBuilder_;
       /**
+       * <pre>
+       * The range of possible hash key values for the shard
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 2;</code>
        * @return Whether the hashKeyRange field is set.
        */
@@ -8685,6 +9605,10 @@ public final class Datastreams {
         return hashKeyRangeBuilder_ != null || hashKeyRange_ != null;
       }
       /**
+       * <pre>
+       * The range of possible hash key values for the shard
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 2;</code>
        * @return The hashKeyRange.
        */
@@ -8696,6 +9620,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * The range of possible hash key values for the shard
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 2;</code>
        */
       public Builder setHashKeyRange(tech.ydb.datastreams.v1.Datastreams.HashKeyRange value) {
@@ -8712,6 +9640,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * The range of possible hash key values for the shard
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 2;</code>
        */
       public Builder setHashKeyRange(
@@ -8726,6 +9658,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * The range of possible hash key values for the shard
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 2;</code>
        */
       public Builder mergeHashKeyRange(tech.ydb.datastreams.v1.Datastreams.HashKeyRange value) {
@@ -8744,6 +9680,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * The range of possible hash key values for the shard
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 2;</code>
        */
       public Builder clearHashKeyRange() {
@@ -8758,6 +9698,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * The range of possible hash key values for the shard
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.HashKeyRange.Builder getHashKeyRangeBuilder() {
@@ -8766,6 +9710,10 @@ public final class Datastreams {
         return getHashKeyRangeFieldBuilder().getBuilder();
       }
       /**
+       * <pre>
+       * The range of possible hash key values for the shard
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.HashKeyRangeOrBuilder getHashKeyRangeOrBuilder() {
@@ -8777,6 +9725,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * The range of possible hash key values for the shard
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.HashKeyRange hash_key_range = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -8795,6 +9747,10 @@ public final class Datastreams {
 
       private java.lang.Object parentShardId_ = "";
       /**
+       * <pre>
+       * Id of the shard's parent
+       * </pre>
+       *
        * <code>string parent_shard_id = 3;</code>
        * @return The parentShardId.
        */
@@ -8811,6 +9767,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the shard's parent
+       * </pre>
+       *
        * <code>string parent_shard_id = 3;</code>
        * @return The bytes for parentShardId.
        */
@@ -8828,6 +9788,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the shard's parent
+       * </pre>
+       *
        * <code>string parent_shard_id = 3;</code>
        * @param value The parentShardId to set.
        * @return This builder for chaining.
@@ -8843,6 +9807,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the shard's parent
+       * </pre>
+       *
        * <code>string parent_shard_id = 3;</code>
        * @return This builder for chaining.
        */
@@ -8853,6 +9821,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the shard's parent
+       * </pre>
+       *
        * <code>string parent_shard_id = 3;</code>
        * @param value The bytes for parentShardId to set.
        * @return This builder for chaining.
@@ -8873,6 +9845,10 @@ public final class Datastreams {
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.datastreams.v1.Datastreams.SequenceNumberRange, tech.ydb.datastreams.v1.Datastreams.SequenceNumberRange.Builder, tech.ydb.datastreams.v1.Datastreams.SequenceNumberRangeOrBuilder> sequenceNumberRangeBuilder_;
       /**
+       * <pre>
+       * The range of possible sequence numbers for the shard
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.SequenceNumberRange sequence_number_range = 4;</code>
        * @return Whether the sequenceNumberRange field is set.
        */
@@ -8880,6 +9856,10 @@ public final class Datastreams {
         return sequenceNumberRangeBuilder_ != null || sequenceNumberRange_ != null;
       }
       /**
+       * <pre>
+       * The range of possible sequence numbers for the shard
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.SequenceNumberRange sequence_number_range = 4;</code>
        * @return The sequenceNumberRange.
        */
@@ -8891,6 +9871,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * The range of possible sequence numbers for the shard
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.SequenceNumberRange sequence_number_range = 4;</code>
        */
       public Builder setSequenceNumberRange(tech.ydb.datastreams.v1.Datastreams.SequenceNumberRange value) {
@@ -8907,6 +9891,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * The range of possible sequence numbers for the shard
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.SequenceNumberRange sequence_number_range = 4;</code>
        */
       public Builder setSequenceNumberRange(
@@ -8921,6 +9909,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * The range of possible sequence numbers for the shard
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.SequenceNumberRange sequence_number_range = 4;</code>
        */
       public Builder mergeSequenceNumberRange(tech.ydb.datastreams.v1.Datastreams.SequenceNumberRange value) {
@@ -8939,6 +9931,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * The range of possible sequence numbers for the shard
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.SequenceNumberRange sequence_number_range = 4;</code>
        */
       public Builder clearSequenceNumberRange() {
@@ -8953,6 +9949,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * The range of possible sequence numbers for the shard
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.SequenceNumberRange sequence_number_range = 4;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.SequenceNumberRange.Builder getSequenceNumberRangeBuilder() {
@@ -8961,6 +9961,10 @@ public final class Datastreams {
         return getSequenceNumberRangeFieldBuilder().getBuilder();
       }
       /**
+       * <pre>
+       * The range of possible sequence numbers for the shard
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.SequenceNumberRange sequence_number_range = 4;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.SequenceNumberRangeOrBuilder getSequenceNumberRangeOrBuilder() {
@@ -8972,6 +9976,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * The range of possible sequence numbers for the shard
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.SequenceNumberRange sequence_number_range = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -8990,6 +9998,10 @@ public final class Datastreams {
 
       private java.lang.Object shardId_ = "";
       /**
+       * <pre>
+       * Unique id of the shard within stream
+       * </pre>
+       *
        * <code>string shard_id = 5;</code>
        * @return The shardId.
        */
@@ -9006,6 +10018,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Unique id of the shard within stream
+       * </pre>
+       *
        * <code>string shard_id = 5;</code>
        * @return The bytes for shardId.
        */
@@ -9023,6 +10039,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Unique id of the shard within stream
+       * </pre>
+       *
        * <code>string shard_id = 5;</code>
        * @param value The shardId to set.
        * @return This builder for chaining.
@@ -9038,6 +10058,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Unique id of the shard within stream
+       * </pre>
+       *
        * <code>string shard_id = 5;</code>
        * @return This builder for chaining.
        */
@@ -9048,6 +10072,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Unique id of the shard within stream
+       * </pre>
+       *
        * <code>string shard_id = 5;</code>
        * @param value The bytes for shardId to set.
        * @return This builder for chaining.
@@ -9133,17 +10161,29 @@ public final class Datastreams {
         getConsumerArnBytes();
 
     /**
+     * <pre>
+     * Timestamp that the consumer was created
+     * </pre>
+     *
      * <code>int64 consumer_creation_timestamp = 2;</code>
      * @return The consumerCreationTimestamp.
      */
     long getConsumerCreationTimestamp();
 
     /**
+     * <pre>
+     * Name of the consumer
+     * </pre>
+     *
      * <code>string consumer_name = 3;</code>
      * @return The consumerName.
      */
     java.lang.String getConsumerName();
     /**
+     * <pre>
+     * Name of the consumer
+     * </pre>
+     *
      * <code>string consumer_name = 3;</code>
      * @return The bytes for consumerName.
      */
@@ -9174,6 +10214,10 @@ public final class Datastreams {
         getStreamArnBytes();
   }
   /**
+   * <pre>
+   * Represents consumer details
+   * </pre>
+   *
    * Protobuf type {@code Ydb.DataStreams.V1.ConsumerDescription}
    */
   public static final class ConsumerDescription extends
@@ -9450,6 +10494,10 @@ public final class Datastreams {
     public static final int CONSUMER_CREATION_TIMESTAMP_FIELD_NUMBER = 2;
     private long consumerCreationTimestamp_;
     /**
+     * <pre>
+     * Timestamp that the consumer was created
+     * </pre>
+     *
      * <code>int64 consumer_creation_timestamp = 2;</code>
      * @return The consumerCreationTimestamp.
      */
@@ -9461,6 +10509,10 @@ public final class Datastreams {
     public static final int CONSUMER_NAME_FIELD_NUMBER = 3;
     private volatile java.lang.Object consumerName_;
     /**
+     * <pre>
+     * Name of the consumer
+     * </pre>
+     *
      * <code>string consumer_name = 3;</code>
      * @return The consumerName.
      */
@@ -9478,6 +10530,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the consumer
+     * </pre>
+     *
      * <code>string consumer_name = 3;</code>
      * @return The bytes for consumerName.
      */
@@ -9750,6 +10806,10 @@ public final class Datastreams {
       return builder;
     }
     /**
+     * <pre>
+     * Represents consumer details
+     * </pre>
+     *
      * Protobuf type {@code Ydb.DataStreams.V1.ConsumerDescription}
      */
     public static final class Builder extends
@@ -10001,6 +11061,10 @@ public final class Datastreams {
 
       private long consumerCreationTimestamp_ ;
       /**
+       * <pre>
+       * Timestamp that the consumer was created
+       * </pre>
+       *
        * <code>int64 consumer_creation_timestamp = 2;</code>
        * @return The consumerCreationTimestamp.
        */
@@ -10009,6 +11073,10 @@ public final class Datastreams {
         return consumerCreationTimestamp_;
       }
       /**
+       * <pre>
+       * Timestamp that the consumer was created
+       * </pre>
+       *
        * <code>int64 consumer_creation_timestamp = 2;</code>
        * @param value The consumerCreationTimestamp to set.
        * @return This builder for chaining.
@@ -10020,6 +11088,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Timestamp that the consumer was created
+       * </pre>
+       *
        * <code>int64 consumer_creation_timestamp = 2;</code>
        * @return This builder for chaining.
        */
@@ -10032,6 +11104,10 @@ public final class Datastreams {
 
       private java.lang.Object consumerName_ = "";
       /**
+       * <pre>
+       * Name of the consumer
+       * </pre>
+       *
        * <code>string consumer_name = 3;</code>
        * @return The consumerName.
        */
@@ -10048,6 +11124,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the consumer
+       * </pre>
+       *
        * <code>string consumer_name = 3;</code>
        * @return The bytes for consumerName.
        */
@@ -10065,6 +11145,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the consumer
+       * </pre>
+       *
        * <code>string consumer_name = 3;</code>
        * @param value The consumerName to set.
        * @return This builder for chaining.
@@ -10080,6 +11164,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the consumer
+       * </pre>
+       *
        * <code>string consumer_name = 3;</code>
        * @return This builder for chaining.
        */
@@ -10090,6 +11178,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the consumer
+       * </pre>
+       *
        * <code>string consumer_name = 3;</code>
        * @param value The bytes for consumerName to set.
        * @return This builder for chaining.
@@ -10293,11 +11385,19 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * Exclusive id. Can only be used if AFTER_SHARD_ID is specified
+     * </pre>
+     *
      * <code>string shard_id = 1;</code>
      * @return The shardId.
      */
     java.lang.String getShardId();
     /**
+     * <pre>
+     * Exclusive id. Can only be used if AFTER_SHARD_ID is specified
+     * </pre>
+     *
      * <code>string shard_id = 1;</code>
      * @return The bytes for shardId.
      */
@@ -10305,6 +11405,10 @@ public final class Datastreams {
         getShardIdBytes();
 
     /**
+     * <pre>
+     * Can only be used if AT_TIMESTAMP or FROM_TIMESTAMP are specified.
+     * </pre>
+     *
      * <code>int64 timestamp = 2;</code>
      * @return The timestamp.
      */
@@ -10322,6 +11426,10 @@ public final class Datastreams {
     tech.ydb.datastreams.v1.Datastreams.ShardFilter.ShardFilterType getType();
   }
   /**
+   * <pre>
+   * Parameters used to filter out the response of ListShards
+   * </pre>
+   *
    * Protobuf type {@code Ydb.DataStreams.V1.ShardFilter}
    */
   public static final class ShardFilter extends
@@ -10427,26 +11535,50 @@ public final class Datastreams {
        */
       SHARD_TYPE_UNDEFINED(0),
       /**
+       * <pre>
+       * Include all the shards, starting with the shard whose id immediately follows the shard_id
+       * </pre>
+       *
        * <code>AFTER_SHARD_ID = 1;</code>
        */
       AFTER_SHARD_ID(1),
       /**
+       * <pre>
+       * Include all the shards that were open at TRIM_HORIZON
+       * </pre>
+       *
        * <code>AT_TRIM_HORIZON = 2;</code>
        */
       AT_TRIM_HORIZON(2),
       /**
+       * <pre>
+       * Include all the shards within the retention period
+       * </pre>
+       *
        * <code>FROM_TRIM_HORIZON = 3;</code>
        */
       FROM_TRIM_HORIZON(3),
       /**
+       * <pre>
+       * Include only the currently open shards
+       * </pre>
+       *
        * <code>AT_LATEST = 4;</code>
        */
       AT_LATEST(4),
       /**
+       * <pre>
+       * Include all the shars whose start timestamp is &lt;= to the given
+       * </pre>
+       *
        * <code>AT_TIMESTAMP = 5;</code>
        */
       AT_TIMESTAMP(5),
       /**
+       * <pre>
+       * Include all closed shards whose end timestamp &gt;= to the given
+       * </pre>
+       *
        * <code>FROM_TIMESTAMP = 6;</code>
        */
       FROM_TIMESTAMP(6),
@@ -10458,26 +11590,50 @@ public final class Datastreams {
        */
       public static final int SHARD_TYPE_UNDEFINED_VALUE = 0;
       /**
+       * <pre>
+       * Include all the shards, starting with the shard whose id immediately follows the shard_id
+       * </pre>
+       *
        * <code>AFTER_SHARD_ID = 1;</code>
        */
       public static final int AFTER_SHARD_ID_VALUE = 1;
       /**
+       * <pre>
+       * Include all the shards that were open at TRIM_HORIZON
+       * </pre>
+       *
        * <code>AT_TRIM_HORIZON = 2;</code>
        */
       public static final int AT_TRIM_HORIZON_VALUE = 2;
       /**
+       * <pre>
+       * Include all the shards within the retention period
+       * </pre>
+       *
        * <code>FROM_TRIM_HORIZON = 3;</code>
        */
       public static final int FROM_TRIM_HORIZON_VALUE = 3;
       /**
+       * <pre>
+       * Include only the currently open shards
+       * </pre>
+       *
        * <code>AT_LATEST = 4;</code>
        */
       public static final int AT_LATEST_VALUE = 4;
       /**
+       * <pre>
+       * Include all the shars whose start timestamp is &lt;= to the given
+       * </pre>
+       *
        * <code>AT_TIMESTAMP = 5;</code>
        */
       public static final int AT_TIMESTAMP_VALUE = 5;
       /**
+       * <pre>
+       * Include all closed shards whose end timestamp &gt;= to the given
+       * </pre>
+       *
        * <code>FROM_TIMESTAMP = 6;</code>
        */
       public static final int FROM_TIMESTAMP_VALUE = 6;
@@ -10573,6 +11729,10 @@ public final class Datastreams {
     public static final int SHARD_ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object shardId_;
     /**
+     * <pre>
+     * Exclusive id. Can only be used if AFTER_SHARD_ID is specified
+     * </pre>
+     *
      * <code>string shard_id = 1;</code>
      * @return The shardId.
      */
@@ -10590,6 +11750,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Exclusive id. Can only be used if AFTER_SHARD_ID is specified
+     * </pre>
+     *
      * <code>string shard_id = 1;</code>
      * @return The bytes for shardId.
      */
@@ -10611,6 +11775,10 @@ public final class Datastreams {
     public static final int TIMESTAMP_FIELD_NUMBER = 2;
     private long timestamp_;
     /**
+     * <pre>
+     * Can only be used if AT_TIMESTAMP or FROM_TIMESTAMP are specified.
+     * </pre>
+     *
      * <code>int64 timestamp = 2;</code>
      * @return The timestamp.
      */
@@ -10815,6 +11983,10 @@ public final class Datastreams {
       return builder;
     }
     /**
+     * <pre>
+     * Parameters used to filter out the response of ListShards
+     * </pre>
+     *
      * Protobuf type {@code Ydb.DataStreams.V1.ShardFilter}
      */
     public static final class Builder extends
@@ -10976,6 +12148,10 @@ public final class Datastreams {
 
       private java.lang.Object shardId_ = "";
       /**
+       * <pre>
+       * Exclusive id. Can only be used if AFTER_SHARD_ID is specified
+       * </pre>
+       *
        * <code>string shard_id = 1;</code>
        * @return The shardId.
        */
@@ -10992,6 +12168,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Exclusive id. Can only be used if AFTER_SHARD_ID is specified
+       * </pre>
+       *
        * <code>string shard_id = 1;</code>
        * @return The bytes for shardId.
        */
@@ -11009,6 +12189,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Exclusive id. Can only be used if AFTER_SHARD_ID is specified
+       * </pre>
+       *
        * <code>string shard_id = 1;</code>
        * @param value The shardId to set.
        * @return This builder for chaining.
@@ -11024,6 +12208,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Exclusive id. Can only be used if AFTER_SHARD_ID is specified
+       * </pre>
+       *
        * <code>string shard_id = 1;</code>
        * @return This builder for chaining.
        */
@@ -11034,6 +12222,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Exclusive id. Can only be used if AFTER_SHARD_ID is specified
+       * </pre>
+       *
        * <code>string shard_id = 1;</code>
        * @param value The bytes for shardId to set.
        * @return This builder for chaining.
@@ -11052,6 +12244,10 @@ public final class Datastreams {
 
       private long timestamp_ ;
       /**
+       * <pre>
+       * Can only be used if AT_TIMESTAMP or FROM_TIMESTAMP are specified.
+       * </pre>
+       *
        * <code>int64 timestamp = 2;</code>
        * @return The timestamp.
        */
@@ -11060,6 +12256,10 @@ public final class Datastreams {
         return timestamp_;
       }
       /**
+       * <pre>
+       * Can only be used if AT_TIMESTAMP or FROM_TIMESTAMP are specified.
+       * </pre>
+       *
        * <code>int64 timestamp = 2;</code>
        * @param value The timestamp to set.
        * @return This builder for chaining.
@@ -11071,6 +12271,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Can only be used if AT_TIMESTAMP or FROM_TIMESTAMP are specified.
+       * </pre>
+       *
        * <code>int64 timestamp = 2;</code>
        * @return This builder for chaining.
        */
@@ -11192,17 +12396,29 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * Timestamp of the record from which to start reading
+     * </pre>
+     *
      * <code>int64 timestamp = 1;</code>
      * @return The timestamp.
      */
     long getTimestamp();
 
     /**
+     * <pre>
+     * Sequence number of the record from which to start reading
+     * </pre>
+     *
      * <code>string sequence_number = 2;</code>
      * @return The sequenceNumber.
      */
     java.lang.String getSequenceNumber();
     /**
+     * <pre>
+     * Sequence number of the record from which to start reading
+     * </pre>
+     *
      * <code>string sequence_number = 2;</code>
      * @return The bytes for sequenceNumber.
      */
@@ -11221,6 +12437,10 @@ public final class Datastreams {
     tech.ydb.datastreams.v1.Datastreams.ShardIteratorType getType();
   }
   /**
+   * <pre>
+   * Represents starting position in the stream from which to start reading
+   * </pre>
+   *
    * Protobuf type {@code Ydb.DataStreams.V1.StartingPosition}
    */
   public static final class StartingPosition extends
@@ -11319,6 +12539,10 @@ public final class Datastreams {
     public static final int TIMESTAMP_FIELD_NUMBER = 1;
     private long timestamp_;
     /**
+     * <pre>
+     * Timestamp of the record from which to start reading
+     * </pre>
+     *
      * <code>int64 timestamp = 1;</code>
      * @return The timestamp.
      */
@@ -11330,6 +12554,10 @@ public final class Datastreams {
     public static final int SEQUENCE_NUMBER_FIELD_NUMBER = 2;
     private volatile java.lang.Object sequenceNumber_;
     /**
+     * <pre>
+     * Sequence number of the record from which to start reading
+     * </pre>
+     *
      * <code>string sequence_number = 2;</code>
      * @return The sequenceNumber.
      */
@@ -11347,6 +12575,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Sequence number of the record from which to start reading
+     * </pre>
+     *
      * <code>string sequence_number = 2;</code>
      * @return The bytes for sequenceNumber.
      */
@@ -11561,6 +12793,10 @@ public final class Datastreams {
       return builder;
     }
     /**
+     * <pre>
+     * Represents starting position in the stream from which to start reading
+     * </pre>
+     *
      * Protobuf type {@code Ydb.DataStreams.V1.StartingPosition}
      */
     public static final class Builder extends
@@ -11722,6 +12958,10 @@ public final class Datastreams {
 
       private long timestamp_ ;
       /**
+       * <pre>
+       * Timestamp of the record from which to start reading
+       * </pre>
+       *
        * <code>int64 timestamp = 1;</code>
        * @return The timestamp.
        */
@@ -11730,6 +12970,10 @@ public final class Datastreams {
         return timestamp_;
       }
       /**
+       * <pre>
+       * Timestamp of the record from which to start reading
+       * </pre>
+       *
        * <code>int64 timestamp = 1;</code>
        * @param value The timestamp to set.
        * @return This builder for chaining.
@@ -11741,6 +12985,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Timestamp of the record from which to start reading
+       * </pre>
+       *
        * <code>int64 timestamp = 1;</code>
        * @return This builder for chaining.
        */
@@ -11753,6 +13001,10 @@ public final class Datastreams {
 
       private java.lang.Object sequenceNumber_ = "";
       /**
+       * <pre>
+       * Sequence number of the record from which to start reading
+       * </pre>
+       *
        * <code>string sequence_number = 2;</code>
        * @return The sequenceNumber.
        */
@@ -11769,6 +13021,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Sequence number of the record from which to start reading
+       * </pre>
+       *
        * <code>string sequence_number = 2;</code>
        * @return The bytes for sequenceNumber.
        */
@@ -11786,6 +13042,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Sequence number of the record from which to start reading
+       * </pre>
+       *
        * <code>string sequence_number = 2;</code>
        * @param value The sequenceNumber to set.
        * @return This builder for chaining.
@@ -11801,6 +13061,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Sequence number of the record from which to start reading
+       * </pre>
+       *
        * <code>string sequence_number = 2;</code>
        * @return This builder for chaining.
        */
@@ -11811,6 +13075,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Sequence number of the record from which to start reading
+       * </pre>
+       *
        * <code>string sequence_number = 2;</code>
        * @param value The bytes for sequenceNumber to set.
        * @return This builder for chaining.
@@ -11938,52 +13206,92 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * Number of enhanced fan-out consumers
+     * </pre>
+     *
      * <code>int32 consumer_count = 1;</code>
      * @return The consumerCount.
      */
     int getConsumerCount();
 
     /**
+     * <pre>
+     * Encryption type used
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
      * @return The enum numeric value on the wire for encryptionType.
      */
     int getEncryptionTypeValue();
     /**
+     * <pre>
+     * Encryption type used
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
      * @return The encryptionType.
      */
     tech.ydb.datastreams.v1.Datastreams.EncryptionType getEncryptionType();
 
     /**
+     * <pre>
+     * List of enhanced monitoring settings
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
      */
     java.util.List<tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics> 
         getEnhancedMonitoringList();
     /**
+     * <pre>
+     * List of enhanced monitoring settings
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics getEnhancedMonitoring(int index);
     /**
+     * <pre>
+     * List of enhanced monitoring settings
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
      */
     int getEnhancedMonitoringCount();
     /**
+     * <pre>
+     * List of enhanced monitoring settings
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
      */
     java.util.List<? extends tech.ydb.datastreams.v1.Datastreams.EnhancedMetricsOrBuilder> 
         getEnhancedMonitoringOrBuilderList();
     /**
+     * <pre>
+     * List of enhanced monitoring settings
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.EnhancedMetricsOrBuilder getEnhancedMonitoringOrBuilder(
         int index);
 
     /**
+     * <pre>
+     * Id of the key used to encryption
+     * </pre>
+     *
      * <code>string key_id = 4;</code>
      * @return The keyId.
      */
     java.lang.String getKeyId();
     /**
+     * <pre>
+     * Id of the key used to encryption
+     * </pre>
+     *
      * <code>string key_id = 4;</code>
      * @return The bytes for keyId.
      */
@@ -11991,12 +13299,20 @@ public final class Datastreams {
         getKeyIdBytes();
 
     /**
+     * <pre>
+     * Number of open shards in the stream
+     * </pre>
+     *
      * <code>int32 open_shard_count = 5;</code>
      * @return The openShardCount.
      */
     int getOpenShardCount();
 
     /**
+     * <pre>
+     * Retention period in hours
+     * </pre>
+     *
      * <code>int32 retention_period_hours = 6;</code>
      * @return The retentionPeriodHours.
      */
@@ -12015,17 +13331,29 @@ public final class Datastreams {
         getStreamArnBytes();
 
     /**
+     * <pre>
+     * Timestamp that the stream was created
+     * </pre>
+     *
      * <code>int64 stream_creation_timestamp = 8;</code>
      * @return The streamCreationTimestamp.
      */
     long getStreamCreationTimestamp();
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 9;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 9;</code>
      * @return The bytes for streamName.
      */
@@ -12033,11 +13361,19 @@ public final class Datastreams {
         getStreamNameBytes();
 
     /**
+     * <pre>
+     * Current status of the stream
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.StreamDescription.StreamStatus stream_status = 10;</code>
      * @return The enum numeric value on the wire for streamStatus.
      */
     int getStreamStatusValue();
     /**
+     * <pre>
+     * Current status of the stream
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.StreamDescription.StreamStatus stream_status = 10;</code>
      * @return The streamStatus.
      */
@@ -12192,6 +13528,10 @@ public final class Datastreams {
     public static final int CONSUMER_COUNT_FIELD_NUMBER = 1;
     private int consumerCount_;
     /**
+     * <pre>
+     * Number of enhanced fan-out consumers
+     * </pre>
+     *
      * <code>int32 consumer_count = 1;</code>
      * @return The consumerCount.
      */
@@ -12203,6 +13543,10 @@ public final class Datastreams {
     public static final int ENCRYPTION_TYPE_FIELD_NUMBER = 2;
     private int encryptionType_;
     /**
+     * <pre>
+     * Encryption type used
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
      * @return The enum numeric value on the wire for encryptionType.
      */
@@ -12210,6 +13554,10 @@ public final class Datastreams {
       return encryptionType_;
     }
     /**
+     * <pre>
+     * Encryption type used
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
      * @return The encryptionType.
      */
@@ -12222,6 +13570,10 @@ public final class Datastreams {
     public static final int ENHANCED_MONITORING_FIELD_NUMBER = 3;
     private java.util.List<tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics> enhancedMonitoring_;
     /**
+     * <pre>
+     * List of enhanced monitoring settings
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
      */
     @java.lang.Override
@@ -12229,6 +13581,10 @@ public final class Datastreams {
       return enhancedMonitoring_;
     }
     /**
+     * <pre>
+     * List of enhanced monitoring settings
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
      */
     @java.lang.Override
@@ -12237,6 +13593,10 @@ public final class Datastreams {
       return enhancedMonitoring_;
     }
     /**
+     * <pre>
+     * List of enhanced monitoring settings
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
      */
     @java.lang.Override
@@ -12244,6 +13604,10 @@ public final class Datastreams {
       return enhancedMonitoring_.size();
     }
     /**
+     * <pre>
+     * List of enhanced monitoring settings
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
      */
     @java.lang.Override
@@ -12251,6 +13615,10 @@ public final class Datastreams {
       return enhancedMonitoring_.get(index);
     }
     /**
+     * <pre>
+     * List of enhanced monitoring settings
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
      */
     @java.lang.Override
@@ -12262,6 +13630,10 @@ public final class Datastreams {
     public static final int KEY_ID_FIELD_NUMBER = 4;
     private volatile java.lang.Object keyId_;
     /**
+     * <pre>
+     * Id of the key used to encryption
+     * </pre>
+     *
      * <code>string key_id = 4;</code>
      * @return The keyId.
      */
@@ -12279,6 +13651,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Id of the key used to encryption
+     * </pre>
+     *
      * <code>string key_id = 4;</code>
      * @return The bytes for keyId.
      */
@@ -12300,6 +13676,10 @@ public final class Datastreams {
     public static final int OPEN_SHARD_COUNT_FIELD_NUMBER = 5;
     private int openShardCount_;
     /**
+     * <pre>
+     * Number of open shards in the stream
+     * </pre>
+     *
      * <code>int32 open_shard_count = 5;</code>
      * @return The openShardCount.
      */
@@ -12311,6 +13691,10 @@ public final class Datastreams {
     public static final int RETENTION_PERIOD_HOURS_FIELD_NUMBER = 6;
     private int retentionPeriodHours_;
     /**
+     * <pre>
+     * Retention period in hours
+     * </pre>
+     *
      * <code>int32 retention_period_hours = 6;</code>
      * @return The retentionPeriodHours.
      */
@@ -12360,6 +13744,10 @@ public final class Datastreams {
     public static final int STREAM_CREATION_TIMESTAMP_FIELD_NUMBER = 8;
     private long streamCreationTimestamp_;
     /**
+     * <pre>
+     * Timestamp that the stream was created
+     * </pre>
+     *
      * <code>int64 stream_creation_timestamp = 8;</code>
      * @return The streamCreationTimestamp.
      */
@@ -12371,6 +13759,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 9;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 9;</code>
      * @return The streamName.
      */
@@ -12388,6 +13780,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 9;</code>
      * @return The bytes for streamName.
      */
@@ -12409,6 +13805,10 @@ public final class Datastreams {
     public static final int STREAM_STATUS_FIELD_NUMBER = 10;
     private int streamStatus_;
     /**
+     * <pre>
+     * Current status of the stream
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.StreamDescription.StreamStatus stream_status = 10;</code>
      * @return The enum numeric value on the wire for streamStatus.
      */
@@ -12416,6 +13816,10 @@ public final class Datastreams {
       return streamStatus_;
     }
     /**
+     * <pre>
+     * Current status of the stream
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.StreamDescription.StreamStatus stream_status = 10;</code>
      * @return The streamStatus.
      */
@@ -12921,6 +14325,10 @@ public final class Datastreams {
 
       private int consumerCount_ ;
       /**
+       * <pre>
+       * Number of enhanced fan-out consumers
+       * </pre>
+       *
        * <code>int32 consumer_count = 1;</code>
        * @return The consumerCount.
        */
@@ -12929,6 +14337,10 @@ public final class Datastreams {
         return consumerCount_;
       }
       /**
+       * <pre>
+       * Number of enhanced fan-out consumers
+       * </pre>
+       *
        * <code>int32 consumer_count = 1;</code>
        * @param value The consumerCount to set.
        * @return This builder for chaining.
@@ -12940,6 +14352,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Number of enhanced fan-out consumers
+       * </pre>
+       *
        * <code>int32 consumer_count = 1;</code>
        * @return This builder for chaining.
        */
@@ -12952,6 +14368,10 @@ public final class Datastreams {
 
       private int encryptionType_ = 0;
       /**
+       * <pre>
+       * Encryption type used
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
        * @return The enum numeric value on the wire for encryptionType.
        */
@@ -12959,6 +14379,10 @@ public final class Datastreams {
         return encryptionType_;
       }
       /**
+       * <pre>
+       * Encryption type used
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
        * @param value The enum numeric value on the wire for encryptionType to set.
        * @return This builder for chaining.
@@ -12970,6 +14394,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Encryption type used
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
        * @return The encryptionType.
        */
@@ -12980,6 +14408,10 @@ public final class Datastreams {
         return result == null ? tech.ydb.datastreams.v1.Datastreams.EncryptionType.UNRECOGNIZED : result;
       }
       /**
+       * <pre>
+       * Encryption type used
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
        * @param value The encryptionType to set.
        * @return This builder for chaining.
@@ -12994,6 +14426,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Encryption type used
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
        * @return This builder for chaining.
        */
@@ -13017,6 +14453,10 @@ public final class Datastreams {
           tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics, tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics.Builder, tech.ydb.datastreams.v1.Datastreams.EnhancedMetricsOrBuilder> enhancedMonitoringBuilder_;
 
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
        */
       public java.util.List<tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics> getEnhancedMonitoringList() {
@@ -13027,6 +14467,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
        */
       public int getEnhancedMonitoringCount() {
@@ -13037,6 +14481,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics getEnhancedMonitoring(int index) {
@@ -13047,6 +14495,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
        */
       public Builder setEnhancedMonitoring(
@@ -13064,6 +14516,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
        */
       public Builder setEnhancedMonitoring(
@@ -13078,6 +14534,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
        */
       public Builder addEnhancedMonitoring(tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics value) {
@@ -13094,6 +14554,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
        */
       public Builder addEnhancedMonitoring(
@@ -13111,6 +14575,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
        */
       public Builder addEnhancedMonitoring(
@@ -13125,6 +14593,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
        */
       public Builder addEnhancedMonitoring(
@@ -13139,6 +14611,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
        */
       public Builder addAllEnhancedMonitoring(
@@ -13154,6 +14630,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
        */
       public Builder clearEnhancedMonitoring() {
@@ -13167,6 +14647,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
        */
       public Builder removeEnhancedMonitoring(int index) {
@@ -13180,6 +14664,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics.Builder getEnhancedMonitoringBuilder(
@@ -13187,6 +14675,10 @@ public final class Datastreams {
         return getEnhancedMonitoringFieldBuilder().getBuilder(index);
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.EnhancedMetricsOrBuilder getEnhancedMonitoringOrBuilder(
@@ -13197,6 +14689,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
        */
       public java.util.List<? extends tech.ydb.datastreams.v1.Datastreams.EnhancedMetricsOrBuilder> 
@@ -13208,6 +14704,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics.Builder addEnhancedMonitoringBuilder() {
@@ -13215,6 +14715,10 @@ public final class Datastreams {
             tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics.getDefaultInstance());
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics.Builder addEnhancedMonitoringBuilder(
@@ -13223,6 +14727,10 @@ public final class Datastreams {
             index, tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics.getDefaultInstance());
       }
       /**
+       * <pre>
+       * List of enhanced monitoring settings
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.EnhancedMetrics enhanced_monitoring = 3;</code>
        */
       public java.util.List<tech.ydb.datastreams.v1.Datastreams.EnhancedMetrics.Builder> 
@@ -13246,6 +14754,10 @@ public final class Datastreams {
 
       private java.lang.Object keyId_ = "";
       /**
+       * <pre>
+       * Id of the key used to encryption
+       * </pre>
+       *
        * <code>string key_id = 4;</code>
        * @return The keyId.
        */
@@ -13262,6 +14774,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the key used to encryption
+       * </pre>
+       *
        * <code>string key_id = 4;</code>
        * @return The bytes for keyId.
        */
@@ -13279,6 +14795,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the key used to encryption
+       * </pre>
+       *
        * <code>string key_id = 4;</code>
        * @param value The keyId to set.
        * @return This builder for chaining.
@@ -13294,6 +14814,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the key used to encryption
+       * </pre>
+       *
        * <code>string key_id = 4;</code>
        * @return This builder for chaining.
        */
@@ -13304,6 +14828,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the key used to encryption
+       * </pre>
+       *
        * <code>string key_id = 4;</code>
        * @param value The bytes for keyId to set.
        * @return This builder for chaining.
@@ -13322,6 +14850,10 @@ public final class Datastreams {
 
       private int openShardCount_ ;
       /**
+       * <pre>
+       * Number of open shards in the stream
+       * </pre>
+       *
        * <code>int32 open_shard_count = 5;</code>
        * @return The openShardCount.
        */
@@ -13330,6 +14862,10 @@ public final class Datastreams {
         return openShardCount_;
       }
       /**
+       * <pre>
+       * Number of open shards in the stream
+       * </pre>
+       *
        * <code>int32 open_shard_count = 5;</code>
        * @param value The openShardCount to set.
        * @return This builder for chaining.
@@ -13341,6 +14877,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Number of open shards in the stream
+       * </pre>
+       *
        * <code>int32 open_shard_count = 5;</code>
        * @return This builder for chaining.
        */
@@ -13353,6 +14893,10 @@ public final class Datastreams {
 
       private int retentionPeriodHours_ ;
       /**
+       * <pre>
+       * Retention period in hours
+       * </pre>
+       *
        * <code>int32 retention_period_hours = 6;</code>
        * @return The retentionPeriodHours.
        */
@@ -13361,6 +14905,10 @@ public final class Datastreams {
         return retentionPeriodHours_;
       }
       /**
+       * <pre>
+       * Retention period in hours
+       * </pre>
+       *
        * <code>int32 retention_period_hours = 6;</code>
        * @param value The retentionPeriodHours to set.
        * @return This builder for chaining.
@@ -13372,6 +14920,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Retention period in hours
+       * </pre>
+       *
        * <code>int32 retention_period_hours = 6;</code>
        * @return This builder for chaining.
        */
@@ -13460,6 +15012,10 @@ public final class Datastreams {
 
       private long streamCreationTimestamp_ ;
       /**
+       * <pre>
+       * Timestamp that the stream was created
+       * </pre>
+       *
        * <code>int64 stream_creation_timestamp = 8;</code>
        * @return The streamCreationTimestamp.
        */
@@ -13468,6 +15024,10 @@ public final class Datastreams {
         return streamCreationTimestamp_;
       }
       /**
+       * <pre>
+       * Timestamp that the stream was created
+       * </pre>
+       *
        * <code>int64 stream_creation_timestamp = 8;</code>
        * @param value The streamCreationTimestamp to set.
        * @return This builder for chaining.
@@ -13479,6 +15039,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Timestamp that the stream was created
+       * </pre>
+       *
        * <code>int64 stream_creation_timestamp = 8;</code>
        * @return This builder for chaining.
        */
@@ -13491,6 +15055,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 9;</code>
        * @return The streamName.
        */
@@ -13507,6 +15075,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 9;</code>
        * @return The bytes for streamName.
        */
@@ -13524,6 +15096,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 9;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -13539,6 +15115,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 9;</code>
        * @return This builder for chaining.
        */
@@ -13549,6 +15129,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 9;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -13567,6 +15151,10 @@ public final class Datastreams {
 
       private int streamStatus_ = 0;
       /**
+       * <pre>
+       * Current status of the stream
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.StreamDescription.StreamStatus stream_status = 10;</code>
        * @return The enum numeric value on the wire for streamStatus.
        */
@@ -13574,6 +15162,10 @@ public final class Datastreams {
         return streamStatus_;
       }
       /**
+       * <pre>
+       * Current status of the stream
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.StreamDescription.StreamStatus stream_status = 10;</code>
        * @param value The enum numeric value on the wire for streamStatus to set.
        * @return This builder for chaining.
@@ -13585,6 +15177,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Current status of the stream
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.StreamDescription.StreamStatus stream_status = 10;</code>
        * @return The streamStatus.
        */
@@ -13595,6 +15191,10 @@ public final class Datastreams {
         return result == null ? tech.ydb.datastreams.v1.Datastreams.StreamDescription.StreamStatus.UNRECOGNIZED : result;
       }
       /**
+       * <pre>
+       * Current status of the stream
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.StreamDescription.StreamStatus stream_status = 10;</code>
        * @param value The streamStatus to set.
        * @return This builder for chaining.
@@ -13609,6 +15209,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Current status of the stream
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.StreamDescription.StreamStatus stream_status = 10;</code>
        * @return This builder for chaining.
        */
@@ -13676,35 +15280,63 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * List of child shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
      */
     java.util.List<tech.ydb.datastreams.v1.Datastreams.ChildShard> 
         getChildShardsList();
     /**
+     * <pre>
+     * List of child shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.ChildShard getChildShards(int index);
     /**
+     * <pre>
+     * List of child shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
      */
     int getChildShardsCount();
     /**
+     * <pre>
+     * List of child shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
      */
     java.util.List<? extends tech.ydb.datastreams.v1.Datastreams.ChildShardOrBuilder> 
         getChildShardsOrBuilderList();
     /**
+     * <pre>
+     * List of child shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.ChildShardOrBuilder getChildShardsOrBuilder(
         int index);
 
     /**
+     * <pre>
+     * Used in next call to SubscribeToShards
+     * </pre>
+     *
      * <code>string continuation_sequence_number = 2;</code>
      * @return The continuationSequenceNumber.
      */
     java.lang.String getContinuationSequenceNumber();
     /**
+     * <pre>
+     * Used in next call to SubscribeToShards
+     * </pre>
+     *
      * <code>string continuation_sequence_number = 2;</code>
      * @return The bytes for continuationSequenceNumber.
      */
@@ -13712,36 +15344,65 @@ public final class Datastreams {
         getContinuationSequenceNumberBytes();
 
     /**
+     * <pre>
+     * Number of milliseconds the read records are from the tip of the stream.
+     * Zero indicates that record processing is caught up.
+     * </pre>
+     *
      * <code>int32 millis_behind_latest = 3;</code>
      * @return The millisBehindLatest.
      */
     int getMillisBehindLatest();
 
     /**
+     * <pre>
+     * List of records
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
      */
     java.util.List<tech.ydb.datastreams.v1.Datastreams.Record> 
         getRecordsList();
     /**
+     * <pre>
+     * List of records
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.Record getRecords(int index);
     /**
+     * <pre>
+     * List of records
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
      */
     int getRecordsCount();
     /**
+     * <pre>
+     * List of records
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
      */
     java.util.List<? extends tech.ydb.datastreams.v1.Datastreams.RecordOrBuilder> 
         getRecordsOrBuilderList();
     /**
+     * <pre>
+     * List of records
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.RecordOrBuilder getRecordsOrBuilder(
         int index);
   }
   /**
+   * <pre>
+   * Server sends events of this type after call SubscribeToShard
+   * </pre>
+   *
    * Protobuf type {@code Ydb.DataStreams.V1.SubscribeToShardEvent}
    */
   public static final class SubscribeToShardEvent extends
@@ -13860,6 +15521,10 @@ public final class Datastreams {
     public static final int CHILD_SHARDS_FIELD_NUMBER = 1;
     private java.util.List<tech.ydb.datastreams.v1.Datastreams.ChildShard> childShards_;
     /**
+     * <pre>
+     * List of child shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
      */
     @java.lang.Override
@@ -13867,6 +15532,10 @@ public final class Datastreams {
       return childShards_;
     }
     /**
+     * <pre>
+     * List of child shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
      */
     @java.lang.Override
@@ -13875,6 +15544,10 @@ public final class Datastreams {
       return childShards_;
     }
     /**
+     * <pre>
+     * List of child shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
      */
     @java.lang.Override
@@ -13882,6 +15555,10 @@ public final class Datastreams {
       return childShards_.size();
     }
     /**
+     * <pre>
+     * List of child shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
      */
     @java.lang.Override
@@ -13889,6 +15566,10 @@ public final class Datastreams {
       return childShards_.get(index);
     }
     /**
+     * <pre>
+     * List of child shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
      */
     @java.lang.Override
@@ -13900,6 +15581,10 @@ public final class Datastreams {
     public static final int CONTINUATION_SEQUENCE_NUMBER_FIELD_NUMBER = 2;
     private volatile java.lang.Object continuationSequenceNumber_;
     /**
+     * <pre>
+     * Used in next call to SubscribeToShards
+     * </pre>
+     *
      * <code>string continuation_sequence_number = 2;</code>
      * @return The continuationSequenceNumber.
      */
@@ -13917,6 +15602,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Used in next call to SubscribeToShards
+     * </pre>
+     *
      * <code>string continuation_sequence_number = 2;</code>
      * @return The bytes for continuationSequenceNumber.
      */
@@ -13938,6 +15627,11 @@ public final class Datastreams {
     public static final int MILLIS_BEHIND_LATEST_FIELD_NUMBER = 3;
     private int millisBehindLatest_;
     /**
+     * <pre>
+     * Number of milliseconds the read records are from the tip of the stream.
+     * Zero indicates that record processing is caught up.
+     * </pre>
+     *
      * <code>int32 millis_behind_latest = 3;</code>
      * @return The millisBehindLatest.
      */
@@ -13949,6 +15643,10 @@ public final class Datastreams {
     public static final int RECORDS_FIELD_NUMBER = 4;
     private java.util.List<tech.ydb.datastreams.v1.Datastreams.Record> records_;
     /**
+     * <pre>
+     * List of records
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
      */
     @java.lang.Override
@@ -13956,6 +15654,10 @@ public final class Datastreams {
       return records_;
     }
     /**
+     * <pre>
+     * List of records
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
      */
     @java.lang.Override
@@ -13964,6 +15666,10 @@ public final class Datastreams {
       return records_;
     }
     /**
+     * <pre>
+     * List of records
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
      */
     @java.lang.Override
@@ -13971,6 +15677,10 @@ public final class Datastreams {
       return records_.size();
     }
     /**
+     * <pre>
+     * List of records
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
      */
     @java.lang.Override
@@ -13978,6 +15688,10 @@ public final class Datastreams {
       return records_.get(index);
     }
     /**
+     * <pre>
+     * List of records
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
      */
     @java.lang.Override
@@ -14178,6 +15892,10 @@ public final class Datastreams {
       return builder;
     }
     /**
+     * <pre>
+     * Server sends events of this type after call SubscribeToShard
+     * </pre>
+     *
      * Protobuf type {@code Ydb.DataStreams.V1.SubscribeToShardEvent}
      */
     public static final class Builder extends
@@ -14430,6 +16148,10 @@ public final class Datastreams {
           tech.ydb.datastreams.v1.Datastreams.ChildShard, tech.ydb.datastreams.v1.Datastreams.ChildShard.Builder, tech.ydb.datastreams.v1.Datastreams.ChildShardOrBuilder> childShardsBuilder_;
 
       /**
+       * <pre>
+       * List of child shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
        */
       public java.util.List<tech.ydb.datastreams.v1.Datastreams.ChildShard> getChildShardsList() {
@@ -14440,6 +16162,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of child shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
        */
       public int getChildShardsCount() {
@@ -14450,6 +16176,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of child shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.ChildShard getChildShards(int index) {
@@ -14460,6 +16190,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of child shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
        */
       public Builder setChildShards(
@@ -14477,6 +16211,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of child shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
        */
       public Builder setChildShards(
@@ -14491,6 +16229,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of child shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
        */
       public Builder addChildShards(tech.ydb.datastreams.v1.Datastreams.ChildShard value) {
@@ -14507,6 +16249,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of child shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
        */
       public Builder addChildShards(
@@ -14524,6 +16270,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of child shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
        */
       public Builder addChildShards(
@@ -14538,6 +16288,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of child shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
        */
       public Builder addChildShards(
@@ -14552,6 +16306,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of child shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
        */
       public Builder addAllChildShards(
@@ -14567,6 +16325,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of child shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
        */
       public Builder clearChildShards() {
@@ -14580,6 +16342,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of child shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
        */
       public Builder removeChildShards(int index) {
@@ -14593,6 +16359,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of child shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.ChildShard.Builder getChildShardsBuilder(
@@ -14600,6 +16370,10 @@ public final class Datastreams {
         return getChildShardsFieldBuilder().getBuilder(index);
       }
       /**
+       * <pre>
+       * List of child shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.ChildShardOrBuilder getChildShardsOrBuilder(
@@ -14610,6 +16384,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of child shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
        */
       public java.util.List<? extends tech.ydb.datastreams.v1.Datastreams.ChildShardOrBuilder> 
@@ -14621,6 +16399,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of child shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.ChildShard.Builder addChildShardsBuilder() {
@@ -14628,6 +16410,10 @@ public final class Datastreams {
             tech.ydb.datastreams.v1.Datastreams.ChildShard.getDefaultInstance());
       }
       /**
+       * <pre>
+       * List of child shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.ChildShard.Builder addChildShardsBuilder(
@@ -14636,6 +16422,10 @@ public final class Datastreams {
             index, tech.ydb.datastreams.v1.Datastreams.ChildShard.getDefaultInstance());
       }
       /**
+       * <pre>
+       * List of child shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
        */
       public java.util.List<tech.ydb.datastreams.v1.Datastreams.ChildShard.Builder> 
@@ -14659,6 +16449,10 @@ public final class Datastreams {
 
       private java.lang.Object continuationSequenceNumber_ = "";
       /**
+       * <pre>
+       * Used in next call to SubscribeToShards
+       * </pre>
+       *
        * <code>string continuation_sequence_number = 2;</code>
        * @return The continuationSequenceNumber.
        */
@@ -14675,6 +16469,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Used in next call to SubscribeToShards
+       * </pre>
+       *
        * <code>string continuation_sequence_number = 2;</code>
        * @return The bytes for continuationSequenceNumber.
        */
@@ -14692,6 +16490,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Used in next call to SubscribeToShards
+       * </pre>
+       *
        * <code>string continuation_sequence_number = 2;</code>
        * @param value The continuationSequenceNumber to set.
        * @return This builder for chaining.
@@ -14707,6 +16509,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Used in next call to SubscribeToShards
+       * </pre>
+       *
        * <code>string continuation_sequence_number = 2;</code>
        * @return This builder for chaining.
        */
@@ -14717,6 +16523,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Used in next call to SubscribeToShards
+       * </pre>
+       *
        * <code>string continuation_sequence_number = 2;</code>
        * @param value The bytes for continuationSequenceNumber to set.
        * @return This builder for chaining.
@@ -14735,6 +16545,11 @@ public final class Datastreams {
 
       private int millisBehindLatest_ ;
       /**
+       * <pre>
+       * Number of milliseconds the read records are from the tip of the stream.
+       * Zero indicates that record processing is caught up.
+       * </pre>
+       *
        * <code>int32 millis_behind_latest = 3;</code>
        * @return The millisBehindLatest.
        */
@@ -14743,6 +16558,11 @@ public final class Datastreams {
         return millisBehindLatest_;
       }
       /**
+       * <pre>
+       * Number of milliseconds the read records are from the tip of the stream.
+       * Zero indicates that record processing is caught up.
+       * </pre>
+       *
        * <code>int32 millis_behind_latest = 3;</code>
        * @param value The millisBehindLatest to set.
        * @return This builder for chaining.
@@ -14754,6 +16574,11 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Number of milliseconds the read records are from the tip of the stream.
+       * Zero indicates that record processing is caught up.
+       * </pre>
+       *
        * <code>int32 millis_behind_latest = 3;</code>
        * @return This builder for chaining.
        */
@@ -14777,6 +16602,10 @@ public final class Datastreams {
           tech.ydb.datastreams.v1.Datastreams.Record, tech.ydb.datastreams.v1.Datastreams.Record.Builder, tech.ydb.datastreams.v1.Datastreams.RecordOrBuilder> recordsBuilder_;
 
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
        */
       public java.util.List<tech.ydb.datastreams.v1.Datastreams.Record> getRecordsList() {
@@ -14787,6 +16616,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
        */
       public int getRecordsCount() {
@@ -14797,6 +16630,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.Record getRecords(int index) {
@@ -14807,6 +16644,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
        */
       public Builder setRecords(
@@ -14824,6 +16665,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
        */
       public Builder setRecords(
@@ -14838,6 +16683,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
        */
       public Builder addRecords(tech.ydb.datastreams.v1.Datastreams.Record value) {
@@ -14854,6 +16703,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
        */
       public Builder addRecords(
@@ -14871,6 +16724,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
        */
       public Builder addRecords(
@@ -14885,6 +16742,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
        */
       public Builder addRecords(
@@ -14899,6 +16760,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
        */
       public Builder addAllRecords(
@@ -14914,6 +16779,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
        */
       public Builder clearRecords() {
@@ -14927,6 +16796,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
        */
       public Builder removeRecords(int index) {
@@ -14940,6 +16813,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.Record.Builder getRecordsBuilder(
@@ -14947,6 +16824,10 @@ public final class Datastreams {
         return getRecordsFieldBuilder().getBuilder(index);
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.RecordOrBuilder getRecordsOrBuilder(
@@ -14957,6 +16838,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
        */
       public java.util.List<? extends tech.ydb.datastreams.v1.Datastreams.RecordOrBuilder> 
@@ -14968,6 +16853,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.Record.Builder addRecordsBuilder() {
@@ -14975,6 +16864,10 @@ public final class Datastreams {
             tech.ydb.datastreams.v1.Datastreams.Record.getDefaultInstance());
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.Record.Builder addRecordsBuilder(
@@ -14983,6 +16876,10 @@ public final class Datastreams {
             index, tech.ydb.datastreams.v1.Datastreams.Record.getDefaultInstance());
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
        */
       public java.util.List<tech.ydb.datastreams.v1.Datastreams.Record.Builder> 
@@ -18282,6 +20179,10 @@ public final class Datastreams {
         getValueBytes();
   }
   /**
+   * <pre>
+   * Represents metadata assigned to the stream (key-value pair)
+   * </pre>
+   *
    * Protobuf type {@code Ydb.DataStreams.V1.Tag}
    */
   public static final class Tag extends
@@ -18613,6 +20514,10 @@ public final class Datastreams {
       return builder;
     }
     /**
+     * <pre>
+     * Represents metadata assigned to the stream (key-value pair)
+     * </pre>
+     *
      * Protobuf type {@code Ydb.DataStreams.V1.Tag}
      */
     public static final class Builder extends
@@ -18992,7 +20897,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * kinesis stream id
+     * Name of the stream
      * </pre>
      *
      * <code>string stream_name = 2;</code>
@@ -19001,7 +20906,7 @@ public final class Datastreams {
     java.lang.String getStreamName();
     /**
      * <pre>
-     * kinesis stream id
+     * Name of the stream
      * </pre>
      *
      * <code>string stream_name = 2;</code>
@@ -19012,7 +20917,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * shards count for a new stream
+     * Shards count for a new stream
      * </pre>
      *
      * <code>int32 shard_count = 3;</code>
@@ -19022,7 +20927,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * Datastreams extension. Allow to set retention and write quota on stream creation
+     * Datastreams extension. Allow to set retention and write quota upon stream creation
      * </pre>
      *
      * <code>int32 write_quota_kb_per_sec = 4;</code>
@@ -19178,7 +21083,7 @@ public final class Datastreams {
     private volatile java.lang.Object streamName_;
     /**
      * <pre>
-     * kinesis stream id
+     * Name of the stream
      * </pre>
      *
      * <code>string stream_name = 2;</code>
@@ -19199,7 +21104,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * kinesis stream id
+     * Name of the stream
      * </pre>
      *
      * <code>string stream_name = 2;</code>
@@ -19224,7 +21129,7 @@ public final class Datastreams {
     private int shardCount_;
     /**
      * <pre>
-     * shards count for a new stream
+     * Shards count for a new stream
      * </pre>
      *
      * <code>int32 shard_count = 3;</code>
@@ -19239,7 +21144,7 @@ public final class Datastreams {
     private int writeQuotaKbPerSec_;
     /**
      * <pre>
-     * Datastreams extension. Allow to set retention and write quota on stream creation
+     * Datastreams extension. Allow to set retention and write quota upon stream creation
      * </pre>
      *
      * <code>int32 write_quota_kb_per_sec = 4;</code>
@@ -19766,7 +21671,7 @@ public final class Datastreams {
       private java.lang.Object streamName_ = "";
       /**
        * <pre>
-       * kinesis stream id
+       * Name of the stream
        * </pre>
        *
        * <code>string stream_name = 2;</code>
@@ -19786,7 +21691,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * kinesis stream id
+       * Name of the stream
        * </pre>
        *
        * <code>string stream_name = 2;</code>
@@ -19807,7 +21712,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * kinesis stream id
+       * Name of the stream
        * </pre>
        *
        * <code>string stream_name = 2;</code>
@@ -19826,7 +21731,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * kinesis stream id
+       * Name of the stream
        * </pre>
        *
        * <code>string stream_name = 2;</code>
@@ -19840,7 +21745,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * kinesis stream id
+       * Name of the stream
        * </pre>
        *
        * <code>string stream_name = 2;</code>
@@ -19862,7 +21767,7 @@ public final class Datastreams {
       private int shardCount_ ;
       /**
        * <pre>
-       * shards count for a new stream
+       * Shards count for a new stream
        * </pre>
        *
        * <code>int32 shard_count = 3;</code>
@@ -19874,7 +21779,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * shards count for a new stream
+       * Shards count for a new stream
        * </pre>
        *
        * <code>int32 shard_count = 3;</code>
@@ -19889,7 +21794,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * shards count for a new stream
+       * Shards count for a new stream
        * </pre>
        *
        * <code>int32 shard_count = 3;</code>
@@ -19905,7 +21810,7 @@ public final class Datastreams {
       private int writeQuotaKbPerSec_ ;
       /**
        * <pre>
-       * Datastreams extension. Allow to set retention and write quota on stream creation
+       * Datastreams extension. Allow to set retention and write quota upon stream creation
        * </pre>
        *
        * <code>int32 write_quota_kb_per_sec = 4;</code>
@@ -19917,7 +21822,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * Datastreams extension. Allow to set retention and write quota on stream creation
+       * Datastreams extension. Allow to set retention and write quota upon stream creation
        * </pre>
        *
        * <code>int32 write_quota_kb_per_sec = 4;</code>
@@ -19932,7 +21837,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * Datastreams extension. Allow to set retention and write quota on stream creation
+       * Datastreams extension. Allow to set retention and write quota upon stream creation
        * </pre>
        *
        * <code>int32 write_quota_kb_per_sec = 4;</code>
@@ -21132,35 +23037,23 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <pre>
-     * kinesis stream id
-     * </pre>
-     *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
-     * <pre>
-     * kinesis stream id
-     * </pre>
-     *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
-     * <pre>
-     * kinesis stream id
-     * </pre>
-     *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
      * <pre>
-     *If unset or false, and the stream has registered consumers, the call to DeleteStream fails
+     * If unset or false, and the stream has registered consumers, the call to DeleteStream fails
      * </pre>
      *
      * <code>bool enforce_consumer_deletion = 2;</code>
@@ -21169,11 +23062,19 @@ public final class Datastreams {
     boolean getEnforceConsumerDeletion();
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The bytes for streamName.
      */
@@ -21285,10 +23186,6 @@ public final class Datastreams {
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
-     * <pre>
-     * kinesis stream id
-     * </pre>
-     *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      * @return Whether the operationParams field is set.
      */
@@ -21297,10 +23194,6 @@ public final class Datastreams {
       return operationParams_ != null;
     }
     /**
-     * <pre>
-     * kinesis stream id
-     * </pre>
-     *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      * @return The operationParams.
      */
@@ -21309,10 +23202,6 @@ public final class Datastreams {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
-     * <pre>
-     * kinesis stream id
-     * </pre>
-     *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
     @java.lang.Override
@@ -21324,7 +23213,7 @@ public final class Datastreams {
     private boolean enforceConsumerDeletion_;
     /**
      * <pre>
-     *If unset or false, and the stream has registered consumers, the call to DeleteStream fails
+     * If unset or false, and the stream has registered consumers, the call to DeleteStream fails
      * </pre>
      *
      * <code>bool enforce_consumer_deletion = 2;</code>
@@ -21338,6 +23227,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 3;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The streamName.
      */
@@ -21355,6 +23248,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The bytes for streamName.
      */
@@ -21727,10 +23624,6 @@ public final class Datastreams {
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
-       * <pre>
-       * kinesis stream id
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        * @return Whether the operationParams field is set.
        */
@@ -21738,10 +23631,6 @@ public final class Datastreams {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
-       * <pre>
-       * kinesis stream id
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        * @return The operationParams.
        */
@@ -21753,10 +23642,6 @@ public final class Datastreams {
         }
       }
       /**
-       * <pre>
-       * kinesis stream id
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
@@ -21773,10 +23658,6 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <pre>
-       * kinesis stream id
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       public Builder setOperationParams(
@@ -21791,10 +23672,6 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <pre>
-       * kinesis stream id
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
@@ -21813,10 +23690,6 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <pre>
-       * kinesis stream id
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       public Builder clearOperationParams() {
@@ -21831,10 +23704,6 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <pre>
-       * kinesis stream id
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
@@ -21843,10 +23712,6 @@ public final class Datastreams {
         return getOperationParamsFieldBuilder().getBuilder();
       }
       /**
-       * <pre>
-       * kinesis stream id
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
@@ -21858,10 +23723,6 @@ public final class Datastreams {
         }
       }
       /**
-       * <pre>
-       * kinesis stream id
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -21881,7 +23742,7 @@ public final class Datastreams {
       private boolean enforceConsumerDeletion_ ;
       /**
        * <pre>
-       *If unset or false, and the stream has registered consumers, the call to DeleteStream fails
+       * If unset or false, and the stream has registered consumers, the call to DeleteStream fails
        * </pre>
        *
        * <code>bool enforce_consumer_deletion = 2;</code>
@@ -21893,7 +23754,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       *If unset or false, and the stream has registered consumers, the call to DeleteStream fails
+       * If unset or false, and the stream has registered consumers, the call to DeleteStream fails
        * </pre>
        *
        * <code>bool enforce_consumer_deletion = 2;</code>
@@ -21908,7 +23769,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       *If unset or false, and the stream has registered consumers, the call to DeleteStream fails
+       * If unset or false, and the stream has registered consumers, the call to DeleteStream fails
        * </pre>
        *
        * <code>bool enforce_consumer_deletion = 2;</code>
@@ -21923,6 +23784,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return The streamName.
        */
@@ -21939,6 +23804,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return The bytes for streamName.
        */
@@ -21956,6 +23825,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -21971,6 +23844,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return This builder for chaining.
        */
@@ -21981,6 +23858,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -23169,7 +25050,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * name of stream to start from
+     * Name of stream to start from
      * </pre>
      *
      * <code>string exclusive_start_stream_name = 2;</code>
@@ -23178,7 +25059,7 @@ public final class Datastreams {
     java.lang.String getExclusiveStartStreamName();
     /**
      * <pre>
-     * name of stream to start from
+     * Name of stream to start from
      * </pre>
      *
      * <code>string exclusive_start_stream_name = 2;</code>
@@ -23189,7 +25070,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * max number of entries to return
+     * Max number of entries to return
      * </pre>
      *
      * <code>int32 limit = 3;</code>
@@ -23344,7 +25225,7 @@ public final class Datastreams {
     private volatile java.lang.Object exclusiveStartStreamName_;
     /**
      * <pre>
-     * name of stream to start from
+     * Name of stream to start from
      * </pre>
      *
      * <code>string exclusive_start_stream_name = 2;</code>
@@ -23365,7 +25246,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * name of stream to start from
+     * Name of stream to start from
      * </pre>
      *
      * <code>string exclusive_start_stream_name = 2;</code>
@@ -23390,7 +25271,7 @@ public final class Datastreams {
     private int limit_;
     /**
      * <pre>
-     * max number of entries to return
+     * Max number of entries to return
      * </pre>
      *
      * <code>int32 limit = 3;</code>
@@ -23905,7 +25786,7 @@ public final class Datastreams {
       private java.lang.Object exclusiveStartStreamName_ = "";
       /**
        * <pre>
-       * name of stream to start from
+       * Name of stream to start from
        * </pre>
        *
        * <code>string exclusive_start_stream_name = 2;</code>
@@ -23925,7 +25806,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * name of stream to start from
+       * Name of stream to start from
        * </pre>
        *
        * <code>string exclusive_start_stream_name = 2;</code>
@@ -23946,7 +25827,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * name of stream to start from
+       * Name of stream to start from
        * </pre>
        *
        * <code>string exclusive_start_stream_name = 2;</code>
@@ -23965,7 +25846,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * name of stream to start from
+       * Name of stream to start from
        * </pre>
        *
        * <code>string exclusive_start_stream_name = 2;</code>
@@ -23979,7 +25860,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * name of stream to start from
+       * Name of stream to start from
        * </pre>
        *
        * <code>string exclusive_start_stream_name = 2;</code>
@@ -24001,7 +25882,7 @@ public final class Datastreams {
       private int limit_ ;
       /**
        * <pre>
-       * max number of entries to return
+       * Max number of entries to return
        * </pre>
        *
        * <code>int32 limit = 3;</code>
@@ -24013,7 +25894,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * max number of entries to return
+       * Max number of entries to return
        * </pre>
        *
        * <code>int32 limit = 3;</code>
@@ -24028,7 +25909,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * max number of entries to return
+       * Max number of entries to return
        * </pre>
        *
        * <code>int32 limit = 3;</code>
@@ -24823,7 +26704,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * true if more stream names are available
+     * True if more streams are available
      * </pre>
      *
      * <code>bool has_more_streams = 1;</code>
@@ -24833,7 +26714,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * name of streams
+     * Name of streams
      * </pre>
      *
      * <code>repeated string stream_names = 2;</code>
@@ -24843,7 +26724,7 @@ public final class Datastreams {
         getStreamNamesList();
     /**
      * <pre>
-     * name of streams
+     * Name of streams
      * </pre>
      *
      * <code>repeated string stream_names = 2;</code>
@@ -24852,7 +26733,7 @@ public final class Datastreams {
     int getStreamNamesCount();
     /**
      * <pre>
-     * name of streams
+     * Name of streams
      * </pre>
      *
      * <code>repeated string stream_names = 2;</code>
@@ -24862,7 +26743,7 @@ public final class Datastreams {
     java.lang.String getStreamNames(int index);
     /**
      * <pre>
-     * name of streams
+     * Name of streams
      * </pre>
      *
      * <code>repeated string stream_names = 2;</code>
@@ -24972,7 +26853,7 @@ public final class Datastreams {
     private boolean hasMoreStreams_;
     /**
      * <pre>
-     * true if more stream names are available
+     * True if more streams are available
      * </pre>
      *
      * <code>bool has_more_streams = 1;</code>
@@ -24987,7 +26868,7 @@ public final class Datastreams {
     private com.google.protobuf.LazyStringList streamNames_;
     /**
      * <pre>
-     * name of streams
+     * Name of streams
      * </pre>
      *
      * <code>repeated string stream_names = 2;</code>
@@ -24999,7 +26880,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * name of streams
+     * Name of streams
      * </pre>
      *
      * <code>repeated string stream_names = 2;</code>
@@ -25010,7 +26891,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * name of streams
+     * Name of streams
      * </pre>
      *
      * <code>repeated string stream_names = 2;</code>
@@ -25022,7 +26903,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * name of streams
+     * Name of streams
      * </pre>
      *
      * <code>repeated string stream_names = 2;</code>
@@ -25376,7 +27257,7 @@ public final class Datastreams {
       private boolean hasMoreStreams_ ;
       /**
        * <pre>
-       * true if more stream names are available
+       * True if more streams are available
        * </pre>
        *
        * <code>bool has_more_streams = 1;</code>
@@ -25388,7 +27269,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * true if more stream names are available
+       * True if more streams are available
        * </pre>
        *
        * <code>bool has_more_streams = 1;</code>
@@ -25403,7 +27284,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * true if more stream names are available
+       * True if more streams are available
        * </pre>
        *
        * <code>bool has_more_streams = 1;</code>
@@ -25425,7 +27306,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * name of streams
+       * Name of streams
        * </pre>
        *
        * <code>repeated string stream_names = 2;</code>
@@ -25437,7 +27318,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * name of streams
+       * Name of streams
        * </pre>
        *
        * <code>repeated string stream_names = 2;</code>
@@ -25448,7 +27329,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * name of streams
+       * Name of streams
        * </pre>
        *
        * <code>repeated string stream_names = 2;</code>
@@ -25460,7 +27341,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * name of streams
+       * Name of streams
        * </pre>
        *
        * <code>repeated string stream_names = 2;</code>
@@ -25473,7 +27354,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * name of streams
+       * Name of streams
        * </pre>
        *
        * <code>repeated string stream_names = 2;</code>
@@ -25493,7 +27374,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * name of streams
+       * Name of streams
        * </pre>
        *
        * <code>repeated string stream_names = 2;</code>
@@ -25512,7 +27393,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * name of streams
+       * Name of streams
        * </pre>
        *
        * <code>repeated string stream_names = 2;</code>
@@ -25529,7 +27410,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * name of streams
+       * Name of streams
        * </pre>
        *
        * <code>repeated string stream_names = 2;</code>
@@ -25543,7 +27424,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * name of streams
+       * Name of streams
        * </pre>
        *
        * <code>repeated string stream_names = 2;</code>
@@ -25634,11 +27515,19 @@ public final class Datastreams {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <pre>
+     * Id of the shard to start from
+     * </pre>
+     *
      * <code>string exclusive_start_shard_id = 2;</code>
      * @return The exclusiveStartShardId.
      */
     java.lang.String getExclusiveStartShardId();
     /**
+     * <pre>
+     * Id of the shard to start from
+     * </pre>
+     *
      * <code>string exclusive_start_shard_id = 2;</code>
      * @return The bytes for exclusiveStartShardId.
      */
@@ -25646,6 +27535,10 @@ public final class Datastreams {
         getExclusiveStartShardIdBytes();
 
     /**
+     * <pre>
+     * Max number of entries to return
+     * </pre>
+     *
      * <code>int32 max_results = 3;</code>
      * @return The maxResults.
      */
@@ -25653,7 +27546,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * "ListShardsIterator" - token for shards pagination
+     * Pagination token
      * </pre>
      *
      * <code>string next_token = 4;</code>
@@ -25662,7 +27555,7 @@ public final class Datastreams {
     java.lang.String getNextToken();
     /**
      * <pre>
-     * "ListShardsIterator" - token for shards pagination
+     * Pagination token
      * </pre>
      *
      * <code>string next_token = 4;</code>
@@ -25673,7 +27566,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * Предлагаю в первой версии не заморачиваться
+     * Filter out response
      * </pre>
      *
      * <code>.Ydb.DataStreams.V1.ShardFilter shard_filter = 5;</code>
@@ -25682,7 +27575,7 @@ public final class Datastreams {
     boolean hasShardFilter();
     /**
      * <pre>
-     * Предлагаю в первой версии не заморачиваться
+     * Filter out response
      * </pre>
      *
      * <code>.Ydb.DataStreams.V1.ShardFilter shard_filter = 5;</code>
@@ -25691,7 +27584,7 @@ public final class Datastreams {
     tech.ydb.datastreams.v1.Datastreams.ShardFilter getShardFilter();
     /**
      * <pre>
-     * Предлагаю в первой версии не заморачиваться
+     * Filter out response
      * </pre>
      *
      * <code>.Ydb.DataStreams.V1.ShardFilter shard_filter = 5;</code>
@@ -25699,17 +27592,29 @@ public final class Datastreams {
     tech.ydb.datastreams.v1.Datastreams.ShardFilterOrBuilder getShardFilterOrBuilder();
 
     /**
+     * <pre>
+     * Used to distinguish streams that have the same name
+     * </pre>
+     *
      * <code>int64 stream_creation_timestamp = 6;</code>
      * @return The streamCreationTimestamp.
      */
     long getStreamCreationTimestamp();
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 7;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 7;</code>
      * @return The bytes for streamName.
      */
@@ -25879,6 +27784,10 @@ public final class Datastreams {
     public static final int EXCLUSIVE_START_SHARD_ID_FIELD_NUMBER = 2;
     private volatile java.lang.Object exclusiveStartShardId_;
     /**
+     * <pre>
+     * Id of the shard to start from
+     * </pre>
+     *
      * <code>string exclusive_start_shard_id = 2;</code>
      * @return The exclusiveStartShardId.
      */
@@ -25896,6 +27805,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Id of the shard to start from
+     * </pre>
+     *
      * <code>string exclusive_start_shard_id = 2;</code>
      * @return The bytes for exclusiveStartShardId.
      */
@@ -25917,6 +27830,10 @@ public final class Datastreams {
     public static final int MAX_RESULTS_FIELD_NUMBER = 3;
     private int maxResults_;
     /**
+     * <pre>
+     * Max number of entries to return
+     * </pre>
+     *
      * <code>int32 max_results = 3;</code>
      * @return The maxResults.
      */
@@ -25929,7 +27846,7 @@ public final class Datastreams {
     private volatile java.lang.Object nextToken_;
     /**
      * <pre>
-     * "ListShardsIterator" - token for shards pagination
+     * Pagination token
      * </pre>
      *
      * <code>string next_token = 4;</code>
@@ -25950,7 +27867,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * "ListShardsIterator" - token for shards pagination
+     * Pagination token
      * </pre>
      *
      * <code>string next_token = 4;</code>
@@ -25975,7 +27892,7 @@ public final class Datastreams {
     private tech.ydb.datastreams.v1.Datastreams.ShardFilter shardFilter_;
     /**
      * <pre>
-     * Предлагаю в первой версии не заморачиваться
+     * Filter out response
      * </pre>
      *
      * <code>.Ydb.DataStreams.V1.ShardFilter shard_filter = 5;</code>
@@ -25987,7 +27904,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * Предлагаю в первой версии не заморачиваться
+     * Filter out response
      * </pre>
      *
      * <code>.Ydb.DataStreams.V1.ShardFilter shard_filter = 5;</code>
@@ -25999,7 +27916,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * Предлагаю в первой версии не заморачиваться
+     * Filter out response
      * </pre>
      *
      * <code>.Ydb.DataStreams.V1.ShardFilter shard_filter = 5;</code>
@@ -26012,6 +27929,10 @@ public final class Datastreams {
     public static final int STREAM_CREATION_TIMESTAMP_FIELD_NUMBER = 6;
     private long streamCreationTimestamp_;
     /**
+     * <pre>
+     * Used to distinguish streams that have the same name
+     * </pre>
+     *
      * <code>int64 stream_creation_timestamp = 6;</code>
      * @return The streamCreationTimestamp.
      */
@@ -26023,6 +27944,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 7;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 7;</code>
      * @return The streamName.
      */
@@ -26040,6 +27965,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 7;</code>
      * @return The bytes for streamName.
      */
@@ -26610,6 +28539,10 @@ public final class Datastreams {
 
       private java.lang.Object exclusiveStartShardId_ = "";
       /**
+       * <pre>
+       * Id of the shard to start from
+       * </pre>
+       *
        * <code>string exclusive_start_shard_id = 2;</code>
        * @return The exclusiveStartShardId.
        */
@@ -26626,6 +28559,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the shard to start from
+       * </pre>
+       *
        * <code>string exclusive_start_shard_id = 2;</code>
        * @return The bytes for exclusiveStartShardId.
        */
@@ -26643,6 +28580,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the shard to start from
+       * </pre>
+       *
        * <code>string exclusive_start_shard_id = 2;</code>
        * @param value The exclusiveStartShardId to set.
        * @return This builder for chaining.
@@ -26658,6 +28599,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the shard to start from
+       * </pre>
+       *
        * <code>string exclusive_start_shard_id = 2;</code>
        * @return This builder for chaining.
        */
@@ -26668,6 +28613,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the shard to start from
+       * </pre>
+       *
        * <code>string exclusive_start_shard_id = 2;</code>
        * @param value The bytes for exclusiveStartShardId to set.
        * @return This builder for chaining.
@@ -26686,6 +28635,10 @@ public final class Datastreams {
 
       private int maxResults_ ;
       /**
+       * <pre>
+       * Max number of entries to return
+       * </pre>
+       *
        * <code>int32 max_results = 3;</code>
        * @return The maxResults.
        */
@@ -26694,6 +28647,10 @@ public final class Datastreams {
         return maxResults_;
       }
       /**
+       * <pre>
+       * Max number of entries to return
+       * </pre>
+       *
        * <code>int32 max_results = 3;</code>
        * @param value The maxResults to set.
        * @return This builder for chaining.
@@ -26705,6 +28662,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Max number of entries to return
+       * </pre>
+       *
        * <code>int32 max_results = 3;</code>
        * @return This builder for chaining.
        */
@@ -26718,7 +28679,7 @@ public final class Datastreams {
       private java.lang.Object nextToken_ = "";
       /**
        * <pre>
-       * "ListShardsIterator" - token for shards pagination
+       * Pagination token
        * </pre>
        *
        * <code>string next_token = 4;</code>
@@ -26738,7 +28699,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * "ListShardsIterator" - token for shards pagination
+       * Pagination token
        * </pre>
        *
        * <code>string next_token = 4;</code>
@@ -26759,7 +28720,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * "ListShardsIterator" - token for shards pagination
+       * Pagination token
        * </pre>
        *
        * <code>string next_token = 4;</code>
@@ -26778,7 +28739,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * "ListShardsIterator" - token for shards pagination
+       * Pagination token
        * </pre>
        *
        * <code>string next_token = 4;</code>
@@ -26792,7 +28753,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * "ListShardsIterator" - token for shards pagination
+       * Pagination token
        * </pre>
        *
        * <code>string next_token = 4;</code>
@@ -26816,7 +28777,7 @@ public final class Datastreams {
           tech.ydb.datastreams.v1.Datastreams.ShardFilter, tech.ydb.datastreams.v1.Datastreams.ShardFilter.Builder, tech.ydb.datastreams.v1.Datastreams.ShardFilterOrBuilder> shardFilterBuilder_;
       /**
        * <pre>
-       * Предлагаю в первой версии не заморачиваться
+       * Filter out response
        * </pre>
        *
        * <code>.Ydb.DataStreams.V1.ShardFilter shard_filter = 5;</code>
@@ -26827,7 +28788,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * Предлагаю в первой версии не заморачиваться
+       * Filter out response
        * </pre>
        *
        * <code>.Ydb.DataStreams.V1.ShardFilter shard_filter = 5;</code>
@@ -26842,7 +28803,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * Предлагаю в первой версии не заморачиваться
+       * Filter out response
        * </pre>
        *
        * <code>.Ydb.DataStreams.V1.ShardFilter shard_filter = 5;</code>
@@ -26862,7 +28823,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * Предлагаю в первой версии не заморачиваться
+       * Filter out response
        * </pre>
        *
        * <code>.Ydb.DataStreams.V1.ShardFilter shard_filter = 5;</code>
@@ -26880,7 +28841,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * Предлагаю в первой версии не заморачиваться
+       * Filter out response
        * </pre>
        *
        * <code>.Ydb.DataStreams.V1.ShardFilter shard_filter = 5;</code>
@@ -26902,7 +28863,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * Предлагаю в первой версии не заморачиваться
+       * Filter out response
        * </pre>
        *
        * <code>.Ydb.DataStreams.V1.ShardFilter shard_filter = 5;</code>
@@ -26920,7 +28881,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * Предлагаю в первой версии не заморачиваться
+       * Filter out response
        * </pre>
        *
        * <code>.Ydb.DataStreams.V1.ShardFilter shard_filter = 5;</code>
@@ -26932,7 +28893,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * Предлагаю в первой версии не заморачиваться
+       * Filter out response
        * </pre>
        *
        * <code>.Ydb.DataStreams.V1.ShardFilter shard_filter = 5;</code>
@@ -26947,7 +28908,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * Предлагаю в первой версии не заморачиваться
+       * Filter out response
        * </pre>
        *
        * <code>.Ydb.DataStreams.V1.ShardFilter shard_filter = 5;</code>
@@ -26968,6 +28929,10 @@ public final class Datastreams {
 
       private long streamCreationTimestamp_ ;
       /**
+       * <pre>
+       * Used to distinguish streams that have the same name
+       * </pre>
+       *
        * <code>int64 stream_creation_timestamp = 6;</code>
        * @return The streamCreationTimestamp.
        */
@@ -26976,6 +28941,10 @@ public final class Datastreams {
         return streamCreationTimestamp_;
       }
       /**
+       * <pre>
+       * Used to distinguish streams that have the same name
+       * </pre>
+       *
        * <code>int64 stream_creation_timestamp = 6;</code>
        * @param value The streamCreationTimestamp to set.
        * @return This builder for chaining.
@@ -26987,6 +28956,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Used to distinguish streams that have the same name
+       * </pre>
+       *
        * <code>int64 stream_creation_timestamp = 6;</code>
        * @return This builder for chaining.
        */
@@ -26999,6 +28972,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 7;</code>
        * @return The streamName.
        */
@@ -27015,6 +28992,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 7;</code>
        * @return The bytes for streamName.
        */
@@ -27032,6 +29013,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 7;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -27047,6 +29032,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 7;</code>
        * @return This builder for chaining.
        */
@@ -27057,6 +29046,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 7;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -27811,11 +29804,19 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * Pagination token
+     * </pre>
+     *
      * <code>string next_token = 1;</code>
      * @return The nextToken.
      */
     java.lang.String getNextToken();
     /**
+     * <pre>
+     * Pagination token
+     * </pre>
+     *
      * <code>string next_token = 1;</code>
      * @return The bytes for nextToken.
      */
@@ -27823,24 +29824,44 @@ public final class Datastreams {
         getNextTokenBytes();
 
     /**
+     * <pre>
+     * List of shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
      */
     java.util.List<tech.ydb.datastreams.v1.Datastreams.Shard> 
         getShardsList();
     /**
+     * <pre>
+     * List of shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.Shard getShards(int index);
     /**
+     * <pre>
+     * List of shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
      */
     int getShardsCount();
     /**
+     * <pre>
+     * List of shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
      */
     java.util.List<? extends tech.ydb.datastreams.v1.Datastreams.ShardOrBuilder> 
         getShardsOrBuilderList();
     /**
+     * <pre>
+     * List of shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.ShardOrBuilder getShardsOrBuilder(
@@ -27947,6 +29968,10 @@ public final class Datastreams {
     public static final int NEXT_TOKEN_FIELD_NUMBER = 1;
     private volatile java.lang.Object nextToken_;
     /**
+     * <pre>
+     * Pagination token
+     * </pre>
+     *
      * <code>string next_token = 1;</code>
      * @return The nextToken.
      */
@@ -27964,6 +29989,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Pagination token
+     * </pre>
+     *
      * <code>string next_token = 1;</code>
      * @return The bytes for nextToken.
      */
@@ -27985,6 +30014,10 @@ public final class Datastreams {
     public static final int SHARDS_FIELD_NUMBER = 2;
     private java.util.List<tech.ydb.datastreams.v1.Datastreams.Shard> shards_;
     /**
+     * <pre>
+     * List of shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
      */
     @java.lang.Override
@@ -27992,6 +30025,10 @@ public final class Datastreams {
       return shards_;
     }
     /**
+     * <pre>
+     * List of shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
      */
     @java.lang.Override
@@ -28000,6 +30037,10 @@ public final class Datastreams {
       return shards_;
     }
     /**
+     * <pre>
+     * List of shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
      */
     @java.lang.Override
@@ -28007,6 +30048,10 @@ public final class Datastreams {
       return shards_.size();
     }
     /**
+     * <pre>
+     * List of shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
      */
     @java.lang.Override
@@ -28014,6 +30059,10 @@ public final class Datastreams {
       return shards_.get(index);
     }
     /**
+     * <pre>
+     * List of shards
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
      */
     @java.lang.Override
@@ -28383,6 +30432,10 @@ public final class Datastreams {
 
       private java.lang.Object nextToken_ = "";
       /**
+       * <pre>
+       * Pagination token
+       * </pre>
+       *
        * <code>string next_token = 1;</code>
        * @return The nextToken.
        */
@@ -28399,6 +30452,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Pagination token
+       * </pre>
+       *
        * <code>string next_token = 1;</code>
        * @return The bytes for nextToken.
        */
@@ -28416,6 +30473,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Pagination token
+       * </pre>
+       *
        * <code>string next_token = 1;</code>
        * @param value The nextToken to set.
        * @return This builder for chaining.
@@ -28431,6 +30492,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Pagination token
+       * </pre>
+       *
        * <code>string next_token = 1;</code>
        * @return This builder for chaining.
        */
@@ -28441,6 +30506,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Pagination token
+       * </pre>
+       *
        * <code>string next_token = 1;</code>
        * @param value The bytes for nextToken to set.
        * @return This builder for chaining.
@@ -28470,6 +30539,10 @@ public final class Datastreams {
           tech.ydb.datastreams.v1.Datastreams.Shard, tech.ydb.datastreams.v1.Datastreams.Shard.Builder, tech.ydb.datastreams.v1.Datastreams.ShardOrBuilder> shardsBuilder_;
 
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
        */
       public java.util.List<tech.ydb.datastreams.v1.Datastreams.Shard> getShardsList() {
@@ -28480,6 +30553,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
        */
       public int getShardsCount() {
@@ -28490,6 +30567,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.Shard getShards(int index) {
@@ -28500,6 +30581,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
        */
       public Builder setShards(
@@ -28517,6 +30602,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
        */
       public Builder setShards(
@@ -28531,6 +30620,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
        */
       public Builder addShards(tech.ydb.datastreams.v1.Datastreams.Shard value) {
@@ -28547,6 +30640,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
        */
       public Builder addShards(
@@ -28564,6 +30661,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
        */
       public Builder addShards(
@@ -28578,6 +30679,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
        */
       public Builder addShards(
@@ -28592,6 +30697,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
        */
       public Builder addAllShards(
@@ -28607,6 +30716,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
        */
       public Builder clearShards() {
@@ -28620,6 +30733,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
        */
       public Builder removeShards(int index) {
@@ -28633,6 +30750,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.Shard.Builder getShardsBuilder(
@@ -28640,6 +30761,10 @@ public final class Datastreams {
         return getShardsFieldBuilder().getBuilder(index);
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.ShardOrBuilder getShardsOrBuilder(
@@ -28650,6 +30775,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
        */
       public java.util.List<? extends tech.ydb.datastreams.v1.Datastreams.ShardOrBuilder> 
@@ -28661,6 +30790,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.Shard.Builder addShardsBuilder() {
@@ -28668,6 +30801,10 @@ public final class Datastreams {
             tech.ydb.datastreams.v1.Datastreams.Shard.getDefaultInstance());
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.Shard.Builder addShardsBuilder(
@@ -28676,6 +30813,10 @@ public final class Datastreams {
             index, tech.ydb.datastreams.v1.Datastreams.Shard.getDefaultInstance());
       }
       /**
+       * <pre>
+       * List of shards
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Shard shards = 2;</code>
        */
       public java.util.List<tech.ydb.datastreams.v1.Datastreams.Shard.Builder> 
@@ -28754,38 +30895,34 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <pre>
-     * Result of request will be inside operation.
-     * </pre>
-     *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
-     * <pre>
-     * Result of request will be inside operation.
-     * </pre>
-     *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
-     * <pre>
-     * Result of request will be inside operation.
-     * </pre>
-     *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 2;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 2;</code>
      * @return The bytes for streamName.
      */
@@ -28903,10 +31040,6 @@ public final class Datastreams {
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
-     * <pre>
-     * Result of request will be inside operation.
-     * </pre>
-     *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      * @return Whether the operationParams field is set.
      */
@@ -28915,10 +31048,6 @@ public final class Datastreams {
       return operationParams_ != null;
     }
     /**
-     * <pre>
-     * Result of request will be inside operation.
-     * </pre>
-     *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      * @return The operationParams.
      */
@@ -28927,10 +31056,6 @@ public final class Datastreams {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
-     * <pre>
-     * Result of request will be inside operation.
-     * </pre>
-     *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
     @java.lang.Override
@@ -28941,6 +31066,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 2;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 2;</code>
      * @return The streamName.
      */
@@ -28958,6 +31087,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 2;</code>
      * @return The bytes for streamName.
      */
@@ -29340,10 +31473,6 @@ public final class Datastreams {
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
-       * <pre>
-       * Result of request will be inside operation.
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        * @return Whether the operationParams field is set.
        */
@@ -29351,10 +31480,6 @@ public final class Datastreams {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
-       * <pre>
-       * Result of request will be inside operation.
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        * @return The operationParams.
        */
@@ -29366,10 +31491,6 @@ public final class Datastreams {
         }
       }
       /**
-       * <pre>
-       * Result of request will be inside operation.
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
@@ -29386,10 +31507,6 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <pre>
-       * Result of request will be inside operation.
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       public Builder setOperationParams(
@@ -29404,10 +31521,6 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <pre>
-       * Result of request will be inside operation.
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
@@ -29426,10 +31539,6 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <pre>
-       * Result of request will be inside operation.
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       public Builder clearOperationParams() {
@@ -29444,10 +31553,6 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <pre>
-       * Result of request will be inside operation.
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
@@ -29456,10 +31561,6 @@ public final class Datastreams {
         return getOperationParamsFieldBuilder().getBuilder();
       }
       /**
-       * <pre>
-       * Result of request will be inside operation.
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
@@ -29471,10 +31572,6 @@ public final class Datastreams {
         }
       }
       /**
-       * <pre>
-       * Result of request will be inside operation.
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -29493,6 +31590,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @return The streamName.
        */
@@ -29509,6 +31610,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @return The bytes for streamName.
        */
@@ -29526,6 +31631,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -29541,6 +31650,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @return This builder for chaining.
        */
@@ -29551,6 +31664,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -29655,16 +31772,28 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
     tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
@@ -29762,6 +31891,10 @@ public final class Datastreams {
     public static final int OPERATION_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.Operation operation_;
     /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      * @return Whether the operation field is set.
      */
@@ -29770,6 +31903,10 @@ public final class Datastreams {
       return operation_ != null;
     }
     /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      * @return The operation.
      */
@@ -29778,6 +31915,10 @@ public final class Datastreams {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
     @java.lang.Override
@@ -30104,6 +32245,10 @@ public final class Datastreams {
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
        * @return Whether the operation field is set.
        */
@@ -30111,6 +32256,10 @@ public final class Datastreams {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
        * @return The operation.
        */
@@ -30122,6 +32271,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
        */
       public Builder setOperation(tech.ydb.OperationProtos.Operation value) {
@@ -30138,6 +32291,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
        */
       public Builder setOperation(
@@ -30152,6 +32309,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
        */
       public Builder mergeOperation(tech.ydb.OperationProtos.Operation value) {
@@ -30170,6 +32331,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
        */
       public Builder clearOperation() {
@@ -30184,6 +32349,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
        */
       public tech.ydb.OperationProtos.Operation.Builder getOperationBuilder() {
@@ -30192,6 +32361,10 @@ public final class Datastreams {
         return getOperationFieldBuilder().getBuilder();
       }
       /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
        */
       public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
@@ -30203,6 +32376,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -30694,38 +32871,34 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <pre>
-     * Result of request will be inside operation.
-     * </pre>
-     *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      * @return Whether the operationParams field is set.
      */
     boolean hasOperationParams();
     /**
-     * <pre>
-     * Result of request will be inside operation.
-     * </pre>
-     *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      * @return The operationParams.
      */
     tech.ydb.OperationProtos.OperationParams getOperationParams();
     /**
-     * <pre>
-     * Result of request will be inside operation.
-     * </pre>
-     *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 2;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 2;</code>
      * @return The bytes for streamName.
      */
@@ -30739,12 +32912,20 @@ public final class Datastreams {
     int getWriteQuotaKbPerSec();
 
     /**
+     * <pre>
+     * New number of shards
+     * </pre>
+     *
      * <code>int32 target_shard_count = 4;</code>
      * @return The targetShardCount.
      */
     int getTargetShardCount();
 
     /**
+     * <pre>
+     * Retention period in hours
+     * </pre>
+     *
      * <code>int32 retention_period_hours = 5;</code>
      * @return The retentionPeriodHours.
      */
@@ -30865,10 +33046,6 @@ public final class Datastreams {
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
-     * <pre>
-     * Result of request will be inside operation.
-     * </pre>
-     *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      * @return Whether the operationParams field is set.
      */
@@ -30877,10 +33054,6 @@ public final class Datastreams {
       return operationParams_ != null;
     }
     /**
-     * <pre>
-     * Result of request will be inside operation.
-     * </pre>
-     *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      * @return The operationParams.
      */
@@ -30889,10 +33062,6 @@ public final class Datastreams {
       return operationParams_ == null ? tech.ydb.OperationProtos.OperationParams.getDefaultInstance() : operationParams_;
     }
     /**
-     * <pre>
-     * Result of request will be inside operation.
-     * </pre>
-     *
      * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
      */
     @java.lang.Override
@@ -30903,6 +33072,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 2;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 2;</code>
      * @return The streamName.
      */
@@ -30920,6 +33093,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 2;</code>
      * @return The bytes for streamName.
      */
@@ -30952,6 +33129,10 @@ public final class Datastreams {
     public static final int TARGET_SHARD_COUNT_FIELD_NUMBER = 4;
     private int targetShardCount_;
     /**
+     * <pre>
+     * New number of shards
+     * </pre>
+     *
      * <code>int32 target_shard_count = 4;</code>
      * @return The targetShardCount.
      */
@@ -30963,6 +33144,10 @@ public final class Datastreams {
     public static final int RETENTION_PERIOD_HOURS_FIELD_NUMBER = 5;
     private int retentionPeriodHours_;
     /**
+     * <pre>
+     * Retention period in hours
+     * </pre>
+     *
      * <code>int32 retention_period_hours = 5;</code>
      * @return The retentionPeriodHours.
      */
@@ -31358,10 +33543,6 @@ public final class Datastreams {
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.OperationParams, tech.ydb.OperationProtos.OperationParams.Builder, tech.ydb.OperationProtos.OperationParamsOrBuilder> operationParamsBuilder_;
       /**
-       * <pre>
-       * Result of request will be inside operation.
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        * @return Whether the operationParams field is set.
        */
@@ -31369,10 +33550,6 @@ public final class Datastreams {
         return operationParamsBuilder_ != null || operationParams_ != null;
       }
       /**
-       * <pre>
-       * Result of request will be inside operation.
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        * @return The operationParams.
        */
@@ -31384,10 +33561,6 @@ public final class Datastreams {
         }
       }
       /**
-       * <pre>
-       * Result of request will be inside operation.
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       public Builder setOperationParams(tech.ydb.OperationProtos.OperationParams value) {
@@ -31404,10 +33577,6 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <pre>
-       * Result of request will be inside operation.
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       public Builder setOperationParams(
@@ -31422,10 +33591,6 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <pre>
-       * Result of request will be inside operation.
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       public Builder mergeOperationParams(tech.ydb.OperationProtos.OperationParams value) {
@@ -31444,10 +33609,6 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <pre>
-       * Result of request will be inside operation.
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       public Builder clearOperationParams() {
@@ -31462,10 +33623,6 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <pre>
-       * Result of request will be inside operation.
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       public tech.ydb.OperationProtos.OperationParams.Builder getOperationParamsBuilder() {
@@ -31474,10 +33631,6 @@ public final class Datastreams {
         return getOperationParamsFieldBuilder().getBuilder();
       }
       /**
-       * <pre>
-       * Result of request will be inside operation.
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       public tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder() {
@@ -31489,10 +33642,6 @@ public final class Datastreams {
         }
       }
       /**
-       * <pre>
-       * Result of request will be inside operation.
-       * </pre>
-       *
        * <code>.Ydb.Operations.OperationParams operation_params = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -31511,6 +33660,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @return The streamName.
        */
@@ -31527,6 +33680,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @return The bytes for streamName.
        */
@@ -31544,6 +33701,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -31559,6 +33720,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @return This builder for chaining.
        */
@@ -31569,6 +33734,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -31618,6 +33787,10 @@ public final class Datastreams {
 
       private int targetShardCount_ ;
       /**
+       * <pre>
+       * New number of shards
+       * </pre>
+       *
        * <code>int32 target_shard_count = 4;</code>
        * @return The targetShardCount.
        */
@@ -31626,6 +33799,10 @@ public final class Datastreams {
         return targetShardCount_;
       }
       /**
+       * <pre>
+       * New number of shards
+       * </pre>
+       *
        * <code>int32 target_shard_count = 4;</code>
        * @param value The targetShardCount to set.
        * @return This builder for chaining.
@@ -31637,6 +33814,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * New number of shards
+       * </pre>
+       *
        * <code>int32 target_shard_count = 4;</code>
        * @return This builder for chaining.
        */
@@ -31649,6 +33830,10 @@ public final class Datastreams {
 
       private int retentionPeriodHours_ ;
       /**
+       * <pre>
+       * Retention period in hours
+       * </pre>
+       *
        * <code>int32 retention_period_hours = 5;</code>
        * @return The retentionPeriodHours.
        */
@@ -31657,6 +33842,10 @@ public final class Datastreams {
         return retentionPeriodHours_;
       }
       /**
+       * <pre>
+       * Retention period in hours
+       * </pre>
+       *
        * <code>int32 retention_period_hours = 5;</code>
        * @param value The retentionPeriodHours to set.
        * @return This builder for chaining.
@@ -31668,6 +33857,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Retention period in hours
+       * </pre>
+       *
        * <code>int32 retention_period_hours = 5;</code>
        * @return This builder for chaining.
        */
@@ -31735,16 +33928,28 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      * @return Whether the operation field is set.
      */
     boolean hasOperation();
     /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      * @return The operation.
      */
     tech.ydb.OperationProtos.Operation getOperation();
     /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
     tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder();
@@ -31842,6 +34047,10 @@ public final class Datastreams {
     public static final int OPERATION_FIELD_NUMBER = 1;
     private tech.ydb.OperationProtos.Operation operation_;
     /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      * @return Whether the operation field is set.
      */
@@ -31850,6 +34059,10 @@ public final class Datastreams {
       return operation_ != null;
     }
     /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      * @return The operation.
      */
@@ -31858,6 +34071,10 @@ public final class Datastreams {
       return operation_ == null ? tech.ydb.OperationProtos.Operation.getDefaultInstance() : operation_;
     }
     /**
+     * <pre>
+     * Result of request will be inside operation.
+     * </pre>
+     *
      * <code>.Ydb.Operations.Operation operation = 1;</code>
      */
     @java.lang.Override
@@ -32184,6 +34401,10 @@ public final class Datastreams {
       private com.google.protobuf.SingleFieldBuilderV3<
           tech.ydb.OperationProtos.Operation, tech.ydb.OperationProtos.Operation.Builder, tech.ydb.OperationProtos.OperationOrBuilder> operationBuilder_;
       /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
        * @return Whether the operation field is set.
        */
@@ -32191,6 +34412,10 @@ public final class Datastreams {
         return operationBuilder_ != null || operation_ != null;
       }
       /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
        * @return The operation.
        */
@@ -32202,6 +34427,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
        */
       public Builder setOperation(tech.ydb.OperationProtos.Operation value) {
@@ -32218,6 +34447,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
        */
       public Builder setOperation(
@@ -32232,6 +34465,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
        */
       public Builder mergeOperation(tech.ydb.OperationProtos.Operation value) {
@@ -32250,6 +34487,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
        */
       public Builder clearOperation() {
@@ -32264,6 +34505,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
        */
       public tech.ydb.OperationProtos.Operation.Builder getOperationBuilder() {
@@ -32272,6 +34517,10 @@ public final class Datastreams {
         return getOperationFieldBuilder().getBuilder();
       }
       /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
        */
       public tech.ydb.OperationProtos.OperationOrBuilder getOperationOrBuilder() {
@@ -32283,6 +34532,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Result of request will be inside operation.
+       * </pre>
+       *
        * <code>.Ydb.Operations.Operation operation = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -32789,17 +35042,29 @@ public final class Datastreams {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <pre>
+     * Max number of entries to return
+     * </pre>
+     *
      * <code>int32 max_results = 2;</code>
      * @return The maxResults.
      */
     int getMaxResults();
 
     /**
+     * <pre>
+     * Pagination token
+     * </pre>
+     *
      * <code>string next_token = 3;</code>
      * @return The nextToken.
      */
     java.lang.String getNextToken();
     /**
+     * <pre>
+     * Pagination token
+     * </pre>
+     *
      * <code>string next_token = 3;</code>
      * @return The bytes for nextToken.
      */
@@ -32819,6 +35084,10 @@ public final class Datastreams {
         getStreamArnBytes();
 
     /**
+     * <pre>
+     * Used to distinguish streams that have the same name
+     * </pre>
+     *
      * <code>int64 stream_creation_timestamp = 5;</code>
      * @return The streamCreationTimestamp.
      */
@@ -32967,6 +35236,10 @@ public final class Datastreams {
     public static final int MAX_RESULTS_FIELD_NUMBER = 2;
     private int maxResults_;
     /**
+     * <pre>
+     * Max number of entries to return
+     * </pre>
+     *
      * <code>int32 max_results = 2;</code>
      * @return The maxResults.
      */
@@ -32978,6 +35251,10 @@ public final class Datastreams {
     public static final int NEXT_TOKEN_FIELD_NUMBER = 3;
     private volatile java.lang.Object nextToken_;
     /**
+     * <pre>
+     * Pagination token
+     * </pre>
+     *
      * <code>string next_token = 3;</code>
      * @return The nextToken.
      */
@@ -32995,6 +35272,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Pagination token
+     * </pre>
+     *
      * <code>string next_token = 3;</code>
      * @return The bytes for nextToken.
      */
@@ -33054,6 +35335,10 @@ public final class Datastreams {
     public static final int STREAM_CREATION_TIMESTAMP_FIELD_NUMBER = 5;
     private long streamCreationTimestamp_;
     /**
+     * <pre>
+     * Used to distinguish streams that have the same name
+     * </pre>
+     *
      * <code>int64 stream_creation_timestamp = 5;</code>
      * @return The streamCreationTimestamp.
      */
@@ -33567,6 +35852,10 @@ public final class Datastreams {
 
       private int maxResults_ ;
       /**
+       * <pre>
+       * Max number of entries to return
+       * </pre>
+       *
        * <code>int32 max_results = 2;</code>
        * @return The maxResults.
        */
@@ -33575,6 +35864,10 @@ public final class Datastreams {
         return maxResults_;
       }
       /**
+       * <pre>
+       * Max number of entries to return
+       * </pre>
+       *
        * <code>int32 max_results = 2;</code>
        * @param value The maxResults to set.
        * @return This builder for chaining.
@@ -33586,6 +35879,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Max number of entries to return
+       * </pre>
+       *
        * <code>int32 max_results = 2;</code>
        * @return This builder for chaining.
        */
@@ -33598,6 +35895,10 @@ public final class Datastreams {
 
       private java.lang.Object nextToken_ = "";
       /**
+       * <pre>
+       * Pagination token
+       * </pre>
+       *
        * <code>string next_token = 3;</code>
        * @return The nextToken.
        */
@@ -33614,6 +35915,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Pagination token
+       * </pre>
+       *
        * <code>string next_token = 3;</code>
        * @return The bytes for nextToken.
        */
@@ -33631,6 +35936,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Pagination token
+       * </pre>
+       *
        * <code>string next_token = 3;</code>
        * @param value The nextToken to set.
        * @return This builder for chaining.
@@ -33646,6 +35955,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Pagination token
+       * </pre>
+       *
        * <code>string next_token = 3;</code>
        * @return This builder for chaining.
        */
@@ -33656,6 +35969,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Pagination token
+       * </pre>
+       *
        * <code>string next_token = 3;</code>
        * @param value The bytes for nextToken to set.
        * @return This builder for chaining.
@@ -33750,6 +36067,10 @@ public final class Datastreams {
 
       private long streamCreationTimestamp_ ;
       /**
+       * <pre>
+       * Used to distinguish streams that have the same name
+       * </pre>
+       *
        * <code>int64 stream_creation_timestamp = 5;</code>
        * @return The streamCreationTimestamp.
        */
@@ -33758,6 +36079,10 @@ public final class Datastreams {
         return streamCreationTimestamp_;
       }
       /**
+       * <pre>
+       * Used to distinguish streams that have the same name
+       * </pre>
+       *
        * <code>int64 stream_creation_timestamp = 5;</code>
        * @param value The streamCreationTimestamp to set.
        * @return This builder for chaining.
@@ -33769,6 +36094,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Used to distinguish streams that have the same name
+       * </pre>
+       *
        * <code>int64 stream_creation_timestamp = 5;</code>
        * @return This builder for chaining.
        */
@@ -34517,11 +36846,19 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * Pagination token
+     * </pre>
+     *
      * <code>string next_token = 1;</code>
      * @return The nextToken.
      */
     java.lang.String getNextToken();
     /**
+     * <pre>
+     * Pagination token
+     * </pre>
+     *
      * <code>string next_token = 1;</code>
      * @return The bytes for nextToken.
      */
@@ -34529,24 +36866,44 @@ public final class Datastreams {
         getNextTokenBytes();
 
     /**
+     * <pre>
+     * List of consumers
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
      */
     java.util.List<tech.ydb.datastreams.v1.Datastreams.Consumer> 
         getConsumersList();
     /**
+     * <pre>
+     * List of consumers
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.Consumer getConsumers(int index);
     /**
+     * <pre>
+     * List of consumers
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
      */
     int getConsumersCount();
     /**
+     * <pre>
+     * List of consumers
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
      */
     java.util.List<? extends tech.ydb.datastreams.v1.Datastreams.ConsumerOrBuilder> 
         getConsumersOrBuilderList();
     /**
+     * <pre>
+     * List of consumers
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.ConsumerOrBuilder getConsumersOrBuilder(
@@ -34653,6 +37010,10 @@ public final class Datastreams {
     public static final int NEXT_TOKEN_FIELD_NUMBER = 1;
     private volatile java.lang.Object nextToken_;
     /**
+     * <pre>
+     * Pagination token
+     * </pre>
+     *
      * <code>string next_token = 1;</code>
      * @return The nextToken.
      */
@@ -34670,6 +37031,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Pagination token
+     * </pre>
+     *
      * <code>string next_token = 1;</code>
      * @return The bytes for nextToken.
      */
@@ -34691,6 +37056,10 @@ public final class Datastreams {
     public static final int CONSUMERS_FIELD_NUMBER = 2;
     private java.util.List<tech.ydb.datastreams.v1.Datastreams.Consumer> consumers_;
     /**
+     * <pre>
+     * List of consumers
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
      */
     @java.lang.Override
@@ -34698,6 +37067,10 @@ public final class Datastreams {
       return consumers_;
     }
     /**
+     * <pre>
+     * List of consumers
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
      */
     @java.lang.Override
@@ -34706,6 +37079,10 @@ public final class Datastreams {
       return consumers_;
     }
     /**
+     * <pre>
+     * List of consumers
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
      */
     @java.lang.Override
@@ -34713,6 +37090,10 @@ public final class Datastreams {
       return consumers_.size();
     }
     /**
+     * <pre>
+     * List of consumers
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
      */
     @java.lang.Override
@@ -34720,6 +37101,10 @@ public final class Datastreams {
       return consumers_.get(index);
     }
     /**
+     * <pre>
+     * List of consumers
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
      */
     @java.lang.Override
@@ -35089,6 +37474,10 @@ public final class Datastreams {
 
       private java.lang.Object nextToken_ = "";
       /**
+       * <pre>
+       * Pagination token
+       * </pre>
+       *
        * <code>string next_token = 1;</code>
        * @return The nextToken.
        */
@@ -35105,6 +37494,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Pagination token
+       * </pre>
+       *
        * <code>string next_token = 1;</code>
        * @return The bytes for nextToken.
        */
@@ -35122,6 +37515,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Pagination token
+       * </pre>
+       *
        * <code>string next_token = 1;</code>
        * @param value The nextToken to set.
        * @return This builder for chaining.
@@ -35137,6 +37534,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Pagination token
+       * </pre>
+       *
        * <code>string next_token = 1;</code>
        * @return This builder for chaining.
        */
@@ -35147,6 +37548,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Pagination token
+       * </pre>
+       *
        * <code>string next_token = 1;</code>
        * @param value The bytes for nextToken to set.
        * @return This builder for chaining.
@@ -35176,6 +37581,10 @@ public final class Datastreams {
           tech.ydb.datastreams.v1.Datastreams.Consumer, tech.ydb.datastreams.v1.Datastreams.Consumer.Builder, tech.ydb.datastreams.v1.Datastreams.ConsumerOrBuilder> consumersBuilder_;
 
       /**
+       * <pre>
+       * List of consumers
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
        */
       public java.util.List<tech.ydb.datastreams.v1.Datastreams.Consumer> getConsumersList() {
@@ -35186,6 +37595,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of consumers
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
        */
       public int getConsumersCount() {
@@ -35196,6 +37609,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of consumers
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.Consumer getConsumers(int index) {
@@ -35206,6 +37623,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of consumers
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
        */
       public Builder setConsumers(
@@ -35223,6 +37644,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of consumers
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
        */
       public Builder setConsumers(
@@ -35237,6 +37662,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of consumers
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
        */
       public Builder addConsumers(tech.ydb.datastreams.v1.Datastreams.Consumer value) {
@@ -35253,6 +37682,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of consumers
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
        */
       public Builder addConsumers(
@@ -35270,6 +37703,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of consumers
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
        */
       public Builder addConsumers(
@@ -35284,6 +37721,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of consumers
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
        */
       public Builder addConsumers(
@@ -35298,6 +37739,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of consumers
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
        */
       public Builder addAllConsumers(
@@ -35313,6 +37758,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of consumers
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
        */
       public Builder clearConsumers() {
@@ -35326,6 +37775,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of consumers
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
        */
       public Builder removeConsumers(int index) {
@@ -35339,6 +37792,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of consumers
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.Consumer.Builder getConsumersBuilder(
@@ -35346,6 +37803,10 @@ public final class Datastreams {
         return getConsumersFieldBuilder().getBuilder(index);
       }
       /**
+       * <pre>
+       * List of consumers
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.ConsumerOrBuilder getConsumersOrBuilder(
@@ -35356,6 +37817,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of consumers
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
        */
       public java.util.List<? extends tech.ydb.datastreams.v1.Datastreams.ConsumerOrBuilder> 
@@ -35367,6 +37832,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of consumers
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.Consumer.Builder addConsumersBuilder() {
@@ -35374,6 +37843,10 @@ public final class Datastreams {
             tech.ydb.datastreams.v1.Datastreams.Consumer.getDefaultInstance());
       }
       /**
+       * <pre>
+       * List of consumers
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.Consumer.Builder addConsumersBuilder(
@@ -35382,6 +37855,10 @@ public final class Datastreams {
             index, tech.ydb.datastreams.v1.Datastreams.Consumer.getDefaultInstance());
       }
       /**
+       * <pre>
+       * List of consumers
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Consumer consumers = 2;</code>
        */
       public java.util.List<tech.ydb.datastreams.v1.Datastreams.Consumer.Builder> 
@@ -35475,11 +37952,19 @@ public final class Datastreams {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <pre>
+     * Id of the shard to start from
+     * </pre>
+     *
      * <code>string exclusive_start_shard_id = 2;</code>
      * @return The exclusiveStartShardId.
      */
     java.lang.String getExclusiveStartShardId();
     /**
+     * <pre>
+     * Id of the shard to start from
+     * </pre>
+     *
      * <code>string exclusive_start_shard_id = 2;</code>
      * @return The bytes for exclusiveStartShardId.
      */
@@ -35487,17 +37972,29 @@ public final class Datastreams {
         getExclusiveStartShardIdBytes();
 
     /**
+     * <pre>
+     * Max number of entries to return
+     * </pre>
+     *
      * <code>int32 limit = 3;</code>
      * @return The limit.
      */
     int getLimit();
 
     /**
+     * <pre>
+     * Name of the stream to describe
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream to describe
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The bytes for streamName.
      */
@@ -35642,6 +38139,10 @@ public final class Datastreams {
     public static final int EXCLUSIVE_START_SHARD_ID_FIELD_NUMBER = 2;
     private volatile java.lang.Object exclusiveStartShardId_;
     /**
+     * <pre>
+     * Id of the shard to start from
+     * </pre>
+     *
      * <code>string exclusive_start_shard_id = 2;</code>
      * @return The exclusiveStartShardId.
      */
@@ -35659,6 +38160,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Id of the shard to start from
+     * </pre>
+     *
      * <code>string exclusive_start_shard_id = 2;</code>
      * @return The bytes for exclusiveStartShardId.
      */
@@ -35680,6 +38185,10 @@ public final class Datastreams {
     public static final int LIMIT_FIELD_NUMBER = 3;
     private int limit_;
     /**
+     * <pre>
+     * Max number of entries to return
+     * </pre>
+     *
      * <code>int32 limit = 3;</code>
      * @return The limit.
      */
@@ -35691,6 +38200,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 4;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream to describe
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The streamName.
      */
@@ -35708,6 +38221,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream to describe
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The bytes for streamName.
      */
@@ -36213,6 +38730,10 @@ public final class Datastreams {
 
       private java.lang.Object exclusiveStartShardId_ = "";
       /**
+       * <pre>
+       * Id of the shard to start from
+       * </pre>
+       *
        * <code>string exclusive_start_shard_id = 2;</code>
        * @return The exclusiveStartShardId.
        */
@@ -36229,6 +38750,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the shard to start from
+       * </pre>
+       *
        * <code>string exclusive_start_shard_id = 2;</code>
        * @return The bytes for exclusiveStartShardId.
        */
@@ -36246,6 +38771,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the shard to start from
+       * </pre>
+       *
        * <code>string exclusive_start_shard_id = 2;</code>
        * @param value The exclusiveStartShardId to set.
        * @return This builder for chaining.
@@ -36261,6 +38790,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the shard to start from
+       * </pre>
+       *
        * <code>string exclusive_start_shard_id = 2;</code>
        * @return This builder for chaining.
        */
@@ -36271,6 +38804,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the shard to start from
+       * </pre>
+       *
        * <code>string exclusive_start_shard_id = 2;</code>
        * @param value The bytes for exclusiveStartShardId to set.
        * @return This builder for chaining.
@@ -36289,6 +38826,10 @@ public final class Datastreams {
 
       private int limit_ ;
       /**
+       * <pre>
+       * Max number of entries to return
+       * </pre>
+       *
        * <code>int32 limit = 3;</code>
        * @return The limit.
        */
@@ -36297,6 +38838,10 @@ public final class Datastreams {
         return limit_;
       }
       /**
+       * <pre>
+       * Max number of entries to return
+       * </pre>
+       *
        * <code>int32 limit = 3;</code>
        * @param value The limit to set.
        * @return This builder for chaining.
@@ -36308,6 +38853,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Max number of entries to return
+       * </pre>
+       *
        * <code>int32 limit = 3;</code>
        * @return This builder for chaining.
        */
@@ -36320,6 +38869,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream to describe
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @return The streamName.
        */
@@ -36336,6 +38889,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream to describe
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @return The bytes for streamName.
        */
@@ -36353,6 +38910,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream to describe
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -36368,6 +38929,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream to describe
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @return This builder for chaining.
        */
@@ -36378,6 +38943,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream to describe
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -37768,11 +40337,19 @@ public final class Datastreams {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <pre>
+     * Unique name of the consumer within the stream
+     * </pre>
+     *
      * <code>string consumer_name = 2;</code>
      * @return The consumerName.
      */
     java.lang.String getConsumerName();
     /**
+     * <pre>
+     * Unique name of the consumer within the stream
+     * </pre>
+     *
      * <code>string consumer_name = 2;</code>
      * @return The bytes for consumerName.
      */
@@ -37924,6 +40501,10 @@ public final class Datastreams {
     public static final int CONSUMER_NAME_FIELD_NUMBER = 2;
     private volatile java.lang.Object consumerName_;
     /**
+     * <pre>
+     * Unique name of the consumer within the stream
+     * </pre>
+     *
      * <code>string consumer_name = 2;</code>
      * @return The consumerName.
      */
@@ -37941,6 +40522,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Unique name of the consumer within the stream
+     * </pre>
+     *
      * <code>string consumer_name = 2;</code>
      * @return The bytes for consumerName.
      */
@@ -38467,6 +41052,10 @@ public final class Datastreams {
 
       private java.lang.Object consumerName_ = "";
       /**
+       * <pre>
+       * Unique name of the consumer within the stream
+       * </pre>
+       *
        * <code>string consumer_name = 2;</code>
        * @return The consumerName.
        */
@@ -38483,6 +41072,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Unique name of the consumer within the stream
+       * </pre>
+       *
        * <code>string consumer_name = 2;</code>
        * @return The bytes for consumerName.
        */
@@ -38500,6 +41093,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Unique name of the consumer within the stream
+       * </pre>
+       *
        * <code>string consumer_name = 2;</code>
        * @param value The consumerName to set.
        * @return This builder for chaining.
@@ -38515,6 +41112,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Unique name of the consumer within the stream
+       * </pre>
+       *
        * <code>string consumer_name = 2;</code>
        * @return This builder for chaining.
        */
@@ -38525,6 +41126,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Unique name of the consumer within the stream
+       * </pre>
+       *
        * <code>string consumer_name = 2;</code>
        * @param value The bytes for consumerName to set.
        * @return This builder for chaining.
@@ -40004,7 +42609,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * kinesis stream id
+     * Name of consumer
      * </pre>
      *
      * <code>string consumer_name = 3;</code>
@@ -40013,7 +42618,7 @@ public final class Datastreams {
     java.lang.String getConsumerName();
     /**
      * <pre>
-     * kinesis stream id
+     * Name of consumer
      * </pre>
      *
      * <code>string consumer_name = 3;</code>
@@ -40023,19 +42628,11 @@ public final class Datastreams {
         getConsumerNameBytes();
 
     /**
-     * <pre>
-     * name of kinesis consumer
-     * </pre>
-     *
      * <code>string stream_arn = 4;</code>
      * @return The streamArn.
      */
     java.lang.String getStreamArn();
     /**
-     * <pre>
-     * name of kinesis consumer
-     * </pre>
-     *
      * <code>string stream_arn = 4;</code>
      * @return The bytes for streamArn.
      */
@@ -40221,7 +42818,7 @@ public final class Datastreams {
     private volatile java.lang.Object consumerName_;
     /**
      * <pre>
-     * kinesis stream id
+     * Name of consumer
      * </pre>
      *
      * <code>string consumer_name = 3;</code>
@@ -40242,7 +42839,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * kinesis stream id
+     * Name of consumer
      * </pre>
      *
      * <code>string consumer_name = 3;</code>
@@ -40266,10 +42863,6 @@ public final class Datastreams {
     public static final int STREAM_ARN_FIELD_NUMBER = 4;
     private volatile java.lang.Object streamArn_;
     /**
-     * <pre>
-     * name of kinesis consumer
-     * </pre>
-     *
      * <code>string stream_arn = 4;</code>
      * @return The streamArn.
      */
@@ -40287,10 +42880,6 @@ public final class Datastreams {
       }
     }
     /**
-     * <pre>
-     * name of kinesis consumer
-     * </pre>
-     *
      * <code>string stream_arn = 4;</code>
      * @return The bytes for streamArn.
      */
@@ -40873,7 +43462,7 @@ public final class Datastreams {
       private java.lang.Object consumerName_ = "";
       /**
        * <pre>
-       * kinesis stream id
+       * Name of consumer
        * </pre>
        *
        * <code>string consumer_name = 3;</code>
@@ -40893,7 +43482,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * kinesis stream id
+       * Name of consumer
        * </pre>
        *
        * <code>string consumer_name = 3;</code>
@@ -40914,7 +43503,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * kinesis stream id
+       * Name of consumer
        * </pre>
        *
        * <code>string consumer_name = 3;</code>
@@ -40933,7 +43522,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * kinesis stream id
+       * Name of consumer
        * </pre>
        *
        * <code>string consumer_name = 3;</code>
@@ -40947,7 +43536,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * kinesis stream id
+       * Name of consumer
        * </pre>
        *
        * <code>string consumer_name = 3;</code>
@@ -40968,10 +43557,6 @@ public final class Datastreams {
 
       private java.lang.Object streamArn_ = "";
       /**
-       * <pre>
-       * name of kinesis consumer
-       * </pre>
-       *
        * <code>string stream_arn = 4;</code>
        * @return The streamArn.
        */
@@ -40988,10 +43573,6 @@ public final class Datastreams {
         }
       }
       /**
-       * <pre>
-       * name of kinesis consumer
-       * </pre>
-       *
        * <code>string stream_arn = 4;</code>
        * @return The bytes for streamArn.
        */
@@ -41009,10 +43590,6 @@ public final class Datastreams {
         }
       }
       /**
-       * <pre>
-       * name of kinesis consumer
-       * </pre>
-       *
        * <code>string stream_arn = 4;</code>
        * @param value The streamArn to set.
        * @return This builder for chaining.
@@ -41028,10 +43605,6 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <pre>
-       * name of kinesis consumer
-       * </pre>
-       *
        * <code>string stream_arn = 4;</code>
        * @return This builder for chaining.
        */
@@ -41042,10 +43615,6 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <pre>
-       * name of kinesis consumer
-       * </pre>
-       *
        * <code>string stream_arn = 4;</code>
        * @param value The bytes for streamArn to set.
        * @return This builder for chaining.
@@ -42245,11 +44814,19 @@ public final class Datastreams {
         getConsumerArnBytes();
 
     /**
+     * <pre>
+     * Name of consumer
+     * </pre>
+     *
      * <code>string consumer_name = 3;</code>
      * @return The consumerName.
      */
     java.lang.String getConsumerName();
     /**
+     * <pre>
+     * Name of consumer
+     * </pre>
+     *
      * <code>string consumer_name = 3;</code>
      * @return The bytes for consumerName.
      */
@@ -42446,6 +45023,10 @@ public final class Datastreams {
     public static final int CONSUMER_NAME_FIELD_NUMBER = 3;
     private volatile java.lang.Object consumerName_;
     /**
+     * <pre>
+     * Name of consumer
+     * </pre>
+     *
      * <code>string consumer_name = 3;</code>
      * @return The consumerName.
      */
@@ -42463,6 +45044,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of consumer
+     * </pre>
+     *
      * <code>string consumer_name = 3;</code>
      * @return The bytes for consumerName.
      */
@@ -43082,6 +45667,10 @@ public final class Datastreams {
 
       private java.lang.Object consumerName_ = "";
       /**
+       * <pre>
+       * Name of consumer
+       * </pre>
+       *
        * <code>string consumer_name = 3;</code>
        * @return The consumerName.
        */
@@ -43098,6 +45687,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of consumer
+       * </pre>
+       *
        * <code>string consumer_name = 3;</code>
        * @return The bytes for consumerName.
        */
@@ -43115,6 +45708,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of consumer
+       * </pre>
+       *
        * <code>string consumer_name = 3;</code>
        * @param value The consumerName to set.
        * @return This builder for chaining.
@@ -43130,6 +45727,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of consumer
+       * </pre>
+       *
        * <code>string consumer_name = 3;</code>
        * @return This builder for chaining.
        */
@@ -43140,6 +45741,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of consumer
+       * </pre>
+       *
        * <code>string consumer_name = 3;</code>
        * @param value The bytes for consumerName to set.
        * @return This builder for chaining.
@@ -44591,17 +47196,29 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * Data blob
+     * </pre>
+     *
      * <code>bytes data = 1 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_BASE64];</code>
      * @return The data.
      */
     com.google.protobuf.ByteString getData();
 
     /**
+     * <pre>
+     * Hash value used to explicitly determine the shard
+     * </pre>
+     *
      * <code>string explicit_hash_key = 2;</code>
      * @return The explicitHashKey.
      */
     java.lang.String getExplicitHashKey();
     /**
+     * <pre>
+     * Hash value used to explicitly determine the shard
+     * </pre>
+     *
      * <code>string explicit_hash_key = 2;</code>
      * @return The bytes for explicitHashKey.
      */
@@ -44609,11 +47226,19 @@ public final class Datastreams {
         getExplicitHashKeyBytes();
 
     /**
+     * <pre>
+     * Used as input to hash function that maps partition key to a specific shard
+     * </pre>
+     *
      * <code>string partition_key = 3;</code>
      * @return The partitionKey.
      */
     java.lang.String getPartitionKey();
     /**
+     * <pre>
+     * Used as input to hash function that maps partition key to a specific shard
+     * </pre>
+     *
      * <code>string partition_key = 3;</code>
      * @return The bytes for partitionKey.
      */
@@ -44720,6 +47345,10 @@ public final class Datastreams {
     public static final int DATA_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString data_;
     /**
+     * <pre>
+     * Data blob
+     * </pre>
+     *
      * <code>bytes data = 1 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_BASE64];</code>
      * @return The data.
      */
@@ -44731,6 +47360,10 @@ public final class Datastreams {
     public static final int EXPLICIT_HASH_KEY_FIELD_NUMBER = 2;
     private volatile java.lang.Object explicitHashKey_;
     /**
+     * <pre>
+     * Hash value used to explicitly determine the shard
+     * </pre>
+     *
      * <code>string explicit_hash_key = 2;</code>
      * @return The explicitHashKey.
      */
@@ -44748,6 +47381,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Hash value used to explicitly determine the shard
+     * </pre>
+     *
      * <code>string explicit_hash_key = 2;</code>
      * @return The bytes for explicitHashKey.
      */
@@ -44769,6 +47406,10 @@ public final class Datastreams {
     public static final int PARTITION_KEY_FIELD_NUMBER = 3;
     private volatile java.lang.Object partitionKey_;
     /**
+     * <pre>
+     * Used as input to hash function that maps partition key to a specific shard
+     * </pre>
+     *
      * <code>string partition_key = 3;</code>
      * @return The partitionKey.
      */
@@ -44786,6 +47427,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Used as input to hash function that maps partition key to a specific shard
+     * </pre>
+     *
      * <code>string partition_key = 3;</code>
      * @return The bytes for partitionKey.
      */
@@ -45142,6 +47787,10 @@ public final class Datastreams {
 
       private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
       /**
+       * <pre>
+       * Data blob
+       * </pre>
+       *
        * <code>bytes data = 1 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_BASE64];</code>
        * @return The data.
        */
@@ -45150,6 +47799,10 @@ public final class Datastreams {
         return data_;
       }
       /**
+       * <pre>
+       * Data blob
+       * </pre>
+       *
        * <code>bytes data = 1 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_BASE64];</code>
        * @param value The data to set.
        * @return This builder for chaining.
@@ -45164,6 +47817,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Data blob
+       * </pre>
+       *
        * <code>bytes data = 1 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_BASE64];</code>
        * @return This builder for chaining.
        */
@@ -45176,6 +47833,10 @@ public final class Datastreams {
 
       private java.lang.Object explicitHashKey_ = "";
       /**
+       * <pre>
+       * Hash value used to explicitly determine the shard
+       * </pre>
+       *
        * <code>string explicit_hash_key = 2;</code>
        * @return The explicitHashKey.
        */
@@ -45192,6 +47853,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Hash value used to explicitly determine the shard
+       * </pre>
+       *
        * <code>string explicit_hash_key = 2;</code>
        * @return The bytes for explicitHashKey.
        */
@@ -45209,6 +47874,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Hash value used to explicitly determine the shard
+       * </pre>
+       *
        * <code>string explicit_hash_key = 2;</code>
        * @param value The explicitHashKey to set.
        * @return This builder for chaining.
@@ -45224,6 +47893,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Hash value used to explicitly determine the shard
+       * </pre>
+       *
        * <code>string explicit_hash_key = 2;</code>
        * @return This builder for chaining.
        */
@@ -45234,6 +47907,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Hash value used to explicitly determine the shard
+       * </pre>
+       *
        * <code>string explicit_hash_key = 2;</code>
        * @param value The bytes for explicitHashKey to set.
        * @return This builder for chaining.
@@ -45252,6 +47929,10 @@ public final class Datastreams {
 
       private java.lang.Object partitionKey_ = "";
       /**
+       * <pre>
+       * Used as input to hash function that maps partition key to a specific shard
+       * </pre>
+       *
        * <code>string partition_key = 3;</code>
        * @return The partitionKey.
        */
@@ -45268,6 +47949,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Used as input to hash function that maps partition key to a specific shard
+       * </pre>
+       *
        * <code>string partition_key = 3;</code>
        * @return The bytes for partitionKey.
        */
@@ -45285,6 +47970,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Used as input to hash function that maps partition key to a specific shard
+       * </pre>
+       *
        * <code>string partition_key = 3;</code>
        * @param value The partitionKey to set.
        * @return This builder for chaining.
@@ -45300,6 +47989,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Used as input to hash function that maps partition key to a specific shard
+       * </pre>
+       *
        * <code>string partition_key = 3;</code>
        * @return This builder for chaining.
        */
@@ -45310,6 +48003,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Used as input to hash function that maps partition key to a specific shard
+       * </pre>
+       *
        * <code>string partition_key = 3;</code>
        * @param value The bytes for partitionKey to set.
        * @return This builder for chaining.
@@ -45383,17 +48080,6 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.Ydb.StatusIds.StatusCode code = 1;</code>
-     * @return The enum numeric value on the wire for code.
-     */
-    int getCodeValue();
-    /**
-     * <code>.Ydb.StatusIds.StatusCode code = 1;</code>
-     * @return The code.
-     */
-    tech.ydb.StatusCodesProtos.StatusIds.StatusCode getCode();
-
-    /**
      * <code>string error_message = 2;</code>
      * @return The errorMessage.
      */
@@ -45442,6 +48128,10 @@ public final class Datastreams {
         getShardIdBytes();
   }
   /**
+   * <pre>
+   * Represents result of an individual record
+   * </pre>
+   *
    * Protobuf type {@code Ydb.DataStreams.V1.PutRecordsResultEntry}
    */
   public static final class PutRecordsResultEntry extends
@@ -45454,7 +48144,6 @@ public final class Datastreams {
       super(builder);
     }
     private PutRecordsResultEntry() {
-      code_ = 0;
       errorMessage_ = "";
       errorCode_ = "";
       sequenceNumber_ = "";
@@ -45491,12 +48180,6 @@ public final class Datastreams {
             case 0:
               done = true;
               break;
-            case 8: {
-              int rawValue = input.readEnum();
-
-              code_ = rawValue;
-              break;
-            }
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -45551,25 +48234,6 @@ public final class Datastreams {
       return tech.ydb.datastreams.v1.Datastreams.internal_static_Ydb_DataStreams_V1_PutRecordsResultEntry_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry.class, tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry.Builder.class);
-    }
-
-    public static final int CODE_FIELD_NUMBER = 1;
-    private int code_;
-    /**
-     * <code>.Ydb.StatusIds.StatusCode code = 1;</code>
-     * @return The enum numeric value on the wire for code.
-     */
-    @java.lang.Override public int getCodeValue() {
-      return code_;
-    }
-    /**
-     * <code>.Ydb.StatusIds.StatusCode code = 1;</code>
-     * @return The code.
-     */
-    @java.lang.Override public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getCode() {
-      @SuppressWarnings("deprecation")
-      tech.ydb.StatusCodesProtos.StatusIds.StatusCode result = tech.ydb.StatusCodesProtos.StatusIds.StatusCode.valueOf(code_);
-      return result == null ? tech.ydb.StatusCodesProtos.StatusIds.StatusCode.UNRECOGNIZED : result;
     }
 
     public static final int ERROR_MESSAGE_FIELD_NUMBER = 2;
@@ -45738,9 +48402,6 @@ public final class Datastreams {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (code_ != tech.ydb.StatusCodesProtos.StatusIds.StatusCode.STATUS_CODE_UNSPECIFIED.getNumber()) {
-        output.writeEnum(1, code_);
-      }
       if (!getErrorMessageBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, errorMessage_);
       }
@@ -45762,10 +48423,6 @@ public final class Datastreams {
       if (size != -1) return size;
 
       size = 0;
-      if (code_ != tech.ydb.StatusCodesProtos.StatusIds.StatusCode.STATUS_CODE_UNSPECIFIED.getNumber()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, code_);
-      }
       if (!getErrorMessageBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, errorMessage_);
       }
@@ -45793,7 +48450,6 @@ public final class Datastreams {
       }
       tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry other = (tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry) obj;
 
-      if (code_ != other.code_) return false;
       if (!getErrorMessage()
           .equals(other.getErrorMessage())) return false;
       if (!getErrorCode()
@@ -45813,8 +48469,6 @@ public final class Datastreams {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + CODE_FIELD_NUMBER;
-      hash = (53 * hash) + code_;
       hash = (37 * hash) + ERROR_MESSAGE_FIELD_NUMBER;
       hash = (53 * hash) + getErrorMessage().hashCode();
       hash = (37 * hash) + ERROR_CODE_FIELD_NUMBER;
@@ -45919,6 +48573,10 @@ public final class Datastreams {
       return builder;
     }
     /**
+     * <pre>
+     * Represents result of an individual record
+     * </pre>
+     *
      * Protobuf type {@code Ydb.DataStreams.V1.PutRecordsResultEntry}
      */
     public static final class Builder extends
@@ -45956,8 +48614,6 @@ public final class Datastreams {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        code_ = 0;
-
         errorMessage_ = "";
 
         errorCode_ = "";
@@ -45992,7 +48648,6 @@ public final class Datastreams {
       @java.lang.Override
       public tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry buildPartial() {
         tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry result = new tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry(this);
-        result.code_ = code_;
         result.errorMessage_ = errorMessage_;
         result.errorCode_ = errorCode_;
         result.sequenceNumber_ = sequenceNumber_;
@@ -46045,9 +48700,6 @@ public final class Datastreams {
 
       public Builder mergeFrom(tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry other) {
         if (other == tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry.getDefaultInstance()) return this;
-        if (other.code_ != 0) {
-          setCodeValue(other.getCodeValue());
-        }
         if (!other.getErrorMessage().isEmpty()) {
           errorMessage_ = other.errorMessage_;
           onChanged();
@@ -46090,60 +48742,6 @@ public final class Datastreams {
             mergeFrom(parsedMessage);
           }
         }
-        return this;
-      }
-
-      private int code_ = 0;
-      /**
-       * <code>.Ydb.StatusIds.StatusCode code = 1;</code>
-       * @return The enum numeric value on the wire for code.
-       */
-      @java.lang.Override public int getCodeValue() {
-        return code_;
-      }
-      /**
-       * <code>.Ydb.StatusIds.StatusCode code = 1;</code>
-       * @param value The enum numeric value on the wire for code to set.
-       * @return This builder for chaining.
-       */
-      public Builder setCodeValue(int value) {
-        
-        code_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.Ydb.StatusIds.StatusCode code = 1;</code>
-       * @return The code.
-       */
-      @java.lang.Override
-      public tech.ydb.StatusCodesProtos.StatusIds.StatusCode getCode() {
-        @SuppressWarnings("deprecation")
-        tech.ydb.StatusCodesProtos.StatusIds.StatusCode result = tech.ydb.StatusCodesProtos.StatusIds.StatusCode.valueOf(code_);
-        return result == null ? tech.ydb.StatusCodesProtos.StatusIds.StatusCode.UNRECOGNIZED : result;
-      }
-      /**
-       * <code>.Ydb.StatusIds.StatusCode code = 1;</code>
-       * @param value The code to set.
-       * @return This builder for chaining.
-       */
-      public Builder setCode(tech.ydb.StatusCodesProtos.StatusIds.StatusCode value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        
-        code_ = value.getNumber();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.Ydb.StatusIds.StatusCode code = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearCode() {
-        
-        code_ = 0;
-        onChanged();
         return this;
       }
 
@@ -46524,7 +49122,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * max number of records to return
+     * Max number of records to return
      * </pre>
      *
      * <code>int32 limit = 2;</code>
@@ -46534,7 +49132,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * iterator to shard
+     * Iterator to shard
      * </pre>
      *
      * <code>string shard_iterator = 3;</code>
@@ -46543,7 +49141,7 @@ public final class Datastreams {
     java.lang.String getShardIterator();
     /**
      * <pre>
-     * iterator to shard
+     * Iterator to shard
      * </pre>
      *
      * <code>string shard_iterator = 3;</code>
@@ -46684,7 +49282,7 @@ public final class Datastreams {
     private int limit_;
     /**
      * <pre>
-     * max number of records to return
+     * Max number of records to return
      * </pre>
      *
      * <code>int32 limit = 2;</code>
@@ -46699,7 +49297,7 @@ public final class Datastreams {
     private volatile java.lang.Object shardIterator_;
     /**
      * <pre>
-     * iterator to shard
+     * Iterator to shard
      * </pre>
      *
      * <code>string shard_iterator = 3;</code>
@@ -46720,7 +49318,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * iterator to shard
+     * Iterator to shard
      * </pre>
      *
      * <code>string shard_iterator = 3;</code>
@@ -47212,7 +49810,7 @@ public final class Datastreams {
       private int limit_ ;
       /**
        * <pre>
-       * max number of records to return
+       * Max number of records to return
        * </pre>
        *
        * <code>int32 limit = 2;</code>
@@ -47224,7 +49822,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * max number of records to return
+       * Max number of records to return
        * </pre>
        *
        * <code>int32 limit = 2;</code>
@@ -47239,7 +49837,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * max number of records to return
+       * Max number of records to return
        * </pre>
        *
        * <code>int32 limit = 2;</code>
@@ -47255,7 +49853,7 @@ public final class Datastreams {
       private java.lang.Object shardIterator_ = "";
       /**
        * <pre>
-       * iterator to shard
+       * Iterator to shard
        * </pre>
        *
        * <code>string shard_iterator = 3;</code>
@@ -47275,7 +49873,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * iterator to shard
+       * Iterator to shard
        * </pre>
        *
        * <code>string shard_iterator = 3;</code>
@@ -47296,7 +49894,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * iterator to shard
+       * Iterator to shard
        * </pre>
        *
        * <code>string shard_iterator = 3;</code>
@@ -47315,7 +49913,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * iterator to shard
+       * Iterator to shard
        * </pre>
        *
        * <code>string shard_iterator = 3;</code>
@@ -47329,7 +49927,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * iterator to shard
+       * Iterator to shard
        * </pre>
        *
        * <code>string shard_iterator = 3;</code>
@@ -48087,7 +50685,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * child shards if SplitShard was called on a given shard
+     * List of child shards if SplitShard was called on a given shard
      * </pre>
      *
      * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -48096,7 +50694,7 @@ public final class Datastreams {
         getChildShardsList();
     /**
      * <pre>
-     * child shards if SplitShard was called on a given shard
+     * List of child shards if SplitShard was called on a given shard
      * </pre>
      *
      * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -48104,7 +50702,7 @@ public final class Datastreams {
     tech.ydb.datastreams.v1.Datastreams.ChildShard getChildShards(int index);
     /**
      * <pre>
-     * child shards if SplitShard was called on a given shard
+     * List of child shards if SplitShard was called on a given shard
      * </pre>
      *
      * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -48112,7 +50710,7 @@ public final class Datastreams {
     int getChildShardsCount();
     /**
      * <pre>
-     * child shards if SplitShard was called on a given shard
+     * List of child shards if SplitShard was called on a given shard
      * </pre>
      *
      * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -48121,7 +50719,7 @@ public final class Datastreams {
         getChildShardsOrBuilderList();
     /**
      * <pre>
-     * child shards if SplitShard was called on a given shard
+     * List of child shards if SplitShard was called on a given shard
      * </pre>
      *
      * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -48130,6 +50728,11 @@ public final class Datastreams {
         int index);
 
     /**
+     * <pre>
+     * Number of milliseconds the read records are from the tip of the stream.
+     * Zero indicates that record processing is caught up.
+     * </pre>
+     *
      * <code>int64 millis_behind_latest = 2;</code>
      * @return The millisBehindLatest.
      */
@@ -48149,7 +50752,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * data from shard
+     * List of records
      * </pre>
      *
      * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -48158,7 +50761,7 @@ public final class Datastreams {
         getRecordsList();
     /**
      * <pre>
-     * data from shard
+     * List of records
      * </pre>
      *
      * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -48166,7 +50769,7 @@ public final class Datastreams {
     tech.ydb.datastreams.v1.Datastreams.Record getRecords(int index);
     /**
      * <pre>
-     * data from shard
+     * List of records
      * </pre>
      *
      * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -48174,7 +50777,7 @@ public final class Datastreams {
     int getRecordsCount();
     /**
      * <pre>
-     * data from shard
+     * List of records
      * </pre>
      *
      * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -48183,7 +50786,7 @@ public final class Datastreams {
         getRecordsOrBuilderList();
     /**
      * <pre>
-     * data from shard
+     * List of records
      * </pre>
      *
      * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -48311,7 +50914,7 @@ public final class Datastreams {
     private java.util.List<tech.ydb.datastreams.v1.Datastreams.ChildShard> childShards_;
     /**
      * <pre>
-     * child shards if SplitShard was called on a given shard
+     * List of child shards if SplitShard was called on a given shard
      * </pre>
      *
      * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -48322,7 +50925,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * child shards if SplitShard was called on a given shard
+     * List of child shards if SplitShard was called on a given shard
      * </pre>
      *
      * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -48334,7 +50937,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * child shards if SplitShard was called on a given shard
+     * List of child shards if SplitShard was called on a given shard
      * </pre>
      *
      * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -48345,7 +50948,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * child shards if SplitShard was called on a given shard
+     * List of child shards if SplitShard was called on a given shard
      * </pre>
      *
      * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -48356,7 +50959,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * child shards if SplitShard was called on a given shard
+     * List of child shards if SplitShard was called on a given shard
      * </pre>
      *
      * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -48370,6 +50973,11 @@ public final class Datastreams {
     public static final int MILLIS_BEHIND_LATEST_FIELD_NUMBER = 2;
     private long millisBehindLatest_;
     /**
+     * <pre>
+     * Number of milliseconds the read records are from the tip of the stream.
+     * Zero indicates that record processing is caught up.
+     * </pre>
+     *
      * <code>int64 millis_behind_latest = 2;</code>
      * @return The millisBehindLatest.
      */
@@ -48420,7 +51028,7 @@ public final class Datastreams {
     private java.util.List<tech.ydb.datastreams.v1.Datastreams.Record> records_;
     /**
      * <pre>
-     * data from shard
+     * List of records
      * </pre>
      *
      * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -48431,7 +51039,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * data from shard
+     * List of records
      * </pre>
      *
      * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -48443,7 +51051,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * data from shard
+     * List of records
      * </pre>
      *
      * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -48454,7 +51062,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * data from shard
+     * List of records
      * </pre>
      *
      * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -48465,7 +51073,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * data from shard
+     * List of records
      * </pre>
      *
      * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -48922,7 +51530,7 @@ public final class Datastreams {
 
       /**
        * <pre>
-       * child shards if SplitShard was called on a given shard
+       * List of child shards if SplitShard was called on a given shard
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -48936,7 +51544,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * child shards if SplitShard was called on a given shard
+       * List of child shards if SplitShard was called on a given shard
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -48950,7 +51558,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * child shards if SplitShard was called on a given shard
+       * List of child shards if SplitShard was called on a given shard
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -48964,7 +51572,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * child shards if SplitShard was called on a given shard
+       * List of child shards if SplitShard was called on a given shard
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -48985,7 +51593,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * child shards if SplitShard was called on a given shard
+       * List of child shards if SplitShard was called on a given shard
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -49003,7 +51611,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * child shards if SplitShard was called on a given shard
+       * List of child shards if SplitShard was called on a given shard
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -49023,7 +51631,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * child shards if SplitShard was called on a given shard
+       * List of child shards if SplitShard was called on a given shard
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -49044,7 +51652,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * child shards if SplitShard was called on a given shard
+       * List of child shards if SplitShard was called on a given shard
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -49062,7 +51670,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * child shards if SplitShard was called on a given shard
+       * List of child shards if SplitShard was called on a given shard
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -49080,7 +51688,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * child shards if SplitShard was called on a given shard
+       * List of child shards if SplitShard was called on a given shard
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -49099,7 +51707,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * child shards if SplitShard was called on a given shard
+       * List of child shards if SplitShard was called on a given shard
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -49116,7 +51724,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * child shards if SplitShard was called on a given shard
+       * List of child shards if SplitShard was called on a given shard
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -49133,7 +51741,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * child shards if SplitShard was called on a given shard
+       * List of child shards if SplitShard was called on a given shard
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -49144,7 +51752,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * child shards if SplitShard was called on a given shard
+       * List of child shards if SplitShard was called on a given shard
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -49158,7 +51766,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * child shards if SplitShard was called on a given shard
+       * List of child shards if SplitShard was called on a given shard
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -49173,7 +51781,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * child shards if SplitShard was called on a given shard
+       * List of child shards if SplitShard was called on a given shard
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -49184,7 +51792,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * child shards if SplitShard was called on a given shard
+       * List of child shards if SplitShard was called on a given shard
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -49196,7 +51804,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * child shards if SplitShard was called on a given shard
+       * List of child shards if SplitShard was called on a given shard
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.ChildShard child_shards = 1;</code>
@@ -49222,6 +51830,11 @@ public final class Datastreams {
 
       private long millisBehindLatest_ ;
       /**
+       * <pre>
+       * Number of milliseconds the read records are from the tip of the stream.
+       * Zero indicates that record processing is caught up.
+       * </pre>
+       *
        * <code>int64 millis_behind_latest = 2;</code>
        * @return The millisBehindLatest.
        */
@@ -49230,6 +51843,11 @@ public final class Datastreams {
         return millisBehindLatest_;
       }
       /**
+       * <pre>
+       * Number of milliseconds the read records are from the tip of the stream.
+       * Zero indicates that record processing is caught up.
+       * </pre>
+       *
        * <code>int64 millis_behind_latest = 2;</code>
        * @param value The millisBehindLatest to set.
        * @return This builder for chaining.
@@ -49241,6 +51859,11 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Number of milliseconds the read records are from the tip of the stream.
+       * Zero indicates that record processing is caught up.
+       * </pre>
+       *
        * <code>int64 millis_behind_latest = 2;</code>
        * @return This builder for chaining.
        */
@@ -49341,7 +51964,7 @@ public final class Datastreams {
 
       /**
        * <pre>
-       * data from shard
+       * List of records
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -49355,7 +51978,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * data from shard
+       * List of records
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -49369,7 +51992,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * data from shard
+       * List of records
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -49383,7 +52006,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * data from shard
+       * List of records
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -49404,7 +52027,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * data from shard
+       * List of records
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -49422,7 +52045,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * data from shard
+       * List of records
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -49442,7 +52065,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * data from shard
+       * List of records
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -49463,7 +52086,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * data from shard
+       * List of records
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -49481,7 +52104,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * data from shard
+       * List of records
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -49499,7 +52122,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * data from shard
+       * List of records
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -49518,7 +52141,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * data from shard
+       * List of records
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -49535,7 +52158,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * data from shard
+       * List of records
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -49552,7 +52175,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * data from shard
+       * List of records
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -49563,7 +52186,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * data from shard
+       * List of records
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -49577,7 +52200,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * data from shard
+       * List of records
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -49592,7 +52215,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * data from shard
+       * List of records
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -49603,7 +52226,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * data from shard
+       * List of records
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -49615,7 +52238,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * data from shard
+       * List of records
        * </pre>
        *
        * <code>repeated .Ydb.DataStreams.V1.Record records = 4;</code>
@@ -49712,7 +52335,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * data blob
+     * Data blob
      * </pre>
      *
      * <code>bytes data = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_BASE64];</code>
@@ -49722,7 +52345,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * explicit hash key. If empty hash is calculated as md5(partitionKey)
+     * Hash value used to explicitly determine the shard
      * </pre>
      *
      * <code>string explicit_hash_key = 3;</code>
@@ -49731,7 +52354,7 @@ public final class Datastreams {
     java.lang.String getExplicitHashKey();
     /**
      * <pre>
-     * explicit hash key. If empty hash is calculated as md5(partitionKey)
+     * Hash value used to explicitly determine the shard
      * </pre>
      *
      * <code>string explicit_hash_key = 3;</code>
@@ -49742,7 +52365,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * partition key
+     * Used as input to hash function that maps partition key to a specific shard
      * </pre>
      *
      * <code>string partition_key = 4;</code>
@@ -49751,7 +52374,7 @@ public final class Datastreams {
     java.lang.String getPartitionKey();
     /**
      * <pre>
-     * partition key
+     * Used as input to hash function that maps partition key to a specific shard
      * </pre>
      *
      * <code>string partition_key = 4;</code>
@@ -49761,19 +52384,11 @@ public final class Datastreams {
         getPartitionKeyBytes();
 
     /**
-     * <pre>
-     * Кажется в нашей модели поле не нужно. Нужно только валидировать его
-     * </pre>
-     *
      * <code>string sequence_number_for_ordering = 5;</code>
      * @return The sequenceNumberForOrdering.
      */
     java.lang.String getSequenceNumberForOrdering();
     /**
-     * <pre>
-     * Кажется в нашей модели поле не нужно. Нужно только валидировать его
-     * </pre>
-     *
      * <code>string sequence_number_for_ordering = 5;</code>
      * @return The bytes for sequenceNumberForOrdering.
      */
@@ -49782,7 +52397,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * stream name
+     * Name of the stream to put record to
      * </pre>
      *
      * <code>string stream_name = 6;</code>
@@ -49791,7 +52406,7 @@ public final class Datastreams {
     java.lang.String getStreamName();
     /**
      * <pre>
-     * stream name
+     * Name of the stream to put record to
      * </pre>
      *
      * <code>string stream_name = 6;</code>
@@ -49954,7 +52569,7 @@ public final class Datastreams {
     private com.google.protobuf.ByteString data_;
     /**
      * <pre>
-     * data blob
+     * Data blob
      * </pre>
      *
      * <code>bytes data = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_BASE64];</code>
@@ -49969,7 +52584,7 @@ public final class Datastreams {
     private volatile java.lang.Object explicitHashKey_;
     /**
      * <pre>
-     * explicit hash key. If empty hash is calculated as md5(partitionKey)
+     * Hash value used to explicitly determine the shard
      * </pre>
      *
      * <code>string explicit_hash_key = 3;</code>
@@ -49990,7 +52605,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * explicit hash key. If empty hash is calculated as md5(partitionKey)
+     * Hash value used to explicitly determine the shard
      * </pre>
      *
      * <code>string explicit_hash_key = 3;</code>
@@ -50015,7 +52630,7 @@ public final class Datastreams {
     private volatile java.lang.Object partitionKey_;
     /**
      * <pre>
-     * partition key
+     * Used as input to hash function that maps partition key to a specific shard
      * </pre>
      *
      * <code>string partition_key = 4;</code>
@@ -50036,7 +52651,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * partition key
+     * Used as input to hash function that maps partition key to a specific shard
      * </pre>
      *
      * <code>string partition_key = 4;</code>
@@ -50060,10 +52675,6 @@ public final class Datastreams {
     public static final int SEQUENCE_NUMBER_FOR_ORDERING_FIELD_NUMBER = 5;
     private volatile java.lang.Object sequenceNumberForOrdering_;
     /**
-     * <pre>
-     * Кажется в нашей модели поле не нужно. Нужно только валидировать его
-     * </pre>
-     *
      * <code>string sequence_number_for_ordering = 5;</code>
      * @return The sequenceNumberForOrdering.
      */
@@ -50081,10 +52692,6 @@ public final class Datastreams {
       }
     }
     /**
-     * <pre>
-     * Кажется в нашей модели поле не нужно. Нужно только валидировать его
-     * </pre>
-     *
      * <code>string sequence_number_for_ordering = 5;</code>
      * @return The bytes for sequenceNumberForOrdering.
      */
@@ -50107,7 +52714,7 @@ public final class Datastreams {
     private volatile java.lang.Object streamName_;
     /**
      * <pre>
-     * stream name
+     * Name of the stream to put record to
      * </pre>
      *
      * <code>string stream_name = 6;</code>
@@ -50128,7 +52735,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * stream name
+     * Name of the stream to put record to
      * </pre>
      *
      * <code>string stream_name = 6;</code>
@@ -50671,7 +53278,7 @@ public final class Datastreams {
       private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <pre>
-       * data blob
+       * Data blob
        * </pre>
        *
        * <code>bytes data = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_BASE64];</code>
@@ -50683,7 +53290,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * data blob
+       * Data blob
        * </pre>
        *
        * <code>bytes data = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_BASE64];</code>
@@ -50701,7 +53308,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * data blob
+       * Data blob
        * </pre>
        *
        * <code>bytes data = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_BASE64];</code>
@@ -50717,7 +53324,7 @@ public final class Datastreams {
       private java.lang.Object explicitHashKey_ = "";
       /**
        * <pre>
-       * explicit hash key. If empty hash is calculated as md5(partitionKey)
+       * Hash value used to explicitly determine the shard
        * </pre>
        *
        * <code>string explicit_hash_key = 3;</code>
@@ -50737,7 +53344,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * explicit hash key. If empty hash is calculated as md5(partitionKey)
+       * Hash value used to explicitly determine the shard
        * </pre>
        *
        * <code>string explicit_hash_key = 3;</code>
@@ -50758,7 +53365,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * explicit hash key. If empty hash is calculated as md5(partitionKey)
+       * Hash value used to explicitly determine the shard
        * </pre>
        *
        * <code>string explicit_hash_key = 3;</code>
@@ -50777,7 +53384,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * explicit hash key. If empty hash is calculated as md5(partitionKey)
+       * Hash value used to explicitly determine the shard
        * </pre>
        *
        * <code>string explicit_hash_key = 3;</code>
@@ -50791,7 +53398,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * explicit hash key. If empty hash is calculated as md5(partitionKey)
+       * Hash value used to explicitly determine the shard
        * </pre>
        *
        * <code>string explicit_hash_key = 3;</code>
@@ -50813,7 +53420,7 @@ public final class Datastreams {
       private java.lang.Object partitionKey_ = "";
       /**
        * <pre>
-       * partition key
+       * Used as input to hash function that maps partition key to a specific shard
        * </pre>
        *
        * <code>string partition_key = 4;</code>
@@ -50833,7 +53440,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * partition key
+       * Used as input to hash function that maps partition key to a specific shard
        * </pre>
        *
        * <code>string partition_key = 4;</code>
@@ -50854,7 +53461,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * partition key
+       * Used as input to hash function that maps partition key to a specific shard
        * </pre>
        *
        * <code>string partition_key = 4;</code>
@@ -50873,7 +53480,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * partition key
+       * Used as input to hash function that maps partition key to a specific shard
        * </pre>
        *
        * <code>string partition_key = 4;</code>
@@ -50887,7 +53494,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * partition key
+       * Used as input to hash function that maps partition key to a specific shard
        * </pre>
        *
        * <code>string partition_key = 4;</code>
@@ -50908,10 +53515,6 @@ public final class Datastreams {
 
       private java.lang.Object sequenceNumberForOrdering_ = "";
       /**
-       * <pre>
-       * Кажется в нашей модели поле не нужно. Нужно только валидировать его
-       * </pre>
-       *
        * <code>string sequence_number_for_ordering = 5;</code>
        * @return The sequenceNumberForOrdering.
        */
@@ -50928,10 +53531,6 @@ public final class Datastreams {
         }
       }
       /**
-       * <pre>
-       * Кажется в нашей модели поле не нужно. Нужно только валидировать его
-       * </pre>
-       *
        * <code>string sequence_number_for_ordering = 5;</code>
        * @return The bytes for sequenceNumberForOrdering.
        */
@@ -50949,10 +53548,6 @@ public final class Datastreams {
         }
       }
       /**
-       * <pre>
-       * Кажется в нашей модели поле не нужно. Нужно только валидировать его
-       * </pre>
-       *
        * <code>string sequence_number_for_ordering = 5;</code>
        * @param value The sequenceNumberForOrdering to set.
        * @return This builder for chaining.
@@ -50968,10 +53563,6 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <pre>
-       * Кажется в нашей модели поле не нужно. Нужно только валидировать его
-       * </pre>
-       *
        * <code>string sequence_number_for_ordering = 5;</code>
        * @return This builder for chaining.
        */
@@ -50982,10 +53573,6 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <pre>
-       * Кажется в нашей модели поле не нужно. Нужно только валидировать его
-       * </pre>
-       *
        * <code>string sequence_number_for_ordering = 5;</code>
        * @param value The bytes for sequenceNumberForOrdering to set.
        * @return This builder for chaining.
@@ -51005,7 +53592,7 @@ public final class Datastreams {
       private java.lang.Object streamName_ = "";
       /**
        * <pre>
-       * stream name
+       * Name of the stream to put record to
        * </pre>
        *
        * <code>string stream_name = 6;</code>
@@ -51025,7 +53612,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * stream name
+       * Name of the stream to put record to
        * </pre>
        *
        * <code>string stream_name = 6;</code>
@@ -51046,7 +53633,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * stream name
+       * Name of the stream to put record to
        * </pre>
        *
        * <code>string stream_name = 6;</code>
@@ -51065,7 +53652,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * stream name
+       * Name of the stream to put record to
        * </pre>
        *
        * <code>string stream_name = 6;</code>
@@ -51079,7 +53666,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * stream name
+       * Name of the stream to put record to
        * </pre>
        *
        * <code>string stream_name = 6;</code>
@@ -51836,22 +54423,38 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * Encryption type used
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
      * @return The enum numeric value on the wire for encryptionType.
      */
     int getEncryptionTypeValue();
     /**
+     * <pre>
+     * Encryption type used
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
      * @return The encryptionType.
      */
     tech.ydb.datastreams.v1.Datastreams.EncryptionType getEncryptionType();
 
     /**
+     * <pre>
+     * Unique id of the record within shard
+     * </pre>
+     *
      * <code>string sequence_number = 2;</code>
      * @return The sequenceNumber.
      */
     java.lang.String getSequenceNumber();
     /**
+     * <pre>
+     * Unique id of the record within shard
+     * </pre>
+     *
      * <code>string sequence_number = 2;</code>
      * @return The bytes for sequenceNumber.
      */
@@ -51859,11 +54462,19 @@ public final class Datastreams {
         getSequenceNumberBytes();
 
     /**
+     * <pre>
+     * Id of the shard were the data was inserted
+     * </pre>
+     *
      * <code>string shard_id = 3;</code>
      * @return The shardId.
      */
     java.lang.String getShardId();
     /**
+     * <pre>
+     * Id of the shard were the data was inserted
+     * </pre>
+     *
      * <code>string shard_id = 3;</code>
      * @return The bytes for shardId.
      */
@@ -51971,6 +54582,10 @@ public final class Datastreams {
     public static final int ENCRYPTION_TYPE_FIELD_NUMBER = 1;
     private int encryptionType_;
     /**
+     * <pre>
+     * Encryption type used
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
      * @return The enum numeric value on the wire for encryptionType.
      */
@@ -51978,6 +54593,10 @@ public final class Datastreams {
       return encryptionType_;
     }
     /**
+     * <pre>
+     * Encryption type used
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
      * @return The encryptionType.
      */
@@ -51990,6 +54609,10 @@ public final class Datastreams {
     public static final int SEQUENCE_NUMBER_FIELD_NUMBER = 2;
     private volatile java.lang.Object sequenceNumber_;
     /**
+     * <pre>
+     * Unique id of the record within shard
+     * </pre>
+     *
      * <code>string sequence_number = 2;</code>
      * @return The sequenceNumber.
      */
@@ -52007,6 +54630,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Unique id of the record within shard
+     * </pre>
+     *
      * <code>string sequence_number = 2;</code>
      * @return The bytes for sequenceNumber.
      */
@@ -52028,6 +54655,10 @@ public final class Datastreams {
     public static final int SHARD_ID_FIELD_NUMBER = 3;
     private volatile java.lang.Object shardId_;
     /**
+     * <pre>
+     * Id of the shard were the data was inserted
+     * </pre>
+     *
      * <code>string shard_id = 3;</code>
      * @return The shardId.
      */
@@ -52045,6 +54676,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Id of the shard were the data was inserted
+     * </pre>
+     *
      * <code>string shard_id = 3;</code>
      * @return The bytes for shardId.
      */
@@ -52400,6 +55035,10 @@ public final class Datastreams {
 
       private int encryptionType_ = 0;
       /**
+       * <pre>
+       * Encryption type used
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
        * @return The enum numeric value on the wire for encryptionType.
        */
@@ -52407,6 +55046,10 @@ public final class Datastreams {
         return encryptionType_;
       }
       /**
+       * <pre>
+       * Encryption type used
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
        * @param value The enum numeric value on the wire for encryptionType to set.
        * @return This builder for chaining.
@@ -52418,6 +55061,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Encryption type used
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
        * @return The encryptionType.
        */
@@ -52428,6 +55075,10 @@ public final class Datastreams {
         return result == null ? tech.ydb.datastreams.v1.Datastreams.EncryptionType.UNRECOGNIZED : result;
       }
       /**
+       * <pre>
+       * Encryption type used
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
        * @param value The encryptionType to set.
        * @return This builder for chaining.
@@ -52442,6 +55093,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Encryption type used
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
        * @return This builder for chaining.
        */
@@ -52454,6 +55109,10 @@ public final class Datastreams {
 
       private java.lang.Object sequenceNumber_ = "";
       /**
+       * <pre>
+       * Unique id of the record within shard
+       * </pre>
+       *
        * <code>string sequence_number = 2;</code>
        * @return The sequenceNumber.
        */
@@ -52470,6 +55129,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Unique id of the record within shard
+       * </pre>
+       *
        * <code>string sequence_number = 2;</code>
        * @return The bytes for sequenceNumber.
        */
@@ -52487,6 +55150,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Unique id of the record within shard
+       * </pre>
+       *
        * <code>string sequence_number = 2;</code>
        * @param value The sequenceNumber to set.
        * @return This builder for chaining.
@@ -52502,6 +55169,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Unique id of the record within shard
+       * </pre>
+       *
        * <code>string sequence_number = 2;</code>
        * @return This builder for chaining.
        */
@@ -52512,6 +55183,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Unique id of the record within shard
+       * </pre>
+       *
        * <code>string sequence_number = 2;</code>
        * @param value The bytes for sequenceNumber to set.
        * @return This builder for chaining.
@@ -52530,6 +55205,10 @@ public final class Datastreams {
 
       private java.lang.Object shardId_ = "";
       /**
+       * <pre>
+       * Id of the shard were the data was inserted
+       * </pre>
+       *
        * <code>string shard_id = 3;</code>
        * @return The shardId.
        */
@@ -52546,6 +55225,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the shard were the data was inserted
+       * </pre>
+       *
        * <code>string shard_id = 3;</code>
        * @return The bytes for shardId.
        */
@@ -52563,6 +55246,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the shard were the data was inserted
+       * </pre>
+       *
        * <code>string shard_id = 3;</code>
        * @param value The shardId to set.
        * @return This builder for chaining.
@@ -52578,6 +55265,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the shard were the data was inserted
+       * </pre>
+       *
        * <code>string shard_id = 3;</code>
        * @return This builder for chaining.
        */
@@ -52588,6 +55279,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the shard were the data was inserted
+       * </pre>
+       *
        * <code>string shard_id = 3;</code>
        * @param value The bytes for shardId to set.
        * @return This builder for chaining.
@@ -52676,35 +55371,63 @@ public final class Datastreams {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <pre>
+     * List of records
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
      */
     java.util.List<tech.ydb.datastreams.v1.Datastreams.PutRecordsRequestEntry> 
         getRecordsList();
     /**
+     * <pre>
+     * List of records
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.PutRecordsRequestEntry getRecords(int index);
     /**
+     * <pre>
+     * List of records
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
      */
     int getRecordsCount();
     /**
+     * <pre>
+     * List of records
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
      */
     java.util.List<? extends tech.ydb.datastreams.v1.Datastreams.PutRecordsRequestEntryOrBuilder> 
         getRecordsOrBuilderList();
     /**
+     * <pre>
+     * List of records
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.PutRecordsRequestEntryOrBuilder getRecordsOrBuilder(
         int index);
 
     /**
+     * <pre>
+     * Name of the stream to put records to
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream to put records to
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The bytes for streamName.
      */
@@ -52851,6 +55574,10 @@ public final class Datastreams {
     public static final int RECORDS_FIELD_NUMBER = 2;
     private java.util.List<tech.ydb.datastreams.v1.Datastreams.PutRecordsRequestEntry> records_;
     /**
+     * <pre>
+     * List of records
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
      */
     @java.lang.Override
@@ -52858,6 +55585,10 @@ public final class Datastreams {
       return records_;
     }
     /**
+     * <pre>
+     * List of records
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
      */
     @java.lang.Override
@@ -52866,6 +55597,10 @@ public final class Datastreams {
       return records_;
     }
     /**
+     * <pre>
+     * List of records
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
      */
     @java.lang.Override
@@ -52873,6 +55608,10 @@ public final class Datastreams {
       return records_.size();
     }
     /**
+     * <pre>
+     * List of records
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
      */
     @java.lang.Override
@@ -52880,6 +55619,10 @@ public final class Datastreams {
       return records_.get(index);
     }
     /**
+     * <pre>
+     * List of records
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
      */
     @java.lang.Override
@@ -52891,6 +55634,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 3;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream to put records to
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The streamName.
      */
@@ -52908,6 +55655,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream to put records to
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The bytes for streamName.
      */
@@ -53447,6 +56198,10 @@ public final class Datastreams {
           tech.ydb.datastreams.v1.Datastreams.PutRecordsRequestEntry, tech.ydb.datastreams.v1.Datastreams.PutRecordsRequestEntry.Builder, tech.ydb.datastreams.v1.Datastreams.PutRecordsRequestEntryOrBuilder> recordsBuilder_;
 
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
        */
       public java.util.List<tech.ydb.datastreams.v1.Datastreams.PutRecordsRequestEntry> getRecordsList() {
@@ -53457,6 +56212,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
        */
       public int getRecordsCount() {
@@ -53467,6 +56226,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.PutRecordsRequestEntry getRecords(int index) {
@@ -53477,6 +56240,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
        */
       public Builder setRecords(
@@ -53494,6 +56261,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
        */
       public Builder setRecords(
@@ -53508,6 +56279,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
        */
       public Builder addRecords(tech.ydb.datastreams.v1.Datastreams.PutRecordsRequestEntry value) {
@@ -53524,6 +56299,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
        */
       public Builder addRecords(
@@ -53541,6 +56320,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
        */
       public Builder addRecords(
@@ -53555,6 +56338,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
        */
       public Builder addRecords(
@@ -53569,6 +56356,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
        */
       public Builder addAllRecords(
@@ -53584,6 +56375,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
        */
       public Builder clearRecords() {
@@ -53597,6 +56392,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
        */
       public Builder removeRecords(int index) {
@@ -53610,6 +56409,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.PutRecordsRequestEntry.Builder getRecordsBuilder(
@@ -53617,6 +56420,10 @@ public final class Datastreams {
         return getRecordsFieldBuilder().getBuilder(index);
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.PutRecordsRequestEntryOrBuilder getRecordsOrBuilder(
@@ -53627,6 +56434,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
        */
       public java.util.List<? extends tech.ydb.datastreams.v1.Datastreams.PutRecordsRequestEntryOrBuilder> 
@@ -53638,6 +56449,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.PutRecordsRequestEntry.Builder addRecordsBuilder() {
@@ -53645,6 +56460,10 @@ public final class Datastreams {
             tech.ydb.datastreams.v1.Datastreams.PutRecordsRequestEntry.getDefaultInstance());
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.PutRecordsRequestEntry.Builder addRecordsBuilder(
@@ -53653,6 +56472,10 @@ public final class Datastreams {
             index, tech.ydb.datastreams.v1.Datastreams.PutRecordsRequestEntry.getDefaultInstance());
       }
       /**
+       * <pre>
+       * List of records
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsRequestEntry records = 2;</code>
        */
       public java.util.List<tech.ydb.datastreams.v1.Datastreams.PutRecordsRequestEntry.Builder> 
@@ -53676,6 +56499,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream to put records to
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return The streamName.
        */
@@ -53692,6 +56519,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream to put records to
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return The bytes for streamName.
        */
@@ -53709,6 +56540,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream to put records to
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -53724,6 +56559,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream to put records to
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return This builder for chaining.
        */
@@ -53734,6 +56573,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream to put records to
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -54488,41 +57331,73 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * Encryption type used
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
      * @return The enum numeric value on the wire for encryptionType.
      */
     int getEncryptionTypeValue();
     /**
+     * <pre>
+     * Encryption type used
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
      * @return The encryptionType.
      */
     tech.ydb.datastreams.v1.Datastreams.EncryptionType getEncryptionType();
 
     /**
+     * <pre>
+     * Number of unsuccessfully processed records
+     * </pre>
+     *
      * <code>int32 failed_record_count = 2;</code>
      * @return The failedRecordCount.
      */
     int getFailedRecordCount();
 
     /**
+     * <pre>
+     * List of results
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
      */
     java.util.List<tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry> 
         getRecordsList();
     /**
+     * <pre>
+     * List of results
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry getRecords(int index);
     /**
+     * <pre>
+     * List of results
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
      */
     int getRecordsCount();
     /**
+     * <pre>
+     * List of results
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
      */
     java.util.List<? extends tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntryOrBuilder> 
         getRecordsOrBuilderList();
     /**
+     * <pre>
+     * List of results
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntryOrBuilder getRecordsOrBuilder(
@@ -54634,6 +57509,10 @@ public final class Datastreams {
     public static final int ENCRYPTION_TYPE_FIELD_NUMBER = 1;
     private int encryptionType_;
     /**
+     * <pre>
+     * Encryption type used
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
      * @return The enum numeric value on the wire for encryptionType.
      */
@@ -54641,6 +57520,10 @@ public final class Datastreams {
       return encryptionType_;
     }
     /**
+     * <pre>
+     * Encryption type used
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
      * @return The encryptionType.
      */
@@ -54653,6 +57536,10 @@ public final class Datastreams {
     public static final int FAILED_RECORD_COUNT_FIELD_NUMBER = 2;
     private int failedRecordCount_;
     /**
+     * <pre>
+     * Number of unsuccessfully processed records
+     * </pre>
+     *
      * <code>int32 failed_record_count = 2;</code>
      * @return The failedRecordCount.
      */
@@ -54664,6 +57551,10 @@ public final class Datastreams {
     public static final int RECORDS_FIELD_NUMBER = 3;
     private java.util.List<tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry> records_;
     /**
+     * <pre>
+     * List of results
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
      */
     @java.lang.Override
@@ -54671,6 +57562,10 @@ public final class Datastreams {
       return records_;
     }
     /**
+     * <pre>
+     * List of results
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
      */
     @java.lang.Override
@@ -54679,6 +57574,10 @@ public final class Datastreams {
       return records_;
     }
     /**
+     * <pre>
+     * List of results
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
      */
     @java.lang.Override
@@ -54686,6 +57585,10 @@ public final class Datastreams {
       return records_.size();
     }
     /**
+     * <pre>
+     * List of results
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
      */
     @java.lang.Override
@@ -54693,6 +57596,10 @@ public final class Datastreams {
       return records_.get(index);
     }
     /**
+     * <pre>
+     * List of results
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
      */
     @java.lang.Override
@@ -55078,6 +57985,10 @@ public final class Datastreams {
 
       private int encryptionType_ = 0;
       /**
+       * <pre>
+       * Encryption type used
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
        * @return The enum numeric value on the wire for encryptionType.
        */
@@ -55085,6 +57996,10 @@ public final class Datastreams {
         return encryptionType_;
       }
       /**
+       * <pre>
+       * Encryption type used
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
        * @param value The enum numeric value on the wire for encryptionType to set.
        * @return This builder for chaining.
@@ -55096,6 +58011,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Encryption type used
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
        * @return The encryptionType.
        */
@@ -55106,6 +58025,10 @@ public final class Datastreams {
         return result == null ? tech.ydb.datastreams.v1.Datastreams.EncryptionType.UNRECOGNIZED : result;
       }
       /**
+       * <pre>
+       * Encryption type used
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
        * @param value The encryptionType to set.
        * @return This builder for chaining.
@@ -55120,6 +58043,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Encryption type used
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 1;</code>
        * @return This builder for chaining.
        */
@@ -55132,6 +58059,10 @@ public final class Datastreams {
 
       private int failedRecordCount_ ;
       /**
+       * <pre>
+       * Number of unsuccessfully processed records
+       * </pre>
+       *
        * <code>int32 failed_record_count = 2;</code>
        * @return The failedRecordCount.
        */
@@ -55140,6 +58071,10 @@ public final class Datastreams {
         return failedRecordCount_;
       }
       /**
+       * <pre>
+       * Number of unsuccessfully processed records
+       * </pre>
+       *
        * <code>int32 failed_record_count = 2;</code>
        * @param value The failedRecordCount to set.
        * @return This builder for chaining.
@@ -55151,6 +58086,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Number of unsuccessfully processed records
+       * </pre>
+       *
        * <code>int32 failed_record_count = 2;</code>
        * @return This builder for chaining.
        */
@@ -55174,6 +58113,10 @@ public final class Datastreams {
           tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry, tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry.Builder, tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntryOrBuilder> recordsBuilder_;
 
       /**
+       * <pre>
+       * List of results
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
        */
       public java.util.List<tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry> getRecordsList() {
@@ -55184,6 +58127,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of results
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
        */
       public int getRecordsCount() {
@@ -55194,6 +58141,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of results
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry getRecords(int index) {
@@ -55204,6 +58155,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of results
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
        */
       public Builder setRecords(
@@ -55221,6 +58176,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of results
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
        */
       public Builder setRecords(
@@ -55235,6 +58194,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of results
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
        */
       public Builder addRecords(tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry value) {
@@ -55251,6 +58214,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of results
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
        */
       public Builder addRecords(
@@ -55268,6 +58235,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of results
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
        */
       public Builder addRecords(
@@ -55282,6 +58253,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of results
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
        */
       public Builder addRecords(
@@ -55296,6 +58271,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of results
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
        */
       public Builder addAllRecords(
@@ -55311,6 +58290,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of results
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
        */
       public Builder clearRecords() {
@@ -55324,6 +58307,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of results
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
        */
       public Builder removeRecords(int index) {
@@ -55337,6 +58324,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of results
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry.Builder getRecordsBuilder(
@@ -55344,6 +58335,10 @@ public final class Datastreams {
         return getRecordsFieldBuilder().getBuilder(index);
       }
       /**
+       * <pre>
+       * List of results
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntryOrBuilder getRecordsOrBuilder(
@@ -55354,6 +58349,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of results
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
        */
       public java.util.List<? extends tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntryOrBuilder> 
@@ -55365,6 +58364,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of results
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry.Builder addRecordsBuilder() {
@@ -55372,6 +58375,10 @@ public final class Datastreams {
             tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry.getDefaultInstance());
       }
       /**
+       * <pre>
+       * List of results
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry.Builder addRecordsBuilder(
@@ -55380,6 +58387,10 @@ public final class Datastreams {
             index, tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry.getDefaultInstance());
       }
       /**
+       * <pre>
+       * List of results
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.PutRecordsResultEntry records = 3;</code>
        */
       public java.util.List<tech.ydb.datastreams.v1.Datastreams.PutRecordsResultEntry.Builder> 
@@ -55473,11 +58484,19 @@ public final class Datastreams {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <pre>
+     * Id of the shard to get iterator for
+     * </pre>
+     *
      * <code>string shard_id = 2;</code>
      * @return The shardId.
      */
     java.lang.String getShardId();
     /**
+     * <pre>
+     * Id of the shard to get iterator for
+     * </pre>
+     *
      * <code>string shard_id = 2;</code>
      * @return The bytes for shardId.
      */
@@ -55496,11 +58515,19 @@ public final class Datastreams {
     tech.ydb.datastreams.v1.Datastreams.ShardIteratorType getShardIteratorType();
 
     /**
+     * <pre>
+     * Used with shard iterator type AT_SEQUENCE_NUMBER and AFTER_SEQUENCE_NUMBER
+     * </pre>
+     *
      * <code>string starting_sequence_number = 4;</code>
      * @return The startingSequenceNumber.
      */
     java.lang.String getStartingSequenceNumber();
     /**
+     * <pre>
+     * Used with shard iterator type AT_SEQUENCE_NUMBER and AFTER_SEQUENCE_NUMBER
+     * </pre>
+     *
      * <code>string starting_sequence_number = 4;</code>
      * @return The bytes for startingSequenceNumber.
      */
@@ -55508,11 +58535,19 @@ public final class Datastreams {
         getStartingSequenceNumberBytes();
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 5;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 5;</code>
      * @return The bytes for streamName.
      */
@@ -55520,6 +58555,10 @@ public final class Datastreams {
         getStreamNameBytes();
 
     /**
+     * <pre>
+     * Used with shard iterator type AT_TIMESTAMP
+     * </pre>
+     *
      * <code>int64 timestamp = 6;</code>
      * @return The timestamp.
      */
@@ -55677,6 +58716,10 @@ public final class Datastreams {
     public static final int SHARD_ID_FIELD_NUMBER = 2;
     private volatile java.lang.Object shardId_;
     /**
+     * <pre>
+     * Id of the shard to get iterator for
+     * </pre>
+     *
      * <code>string shard_id = 2;</code>
      * @return The shardId.
      */
@@ -55694,6 +58737,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Id of the shard to get iterator for
+     * </pre>
+     *
      * <code>string shard_id = 2;</code>
      * @return The bytes for shardId.
      */
@@ -55734,6 +58781,10 @@ public final class Datastreams {
     public static final int STARTING_SEQUENCE_NUMBER_FIELD_NUMBER = 4;
     private volatile java.lang.Object startingSequenceNumber_;
     /**
+     * <pre>
+     * Used with shard iterator type AT_SEQUENCE_NUMBER and AFTER_SEQUENCE_NUMBER
+     * </pre>
+     *
      * <code>string starting_sequence_number = 4;</code>
      * @return The startingSequenceNumber.
      */
@@ -55751,6 +58802,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Used with shard iterator type AT_SEQUENCE_NUMBER and AFTER_SEQUENCE_NUMBER
+     * </pre>
+     *
      * <code>string starting_sequence_number = 4;</code>
      * @return The bytes for startingSequenceNumber.
      */
@@ -55772,6 +58827,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 5;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 5;</code>
      * @return The streamName.
      */
@@ -55789,6 +58848,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 5;</code>
      * @return The bytes for streamName.
      */
@@ -55810,6 +58873,10 @@ public final class Datastreams {
     public static final int TIMESTAMP_FIELD_NUMBER = 6;
     private long timestamp_;
     /**
+     * <pre>
+     * Used with shard iterator type AT_TIMESTAMP
+     * </pre>
+     *
      * <code>int64 timestamp = 6;</code>
      * @return The timestamp.
      */
@@ -56339,6 +59406,10 @@ public final class Datastreams {
 
       private java.lang.Object shardId_ = "";
       /**
+       * <pre>
+       * Id of the shard to get iterator for
+       * </pre>
+       *
        * <code>string shard_id = 2;</code>
        * @return The shardId.
        */
@@ -56355,6 +59426,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the shard to get iterator for
+       * </pre>
+       *
        * <code>string shard_id = 2;</code>
        * @return The bytes for shardId.
        */
@@ -56372,6 +59447,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the shard to get iterator for
+       * </pre>
+       *
        * <code>string shard_id = 2;</code>
        * @param value The shardId to set.
        * @return This builder for chaining.
@@ -56387,6 +59466,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the shard to get iterator for
+       * </pre>
+       *
        * <code>string shard_id = 2;</code>
        * @return This builder for chaining.
        */
@@ -56397,6 +59480,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the shard to get iterator for
+       * </pre>
+       *
        * <code>string shard_id = 2;</code>
        * @param value The bytes for shardId to set.
        * @return This builder for chaining.
@@ -56469,6 +59556,10 @@ public final class Datastreams {
 
       private java.lang.Object startingSequenceNumber_ = "";
       /**
+       * <pre>
+       * Used with shard iterator type AT_SEQUENCE_NUMBER and AFTER_SEQUENCE_NUMBER
+       * </pre>
+       *
        * <code>string starting_sequence_number = 4;</code>
        * @return The startingSequenceNumber.
        */
@@ -56485,6 +59576,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Used with shard iterator type AT_SEQUENCE_NUMBER and AFTER_SEQUENCE_NUMBER
+       * </pre>
+       *
        * <code>string starting_sequence_number = 4;</code>
        * @return The bytes for startingSequenceNumber.
        */
@@ -56502,6 +59597,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Used with shard iterator type AT_SEQUENCE_NUMBER and AFTER_SEQUENCE_NUMBER
+       * </pre>
+       *
        * <code>string starting_sequence_number = 4;</code>
        * @param value The startingSequenceNumber to set.
        * @return This builder for chaining.
@@ -56517,6 +59616,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Used with shard iterator type AT_SEQUENCE_NUMBER and AFTER_SEQUENCE_NUMBER
+       * </pre>
+       *
        * <code>string starting_sequence_number = 4;</code>
        * @return This builder for chaining.
        */
@@ -56527,6 +59630,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Used with shard iterator type AT_SEQUENCE_NUMBER and AFTER_SEQUENCE_NUMBER
+       * </pre>
+       *
        * <code>string starting_sequence_number = 4;</code>
        * @param value The bytes for startingSequenceNumber to set.
        * @return This builder for chaining.
@@ -56545,6 +59652,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 5;</code>
        * @return The streamName.
        */
@@ -56561,6 +59672,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 5;</code>
        * @return The bytes for streamName.
        */
@@ -56578,6 +59693,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 5;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -56593,6 +59712,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 5;</code>
        * @return This builder for chaining.
        */
@@ -56603,6 +59726,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 5;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -56621,6 +59748,10 @@ public final class Datastreams {
 
       private long timestamp_ ;
       /**
+       * <pre>
+       * Used with shard iterator type AT_TIMESTAMP
+       * </pre>
+       *
        * <code>int64 timestamp = 6;</code>
        * @return The timestamp.
        */
@@ -56629,6 +59760,10 @@ public final class Datastreams {
         return timestamp_;
       }
       /**
+       * <pre>
+       * Used with shard iterator type AT_TIMESTAMP
+       * </pre>
+       *
        * <code>int64 timestamp = 6;</code>
        * @param value The timestamp to set.
        * @return This builder for chaining.
@@ -56640,6 +59775,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Used with shard iterator type AT_TIMESTAMP
+       * </pre>
+       *
        * <code>int64 timestamp = 6;</code>
        * @return This builder for chaining.
        */
@@ -57983,11 +61122,19 @@ public final class Datastreams {
         getConsumerArnBytes();
 
     /**
+     * <pre>
+     * Id of the shard to subscribe to
+     * </pre>
+     *
      * <code>string shard_id = 3;</code>
      * @return The shardId.
      */
     java.lang.String getShardId();
     /**
+     * <pre>
+     * Id of the shard to subscribe to
+     * </pre>
+     *
      * <code>string shard_id = 3;</code>
      * @return The bytes for shardId.
      */
@@ -58193,6 +61340,10 @@ public final class Datastreams {
     public static final int SHARD_ID_FIELD_NUMBER = 3;
     private volatile java.lang.Object shardId_;
     /**
+     * <pre>
+     * Id of the shard to subscribe to
+     * </pre>
+     *
      * <code>string shard_id = 3;</code>
      * @return The shardId.
      */
@@ -58210,6 +61361,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Id of the shard to subscribe to
+     * </pre>
+     *
      * <code>string shard_id = 3;</code>
      * @return The bytes for shardId.
      */
@@ -58830,6 +61985,10 @@ public final class Datastreams {
 
       private java.lang.Object shardId_ = "";
       /**
+       * <pre>
+       * Id of the shard to subscribe to
+       * </pre>
+       *
        * <code>string shard_id = 3;</code>
        * @return The shardId.
        */
@@ -58846,6 +62005,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the shard to subscribe to
+       * </pre>
+       *
        * <code>string shard_id = 3;</code>
        * @return The bytes for shardId.
        */
@@ -58863,6 +62026,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the shard to subscribe to
+       * </pre>
+       *
        * <code>string shard_id = 3;</code>
        * @param value The shardId to set.
        * @return This builder for chaining.
@@ -58878,6 +62045,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the shard to subscribe to
+       * </pre>
+       *
        * <code>string shard_id = 3;</code>
        * @return This builder for chaining.
        */
@@ -58888,6 +62059,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the shard to subscribe to
+       * </pre>
+       *
        * <code>string shard_id = 3;</code>
        * @param value The bytes for shardId to set.
        * @return This builder for chaining.
@@ -60398,7 +63573,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * kinesis stream id
+     * Name of the stream
      * </pre>
      *
      * <code>string stream_name = 2;</code>
@@ -60407,7 +63582,7 @@ public final class Datastreams {
     java.lang.String getStreamName();
     /**
      * <pre>
-     * kinesis stream id
+     * Name of the stream
      * </pre>
      *
      * <code>string stream_name = 2;</code>
@@ -60418,7 +63593,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * tags to add to stream
+     * List of tags to add to stream
      * </pre>
      *
      * <code>repeated string tags = 3;</code>
@@ -60428,7 +63603,7 @@ public final class Datastreams {
         getTagsList();
     /**
      * <pre>
-     * tags to add to stream
+     * List of tags to add to stream
      * </pre>
      *
      * <code>repeated string tags = 3;</code>
@@ -60437,7 +63612,7 @@ public final class Datastreams {
     int getTagsCount();
     /**
      * <pre>
-     * tags to add to stream
+     * List of tags to add to stream
      * </pre>
      *
      * <code>repeated string tags = 3;</code>
@@ -60447,7 +63622,7 @@ public final class Datastreams {
     java.lang.String getTags(int index);
     /**
      * <pre>
-     * tags to add to stream
+     * List of tags to add to stream
      * </pre>
      *
      * <code>repeated string tags = 3;</code>
@@ -60598,7 +63773,7 @@ public final class Datastreams {
     private volatile java.lang.Object streamName_;
     /**
      * <pre>
-     * kinesis stream id
+     * Name of the stream
      * </pre>
      *
      * <code>string stream_name = 2;</code>
@@ -60619,7 +63794,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * kinesis stream id
+     * Name of the stream
      * </pre>
      *
      * <code>string stream_name = 2;</code>
@@ -60644,7 +63819,7 @@ public final class Datastreams {
     private com.google.protobuf.LazyStringList tags_;
     /**
      * <pre>
-     * tags to add to stream
+     * List of tags to add to stream
      * </pre>
      *
      * <code>repeated string tags = 3;</code>
@@ -60656,7 +63831,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * tags to add to stream
+     * List of tags to add to stream
      * </pre>
      *
      * <code>repeated string tags = 3;</code>
@@ -60667,7 +63842,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * tags to add to stream
+     * List of tags to add to stream
      * </pre>
      *
      * <code>repeated string tags = 3;</code>
@@ -60679,7 +63854,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * tags to add to stream
+     * List of tags to add to stream
      * </pre>
      *
      * <code>repeated string tags = 3;</code>
@@ -61181,7 +64356,7 @@ public final class Datastreams {
       private java.lang.Object streamName_ = "";
       /**
        * <pre>
-       * kinesis stream id
+       * Name of the stream
        * </pre>
        *
        * <code>string stream_name = 2;</code>
@@ -61201,7 +64376,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * kinesis stream id
+       * Name of the stream
        * </pre>
        *
        * <code>string stream_name = 2;</code>
@@ -61222,7 +64397,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * kinesis stream id
+       * Name of the stream
        * </pre>
        *
        * <code>string stream_name = 2;</code>
@@ -61241,7 +64416,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * kinesis stream id
+       * Name of the stream
        * </pre>
        *
        * <code>string stream_name = 2;</code>
@@ -61255,7 +64430,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * kinesis stream id
+       * Name of the stream
        * </pre>
        *
        * <code>string stream_name = 2;</code>
@@ -61283,7 +64458,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * tags to add to stream
+       * List of tags to add to stream
        * </pre>
        *
        * <code>repeated string tags = 3;</code>
@@ -61295,7 +64470,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * tags to add to stream
+       * List of tags to add to stream
        * </pre>
        *
        * <code>repeated string tags = 3;</code>
@@ -61306,7 +64481,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * tags to add to stream
+       * List of tags to add to stream
        * </pre>
        *
        * <code>repeated string tags = 3;</code>
@@ -61318,7 +64493,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * tags to add to stream
+       * List of tags to add to stream
        * </pre>
        *
        * <code>repeated string tags = 3;</code>
@@ -61331,7 +64506,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * tags to add to stream
+       * List of tags to add to stream
        * </pre>
        *
        * <code>repeated string tags = 3;</code>
@@ -61351,7 +64526,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * tags to add to stream
+       * List of tags to add to stream
        * </pre>
        *
        * <code>repeated string tags = 3;</code>
@@ -61370,7 +64545,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * tags to add to stream
+       * List of tags to add to stream
        * </pre>
        *
        * <code>repeated string tags = 3;</code>
@@ -61387,7 +64562,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * tags to add to stream
+       * List of tags to add to stream
        * </pre>
        *
        * <code>repeated string tags = 3;</code>
@@ -61401,7 +64576,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * tags to add to stream
+       * List of tags to add to stream
        * </pre>
        *
        * <code>repeated string tags = 3;</code>
@@ -62592,7 +65767,7 @@ public final class Datastreams {
 
     /**
      * <pre>
-     * kinesis stream id
+     * Name of the stream
      * </pre>
      *
      * <code>string stream_name = 2;</code>
@@ -62601,7 +65776,7 @@ public final class Datastreams {
     java.lang.String getStreamName();
     /**
      * <pre>
-     * kinesis stream id
+     * Name of the stream
      * </pre>
      *
      * <code>string stream_name = 2;</code>
@@ -62752,7 +65927,7 @@ public final class Datastreams {
     private volatile java.lang.Object streamName_;
     /**
      * <pre>
-     * kinesis stream id
+     * Name of the stream
      * </pre>
      *
      * <code>string stream_name = 2;</code>
@@ -62773,7 +65948,7 @@ public final class Datastreams {
     }
     /**
      * <pre>
-     * kinesis stream id
+     * Name of the stream
      * </pre>
      *
      * <code>string stream_name = 2;</code>
@@ -63280,7 +66455,7 @@ public final class Datastreams {
       private java.lang.Object streamName_ = "";
       /**
        * <pre>
-       * kinesis stream id
+       * Name of the stream
        * </pre>
        *
        * <code>string stream_name = 2;</code>
@@ -63300,7 +66475,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * kinesis stream id
+       * Name of the stream
        * </pre>
        *
        * <code>string stream_name = 2;</code>
@@ -63321,7 +66496,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * kinesis stream id
+       * Name of the stream
        * </pre>
        *
        * <code>string stream_name = 2;</code>
@@ -63340,7 +66515,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * kinesis stream id
+       * Name of the stream
        * </pre>
        *
        * <code>string stream_name = 2;</code>
@@ -63354,7 +66529,7 @@ public final class Datastreams {
       }
       /**
        * <pre>
-       * kinesis stream id
+       * Name of the stream
        * </pre>
        *
        * <code>string stream_name = 2;</code>
@@ -65874,12 +69049,20 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * Number of open shards
+     * </pre>
+     *
      * <code>int32 open_shard_count = 1;</code>
      * @return The openShardCount.
      */
     int getOpenShardCount();
 
     /**
+     * <pre>
+     * Max number of shards
+     * </pre>
+     *
      * <code>int32 shard_limit = 2;</code>
      * @return The shardLimit.
      */
@@ -65975,6 +69158,10 @@ public final class Datastreams {
     public static final int OPEN_SHARD_COUNT_FIELD_NUMBER = 1;
     private int openShardCount_;
     /**
+     * <pre>
+     * Number of open shards
+     * </pre>
+     *
      * <code>int32 open_shard_count = 1;</code>
      * @return The openShardCount.
      */
@@ -65986,6 +69173,10 @@ public final class Datastreams {
     public static final int SHARD_LIMIT_FIELD_NUMBER = 2;
     private int shardLimit_;
     /**
+     * <pre>
+     * Max number of shards
+     * </pre>
+     *
      * <code>int32 shard_limit = 2;</code>
      * @return The shardLimit.
      */
@@ -66315,6 +69506,10 @@ public final class Datastreams {
 
       private int openShardCount_ ;
       /**
+       * <pre>
+       * Number of open shards
+       * </pre>
+       *
        * <code>int32 open_shard_count = 1;</code>
        * @return The openShardCount.
        */
@@ -66323,6 +69518,10 @@ public final class Datastreams {
         return openShardCount_;
       }
       /**
+       * <pre>
+       * Number of open shards
+       * </pre>
+       *
        * <code>int32 open_shard_count = 1;</code>
        * @param value The openShardCount to set.
        * @return This builder for chaining.
@@ -66334,6 +69533,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Number of open shards
+       * </pre>
+       *
        * <code>int32 open_shard_count = 1;</code>
        * @return This builder for chaining.
        */
@@ -66346,6 +69549,10 @@ public final class Datastreams {
 
       private int shardLimit_ ;
       /**
+       * <pre>
+       * Max number of shards
+       * </pre>
+       *
        * <code>int32 shard_limit = 2;</code>
        * @return The shardLimit.
        */
@@ -66354,6 +69561,10 @@ public final class Datastreams {
         return shardLimit_;
       }
       /**
+       * <pre>
+       * Max number of shards
+       * </pre>
+       *
        * <code>int32 shard_limit = 2;</code>
        * @param value The shardLimit to set.
        * @return This builder for chaining.
@@ -66365,6 +69576,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Max number of shards
+       * </pre>
+       *
        * <code>int32 shard_limit = 2;</code>
        * @return This builder for chaining.
        */
@@ -66447,11 +69662,19 @@ public final class Datastreams {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 2;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 2;</code>
      * @return The bytes for streamName.
      */
@@ -66584,6 +69807,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 2;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 2;</code>
      * @return The streamName.
      */
@@ -66601,6 +69828,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 2;</code>
      * @return The bytes for streamName.
      */
@@ -67072,6 +70303,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @return The streamName.
        */
@@ -67088,6 +70323,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @return The bytes for streamName.
        */
@@ -67105,6 +70344,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -67120,6 +70363,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @return This builder for chaining.
        */
@@ -67130,6 +70377,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -68317,23 +71568,39 @@ public final class Datastreams {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <pre>
+     * List of shard-level metrics to disable
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 2;</code>
      * @return A list containing the shardLevelMetrics.
      */
     java.util.List<java.lang.String>
         getShardLevelMetricsList();
     /**
+     * <pre>
+     * List of shard-level metrics to disable
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 2;</code>
      * @return The count of shardLevelMetrics.
      */
     int getShardLevelMetricsCount();
     /**
+     * <pre>
+     * List of shard-level metrics to disable
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 2;</code>
      * @param index The index of the element to return.
      * @return The shardLevelMetrics at the given index.
      */
     java.lang.String getShardLevelMetrics(int index);
     /**
+     * <pre>
+     * List of shard-level metrics to disable
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 2;</code>
      * @param index The index of the value to return.
      * @return The bytes of the shardLevelMetrics at the given index.
@@ -68342,11 +71609,19 @@ public final class Datastreams {
         getShardLevelMetricsBytes(int index);
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The bytes for streamName.
      */
@@ -68493,6 +71768,10 @@ public final class Datastreams {
     public static final int SHARD_LEVEL_METRICS_FIELD_NUMBER = 2;
     private com.google.protobuf.LazyStringList shardLevelMetrics_;
     /**
+     * <pre>
+     * List of shard-level metrics to disable
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 2;</code>
      * @return A list containing the shardLevelMetrics.
      */
@@ -68501,6 +71780,10 @@ public final class Datastreams {
       return shardLevelMetrics_;
     }
     /**
+     * <pre>
+     * List of shard-level metrics to disable
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 2;</code>
      * @return The count of shardLevelMetrics.
      */
@@ -68508,6 +71791,10 @@ public final class Datastreams {
       return shardLevelMetrics_.size();
     }
     /**
+     * <pre>
+     * List of shard-level metrics to disable
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 2;</code>
      * @param index The index of the element to return.
      * @return The shardLevelMetrics at the given index.
@@ -68516,6 +71803,10 @@ public final class Datastreams {
       return shardLevelMetrics_.get(index);
     }
     /**
+     * <pre>
+     * List of shard-level metrics to disable
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 2;</code>
      * @param index The index of the value to return.
      * @return The bytes of the shardLevelMetrics at the given index.
@@ -68528,6 +71819,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 3;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The streamName.
      */
@@ -68545,6 +71840,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The bytes for streamName.
      */
@@ -69058,6 +72357,10 @@ public final class Datastreams {
          }
       }
       /**
+       * <pre>
+       * List of shard-level metrics to disable
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 2;</code>
        * @return A list containing the shardLevelMetrics.
        */
@@ -69066,6 +72369,10 @@ public final class Datastreams {
         return shardLevelMetrics_.getUnmodifiableView();
       }
       /**
+       * <pre>
+       * List of shard-level metrics to disable
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 2;</code>
        * @return The count of shardLevelMetrics.
        */
@@ -69073,6 +72380,10 @@ public final class Datastreams {
         return shardLevelMetrics_.size();
       }
       /**
+       * <pre>
+       * List of shard-level metrics to disable
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 2;</code>
        * @param index The index of the element to return.
        * @return The shardLevelMetrics at the given index.
@@ -69081,6 +72392,10 @@ public final class Datastreams {
         return shardLevelMetrics_.get(index);
       }
       /**
+       * <pre>
+       * List of shard-level metrics to disable
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 2;</code>
        * @param index The index of the value to return.
        * @return The bytes of the shardLevelMetrics at the given index.
@@ -69090,6 +72405,10 @@ public final class Datastreams {
         return shardLevelMetrics_.getByteString(index);
       }
       /**
+       * <pre>
+       * List of shard-level metrics to disable
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 2;</code>
        * @param index The index to set the value at.
        * @param value The shardLevelMetrics to set.
@@ -69106,6 +72425,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shard-level metrics to disable
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 2;</code>
        * @param value The shardLevelMetrics to add.
        * @return This builder for chaining.
@@ -69121,6 +72444,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shard-level metrics to disable
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 2;</code>
        * @param values The shardLevelMetrics to add.
        * @return This builder for chaining.
@@ -69134,6 +72461,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shard-level metrics to disable
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 2;</code>
        * @return This builder for chaining.
        */
@@ -69144,6 +72475,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shard-level metrics to disable
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 2;</code>
        * @param value The bytes of the shardLevelMetrics to add.
        * @return This builder for chaining.
@@ -69162,6 +72497,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return The streamName.
        */
@@ -69178,6 +72517,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return The bytes for streamName.
        */
@@ -69195,6 +72538,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -69210,6 +72557,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return This builder for chaining.
        */
@@ -69220,6 +72571,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -69974,23 +73329,39 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * Represents current state before the operation
+     * </pre>
+     *
      * <code>repeated string current_shard_level_metrics = 1;</code>
      * @return A list containing the currentShardLevelMetrics.
      */
     java.util.List<java.lang.String>
         getCurrentShardLevelMetricsList();
     /**
+     * <pre>
+     * Represents current state before the operation
+     * </pre>
+     *
      * <code>repeated string current_shard_level_metrics = 1;</code>
      * @return The count of currentShardLevelMetrics.
      */
     int getCurrentShardLevelMetricsCount();
     /**
+     * <pre>
+     * Represents current state before the operation
+     * </pre>
+     *
      * <code>repeated string current_shard_level_metrics = 1;</code>
      * @param index The index of the element to return.
      * @return The currentShardLevelMetrics at the given index.
      */
     java.lang.String getCurrentShardLevelMetrics(int index);
     /**
+     * <pre>
+     * Represents current state before the operation
+     * </pre>
+     *
      * <code>repeated string current_shard_level_metrics = 1;</code>
      * @param index The index of the value to return.
      * @return The bytes of the currentShardLevelMetrics at the given index.
@@ -69999,23 +73370,39 @@ public final class Datastreams {
         getCurrentShardLevelMetricsBytes(int index);
 
     /**
+     * <pre>
+     * Represents list of metrics after the operation
+     * </pre>
+     *
      * <code>repeated string desired_shard_level_metrics = 2;</code>
      * @return A list containing the desiredShardLevelMetrics.
      */
     java.util.List<java.lang.String>
         getDesiredShardLevelMetricsList();
     /**
+     * <pre>
+     * Represents list of metrics after the operation
+     * </pre>
+     *
      * <code>repeated string desired_shard_level_metrics = 2;</code>
      * @return The count of desiredShardLevelMetrics.
      */
     int getDesiredShardLevelMetricsCount();
     /**
+     * <pre>
+     * Represents list of metrics after the operation
+     * </pre>
+     *
      * <code>repeated string desired_shard_level_metrics = 2;</code>
      * @param index The index of the element to return.
      * @return The desiredShardLevelMetrics at the given index.
      */
     java.lang.String getDesiredShardLevelMetrics(int index);
     /**
+     * <pre>
+     * Represents list of metrics after the operation
+     * </pre>
+     *
      * <code>repeated string desired_shard_level_metrics = 2;</code>
      * @param index The index of the value to return.
      * @return The bytes of the desiredShardLevelMetrics at the given index.
@@ -70024,11 +73411,19 @@ public final class Datastreams {
         getDesiredShardLevelMetricsBytes(int index);
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The bytes for streamName.
      */
@@ -70149,6 +73544,10 @@ public final class Datastreams {
     public static final int CURRENT_SHARD_LEVEL_METRICS_FIELD_NUMBER = 1;
     private com.google.protobuf.LazyStringList currentShardLevelMetrics_;
     /**
+     * <pre>
+     * Represents current state before the operation
+     * </pre>
+     *
      * <code>repeated string current_shard_level_metrics = 1;</code>
      * @return A list containing the currentShardLevelMetrics.
      */
@@ -70157,6 +73556,10 @@ public final class Datastreams {
       return currentShardLevelMetrics_;
     }
     /**
+     * <pre>
+     * Represents current state before the operation
+     * </pre>
+     *
      * <code>repeated string current_shard_level_metrics = 1;</code>
      * @return The count of currentShardLevelMetrics.
      */
@@ -70164,6 +73567,10 @@ public final class Datastreams {
       return currentShardLevelMetrics_.size();
     }
     /**
+     * <pre>
+     * Represents current state before the operation
+     * </pre>
+     *
      * <code>repeated string current_shard_level_metrics = 1;</code>
      * @param index The index of the element to return.
      * @return The currentShardLevelMetrics at the given index.
@@ -70172,6 +73579,10 @@ public final class Datastreams {
       return currentShardLevelMetrics_.get(index);
     }
     /**
+     * <pre>
+     * Represents current state before the operation
+     * </pre>
+     *
      * <code>repeated string current_shard_level_metrics = 1;</code>
      * @param index The index of the value to return.
      * @return The bytes of the currentShardLevelMetrics at the given index.
@@ -70184,6 +73595,10 @@ public final class Datastreams {
     public static final int DESIRED_SHARD_LEVEL_METRICS_FIELD_NUMBER = 2;
     private com.google.protobuf.LazyStringList desiredShardLevelMetrics_;
     /**
+     * <pre>
+     * Represents list of metrics after the operation
+     * </pre>
+     *
      * <code>repeated string desired_shard_level_metrics = 2;</code>
      * @return A list containing the desiredShardLevelMetrics.
      */
@@ -70192,6 +73607,10 @@ public final class Datastreams {
       return desiredShardLevelMetrics_;
     }
     /**
+     * <pre>
+     * Represents list of metrics after the operation
+     * </pre>
+     *
      * <code>repeated string desired_shard_level_metrics = 2;</code>
      * @return The count of desiredShardLevelMetrics.
      */
@@ -70199,6 +73618,10 @@ public final class Datastreams {
       return desiredShardLevelMetrics_.size();
     }
     /**
+     * <pre>
+     * Represents list of metrics after the operation
+     * </pre>
+     *
      * <code>repeated string desired_shard_level_metrics = 2;</code>
      * @param index The index of the element to return.
      * @return The desiredShardLevelMetrics at the given index.
@@ -70207,6 +73630,10 @@ public final class Datastreams {
       return desiredShardLevelMetrics_.get(index);
     }
     /**
+     * <pre>
+     * Represents list of metrics after the operation
+     * </pre>
+     *
      * <code>repeated string desired_shard_level_metrics = 2;</code>
      * @param index The index of the value to return.
      * @return The bytes of the desiredShardLevelMetrics at the given index.
@@ -70219,6 +73646,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 3;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The streamName.
      */
@@ -70236,6 +73667,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The bytes for streamName.
      */
@@ -70634,6 +74069,10 @@ public final class Datastreams {
          }
       }
       /**
+       * <pre>
+       * Represents current state before the operation
+       * </pre>
+       *
        * <code>repeated string current_shard_level_metrics = 1;</code>
        * @return A list containing the currentShardLevelMetrics.
        */
@@ -70642,6 +74081,10 @@ public final class Datastreams {
         return currentShardLevelMetrics_.getUnmodifiableView();
       }
       /**
+       * <pre>
+       * Represents current state before the operation
+       * </pre>
+       *
        * <code>repeated string current_shard_level_metrics = 1;</code>
        * @return The count of currentShardLevelMetrics.
        */
@@ -70649,6 +74092,10 @@ public final class Datastreams {
         return currentShardLevelMetrics_.size();
       }
       /**
+       * <pre>
+       * Represents current state before the operation
+       * </pre>
+       *
        * <code>repeated string current_shard_level_metrics = 1;</code>
        * @param index The index of the element to return.
        * @return The currentShardLevelMetrics at the given index.
@@ -70657,6 +74104,10 @@ public final class Datastreams {
         return currentShardLevelMetrics_.get(index);
       }
       /**
+       * <pre>
+       * Represents current state before the operation
+       * </pre>
+       *
        * <code>repeated string current_shard_level_metrics = 1;</code>
        * @param index The index of the value to return.
        * @return The bytes of the currentShardLevelMetrics at the given index.
@@ -70666,6 +74117,10 @@ public final class Datastreams {
         return currentShardLevelMetrics_.getByteString(index);
       }
       /**
+       * <pre>
+       * Represents current state before the operation
+       * </pre>
+       *
        * <code>repeated string current_shard_level_metrics = 1;</code>
        * @param index The index to set the value at.
        * @param value The currentShardLevelMetrics to set.
@@ -70682,6 +74137,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Represents current state before the operation
+       * </pre>
+       *
        * <code>repeated string current_shard_level_metrics = 1;</code>
        * @param value The currentShardLevelMetrics to add.
        * @return This builder for chaining.
@@ -70697,6 +74156,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Represents current state before the operation
+       * </pre>
+       *
        * <code>repeated string current_shard_level_metrics = 1;</code>
        * @param values The currentShardLevelMetrics to add.
        * @return This builder for chaining.
@@ -70710,6 +74173,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Represents current state before the operation
+       * </pre>
+       *
        * <code>repeated string current_shard_level_metrics = 1;</code>
        * @return This builder for chaining.
        */
@@ -70720,6 +74187,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Represents current state before the operation
+       * </pre>
+       *
        * <code>repeated string current_shard_level_metrics = 1;</code>
        * @param value The bytes of the currentShardLevelMetrics to add.
        * @return This builder for chaining.
@@ -70744,6 +74215,10 @@ public final class Datastreams {
          }
       }
       /**
+       * <pre>
+       * Represents list of metrics after the operation
+       * </pre>
+       *
        * <code>repeated string desired_shard_level_metrics = 2;</code>
        * @return A list containing the desiredShardLevelMetrics.
        */
@@ -70752,6 +74227,10 @@ public final class Datastreams {
         return desiredShardLevelMetrics_.getUnmodifiableView();
       }
       /**
+       * <pre>
+       * Represents list of metrics after the operation
+       * </pre>
+       *
        * <code>repeated string desired_shard_level_metrics = 2;</code>
        * @return The count of desiredShardLevelMetrics.
        */
@@ -70759,6 +74238,10 @@ public final class Datastreams {
         return desiredShardLevelMetrics_.size();
       }
       /**
+       * <pre>
+       * Represents list of metrics after the operation
+       * </pre>
+       *
        * <code>repeated string desired_shard_level_metrics = 2;</code>
        * @param index The index of the element to return.
        * @return The desiredShardLevelMetrics at the given index.
@@ -70767,6 +74250,10 @@ public final class Datastreams {
         return desiredShardLevelMetrics_.get(index);
       }
       /**
+       * <pre>
+       * Represents list of metrics after the operation
+       * </pre>
+       *
        * <code>repeated string desired_shard_level_metrics = 2;</code>
        * @param index The index of the value to return.
        * @return The bytes of the desiredShardLevelMetrics at the given index.
@@ -70776,6 +74263,10 @@ public final class Datastreams {
         return desiredShardLevelMetrics_.getByteString(index);
       }
       /**
+       * <pre>
+       * Represents list of metrics after the operation
+       * </pre>
+       *
        * <code>repeated string desired_shard_level_metrics = 2;</code>
        * @param index The index to set the value at.
        * @param value The desiredShardLevelMetrics to set.
@@ -70792,6 +74283,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Represents list of metrics after the operation
+       * </pre>
+       *
        * <code>repeated string desired_shard_level_metrics = 2;</code>
        * @param value The desiredShardLevelMetrics to add.
        * @return This builder for chaining.
@@ -70807,6 +74302,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Represents list of metrics after the operation
+       * </pre>
+       *
        * <code>repeated string desired_shard_level_metrics = 2;</code>
        * @param values The desiredShardLevelMetrics to add.
        * @return This builder for chaining.
@@ -70820,6 +74319,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Represents list of metrics after the operation
+       * </pre>
+       *
        * <code>repeated string desired_shard_level_metrics = 2;</code>
        * @return This builder for chaining.
        */
@@ -70830,6 +74333,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Represents list of metrics after the operation
+       * </pre>
+       *
        * <code>repeated string desired_shard_level_metrics = 2;</code>
        * @param value The bytes of the desiredShardLevelMetrics to add.
        * @return This builder for chaining.
@@ -70848,6 +74355,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return The streamName.
        */
@@ -70864,6 +74375,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return The bytes for streamName.
        */
@@ -70881,6 +74396,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -70896,6 +74415,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return This builder for chaining.
        */
@@ -70906,6 +74429,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -70994,23 +74521,39 @@ public final class Datastreams {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <pre>
+     * List of shard-level metrics to enable
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 2;</code>
      * @return A list containing the shardLevelMetrics.
      */
     java.util.List<java.lang.String>
         getShardLevelMetricsList();
     /**
+     * <pre>
+     * List of shard-level metrics to enable
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 2;</code>
      * @return The count of shardLevelMetrics.
      */
     int getShardLevelMetricsCount();
     /**
+     * <pre>
+     * List of shard-level metrics to enable
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 2;</code>
      * @param index The index of the element to return.
      * @return The shardLevelMetrics at the given index.
      */
     java.lang.String getShardLevelMetrics(int index);
     /**
+     * <pre>
+     * List of shard-level metrics to enable
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 2;</code>
      * @param index The index of the value to return.
      * @return The bytes of the shardLevelMetrics at the given index.
@@ -71019,11 +74562,19 @@ public final class Datastreams {
         getShardLevelMetricsBytes(int index);
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The bytes for streamName.
      */
@@ -71170,6 +74721,10 @@ public final class Datastreams {
     public static final int SHARD_LEVEL_METRICS_FIELD_NUMBER = 2;
     private com.google.protobuf.LazyStringList shardLevelMetrics_;
     /**
+     * <pre>
+     * List of shard-level metrics to enable
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 2;</code>
      * @return A list containing the shardLevelMetrics.
      */
@@ -71178,6 +74733,10 @@ public final class Datastreams {
       return shardLevelMetrics_;
     }
     /**
+     * <pre>
+     * List of shard-level metrics to enable
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 2;</code>
      * @return The count of shardLevelMetrics.
      */
@@ -71185,6 +74744,10 @@ public final class Datastreams {
       return shardLevelMetrics_.size();
     }
     /**
+     * <pre>
+     * List of shard-level metrics to enable
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 2;</code>
      * @param index The index of the element to return.
      * @return The shardLevelMetrics at the given index.
@@ -71193,6 +74756,10 @@ public final class Datastreams {
       return shardLevelMetrics_.get(index);
     }
     /**
+     * <pre>
+     * List of shard-level metrics to enable
+     * </pre>
+     *
      * <code>repeated string shard_level_metrics = 2;</code>
      * @param index The index of the value to return.
      * @return The bytes of the shardLevelMetrics at the given index.
@@ -71205,6 +74772,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 3;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The streamName.
      */
@@ -71222,6 +74793,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The bytes for streamName.
      */
@@ -71735,6 +75310,10 @@ public final class Datastreams {
          }
       }
       /**
+       * <pre>
+       * List of shard-level metrics to enable
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 2;</code>
        * @return A list containing the shardLevelMetrics.
        */
@@ -71743,6 +75322,10 @@ public final class Datastreams {
         return shardLevelMetrics_.getUnmodifiableView();
       }
       /**
+       * <pre>
+       * List of shard-level metrics to enable
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 2;</code>
        * @return The count of shardLevelMetrics.
        */
@@ -71750,6 +75333,10 @@ public final class Datastreams {
         return shardLevelMetrics_.size();
       }
       /**
+       * <pre>
+       * List of shard-level metrics to enable
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 2;</code>
        * @param index The index of the element to return.
        * @return The shardLevelMetrics at the given index.
@@ -71758,6 +75345,10 @@ public final class Datastreams {
         return shardLevelMetrics_.get(index);
       }
       /**
+       * <pre>
+       * List of shard-level metrics to enable
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 2;</code>
        * @param index The index of the value to return.
        * @return The bytes of the shardLevelMetrics at the given index.
@@ -71767,6 +75358,10 @@ public final class Datastreams {
         return shardLevelMetrics_.getByteString(index);
       }
       /**
+       * <pre>
+       * List of shard-level metrics to enable
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 2;</code>
        * @param index The index to set the value at.
        * @param value The shardLevelMetrics to set.
@@ -71783,6 +75378,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shard-level metrics to enable
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 2;</code>
        * @param value The shardLevelMetrics to add.
        * @return This builder for chaining.
@@ -71798,6 +75397,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shard-level metrics to enable
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 2;</code>
        * @param values The shardLevelMetrics to add.
        * @return This builder for chaining.
@@ -71811,6 +75414,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shard-level metrics to enable
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 2;</code>
        * @return This builder for chaining.
        */
@@ -71821,6 +75428,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of shard-level metrics to enable
+       * </pre>
+       *
        * <code>repeated string shard_level_metrics = 2;</code>
        * @param value The bytes of the shardLevelMetrics to add.
        * @return This builder for chaining.
@@ -71839,6 +75450,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return The streamName.
        */
@@ -71855,6 +75470,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return The bytes for streamName.
        */
@@ -71872,6 +75491,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -71887,6 +75510,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return This builder for chaining.
        */
@@ -71897,6 +75524,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -72651,23 +76282,39 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * Represents current state before the operation
+     * </pre>
+     *
      * <code>repeated string current_shard_level_metrics = 1;</code>
      * @return A list containing the currentShardLevelMetrics.
      */
     java.util.List<java.lang.String>
         getCurrentShardLevelMetricsList();
     /**
+     * <pre>
+     * Represents current state before the operation
+     * </pre>
+     *
      * <code>repeated string current_shard_level_metrics = 1;</code>
      * @return The count of currentShardLevelMetrics.
      */
     int getCurrentShardLevelMetricsCount();
     /**
+     * <pre>
+     * Represents current state before the operation
+     * </pre>
+     *
      * <code>repeated string current_shard_level_metrics = 1;</code>
      * @param index The index of the element to return.
      * @return The currentShardLevelMetrics at the given index.
      */
     java.lang.String getCurrentShardLevelMetrics(int index);
     /**
+     * <pre>
+     * Represents current state before the operation
+     * </pre>
+     *
      * <code>repeated string current_shard_level_metrics = 1;</code>
      * @param index The index of the value to return.
      * @return The bytes of the currentShardLevelMetrics at the given index.
@@ -72676,23 +76323,39 @@ public final class Datastreams {
         getCurrentShardLevelMetricsBytes(int index);
 
     /**
+     * <pre>
+     * Represents list of metrics after the operation
+     * </pre>
+     *
      * <code>repeated string desired_shard_level_metrics = 2;</code>
      * @return A list containing the desiredShardLevelMetrics.
      */
     java.util.List<java.lang.String>
         getDesiredShardLevelMetricsList();
     /**
+     * <pre>
+     * Represents list of metrics after the operation
+     * </pre>
+     *
      * <code>repeated string desired_shard_level_metrics = 2;</code>
      * @return The count of desiredShardLevelMetrics.
      */
     int getDesiredShardLevelMetricsCount();
     /**
+     * <pre>
+     * Represents list of metrics after the operation
+     * </pre>
+     *
      * <code>repeated string desired_shard_level_metrics = 2;</code>
      * @param index The index of the element to return.
      * @return The desiredShardLevelMetrics at the given index.
      */
     java.lang.String getDesiredShardLevelMetrics(int index);
     /**
+     * <pre>
+     * Represents list of metrics after the operation
+     * </pre>
+     *
      * <code>repeated string desired_shard_level_metrics = 2;</code>
      * @param index The index of the value to return.
      * @return The bytes of the desiredShardLevelMetrics at the given index.
@@ -72701,11 +76364,19 @@ public final class Datastreams {
         getDesiredShardLevelMetricsBytes(int index);
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The bytes for streamName.
      */
@@ -72826,6 +76497,10 @@ public final class Datastreams {
     public static final int CURRENT_SHARD_LEVEL_METRICS_FIELD_NUMBER = 1;
     private com.google.protobuf.LazyStringList currentShardLevelMetrics_;
     /**
+     * <pre>
+     * Represents current state before the operation
+     * </pre>
+     *
      * <code>repeated string current_shard_level_metrics = 1;</code>
      * @return A list containing the currentShardLevelMetrics.
      */
@@ -72834,6 +76509,10 @@ public final class Datastreams {
       return currentShardLevelMetrics_;
     }
     /**
+     * <pre>
+     * Represents current state before the operation
+     * </pre>
+     *
      * <code>repeated string current_shard_level_metrics = 1;</code>
      * @return The count of currentShardLevelMetrics.
      */
@@ -72841,6 +76520,10 @@ public final class Datastreams {
       return currentShardLevelMetrics_.size();
     }
     /**
+     * <pre>
+     * Represents current state before the operation
+     * </pre>
+     *
      * <code>repeated string current_shard_level_metrics = 1;</code>
      * @param index The index of the element to return.
      * @return The currentShardLevelMetrics at the given index.
@@ -72849,6 +76532,10 @@ public final class Datastreams {
       return currentShardLevelMetrics_.get(index);
     }
     /**
+     * <pre>
+     * Represents current state before the operation
+     * </pre>
+     *
      * <code>repeated string current_shard_level_metrics = 1;</code>
      * @param index The index of the value to return.
      * @return The bytes of the currentShardLevelMetrics at the given index.
@@ -72861,6 +76548,10 @@ public final class Datastreams {
     public static final int DESIRED_SHARD_LEVEL_METRICS_FIELD_NUMBER = 2;
     private com.google.protobuf.LazyStringList desiredShardLevelMetrics_;
     /**
+     * <pre>
+     * Represents list of metrics after the operation
+     * </pre>
+     *
      * <code>repeated string desired_shard_level_metrics = 2;</code>
      * @return A list containing the desiredShardLevelMetrics.
      */
@@ -72869,6 +76560,10 @@ public final class Datastreams {
       return desiredShardLevelMetrics_;
     }
     /**
+     * <pre>
+     * Represents list of metrics after the operation
+     * </pre>
+     *
      * <code>repeated string desired_shard_level_metrics = 2;</code>
      * @return The count of desiredShardLevelMetrics.
      */
@@ -72876,6 +76571,10 @@ public final class Datastreams {
       return desiredShardLevelMetrics_.size();
     }
     /**
+     * <pre>
+     * Represents list of metrics after the operation
+     * </pre>
+     *
      * <code>repeated string desired_shard_level_metrics = 2;</code>
      * @param index The index of the element to return.
      * @return The desiredShardLevelMetrics at the given index.
@@ -72884,6 +76583,10 @@ public final class Datastreams {
       return desiredShardLevelMetrics_.get(index);
     }
     /**
+     * <pre>
+     * Represents list of metrics after the operation
+     * </pre>
+     *
      * <code>repeated string desired_shard_level_metrics = 2;</code>
      * @param index The index of the value to return.
      * @return The bytes of the desiredShardLevelMetrics at the given index.
@@ -72896,6 +76599,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 3;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The streamName.
      */
@@ -72913,6 +76620,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The bytes for streamName.
      */
@@ -73311,6 +77022,10 @@ public final class Datastreams {
          }
       }
       /**
+       * <pre>
+       * Represents current state before the operation
+       * </pre>
+       *
        * <code>repeated string current_shard_level_metrics = 1;</code>
        * @return A list containing the currentShardLevelMetrics.
        */
@@ -73319,6 +77034,10 @@ public final class Datastreams {
         return currentShardLevelMetrics_.getUnmodifiableView();
       }
       /**
+       * <pre>
+       * Represents current state before the operation
+       * </pre>
+       *
        * <code>repeated string current_shard_level_metrics = 1;</code>
        * @return The count of currentShardLevelMetrics.
        */
@@ -73326,6 +77045,10 @@ public final class Datastreams {
         return currentShardLevelMetrics_.size();
       }
       /**
+       * <pre>
+       * Represents current state before the operation
+       * </pre>
+       *
        * <code>repeated string current_shard_level_metrics = 1;</code>
        * @param index The index of the element to return.
        * @return The currentShardLevelMetrics at the given index.
@@ -73334,6 +77057,10 @@ public final class Datastreams {
         return currentShardLevelMetrics_.get(index);
       }
       /**
+       * <pre>
+       * Represents current state before the operation
+       * </pre>
+       *
        * <code>repeated string current_shard_level_metrics = 1;</code>
        * @param index The index of the value to return.
        * @return The bytes of the currentShardLevelMetrics at the given index.
@@ -73343,6 +77070,10 @@ public final class Datastreams {
         return currentShardLevelMetrics_.getByteString(index);
       }
       /**
+       * <pre>
+       * Represents current state before the operation
+       * </pre>
+       *
        * <code>repeated string current_shard_level_metrics = 1;</code>
        * @param index The index to set the value at.
        * @param value The currentShardLevelMetrics to set.
@@ -73359,6 +77090,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Represents current state before the operation
+       * </pre>
+       *
        * <code>repeated string current_shard_level_metrics = 1;</code>
        * @param value The currentShardLevelMetrics to add.
        * @return This builder for chaining.
@@ -73374,6 +77109,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Represents current state before the operation
+       * </pre>
+       *
        * <code>repeated string current_shard_level_metrics = 1;</code>
        * @param values The currentShardLevelMetrics to add.
        * @return This builder for chaining.
@@ -73387,6 +77126,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Represents current state before the operation
+       * </pre>
+       *
        * <code>repeated string current_shard_level_metrics = 1;</code>
        * @return This builder for chaining.
        */
@@ -73397,6 +77140,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Represents current state before the operation
+       * </pre>
+       *
        * <code>repeated string current_shard_level_metrics = 1;</code>
        * @param value The bytes of the currentShardLevelMetrics to add.
        * @return This builder for chaining.
@@ -73421,6 +77168,10 @@ public final class Datastreams {
          }
       }
       /**
+       * <pre>
+       * Represents list of metrics after the operation
+       * </pre>
+       *
        * <code>repeated string desired_shard_level_metrics = 2;</code>
        * @return A list containing the desiredShardLevelMetrics.
        */
@@ -73429,6 +77180,10 @@ public final class Datastreams {
         return desiredShardLevelMetrics_.getUnmodifiableView();
       }
       /**
+       * <pre>
+       * Represents list of metrics after the operation
+       * </pre>
+       *
        * <code>repeated string desired_shard_level_metrics = 2;</code>
        * @return The count of desiredShardLevelMetrics.
        */
@@ -73436,6 +77191,10 @@ public final class Datastreams {
         return desiredShardLevelMetrics_.size();
       }
       /**
+       * <pre>
+       * Represents list of metrics after the operation
+       * </pre>
+       *
        * <code>repeated string desired_shard_level_metrics = 2;</code>
        * @param index The index of the element to return.
        * @return The desiredShardLevelMetrics at the given index.
@@ -73444,6 +77203,10 @@ public final class Datastreams {
         return desiredShardLevelMetrics_.get(index);
       }
       /**
+       * <pre>
+       * Represents list of metrics after the operation
+       * </pre>
+       *
        * <code>repeated string desired_shard_level_metrics = 2;</code>
        * @param index The index of the value to return.
        * @return The bytes of the desiredShardLevelMetrics at the given index.
@@ -73453,6 +77216,10 @@ public final class Datastreams {
         return desiredShardLevelMetrics_.getByteString(index);
       }
       /**
+       * <pre>
+       * Represents list of metrics after the operation
+       * </pre>
+       *
        * <code>repeated string desired_shard_level_metrics = 2;</code>
        * @param index The index to set the value at.
        * @param value The desiredShardLevelMetrics to set.
@@ -73469,6 +77236,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Represents list of metrics after the operation
+       * </pre>
+       *
        * <code>repeated string desired_shard_level_metrics = 2;</code>
        * @param value The desiredShardLevelMetrics to add.
        * @return This builder for chaining.
@@ -73484,6 +77255,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Represents list of metrics after the operation
+       * </pre>
+       *
        * <code>repeated string desired_shard_level_metrics = 2;</code>
        * @param values The desiredShardLevelMetrics to add.
        * @return This builder for chaining.
@@ -73497,6 +77272,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Represents list of metrics after the operation
+       * </pre>
+       *
        * <code>repeated string desired_shard_level_metrics = 2;</code>
        * @return This builder for chaining.
        */
@@ -73507,6 +77286,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Represents list of metrics after the operation
+       * </pre>
+       *
        * <code>repeated string desired_shard_level_metrics = 2;</code>
        * @param value The bytes of the desiredShardLevelMetrics to add.
        * @return This builder for chaining.
@@ -73525,6 +77308,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return The streamName.
        */
@@ -73541,6 +77328,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return The bytes for streamName.
        */
@@ -73558,6 +77349,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -73573,6 +77368,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return This builder for chaining.
        */
@@ -73583,6 +77382,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -73671,17 +77474,29 @@ public final class Datastreams {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <pre>
+     * Retention period in hours
+     * </pre>
+     *
      * <code>int32 retention_period_hours = 2;</code>
      * @return The retentionPeriodHours.
      */
     int getRetentionPeriodHours();
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The bytes for streamName.
      */
@@ -73819,6 +77634,10 @@ public final class Datastreams {
     public static final int RETENTION_PERIOD_HOURS_FIELD_NUMBER = 2;
     private int retentionPeriodHours_;
     /**
+     * <pre>
+     * Retention period in hours
+     * </pre>
+     *
      * <code>int32 retention_period_hours = 2;</code>
      * @return The retentionPeriodHours.
      */
@@ -73830,6 +77649,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 3;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The streamName.
      */
@@ -73847,6 +77670,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The bytes for streamName.
      */
@@ -74335,6 +78162,10 @@ public final class Datastreams {
 
       private int retentionPeriodHours_ ;
       /**
+       * <pre>
+       * Retention period in hours
+       * </pre>
+       *
        * <code>int32 retention_period_hours = 2;</code>
        * @return The retentionPeriodHours.
        */
@@ -74343,6 +78174,10 @@ public final class Datastreams {
         return retentionPeriodHours_;
       }
       /**
+       * <pre>
+       * Retention period in hours
+       * </pre>
+       *
        * <code>int32 retention_period_hours = 2;</code>
        * @param value The retentionPeriodHours to set.
        * @return This builder for chaining.
@@ -74354,6 +78189,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Retention period in hours
+       * </pre>
+       *
        * <code>int32 retention_period_hours = 2;</code>
        * @return This builder for chaining.
        */
@@ -74366,6 +78205,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return The streamName.
        */
@@ -74382,6 +78225,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return The bytes for streamName.
        */
@@ -74399,6 +78246,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -74414,6 +78265,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return This builder for chaining.
        */
@@ -74424,6 +78279,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -75611,11 +79470,19 @@ public final class Datastreams {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <pre>
+     * Key to start from
+     * </pre>
+     *
      * <code>string exclusive_start_tag_key = 2;</code>
      * @return The exclusiveStartTagKey.
      */
     java.lang.String getExclusiveStartTagKey();
     /**
+     * <pre>
+     * Key to start from
+     * </pre>
+     *
      * <code>string exclusive_start_tag_key = 2;</code>
      * @return The bytes for exclusiveStartTagKey.
      */
@@ -75623,17 +79490,29 @@ public final class Datastreams {
         getExclusiveStartTagKeyBytes();
 
     /**
+     * <pre>
+     * Max number of entries to return
+     * </pre>
+     *
      * <code>int32 limit = 3;</code>
      * @return The limit.
      */
     int getLimit();
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The bytes for streamName.
      */
@@ -75778,6 +79657,10 @@ public final class Datastreams {
     public static final int EXCLUSIVE_START_TAG_KEY_FIELD_NUMBER = 2;
     private volatile java.lang.Object exclusiveStartTagKey_;
     /**
+     * <pre>
+     * Key to start from
+     * </pre>
+     *
      * <code>string exclusive_start_tag_key = 2;</code>
      * @return The exclusiveStartTagKey.
      */
@@ -75795,6 +79678,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Key to start from
+     * </pre>
+     *
      * <code>string exclusive_start_tag_key = 2;</code>
      * @return The bytes for exclusiveStartTagKey.
      */
@@ -75816,6 +79703,10 @@ public final class Datastreams {
     public static final int LIMIT_FIELD_NUMBER = 3;
     private int limit_;
     /**
+     * <pre>
+     * Max number of entries to return
+     * </pre>
+     *
      * <code>int32 limit = 3;</code>
      * @return The limit.
      */
@@ -75827,6 +79718,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 4;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The streamName.
      */
@@ -75844,6 +79739,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The bytes for streamName.
      */
@@ -76349,6 +80248,10 @@ public final class Datastreams {
 
       private java.lang.Object exclusiveStartTagKey_ = "";
       /**
+       * <pre>
+       * Key to start from
+       * </pre>
+       *
        * <code>string exclusive_start_tag_key = 2;</code>
        * @return The exclusiveStartTagKey.
        */
@@ -76365,6 +80268,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Key to start from
+       * </pre>
+       *
        * <code>string exclusive_start_tag_key = 2;</code>
        * @return The bytes for exclusiveStartTagKey.
        */
@@ -76382,6 +80289,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Key to start from
+       * </pre>
+       *
        * <code>string exclusive_start_tag_key = 2;</code>
        * @param value The exclusiveStartTagKey to set.
        * @return This builder for chaining.
@@ -76397,6 +80308,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Key to start from
+       * </pre>
+       *
        * <code>string exclusive_start_tag_key = 2;</code>
        * @return This builder for chaining.
        */
@@ -76407,6 +80322,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Key to start from
+       * </pre>
+       *
        * <code>string exclusive_start_tag_key = 2;</code>
        * @param value The bytes for exclusiveStartTagKey to set.
        * @return This builder for chaining.
@@ -76425,6 +80344,10 @@ public final class Datastreams {
 
       private int limit_ ;
       /**
+       * <pre>
+       * Max number of entries to return
+       * </pre>
+       *
        * <code>int32 limit = 3;</code>
        * @return The limit.
        */
@@ -76433,6 +80356,10 @@ public final class Datastreams {
         return limit_;
       }
       /**
+       * <pre>
+       * Max number of entries to return
+       * </pre>
+       *
        * <code>int32 limit = 3;</code>
        * @param value The limit to set.
        * @return This builder for chaining.
@@ -76444,6 +80371,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Max number of entries to return
+       * </pre>
+       *
        * <code>int32 limit = 3;</code>
        * @return This builder for chaining.
        */
@@ -76456,6 +80387,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @return The streamName.
        */
@@ -76472,6 +80407,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @return The bytes for streamName.
        */
@@ -76489,6 +80428,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -76504,6 +80447,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @return This builder for chaining.
        */
@@ -76514,6 +80461,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -77268,30 +81219,54 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * If true, more tags are available
+     * </pre>
+     *
      * <code>bool has_more_tags = 1;</code>
      * @return The hasMoreTags.
      */
     boolean getHasMoreTags();
 
     /**
+     * <pre>
+     * List of tags
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
      */
     java.util.List<tech.ydb.datastreams.v1.Datastreams.Tag> 
         getTagsList();
     /**
+     * <pre>
+     * List of tags
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.Tag getTags(int index);
     /**
+     * <pre>
+     * List of tags
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
      */
     int getTagsCount();
     /**
+     * <pre>
+     * List of tags
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
      */
     java.util.List<? extends tech.ydb.datastreams.v1.Datastreams.TagOrBuilder> 
         getTagsOrBuilderList();
     /**
+     * <pre>
+     * List of tags
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
      */
     tech.ydb.datastreams.v1.Datastreams.TagOrBuilder getTagsOrBuilder(
@@ -77396,6 +81371,10 @@ public final class Datastreams {
     public static final int HAS_MORE_TAGS_FIELD_NUMBER = 1;
     private boolean hasMoreTags_;
     /**
+     * <pre>
+     * If true, more tags are available
+     * </pre>
+     *
      * <code>bool has_more_tags = 1;</code>
      * @return The hasMoreTags.
      */
@@ -77407,6 +81386,10 @@ public final class Datastreams {
     public static final int TAGS_FIELD_NUMBER = 2;
     private java.util.List<tech.ydb.datastreams.v1.Datastreams.Tag> tags_;
     /**
+     * <pre>
+     * List of tags
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
      */
     @java.lang.Override
@@ -77414,6 +81397,10 @@ public final class Datastreams {
       return tags_;
     }
     /**
+     * <pre>
+     * List of tags
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
      */
     @java.lang.Override
@@ -77422,6 +81409,10 @@ public final class Datastreams {
       return tags_;
     }
     /**
+     * <pre>
+     * List of tags
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
      */
     @java.lang.Override
@@ -77429,6 +81420,10 @@ public final class Datastreams {
       return tags_.size();
     }
     /**
+     * <pre>
+     * List of tags
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
      */
     @java.lang.Override
@@ -77436,6 +81431,10 @@ public final class Datastreams {
       return tags_.get(index);
     }
     /**
+     * <pre>
+     * List of tags
+     * </pre>
+     *
      * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
      */
     @java.lang.Override
@@ -77806,6 +81805,10 @@ public final class Datastreams {
 
       private boolean hasMoreTags_ ;
       /**
+       * <pre>
+       * If true, more tags are available
+       * </pre>
+       *
        * <code>bool has_more_tags = 1;</code>
        * @return The hasMoreTags.
        */
@@ -77814,6 +81817,10 @@ public final class Datastreams {
         return hasMoreTags_;
       }
       /**
+       * <pre>
+       * If true, more tags are available
+       * </pre>
+       *
        * <code>bool has_more_tags = 1;</code>
        * @param value The hasMoreTags to set.
        * @return This builder for chaining.
@@ -77825,6 +81832,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * If true, more tags are available
+       * </pre>
+       *
        * <code>bool has_more_tags = 1;</code>
        * @return This builder for chaining.
        */
@@ -77848,6 +81859,10 @@ public final class Datastreams {
           tech.ydb.datastreams.v1.Datastreams.Tag, tech.ydb.datastreams.v1.Datastreams.Tag.Builder, tech.ydb.datastreams.v1.Datastreams.TagOrBuilder> tagsBuilder_;
 
       /**
+       * <pre>
+       * List of tags
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
        */
       public java.util.List<tech.ydb.datastreams.v1.Datastreams.Tag> getTagsList() {
@@ -77858,6 +81873,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of tags
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
        */
       public int getTagsCount() {
@@ -77868,6 +81887,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of tags
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.Tag getTags(int index) {
@@ -77878,6 +81901,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of tags
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
        */
       public Builder setTags(
@@ -77895,6 +81922,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of tags
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
        */
       public Builder setTags(
@@ -77909,6 +81940,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of tags
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
        */
       public Builder addTags(tech.ydb.datastreams.v1.Datastreams.Tag value) {
@@ -77925,6 +81960,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of tags
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
        */
       public Builder addTags(
@@ -77942,6 +81981,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of tags
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
        */
       public Builder addTags(
@@ -77956,6 +81999,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of tags
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
        */
       public Builder addTags(
@@ -77970,6 +82017,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of tags
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
        */
       public Builder addAllTags(
@@ -77985,6 +82036,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of tags
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
        */
       public Builder clearTags() {
@@ -77998,6 +82053,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of tags
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
        */
       public Builder removeTags(int index) {
@@ -78011,6 +82070,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of tags
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.Tag.Builder getTagsBuilder(
@@ -78018,6 +82081,10 @@ public final class Datastreams {
         return getTagsFieldBuilder().getBuilder(index);
       }
       /**
+       * <pre>
+       * List of tags
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.TagOrBuilder getTagsOrBuilder(
@@ -78028,6 +82095,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of tags
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
        */
       public java.util.List<? extends tech.ydb.datastreams.v1.Datastreams.TagOrBuilder> 
@@ -78039,6 +82110,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * List of tags
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.Tag.Builder addTagsBuilder() {
@@ -78046,6 +82121,10 @@ public final class Datastreams {
             tech.ydb.datastreams.v1.Datastreams.Tag.getDefaultInstance());
       }
       /**
+       * <pre>
+       * List of tags
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
        */
       public tech.ydb.datastreams.v1.Datastreams.Tag.Builder addTagsBuilder(
@@ -78054,6 +82133,10 @@ public final class Datastreams {
             index, tech.ydb.datastreams.v1.Datastreams.Tag.getDefaultInstance());
       }
       /**
+       * <pre>
+       * List of tags
+       * </pre>
+       *
        * <code>repeated .Ydb.DataStreams.V1.Tag tags = 2;</code>
        */
       public java.util.List<tech.ydb.datastreams.v1.Datastreams.Tag.Builder> 
@@ -78147,11 +82230,19 @@ public final class Datastreams {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <pre>
+     * Id of the adjacent shard for the merge
+     * </pre>
+     *
      * <code>string adjacent_shard_to_merge = 2;</code>
      * @return The adjacentShardToMerge.
      */
     java.lang.String getAdjacentShardToMerge();
     /**
+     * <pre>
+     * Id of the adjacent shard for the merge
+     * </pre>
+     *
      * <code>string adjacent_shard_to_merge = 2;</code>
      * @return The bytes for adjacentShardToMerge.
      */
@@ -78159,11 +82250,19 @@ public final class Datastreams {
         getAdjacentShardToMergeBytes();
 
     /**
+     * <pre>
+     * Id of the shard to combine with the adjacent
+     * </pre>
+     *
      * <code>string shard_to_merge = 3;</code>
      * @return The shardToMerge.
      */
     java.lang.String getShardToMerge();
     /**
+     * <pre>
+     * Id of the shard to combine with the adjacent
+     * </pre>
+     *
      * <code>string shard_to_merge = 3;</code>
      * @return The bytes for shardToMerge.
      */
@@ -78171,11 +82270,19 @@ public final class Datastreams {
         getShardToMergeBytes();
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The bytes for streamName.
      */
@@ -78322,6 +82429,10 @@ public final class Datastreams {
     public static final int ADJACENT_SHARD_TO_MERGE_FIELD_NUMBER = 2;
     private volatile java.lang.Object adjacentShardToMerge_;
     /**
+     * <pre>
+     * Id of the adjacent shard for the merge
+     * </pre>
+     *
      * <code>string adjacent_shard_to_merge = 2;</code>
      * @return The adjacentShardToMerge.
      */
@@ -78339,6 +82450,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Id of the adjacent shard for the merge
+     * </pre>
+     *
      * <code>string adjacent_shard_to_merge = 2;</code>
      * @return The bytes for adjacentShardToMerge.
      */
@@ -78360,6 +82475,10 @@ public final class Datastreams {
     public static final int SHARD_TO_MERGE_FIELD_NUMBER = 3;
     private volatile java.lang.Object shardToMerge_;
     /**
+     * <pre>
+     * Id of the shard to combine with the adjacent
+     * </pre>
+     *
      * <code>string shard_to_merge = 3;</code>
      * @return The shardToMerge.
      */
@@ -78377,6 +82496,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Id of the shard to combine with the adjacent
+     * </pre>
+     *
      * <code>string shard_to_merge = 3;</code>
      * @return The bytes for shardToMerge.
      */
@@ -78398,6 +82521,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 4;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The streamName.
      */
@@ -78415,6 +82542,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The bytes for streamName.
      */
@@ -78920,6 +83051,10 @@ public final class Datastreams {
 
       private java.lang.Object adjacentShardToMerge_ = "";
       /**
+       * <pre>
+       * Id of the adjacent shard for the merge
+       * </pre>
+       *
        * <code>string adjacent_shard_to_merge = 2;</code>
        * @return The adjacentShardToMerge.
        */
@@ -78936,6 +83071,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the adjacent shard for the merge
+       * </pre>
+       *
        * <code>string adjacent_shard_to_merge = 2;</code>
        * @return The bytes for adjacentShardToMerge.
        */
@@ -78953,6 +83092,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the adjacent shard for the merge
+       * </pre>
+       *
        * <code>string adjacent_shard_to_merge = 2;</code>
        * @param value The adjacentShardToMerge to set.
        * @return This builder for chaining.
@@ -78968,6 +83111,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the adjacent shard for the merge
+       * </pre>
+       *
        * <code>string adjacent_shard_to_merge = 2;</code>
        * @return This builder for chaining.
        */
@@ -78978,6 +83125,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the adjacent shard for the merge
+       * </pre>
+       *
        * <code>string adjacent_shard_to_merge = 2;</code>
        * @param value The bytes for adjacentShardToMerge to set.
        * @return This builder for chaining.
@@ -78996,6 +83147,10 @@ public final class Datastreams {
 
       private java.lang.Object shardToMerge_ = "";
       /**
+       * <pre>
+       * Id of the shard to combine with the adjacent
+       * </pre>
+       *
        * <code>string shard_to_merge = 3;</code>
        * @return The shardToMerge.
        */
@@ -79012,6 +83167,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the shard to combine with the adjacent
+       * </pre>
+       *
        * <code>string shard_to_merge = 3;</code>
        * @return The bytes for shardToMerge.
        */
@@ -79029,6 +83188,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the shard to combine with the adjacent
+       * </pre>
+       *
        * <code>string shard_to_merge = 3;</code>
        * @param value The shardToMerge to set.
        * @return This builder for chaining.
@@ -79044,6 +83207,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the shard to combine with the adjacent
+       * </pre>
+       *
        * <code>string shard_to_merge = 3;</code>
        * @return This builder for chaining.
        */
@@ -79054,6 +83221,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the shard to combine with the adjacent
+       * </pre>
+       *
        * <code>string shard_to_merge = 3;</code>
        * @param value The bytes for shardToMerge to set.
        * @return This builder for chaining.
@@ -79072,6 +83243,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @return The streamName.
        */
@@ -79088,6 +83263,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @return The bytes for streamName.
        */
@@ -79105,6 +83284,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -79120,6 +83303,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @return This builder for chaining.
        */
@@ -79130,6 +83317,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -80317,11 +84508,19 @@ public final class Datastreams {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 2;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 2;</code>
      * @return The bytes for streamName.
      */
@@ -80329,23 +84528,39 @@ public final class Datastreams {
         getStreamNameBytes();
 
     /**
+     * <pre>
+     * List of tag keys
+     * </pre>
+     *
      * <code>repeated string tag_keys = 3;</code>
      * @return A list containing the tagKeys.
      */
     java.util.List<java.lang.String>
         getTagKeysList();
     /**
+     * <pre>
+     * List of tag keys
+     * </pre>
+     *
      * <code>repeated string tag_keys = 3;</code>
      * @return The count of tagKeys.
      */
     int getTagKeysCount();
     /**
+     * <pre>
+     * List of tag keys
+     * </pre>
+     *
      * <code>repeated string tag_keys = 3;</code>
      * @param index The index of the element to return.
      * @return The tagKeys at the given index.
      */
     java.lang.String getTagKeys(int index);
     /**
+     * <pre>
+     * List of tag keys
+     * </pre>
+     *
      * <code>repeated string tag_keys = 3;</code>
      * @param index The index of the value to return.
      * @return The bytes of the tagKeys at the given index.
@@ -80493,6 +84708,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 2;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 2;</code>
      * @return The streamName.
      */
@@ -80510,6 +84729,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 2;</code>
      * @return The bytes for streamName.
      */
@@ -80531,6 +84754,10 @@ public final class Datastreams {
     public static final int TAG_KEYS_FIELD_NUMBER = 3;
     private com.google.protobuf.LazyStringList tagKeys_;
     /**
+     * <pre>
+     * List of tag keys
+     * </pre>
+     *
      * <code>repeated string tag_keys = 3;</code>
      * @return A list containing the tagKeys.
      */
@@ -80539,6 +84766,10 @@ public final class Datastreams {
       return tagKeys_;
     }
     /**
+     * <pre>
+     * List of tag keys
+     * </pre>
+     *
      * <code>repeated string tag_keys = 3;</code>
      * @return The count of tagKeys.
      */
@@ -80546,6 +84777,10 @@ public final class Datastreams {
       return tagKeys_.size();
     }
     /**
+     * <pre>
+     * List of tag keys
+     * </pre>
+     *
      * <code>repeated string tag_keys = 3;</code>
      * @param index The index of the element to return.
      * @return The tagKeys at the given index.
@@ -80554,6 +84789,10 @@ public final class Datastreams {
       return tagKeys_.get(index);
     }
     /**
+     * <pre>
+     * List of tag keys
+     * </pre>
+     *
      * <code>repeated string tag_keys = 3;</code>
      * @param index The index of the value to return.
      * @return The bytes of the tagKeys at the given index.
@@ -81052,6 +85291,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @return The streamName.
        */
@@ -81068,6 +85311,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @return The bytes for streamName.
        */
@@ -81085,6 +85332,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -81100,6 +85351,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @return This builder for chaining.
        */
@@ -81110,6 +85365,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -81134,6 +85393,10 @@ public final class Datastreams {
          }
       }
       /**
+       * <pre>
+       * List of tag keys
+       * </pre>
+       *
        * <code>repeated string tag_keys = 3;</code>
        * @return A list containing the tagKeys.
        */
@@ -81142,6 +85405,10 @@ public final class Datastreams {
         return tagKeys_.getUnmodifiableView();
       }
       /**
+       * <pre>
+       * List of tag keys
+       * </pre>
+       *
        * <code>repeated string tag_keys = 3;</code>
        * @return The count of tagKeys.
        */
@@ -81149,6 +85416,10 @@ public final class Datastreams {
         return tagKeys_.size();
       }
       /**
+       * <pre>
+       * List of tag keys
+       * </pre>
+       *
        * <code>repeated string tag_keys = 3;</code>
        * @param index The index of the element to return.
        * @return The tagKeys at the given index.
@@ -81157,6 +85428,10 @@ public final class Datastreams {
         return tagKeys_.get(index);
       }
       /**
+       * <pre>
+       * List of tag keys
+       * </pre>
+       *
        * <code>repeated string tag_keys = 3;</code>
        * @param index The index of the value to return.
        * @return The bytes of the tagKeys at the given index.
@@ -81166,6 +85441,10 @@ public final class Datastreams {
         return tagKeys_.getByteString(index);
       }
       /**
+       * <pre>
+       * List of tag keys
+       * </pre>
+       *
        * <code>repeated string tag_keys = 3;</code>
        * @param index The index to set the value at.
        * @param value The tagKeys to set.
@@ -81182,6 +85461,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of tag keys
+       * </pre>
+       *
        * <code>repeated string tag_keys = 3;</code>
        * @param value The tagKeys to add.
        * @return This builder for chaining.
@@ -81197,6 +85480,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of tag keys
+       * </pre>
+       *
        * <code>repeated string tag_keys = 3;</code>
        * @param values The tagKeys to add.
        * @return This builder for chaining.
@@ -81210,6 +85497,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of tag keys
+       * </pre>
+       *
        * <code>repeated string tag_keys = 3;</code>
        * @return This builder for chaining.
        */
@@ -81220,6 +85511,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * List of tag keys
+       * </pre>
+       *
        * <code>repeated string tag_keys = 3;</code>
        * @param value The bytes of the tagKeys to add.
        * @return This builder for chaining.
@@ -82407,11 +86702,19 @@ public final class Datastreams {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <pre>
+     * Hash value for the starting hash key of one of the new child shards
+     * </pre>
+     *
      * <code>string new_starting_hash_key = 2;</code>
      * @return The newStartingHashKey.
      */
     java.lang.String getNewStartingHashKey();
     /**
+     * <pre>
+     * Hash value for the starting hash key of one of the new child shards
+     * </pre>
+     *
      * <code>string new_starting_hash_key = 2;</code>
      * @return The bytes for newStartingHashKey.
      */
@@ -82419,11 +86722,19 @@ public final class Datastreams {
         getNewStartingHashKeyBytes();
 
     /**
+     * <pre>
+     * Id of the shard to split
+     * </pre>
+     *
      * <code>string shard_to_split = 3;</code>
      * @return The shardToSplit.
      */
     java.lang.String getShardToSplit();
     /**
+     * <pre>
+     * Id of the shard to split
+     * </pre>
+     *
      * <code>string shard_to_split = 3;</code>
      * @return The bytes for shardToSplit.
      */
@@ -82431,11 +86742,19 @@ public final class Datastreams {
         getShardToSplitBytes();
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The bytes for streamName.
      */
@@ -82582,6 +86901,10 @@ public final class Datastreams {
     public static final int NEW_STARTING_HASH_KEY_FIELD_NUMBER = 2;
     private volatile java.lang.Object newStartingHashKey_;
     /**
+     * <pre>
+     * Hash value for the starting hash key of one of the new child shards
+     * </pre>
+     *
      * <code>string new_starting_hash_key = 2;</code>
      * @return The newStartingHashKey.
      */
@@ -82599,6 +86922,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Hash value for the starting hash key of one of the new child shards
+     * </pre>
+     *
      * <code>string new_starting_hash_key = 2;</code>
      * @return The bytes for newStartingHashKey.
      */
@@ -82620,6 +86947,10 @@ public final class Datastreams {
     public static final int SHARD_TO_SPLIT_FIELD_NUMBER = 3;
     private volatile java.lang.Object shardToSplit_;
     /**
+     * <pre>
+     * Id of the shard to split
+     * </pre>
+     *
      * <code>string shard_to_split = 3;</code>
      * @return The shardToSplit.
      */
@@ -82637,6 +86968,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Id of the shard to split
+     * </pre>
+     *
      * <code>string shard_to_split = 3;</code>
      * @return The bytes for shardToSplit.
      */
@@ -82658,6 +86993,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 4;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The streamName.
      */
@@ -82675,6 +87014,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The bytes for streamName.
      */
@@ -83180,6 +87523,10 @@ public final class Datastreams {
 
       private java.lang.Object newStartingHashKey_ = "";
       /**
+       * <pre>
+       * Hash value for the starting hash key of one of the new child shards
+       * </pre>
+       *
        * <code>string new_starting_hash_key = 2;</code>
        * @return The newStartingHashKey.
        */
@@ -83196,6 +87543,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Hash value for the starting hash key of one of the new child shards
+       * </pre>
+       *
        * <code>string new_starting_hash_key = 2;</code>
        * @return The bytes for newStartingHashKey.
        */
@@ -83213,6 +87564,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Hash value for the starting hash key of one of the new child shards
+       * </pre>
+       *
        * <code>string new_starting_hash_key = 2;</code>
        * @param value The newStartingHashKey to set.
        * @return This builder for chaining.
@@ -83228,6 +87583,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Hash value for the starting hash key of one of the new child shards
+       * </pre>
+       *
        * <code>string new_starting_hash_key = 2;</code>
        * @return This builder for chaining.
        */
@@ -83238,6 +87597,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Hash value for the starting hash key of one of the new child shards
+       * </pre>
+       *
        * <code>string new_starting_hash_key = 2;</code>
        * @param value The bytes for newStartingHashKey to set.
        * @return This builder for chaining.
@@ -83256,6 +87619,10 @@ public final class Datastreams {
 
       private java.lang.Object shardToSplit_ = "";
       /**
+       * <pre>
+       * Id of the shard to split
+       * </pre>
+       *
        * <code>string shard_to_split = 3;</code>
        * @return The shardToSplit.
        */
@@ -83272,6 +87639,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the shard to split
+       * </pre>
+       *
        * <code>string shard_to_split = 3;</code>
        * @return The bytes for shardToSplit.
        */
@@ -83289,6 +87660,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the shard to split
+       * </pre>
+       *
        * <code>string shard_to_split = 3;</code>
        * @param value The shardToSplit to set.
        * @return This builder for chaining.
@@ -83304,6 +87679,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the shard to split
+       * </pre>
+       *
        * <code>string shard_to_split = 3;</code>
        * @return This builder for chaining.
        */
@@ -83314,6 +87693,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the shard to split
+       * </pre>
+       *
        * <code>string shard_to_split = 3;</code>
        * @param value The bytes for shardToSplit to set.
        * @return This builder for chaining.
@@ -83332,6 +87715,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @return The streamName.
        */
@@ -83348,6 +87735,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @return The bytes for streamName.
        */
@@ -83365,6 +87756,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -83380,6 +87775,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @return This builder for chaining.
        */
@@ -83390,6 +87789,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -84577,22 +88980,38 @@ public final class Datastreams {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <pre>
+     * Encryption type to use
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
      * @return The enum numeric value on the wire for encryptionType.
      */
     int getEncryptionTypeValue();
     /**
+     * <pre>
+     * Encryption type to use
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
      * @return The encryptionType.
      */
     tech.ydb.datastreams.v1.Datastreams.EncryptionType getEncryptionType();
 
     /**
+     * <pre>
+     * Id of the key to use to encryption
+     * </pre>
+     *
      * <code>string key_id = 3;</code>
      * @return The keyId.
      */
     java.lang.String getKeyId();
     /**
+     * <pre>
+     * Id of the key to use to encryption
+     * </pre>
+     *
      * <code>string key_id = 3;</code>
      * @return The bytes for keyId.
      */
@@ -84600,11 +89019,19 @@ public final class Datastreams {
         getKeyIdBytes();
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The bytes for streamName.
      */
@@ -84751,6 +89178,10 @@ public final class Datastreams {
     public static final int ENCRYPTION_TYPE_FIELD_NUMBER = 2;
     private int encryptionType_;
     /**
+     * <pre>
+     * Encryption type to use
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
      * @return The enum numeric value on the wire for encryptionType.
      */
@@ -84758,6 +89189,10 @@ public final class Datastreams {
       return encryptionType_;
     }
     /**
+     * <pre>
+     * Encryption type to use
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
      * @return The encryptionType.
      */
@@ -84770,6 +89205,10 @@ public final class Datastreams {
     public static final int KEY_ID_FIELD_NUMBER = 3;
     private volatile java.lang.Object keyId_;
     /**
+     * <pre>
+     * Id of the key to use to encryption
+     * </pre>
+     *
      * <code>string key_id = 3;</code>
      * @return The keyId.
      */
@@ -84787,6 +89226,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Id of the key to use to encryption
+     * </pre>
+     *
      * <code>string key_id = 3;</code>
      * @return The bytes for keyId.
      */
@@ -84808,6 +89251,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 4;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The streamName.
      */
@@ -84825,6 +89272,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The bytes for streamName.
      */
@@ -85329,6 +89780,10 @@ public final class Datastreams {
 
       private int encryptionType_ = 0;
       /**
+       * <pre>
+       * Encryption type to use
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
        * @return The enum numeric value on the wire for encryptionType.
        */
@@ -85336,6 +89791,10 @@ public final class Datastreams {
         return encryptionType_;
       }
       /**
+       * <pre>
+       * Encryption type to use
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
        * @param value The enum numeric value on the wire for encryptionType to set.
        * @return This builder for chaining.
@@ -85347,6 +89806,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Encryption type to use
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
        * @return The encryptionType.
        */
@@ -85357,6 +89820,10 @@ public final class Datastreams {
         return result == null ? tech.ydb.datastreams.v1.Datastreams.EncryptionType.UNRECOGNIZED : result;
       }
       /**
+       * <pre>
+       * Encryption type to use
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
        * @param value The encryptionType to set.
        * @return This builder for chaining.
@@ -85371,6 +89838,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Encryption type to use
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
        * @return This builder for chaining.
        */
@@ -85383,6 +89854,10 @@ public final class Datastreams {
 
       private java.lang.Object keyId_ = "";
       /**
+       * <pre>
+       * Id of the key to use to encryption
+       * </pre>
+       *
        * <code>string key_id = 3;</code>
        * @return The keyId.
        */
@@ -85399,6 +89874,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the key to use to encryption
+       * </pre>
+       *
        * <code>string key_id = 3;</code>
        * @return The bytes for keyId.
        */
@@ -85416,6 +89895,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the key to use to encryption
+       * </pre>
+       *
        * <code>string key_id = 3;</code>
        * @param value The keyId to set.
        * @return This builder for chaining.
@@ -85431,6 +89914,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the key to use to encryption
+       * </pre>
+       *
        * <code>string key_id = 3;</code>
        * @return This builder for chaining.
        */
@@ -85441,6 +89928,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the key to use to encryption
+       * </pre>
+       *
        * <code>string key_id = 3;</code>
        * @param value The bytes for keyId to set.
        * @return This builder for chaining.
@@ -85459,6 +89950,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @return The streamName.
        */
@@ -85475,6 +89970,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @return The bytes for streamName.
        */
@@ -85492,6 +89991,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -85507,6 +90010,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @return This builder for chaining.
        */
@@ -85517,6 +90024,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -86704,22 +91215,38 @@ public final class Datastreams {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <pre>
+     * Encryption type
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
      * @return The enum numeric value on the wire for encryptionType.
      */
     int getEncryptionTypeValue();
     /**
+     * <pre>
+     * Encryption type
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
      * @return The encryptionType.
      */
     tech.ydb.datastreams.v1.Datastreams.EncryptionType getEncryptionType();
 
     /**
+     * <pre>
+     * Id of the key to use to encryption
+     * </pre>
+     *
      * <code>string key_id = 3;</code>
      * @return The keyId.
      */
     java.lang.String getKeyId();
     /**
+     * <pre>
+     * Id of the key to use to encryption
+     * </pre>
+     *
      * <code>string key_id = 3;</code>
      * @return The bytes for keyId.
      */
@@ -86727,11 +91254,19 @@ public final class Datastreams {
         getKeyIdBytes();
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The bytes for streamName.
      */
@@ -86878,6 +91413,10 @@ public final class Datastreams {
     public static final int ENCRYPTION_TYPE_FIELD_NUMBER = 2;
     private int encryptionType_;
     /**
+     * <pre>
+     * Encryption type
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
      * @return The enum numeric value on the wire for encryptionType.
      */
@@ -86885,6 +91424,10 @@ public final class Datastreams {
       return encryptionType_;
     }
     /**
+     * <pre>
+     * Encryption type
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
      * @return The encryptionType.
      */
@@ -86897,6 +91440,10 @@ public final class Datastreams {
     public static final int KEY_ID_FIELD_NUMBER = 3;
     private volatile java.lang.Object keyId_;
     /**
+     * <pre>
+     * Id of the key to use to encryption
+     * </pre>
+     *
      * <code>string key_id = 3;</code>
      * @return The keyId.
      */
@@ -86914,6 +91461,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Id of the key to use to encryption
+     * </pre>
+     *
      * <code>string key_id = 3;</code>
      * @return The bytes for keyId.
      */
@@ -86935,6 +91486,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 4;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The streamName.
      */
@@ -86952,6 +91507,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 4;</code>
      * @return The bytes for streamName.
      */
@@ -87456,6 +92015,10 @@ public final class Datastreams {
 
       private int encryptionType_ = 0;
       /**
+       * <pre>
+       * Encryption type
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
        * @return The enum numeric value on the wire for encryptionType.
        */
@@ -87463,6 +92026,10 @@ public final class Datastreams {
         return encryptionType_;
       }
       /**
+       * <pre>
+       * Encryption type
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
        * @param value The enum numeric value on the wire for encryptionType to set.
        * @return This builder for chaining.
@@ -87474,6 +92041,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Encryption type
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
        * @return The encryptionType.
        */
@@ -87484,6 +92055,10 @@ public final class Datastreams {
         return result == null ? tech.ydb.datastreams.v1.Datastreams.EncryptionType.UNRECOGNIZED : result;
       }
       /**
+       * <pre>
+       * Encryption type
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
        * @param value The encryptionType to set.
        * @return This builder for chaining.
@@ -87498,6 +92073,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Encryption type
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.EncryptionType encryption_type = 2;</code>
        * @return This builder for chaining.
        */
@@ -87510,6 +92089,10 @@ public final class Datastreams {
 
       private java.lang.Object keyId_ = "";
       /**
+       * <pre>
+       * Id of the key to use to encryption
+       * </pre>
+       *
        * <code>string key_id = 3;</code>
        * @return The keyId.
        */
@@ -87526,6 +92109,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the key to use to encryption
+       * </pre>
+       *
        * <code>string key_id = 3;</code>
        * @return The bytes for keyId.
        */
@@ -87543,6 +92130,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Id of the key to use to encryption
+       * </pre>
+       *
        * <code>string key_id = 3;</code>
        * @param value The keyId to set.
        * @return This builder for chaining.
@@ -87558,6 +92149,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the key to use to encryption
+       * </pre>
+       *
        * <code>string key_id = 3;</code>
        * @return This builder for chaining.
        */
@@ -87568,6 +92163,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Id of the key to use to encryption
+       * </pre>
+       *
        * <code>string key_id = 3;</code>
        * @param value The bytes for keyId to set.
        * @return This builder for chaining.
@@ -87586,6 +92185,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @return The streamName.
        */
@@ -87602,6 +92205,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @return The bytes for streamName.
        */
@@ -87619,6 +92226,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -87634,6 +92245,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @return This builder for chaining.
        */
@@ -87644,6 +92259,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 4;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -88831,22 +93450,38 @@ public final class Datastreams {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
+     * <pre>
+     * Scaling type
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.UpdateShardCountRequest.ScalingType scaling_type = 2;</code>
      * @return The enum numeric value on the wire for scalingType.
      */
     int getScalingTypeValue();
     /**
+     * <pre>
+     * Scaling type
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.UpdateShardCountRequest.ScalingType scaling_type = 2;</code>
      * @return The scalingType.
      */
     tech.ydb.datastreams.v1.Datastreams.UpdateShardCountRequest.ScalingType getScalingType();
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The bytes for streamName.
      */
@@ -88854,6 +93489,10 @@ public final class Datastreams {
         getStreamNameBytes();
 
     /**
+     * <pre>
+     * New number of shards
+     * </pre>
+     *
      * <code>int32 target_shard_count = 4;</code>
      * @return The targetShardCount.
      */
@@ -88978,6 +93617,10 @@ public final class Datastreams {
        */
       SCALING_TYPE_UNKNOWN(0),
       /**
+       * <pre>
+       * Creates shards of equal size
+       * </pre>
+       *
        * <code>UNIFORM_SCALING = 1;</code>
        */
       UNIFORM_SCALING(1),
@@ -88989,6 +93632,10 @@ public final class Datastreams {
        */
       public static final int SCALING_TYPE_UNKNOWN_VALUE = 0;
       /**
+       * <pre>
+       * Creates shards of equal size
+       * </pre>
+       *
        * <code>UNIFORM_SCALING = 1;</code>
        */
       public static final int UNIFORM_SCALING_VALUE = 1;
@@ -89105,6 +93752,10 @@ public final class Datastreams {
     public static final int SCALING_TYPE_FIELD_NUMBER = 2;
     private int scalingType_;
     /**
+     * <pre>
+     * Scaling type
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.UpdateShardCountRequest.ScalingType scaling_type = 2;</code>
      * @return The enum numeric value on the wire for scalingType.
      */
@@ -89112,6 +93763,10 @@ public final class Datastreams {
       return scalingType_;
     }
     /**
+     * <pre>
+     * Scaling type
+     * </pre>
+     *
      * <code>.Ydb.DataStreams.V1.UpdateShardCountRequest.ScalingType scaling_type = 2;</code>
      * @return The scalingType.
      */
@@ -89124,6 +93779,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 3;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The streamName.
      */
@@ -89141,6 +93800,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 3;</code>
      * @return The bytes for streamName.
      */
@@ -89162,6 +93825,10 @@ public final class Datastreams {
     public static final int TARGET_SHARD_COUNT_FIELD_NUMBER = 4;
     private int targetShardCount_;
     /**
+     * <pre>
+     * New number of shards
+     * </pre>
+     *
      * <code>int32 target_shard_count = 4;</code>
      * @return The targetShardCount.
      */
@@ -89656,6 +94323,10 @@ public final class Datastreams {
 
       private int scalingType_ = 0;
       /**
+       * <pre>
+       * Scaling type
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.UpdateShardCountRequest.ScalingType scaling_type = 2;</code>
        * @return The enum numeric value on the wire for scalingType.
        */
@@ -89663,6 +94334,10 @@ public final class Datastreams {
         return scalingType_;
       }
       /**
+       * <pre>
+       * Scaling type
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.UpdateShardCountRequest.ScalingType scaling_type = 2;</code>
        * @param value The enum numeric value on the wire for scalingType to set.
        * @return This builder for chaining.
@@ -89674,6 +94349,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Scaling type
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.UpdateShardCountRequest.ScalingType scaling_type = 2;</code>
        * @return The scalingType.
        */
@@ -89684,6 +94363,10 @@ public final class Datastreams {
         return result == null ? tech.ydb.datastreams.v1.Datastreams.UpdateShardCountRequest.ScalingType.UNRECOGNIZED : result;
       }
       /**
+       * <pre>
+       * Scaling type
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.UpdateShardCountRequest.ScalingType scaling_type = 2;</code>
        * @param value The scalingType to set.
        * @return This builder for chaining.
@@ -89698,6 +94381,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Scaling type
+       * </pre>
+       *
        * <code>.Ydb.DataStreams.V1.UpdateShardCountRequest.ScalingType scaling_type = 2;</code>
        * @return This builder for chaining.
        */
@@ -89710,6 +94397,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return The streamName.
        */
@@ -89726,6 +94417,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return The bytes for streamName.
        */
@@ -89743,6 +94438,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -89758,6 +94457,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @return This builder for chaining.
        */
@@ -89768,6 +94471,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 3;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -89786,6 +94493,10 @@ public final class Datastreams {
 
       private int targetShardCount_ ;
       /**
+       * <pre>
+       * New number of shards
+       * </pre>
+       *
        * <code>int32 target_shard_count = 4;</code>
        * @return The targetShardCount.
        */
@@ -89794,6 +94505,10 @@ public final class Datastreams {
         return targetShardCount_;
       }
       /**
+       * <pre>
+       * New number of shards
+       * </pre>
+       *
        * <code>int32 target_shard_count = 4;</code>
        * @param value The targetShardCount to set.
        * @return This builder for chaining.
@@ -89805,6 +94520,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * New number of shards
+       * </pre>
+       *
        * <code>int32 target_shard_count = 4;</code>
        * @return This builder for chaining.
        */
@@ -90553,17 +95272,29 @@ public final class Datastreams {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * Current number of shards
+     * </pre>
+     *
      * <code>int32 current_shard_count = 1;</code>
      * @return The currentShardCount.
      */
     int getCurrentShardCount();
 
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 2;</code>
      * @return The streamName.
      */
     java.lang.String getStreamName();
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 2;</code>
      * @return The bytes for streamName.
      */
@@ -90571,6 +95302,10 @@ public final class Datastreams {
         getStreamNameBytes();
 
     /**
+     * <pre>
+     * Updated number of shards
+     * </pre>
+     *
      * <code>int32 target_shard_count = 3;</code>
      * @return The targetShardCount.
      */
@@ -90673,6 +95408,10 @@ public final class Datastreams {
     public static final int CURRENT_SHARD_COUNT_FIELD_NUMBER = 1;
     private int currentShardCount_;
     /**
+     * <pre>
+     * Current number of shards
+     * </pre>
+     *
      * <code>int32 current_shard_count = 1;</code>
      * @return The currentShardCount.
      */
@@ -90684,6 +95423,10 @@ public final class Datastreams {
     public static final int STREAM_NAME_FIELD_NUMBER = 2;
     private volatile java.lang.Object streamName_;
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 2;</code>
      * @return The streamName.
      */
@@ -90701,6 +95444,10 @@ public final class Datastreams {
       }
     }
     /**
+     * <pre>
+     * Name of the stream
+     * </pre>
+     *
      * <code>string stream_name = 2;</code>
      * @return The bytes for streamName.
      */
@@ -90722,6 +95469,10 @@ public final class Datastreams {
     public static final int TARGET_SHARD_COUNT_FIELD_NUMBER = 3;
     private int targetShardCount_;
     /**
+     * <pre>
+     * Updated number of shards
+     * </pre>
+     *
      * <code>int32 target_shard_count = 3;</code>
      * @return The targetShardCount.
      */
@@ -91068,6 +95819,10 @@ public final class Datastreams {
 
       private int currentShardCount_ ;
       /**
+       * <pre>
+       * Current number of shards
+       * </pre>
+       *
        * <code>int32 current_shard_count = 1;</code>
        * @return The currentShardCount.
        */
@@ -91076,6 +95831,10 @@ public final class Datastreams {
         return currentShardCount_;
       }
       /**
+       * <pre>
+       * Current number of shards
+       * </pre>
+       *
        * <code>int32 current_shard_count = 1;</code>
        * @param value The currentShardCount to set.
        * @return This builder for chaining.
@@ -91087,6 +95846,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Current number of shards
+       * </pre>
+       *
        * <code>int32 current_shard_count = 1;</code>
        * @return This builder for chaining.
        */
@@ -91099,6 +95862,10 @@ public final class Datastreams {
 
       private java.lang.Object streamName_ = "";
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @return The streamName.
        */
@@ -91115,6 +95882,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @return The bytes for streamName.
        */
@@ -91132,6 +95903,10 @@ public final class Datastreams {
         }
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @param value The streamName to set.
        * @return This builder for chaining.
@@ -91147,6 +95922,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @return This builder for chaining.
        */
@@ -91157,6 +95936,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Name of the stream
+       * </pre>
+       *
        * <code>string stream_name = 2;</code>
        * @param value The bytes for streamName to set.
        * @return This builder for chaining.
@@ -91175,6 +95958,10 @@ public final class Datastreams {
 
       private int targetShardCount_ ;
       /**
+       * <pre>
+       * Updated number of shards
+       * </pre>
+       *
        * <code>int32 target_shard_count = 3;</code>
        * @return The targetShardCount.
        */
@@ -91183,6 +95970,10 @@ public final class Datastreams {
         return targetShardCount_;
       }
       /**
+       * <pre>
+       * Updated number of shards
+       * </pre>
+       *
        * <code>int32 target_shard_count = 3;</code>
        * @param value The targetShardCount to set.
        * @return This builder for chaining.
@@ -91194,6 +95985,10 @@ public final class Datastreams {
         return this;
       }
       /**
+       * <pre>
+       * Updated number of shards
+       * </pre>
+       *
        * <code>int32 target_shard_count = 3;</code>
        * @return This builder for chaining.
        */
@@ -91817,12 +96612,12 @@ public final class Datastreams {
   static {
     java.lang.String[] descriptorData = {
       "\n0kikimr/public/api/protos/draft/datastr" +
-      "eams.proto\022\022Ydb.DataStreams.V1\032 google/p" +
-      "rotobuf/descriptor.proto\032,kikimr/public/" +
-      "api/protos/ydb_operation.proto\032/kikimr/p" +
-      "ublic/api/protos/ydb_status_codes.proto\032" +
-      "4kikimr/public/api/protos/validation/val" +
-      "idation.proto\".\n\017EnhancedMetrics\022\033\n\023shar" +
+      "eams.proto\022\022Ydb.DataStreams.V1\0324kikimr/p" +
+      "ublic/api/protos/validation/validation.p" +
+      "roto\032,kikimr/public/api/protos/ydb_opera" +
+      "tion.proto\032/kikimr/public/api/protos/ydb" +
+      "_status_codes.proto\032 google/protobuf/des" +
+      "criptor.proto\".\n\017EnhancedMetrics\022\033\n\023shar" +
       "d_level_metrics\030\001 \003(\t\"k\n\nChildShard\0228\n\016h" +
       "ash_key_range\030\001 \001(\0132 .Ydb.DataStreams.V1" +
       ".HashKeyRange\022\025\n\rparent_shards\030\002 \003(\t\022\014\n\004" +
@@ -92002,178 +96797,177 @@ public final class Datastreams {
       "Streams.V1.ConsumerDescription\"^\n\026PutRec" +
       "ordsRequestEntry\022\022\n\004data\030\001 \001(\014B\004\330\260\034\001\022\031\n\021" +
       "explicit_hash_key\030\002 \001(\t\022\025\n\rpartition_key" +
-      "\030\003 \001(\t\"\226\001\n\025PutRecordsResultEntry\022\'\n\004code" +
-      "\030\001 \001(\0162\031.Ydb.StatusIds.StatusCode\022\025\n\rerr" +
-      "or_message\030\002 \001(\t\022\022\n\nerror_code\030\003 \001(\t\022\027\n\017" +
-      "sequence_number\030\004 \001(\t\022\020\n\010shard_id\030\005 \001(\t\"" +
-      "u\n\021GetRecordsRequest\0229\n\020operation_params" +
-      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\022" +
-      "\r\n\005limit\030\002 \001(\005\022\026\n\016shard_iterator\030\003 \001(\t\"B" +
-      "\n\022GetRecordsResponse\022,\n\toperation\030\001 \001(\0132" +
-      "\031.Ydb.Operations.Operation\"\260\001\n\020GetRecord" +
-      "sResult\0224\n\014child_shards\030\001 \003(\0132\036.Ydb.Data" +
-      "Streams.V1.ChildShard\022\034\n\024millis_behind_l" +
-      "atest\030\002 \001(\003\022\033\n\023next_shard_iterator\030\003 \001(\t" +
-      "\022+\n\007records\030\004 \003(\0132\032.Ydb.DataStreams.V1.R" +
-      "ecord\"\316\001\n\020PutRecordRequest\0229\n\020operation_" +
-      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\022\022\n\004data\030\002 \001(\014B\004\330\260\034\001\022\031\n\021explicit_ha" +
-      "sh_key\030\003 \001(\t\022\025\n\rpartition_key\030\004 \001(\t\022$\n\034s" +
-      "equence_number_for_ordering\030\005 \001(\t\022\023\n\013str" +
-      "eam_name\030\006 \001(\t\"A\n\021PutRecordResponse\022,\n\to" +
+      "\030\003 \001(\t\"m\n\025PutRecordsResultEntry\022\025\n\rerror" +
+      "_message\030\002 \001(\t\022\022\n\nerror_code\030\003 \001(\t\022\027\n\017se" +
+      "quence_number\030\004 \001(\t\022\020\n\010shard_id\030\005 \001(\t\"u\n" +
+      "\021GetRecordsRequest\0229\n\020operation_params\030\001" +
+      " \001(\0132\037.Ydb.Operations.OperationParams\022\r\n" +
+      "\005limit\030\002 \001(\005\022\026\n\016shard_iterator\030\003 \001(\t\"B\n\022" +
+      "GetRecordsResponse\022,\n\toperation\030\001 \001(\0132\031." +
+      "Ydb.Operations.Operation\"\260\001\n\020GetRecordsR" +
+      "esult\0224\n\014child_shards\030\001 \003(\0132\036.Ydb.DataSt" +
+      "reams.V1.ChildShard\022\034\n\024millis_behind_lat" +
+      "est\030\002 \001(\003\022\033\n\023next_shard_iterator\030\003 \001(\t\022+" +
+      "\n\007records\030\004 \003(\0132\032.Ydb.DataStreams.V1.Rec" +
+      "ord\"\316\001\n\020PutRecordRequest\0229\n\020operation_pa" +
+      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
+      "ams\022\022\n\004data\030\002 \001(\014B\004\330\260\034\001\022\031\n\021explicit_hash" +
+      "_key\030\003 \001(\t\022\025\n\rpartition_key\030\004 \001(\t\022$\n\034seq" +
+      "uence_number_for_ordering\030\005 \001(\t\022\023\n\013strea" +
+      "m_name\030\006 \001(\t\"A\n\021PutRecordResponse\022,\n\tope" +
+      "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"" +
+      "y\n\017PutRecordResult\022;\n\017encryption_type\030\001 " +
+      "\001(\0162\".Ydb.DataStreams.V1.EncryptionType\022" +
+      "\027\n\017sequence_number\030\002 \001(\t\022\020\n\010shard_id\030\003 \001" +
+      "(\t\"\240\001\n\021PutRecordsRequest\0229\n\020operation_pa" +
+      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
+      "ams\022;\n\007records\030\002 \003(\0132*.Ydb.DataStreams.V" +
+      "1.PutRecordsRequestEntry\022\023\n\013stream_name\030" +
+      "\003 \001(\t\"B\n\022PutRecordsResponse\022,\n\toperation" +
+      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\250\001\n\020Pu" +
+      "tRecordsResult\022;\n\017encryption_type\030\001 \001(\0162" +
+      "\".Ydb.DataStreams.V1.EncryptionType\022\033\n\023f" +
+      "ailed_record_count\030\002 \001(\005\022:\n\007records\030\003 \003(" +
+      "\0132).Ydb.DataStreams.V1.PutRecordsResultE" +
+      "ntry\"\364\001\n\027GetShardIteratorRequest\0229\n\020oper" +
+      "ation_params\030\001 \001(\0132\037.Ydb.Operations.Oper" +
+      "ationParams\022\020\n\010shard_id\030\002 \001(\t\022B\n\023shard_i" +
+      "terator_type\030\003 \001(\0162%.Ydb.DataStreams.V1." +
+      "ShardIteratorType\022 \n\030starting_sequence_n" +
+      "umber\030\004 \001(\t\022\023\n\013stream_name\030\005 \001(\t\022\021\n\ttime" +
+      "stamp\030\006 \001(\003\"H\n\030GetShardIteratorResponse\022" +
+      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
+      "ation\"0\n\026GetShardIteratorResult\022\026\n\016shard" +
+      "_iterator\030\001 \001(\t\"\275\001\n\027SubscribeToShardRequ" +
+      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
+      "ations.OperationParams\022\024\n\014consumer_arn\030\002" +
+      " \001(\t\022\020\n\010shard_id\030\003 \001(\t\022?\n\021starting_posit" +
+      "ion\030\004 \001(\0132$.Ydb.DataStreams.V1.StartingP" +
+      "osition\"H\n\030SubscribeToShardResponse\022,\n\to" +
       "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
-      "n\"y\n\017PutRecordResult\022;\n\017encryption_type\030" +
-      "\001 \001(\0162\".Ydb.DataStreams.V1.EncryptionTyp" +
-      "e\022\027\n\017sequence_number\030\002 \001(\t\022\020\n\010shard_id\030\003" +
-      " \001(\t\"\240\001\n\021PutRecordsRequest\0229\n\020operation_" +
-      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\022;\n\007records\030\002 \003(\0132*.Ydb.DataStreams" +
-      ".V1.PutRecordsRequestEntry\022\023\n\013stream_nam" +
-      "e\030\003 \001(\t\"B\n\022PutRecordsResponse\022,\n\toperati" +
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\250\001\n\020" +
-      "PutRecordsResult\022;\n\017encryption_type\030\001 \001(" +
-      "\0162\".Ydb.DataStreams.V1.EncryptionType\022\033\n" +
-      "\023failed_record_count\030\002 \001(\005\022:\n\007records\030\003 " +
-      "\003(\0132).Ydb.DataStreams.V1.PutRecordsResul" +
-      "tEntry\"\364\001\n\027GetShardIteratorRequest\0229\n\020op" +
-      "eration_params\030\001 \001(\0132\037.Ydb.Operations.Op" +
-      "erationParams\022\020\n\010shard_id\030\002 \001(\t\022B\n\023shard" +
-      "_iterator_type\030\003 \001(\0162%.Ydb.DataStreams.V" +
-      "1.ShardIteratorType\022 \n\030starting_sequence" +
-      "_number\030\004 \001(\t\022\023\n\013stream_name\030\005 \001(\t\022\021\n\tti" +
-      "mestamp\030\006 \001(\003\"H\n\030GetShardIteratorRespons" +
-      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
-      "eration\"0\n\026GetShardIteratorResult\022\026\n\016sha" +
-      "rd_iterator\030\001 \001(\t\"\275\001\n\027SubscribeToShardRe" +
-      "quest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Op" +
-      "erations.OperationParams\022\024\n\014consumer_arn" +
-      "\030\002 \001(\t\022\020\n\010shard_id\030\003 \001(\t\022?\n\021starting_pos" +
-      "ition\030\004 \001(\0132$.Ydb.DataStreams.V1.Startin" +
-      "gPosition\"H\n\030SubscribeToShardResponse\022,\n" +
-      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
-      "ion\"_\n\026SubscribeToShardResult\022E\n\014event_s" +
-      "tream\030\001 \001(\0132/.Ydb.DataStreams.V1.Subscri" +
-      "beToShardEventStream\"v\n\026AddTagsToStreamR" +
-      "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O" +
-      "perations.OperationParams\022\023\n\013stream_name" +
-      "\030\002 \001(\t\022\014\n\004tags\030\003 \003(\t\"G\n\027AddTagsToStreamR" +
+      "n\"_\n\026SubscribeToShardResult\022E\n\014event_str" +
+      "eam\030\001 \001(\0132/.Ydb.DataStreams.V1.Subscribe" +
+      "ToShardEventStream\"v\n\026AddTagsToStreamReq" +
+      "uest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Ope" +
+      "rations.OperationParams\022\023\n\013stream_name\030\002" +
+      " \001(\t\022\014\n\004tags\030\003 \003(\t\"G\n\027AddTagsToStreamRes" +
+      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
+      "s.Operation\"\027\n\025AddTagsToStreamResult\"\226\001\n" +
+      "$DecreaseStreamRetentionPeriodRequest\0229\n" +
+      "\020operation_params\030\001 \001(\0132\037.Ydb.Operations" +
+      ".OperationParams\022\023\n\013stream_name\030\002 \001(\t\022\036\n" +
+      "\026retention_period_hours\030\003 \001(\005\"U\n%Decreas" +
+      "eStreamRetentionPeriodResponse\022,\n\toperat" +
+      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"%\n#" +
+      "DecreaseStreamRetentionPeriodResult\"R\n\025D" +
+      "escribeLimitsRequest\0229\n\020operation_params" +
+      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\"" +
+      "F\n\026DescribeLimitsResponse\022,\n\toperation\030\001" +
+      " \001(\0132\031.Ydb.Operations.Operation\"E\n\024Descr" +
+      "ibeLimitsResult\022\030\n\020open_shard_count\030\001 \001(" +
+      "\005\022\023\n\013shard_limit\030\002 \001(\005\"n\n\034DescribeStream" +
+      "SummaryRequest\0229\n\020operation_params\030\001 \001(\013" +
+      "2\037.Ydb.Operations.OperationParams\022\023\n\013str" +
+      "eam_name\030\002 \001(\t\"M\n\035DescribeStreamSummaryR" +
       "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
-      "ons.Operation\"\027\n\025AddTagsToStreamResult\"\226" +
-      "\001\n$DecreaseStreamRetentionPeriodRequest\022" +
-      "9\n\020operation_params\030\001 \001(\0132\037.Ydb.Operatio" +
-      "ns.OperationParams\022\023\n\013stream_name\030\002 \001(\t\022" +
-      "\036\n\026retention_period_hours\030\003 \001(\005\"U\n%Decre" +
-      "aseStreamRetentionPeriodResponse\022,\n\toper" +
-      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"%" +
-      "\n#DecreaseStreamRetentionPeriodResult\"R\n" +
-      "\025DescribeLimitsRequest\0229\n\020operation_para" +
-      "ms\030\001 \001(\0132\037.Ydb.Operations.OperationParam" +
-      "s\"F\n\026DescribeLimitsResponse\022,\n\toperation" +
-      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"E\n\024Des" +
-      "cribeLimitsResult\022\030\n\020open_shard_count\030\001 " +
-      "\001(\005\022\023\n\013shard_limit\030\002 \001(\005\"n\n\034DescribeStre" +
-      "amSummaryRequest\0229\n\020operation_params\030\001 \001" +
-      "(\0132\037.Ydb.Operations.OperationParams\022\023\n\013s" +
-      "tream_name\030\002 \001(\t\"M\n\035DescribeStreamSummar" +
-      "yResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
-      "tions.Operation\"\035\n\033DescribeStreamSummary" +
-      "Result\"\217\001\n DisableEnhancedMonitoringRequ" +
-      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
-      "ations.OperationParams\022\033\n\023shard_level_me" +
-      "trics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"Q\n!Disa" +
-      "bleEnhancedMonitoringResponse\022,\n\toperati" +
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\200\001\n\037" +
-      "DisableEnhancedMonitoringResult\022#\n\033curre" +
-      "nt_shard_level_metrics\030\001 \003(\t\022#\n\033desired_" +
-      "shard_level_metrics\030\002 \003(\t\022\023\n\013stream_name" +
-      "\030\003 \001(\t\"\216\001\n\037EnableEnhancedMonitoringReque" +
-      "st\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Opera" +
-      "tions.OperationParams\022\033\n\023shard_level_met" +
-      "rics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"P\n Enabl" +
+      "ons.Operation\"\035\n\033DescribeStreamSummaryRe" +
+      "sult\"\217\001\n DisableEnhancedMonitoringReques" +
+      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
+      "ions.OperationParams\022\033\n\023shard_level_metr" +
+      "ics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"Q\n!Disabl" +
       "eEnhancedMonitoringResponse\022,\n\toperation" +
-      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\177\n\036Ena" +
-      "bleEnhancedMonitoringResult\022#\n\033current_s" +
-      "hard_level_metrics\030\001 \003(\t\022#\n\033desired_shar" +
-      "d_level_metrics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001" +
-      "(\t\"\226\001\n$IncreaseStreamRetentionPeriodRequ" +
-      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
-      "ations.OperationParams\022\036\n\026retention_peri" +
-      "od_hours\030\002 \001(\005\022\023\n\013stream_name\030\003 \001(\t\"U\n%I" +
-      "ncreaseStreamRetentionPeriodResponse\022,\n\t" +
-      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
-      "on\"%\n#IncreaseStreamRetentionPeriodResul" +
-      "t\"\232\001\n\030ListTagsForStreamRequest\0229\n\020operat" +
-      "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat" +
-      "ionParams\022\037\n\027exclusive_start_tag_key\030\002 \001" +
-      "(\t\022\r\n\005limit\030\003 \001(\005\022\023\n\013stream_name\030\004 \001(\t\"I" +
-      "\n\031ListTagsForStreamResponse\022,\n\toperation" +
-      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"W\n\027Lis" +
-      "tTagsForStreamResult\022\025\n\rhas_more_tags\030\001 " +
-      "\001(\010\022%\n\004tags\030\002 \003(\0132\027.Ydb.DataStreams.V1.T" +
-      "ag\"\235\001\n\022MergeShardsRequest\0229\n\020operation_p" +
-      "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa" +
-      "rams\022\037\n\027adjacent_shard_to_merge\030\002 \001(\t\022\026\n" +
-      "\016shard_to_merge\030\003 \001(\t\022\023\n\013stream_name\030\004 \001" +
-      "(\t\"C\n\023MergeShardsResponse\022,\n\toperation\030\001" +
-      " \001(\0132\031.Ydb.Operations.Operation\"\023\n\021Merge" +
-      "ShardsResult\"\177\n\033RemoveTagsFromStreamRequ" +
-      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
-      "ations.OperationParams\022\023\n\013stream_name\030\002 " +
-      "\001(\t\022\020\n\010tag_keys\030\003 \003(\t\"L\n\034RemoveTagsFromS" +
-      "treamResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
-      "perations.Operation\"\034\n\032RemoveTagsFromStr" +
-      "eamResult\"\232\001\n\021SplitShardRequest\0229\n\020opera" +
-      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
-      "tionParams\022\035\n\025new_starting_hash_key\030\002 \001(" +
-      "\t\022\026\n\016shard_to_split\030\003 \001(\t\022\023\n\013stream_name" +
-      "\030\004 \001(\t\"B\n\022SplitShardResponse\022,\n\toperatio" +
-      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\022\n\020Sp" +
-      "litShardResult\"\273\001\n\034StartStreamEncryption" +
-      "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb." +
-      "Operations.OperationParams\022;\n\017encryption" +
-      "_type\030\002 \001(\0162\".Ydb.DataStreams.V1.Encrypt" +
-      "ionType\022\016\n\006key_id\030\003 \001(\t\022\023\n\013stream_name\030\004" +
-      " \001(\t\"M\n\035StartStreamEncryptionResponse\022,\n" +
-      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
-      "ion\"\035\n\033StartStreamEncryptionResult\"\272\001\n\033S" +
-      "topStreamEncryptionRequest\0229\n\020operation_" +
-      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\022;\n\017encryption_type\030\002 \001(\0162\".Ydb.Dat" +
-      "aStreams.V1.EncryptionType\022\016\n\006key_id\030\003 \001" +
-      "(\t\022\023\n\013stream_name\030\004 \001(\t\"L\n\034StopStreamEnc" +
-      "ryptionResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
-      ".Operations.Operation\"\034\n\032StopStreamEncry" +
-      "ptionResult\"\222\002\n\027UpdateShardCountRequest\022" +
-      "9\n\020operation_params\030\001 \001(\0132\037.Ydb.Operatio" +
-      "ns.OperationParams\022M\n\014scaling_type\030\002 \001(\016" +
-      "27.Ydb.DataStreams.V1.UpdateShardCountRe" +
-      "quest.ScalingType\022\023\n\013stream_name\030\003 \001(\t\022\032" +
-      "\n\022target_shard_count\030\004 \001(\005\"<\n\013ScalingTyp" +
-      "e\022\030\n\024SCALING_TYPE_UNKNOWN\020\000\022\023\n\017UNIFORM_S" +
-      "CALING\020\001\"H\n\030UpdateShardCountResponse\022,\n\t" +
-      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
-      "on\"f\n\026UpdateShardCountResult\022\033\n\023current_" +
-      "shard_count\030\001 \001(\005\022\023\n\013stream_name\030\002 \001(\t\022\032" +
-      "\n\022target_shard_count\030\003 \001(\005*D\n\030EFieldTran" +
-      "sformationType\022\022\n\016TRANSFORM_NONE\020\000\022\024\n\020TR" +
-      "ANSFORM_BASE64\020\001*=\n\016EncryptionType\022\030\n\024EN" +
-      "CRYPTION_UNDEFINED\020\000\022\010\n\004NONE\020\001\022\007\n\003KMS\020\002*" +
-      "\224\001\n\021ShardIteratorType\022\034\n\030SHARD_ITERATOR_" +
-      "UNDEFINED\020\000\022\026\n\022AT_SEQUENCE_NUMBER\020\001\022\031\n\025A" +
-      "FTER_SEQUENCE_NUMBER\020\002\022\020\n\014AT_TIMESTAMP\020\003" +
-      "\022\020\n\014TRIM_HORIZON\020\004\022\n\n\006LATEST\020\005:g\n\020FieldT" +
-      "ransformer\022\035.google.protobuf.FieldOption" +
-      "s\030\213\306\003 \001(\0162,.Ydb.DataStreams.V1.EFieldTra" +
-      "nsformationTypeB\"\n\035tech.ydb.datast" +
-      "reams.v1\370\001\001b\006proto3"
+      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\200\001\n\037Di" +
+      "sableEnhancedMonitoringResult\022#\n\033current" +
+      "_shard_level_metrics\030\001 \003(\t\022#\n\033desired_sh" +
+      "ard_level_metrics\030\002 \003(\t\022\023\n\013stream_name\030\003" +
+      " \001(\t\"\216\001\n\037EnableEnhancedMonitoringRequest" +
+      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
+      "ons.OperationParams\022\033\n\023shard_level_metri" +
+      "cs\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"P\n EnableE" +
+      "nhancedMonitoringResponse\022,\n\toperation\030\001" +
+      " \001(\0132\031.Ydb.Operations.Operation\"\177\n\036Enabl" +
+      "eEnhancedMonitoringResult\022#\n\033current_sha" +
+      "rd_level_metrics\030\001 \003(\t\022#\n\033desired_shard_" +
+      "level_metrics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t" +
+      "\"\226\001\n$IncreaseStreamRetentionPeriodReques" +
+      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
+      "ions.OperationParams\022\036\n\026retention_period" +
+      "_hours\030\002 \001(\005\022\023\n\013stream_name\030\003 \001(\t\"U\n%Inc" +
+      "reaseStreamRetentionPeriodResponse\022,\n\top" +
+      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
+      "\"%\n#IncreaseStreamRetentionPeriodResult\"" +
+      "\232\001\n\030ListTagsForStreamRequest\0229\n\020operatio" +
+      "n_params\030\001 \001(\0132\037.Ydb.Operations.Operatio" +
+      "nParams\022\037\n\027exclusive_start_tag_key\030\002 \001(\t" +
+      "\022\r\n\005limit\030\003 \001(\005\022\023\n\013stream_name\030\004 \001(\t\"I\n\031" +
+      "ListTagsForStreamResponse\022,\n\toperation\030\001" +
+      " \001(\0132\031.Ydb.Operations.Operation\"W\n\027ListT" +
+      "agsForStreamResult\022\025\n\rhas_more_tags\030\001 \001(" +
+      "\010\022%\n\004tags\030\002 \003(\0132\027.Ydb.DataStreams.V1.Tag" +
+      "\"\235\001\n\022MergeShardsRequest\0229\n\020operation_par" +
+      "ams\030\001 \001(\0132\037.Ydb.Operations.OperationPara" +
+      "ms\022\037\n\027adjacent_shard_to_merge\030\002 \001(\t\022\026\n\016s" +
+      "hard_to_merge\030\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t" +
+      "\"C\n\023MergeShardsResponse\022,\n\toperation\030\001 \001" +
+      "(\0132\031.Ydb.Operations.Operation\"\023\n\021MergeSh" +
+      "ardsResult\"\177\n\033RemoveTagsFromStreamReques" +
+      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
+      "ions.OperationParams\022\023\n\013stream_name\030\002 \001(" +
+      "\t\022\020\n\010tag_keys\030\003 \003(\t\"L\n\034RemoveTagsFromStr" +
+      "eamResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
+      "rations.Operation\"\034\n\032RemoveTagsFromStrea" +
+      "mResult\"\232\001\n\021SplitShardRequest\0229\n\020operati" +
+      "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati" +
+      "onParams\022\035\n\025new_starting_hash_key\030\002 \001(\t\022" +
+      "\026\n\016shard_to_split\030\003 \001(\t\022\023\n\013stream_name\030\004" +
+      " \001(\t\"B\n\022SplitShardResponse\022,\n\toperation\030" +
+      "\001 \001(\0132\031.Ydb.Operations.Operation\"\022\n\020Spli" +
+      "tShardResult\"\273\001\n\034StartStreamEncryptionRe" +
+      "quest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Op" +
+      "erations.OperationParams\022;\n\017encryption_t" +
+      "ype\030\002 \001(\0162\".Ydb.DataStreams.V1.Encryptio" +
+      "nType\022\016\n\006key_id\030\003 \001(\t\022\023\n\013stream_name\030\004 \001" +
+      "(\t\"M\n\035StartStreamEncryptionResponse\022,\n\to" +
+      "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
+      "n\"\035\n\033StartStreamEncryptionResult\"\272\001\n\033Sto" +
+      "pStreamEncryptionRequest\0229\n\020operation_pa" +
+      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
+      "ams\022;\n\017encryption_type\030\002 \001(\0162\".Ydb.DataS" +
+      "treams.V1.EncryptionType\022\016\n\006key_id\030\003 \001(\t" +
+      "\022\023\n\013stream_name\030\004 \001(\t\"L\n\034StopStreamEncry" +
+      "ptionResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
+      "perations.Operation\"\034\n\032StopStreamEncrypt" +
+      "ionResult\"\222\002\n\027UpdateShardCountRequest\0229\n" +
+      "\020operation_params\030\001 \001(\0132\037.Ydb.Operations" +
+      ".OperationParams\022M\n\014scaling_type\030\002 \001(\01627" +
+      ".Ydb.DataStreams.V1.UpdateShardCountRequ" +
+      "est.ScalingType\022\023\n\013stream_name\030\003 \001(\t\022\032\n\022" +
+      "target_shard_count\030\004 \001(\005\"<\n\013ScalingType\022" +
+      "\030\n\024SCALING_TYPE_UNKNOWN\020\000\022\023\n\017UNIFORM_SCA" +
+      "LING\020\001\"H\n\030UpdateShardCountResponse\022,\n\top" +
+      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
+      "\"f\n\026UpdateShardCountResult\022\033\n\023current_sh" +
+      "ard_count\030\001 \001(\005\022\023\n\013stream_name\030\002 \001(\t\022\032\n\022" +
+      "target_shard_count\030\003 \001(\005*D\n\030EFieldTransf" +
+      "ormationType\022\022\n\016TRANSFORM_NONE\020\000\022\024\n\020TRAN" +
+      "SFORM_BASE64\020\001*=\n\016EncryptionType\022\030\n\024ENCR" +
+      "YPTION_UNDEFINED\020\000\022\010\n\004NONE\020\001\022\007\n\003KMS\020\002*\224\001" +
+      "\n\021ShardIteratorType\022\034\n\030SHARD_ITERATOR_UN" +
+      "DEFINED\020\000\022\026\n\022AT_SEQUENCE_NUMBER\020\001\022\031\n\025AFT" +
+      "ER_SEQUENCE_NUMBER\020\002\022\020\n\014AT_TIMESTAMP\020\003\022\020" +
+      "\n\014TRIM_HORIZON\020\004\022\n\n\006LATEST\020\005:g\n\020FieldTra" +
+      "nsformer\022\035.google.protobuf.FieldOptions\030" +
+      "\213\306\003 \001(\0162,.Ydb.DataStreams.V1.EFieldTrans" +
+      "formationTypeB\"\n\035tech.ydb.datastre" +
+      "ams.v1\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-          com.google.protobuf.DescriptorProtos.getDescriptor(),
+          tech.ydb.Validation.getDescriptor(),
           tech.ydb.OperationProtos.getDescriptor(),
           tech.ydb.StatusCodesProtos.getDescriptor(),
-          tech.ydb.Validation.getDescriptor(),
+          com.google.protobuf.DescriptorProtos.getDescriptor(),
         });
     internal_static_Ydb_DataStreams_V1_EnhancedMetrics_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -92480,7 +97274,7 @@ public final class Datastreams {
     internal_static_Ydb_DataStreams_V1_PutRecordsResultEntry_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_PutRecordsResultEntry_descriptor,
-        new java.lang.String[] { "Code", "ErrorMessage", "ErrorCode", "SequenceNumber", "ShardId", });
+        new java.lang.String[] { "ErrorMessage", "ErrorCode", "SequenceNumber", "ShardId", });
     internal_static_Ydb_DataStreams_V1_GetRecordsRequest_descriptor =
       getDescriptor().getMessageTypes().get(50);
     internal_static_Ydb_DataStreams_V1_GetRecordsRequest_fieldAccessorTable = new
@@ -92829,10 +97623,10 @@ public final class Datastreams {
     registry.add(tech.ydb.datastreams.v1.Datastreams.fieldTransformer);
     com.google.protobuf.Descriptors.FileDescriptor
         .internalUpdateFileDescriptor(descriptor, registry);
-    com.google.protobuf.DescriptorProtos.getDescriptor();
+    tech.ydb.Validation.getDescriptor();
     tech.ydb.OperationProtos.getDescriptor();
     tech.ydb.StatusCodesProtos.getDescriptor();
-    tech.ydb.Validation.getDescriptor();
+    com.google.protobuf.DescriptorProtos.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

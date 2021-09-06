@@ -5202,6 +5202,19 @@ public final class SchemeOperationProtos {
      */
     tech.ydb.scheme.SchemeOperationProtos.PermissionsOrBuilder getPermissionsOrBuilder(
         int index);
+
+    /**
+     * <pre>
+     * Size of entry in bytes. Currently filled for:
+     * - TABLE;
+     * - DATABASE.
+     * Empty (zero) in other cases.
+     * </pre>
+     *
+     * <code>uint64 size_bytes = 8;</code>
+     * @return The sizeBytes.
+     */
+    long getSizeBytes();
   }
   /**
    * Protobuf type {@code Ydb.Scheme.Entry}
@@ -5288,6 +5301,11 @@ public final class SchemeOperationProtos {
               }
               permissions_.add(
                   input.readMessage(tech.ydb.scheme.SchemeOperationProtos.Permissions.parser(), extensionRegistry));
+              break;
+            }
+            case 64: {
+
+              sizeBytes_ = input.readUInt64();
               break;
             }
             default: {
@@ -5690,6 +5708,24 @@ public final class SchemeOperationProtos {
       return permissions_.get(index);
     }
 
+    public static final int SIZE_BYTES_FIELD_NUMBER = 8;
+    private long sizeBytes_;
+    /**
+     * <pre>
+     * Size of entry in bytes. Currently filled for:
+     * - TABLE;
+     * - DATABASE.
+     * Empty (zero) in other cases.
+     * </pre>
+     *
+     * <code>uint64 size_bytes = 8;</code>
+     * @return The sizeBytes.
+     */
+    @java.lang.Override
+    public long getSizeBytes() {
+      return sizeBytes_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -5719,6 +5755,9 @@ public final class SchemeOperationProtos {
       for (int i = 0; i < permissions_.size(); i++) {
         output.writeMessage(7, permissions_.get(i));
       }
+      if (sizeBytes_ != 0L) {
+        output.writeUInt64(8, sizeBytes_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -5746,6 +5785,10 @@ public final class SchemeOperationProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, permissions_.get(i));
       }
+      if (sizeBytes_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(8, sizeBytes_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -5770,6 +5813,8 @@ public final class SchemeOperationProtos {
           .equals(other.getEffectivePermissionsList())) return false;
       if (!getPermissionsList()
           .equals(other.getPermissionsList())) return false;
+      if (getSizeBytes()
+          != other.getSizeBytes()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -5795,6 +5840,9 @@ public final class SchemeOperationProtos {
         hash = (37 * hash) + PERMISSIONS_FIELD_NUMBER;
         hash = (53 * hash) + getPermissionsList().hashCode();
       }
+      hash = (37 * hash) + SIZE_BYTES_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getSizeBytes());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -5948,6 +5996,8 @@ public final class SchemeOperationProtos {
         } else {
           permissionsBuilder_.clear();
         }
+        sizeBytes_ = 0L;
+
         return this;
       }
 
@@ -5996,6 +6046,7 @@ public final class SchemeOperationProtos {
         } else {
           result.permissions_ = permissionsBuilder_.build();
         }
+        result.sizeBytes_ = sizeBytes_;
         onBuilt();
         return result;
       }
@@ -6106,6 +6157,9 @@ public final class SchemeOperationProtos {
               permissionsBuilder_.addAllMessages(other.permissions_);
             }
           }
+        }
+        if (other.getSizeBytes() != 0L) {
+          setSizeBytes(other.getSizeBytes());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -6861,6 +6915,58 @@ public final class SchemeOperationProtos {
           permissions_ = null;
         }
         return permissionsBuilder_;
+      }
+
+      private long sizeBytes_ ;
+      /**
+       * <pre>
+       * Size of entry in bytes. Currently filled for:
+       * - TABLE;
+       * - DATABASE.
+       * Empty (zero) in other cases.
+       * </pre>
+       *
+       * <code>uint64 size_bytes = 8;</code>
+       * @return The sizeBytes.
+       */
+      @java.lang.Override
+      public long getSizeBytes() {
+        return sizeBytes_;
+      }
+      /**
+       * <pre>
+       * Size of entry in bytes. Currently filled for:
+       * - TABLE;
+       * - DATABASE.
+       * Empty (zero) in other cases.
+       * </pre>
+       *
+       * <code>uint64 size_bytes = 8;</code>
+       * @param value The sizeBytes to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSizeBytes(long value) {
+        
+        sizeBytes_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Size of entry in bytes. Currently filled for:
+       * - TABLE;
+       * - DATABASE.
+       * Empty (zero) in other cases.
+       * </pre>
+       *
+       * <code>uint64 size_bytes = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSizeBytes() {
+        
+        sizeBytes_ = 0L;
+        onChanged();
+        return this;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -13559,36 +13665,37 @@ public final class SchemeOperationProtos {
       "rams\022\014\n\004path\030\002 \001(\t\"E\n\025ListDirectoryRespo" +
       "nse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations." +
       "Operation\"8\n\013Permissions\022\017\n\007subject\030\001 \001(" +
-      "\t\022\030\n\020permission_names\030\002 \003(\t\"\333\002\n\005Entry\022\014\n" +
+      "\t\022\030\n\020permission_names\030\002 \003(\t\"\357\002\n\005Entry\022\014\n" +
       "\004name\030\001 \001(\t\022\r\n\005owner\030\002 \001(\t\022$\n\004type\030\005 \001(\016" +
       "2\026.Ydb.Scheme.Entry.Type\0226\n\025effective_pe" +
       "rmissions\030\006 \003(\0132\027.Ydb.Scheme.Permissions" +
       "\022,\n\013permissions\030\007 \003(\0132\027.Ydb.Scheme.Permi" +
-      "ssions\"\250\001\n\004Type\022\024\n\020TYPE_UNSPECIFIED\020\000\022\r\n" +
-      "\tDIRECTORY\020\001\022\t\n\005TABLE\020\002\022\024\n\020PERS_QUEUE_GR" +
-      "OUP\020\003\022\014\n\010DATABASE\020\004\022\017\n\013RTMR_VOLUME\020\005\022\026\n\022" +
-      "BLOCK_STORE_VOLUME\020\006\022\025\n\021COORDINATION_NOD" +
-      "E\020\007\022\014\n\010SEQUENCE\020\017\"[\n\023ListDirectoryResult" +
-      "\022\037\n\004self\030\001 \001(\0132\021.Ydb.Scheme.Entry\022#\n\010chi" +
-      "ldren\030\002 \003(\0132\021.Ydb.Scheme.Entry\"^\n\023Descri" +
-      "bePathRequest\0229\n\020operation_params\030\001 \001(\0132" +
-      "\037.Ydb.Operations.OperationParams\022\014\n\004path" +
-      "\030\002 \001(\t\"D\n\024DescribePathResponse\022,\n\toperat" +
-      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"5\n\022" +
-      "DescribePathResult\022\037\n\004self\030\001 \001(\0132\021.Ydb.S" +
-      "cheme.Entry\"\262\001\n\021PermissionsAction\022(\n\005gra" +
-      "nt\030\001 \001(\0132\027.Ydb.Scheme.PermissionsH\000\022)\n\006r" +
-      "evoke\030\002 \001(\0132\027.Ydb.Scheme.PermissionsH\000\022&" +
-      "\n\003set\030\003 \001(\0132\027.Ydb.Scheme.PermissionsH\000\022\026" +
-      "\n\014change_owner\030\004 \001(\tH\000B\010\n\006action\"\256\001\n\030Mod" +
-      "ifyPermissionsRequest\0229\n\020operation_param" +
-      "s\030\001 \001(\0132\037.Ydb.Operations.OperationParams" +
-      "\022\014\n\004path\030\002 \001(\t\022.\n\007actions\030\003 \003(\0132\035.Ydb.Sc" +
-      "heme.PermissionsAction\022\031\n\021clear_permissi" +
-      "ons\030\004 \001(\010\"I\n\031ModifyPermissionsResponse\022," +
-      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
-      "tionB1\n\025tech.ydb.schemeB\025SchemeOpe" +
-      "rationProtos\370\001\001b\006proto3"
+      "ssions\022\022\n\nsize_bytes\030\010 \001(\004\"\250\001\n\004Type\022\024\n\020T" +
+      "YPE_UNSPECIFIED\020\000\022\r\n\tDIRECTORY\020\001\022\t\n\005TABL" +
+      "E\020\002\022\024\n\020PERS_QUEUE_GROUP\020\003\022\014\n\010DATABASE\020\004\022" +
+      "\017\n\013RTMR_VOLUME\020\005\022\026\n\022BLOCK_STORE_VOLUME\020\006" +
+      "\022\025\n\021COORDINATION_NODE\020\007\022\014\n\010SEQUENCE\020\017\"[\n" +
+      "\023ListDirectoryResult\022\037\n\004self\030\001 \001(\0132\021.Ydb" +
+      ".Scheme.Entry\022#\n\010children\030\002 \003(\0132\021.Ydb.Sc" +
+      "heme.Entry\"^\n\023DescribePathRequest\0229\n\020ope" +
+      "ration_params\030\001 \001(\0132\037.Ydb.Operations.Ope" +
+      "rationParams\022\014\n\004path\030\002 \001(\t\"D\n\024DescribePa" +
+      "thResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
+      "ations.Operation\"5\n\022DescribePathResult\022\037" +
+      "\n\004self\030\001 \001(\0132\021.Ydb.Scheme.Entry\"\262\001\n\021Perm" +
+      "issionsAction\022(\n\005grant\030\001 \001(\0132\027.Ydb.Schem" +
+      "e.PermissionsH\000\022)\n\006revoke\030\002 \001(\0132\027.Ydb.Sc" +
+      "heme.PermissionsH\000\022&\n\003set\030\003 \001(\0132\027.Ydb.Sc" +
+      "heme.PermissionsH\000\022\026\n\014change_owner\030\004 \001(\t" +
+      "H\000B\010\n\006action\"\256\001\n\030ModifyPermissionsReques" +
+      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
+      "ions.OperationParams\022\014\n\004path\030\002 \001(\t\022.\n\007ac" +
+      "tions\030\003 \003(\0132\035.Ydb.Scheme.PermissionsActi" +
+      "on\022\031\n\021clear_permissions\030\004 \001(\010\"I\n\031ModifyP" +
+      "ermissionsResponse\022,\n\toperation\030\001 \001(\0132\031." +
+      "Ydb.Operations.OperationB1\n\025com.yandex.y" +
+      "db.schemeB\025SchemeOperationProtos\370\001\001b\006pro" +
+      "to3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -13642,7 +13749,7 @@ public final class SchemeOperationProtos {
     internal_static_Ydb_Scheme_Entry_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Scheme_Entry_descriptor,
-        new java.lang.String[] { "Name", "Owner", "Type", "EffectivePermissions", "Permissions", });
+        new java.lang.String[] { "Name", "Owner", "Type", "EffectivePermissions", "Permissions", "SizeBytes", });
     internal_static_Ydb_Scheme_ListDirectoryResult_descriptor =
       getDescriptor().getMessageTypes().get(8);
     internal_static_Ydb_Scheme_ListDirectoryResult_fieldAccessorTable = new

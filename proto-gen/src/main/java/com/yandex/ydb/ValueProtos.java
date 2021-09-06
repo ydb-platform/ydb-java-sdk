@@ -5942,6 +5942,777 @@ public final class ValueProtos {
 
   }
 
+  public interface TaggedTypeOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Ydb.TaggedType)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string tag = 1;</code>
+     * @return The tag.
+     */
+    java.lang.String getTag();
+    /**
+     * <code>string tag = 1;</code>
+     * @return The bytes for tag.
+     */
+    com.google.protobuf.ByteString
+        getTagBytes();
+
+    /**
+     * <code>.Ydb.Type type = 2;</code>
+     * @return Whether the type field is set.
+     */
+    boolean hasType();
+    /**
+     * <code>.Ydb.Type type = 2;</code>
+     * @return The type.
+     */
+    tech.ydb.ValueProtos.Type getType();
+    /**
+     * <code>.Ydb.Type type = 2;</code>
+     */
+    tech.ydb.ValueProtos.TypeOrBuilder getTypeOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Ydb.TaggedType}
+   */
+  public static final class TaggedType extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Ydb.TaggedType)
+      TaggedTypeOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use TaggedType.newBuilder() to construct.
+    private TaggedType(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private TaggedType() {
+      tag_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TaggedType();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TaggedType(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              tag_ = s;
+              break;
+            }
+            case 18: {
+              tech.ydb.ValueProtos.Type.Builder subBuilder = null;
+              if (type_ != null) {
+                subBuilder = type_.toBuilder();
+              }
+              type_ = input.readMessage(tech.ydb.ValueProtos.Type.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(type_);
+                type_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return tech.ydb.ValueProtos.internal_static_Ydb_TaggedType_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return tech.ydb.ValueProtos.internal_static_Ydb_TaggedType_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              tech.ydb.ValueProtos.TaggedType.class, tech.ydb.ValueProtos.TaggedType.Builder.class);
+    }
+
+    public static final int TAG_FIELD_NUMBER = 1;
+    private volatile java.lang.Object tag_;
+    /**
+     * <code>string tag = 1;</code>
+     * @return The tag.
+     */
+    @java.lang.Override
+    public java.lang.String getTag() {
+      java.lang.Object ref = tag_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        tag_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string tag = 1;</code>
+     * @return The bytes for tag.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTagBytes() {
+      java.lang.Object ref = tag_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tag_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TYPE_FIELD_NUMBER = 2;
+    private tech.ydb.ValueProtos.Type type_;
+    /**
+     * <code>.Ydb.Type type = 2;</code>
+     * @return Whether the type field is set.
+     */
+    @java.lang.Override
+    public boolean hasType() {
+      return type_ != null;
+    }
+    /**
+     * <code>.Ydb.Type type = 2;</code>
+     * @return The type.
+     */
+    @java.lang.Override
+    public tech.ydb.ValueProtos.Type getType() {
+      return type_ == null ? tech.ydb.ValueProtos.Type.getDefaultInstance() : type_;
+    }
+    /**
+     * <code>.Ydb.Type type = 2;</code>
+     */
+    @java.lang.Override
+    public tech.ydb.ValueProtos.TypeOrBuilder getTypeOrBuilder() {
+      return getType();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getTagBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, tag_);
+      }
+      if (type_ != null) {
+        output.writeMessage(2, getType());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getTagBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, tag_);
+      }
+      if (type_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getType());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof tech.ydb.ValueProtos.TaggedType)) {
+        return super.equals(obj);
+      }
+      tech.ydb.ValueProtos.TaggedType other = (tech.ydb.ValueProtos.TaggedType) obj;
+
+      if (!getTag()
+          .equals(other.getTag())) return false;
+      if (hasType() != other.hasType()) return false;
+      if (hasType()) {
+        if (!getType()
+            .equals(other.getType())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TAG_FIELD_NUMBER;
+      hash = (53 * hash) + getTag().hashCode();
+      if (hasType()) {
+        hash = (37 * hash) + TYPE_FIELD_NUMBER;
+        hash = (53 * hash) + getType().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static tech.ydb.ValueProtos.TaggedType parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.ValueProtos.TaggedType parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.ValueProtos.TaggedType parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.ValueProtos.TaggedType parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.ValueProtos.TaggedType parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static tech.ydb.ValueProtos.TaggedType parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static tech.ydb.ValueProtos.TaggedType parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.ValueProtos.TaggedType parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.ValueProtos.TaggedType parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static tech.ydb.ValueProtos.TaggedType parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static tech.ydb.ValueProtos.TaggedType parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static tech.ydb.ValueProtos.TaggedType parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(tech.ydb.ValueProtos.TaggedType prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Ydb.TaggedType}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Ydb.TaggedType)
+        tech.ydb.ValueProtos.TaggedTypeOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return tech.ydb.ValueProtos.internal_static_Ydb_TaggedType_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return tech.ydb.ValueProtos.internal_static_Ydb_TaggedType_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                tech.ydb.ValueProtos.TaggedType.class, tech.ydb.ValueProtos.TaggedType.Builder.class);
+      }
+
+      // Construct using tech.ydb.ValueProtos.TaggedType.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        tag_ = "";
+
+        if (typeBuilder_ == null) {
+          type_ = null;
+        } else {
+          type_ = null;
+          typeBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return tech.ydb.ValueProtos.internal_static_Ydb_TaggedType_descriptor;
+      }
+
+      @java.lang.Override
+      public tech.ydb.ValueProtos.TaggedType getDefaultInstanceForType() {
+        return tech.ydb.ValueProtos.TaggedType.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public tech.ydb.ValueProtos.TaggedType build() {
+        tech.ydb.ValueProtos.TaggedType result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public tech.ydb.ValueProtos.TaggedType buildPartial() {
+        tech.ydb.ValueProtos.TaggedType result = new tech.ydb.ValueProtos.TaggedType(this);
+        result.tag_ = tag_;
+        if (typeBuilder_ == null) {
+          result.type_ = type_;
+        } else {
+          result.type_ = typeBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof tech.ydb.ValueProtos.TaggedType) {
+          return mergeFrom((tech.ydb.ValueProtos.TaggedType)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(tech.ydb.ValueProtos.TaggedType other) {
+        if (other == tech.ydb.ValueProtos.TaggedType.getDefaultInstance()) return this;
+        if (!other.getTag().isEmpty()) {
+          tag_ = other.tag_;
+          onChanged();
+        }
+        if (other.hasType()) {
+          mergeType(other.getType());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        tech.ydb.ValueProtos.TaggedType parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (tech.ydb.ValueProtos.TaggedType) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object tag_ = "";
+      /**
+       * <code>string tag = 1;</code>
+       * @return The tag.
+       */
+      public java.lang.String getTag() {
+        java.lang.Object ref = tag_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          tag_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string tag = 1;</code>
+       * @return The bytes for tag.
+       */
+      public com.google.protobuf.ByteString
+          getTagBytes() {
+        java.lang.Object ref = tag_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tag_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string tag = 1;</code>
+       * @param value The tag to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTag(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        tag_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string tag = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTag() {
+        
+        tag_ = getDefaultInstance().getTag();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string tag = 1;</code>
+       * @param value The bytes for tag to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTagBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        tag_ = value;
+        onChanged();
+        return this;
+      }
+
+      private tech.ydb.ValueProtos.Type type_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.ValueProtos.Type, tech.ydb.ValueProtos.Type.Builder, tech.ydb.ValueProtos.TypeOrBuilder> typeBuilder_;
+      /**
+       * <code>.Ydb.Type type = 2;</code>
+       * @return Whether the type field is set.
+       */
+      public boolean hasType() {
+        return typeBuilder_ != null || type_ != null;
+      }
+      /**
+       * <code>.Ydb.Type type = 2;</code>
+       * @return The type.
+       */
+      public tech.ydb.ValueProtos.Type getType() {
+        if (typeBuilder_ == null) {
+          return type_ == null ? tech.ydb.ValueProtos.Type.getDefaultInstance() : type_;
+        } else {
+          return typeBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Ydb.Type type = 2;</code>
+       */
+      public Builder setType(tech.ydb.ValueProtos.Type value) {
+        if (typeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          type_ = value;
+          onChanged();
+        } else {
+          typeBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Type type = 2;</code>
+       */
+      public Builder setType(
+          tech.ydb.ValueProtos.Type.Builder builderForValue) {
+        if (typeBuilder_ == null) {
+          type_ = builderForValue.build();
+          onChanged();
+        } else {
+          typeBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Type type = 2;</code>
+       */
+      public Builder mergeType(tech.ydb.ValueProtos.Type value) {
+        if (typeBuilder_ == null) {
+          if (type_ != null) {
+            type_ =
+              tech.ydb.ValueProtos.Type.newBuilder(type_).mergeFrom(value).buildPartial();
+          } else {
+            type_ = value;
+          }
+          onChanged();
+        } else {
+          typeBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Type type = 2;</code>
+       */
+      public Builder clearType() {
+        if (typeBuilder_ == null) {
+          type_ = null;
+          onChanged();
+        } else {
+          type_ = null;
+          typeBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Ydb.Type type = 2;</code>
+       */
+      public tech.ydb.ValueProtos.Type.Builder getTypeBuilder() {
+        
+        onChanged();
+        return getTypeFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.Type type = 2;</code>
+       */
+      public tech.ydb.ValueProtos.TypeOrBuilder getTypeOrBuilder() {
+        if (typeBuilder_ != null) {
+          return typeBuilder_.getMessageOrBuilder();
+        } else {
+          return type_ == null ?
+              tech.ydb.ValueProtos.Type.getDefaultInstance() : type_;
+        }
+      }
+      /**
+       * <code>.Ydb.Type type = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.ValueProtos.Type, tech.ydb.ValueProtos.Type.Builder, tech.ydb.ValueProtos.TypeOrBuilder> 
+          getTypeFieldBuilder() {
+        if (typeBuilder_ == null) {
+          typeBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.ValueProtos.Type, tech.ydb.ValueProtos.Type.Builder, tech.ydb.ValueProtos.TypeOrBuilder>(
+                  getType(),
+                  getParentForChildren(),
+                  isClean());
+          type_ = null;
+        }
+        return typeBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Ydb.TaggedType)
+    }
+
+    // @@protoc_insertion_point(class_scope:Ydb.TaggedType)
+    private static final tech.ydb.ValueProtos.TaggedType DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new tech.ydb.ValueProtos.TaggedType();
+    }
+
+    public static tech.ydb.ValueProtos.TaggedType getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<TaggedType>
+        PARSER = new com.google.protobuf.AbstractParser<TaggedType>() {
+      @java.lang.Override
+      public TaggedType parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TaggedType(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<TaggedType> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TaggedType> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public tech.ydb.ValueProtos.TaggedType getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface TypeOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Ydb.Type)
       com.google.protobuf.MessageOrBuilder {
@@ -6092,6 +6863,21 @@ public final class ValueProtos {
     tech.ydb.ValueProtos.VariantTypeOrBuilder getVariantTypeOrBuilder();
 
     /**
+     * <code>.Ydb.TaggedType tagged_type = 107;</code>
+     * @return Whether the taggedType field is set.
+     */
+    boolean hasTaggedType();
+    /**
+     * <code>.Ydb.TaggedType tagged_type = 107;</code>
+     * @return The taggedType.
+     */
+    tech.ydb.ValueProtos.TaggedType getTaggedType();
+    /**
+     * <code>.Ydb.TaggedType tagged_type = 107;</code>
+     */
+    tech.ydb.ValueProtos.TaggedTypeOrBuilder getTaggedTypeOrBuilder();
+
+    /**
      * <pre>
      * Special types 
      * </pre>
@@ -6118,6 +6904,54 @@ public final class ValueProtos {
      * @return The voidType.
      */
     com.google.protobuf.NullValue getVoidType();
+
+    /**
+     * <code>.google.protobuf.NullValue null_type = 202;</code>
+     * @return Whether the nullType field is set.
+     */
+    boolean hasNullType();
+    /**
+     * <code>.google.protobuf.NullValue null_type = 202;</code>
+     * @return The enum numeric value on the wire for nullType.
+     */
+    int getNullTypeValue();
+    /**
+     * <code>.google.protobuf.NullValue null_type = 202;</code>
+     * @return The nullType.
+     */
+    com.google.protobuf.NullValue getNullType();
+
+    /**
+     * <code>.google.protobuf.NullValue empty_list_type = 203;</code>
+     * @return Whether the emptyListType field is set.
+     */
+    boolean hasEmptyListType();
+    /**
+     * <code>.google.protobuf.NullValue empty_list_type = 203;</code>
+     * @return The enum numeric value on the wire for emptyListType.
+     */
+    int getEmptyListTypeValue();
+    /**
+     * <code>.google.protobuf.NullValue empty_list_type = 203;</code>
+     * @return The emptyListType.
+     */
+    com.google.protobuf.NullValue getEmptyListType();
+
+    /**
+     * <code>.google.protobuf.NullValue empty_dict_type = 204;</code>
+     * @return Whether the emptyDictType field is set.
+     */
+    boolean hasEmptyDictType();
+    /**
+     * <code>.google.protobuf.NullValue empty_dict_type = 204;</code>
+     * @return The enum numeric value on the wire for emptyDictType.
+     */
+    int getEmptyDictTypeValue();
+    /**
+     * <code>.google.protobuf.NullValue empty_dict_type = 204;</code>
+     * @return The emptyDictType.
+     */
+    com.google.protobuf.NullValue getEmptyDictType();
 
     public tech.ydb.ValueProtos.Type.TypeCase getTypeCase();
   }
@@ -6270,9 +7104,41 @@ public final class ValueProtos {
               typeCase_ = 106;
               break;
             }
+            case 858: {
+              tech.ydb.ValueProtos.TaggedType.Builder subBuilder = null;
+              if (typeCase_ == 107) {
+                subBuilder = ((tech.ydb.ValueProtos.TaggedType) type_).toBuilder();
+              }
+              type_ =
+                  input.readMessage(tech.ydb.ValueProtos.TaggedType.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((tech.ydb.ValueProtos.TaggedType) type_);
+                type_ = subBuilder.buildPartial();
+              }
+              typeCase_ = 107;
+              break;
+            }
             case 1608: {
               int rawValue = input.readEnum();
               typeCase_ = 201;
+              type_ = rawValue;
+              break;
+            }
+            case 1616: {
+              int rawValue = input.readEnum();
+              typeCase_ = 202;
+              type_ = rawValue;
+              break;
+            }
+            case 1624: {
+              int rawValue = input.readEnum();
+              typeCase_ = 203;
+              type_ = rawValue;
+              break;
+            }
+            case 1632: {
+              int rawValue = input.readEnum();
+              typeCase_ = 204;
               type_ = rawValue;
               break;
             }
@@ -6645,7 +7511,11 @@ public final class ValueProtos {
       STRUCT_TYPE(104),
       DICT_TYPE(105),
       VARIANT_TYPE(106),
+      TAGGED_TYPE(107),
       VOID_TYPE(201),
+      NULL_TYPE(202),
+      EMPTY_LIST_TYPE(203),
+      EMPTY_DICT_TYPE(204),
       TYPE_NOT_SET(0);
       private final int value;
       private TypeCase(int value) {
@@ -6671,7 +7541,11 @@ public final class ValueProtos {
           case 104: return STRUCT_TYPE;
           case 105: return DICT_TYPE;
           case 106: return VARIANT_TYPE;
+          case 107: return TAGGED_TYPE;
           case 201: return VOID_TYPE;
+          case 202: return NULL_TYPE;
+          case 203: return EMPTY_LIST_TYPE;
+          case 204: return EMPTY_DICT_TYPE;
           case 0: return TYPE_NOT_SET;
           default: return null;
         }
@@ -6960,6 +7834,37 @@ public final class ValueProtos {
       return tech.ydb.ValueProtos.VariantType.getDefaultInstance();
     }
 
+    public static final int TAGGED_TYPE_FIELD_NUMBER = 107;
+    /**
+     * <code>.Ydb.TaggedType tagged_type = 107;</code>
+     * @return Whether the taggedType field is set.
+     */
+    @java.lang.Override
+    public boolean hasTaggedType() {
+      return typeCase_ == 107;
+    }
+    /**
+     * <code>.Ydb.TaggedType tagged_type = 107;</code>
+     * @return The taggedType.
+     */
+    @java.lang.Override
+    public tech.ydb.ValueProtos.TaggedType getTaggedType() {
+      if (typeCase_ == 107) {
+         return (tech.ydb.ValueProtos.TaggedType) type_;
+      }
+      return tech.ydb.ValueProtos.TaggedType.getDefaultInstance();
+    }
+    /**
+     * <code>.Ydb.TaggedType tagged_type = 107;</code>
+     */
+    @java.lang.Override
+    public tech.ydb.ValueProtos.TaggedTypeOrBuilder getTaggedTypeOrBuilder() {
+      if (typeCase_ == 107) {
+         return (tech.ydb.ValueProtos.TaggedType) type_;
+      }
+      return tech.ydb.ValueProtos.TaggedType.getDefaultInstance();
+    }
+
     public static final int VOID_TYPE_FIELD_NUMBER = 201;
     /**
      * <pre>
@@ -6996,6 +7901,102 @@ public final class ValueProtos {
      */
     public com.google.protobuf.NullValue getVoidType() {
       if (typeCase_ == 201) {
+        @SuppressWarnings("deprecation")
+        com.google.protobuf.NullValue result = com.google.protobuf.NullValue.valueOf(
+            (java.lang.Integer) type_);
+        return result == null ? com.google.protobuf.NullValue.UNRECOGNIZED : result;
+      }
+      return com.google.protobuf.NullValue.NULL_VALUE;
+    }
+
+    public static final int NULL_TYPE_FIELD_NUMBER = 202;
+    /**
+     * <code>.google.protobuf.NullValue null_type = 202;</code>
+     * @return Whether the nullType field is set.
+     */
+    public boolean hasNullType() {
+      return typeCase_ == 202;
+    }
+    /**
+     * <code>.google.protobuf.NullValue null_type = 202;</code>
+     * @return The enum numeric value on the wire for nullType.
+     */
+    public int getNullTypeValue() {
+      if (typeCase_ == 202) {
+        return (java.lang.Integer) type_;
+      }
+      return 0;
+    }
+    /**
+     * <code>.google.protobuf.NullValue null_type = 202;</code>
+     * @return The nullType.
+     */
+    public com.google.protobuf.NullValue getNullType() {
+      if (typeCase_ == 202) {
+        @SuppressWarnings("deprecation")
+        com.google.protobuf.NullValue result = com.google.protobuf.NullValue.valueOf(
+            (java.lang.Integer) type_);
+        return result == null ? com.google.protobuf.NullValue.UNRECOGNIZED : result;
+      }
+      return com.google.protobuf.NullValue.NULL_VALUE;
+    }
+
+    public static final int EMPTY_LIST_TYPE_FIELD_NUMBER = 203;
+    /**
+     * <code>.google.protobuf.NullValue empty_list_type = 203;</code>
+     * @return Whether the emptyListType field is set.
+     */
+    public boolean hasEmptyListType() {
+      return typeCase_ == 203;
+    }
+    /**
+     * <code>.google.protobuf.NullValue empty_list_type = 203;</code>
+     * @return The enum numeric value on the wire for emptyListType.
+     */
+    public int getEmptyListTypeValue() {
+      if (typeCase_ == 203) {
+        return (java.lang.Integer) type_;
+      }
+      return 0;
+    }
+    /**
+     * <code>.google.protobuf.NullValue empty_list_type = 203;</code>
+     * @return The emptyListType.
+     */
+    public com.google.protobuf.NullValue getEmptyListType() {
+      if (typeCase_ == 203) {
+        @SuppressWarnings("deprecation")
+        com.google.protobuf.NullValue result = com.google.protobuf.NullValue.valueOf(
+            (java.lang.Integer) type_);
+        return result == null ? com.google.protobuf.NullValue.UNRECOGNIZED : result;
+      }
+      return com.google.protobuf.NullValue.NULL_VALUE;
+    }
+
+    public static final int EMPTY_DICT_TYPE_FIELD_NUMBER = 204;
+    /**
+     * <code>.google.protobuf.NullValue empty_dict_type = 204;</code>
+     * @return Whether the emptyDictType field is set.
+     */
+    public boolean hasEmptyDictType() {
+      return typeCase_ == 204;
+    }
+    /**
+     * <code>.google.protobuf.NullValue empty_dict_type = 204;</code>
+     * @return The enum numeric value on the wire for emptyDictType.
+     */
+    public int getEmptyDictTypeValue() {
+      if (typeCase_ == 204) {
+        return (java.lang.Integer) type_;
+      }
+      return 0;
+    }
+    /**
+     * <code>.google.protobuf.NullValue empty_dict_type = 204;</code>
+     * @return The emptyDictType.
+     */
+    public com.google.protobuf.NullValue getEmptyDictType() {
+      if (typeCase_ == 204) {
         @SuppressWarnings("deprecation")
         com.google.protobuf.NullValue result = com.google.protobuf.NullValue.valueOf(
             (java.lang.Integer) type_);
@@ -7042,8 +8043,20 @@ public final class ValueProtos {
       if (typeCase_ == 106) {
         output.writeMessage(106, (tech.ydb.ValueProtos.VariantType) type_);
       }
+      if (typeCase_ == 107) {
+        output.writeMessage(107, (tech.ydb.ValueProtos.TaggedType) type_);
+      }
       if (typeCase_ == 201) {
         output.writeEnum(201, ((java.lang.Integer) type_));
+      }
+      if (typeCase_ == 202) {
+        output.writeEnum(202, ((java.lang.Integer) type_));
+      }
+      if (typeCase_ == 203) {
+        output.writeEnum(203, ((java.lang.Integer) type_));
+      }
+      if (typeCase_ == 204) {
+        output.writeEnum(204, ((java.lang.Integer) type_));
       }
       unknownFields.writeTo(output);
     }
@@ -7086,9 +8099,25 @@ public final class ValueProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(106, (tech.ydb.ValueProtos.VariantType) type_);
       }
+      if (typeCase_ == 107) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(107, (tech.ydb.ValueProtos.TaggedType) type_);
+      }
       if (typeCase_ == 201) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(201, ((java.lang.Integer) type_));
+      }
+      if (typeCase_ == 202) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(202, ((java.lang.Integer) type_));
+      }
+      if (typeCase_ == 203) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(203, ((java.lang.Integer) type_));
+      }
+      if (typeCase_ == 204) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(204, ((java.lang.Integer) type_));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -7139,9 +8168,25 @@ public final class ValueProtos {
           if (!getVariantType()
               .equals(other.getVariantType())) return false;
           break;
+        case 107:
+          if (!getTaggedType()
+              .equals(other.getTaggedType())) return false;
+          break;
         case 201:
           if (getVoidTypeValue()
               != other.getVoidTypeValue()) return false;
+          break;
+        case 202:
+          if (getNullTypeValue()
+              != other.getNullTypeValue()) return false;
+          break;
+        case 203:
+          if (getEmptyListTypeValue()
+              != other.getEmptyListTypeValue()) return false;
+          break;
+        case 204:
+          if (getEmptyDictTypeValue()
+              != other.getEmptyDictTypeValue()) return false;
           break;
         case 0:
         default:
@@ -7190,9 +8235,25 @@ public final class ValueProtos {
           hash = (37 * hash) + VARIANT_TYPE_FIELD_NUMBER;
           hash = (53 * hash) + getVariantType().hashCode();
           break;
+        case 107:
+          hash = (37 * hash) + TAGGED_TYPE_FIELD_NUMBER;
+          hash = (53 * hash) + getTaggedType().hashCode();
+          break;
         case 201:
           hash = (37 * hash) + VOID_TYPE_FIELD_NUMBER;
           hash = (53 * hash) + getVoidTypeValue();
+          break;
+        case 202:
+          hash = (37 * hash) + NULL_TYPE_FIELD_NUMBER;
+          hash = (53 * hash) + getNullTypeValue();
+          break;
+        case 203:
+          hash = (37 * hash) + EMPTY_LIST_TYPE_FIELD_NUMBER;
+          hash = (53 * hash) + getEmptyListTypeValue();
+          break;
+        case 204:
+          hash = (37 * hash) + EMPTY_DICT_TYPE_FIELD_NUMBER;
+          hash = (53 * hash) + getEmptyDictTypeValue();
           break;
         case 0:
         default:
@@ -7410,7 +8471,23 @@ public final class ValueProtos {
             result.type_ = variantTypeBuilder_.build();
           }
         }
+        if (typeCase_ == 107) {
+          if (taggedTypeBuilder_ == null) {
+            result.type_ = type_;
+          } else {
+            result.type_ = taggedTypeBuilder_.build();
+          }
+        }
         if (typeCase_ == 201) {
+          result.type_ = type_;
+        }
+        if (typeCase_ == 202) {
+          result.type_ = type_;
+        }
+        if (typeCase_ == 203) {
+          result.type_ = type_;
+        }
+        if (typeCase_ == 204) {
           result.type_ = type_;
         }
         result.typeCase_ = typeCase_;
@@ -7495,8 +8572,24 @@ public final class ValueProtos {
             mergeVariantType(other.getVariantType());
             break;
           }
+          case TAGGED_TYPE: {
+            mergeTaggedType(other.getTaggedType());
+            break;
+          }
           case VOID_TYPE: {
             setVoidTypeValue(other.getVoidTypeValue());
+            break;
+          }
+          case NULL_TYPE: {
+            setNullTypeValue(other.getNullTypeValue());
+            break;
+          }
+          case EMPTY_LIST_TYPE: {
+            setEmptyListTypeValue(other.getEmptyListTypeValue());
+            break;
+          }
+          case EMPTY_DICT_TYPE: {
+            setEmptyDictTypeValue(other.getEmptyDictTypeValue());
             break;
           }
           case TYPE_NOT_SET: {
@@ -8665,6 +9758,147 @@ public final class ValueProtos {
         return variantTypeBuilder_;
       }
 
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.ValueProtos.TaggedType, tech.ydb.ValueProtos.TaggedType.Builder, tech.ydb.ValueProtos.TaggedTypeOrBuilder> taggedTypeBuilder_;
+      /**
+       * <code>.Ydb.TaggedType tagged_type = 107;</code>
+       * @return Whether the taggedType field is set.
+       */
+      @java.lang.Override
+      public boolean hasTaggedType() {
+        return typeCase_ == 107;
+      }
+      /**
+       * <code>.Ydb.TaggedType tagged_type = 107;</code>
+       * @return The taggedType.
+       */
+      @java.lang.Override
+      public tech.ydb.ValueProtos.TaggedType getTaggedType() {
+        if (taggedTypeBuilder_ == null) {
+          if (typeCase_ == 107) {
+            return (tech.ydb.ValueProtos.TaggedType) type_;
+          }
+          return tech.ydb.ValueProtos.TaggedType.getDefaultInstance();
+        } else {
+          if (typeCase_ == 107) {
+            return taggedTypeBuilder_.getMessage();
+          }
+          return tech.ydb.ValueProtos.TaggedType.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.Ydb.TaggedType tagged_type = 107;</code>
+       */
+      public Builder setTaggedType(tech.ydb.ValueProtos.TaggedType value) {
+        if (taggedTypeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          type_ = value;
+          onChanged();
+        } else {
+          taggedTypeBuilder_.setMessage(value);
+        }
+        typeCase_ = 107;
+        return this;
+      }
+      /**
+       * <code>.Ydb.TaggedType tagged_type = 107;</code>
+       */
+      public Builder setTaggedType(
+          tech.ydb.ValueProtos.TaggedType.Builder builderForValue) {
+        if (taggedTypeBuilder_ == null) {
+          type_ = builderForValue.build();
+          onChanged();
+        } else {
+          taggedTypeBuilder_.setMessage(builderForValue.build());
+        }
+        typeCase_ = 107;
+        return this;
+      }
+      /**
+       * <code>.Ydb.TaggedType tagged_type = 107;</code>
+       */
+      public Builder mergeTaggedType(tech.ydb.ValueProtos.TaggedType value) {
+        if (taggedTypeBuilder_ == null) {
+          if (typeCase_ == 107 &&
+              type_ != tech.ydb.ValueProtos.TaggedType.getDefaultInstance()) {
+            type_ = tech.ydb.ValueProtos.TaggedType.newBuilder((tech.ydb.ValueProtos.TaggedType) type_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            type_ = value;
+          }
+          onChanged();
+        } else {
+          if (typeCase_ == 107) {
+            taggedTypeBuilder_.mergeFrom(value);
+          }
+          taggedTypeBuilder_.setMessage(value);
+        }
+        typeCase_ = 107;
+        return this;
+      }
+      /**
+       * <code>.Ydb.TaggedType tagged_type = 107;</code>
+       */
+      public Builder clearTaggedType() {
+        if (taggedTypeBuilder_ == null) {
+          if (typeCase_ == 107) {
+            typeCase_ = 0;
+            type_ = null;
+            onChanged();
+          }
+        } else {
+          if (typeCase_ == 107) {
+            typeCase_ = 0;
+            type_ = null;
+          }
+          taggedTypeBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.Ydb.TaggedType tagged_type = 107;</code>
+       */
+      public tech.ydb.ValueProtos.TaggedType.Builder getTaggedTypeBuilder() {
+        return getTaggedTypeFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Ydb.TaggedType tagged_type = 107;</code>
+       */
+      @java.lang.Override
+      public tech.ydb.ValueProtos.TaggedTypeOrBuilder getTaggedTypeOrBuilder() {
+        if ((typeCase_ == 107) && (taggedTypeBuilder_ != null)) {
+          return taggedTypeBuilder_.getMessageOrBuilder();
+        } else {
+          if (typeCase_ == 107) {
+            return (tech.ydb.ValueProtos.TaggedType) type_;
+          }
+          return tech.ydb.ValueProtos.TaggedType.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.Ydb.TaggedType tagged_type = 107;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.ValueProtos.TaggedType, tech.ydb.ValueProtos.TaggedType.Builder, tech.ydb.ValueProtos.TaggedTypeOrBuilder> 
+          getTaggedTypeFieldBuilder() {
+        if (taggedTypeBuilder_ == null) {
+          if (!(typeCase_ == 107)) {
+            type_ = tech.ydb.ValueProtos.TaggedType.getDefaultInstance();
+          }
+          taggedTypeBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.ValueProtos.TaggedType, tech.ydb.ValueProtos.TaggedType.Builder, tech.ydb.ValueProtos.TaggedTypeOrBuilder>(
+                  (tech.ydb.ValueProtos.TaggedType) type_,
+                  getParentForChildren(),
+                  isClean());
+          type_ = null;
+        }
+        typeCase_ = 107;
+        onChanged();;
+        return taggedTypeBuilder_;
+      }
+
       /**
        * <pre>
        * Special types 
@@ -8753,6 +9987,219 @@ public final class ValueProtos {
        */
       public Builder clearVoidType() {
         if (typeCase_ == 201) {
+          typeCase_ = 0;
+          type_ = null;
+          onChanged();
+        }
+        return this;
+      }
+
+      /**
+       * <code>.google.protobuf.NullValue null_type = 202;</code>
+       * @return Whether the nullType field is set.
+       */
+      @java.lang.Override
+      public boolean hasNullType() {
+        return typeCase_ == 202;
+      }
+      /**
+       * <code>.google.protobuf.NullValue null_type = 202;</code>
+       * @return The enum numeric value on the wire for nullType.
+       */
+      @java.lang.Override
+      public int getNullTypeValue() {
+        if (typeCase_ == 202) {
+          return ((java.lang.Integer) type_).intValue();
+        }
+        return 0;
+      }
+      /**
+       * <code>.google.protobuf.NullValue null_type = 202;</code>
+       * @param value The enum numeric value on the wire for nullType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNullTypeValue(int value) {
+        typeCase_ = 202;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.NullValue null_type = 202;</code>
+       * @return The nullType.
+       */
+      @java.lang.Override
+      public com.google.protobuf.NullValue getNullType() {
+        if (typeCase_ == 202) {
+          @SuppressWarnings("deprecation")
+          com.google.protobuf.NullValue result = com.google.protobuf.NullValue.valueOf(
+              (java.lang.Integer) type_);
+          return result == null ? com.google.protobuf.NullValue.UNRECOGNIZED : result;
+        }
+        return com.google.protobuf.NullValue.NULL_VALUE;
+      }
+      /**
+       * <code>.google.protobuf.NullValue null_type = 202;</code>
+       * @param value The nullType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNullType(com.google.protobuf.NullValue value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        typeCase_ = 202;
+        type_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.NullValue null_type = 202;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNullType() {
+        if (typeCase_ == 202) {
+          typeCase_ = 0;
+          type_ = null;
+          onChanged();
+        }
+        return this;
+      }
+
+      /**
+       * <code>.google.protobuf.NullValue empty_list_type = 203;</code>
+       * @return Whether the emptyListType field is set.
+       */
+      @java.lang.Override
+      public boolean hasEmptyListType() {
+        return typeCase_ == 203;
+      }
+      /**
+       * <code>.google.protobuf.NullValue empty_list_type = 203;</code>
+       * @return The enum numeric value on the wire for emptyListType.
+       */
+      @java.lang.Override
+      public int getEmptyListTypeValue() {
+        if (typeCase_ == 203) {
+          return ((java.lang.Integer) type_).intValue();
+        }
+        return 0;
+      }
+      /**
+       * <code>.google.protobuf.NullValue empty_list_type = 203;</code>
+       * @param value The enum numeric value on the wire for emptyListType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEmptyListTypeValue(int value) {
+        typeCase_ = 203;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.NullValue empty_list_type = 203;</code>
+       * @return The emptyListType.
+       */
+      @java.lang.Override
+      public com.google.protobuf.NullValue getEmptyListType() {
+        if (typeCase_ == 203) {
+          @SuppressWarnings("deprecation")
+          com.google.protobuf.NullValue result = com.google.protobuf.NullValue.valueOf(
+              (java.lang.Integer) type_);
+          return result == null ? com.google.protobuf.NullValue.UNRECOGNIZED : result;
+        }
+        return com.google.protobuf.NullValue.NULL_VALUE;
+      }
+      /**
+       * <code>.google.protobuf.NullValue empty_list_type = 203;</code>
+       * @param value The emptyListType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEmptyListType(com.google.protobuf.NullValue value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        typeCase_ = 203;
+        type_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.NullValue empty_list_type = 203;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEmptyListType() {
+        if (typeCase_ == 203) {
+          typeCase_ = 0;
+          type_ = null;
+          onChanged();
+        }
+        return this;
+      }
+
+      /**
+       * <code>.google.protobuf.NullValue empty_dict_type = 204;</code>
+       * @return Whether the emptyDictType field is set.
+       */
+      @java.lang.Override
+      public boolean hasEmptyDictType() {
+        return typeCase_ == 204;
+      }
+      /**
+       * <code>.google.protobuf.NullValue empty_dict_type = 204;</code>
+       * @return The enum numeric value on the wire for emptyDictType.
+       */
+      @java.lang.Override
+      public int getEmptyDictTypeValue() {
+        if (typeCase_ == 204) {
+          return ((java.lang.Integer) type_).intValue();
+        }
+        return 0;
+      }
+      /**
+       * <code>.google.protobuf.NullValue empty_dict_type = 204;</code>
+       * @param value The enum numeric value on the wire for emptyDictType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEmptyDictTypeValue(int value) {
+        typeCase_ = 204;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.NullValue empty_dict_type = 204;</code>
+       * @return The emptyDictType.
+       */
+      @java.lang.Override
+      public com.google.protobuf.NullValue getEmptyDictType() {
+        if (typeCase_ == 204) {
+          @SuppressWarnings("deprecation")
+          com.google.protobuf.NullValue result = com.google.protobuf.NullValue.valueOf(
+              (java.lang.Integer) type_);
+          return result == null ? com.google.protobuf.NullValue.UNRECOGNIZED : result;
+        }
+        return com.google.protobuf.NullValue.NULL_VALUE;
+      }
+      /**
+       * <code>.google.protobuf.NullValue empty_dict_type = 204;</code>
+       * @param value The emptyDictType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEmptyDictType(com.google.protobuf.NullValue value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        typeCase_ = 204;
+        type_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.NullValue empty_dict_type = 204;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEmptyDictType() {
+        if (typeCase_ == 204) {
           typeCase_ = 0;
           type_ = null;
           onChanged();
@@ -16107,6 +17554,11 @@ public final class ValueProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_DictType_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_TaggedType_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_TaggedType_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Type_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -16157,45 +17609,52 @@ public final class ValueProtos {
       "ember\022\014\n\004name\030\001 \001(\t\022\027\n\004type\030\002 \001(\0132\t.Ydb." +
       "Type\"0\n\nStructType\022\"\n\007members\030\001 \003(\0132\021.Yd" +
       "b.StructMember\">\n\010DictType\022\026\n\003key\030\001 \001(\0132" +
-      "\t.Ydb.Type\022\032\n\007payload\030\002 \001(\0132\t.Ydb.Type\"\367" +
-      "\005\n\004Type\022,\n\007type_id\030\001 \001(\0162\031.Ydb.Type.Prim" +
-      "itiveTypeIdH\000\022(\n\014decimal_type\030\002 \001(\0132\020.Yd" +
-      "b.DecimalTypeH\000\022*\n\roptional_type\030e \001(\0132\021" +
-      ".Ydb.OptionalTypeH\000\022\"\n\tlist_type\030f \001(\0132\r" +
-      ".Ydb.ListTypeH\000\022$\n\ntuple_type\030g \001(\0132\016.Yd" +
-      "b.TupleTypeH\000\022&\n\013struct_type\030h \001(\0132\017.Ydb" +
-      ".StructTypeH\000\022\"\n\tdict_type\030i \001(\0132\r.Ydb.D" +
-      "ictTypeH\000\022(\n\014variant_type\030j \001(\0132\020.Ydb.Va" +
-      "riantTypeH\000\0220\n\tvoid_type\030\311\001 \001(\0162\032.google" +
-      ".protobuf.NullValueH\000\"\360\002\n\017PrimitiveTypeI" +
-      "d\022!\n\035PRIMITIVE_TYPE_ID_UNSPECIFIED\020\000\022\010\n\004" +
-      "BOOL\020\006\022\010\n\004INT8\020\007\022\t\n\005UINT8\020\005\022\t\n\005INT16\020\010\022\n" +
-      "\n\006UINT16\020\t\022\t\n\005INT32\020\001\022\n\n\006UINT32\020\002\022\t\n\005INT" +
-      "64\020\003\022\n\n\006UINT64\020\004\022\t\n\005FLOAT\020!\022\n\n\006DOUBLE\020 \022" +
-      "\010\n\004DATE\0200\022\014\n\010DATETIME\0201\022\r\n\tTIMESTAMP\0202\022\014" +
-      "\n\010INTERVAL\0203\022\013\n\007TZ_DATE\0204\022\017\n\013TZ_DATETIME" +
-      "\0205\022\020\n\014TZ_TIMESTAMP\0206\022\013\n\006STRING\020\201 \022\t\n\004UTF" +
-      "8\020\200$\022\t\n\004YSON\020\201$\022\t\n\004JSON\020\202$\022\t\n\004UUID\020\203$\022\022\n" +
-      "\rJSON_DOCUMENT\020\204$\022\r\n\010DYNUMBER\020\202&B\006\n\004type" +
-      "\"A\n\tValuePair\022\027\n\003key\030\001 \001(\0132\n.Ydb.Value\022\033" +
-      "\n\007payload\030\002 \001(\0132\n.Ydb.Value\"\261\003\n\005Value\022\024\n" +
-      "\nbool_value\030\001 \001(\010H\000\022\025\n\013int32_value\030\002 \001(\017" +
-      "H\000\022\026\n\014uint32_value\030\003 \001(\007H\000\022\025\n\013int64_valu" +
-      "e\030\004 \001(\020H\000\022\026\n\014uint64_value\030\005 \001(\006H\000\022\025\n\013flo" +
-      "at_value\030\006 \001(\002H\000\022\026\n\014double_value\030\007 \001(\001H\000" +
-      "\022\025\n\013bytes_value\030\010 \001(\014H\000\022\024\n\ntext_value\030\t " +
-      "\001(\tH\000\0225\n\017null_flag_value\030\n \001(\0162\032.google." +
-      "protobuf.NullValueH\000\022\"\n\014nested_value\030\013 \001" +
-      "(\0132\n.Ydb.ValueH\000\022\021\n\007low_128\030\017 \001(\006H\000\022\031\n\005i" +
-      "tems\030\014 \003(\0132\n.Ydb.Value\022\035\n\005pairs\030\r \003(\0132\016." +
-      "Ydb.ValuePair\022\025\n\rvariant_index\030\016 \001(\r\022\020\n\010" +
-      "high_128\030\020 \001(\006B\007\n\005value\"@\n\nTypedValue\022\027\n" +
-      "\004type\030\001 \001(\0132\t.Ydb.Type\022\031\n\005value\030\002 \001(\0132\n." +
-      "Ydb.Value\"/\n\006Column\022\014\n\004name\030\001 \001(\t\022\027\n\004typ" +
-      "e\030\002 \001(\0132\t.Ydb.Type\"V\n\tResultSet\022\034\n\007colum" +
-      "ns\030\001 \003(\0132\013.Ydb.Column\022\030\n\004rows\030\002 \003(\0132\n.Yd" +
-      "b.Value\022\021\n\ttruncated\030\003 \001(\010B \n\016com.yandex" +
-      ".ydbB\013ValueProtos\370\001\001b\006proto3"
+      "\t.Ydb.Type\022\032\n\007payload\030\002 \001(\0132\t.Ydb.Type\"2" +
+      "\n\nTaggedType\022\013\n\003tag\030\001 \001(\t\022\027\n\004type\030\002 \001(\0132" +
+      "\t.Ydb.Type\"\301\007\n\004Type\022,\n\007type_id\030\001 \001(\0162\031.Y" +
+      "db.Type.PrimitiveTypeIdH\000\022(\n\014decimal_typ" +
+      "e\030\002 \001(\0132\020.Ydb.DecimalTypeH\000\022*\n\roptional_" +
+      "type\030e \001(\0132\021.Ydb.OptionalTypeH\000\022\"\n\tlist_" +
+      "type\030f \001(\0132\r.Ydb.ListTypeH\000\022$\n\ntuple_typ" +
+      "e\030g \001(\0132\016.Ydb.TupleTypeH\000\022&\n\013struct_type" +
+      "\030h \001(\0132\017.Ydb.StructTypeH\000\022\"\n\tdict_type\030i" +
+      " \001(\0132\r.Ydb.DictTypeH\000\022(\n\014variant_type\030j " +
+      "\001(\0132\020.Ydb.VariantTypeH\000\022&\n\013tagged_type\030k" +
+      " \001(\0132\017.Ydb.TaggedTypeH\000\0220\n\tvoid_type\030\311\001 " +
+      "\001(\0162\032.google.protobuf.NullValueH\000\0220\n\tnul" +
+      "l_type\030\312\001 \001(\0162\032.google.protobuf.NullValu" +
+      "eH\000\0226\n\017empty_list_type\030\313\001 \001(\0162\032.google.p" +
+      "rotobuf.NullValueH\000\0226\n\017empty_dict_type\030\314" +
+      "\001 \001(\0162\032.google.protobuf.NullValueH\000\"\360\002\n\017" +
+      "PrimitiveTypeId\022!\n\035PRIMITIVE_TYPE_ID_UNS" +
+      "PECIFIED\020\000\022\010\n\004BOOL\020\006\022\010\n\004INT8\020\007\022\t\n\005UINT8\020" +
+      "\005\022\t\n\005INT16\020\010\022\n\n\006UINT16\020\t\022\t\n\005INT32\020\001\022\n\n\006U" +
+      "INT32\020\002\022\t\n\005INT64\020\003\022\n\n\006UINT64\020\004\022\t\n\005FLOAT\020" +
+      "!\022\n\n\006DOUBLE\020 \022\010\n\004DATE\0200\022\014\n\010DATETIME\0201\022\r\n" +
+      "\tTIMESTAMP\0202\022\014\n\010INTERVAL\0203\022\013\n\007TZ_DATE\0204\022" +
+      "\017\n\013TZ_DATETIME\0205\022\020\n\014TZ_TIMESTAMP\0206\022\013\n\006ST" +
+      "RING\020\201 \022\t\n\004UTF8\020\200$\022\t\n\004YSON\020\201$\022\t\n\004JSON\020\202$" +
+      "\022\t\n\004UUID\020\203$\022\022\n\rJSON_DOCUMENT\020\204$\022\r\n\010DYNUM" +
+      "BER\020\202&B\006\n\004type\"A\n\tValuePair\022\027\n\003key\030\001 \001(\013" +
+      "2\n.Ydb.Value\022\033\n\007payload\030\002 \001(\0132\n.Ydb.Valu" +
+      "e\"\261\003\n\005Value\022\024\n\nbool_value\030\001 \001(\010H\000\022\025\n\013int" +
+      "32_value\030\002 \001(\017H\000\022\026\n\014uint32_value\030\003 \001(\007H\000" +
+      "\022\025\n\013int64_value\030\004 \001(\020H\000\022\026\n\014uint64_value\030" +
+      "\005 \001(\006H\000\022\025\n\013float_value\030\006 \001(\002H\000\022\026\n\014double" +
+      "_value\030\007 \001(\001H\000\022\025\n\013bytes_value\030\010 \001(\014H\000\022\024\n" +
+      "\ntext_value\030\t \001(\tH\000\0225\n\017null_flag_value\030\n" +
+      " \001(\0162\032.google.protobuf.NullValueH\000\022\"\n\014ne" +
+      "sted_value\030\013 \001(\0132\n.Ydb.ValueH\000\022\021\n\007low_12" +
+      "8\030\017 \001(\006H\000\022\031\n\005items\030\014 \003(\0132\n.Ydb.Value\022\035\n\005" +
+      "pairs\030\r \003(\0132\016.Ydb.ValuePair\022\025\n\rvariant_i" +
+      "ndex\030\016 \001(\r\022\020\n\010high_128\030\020 \001(\006B\007\n\005value\"@\n" +
+      "\nTypedValue\022\027\n\004type\030\001 \001(\0132\t.Ydb.Type\022\031\n\005" +
+      "value\030\002 \001(\0132\n.Ydb.Value\"/\n\006Column\022\014\n\004nam" +
+      "e\030\001 \001(\t\022\027\n\004type\030\002 \001(\0132\t.Ydb.Type\"V\n\tResu" +
+      "ltSet\022\034\n\007columns\030\001 \003(\0132\013.Ydb.Column\022\030\n\004r" +
+      "ows\030\002 \003(\0132\n.Ydb.Value\022\021\n\ttruncated\030\003 \001(\010" +
+      "B \n\016tech.ydbB\013ValueProtos\370\001\001b\006prot" +
+      "o3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -16250,38 +17709,44 @@ public final class ValueProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DictType_descriptor,
         new java.lang.String[] { "Key", "Payload", });
-    internal_static_Ydb_Type_descriptor =
+    internal_static_Ydb_TaggedType_descriptor =
       getDescriptor().getMessageTypes().get(8);
+    internal_static_Ydb_TaggedType_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_TaggedType_descriptor,
+        new java.lang.String[] { "Tag", "Type", });
+    internal_static_Ydb_Type_descriptor =
+      getDescriptor().getMessageTypes().get(9);
     internal_static_Ydb_Type_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Type_descriptor,
-        new java.lang.String[] { "TypeId", "DecimalType", "OptionalType", "ListType", "TupleType", "StructType", "DictType", "VariantType", "VoidType", "Type", });
+        new java.lang.String[] { "TypeId", "DecimalType", "OptionalType", "ListType", "TupleType", "StructType", "DictType", "VariantType", "TaggedType", "VoidType", "NullType", "EmptyListType", "EmptyDictType", "Type", });
     internal_static_Ydb_ValuePair_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_Ydb_ValuePair_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_ValuePair_descriptor,
         new java.lang.String[] { "Key", "Payload", });
     internal_static_Ydb_Value_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_Ydb_Value_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Value_descriptor,
         new java.lang.String[] { "BoolValue", "Int32Value", "Uint32Value", "Int64Value", "Uint64Value", "FloatValue", "DoubleValue", "BytesValue", "TextValue", "NullFlagValue", "NestedValue", "Low128", "Items", "Pairs", "VariantIndex", "High128", "Value", });
     internal_static_Ydb_TypedValue_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_Ydb_TypedValue_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_TypedValue_descriptor,
         new java.lang.String[] { "Type", "Value", });
     internal_static_Ydb_Column_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_Ydb_Column_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Column_descriptor,
         new java.lang.String[] { "Name", "Type", });
     internal_static_Ydb_ResultSet_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_Ydb_ResultSet_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_ResultSet_descriptor,
