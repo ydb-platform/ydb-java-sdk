@@ -2087,6 +2087,17 @@ public final class AnalyticsIntenalProtos {
      * @return The executeMode.
      */
     com.yandex.query.YandexQueryProtos.ExecuteMode getExecuteMode();
+
+    /**
+     * <code>.YandexQuery.StateLoadMode state_load_mode = 17;</code>
+     * @return The enum numeric value on the wire for stateLoadMode.
+     */
+    int getStateLoadModeValue();
+    /**
+     * <code>.YandexQuery.StateLoadMode state_load_mode = 17;</code>
+     * @return The stateLoadMode.
+     */
+    com.yandex.query.YandexQueryProtos.StateLoadMode getStateLoadMode();
   }
   /**
    * Protobuf type {@code Yql.Analytics.GetTaskResult}
@@ -2111,6 +2122,7 @@ public final class AnalyticsIntenalProtos {
       queryType_ = 0;
       scope_ = "";
       executeMode_ = 0;
+      stateLoadMode_ = 0;
     }
 
     @java.lang.Override
@@ -2265,6 +2277,12 @@ public final class AnalyticsIntenalProtos {
               int rawValue = input.readEnum();
 
               executeMode_ = rawValue;
+              break;
+            }
+            case 136: {
+              int rawValue = input.readEnum();
+
+              stateLoadMode_ = rawValue;
               break;
             }
             default: {
@@ -2795,6 +2813,25 @@ public final class AnalyticsIntenalProtos {
       return result == null ? com.yandex.query.YandexQueryProtos.ExecuteMode.UNRECOGNIZED : result;
     }
 
+    public static final int STATE_LOAD_MODE_FIELD_NUMBER = 17;
+    private int stateLoadMode_;
+    /**
+     * <code>.YandexQuery.StateLoadMode state_load_mode = 17;</code>
+     * @return The enum numeric value on the wire for stateLoadMode.
+     */
+    @java.lang.Override public int getStateLoadModeValue() {
+      return stateLoadMode_;
+    }
+    /**
+     * <code>.YandexQuery.StateLoadMode state_load_mode = 17;</code>
+     * @return The stateLoadMode.
+     */
+    @java.lang.Override public com.yandex.query.YandexQueryProtos.StateLoadMode getStateLoadMode() {
+      @SuppressWarnings("deprecation")
+      com.yandex.query.YandexQueryProtos.StateLoadMode result = com.yandex.query.YandexQueryProtos.StateLoadMode.valueOf(stateLoadMode_);
+      return result == null ? com.yandex.query.YandexQueryProtos.StateLoadMode.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -2856,6 +2893,9 @@ public final class AnalyticsIntenalProtos {
       }
       if (executeMode_ != com.yandex.query.YandexQueryProtos.ExecuteMode.EXECUTE_MODE_UNSPECIFIED.getNumber()) {
         output.writeEnum(16, executeMode_);
+      }
+      if (stateLoadMode_ != com.yandex.query.YandexQueryProtos.StateLoadMode.STATE_LOAD_MODE_UNSPECIFIED.getNumber()) {
+        output.writeEnum(17, stateLoadMode_);
       }
       unknownFields.writeTo(output);
     }
@@ -2925,6 +2965,10 @@ public final class AnalyticsIntenalProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(16, executeMode_);
       }
+      if (stateLoadMode_ != com.yandex.query.YandexQueryProtos.StateLoadMode.STATE_LOAD_MODE_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(17, stateLoadMode_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -2979,6 +3023,7 @@ public final class AnalyticsIntenalProtos {
       if (!getScope()
           .equals(other.getScope())) return false;
       if (executeMode_ != other.executeMode_) return false;
+      if (stateLoadMode_ != other.stateLoadMode_) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -3037,6 +3082,8 @@ public final class AnalyticsIntenalProtos {
       hash = (53 * hash) + getScope().hashCode();
       hash = (37 * hash) + EXECUTE_MODE_FIELD_NUMBER;
       hash = (53 * hash) + executeMode_;
+      hash = (37 * hash) + STATE_LOAD_MODE_FIELD_NUMBER;
+      hash = (53 * hash) + stateLoadMode_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3229,6 +3276,8 @@ public final class AnalyticsIntenalProtos {
 
         executeMode_ = 0;
 
+        stateLoadMode_ = 0;
+
         return this;
       }
 
@@ -3308,6 +3357,7 @@ public final class AnalyticsIntenalProtos {
         result.queryType_ = queryType_;
         result.scope_ = scope_;
         result.executeMode_ = executeMode_;
+        result.stateLoadMode_ = stateLoadMode_;
         onBuilt();
         return result;
       }
@@ -3477,6 +3527,9 @@ public final class AnalyticsIntenalProtos {
         }
         if (other.executeMode_ != 0) {
           setExecuteModeValue(other.getExecuteModeValue());
+        }
+        if (other.stateLoadMode_ != 0) {
+          setStateLoadModeValue(other.getStateLoadModeValue());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -5238,6 +5291,60 @@ public final class AnalyticsIntenalProtos {
       public Builder clearExecuteMode() {
         
         executeMode_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int stateLoadMode_ = 0;
+      /**
+       * <code>.YandexQuery.StateLoadMode state_load_mode = 17;</code>
+       * @return The enum numeric value on the wire for stateLoadMode.
+       */
+      @java.lang.Override public int getStateLoadModeValue() {
+        return stateLoadMode_;
+      }
+      /**
+       * <code>.YandexQuery.StateLoadMode state_load_mode = 17;</code>
+       * @param value The enum numeric value on the wire for stateLoadMode to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStateLoadModeValue(int value) {
+        
+        stateLoadMode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.YandexQuery.StateLoadMode state_load_mode = 17;</code>
+       * @return The stateLoadMode.
+       */
+      @java.lang.Override
+      public com.yandex.query.YandexQueryProtos.StateLoadMode getStateLoadMode() {
+        @SuppressWarnings("deprecation")
+        com.yandex.query.YandexQueryProtos.StateLoadMode result = com.yandex.query.YandexQueryProtos.StateLoadMode.valueOf(stateLoadMode_);
+        return result == null ? com.yandex.query.YandexQueryProtos.StateLoadMode.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.YandexQuery.StateLoadMode state_load_mode = 17;</code>
+       * @param value The stateLoadMode to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStateLoadMode(com.yandex.query.YandexQueryProtos.StateLoadMode value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        stateLoadMode_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.YandexQuery.StateLoadMode state_load_mode = 17;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStateLoadMode() {
+        
+        stateLoadMode_ = 0;
         onChanged();
         return this;
       }
@@ -17021,7 +17128,7 @@ public final class AnalyticsIntenalProtos {
       " \001(\t\022\014\n\004host\030\003 \001(\t\0229\n\020operation_params\030\004" +
       " \001(\0132\037.Ydb.Operations.OperationParams\"2\n" +
       "\016SignedIdentity\022\r\n\005value\030\001 \001(\t\022\021\n\tsignat" +
-      "ure\030\002 \001(\t\"\244\004\n\rGetTaskResult\022\020\n\010has_task\030" +
+      "ure\030\002 \001(\t\"\331\004\n\rGetTaskResult\022\020\n\010has_task\030" +
       "\001 \001(\010\0220\n\tresult_id\030\002 \001(\0132\035.Yql.Analytics" +
       ".SignedIdentity\022/\n\010query_id\030\003 \001(\0132\035.Yql." +
       "Analytics.SignedIdentity\022-\n\006job_id\030\004 \001(\013" +
@@ -17035,49 +17142,50 @@ public final class AnalyticsIntenalProtos {
       "\0227\n\nquery_type\030\016 \001(\0162#.YandexQuery.Query" +
       "Content.QueryType\022\r\n\005scope\030\017 \001(\t\022.\n\014exec" +
       "ute_mode\030\020 \001(\0162\030.YandexQuery.ExecuteMode" +
-      "\"?\n\017GetTaskResponse\022,\n\toperation\030\001 \001(\0132\031" +
-      ".Ydb.Operations.Operation\"\374\004\n\017PingTaskRe" +
-      "quest\022\020\n\010owner_id\030\001 \001(\t\022/\n\010query_id\030\002 \001(" +
-      "\0132\035.Yql.Analytics.SignedIdentity\022-\n\006job_" +
-      "id\030\003 \001(\0132\035.Yql.Analytics.SignedIdentity\022" +
-      "0\n\tresult_id\030\004 \001(\0132\035.Yql.Analytics.Signe" +
-      "dIdentity\0224\n\006status\030\005 \001(\0162$.YandexQuery." +
-      "QueryMeta.ComputeStatus\022\'\n\006issues\030\006 \003(\0132" +
-      "\027.Ydb.Issue.IssueMessage\022\030\n\020result_set_c" +
-      "ount\030\007 \001(\r\022\022\n\nstatistics\030\010 \001(\t\0223\n\017result" +
-      "_set_meta\030\t \003(\0132\032.YandexQuery.ResultSetM" +
-      "eta\022\025\n\rexecuter_info\030\n \001(\t\022\020\n\010dq_graph\030\013" +
-      " \001(\t\022\013\n\003ast\030\014 \001(\t\022\014\n\004plan\030\r \001(\t\022\024\n\014resig" +
-      "n_query\030\016 \001(\010\0229\n\020operation_params\030\017 \001(\0132" +
-      "\037.Ydb.Operations.OperationParams\022\r\n\005scop" +
-      "e\030d \001(\t\022.\n\nstarted_at\030e \001(\0132\032.google.pro" +
-      "tobuf.Timestamp\022/\n\013finished_at\030f \001(\0132\032.g" +
-      "oogle.protobuf.Timestamp\":\n\016PingTaskResu" +
-      "lt\022(\n\006action\030\001 \001(\0162\030.YandexQuery.QueryAc" +
-      "tion\"@\n\020PingTaskResponse\022,\n\toperation\030\001 " +
-      "\001(\0132\031.Ydb.Operations.Operation\"\366\001\n\026Write" +
-      "TaskResultRequest\022\020\n\010owner_id\030\001 \001(\t\0220\n\tr" +
-      "esult_id\030\002 \001(\0132\035.Yql.Analytics.SignedIde" +
-      "ntity\022\"\n\nresult_set\030\003 \001(\0132\016.Ydb.ResultSe" +
-      "t\022\025\n\rresult_set_id\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004" +
-      "\022\022\n\nrequest_id\030\006 \001(\004\0229\n\020operation_params" +
-      "\030\007 \001(\0132\037.Ydb.Operations.OperationParams\"" +
-      "+\n\025WriteTaskResultResult\022\022\n\nrequest_id\030\001" +
-      " \001(\004\"G\n\027WriteTaskResultResponse\022,\n\topera" +
-      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\264\001" +
-      "\n\027NodesHealthCheckRequest\022\016\n\006tenant\030\001 \001(" +
-      "\t\022\017\n\007node_id\030\002 \001(\r\022\023\n\013instance_id\030\003 \001(\t\022" +
-      "\020\n\010hostname\030\004 \001(\t\022\026\n\016active_workers\030\005 \001(" +
-      "\004\0229\n\020operation_params\030\006 \001(\0132\037.Ydb.Operat" +
-      "ions.OperationParams\"\233\001\n\026NodesHealthChec" +
-      "kResult\022=\n\005nodes\030\001 \003(\0132..Yql.Analytics.N" +
-      "odesHealthCheckResult.NodeInfo\032B\n\010NodeIn" +
-      "fo\022\017\n\007node_id\030\001 \001(\r\022\023\n\013instance_id\030\002 \001(\t" +
-      "\022\020\n\010hostname\030\003 \001(\t\"H\n\030NodesHealthCheckRe" +
-      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
-      "ns.OperationB>\n!com.yandex.yql.analytics" +
-      ".internalB\026AnalyticsIntenalProtos\370\001\001b\006pr" +
-      "oto3"
+      "\0223\n\017state_load_mode\030\021 \001(\0162\032.YandexQuery." +
+      "StateLoadMode\"?\n\017GetTaskResponse\022,\n\toper" +
+      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\374" +
+      "\004\n\017PingTaskRequest\022\020\n\010owner_id\030\001 \001(\t\022/\n\010" +
+      "query_id\030\002 \001(\0132\035.Yql.Analytics.SignedIde" +
+      "ntity\022-\n\006job_id\030\003 \001(\0132\035.Yql.Analytics.Si" +
+      "gnedIdentity\0220\n\tresult_id\030\004 \001(\0132\035.Yql.An" +
+      "alytics.SignedIdentity\0224\n\006status\030\005 \001(\0162$" +
+      ".YandexQuery.QueryMeta.ComputeStatus\022\'\n\006" +
+      "issues\030\006 \003(\0132\027.Ydb.Issue.IssueMessage\022\030\n" +
+      "\020result_set_count\030\007 \001(\r\022\022\n\nstatistics\030\010 " +
+      "\001(\t\0223\n\017result_set_meta\030\t \003(\0132\032.YandexQue" +
+      "ry.ResultSetMeta\022\025\n\rexecuter_info\030\n \001(\t\022" +
+      "\020\n\010dq_graph\030\013 \001(\t\022\013\n\003ast\030\014 \001(\t\022\014\n\004plan\030\r" +
+      " \001(\t\022\024\n\014resign_query\030\016 \001(\010\0229\n\020operation_" +
+      "params\030\017 \001(\0132\037.Ydb.Operations.OperationP" +
+      "arams\022\r\n\005scope\030d \001(\t\022.\n\nstarted_at\030e \001(\013" +
+      "2\032.google.protobuf.Timestamp\022/\n\013finished" +
+      "_at\030f \001(\0132\032.google.protobuf.Timestamp\":\n" +
+      "\016PingTaskResult\022(\n\006action\030\001 \001(\0162\030.Yandex" +
+      "Query.QueryAction\"@\n\020PingTaskResponse\022,\n" +
+      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
+      "ion\"\366\001\n\026WriteTaskResultRequest\022\020\n\010owner_" +
+      "id\030\001 \001(\t\0220\n\tresult_id\030\002 \001(\0132\035.Yql.Analyt" +
+      "ics.SignedIdentity\022\"\n\nresult_set\030\003 \001(\0132\016" +
+      ".Ydb.ResultSet\022\025\n\rresult_set_id\030\004 \001(\r\022\016\n" +
+      "\006offset\030\005 \001(\004\022\022\n\nrequest_id\030\006 \001(\004\0229\n\020ope" +
+      "ration_params\030\007 \001(\0132\037.Ydb.Operations.Ope" +
+      "rationParams\"+\n\025WriteTaskResultResult\022\022\n" +
+      "\nrequest_id\030\001 \001(\004\"G\n\027WriteTaskResultResp" +
+      "onse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations" +
+      ".Operation\"\264\001\n\027NodesHealthCheckRequest\022\016" +
+      "\n\006tenant\030\001 \001(\t\022\017\n\007node_id\030\002 \001(\r\022\023\n\013insta" +
+      "nce_id\030\003 \001(\t\022\020\n\010hostname\030\004 \001(\t\022\026\n\016active" +
+      "_workers\030\005 \001(\004\0229\n\020operation_params\030\006 \001(\013" +
+      "2\037.Ydb.Operations.OperationParams\"\233\001\n\026No" +
+      "desHealthCheckResult\022=\n\005nodes\030\001 \003(\0132..Yq" +
+      "l.Analytics.NodesHealthCheckResult.NodeI" +
+      "nfo\032B\n\010NodeInfo\022\017\n\007node_id\030\001 \001(\r\022\023\n\013inst" +
+      "ance_id\030\002 \001(\t\022\020\n\010hostname\030\003 \001(\t\"H\n\030Nodes" +
+      "HealthCheckResponse\022,\n\toperation\030\001 \001(\0132\031" +
+      ".Ydb.Operations.OperationB>\n!com.yandex." +
+      "yql.analytics.internalB\026AnalyticsIntenal" +
+      "Protos\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -17105,7 +17213,7 @@ public final class AnalyticsIntenalProtos {
     internal_static_Yql_Analytics_GetTaskResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetTaskResult_descriptor,
-        new java.lang.String[] { "HasTask", "ResultId", "QueryId", "JobId", "Generation", "Streaming", "DqGraph", "Text", "Connection", "Binding", "UserToken", "ServiceAccounts", "UserId", "QueryType", "Scope", "ExecuteMode", });
+        new java.lang.String[] { "HasTask", "ResultId", "QueryId", "JobId", "Generation", "Streaming", "DqGraph", "Text", "Connection", "Binding", "UserToken", "ServiceAccounts", "UserId", "QueryType", "Scope", "ExecuteMode", "StateLoadMode", });
     internal_static_Yql_Analytics_GetTaskResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_Yql_Analytics_GetTaskResponse_fieldAccessorTable = new
