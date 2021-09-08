@@ -1,20 +1,24 @@
-## 1.7.8 ##
+## 1.8.2 ##
 
-* Start initial changelog.
+* Added CloudAuthProvider for cloud authentication with environment variables
 
-## 1.7.9 ##
+## 1.8.1 ##
 
-* Disabling client query cache does not disable server-side query cache anymore.
+* Added AlterLogTable to ydb_logstore_v1.proto
+
+## 1.8.0 ##
+
+* Added fast backoff settings to SessionRetryContext. ABORTED and UNAVAILABLE status codes are retried with fast backoff now.
 
 ## 1.7.10 ##
 
 * Update junit from 4.12 to 4.13.1.
 * Update protobuf from 3.6.1 to 4.15.6.
 
-## 1.8.0 ##
+## 1.7.9 ##
 
-* Added fast backoff settings to SessionRetryContext. ABORTED and UNAVAILABLE status codes are retried with fast backoff now.
+* Disabling client query cache does not disable server-side query cache anymore.
 
-## 1.8.1 ##
+## 1.7.8 ##
 
-* Added AlterLogTable to ydb_logstore_v1.proto
+* Start initial changelog.
