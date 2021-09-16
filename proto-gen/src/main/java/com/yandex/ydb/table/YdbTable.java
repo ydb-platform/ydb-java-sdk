@@ -6069,6 +6069,16 @@ public final class YdbTable {
     com.google.protobuf.ByteString
         getDataColumnsBytes(int index);
 
+    /**
+     * <pre>
+     * Size of index data in bytes
+     * </pre>
+     *
+     * <code>uint64 size_bytes = 7;</code>
+     * @return The sizeBytes.
+     */
+    long getSizeBytes();
+
     public tech.ydb.table.YdbTable.TableIndexDescription.TypeCase getTypeCase();
   }
   /**
@@ -6181,6 +6191,11 @@ public final class YdbTable {
                 mutable_bitField0_ |= 0x00000002;
               }
               dataColumns_.add(s);
+              break;
+            }
+            case 56: {
+
+              sizeBytes_ = input.readUInt64();
               break;
             }
             default: {
@@ -6624,6 +6639,21 @@ public final class YdbTable {
       return dataColumns_.getByteString(index);
     }
 
+    public static final int SIZE_BYTES_FIELD_NUMBER = 7;
+    private long sizeBytes_;
+    /**
+     * <pre>
+     * Size of index data in bytes
+     * </pre>
+     *
+     * <code>uint64 size_bytes = 7;</code>
+     * @return The sizeBytes.
+     */
+    @java.lang.Override
+    public long getSizeBytes() {
+      return sizeBytes_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -6655,6 +6685,9 @@ public final class YdbTable {
       }
       for (int i = 0; i < dataColumns_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, dataColumns_.getRaw(i));
+      }
+      if (sizeBytes_ != 0L) {
+        output.writeUInt64(7, sizeBytes_);
       }
       unknownFields.writeTo(output);
     }
@@ -6696,6 +6729,10 @@ public final class YdbTable {
         size += dataSize;
         size += 1 * getDataColumnsList().size();
       }
+      if (sizeBytes_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(7, sizeBytes_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -6718,6 +6755,8 @@ public final class YdbTable {
       if (status_ != other.status_) return false;
       if (!getDataColumnsList()
           .equals(other.getDataColumnsList())) return false;
+      if (getSizeBytes()
+          != other.getSizeBytes()) return false;
       if (!getTypeCase().equals(other.getTypeCase())) return false;
       switch (typeCase_) {
         case 3:
@@ -6754,6 +6793,9 @@ public final class YdbTable {
         hash = (37 * hash) + DATA_COLUMNS_FIELD_NUMBER;
         hash = (53 * hash) + getDataColumnsList().hashCode();
       }
+      hash = (37 * hash) + SIZE_BYTES_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getSizeBytes());
       switch (typeCase_) {
         case 3:
           hash = (37 * hash) + GLOBAL_INDEX_FIELD_NUMBER;
@@ -6911,6 +6953,8 @@ public final class YdbTable {
 
         dataColumns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
+        sizeBytes_ = 0L;
+
         typeCase_ = 0;
         type_ = null;
         return this;
@@ -6966,6 +7010,7 @@ public final class YdbTable {
           bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.dataColumns_ = dataColumns_;
+        result.sizeBytes_ = sizeBytes_;
         result.typeCase_ = typeCase_;
         onBuilt();
         return result;
@@ -7041,6 +7086,9 @@ public final class YdbTable {
             dataColumns_.addAll(other.dataColumns_);
           }
           onChanged();
+        }
+        if (other.getSizeBytes() != 0L) {
+          setSizeBytes(other.getSizeBytes());
         }
         switch (other.getTypeCase()) {
           case GLOBAL_INDEX: {
@@ -7820,6 +7868,49 @@ public final class YdbTable {
   checkByteStringIsUtf8(value);
         ensureDataColumnsIsMutable();
         dataColumns_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private long sizeBytes_ ;
+      /**
+       * <pre>
+       * Size of index data in bytes
+       * </pre>
+       *
+       * <code>uint64 size_bytes = 7;</code>
+       * @return The sizeBytes.
+       */
+      @java.lang.Override
+      public long getSizeBytes() {
+        return sizeBytes_;
+      }
+      /**
+       * <pre>
+       * Size of index data in bytes
+       * </pre>
+       *
+       * <code>uint64 size_bytes = 7;</code>
+       * @param value The sizeBytes to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSizeBytes(long value) {
+        
+        sizeBytes_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Size of index data in bytes
+       * </pre>
+       *
+       * <code>uint64 size_bytes = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSizeBytes() {
+        
+        sizeBytes_ = 0L;
         onChanged();
         return this;
       }
@@ -111443,402 +111534,402 @@ public final class YdbTable {
       "ndex\030\003 \001(\0132\026.Ydb.Table.GlobalIndexH\000\0229\n\022" +
       "global_async_index\030\004 \001(\0132\033.Ydb.Table.Glo" +
       "balAsyncIndexH\000\022\024\n\014data_columns\030\005 \003(\tB\006\n" +
-      "\004type\"\307\002\n\025TableIndexDescription\022\014\n\004name\030" +
+      "\004type\"\333\002\n\025TableIndexDescription\022\014\n\004name\030" +
       "\001 \001(\t\022\025\n\rindex_columns\030\002 \003(\t\022.\n\014global_i" +
       "ndex\030\003 \001(\0132\026.Ydb.Table.GlobalIndexH\000\0229\n\022" +
       "global_async_index\030\005 \001(\0132\033.Ydb.Table.Glo" +
       "balAsyncIndexH\000\0227\n\006status\030\004 \001(\0162\'.Ydb.Ta" +
       "ble.TableIndexDescription.Status\022\024\n\014data" +
-      "_columns\030\006 \003(\t\"G\n\006Status\022\026\n\022STATUS_UNSPE" +
-      "CIFIED\020\000\022\020\n\014STATUS_READY\020\001\022\023\n\017STATUS_BUI" +
-      "LDING\020\002B\006\n\004type\"\335\001\n\017IndexBuildState\"\311\001\n\005" +
-      "State\022\025\n\021STATE_UNSPECIFIED\020\000\022\023\n\017STATE_PR" +
-      "EPARING\020\001\022\032\n\026STATE_TRANSFERING_DATA\020\002\022\022\n" +
-      "\016STATE_APPLYING\020\003\022\016\n\nSTATE_DONE\020\004\022\026\n\022STA" +
-      "TE_CANCELLATION\020\005\022\023\n\017STATE_CANCELLED\020\006\022\023" +
-      "\n\017STATE_REJECTION\020\007\022\022\n\016STATE_REJECTED\020\010\"" +
-      "K\n\025IndexBuildDescription\022\014\n\004path\030\001 \001(\t\022$" +
-      "\n\005index\030\002 \001(\0132\025.Ydb.Table.TableIndex\"\216\001\n" +
-      "\022IndexBuildMetadata\0225\n\013description\030\001 \001(\013" +
-      "2 .Ydb.Table.IndexBuildDescription\022/\n\005st" +
-      "ate\030\002 \001(\0162 .Ydb.Table.IndexBuildState.St" +
-      "ate\022\020\n\010progress\030\003 \001(\002\"\034\n\013StoragePool\022\r\n\005" +
-      "media\030\001 \001(\t\"\252\002\n\rStoragePolicy\022\023\n\013preset_" +
-      "name\030\001 \001(\t\022&\n\006syslog\030\002 \001(\0132\026.Ydb.Table.S" +
-      "toragePool\022#\n\003log\030\003 \001(\0132\026.Ydb.Table.Stor" +
-      "agePool\022$\n\004data\030\004 \001(\0132\026.Ydb.Table.Storag" +
-      "ePool\022(\n\010external\030\005 \001(\0132\026.Ydb.Table.Stor" +
-      "agePool\022/\n\016keep_in_memory\030\006 \001(\0162\027.Ydb.Fe" +
-      "atureFlag.Status\0226\n\017column_families\030\007 \003(" +
-      "\0132\035.Ydb.Table.ColumnFamilyPolicy\"\261\002\n\022Col" +
-      "umnFamilyPolicy\022\014\n\004name\030\001 \001(\t\022$\n\004data\030\002 " +
-      "\001(\0132\026.Ydb.Table.StoragePool\022(\n\010external\030" +
-      "\003 \001(\0132\026.Ydb.Table.StoragePool\022/\n\016keep_in" +
-      "_memory\030\004 \001(\0162\027.Ydb.FeatureFlag.Status\022>" +
-      "\n\013compression\030\005 \001(\0162).Ydb.Table.ColumnFa" +
-      "milyPolicy.Compression\"L\n\013Compression\022\033\n" +
-      "\027COMPRESSION_UNSPECIFIED\020\000\022\020\n\014UNCOMPRESS" +
-      "ED\020\001\022\016\n\nCOMPRESSED\020\002\"\'\n\020CompactionPolicy" +
-      "\022\023\n\013preset_name\030\001 \001(\t\";\n\022ExplicitPartiti" +
-      "ons\022%\n\014split_points\030\001 \003(\0132\017.Ydb.TypedVal" +
-      "ue\";\n\016PartitionStats\022\025\n\rrows_estimate\030\001 " +
-      "\001(\004\022\022\n\nstore_size\030\002 \001(\004\"\351\001\n\nTableStats\0222" +
-      "\n\017partition_stats\030\001 \003(\0132\031.Ydb.Table.Part" +
-      "itionStats\022\025\n\rrows_estimate\030\002 \001(\004\022\022\n\nsto" +
-      "re_size\030\003 \001(\004\022\022\n\npartitions\030\004 \001(\004\0221\n\rcre" +
-      "ation_time\030\005 \001(\0132\032.google.protobuf.Times" +
-      "tamp\0225\n\021modification_time\030\006 \001(\0132\032.google" +
-      ".protobuf.Timestamp\"\334\002\n\022PartitioningPoli" +
-      "cy\022\023\n\013preset_name\030\001 \001(\t\022O\n\021auto_partitio" +
-      "ning\030\002 \001(\01624.Ydb.Table.PartitioningPolic" +
-      "y.AutoPartitioningPolicy\022\034\n\022uniform_part" +
-      "itions\030\003 \001(\004H\000\022<\n\023explicit_partitions\030\004 " +
-      "\001(\0132\035.Ydb.Table.ExplicitPartitionsH\000\"v\n\026" +
-      "AutoPartitioningPolicy\022(\n$AUTO_PARTITION" +
-      "ING_POLICY_UNSPECIFIED\020\000\022\014\n\010DISABLED\020\001\022\016" +
-      "\n\nAUTO_SPLIT\020\002\022\024\n\020AUTO_SPLIT_MERGE\020\003B\014\n\n" +
-      "partitions\"&\n\017ExecutionPolicy\022\023\n\013preset_" +
-      "name\030\001 \001(\t\"\261\001\n\021ReplicationPolicy\022\023\n\013pres" +
-      "et_name\030\001 \001(\t\022\026\n\016replicas_count\030\002 \001(\r\022=\n" +
-      "\034create_per_availability_zone\030\003 \001(\0162\027.Yd" +
-      "b.FeatureFlag.Status\0220\n\017allow_promotion\030" +
-      "\004 \001(\0162\027.Ydb.FeatureFlag.Status\"$\n\rCachin" +
-      "gPolicy\022\023\n\013preset_name\030\001 \001(\t\"\353\002\n\014TablePr" +
-      "ofile\022\023\n\013preset_name\030\001 \001(\t\0220\n\016storage_po" +
-      "licy\030\002 \001(\0132\030.Ydb.Table.StoragePolicy\0226\n\021" +
-      "compaction_policy\030\003 \001(\0132\033.Ydb.Table.Comp" +
-      "actionPolicy\022:\n\023partitioning_policy\030\004 \001(" +
-      "\0132\035.Ydb.Table.PartitioningPolicy\0224\n\020exec" +
-      "ution_policy\030\005 \001(\0132\032.Ydb.Table.Execution" +
-      "Policy\0228\n\022replication_policy\030\006 \001(\0132\034.Ydb" +
-      ".Table.ReplicationPolicy\0220\n\016caching_poli" +
-      "cy\030\007 \001(\0132\030.Ydb.Table.CachingPolicy\"C\n\nCo" +
-      "lumnMeta\022\014\n\004name\030\001 \001(\t\022\027\n\004type\030\002 \001(\0132\t.Y" +
-      "db.Type\022\016\n\006family\030\003 \001(\t\"O\n\032DateTypeColum" +
-      "nModeSettings\022\023\n\013column_name\030\001 \001(\t\022\034\n\024ex" +
-      "pire_after_seconds\030\002 \001(\r\"\216\002\n\037ValueSinceU" +
-      "nixEpochModeSettings\022\023\n\013column_name\030\001 \001(" +
-      "\t\022D\n\013column_unit\030\002 \001(\0162/.Ydb.Table.Value" +
-      "SinceUnixEpochModeSettings.Unit\022\034\n\024expir" +
-      "e_after_seconds\030\003 \001(\r\"r\n\004Unit\022\024\n\020UNIT_UN" +
-      "SPECIFIED\020\000\022\020\n\014UNIT_SECONDS\020\001\022\025\n\021UNIT_MI" +
-      "LLISECONDS\020\002\022\025\n\021UNIT_MICROSECONDS\020\003\022\024\n\020U" +
-      "NIT_NANOSECONDS\020\004\"\246\001\n\013TtlSettings\022A\n\020dat" +
-      "e_type_column\030\001 \001(\0132%.Ydb.Table.DateType" +
-      "ColumnModeSettingsH\000\022L\n\026value_since_unix" +
-      "_epoch\030\002 \001(\0132*.Ydb.Table.ValueSinceUnixE" +
-      "pochModeSettingsH\000B\006\n\004mode\"\332\001\n\017StorageSe" +
-      "ttings\0222\n\022tablet_commit_log0\030\001 \001(\0132\026.Ydb" +
-      ".Table.StoragePool\0222\n\022tablet_commit_log1" +
-      "\030\002 \001(\0132\026.Ydb.Table.StoragePool\022(\n\010extern" +
-      "al\030\004 \001(\0132\026.Ydb.Table.StoragePool\0225\n\024stor" +
-      "e_external_blobs\030\005 \001(\0162\027.Ydb.FeatureFlag" +
-      ".Status\"\204\002\n\014ColumnFamily\022\014\n\004name\030\001 \001(\t\022$" +
-      "\n\004data\030\002 \001(\0132\026.Ydb.Table.StoragePool\0228\n\013" +
-      "compression\030\003 \001(\0162#.Ydb.Table.ColumnFami" +
-      "ly.Compression\022/\n\016keep_in_memory\030\004 \001(\0162\027" +
-      ".Ydb.FeatureFlag.Status\"U\n\013Compression\022\033" +
-      "\n\027COMPRESSION_UNSPECIFIED\020\000\022\024\n\020COMPRESSI" +
-      "ON_NONE\020\001\022\023\n\017COMPRESSION_LZ4\020\002\"\347\001\n\024Parti" +
-      "tioningSettings\0225\n\024partitioning_by_size\030" +
-      "\002 \001(\0162\027.Ydb.FeatureFlag.Status\022\031\n\021partit" +
-      "ion_size_mb\030\003 \001(\004\0225\n\024partitioning_by_loa" +
-      "d\030\004 \001(\0162\027.Ydb.FeatureFlag.Status\022\034\n\024min_" +
-      "partitions_count\030\006 \001(\004\022\034\n\024max_partitions" +
-      "_count\030\007 \001(\004J\004\010\001\020\002J\004\010\005\020\006\"C\n\026AzReadReplic" +
-      "asSettings\022\014\n\004name\030\001 \001(\t\022\033\n\023read_replica" +
-      "s_count\030\002 \001(\004\"_\n\027ClusterReplicasSettings" +
-      "\022D\n\031az_read_replicas_settings\030\002 \003(\0132!.Yd" +
-      "b.Table.AzReadReplicasSettings\"t\n\024ReadRe" +
-      "plicasSettings\022$\n\032per_az_read_replicas_c" +
-      "ount\030\001 \001(\004H\000\022$\n\032any_az_read_replicas_cou" +
-      "nt\030\002 \001(\004H\000B\n\n\010settingsJ\004\010\003\020\004\"\334\006\n\022CreateT" +
-      "ableRequest\022\022\n\nsession_id\030\001 \001(\t\022\014\n\004path\030" +
-      "\002 \001(\t\022&\n\007columns\030\003 \003(\0132\025.Ydb.Table.Colum" +
-      "nMeta\022\023\n\013primary_key\030\004 \003(\t\022(\n\007profile\030\005 " +
-      "\001(\0132\027.Ydb.Table.TableProfile\0229\n\020operatio" +
-      "n_params\030\006 \001(\0132\037.Ydb.Operations.Operatio" +
-      "nParams\022&\n\007indexes\030\007 \003(\0132\025.Ydb.Table.Tab" +
-      "leIndex\022,\n\014ttl_settings\030\010 \001(\0132\026.Ydb.Tabl" +
-      "e.TtlSettings\0224\n\020storage_settings\030\t \001(\0132" +
-      "\032.Ydb.Table.StorageSettings\0220\n\017column_fa" +
-      "milies\030\n \003(\0132\027.Ydb.Table.ColumnFamily\022Z\n" +
-      "\nattributes\030\013 \003(\0132-.Ydb.Table.CreateTabl" +
-      "eRequest.AttributesEntryB\027\252\346*\010\n\006\n\004\010\001\020d\242\346" +
-      "*\007\n\005\010\001\020\200 \022\031\n\021compaction_policy\030\014 \001(\t\022\034\n\022" +
-      "uniform_partitions\030\r \001(\004H\000\022:\n\021partition_" +
-      "at_keys\030\016 \001(\0132\035.Ydb.Table.ExplicitPartit" +
-      "ionsH\000\022>\n\025partitioning_settings\030\017 \001(\0132\037." +
-      "Ydb.Table.PartitioningSettings\0221\n\020key_bl" +
-      "oom_filter\030\020 \001(\0162\027.Ydb.FeatureFlag.Statu" +
-      "s\022?\n\026read_replicas_settings\030\021 \001(\0132\037.Ydb." +
-      "Table.ReadReplicasSettings\0321\n\017Attributes" +
-      "Entry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\014\n" +
-      "\npartitions\"C\n\023CreateTableResponse\022,\n\top" +
-      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
-      "\"u\n\020DropTableRequest\022\022\n\nsession_id\030\001 \001(\t" +
-      "\022\014\n\004path\030\002 \001(\t\0229\n\020operation_params\030\004 \001(\013" +
-      "2\037.Ydb.Operations.OperationParamsJ\004\010\003\020\004\"" +
-      "A\n\021DropTableResponse\022,\n\toperation\030\001 \001(\0132" +
-      "\031.Ydb.Operations.Operation\"\276\007\n\021AlterTabl" +
-      "eRequest\022\022\n\nsession_id\030\001 \001(\t\022\014\n\004path\030\002 \001" +
-      "(\t\022*\n\013add_columns\030\003 \003(\0132\025.Ydb.Table.Colu" +
-      "mnMeta\022\024\n\014drop_columns\030\004 \003(\t\0229\n\020operatio" +
-      "n_params\030\005 \001(\0132\037.Ydb.Operations.Operatio" +
-      "nParams\022,\n\ralter_columns\030\006 \003(\0132\025.Ydb.Tab" +
-      "le.ColumnMeta\0222\n\020set_ttl_settings\030\007 \001(\0132" +
-      "\026.Ydb.Table.TtlSettingsH\000\0223\n\021drop_ttl_se" +
-      "ttings\030\010 \001(\0132\026.google.protobuf.EmptyH\000\022*" +
-      "\n\013add_indexes\030\t \003(\0132\025.Ydb.Table.TableInd" +
-      "ex\022\024\n\014drop_indexes\030\n \003(\t\022:\n\026alter_storag" +
-      "e_settings\030\013 \001(\0132\032.Ydb.Table.StorageSett" +
-      "ings\0224\n\023add_column_families\030\014 \003(\0132\027.Ydb." +
-      "Table.ColumnFamily\0226\n\025alter_column_famil" +
-      "ies\030\r \003(\0132\027.Ydb.Table.ColumnFamily\022`\n\020al" +
-      "ter_attributes\030\016 \003(\01321.Ydb.Table.AlterTa" +
-      "bleRequest.AlterAttributesEntryB\023\252\346*\010\n\006\n" +
-      "\004\010\001\020d\242\346*\003\030\200 \022\035\n\025set_compaction_policy\030\017 " +
-      "\001(\t\022D\n\033alter_partitioning_settings\030\020 \001(\013" +
-      "2\037.Ydb.Table.PartitioningSettings\0225\n\024set" +
-      "_key_bloom_filter\030\021 \001(\0162\027.Ydb.FeatureFla" +
-      "g.Status\022C\n\032set_read_replicas_settings\030\022" +
-      " \001(\0132\037.Ydb.Table.ReadReplicasSettings\0326\n" +
-      "\024AlterAttributesEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005va" +
-      "lue\030\002 \001(\t:\0028\001B\014\n\nttl_action\"B\n\022AlterTabl" +
-      "eResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
-      "tions.Operation\"\220\001\n\020CopyTableRequest\022\022\n\n" +
-      "session_id\030\001 \001(\t\022\023\n\013source_path\030\002 \001(\t\022\030\n" +
-      "\020destination_path\030\003 \001(\t\0229\n\020operation_par" +
-      "ams\030\004 \001(\0132\037.Ydb.Operations.OperationPara" +
-      "ms\"A\n\021CopyTableResponse\022,\n\toperation\030\001 \001" +
-      "(\0132\031.Ydb.Operations.Operation\"T\n\rCopyTab" +
-      "leItem\022\023\n\013source_path\030\001 \001(\t\022\030\n\020destinati" +
-      "on_path\030\002 \001(\t\022\024\n\014omit_indexes\030\003 \001(\010\"\214\001\n\021" +
-      "CopyTablesRequest\0229\n\020operation_params\030\001 " +
-      "\001(\0132\037.Ydb.Operations.OperationParams\022\022\n\n" +
-      "session_id\030\002 \001(\t\022(\n\006tables\030\003 \003(\0132\030.Ydb.T" +
-      "able.CopyTableItem\"B\n\022CopyTablesResponse" +
+      "_columns\030\006 \003(\t\022\022\n\nsize_bytes\030\007 \001(\004\"G\n\006St" +
+      "atus\022\026\n\022STATUS_UNSPECIFIED\020\000\022\020\n\014STATUS_R" +
+      "EADY\020\001\022\023\n\017STATUS_BUILDING\020\002B\006\n\004type\"\335\001\n\017" +
+      "IndexBuildState\"\311\001\n\005State\022\025\n\021STATE_UNSPE" +
+      "CIFIED\020\000\022\023\n\017STATE_PREPARING\020\001\022\032\n\026STATE_T" +
+      "RANSFERING_DATA\020\002\022\022\n\016STATE_APPLYING\020\003\022\016\n" +
+      "\nSTATE_DONE\020\004\022\026\n\022STATE_CANCELLATION\020\005\022\023\n" +
+      "\017STATE_CANCELLED\020\006\022\023\n\017STATE_REJECTION\020\007\022" +
+      "\022\n\016STATE_REJECTED\020\010\"K\n\025IndexBuildDescrip" +
+      "tion\022\014\n\004path\030\001 \001(\t\022$\n\005index\030\002 \001(\0132\025.Ydb." +
+      "Table.TableIndex\"\216\001\n\022IndexBuildMetadata\022" +
+      "5\n\013description\030\001 \001(\0132 .Ydb.Table.IndexBu" +
+      "ildDescription\022/\n\005state\030\002 \001(\0162 .Ydb.Tabl" +
+      "e.IndexBuildState.State\022\020\n\010progress\030\003 \001(" +
+      "\002\"\034\n\013StoragePool\022\r\n\005media\030\001 \001(\t\"\252\002\n\rStor" +
+      "agePolicy\022\023\n\013preset_name\030\001 \001(\t\022&\n\006syslog" +
+      "\030\002 \001(\0132\026.Ydb.Table.StoragePool\022#\n\003log\030\003 " +
+      "\001(\0132\026.Ydb.Table.StoragePool\022$\n\004data\030\004 \001(" +
+      "\0132\026.Ydb.Table.StoragePool\022(\n\010external\030\005 " +
+      "\001(\0132\026.Ydb.Table.StoragePool\022/\n\016keep_in_m" +
+      "emory\030\006 \001(\0162\027.Ydb.FeatureFlag.Status\0226\n\017" +
+      "column_families\030\007 \003(\0132\035.Ydb.Table.Column" +
+      "FamilyPolicy\"\261\002\n\022ColumnFamilyPolicy\022\014\n\004n" +
+      "ame\030\001 \001(\t\022$\n\004data\030\002 \001(\0132\026.Ydb.Table.Stor" +
+      "agePool\022(\n\010external\030\003 \001(\0132\026.Ydb.Table.St" +
+      "oragePool\022/\n\016keep_in_memory\030\004 \001(\0162\027.Ydb." +
+      "FeatureFlag.Status\022>\n\013compression\030\005 \001(\0162" +
+      ").Ydb.Table.ColumnFamilyPolicy.Compressi" +
+      "on\"L\n\013Compression\022\033\n\027COMPRESSION_UNSPECI" +
+      "FIED\020\000\022\020\n\014UNCOMPRESSED\020\001\022\016\n\nCOMPRESSED\020\002" +
+      "\"\'\n\020CompactionPolicy\022\023\n\013preset_name\030\001 \001(" +
+      "\t\";\n\022ExplicitPartitions\022%\n\014split_points\030" +
+      "\001 \003(\0132\017.Ydb.TypedValue\";\n\016PartitionStats" +
+      "\022\025\n\rrows_estimate\030\001 \001(\004\022\022\n\nstore_size\030\002 " +
+      "\001(\004\"\351\001\n\nTableStats\0222\n\017partition_stats\030\001 " +
+      "\003(\0132\031.Ydb.Table.PartitionStats\022\025\n\rrows_e" +
+      "stimate\030\002 \001(\004\022\022\n\nstore_size\030\003 \001(\004\022\022\n\npar" +
+      "titions\030\004 \001(\004\0221\n\rcreation_time\030\005 \001(\0132\032.g" +
+      "oogle.protobuf.Timestamp\0225\n\021modification" +
+      "_time\030\006 \001(\0132\032.google.protobuf.Timestamp\"" +
+      "\334\002\n\022PartitioningPolicy\022\023\n\013preset_name\030\001 " +
+      "\001(\t\022O\n\021auto_partitioning\030\002 \001(\01624.Ydb.Tab" +
+      "le.PartitioningPolicy.AutoPartitioningPo" +
+      "licy\022\034\n\022uniform_partitions\030\003 \001(\004H\000\022<\n\023ex" +
+      "plicit_partitions\030\004 \001(\0132\035.Ydb.Table.Expl" +
+      "icitPartitionsH\000\"v\n\026AutoPartitioningPoli" +
+      "cy\022(\n$AUTO_PARTITIONING_POLICY_UNSPECIFI" +
+      "ED\020\000\022\014\n\010DISABLED\020\001\022\016\n\nAUTO_SPLIT\020\002\022\024\n\020AU" +
+      "TO_SPLIT_MERGE\020\003B\014\n\npartitions\"&\n\017Execut" +
+      "ionPolicy\022\023\n\013preset_name\030\001 \001(\t\"\261\001\n\021Repli" +
+      "cationPolicy\022\023\n\013preset_name\030\001 \001(\t\022\026\n\016rep" +
+      "licas_count\030\002 \001(\r\022=\n\034create_per_availabi" +
+      "lity_zone\030\003 \001(\0162\027.Ydb.FeatureFlag.Status" +
+      "\0220\n\017allow_promotion\030\004 \001(\0162\027.Ydb.FeatureF" +
+      "lag.Status\"$\n\rCachingPolicy\022\023\n\013preset_na" +
+      "me\030\001 \001(\t\"\353\002\n\014TableProfile\022\023\n\013preset_name" +
+      "\030\001 \001(\t\0220\n\016storage_policy\030\002 \001(\0132\030.Ydb.Tab" +
+      "le.StoragePolicy\0226\n\021compaction_policy\030\003 " +
+      "\001(\0132\033.Ydb.Table.CompactionPolicy\022:\n\023part" +
+      "itioning_policy\030\004 \001(\0132\035.Ydb.Table.Partit" +
+      "ioningPolicy\0224\n\020execution_policy\030\005 \001(\0132\032" +
+      ".Ydb.Table.ExecutionPolicy\0228\n\022replicatio" +
+      "n_policy\030\006 \001(\0132\034.Ydb.Table.ReplicationPo" +
+      "licy\0220\n\016caching_policy\030\007 \001(\0132\030.Ydb.Table" +
+      ".CachingPolicy\"C\n\nColumnMeta\022\014\n\004name\030\001 \001" +
+      "(\t\022\027\n\004type\030\002 \001(\0132\t.Ydb.Type\022\016\n\006family\030\003 " +
+      "\001(\t\"O\n\032DateTypeColumnModeSettings\022\023\n\013col" +
+      "umn_name\030\001 \001(\t\022\034\n\024expire_after_seconds\030\002" +
+      " \001(\r\"\216\002\n\037ValueSinceUnixEpochModeSettings" +
+      "\022\023\n\013column_name\030\001 \001(\t\022D\n\013column_unit\030\002 \001" +
+      "(\0162/.Ydb.Table.ValueSinceUnixEpochModeSe" +
+      "ttings.Unit\022\034\n\024expire_after_seconds\030\003 \001(" +
+      "\r\"r\n\004Unit\022\024\n\020UNIT_UNSPECIFIED\020\000\022\020\n\014UNIT_" +
+      "SECONDS\020\001\022\025\n\021UNIT_MILLISECONDS\020\002\022\025\n\021UNIT" +
+      "_MICROSECONDS\020\003\022\024\n\020UNIT_NANOSECONDS\020\004\"\246\001" +
+      "\n\013TtlSettings\022A\n\020date_type_column\030\001 \001(\0132" +
+      "%.Ydb.Table.DateTypeColumnModeSettingsH\000" +
+      "\022L\n\026value_since_unix_epoch\030\002 \001(\0132*.Ydb.T" +
+      "able.ValueSinceUnixEpochModeSettingsH\000B\006" +
+      "\n\004mode\"\332\001\n\017StorageSettings\0222\n\022tablet_com" +
+      "mit_log0\030\001 \001(\0132\026.Ydb.Table.StoragePool\0222" +
+      "\n\022tablet_commit_log1\030\002 \001(\0132\026.Ydb.Table.S" +
+      "toragePool\022(\n\010external\030\004 \001(\0132\026.Ydb.Table" +
+      ".StoragePool\0225\n\024store_external_blobs\030\005 \001" +
+      "(\0162\027.Ydb.FeatureFlag.Status\"\204\002\n\014ColumnFa" +
+      "mily\022\014\n\004name\030\001 \001(\t\022$\n\004data\030\002 \001(\0132\026.Ydb.T" +
+      "able.StoragePool\0228\n\013compression\030\003 \001(\0162#." +
+      "Ydb.Table.ColumnFamily.Compression\022/\n\016ke" +
+      "ep_in_memory\030\004 \001(\0162\027.Ydb.FeatureFlag.Sta" +
+      "tus\"U\n\013Compression\022\033\n\027COMPRESSION_UNSPEC" +
+      "IFIED\020\000\022\024\n\020COMPRESSION_NONE\020\001\022\023\n\017COMPRES" +
+      "SION_LZ4\020\002\"\347\001\n\024PartitioningSettings\0225\n\024p" +
+      "artitioning_by_size\030\002 \001(\0162\027.Ydb.FeatureF" +
+      "lag.Status\022\031\n\021partition_size_mb\030\003 \001(\004\0225\n" +
+      "\024partitioning_by_load\030\004 \001(\0162\027.Ydb.Featur" +
+      "eFlag.Status\022\034\n\024min_partitions_count\030\006 \001" +
+      "(\004\022\034\n\024max_partitions_count\030\007 \001(\004J\004\010\001\020\002J\004" +
+      "\010\005\020\006\"C\n\026AzReadReplicasSettings\022\014\n\004name\030\001" +
+      " \001(\t\022\033\n\023read_replicas_count\030\002 \001(\004\"_\n\027Clu" +
+      "sterReplicasSettings\022D\n\031az_read_replicas" +
+      "_settings\030\002 \003(\0132!.Ydb.Table.AzReadReplic" +
+      "asSettings\"t\n\024ReadReplicasSettings\022$\n\032pe" +
+      "r_az_read_replicas_count\030\001 \001(\004H\000\022$\n\032any_" +
+      "az_read_replicas_count\030\002 \001(\004H\000B\n\n\010settin" +
+      "gsJ\004\010\003\020\004\"\334\006\n\022CreateTableRequest\022\022\n\nsessi" +
+      "on_id\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\022&\n\007columns\030\003 \003" +
+      "(\0132\025.Ydb.Table.ColumnMeta\022\023\n\013primary_key" +
+      "\030\004 \003(\t\022(\n\007profile\030\005 \001(\0132\027.Ydb.Table.Tabl" +
+      "eProfile\0229\n\020operation_params\030\006 \001(\0132\037.Ydb" +
+      ".Operations.OperationParams\022&\n\007indexes\030\007" +
+      " \003(\0132\025.Ydb.Table.TableIndex\022,\n\014ttl_setti" +
+      "ngs\030\010 \001(\0132\026.Ydb.Table.TtlSettings\0224\n\020sto" +
+      "rage_settings\030\t \001(\0132\032.Ydb.Table.StorageS" +
+      "ettings\0220\n\017column_families\030\n \003(\0132\027.Ydb.T" +
+      "able.ColumnFamily\022Z\n\nattributes\030\013 \003(\0132-." +
+      "Ydb.Table.CreateTableRequest.AttributesE" +
+      "ntryB\027\252\346*\010\n\006\n\004\010\001\020d\242\346*\007\n\005\010\001\020\200 \022\031\n\021compact" +
+      "ion_policy\030\014 \001(\t\022\034\n\022uniform_partitions\030\r" +
+      " \001(\004H\000\022:\n\021partition_at_keys\030\016 \001(\0132\035.Ydb." +
+      "Table.ExplicitPartitionsH\000\022>\n\025partitioni" +
+      "ng_settings\030\017 \001(\0132\037.Ydb.Table.Partitioni" +
+      "ngSettings\0221\n\020key_bloom_filter\030\020 \001(\0162\027.Y" +
+      "db.FeatureFlag.Status\022?\n\026read_replicas_s" +
+      "ettings\030\021 \001(\0132\037.Ydb.Table.ReadReplicasSe" +
+      "ttings\0321\n\017AttributesEntry\022\013\n\003key\030\001 \001(\t\022\r" +
+      "\n\005value\030\002 \001(\t:\0028\001B\014\n\npartitions\"C\n\023Creat" +
+      "eTableResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
+      "Operations.Operation\"u\n\020DropTableRequest" +
+      "\022\022\n\nsession_id\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\0229\n\020op" +
+      "eration_params\030\004 \001(\0132\037.Ydb.Operations.Op" +
+      "erationParamsJ\004\010\003\020\004\"A\n\021DropTableResponse" +
       "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
-      "ration\"]\n\017RenameTableItem\022\023\n\013source_path" +
-      "\030\001 \001(\t\022\030\n\020destination_path\030\002 \001(\t\022\033\n\023repl" +
-      "ace_destination\030\003 \001(\010\"\220\001\n\023RenameTablesRe" +
-      "quest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Op" +
-      "erations.OperationParams\022\022\n\nsession_id\030\002" +
-      " \001(\t\022*\n\006tables\030\003 \003(\0132\032.Ydb.Table.RenameT" +
-      "ableItem\"D\n\024RenameTablesResponse\022,\n\toper" +
-      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\323" +
-      "\001\n\024DescribeTableRequest\022\022\n\nsession_id\030\001 " +
-      "\001(\t\022\014\n\004path\030\002 \001(\t\0229\n\020operation_params\030\004 " +
-      "\001(\0132\037.Ydb.Operations.OperationParams\022 \n\030" +
-      "include_shard_key_bounds\030\005 \001(\010\022\033\n\023includ" +
-      "e_table_stats\030\006 \001(\010\022\037\n\027include_partition" +
-      "_stats\030\007 \001(\010\"E\n\025DescribeTableResponse\022,\n" +
-      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
-      "ion\"\304\005\n\023DescribeTableResult\022\037\n\004self\030\001 \001(" +
-      "\0132\021.Ydb.Scheme.Entry\022&\n\007columns\030\002 \003(\0132\025." +
-      "Ydb.Table.ColumnMeta\022\023\n\013primary_key\030\003 \003(" +
-      "\t\022)\n\020shard_key_bounds\030\004 \003(\0132\017.Ydb.TypedV" +
-      "alue\0221\n\007indexes\030\005 \003(\0132 .Ydb.Table.TableI" +
-      "ndexDescription\022*\n\013table_stats\030\006 \001(\0132\025.Y" +
-      "db.Table.TableStats\022,\n\014ttl_settings\030\007 \001(" +
-      "\0132\026.Ydb.Table.TtlSettings\0224\n\020storage_set" +
-      "tings\030\010 \001(\0132\032.Ydb.Table.StorageSettings\022" +
-      "0\n\017column_families\030\t \003(\0132\027.Ydb.Table.Col" +
-      "umnFamily\022B\n\nattributes\030\n \003(\0132..Ydb.Tabl" +
-      "e.DescribeTableResult.AttributesEntry\022>\n" +
-      "\025partitioning_settings\030\014 \001(\0132\037.Ydb.Table" +
-      ".PartitioningSettings\0221\n\020key_bloom_filte" +
-      "r\030\r \001(\0162\027.Ydb.FeatureFlag.Status\022?\n\026read" +
-      "_replicas_settings\030\016 \001(\0132\037.Ydb.Table.Rea" +
-      "dReplicasSettings\0321\n\017AttributesEntry\022\013\n\003" +
-      "key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001J\004\010\013\020\014\"2\n\005Qu" +
-      "ery\022\022\n\010yql_text\030\001 \001(\tH\000\022\014\n\002id\030\002 \001(\tH\000B\007\n" +
-      "\005query\"\032\n\030SerializableModeSettings\"6\n\022On" +
-      "lineModeSettings\022 \n\030allow_inconsistent_r" +
-      "eads\030\001 \001(\010\"\023\n\021StaleModeSettings\"\334\001\n\023Tran" +
-      "sactionSettings\022F\n\027serializable_read_wri" +
-      "te\030\001 \001(\0132#.Ydb.Table.SerializableModeSet" +
-      "tingsH\000\0229\n\020online_read_only\030\002 \001(\0132\035.Ydb." +
-      "Table.OnlineModeSettingsH\000\0227\n\017stale_read" +
-      "_only\030\003 \001(\0132\034.Ydb.Table.StaleModeSetting" +
-      "sH\000B\t\n\007tx_mode\"{\n\022TransactionControl\022\017\n\005" +
-      "tx_id\030\001 \001(\tH\000\0222\n\010begin_tx\030\002 \001(\0132\036.Ydb.Ta" +
-      "ble.TransactionSettingsH\000\022\021\n\tcommit_tx\030\n" +
-      " \001(\010B\r\n\013tx_selector\")\n\020QueryCachePolicy\022" +
-      "\025\n\rkeep_in_cache\030\001 \001(\010\"\222\001\n\024QueryStatsCol" +
-      "lection\"z\n\004Mode\022 \n\034STATS_COLLECTION_UNSP" +
-      "ECIFIED\020\000\022\031\n\025STATS_COLLECTION_NONE\020\001\022\032\n\026" +
-      "STATS_COLLECTION_BASIC\020\002\022\031\n\025STATS_COLLEC" +
-      "TION_FULL\020\003\"\276\003\n\027ExecuteDataQueryRequest\022" +
-      "\022\n\nsession_id\030\001 \001(\t\0221\n\ntx_control\030\002 \001(\0132" +
-      "\035.Ydb.Table.TransactionControl\022\037\n\005query\030" +
-      "\003 \001(\0132\020.Ydb.Table.Query\022F\n\nparameters\030\004 " +
-      "\003(\01322.Ydb.Table.ExecuteDataQueryRequest." +
-      "ParametersEntry\0227\n\022query_cache_policy\030\005 " +
-      "\001(\0132\033.Ydb.Table.QueryCachePolicy\0229\n\020oper" +
-      "ation_params\030\006 \001(\0132\037.Ydb.Operations.Oper" +
-      "ationParams\022;\n\rcollect_stats\030\007 \001(\0162$.Ydb" +
-      ".Table.QueryStatsCollection.Mode\032B\n\017Para" +
-      "metersEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132" +
-      "\017.Ydb.TypedValue:\0028\001\"H\n\030ExecuteDataQuery" +
-      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
-      "ions.Operation\"|\n\031ExecuteSchemeQueryRequ" +
-      "est\022\022\n\nsession_id\030\001 \001(\t\022\020\n\010yql_text\030\002 \001(" +
-      "\t\0229\n\020operation_params\030\003 \001(\0132\037.Ydb.Operat" +
-      "ions.OperationParams\"J\n\032ExecuteSchemeQue" +
-      "ryResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
-      "ations.Operation\"\035\n\017TransactionMeta\022\n\n\002i" +
-      "d\030\001 \001(\t\"\237\001\n\tQueryMeta\022\n\n\002id\030\001 \001(\t\022C\n\020par" +
-      "ameters_types\030\002 \003(\0132).Ydb.Table.QueryMet" +
-      "a.ParametersTypesEntry\032A\n\024ParametersType" +
-      "sEntry\022\013\n\003key\030\001 \001(\t\022\030\n\005value\030\002 \001(\0132\t.Ydb" +
-      ".Type:\0028\001\"\301\001\n\022ExecuteQueryResult\022#\n\013resu" +
-      "lt_sets\030\001 \003(\0132\016.Ydb.ResultSet\022+\n\007tx_meta" +
-      "\030\002 \001(\0132\032.Ydb.Table.TransactionMeta\022(\n\nqu" +
-      "ery_meta\030\003 \001(\0132\024.Ydb.Table.QueryMeta\022/\n\013" +
-      "query_stats\030\004 \001(\0132\032.Ydb.TableStats.Query" +
-      "Stats\"z\n\027ExplainDataQueryRequest\022\022\n\nsess" +
-      "ion_id\030\001 \001(\t\022\020\n\010yql_text\030\002 \001(\t\0229\n\020operat" +
-      "ion_params\030\003 \001(\0132\037.Ydb.Operations.Operat" +
-      "ionParams\"H\n\030ExplainDataQueryResponse\022,\n" +
-      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
-      "ion\";\n\022ExplainQueryResult\022\021\n\tquery_ast\030\001" +
-      " \001(\t\022\022\n\nquery_plan\030\002 \001(\t\"z\n\027PrepareDataQ" +
-      "ueryRequest\022\022\n\nsession_id\030\001 \001(\t\022\020\n\010yql_t" +
-      "ext\030\002 \001(\t\0229\n\020operation_params\030\003 \001(\0132\037.Yd" +
-      "b.Operations.OperationParams\"H\n\030PrepareD" +
-      "ataQueryResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
-      "b.Operations.Operation\"\267\001\n\022PrepareQueryR" +
-      "esult\022\020\n\010query_id\030\001 \001(\t\022L\n\020parameters_ty" +
-      "pes\030\002 \003(\01322.Ydb.Table.PrepareQueryResult" +
-      ".ParametersTypesEntry\032A\n\024ParametersTypes" +
-      "Entry\022\013\n\003key\030\001 \001(\t\022\030\n\005value\030\002 \001(\0132\t.Ydb." +
-      "Type:\0028\001\"a\n\020KeepAliveRequest\022\022\n\nsession_" +
-      "id\030\001 \001(\t\0229\n\020operation_params\030\002 \001(\0132\037.Ydb" +
-      ".Operations.OperationParams\"A\n\021KeepAlive" +
-      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
-      "ions.Operation\"\267\001\n\017KeepAliveResult\022@\n\016se" +
-      "ssion_status\030\001 \001(\0162(.Ydb.Table.KeepAlive" +
-      "Result.SessionStatus\"b\n\rSessionStatus\022\036\n" +
-      "\032SESSION_STATUS_UNSPECIFIED\020\000\022\030\n\024SESSION" +
-      "_STATUS_READY\020\001\022\027\n\023SESSION_STATUS_BUSY\020\002" +
-      "\"\235\001\n\027BeginTransactionRequest\022\022\n\nsession_" +
-      "id\030\001 \001(\t\0223\n\013tx_settings\030\002 \001(\0132\036.Ydb.Tabl" +
-      "e.TransactionSettings\0229\n\020operation_param" +
+      "ration\"\276\007\n\021AlterTableRequest\022\022\n\nsession_" +
+      "id\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\022*\n\013add_columns\030\003 " +
+      "\003(\0132\025.Ydb.Table.ColumnMeta\022\024\n\014drop_colum" +
+      "ns\030\004 \003(\t\0229\n\020operation_params\030\005 \001(\0132\037.Ydb" +
+      ".Operations.OperationParams\022,\n\ralter_col" +
+      "umns\030\006 \003(\0132\025.Ydb.Table.ColumnMeta\0222\n\020set" +
+      "_ttl_settings\030\007 \001(\0132\026.Ydb.Table.TtlSetti" +
+      "ngsH\000\0223\n\021drop_ttl_settings\030\010 \001(\0132\026.googl" +
+      "e.protobuf.EmptyH\000\022*\n\013add_indexes\030\t \003(\0132" +
+      "\025.Ydb.Table.TableIndex\022\024\n\014drop_indexes\030\n" +
+      " \003(\t\022:\n\026alter_storage_settings\030\013 \001(\0132\032.Y" +
+      "db.Table.StorageSettings\0224\n\023add_column_f" +
+      "amilies\030\014 \003(\0132\027.Ydb.Table.ColumnFamily\0226" +
+      "\n\025alter_column_families\030\r \003(\0132\027.Ydb.Tabl" +
+      "e.ColumnFamily\022`\n\020alter_attributes\030\016 \003(\013" +
+      "21.Ydb.Table.AlterTableRequest.AlterAttr" +
+      "ibutesEntryB\023\252\346*\010\n\006\n\004\010\001\020d\242\346*\003\030\200 \022\035\n\025set_" +
+      "compaction_policy\030\017 \001(\t\022D\n\033alter_partiti" +
+      "oning_settings\030\020 \001(\0132\037.Ydb.Table.Partiti" +
+      "oningSettings\0225\n\024set_key_bloom_filter\030\021 " +
+      "\001(\0162\027.Ydb.FeatureFlag.Status\022C\n\032set_read" +
+      "_replicas_settings\030\022 \001(\0132\037.Ydb.Table.Rea" +
+      "dReplicasSettings\0326\n\024AlterAttributesEntr" +
+      "y\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\014\n\nttl" +
+      "_action\"B\n\022AlterTableResponse\022,\n\toperati" +
+      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\220\001\n\020" +
+      "CopyTableRequest\022\022\n\nsession_id\030\001 \001(\t\022\023\n\013" +
+      "source_path\030\002 \001(\t\022\030\n\020destination_path\030\003 " +
+      "\001(\t\0229\n\020operation_params\030\004 \001(\0132\037.Ydb.Oper" +
+      "ations.OperationParams\"A\n\021CopyTableRespo" +
+      "nse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations." +
+      "Operation\"T\n\rCopyTableItem\022\023\n\013source_pat" +
+      "h\030\001 \001(\t\022\030\n\020destination_path\030\002 \001(\t\022\024\n\014omi" +
+      "t_indexes\030\003 \001(\010\"\214\001\n\021CopyTablesRequest\0229\n" +
+      "\020operation_params\030\001 \001(\0132\037.Ydb.Operations" +
+      ".OperationParams\022\022\n\nsession_id\030\002 \001(\t\022(\n\006" +
+      "tables\030\003 \003(\0132\030.Ydb.Table.CopyTableItem\"B" +
+      "\n\022CopyTablesResponse\022,\n\toperation\030\001 \001(\0132" +
+      "\031.Ydb.Operations.Operation\"]\n\017RenameTabl" +
+      "eItem\022\023\n\013source_path\030\001 \001(\t\022\030\n\020destinatio" +
+      "n_path\030\002 \001(\t\022\033\n\023replace_destination\030\003 \001(" +
+      "\010\"\220\001\n\023RenameTablesRequest\0229\n\020operation_p" +
+      "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa" +
+      "rams\022\022\n\nsession_id\030\002 \001(\t\022*\n\006tables\030\003 \003(\013" +
+      "2\032.Ydb.Table.RenameTableItem\"D\n\024RenameTa" +
+      "blesResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
+      "erations.Operation\"\323\001\n\024DescribeTableRequ" +
+      "est\022\022\n\nsession_id\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\0229\n" +
+      "\020operation_params\030\004 \001(\0132\037.Ydb.Operations" +
+      ".OperationParams\022 \n\030include_shard_key_bo" +
+      "unds\030\005 \001(\010\022\033\n\023include_table_stats\030\006 \001(\010\022" +
+      "\037\n\027include_partition_stats\030\007 \001(\010\"E\n\025Desc" +
+      "ribeTableResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
+      "db.Operations.Operation\"\304\005\n\023DescribeTabl" +
+      "eResult\022\037\n\004self\030\001 \001(\0132\021.Ydb.Scheme.Entry" +
+      "\022&\n\007columns\030\002 \003(\0132\025.Ydb.Table.ColumnMeta" +
+      "\022\023\n\013primary_key\030\003 \003(\t\022)\n\020shard_key_bound" +
+      "s\030\004 \003(\0132\017.Ydb.TypedValue\0221\n\007indexes\030\005 \003(" +
+      "\0132 .Ydb.Table.TableIndexDescription\022*\n\013t" +
+      "able_stats\030\006 \001(\0132\025.Ydb.Table.TableStats\022" +
+      ",\n\014ttl_settings\030\007 \001(\0132\026.Ydb.Table.TtlSet" +
+      "tings\0224\n\020storage_settings\030\010 \001(\0132\032.Ydb.Ta" +
+      "ble.StorageSettings\0220\n\017column_families\030\t" +
+      " \003(\0132\027.Ydb.Table.ColumnFamily\022B\n\nattribu" +
+      "tes\030\n \003(\0132..Ydb.Table.DescribeTableResul" +
+      "t.AttributesEntry\022>\n\025partitioning_settin" +
+      "gs\030\014 \001(\0132\037.Ydb.Table.PartitioningSetting" +
+      "s\0221\n\020key_bloom_filter\030\r \001(\0162\027.Ydb.Featur" +
+      "eFlag.Status\022?\n\026read_replicas_settings\030\016" +
+      " \001(\0132\037.Ydb.Table.ReadReplicasSettings\0321\n" +
+      "\017AttributesEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002" +
+      " \001(\t:\0028\001J\004\010\013\020\014\"2\n\005Query\022\022\n\010yql_text\030\001 \001(" +
+      "\tH\000\022\014\n\002id\030\002 \001(\tH\000B\007\n\005query\"\032\n\030Serializab" +
+      "leModeSettings\"6\n\022OnlineModeSettings\022 \n\030" +
+      "allow_inconsistent_reads\030\001 \001(\010\"\023\n\021StaleM" +
+      "odeSettings\"\334\001\n\023TransactionSettings\022F\n\027s" +
+      "erializable_read_write\030\001 \001(\0132#.Ydb.Table" +
+      ".SerializableModeSettingsH\000\0229\n\020online_re" +
+      "ad_only\030\002 \001(\0132\035.Ydb.Table.OnlineModeSett" +
+      "ingsH\000\0227\n\017stale_read_only\030\003 \001(\0132\034.Ydb.Ta" +
+      "ble.StaleModeSettingsH\000B\t\n\007tx_mode\"{\n\022Tr" +
+      "ansactionControl\022\017\n\005tx_id\030\001 \001(\tH\000\0222\n\010beg" +
+      "in_tx\030\002 \001(\0132\036.Ydb.Table.TransactionSetti" +
+      "ngsH\000\022\021\n\tcommit_tx\030\n \001(\010B\r\n\013tx_selector\"" +
+      ")\n\020QueryCachePolicy\022\025\n\rkeep_in_cache\030\001 \001" +
+      "(\010\"\222\001\n\024QueryStatsCollection\"z\n\004Mode\022 \n\034S" +
+      "TATS_COLLECTION_UNSPECIFIED\020\000\022\031\n\025STATS_C" +
+      "OLLECTION_NONE\020\001\022\032\n\026STATS_COLLECTION_BAS" +
+      "IC\020\002\022\031\n\025STATS_COLLECTION_FULL\020\003\"\276\003\n\027Exec" +
+      "uteDataQueryRequest\022\022\n\nsession_id\030\001 \001(\t\022" +
+      "1\n\ntx_control\030\002 \001(\0132\035.Ydb.Table.Transact" +
+      "ionControl\022\037\n\005query\030\003 \001(\0132\020.Ydb.Table.Qu" +
+      "ery\022F\n\nparameters\030\004 \003(\01322.Ydb.Table.Exec" +
+      "uteDataQueryRequest.ParametersEntry\0227\n\022q" +
+      "uery_cache_policy\030\005 \001(\0132\033.Ydb.Table.Quer" +
+      "yCachePolicy\0229\n\020operation_params\030\006 \001(\0132\037" +
+      ".Ydb.Operations.OperationParams\022;\n\rcolle" +
+      "ct_stats\030\007 \001(\0162$.Ydb.Table.QueryStatsCol" +
+      "lection.Mode\032B\n\017ParametersEntry\022\013\n\003key\030\001" +
+      " \001(\t\022\036\n\005value\030\002 \001(\0132\017.Ydb.TypedValue:\0028\001" +
+      "\"H\n\030ExecuteDataQueryResponse\022,\n\toperatio" +
+      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"|\n\031Ex" +
+      "ecuteSchemeQueryRequest\022\022\n\nsession_id\030\001 " +
+      "\001(\t\022\020\n\010yql_text\030\002 \001(\t\0229\n\020operation_param" +
       "s\030\003 \001(\0132\037.Ydb.Operations.OperationParams" +
-      "\"H\n\030BeginTransactionResponse\022,\n\toperatio" +
-      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"E\n\026Be" +
-      "ginTransactionResult\022+\n\007tx_meta\030\001 \001(\0132\032." +
-      "Ydb.Table.TransactionMeta\"\265\001\n\030CommitTran" +
-      "sactionRequest\022\022\n\nsession_id\030\001 \001(\t\022\r\n\005tx" +
-      "_id\030\002 \001(\t\0229\n\020operation_params\030\003 \001(\0132\037.Yd" +
-      "b.Operations.OperationParams\022;\n\rcollect_" +
-      "stats\030\004 \001(\0162$.Ydb.Table.QueryStatsCollec" +
-      "tion.Mode\"I\n\031CommitTransactionResponse\022," +
+      "\"J\n\032ExecuteSchemeQueryResponse\022,\n\toperat" +
+      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\035\n\017" +
+      "TransactionMeta\022\n\n\002id\030\001 \001(\t\"\237\001\n\tQueryMet" +
+      "a\022\n\n\002id\030\001 \001(\t\022C\n\020parameters_types\030\002 \003(\0132" +
+      ").Ydb.Table.QueryMeta.ParametersTypesEnt" +
+      "ry\032A\n\024ParametersTypesEntry\022\013\n\003key\030\001 \001(\t\022" +
+      "\030\n\005value\030\002 \001(\0132\t.Ydb.Type:\0028\001\"\301\001\n\022Execut" +
+      "eQueryResult\022#\n\013result_sets\030\001 \003(\0132\016.Ydb." +
+      "ResultSet\022+\n\007tx_meta\030\002 \001(\0132\032.Ydb.Table.T" +
+      "ransactionMeta\022(\n\nquery_meta\030\003 \001(\0132\024.Ydb" +
+      ".Table.QueryMeta\022/\n\013query_stats\030\004 \001(\0132\032." +
+      "Ydb.TableStats.QueryStats\"z\n\027ExplainData" +
+      "QueryRequest\022\022\n\nsession_id\030\001 \001(\t\022\020\n\010yql_" +
+      "text\030\002 \001(\t\0229\n\020operation_params\030\003 \001(\0132\037.Y" +
+      "db.Operations.OperationParams\"H\n\030Explain" +
+      "DataQueryResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
+      "db.Operations.Operation\";\n\022ExplainQueryR" +
+      "esult\022\021\n\tquery_ast\030\001 \001(\t\022\022\n\nquery_plan\030\002" +
+      " \001(\t\"z\n\027PrepareDataQueryRequest\022\022\n\nsessi" +
+      "on_id\030\001 \001(\t\022\020\n\010yql_text\030\002 \001(\t\0229\n\020operati" +
+      "on_params\030\003 \001(\0132\037.Ydb.Operations.Operati" +
+      "onParams\"H\n\030PrepareDataQueryResponse\022,\n\t" +
+      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
+      "on\"\267\001\n\022PrepareQueryResult\022\020\n\010query_id\030\001 " +
+      "\001(\t\022L\n\020parameters_types\030\002 \003(\01322.Ydb.Tabl" +
+      "e.PrepareQueryResult.ParametersTypesEntr" +
+      "y\032A\n\024ParametersTypesEntry\022\013\n\003key\030\001 \001(\t\022\030" +
+      "\n\005value\030\002 \001(\0132\t.Ydb.Type:\0028\001\"a\n\020KeepAliv" +
+      "eRequest\022\022\n\nsession_id\030\001 \001(\t\0229\n\020operatio" +
+      "n_params\030\002 \001(\0132\037.Ydb.Operations.Operatio" +
+      "nParams\"A\n\021KeepAliveResponse\022,\n\toperatio" +
+      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\267\001\n\017K" +
+      "eepAliveResult\022@\n\016session_status\030\001 \001(\0162(" +
+      ".Ydb.Table.KeepAliveResult.SessionStatus" +
+      "\"b\n\rSessionStatus\022\036\n\032SESSION_STATUS_UNSP" +
+      "ECIFIED\020\000\022\030\n\024SESSION_STATUS_READY\020\001\022\027\n\023S" +
+      "ESSION_STATUS_BUSY\020\002\"\235\001\n\027BeginTransactio" +
+      "nRequest\022\022\n\nsession_id\030\001 \001(\t\0223\n\013tx_setti" +
+      "ngs\030\002 \001(\0132\036.Ydb.Table.TransactionSetting" +
+      "s\0229\n\020operation_params\030\003 \001(\0132\037.Ydb.Operat" +
+      "ions.OperationParams\"H\n\030BeginTransaction" +
+      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
+      "ions.Operation\"E\n\026BeginTransactionResult" +
+      "\022+\n\007tx_meta\030\001 \001(\0132\032.Ydb.Table.Transactio" +
+      "nMeta\"\265\001\n\030CommitTransactionRequest\022\022\n\nse" +
+      "ssion_id\030\001 \001(\t\022\r\n\005tx_id\030\002 \001(\t\0229\n\020operati" +
+      "on_params\030\003 \001(\0132\037.Ydb.Operations.Operati" +
+      "onParams\022;\n\rcollect_stats\030\004 \001(\0162$.Ydb.Ta" +
+      "ble.QueryStatsCollection.Mode\"I\n\031CommitT" +
+      "ransactionResponse\022,\n\toperation\030\001 \001(\0132\031." +
+      "Ydb.Operations.Operation\"J\n\027CommitTransa" +
+      "ctionResult\022/\n\013query_stats\030\001 \001(\0132\032.Ydb.T" +
+      "ableStats.QueryStats\"z\n\032RollbackTransact" +
+      "ionRequest\022\022\n\nsession_id\030\001 \001(\t\022\r\n\005tx_id\030" +
+      "\002 \001(\t\0229\n\020operation_params\030\003 \001(\0132\037.Ydb.Op" +
+      "erations.OperationParams\"K\n\033RollbackTran" +
+      "sactionResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
+      ".Operations.Operation\"\230\001\n\030StoragePolicyD" +
+      "escription\022\014\n\004name\030\001 \001(\t\022?\n\006labels\030\002 \003(\013" +
+      "2/.Ydb.Table.StoragePolicyDescription.La" +
+      "belsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n" +
+      "\005value\030\002 \001(\t:\0028\001\"\236\001\n\033CompactionPolicyDes" +
+      "cription\022\014\n\004name\030\001 \001(\t\022B\n\006labels\030\002 \003(\01322" +
+      ".Ydb.Table.CompactionPolicyDescription.L" +
+      "abelsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r" +
+      "\n\005value\030\002 \001(\t:\0028\001\"\242\001\n\035PartitioningPolicy" +
+      "Description\022\014\n\004name\030\001 \001(\t\022D\n\006labels\030\002 \003(" +
+      "\01324.Ydb.Table.PartitioningPolicyDescript" +
+      "ion.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 " +
+      "\001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\234\001\n\032ExecutionPoli" +
+      "cyDescription\022\014\n\004name\030\001 \001(\t\022A\n\006labels\030\002 " +
+      "\003(\01321.Ydb.Table.ExecutionPolicyDescripti" +
+      "on.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001" +
+      "(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\240\001\n\034ReplicationPol" +
+      "icyDescription\022\014\n\004name\030\001 \001(\t\022C\n\006labels\030\002" +
+      " \003(\01323.Ydb.Table.ReplicationPolicyDescri" +
+      "ption.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003key\030" +
+      "\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\230\001\n\030CachingPoli" +
+      "cyDescription\022\014\n\004name\030\001 \001(\t\022?\n\006labels\030\002 " +
+      "\003(\0132/.Ydb.Table.CachingPolicyDescription" +
+      ".LabelsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t" +
+      "\022\r\n\005value\030\002 \001(\t:\0028\001\"\276\004\n\027TableProfileDesc" +
+      "ription\022\014\n\004name\030\001 \001(\t\022>\n\006labels\030\002 \003(\0132.." +
+      "Ydb.Table.TableProfileDescription.Labels" +
+      "Entry\022\036\n\026default_storage_policy\030\003 \001(\t\022 \n" +
+      "\030allowed_storage_policies\030\004 \003(\t\022!\n\031defau" +
+      "lt_compaction_policy\030\005 \001(\t\022#\n\033allowed_co" +
+      "mpaction_policies\030\006 \003(\t\022#\n\033default_parti" +
+      "tioning_policy\030\007 \001(\t\022%\n\035allowed_partitio" +
+      "ning_policies\030\010 \003(\t\022 \n\030default_execution" +
+      "_policy\030\t \001(\t\022\"\n\032allowed_execution_polic" +
+      "ies\030\n \003(\t\022\"\n\032default_replication_policy\030" +
+      "\013 \001(\t\022$\n\034allowed_replication_policies\030\014 " +
+      "\003(\t\022\036\n\026default_caching_policy\030\r \001(\t\022 \n\030a" +
+      "llowed_caching_policies\030\016 \003(\t\032-\n\013LabelsE" +
+      "ntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"X\n\033" +
+      "DescribeTableOptionsRequest\0229\n\020operation" +
+      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
+      "Params\"L\n\034DescribeTableOptionsResponse\022," +
       "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
-      "tion\"J\n\027CommitTransactionResult\022/\n\013query" +
-      "_stats\030\001 \001(\0132\032.Ydb.TableStats.QueryStats" +
-      "\"z\n\032RollbackTransactionRequest\022\022\n\nsessio" +
-      "n_id\030\001 \001(\t\022\r\n\005tx_id\030\002 \001(\t\0229\n\020operation_p" +
-      "arams\030\003 \001(\0132\037.Ydb.Operations.OperationPa" +
-      "rams\"K\n\033RollbackTransactionResponse\022,\n\to" +
-      "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
-      "n\"\230\001\n\030StoragePolicyDescription\022\014\n\004name\030\001" +
-      " \001(\t\022?\n\006labels\030\002 \003(\0132/.Ydb.Table.Storage" +
-      "PolicyDescription.LabelsEntry\032-\n\013LabelsE" +
-      "ntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\236\001\n" +
-      "\033CompactionPolicyDescription\022\014\n\004name\030\001 \001" +
-      "(\t\022B\n\006labels\030\002 \003(\01322.Ydb.Table.Compactio" +
-      "nPolicyDescription.LabelsEntry\032-\n\013Labels" +
-      "Entry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\242\001" +
-      "\n\035PartitioningPolicyDescription\022\014\n\004name\030" +
-      "\001 \001(\t\022D\n\006labels\030\002 \003(\01324.Ydb.Table.Partit" +
-      "ioningPolicyDescription.LabelsEntry\032-\n\013L" +
-      "abelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\002" +
-      "8\001\"\234\001\n\032ExecutionPolicyDescription\022\014\n\004nam" +
-      "e\030\001 \001(\t\022A\n\006labels\030\002 \003(\01321.Ydb.Table.Exec" +
-      "utionPolicyDescription.LabelsEntry\032-\n\013La" +
-      "belsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028" +
-      "\001\"\240\001\n\034ReplicationPolicyDescription\022\014\n\004na" +
-      "me\030\001 \001(\t\022C\n\006labels\030\002 \003(\01323.Ydb.Table.Rep" +
-      "licationPolicyDescription.LabelsEntry\032-\n" +
-      "\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t" +
-      ":\0028\001\"\230\001\n\030CachingPolicyDescription\022\014\n\004nam" +
-      "e\030\001 \001(\t\022?\n\006labels\030\002 \003(\0132/.Ydb.Table.Cach" +
-      "ingPolicyDescription.LabelsEntry\032-\n\013Labe" +
-      "lsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"" +
-      "\276\004\n\027TableProfileDescription\022\014\n\004name\030\001 \001(" +
-      "\t\022>\n\006labels\030\002 \003(\0132..Ydb.Table.TableProfi" +
-      "leDescription.LabelsEntry\022\036\n\026default_sto" +
-      "rage_policy\030\003 \001(\t\022 \n\030allowed_storage_pol" +
-      "icies\030\004 \003(\t\022!\n\031default_compaction_policy" +
-      "\030\005 \001(\t\022#\n\033allowed_compaction_policies\030\006 " +
-      "\003(\t\022#\n\033default_partitioning_policy\030\007 \001(\t" +
-      "\022%\n\035allowed_partitioning_policies\030\010 \003(\t\022" +
-      " \n\030default_execution_policy\030\t \001(\t\022\"\n\032all" +
-      "owed_execution_policies\030\n \003(\t\022\"\n\032default" +
-      "_replication_policy\030\013 \001(\t\022$\n\034allowed_rep" +
-      "lication_policies\030\014 \003(\t\022\036\n\026default_cachi" +
-      "ng_policy\030\r \001(\t\022 \n\030allowed_caching_polic" +
-      "ies\030\016 \003(\t\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n" +
-      "\005value\030\002 \001(\t:\0028\001\"X\n\033DescribeTableOptions" +
-      "Request\0229\n\020operation_params\030\001 \001(\0132\037.Ydb." +
-      "Operations.OperationParams\"L\n\034DescribeTa" +
-      "bleOptionsResponse\022,\n\toperation\030\001 \001(\0132\031." +
-      "Ydb.Operations.Operation\"\231\004\n\032DescribeTab" +
-      "leOptionsResult\022A\n\025table_profile_presets" +
-      "\030\001 \003(\0132\".Ydb.Table.TableProfileDescripti" +
-      "on\022C\n\026storage_policy_presets\030\002 \003(\0132#.Ydb" +
-      ".Table.StoragePolicyDescription\022I\n\031compa" +
-      "ction_policy_presets\030\003 \003(\0132&.Ydb.Table.C" +
-      "ompactionPolicyDescription\022M\n\033partitioni" +
-      "ng_policy_presets\030\004 \003(\0132(.Ydb.Table.Part" +
-      "itioningPolicyDescription\022G\n\030execution_p" +
-      "olicy_presets\030\005 \003(\0132%.Ydb.Table.Executio" +
-      "nPolicyDescription\022K\n\032replication_policy" +
-      "_presets\030\006 \003(\0132\'.Ydb.Table.ReplicationPo" +
-      "licyDescription\022C\n\026caching_policy_preset" +
-      "s\030\007 \003(\0132#.Ydb.Table.CachingPolicyDescrip" +
-      "tion\"\300\001\n\010KeyRange\022\"\n\007greater\030\001 \001(\0132\017.Ydb" +
-      ".TypedValueH\000\022+\n\020greater_or_equal\030\002 \001(\0132" +
-      "\017.Ydb.TypedValueH\000\022\037\n\004less\030\003 \001(\0132\017.Ydb.T" +
-      "ypedValueH\001\022(\n\rless_or_equal\030\004 \001(\0132\017.Ydb" +
-      ".TypedValueH\001B\014\n\nfrom_boundB\n\n\010to_bound\"" +
-      "\300\001\n\020ReadTableRequest\022\022\n\nsession_id\030\001 \001(\t" +
-      "\022\014\n\004path\030\002 \001(\t\022&\n\tkey_range\030\003 \001(\0132\023.Ydb." +
-      "Table.KeyRange\022\017\n\007columns\030\004 \003(\t\022\017\n\007order" +
-      "ed\030\005 \001(\010\022\021\n\trow_limit\030\006 \001(\004\022-\n\014use_snaps" +
-      "hot\030\007 \001(\0162\027.Ydb.FeatureFlag.Status\"\223\001\n\021R" +
-      "eadTableResponse\022)\n\006status\030\001 \001(\0162\031.Ydb.S" +
-      "tatusIds.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Yd" +
-      "b.Issue.IssueMessage\022*\n\006result\030\003 \001(\0132\032.Y" +
-      "db.Table.ReadTableResult\"5\n\017ReadTableRes" +
-      "ult\022\"\n\nresult_set\030\001 \001(\0132\016.Ydb.ResultSet\"" +
-      "|\n\021BulkUpsertRequest\022\r\n\005table\030\001 \001(\t\022\035\n\004r" +
-      "ows\030\002 \001(\0132\017.Ydb.TypedValue\0229\n\020operation_",
-      "params\030\003 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\"B\n\022BulkUpsertResponse\022,\n\toperation" +
-      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\022\n\020Bul" +
-      "kUpsertResult\"\221\003\n\027ExecuteScanQueryReques" +
-      "t\022\037\n\005query\030\003 \001(\0132\020.Ydb.Table.Query\022F\n\npa" +
-      "rameters\030\004 \003(\01322.Ydb.Table.ExecuteScanQu" +
-      "eryRequest.ParametersEntry\0225\n\004mode\030\006 \001(\016" +
-      "2\'.Ydb.Table.ExecuteScanQueryRequest.Mod" +
-      "e\022;\n\rcollect_stats\030\010 \001(\0162$.Ydb.Table.Que" +
-      "ryStatsCollection.Mode\032B\n\017ParametersEntr" +
-      "y\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132\017.Ydb.Type" +
-      "dValue:\0028\001\"=\n\004Mode\022\024\n\020MODE_UNSPECIFIED\020\000" +
-      "\022\020\n\014MODE_EXPLAIN\020\001\022\r\n\tMODE_EXEC\020\003J\004\010\001\020\002J" +
-      "\004\010\002\020\003J\004\010\005\020\006J\004\010\007\020\010\"\257\001\n\037ExecuteScanQueryPa" +
-      "rtialResponse\022)\n\006status\030\001 \001(\0162\031.Ydb.Stat" +
-      "usIds.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.I" +
-      "ssue.IssueMessage\0228\n\006result\030\003 \001(\0132(.Ydb." +
-      "Table.ExecuteScanQueryPartialResult\"\214\001\n\035" +
-      "ExecuteScanQueryPartialResult\022\"\n\nresult_" +
-      "set\030\001 \001(\0132\016.Ydb.ResultSet\022/\n\013query_stats" +
-      "\030\006 \001(\0132\032.Ydb.TableStats.QueryStatsJ\004\010\002\020\003" +
-      "J\004\010\003\020\004J\004\010\004\020\005J\004\010\005\020\006B\031\n\024tech.ydb.tab" +
-      "le\370\001\001b\006proto3"
+      "tion\"\231\004\n\032DescribeTableOptionsResult\022A\n\025t" +
+      "able_profile_presets\030\001 \003(\0132\".Ydb.Table.T" +
+      "ableProfileDescription\022C\n\026storage_policy" +
+      "_presets\030\002 \003(\0132#.Ydb.Table.StoragePolicy" +
+      "Description\022I\n\031compaction_policy_presets" +
+      "\030\003 \003(\0132&.Ydb.Table.CompactionPolicyDescr" +
+      "iption\022M\n\033partitioning_policy_presets\030\004 " +
+      "\003(\0132(.Ydb.Table.PartitioningPolicyDescri" +
+      "ption\022G\n\030execution_policy_presets\030\005 \003(\0132" +
+      "%.Ydb.Table.ExecutionPolicyDescription\022K" +
+      "\n\032replication_policy_presets\030\006 \003(\0132\'.Ydb" +
+      ".Table.ReplicationPolicyDescription\022C\n\026c" +
+      "aching_policy_presets\030\007 \003(\0132#.Ydb.Table." +
+      "CachingPolicyDescription\"\300\001\n\010KeyRange\022\"\n" +
+      "\007greater\030\001 \001(\0132\017.Ydb.TypedValueH\000\022+\n\020gre" +
+      "ater_or_equal\030\002 \001(\0132\017.Ydb.TypedValueH\000\022\037" +
+      "\n\004less\030\003 \001(\0132\017.Ydb.TypedValueH\001\022(\n\rless_" +
+      "or_equal\030\004 \001(\0132\017.Ydb.TypedValueH\001B\014\n\nfro" +
+      "m_boundB\n\n\010to_bound\"\300\001\n\020ReadTableRequest" +
+      "\022\022\n\nsession_id\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\022&\n\tke" +
+      "y_range\030\003 \001(\0132\023.Ydb.Table.KeyRange\022\017\n\007co" +
+      "lumns\030\004 \003(\t\022\017\n\007ordered\030\005 \001(\010\022\021\n\trow_limi" +
+      "t\030\006 \001(\004\022-\n\014use_snapshot\030\007 \001(\0162\027.Ydb.Feat" +
+      "ureFlag.Status\"\223\001\n\021ReadTableResponse\022)\n\006" +
+      "status\030\001 \001(\0162\031.Ydb.StatusIds.StatusCode\022" +
+      "\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueMessage" +
+      "\022*\n\006result\030\003 \001(\0132\032.Ydb.Table.ReadTableRe" +
+      "sult\"5\n\017ReadTableResult\022\"\n\nresult_set\030\001 " +
+      "\001(\0132\016.Ydb.ResultSet\"|\n\021BulkUpsertRequest" +
+      "\022\r\n\005table\030\001 \001(\t\022\035\n\004rows\030\002 \001(\0132\017.Ydb.Type",
+      "dValue\0229\n\020operation_params\030\003 \001(\0132\037.Ydb.O" +
+      "perations.OperationParams\"B\n\022BulkUpsertR" +
+      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
+      "ons.Operation\"\022\n\020BulkUpsertResult\"\221\003\n\027Ex" +
+      "ecuteScanQueryRequest\022\037\n\005query\030\003 \001(\0132\020.Y" +
+      "db.Table.Query\022F\n\nparameters\030\004 \003(\01322.Ydb" +
+      ".Table.ExecuteScanQueryRequest.Parameter" +
+      "sEntry\0225\n\004mode\030\006 \001(\0162\'.Ydb.Table.Execute" +
+      "ScanQueryRequest.Mode\022;\n\rcollect_stats\030\010" +
+      " \001(\0162$.Ydb.Table.QueryStatsCollection.Mo" +
+      "de\032B\n\017ParametersEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005va" +
+      "lue\030\002 \001(\0132\017.Ydb.TypedValue:\0028\001\"=\n\004Mode\022\024" +
+      "\n\020MODE_UNSPECIFIED\020\000\022\020\n\014MODE_EXPLAIN\020\001\022\r" +
+      "\n\tMODE_EXEC\020\003J\004\010\001\020\002J\004\010\002\020\003J\004\010\005\020\006J\004\010\007\020\010\"\257\001" +
+      "\n\037ExecuteScanQueryPartialResponse\022)\n\006sta" +
+      "tus\030\001 \001(\0162\031.Ydb.StatusIds.StatusCode\022\'\n\006" +
+      "issues\030\002 \003(\0132\027.Ydb.Issue.IssueMessage\0228\n" +
+      "\006result\030\003 \001(\0132(.Ydb.Table.ExecuteScanQue" +
+      "ryPartialResult\"\214\001\n\035ExecuteScanQueryPart" +
+      "ialResult\022\"\n\nresult_set\030\001 \001(\0132\016.Ydb.Resu" +
+      "ltSet\022/\n\013query_stats\030\006 \001(\0132\032.Ydb.TableSt" +
+      "ats.QueryStatsJ\004\010\002\020\003J\004\010\003\020\004J\004\010\004\020\005J\004\010\005\020\006B\031" +
+      "\n\024tech.ydb.table\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -111907,7 +111998,7 @@ public final class YdbTable {
     internal_static_Ydb_Table_TableIndexDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_TableIndexDescription_descriptor,
-        new java.lang.String[] { "Name", "IndexColumns", "GlobalIndex", "GlobalAsyncIndex", "Status", "DataColumns", "Type", });
+        new java.lang.String[] { "Name", "IndexColumns", "GlobalIndex", "GlobalAsyncIndex", "Status", "DataColumns", "SizeBytes", "Type", });
     internal_static_Ydb_Table_IndexBuildState_descriptor =
       getDescriptor().getMessageTypes().get(9);
     internal_static_Ydb_Table_IndexBuildState_fieldAccessorTable = new

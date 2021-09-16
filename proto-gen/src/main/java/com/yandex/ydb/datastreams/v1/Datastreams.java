@@ -32,6 +32,10 @@ public final class Datastreams {
      * <code>TRANSFORM_BASE64 = 1;</code>
      */
     TRANSFORM_BASE64(1),
+    /**
+     * <code>TRANSFORM_DOUBLE_S_TO_INT_MS = 2;</code>
+     */
+    TRANSFORM_DOUBLE_S_TO_INT_MS(2),
     UNRECOGNIZED(-1),
     ;
 
@@ -43,6 +47,10 @@ public final class Datastreams {
      * <code>TRANSFORM_BASE64 = 1;</code>
      */
     public static final int TRANSFORM_BASE64_VALUE = 1;
+    /**
+     * <code>TRANSFORM_DOUBLE_S_TO_INT_MS = 2;</code>
+     */
+    public static final int TRANSFORM_DOUBLE_S_TO_INT_MS_VALUE = 2;
 
 
     public final int getNumber() {
@@ -71,6 +79,7 @@ public final class Datastreams {
       switch (value) {
         case 0: return TRANSFORM_NONE;
         case 1: return TRANSFORM_BASE64;
+        case 2: return TRANSFORM_DOUBLE_S_TO_INT_MS;
         default: return null;
       }
     }
@@ -2310,7 +2319,7 @@ public final class Datastreams {
         getConsumerArnBytes();
 
     /**
-     * <code>uint64 consumer_creation_timestamp = 2;</code>
+     * <code>int64 consumer_creation_timestamp = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
      * @return The consumerCreationTimestamp.
      */
     long getConsumerCreationTimestamp();
@@ -2398,7 +2407,7 @@ public final class Datastreams {
             }
             case 16: {
 
-              consumerCreationTimestamp_ = input.readUInt64();
+              consumerCreationTimestamp_ = input.readInt64();
               break;
             }
             case 26: {
@@ -2486,7 +2495,7 @@ public final class Datastreams {
     public static final int CONSUMER_CREATION_TIMESTAMP_FIELD_NUMBER = 2;
     private long consumerCreationTimestamp_;
     /**
-     * <code>uint64 consumer_creation_timestamp = 2;</code>
+     * <code>int64 consumer_creation_timestamp = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
      * @return The consumerCreationTimestamp.
      */
     @java.lang.Override
@@ -2569,7 +2578,7 @@ public final class Datastreams {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, consumerArn_);
       }
       if (consumerCreationTimestamp_ != 0L) {
-        output.writeUInt64(2, consumerCreationTimestamp_);
+        output.writeInt64(2, consumerCreationTimestamp_);
       }
       if (!getConsumerNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, consumerName_);
@@ -2591,7 +2600,7 @@ public final class Datastreams {
       }
       if (consumerCreationTimestamp_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(2, consumerCreationTimestamp_);
+          .computeInt64Size(2, consumerCreationTimestamp_);
       }
       if (!getConsumerNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, consumerName_);
@@ -2986,7 +2995,7 @@ public final class Datastreams {
 
       private long consumerCreationTimestamp_ ;
       /**
-       * <code>uint64 consumer_creation_timestamp = 2;</code>
+       * <code>int64 consumer_creation_timestamp = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @return The consumerCreationTimestamp.
        */
       @java.lang.Override
@@ -2994,7 +3003,7 @@ public final class Datastreams {
         return consumerCreationTimestamp_;
       }
       /**
-       * <code>uint64 consumer_creation_timestamp = 2;</code>
+       * <code>int64 consumer_creation_timestamp = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @param value The consumerCreationTimestamp to set.
        * @return This builder for chaining.
        */
@@ -3005,7 +3014,7 @@ public final class Datastreams {
         return this;
       }
       /**
-       * <code>uint64 consumer_creation_timestamp = 2;</code>
+       * <code>int64 consumer_creation_timestamp = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @return This builder for chaining.
        */
       public Builder clearConsumerCreationTimestamp() {
@@ -3932,17 +3941,17 @@ public final class Datastreams {
      * Timestamp that the record was inserted into the stream
      * </pre>
      *
-     * <code>int32 timestamp = 1;</code>
+     * <code>int64 timestamp = 1 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
      * @return The timestamp.
      */
-    int getTimestamp();
+    long getTimestamp();
 
     /**
      * <pre>
      * Data blob
      * </pre>
      *
-     * <code>bytes data = 2;</code>
+     * <code>bytes data = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_BASE64];</code>
      * @return The data.
      */
     com.google.protobuf.ByteString getData();
@@ -4057,7 +4066,7 @@ public final class Datastreams {
               break;
             case 8: {
 
-              timestamp_ = input.readInt32();
+              timestamp_ = input.readInt64();
               break;
             }
             case 18: {
@@ -4116,17 +4125,17 @@ public final class Datastreams {
     }
 
     public static final int TIMESTAMP_FIELD_NUMBER = 1;
-    private int timestamp_;
+    private long timestamp_;
     /**
      * <pre>
      * Timestamp that the record was inserted into the stream
      * </pre>
      *
-     * <code>int32 timestamp = 1;</code>
+     * <code>int64 timestamp = 1 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
      * @return The timestamp.
      */
     @java.lang.Override
-    public int getTimestamp() {
+    public long getTimestamp() {
       return timestamp_;
     }
 
@@ -4137,7 +4146,7 @@ public final class Datastreams {
      * Data blob
      * </pre>
      *
-     * <code>bytes data = 2;</code>
+     * <code>bytes data = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_BASE64];</code>
      * @return The data.
      */
     @java.lang.Override
@@ -4278,8 +4287,8 @@ public final class Datastreams {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (timestamp_ != 0) {
-        output.writeInt32(1, timestamp_);
+      if (timestamp_ != 0L) {
+        output.writeInt64(1, timestamp_);
       }
       if (!data_.isEmpty()) {
         output.writeBytes(2, data_);
@@ -4302,9 +4311,9 @@ public final class Datastreams {
       if (size != -1) return size;
 
       size = 0;
-      if (timestamp_ != 0) {
+      if (timestamp_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, timestamp_);
+          .computeInt64Size(1, timestamp_);
       }
       if (!data_.isEmpty()) {
         size += com.google.protobuf.CodedOutputStream
@@ -4356,7 +4365,8 @@ public final class Datastreams {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
-      hash = (53 * hash) + getTimestamp();
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTimestamp());
       hash = (37 * hash) + DATA_FIELD_NUMBER;
       hash = (53 * hash) + getData().hashCode();
       hash = (37 * hash) + ENCRYPTION_FIELD_NUMBER;
@@ -4498,7 +4508,7 @@ public final class Datastreams {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        timestamp_ = 0;
+        timestamp_ = 0L;
 
         data_ = com.google.protobuf.ByteString.EMPTY;
 
@@ -4587,7 +4597,7 @@ public final class Datastreams {
 
       public Builder mergeFrom(tech.ydb.datastreams.v1.Datastreams.Record other) {
         if (other == tech.ydb.datastreams.v1.Datastreams.Record.getDefaultInstance()) return this;
-        if (other.getTimestamp() != 0) {
+        if (other.getTimestamp() != 0L) {
           setTimestamp(other.getTimestamp());
         }
         if (other.getData() != com.google.protobuf.ByteString.EMPTY) {
@@ -4633,17 +4643,17 @@ public final class Datastreams {
         return this;
       }
 
-      private int timestamp_ ;
+      private long timestamp_ ;
       /**
        * <pre>
        * Timestamp that the record was inserted into the stream
        * </pre>
        *
-       * <code>int32 timestamp = 1;</code>
+       * <code>int64 timestamp = 1 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @return The timestamp.
        */
       @java.lang.Override
-      public int getTimestamp() {
+      public long getTimestamp() {
         return timestamp_;
       }
       /**
@@ -4651,11 +4661,11 @@ public final class Datastreams {
        * Timestamp that the record was inserted into the stream
        * </pre>
        *
-       * <code>int32 timestamp = 1;</code>
+       * <code>int64 timestamp = 1 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @param value The timestamp to set.
        * @return This builder for chaining.
        */
-      public Builder setTimestamp(int value) {
+      public Builder setTimestamp(long value) {
         
         timestamp_ = value;
         onChanged();
@@ -4666,12 +4676,12 @@ public final class Datastreams {
        * Timestamp that the record was inserted into the stream
        * </pre>
        *
-       * <code>int32 timestamp = 1;</code>
+       * <code>int64 timestamp = 1 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @return This builder for chaining.
        */
       public Builder clearTimestamp() {
         
-        timestamp_ = 0;
+        timestamp_ = 0L;
         onChanged();
         return this;
       }
@@ -4682,7 +4692,7 @@ public final class Datastreams {
        * Data blob
        * </pre>
        *
-       * <code>bytes data = 2;</code>
+       * <code>bytes data = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_BASE64];</code>
        * @return The data.
        */
       @java.lang.Override
@@ -4694,7 +4704,7 @@ public final class Datastreams {
        * Data blob
        * </pre>
        *
-       * <code>bytes data = 2;</code>
+       * <code>bytes data = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_BASE64];</code>
        * @param value The data to set.
        * @return This builder for chaining.
        */
@@ -4712,7 +4722,7 @@ public final class Datastreams {
        * Data blob
        * </pre>
        *
-       * <code>bytes data = 2;</code>
+       * <code>bytes data = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_BASE64];</code>
        * @return This builder for chaining.
        */
       public Builder clearData() {
@@ -5208,7 +5218,7 @@ public final class Datastreams {
      * Timestamp that the stream was created
      * </pre>
      *
-     * <code>int64 stream_creation_timestamp = 8;</code>
+     * <code>int64 stream_creation_timestamp = 8 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
      * @return The streamCreationTimestamp.
      */
     long getStreamCreationTimestamp();
@@ -5879,7 +5889,7 @@ public final class Datastreams {
      * Timestamp that the stream was created
      * </pre>
      *
-     * <code>int64 stream_creation_timestamp = 8;</code>
+     * <code>int64 stream_creation_timestamp = 8 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
      * @return The streamCreationTimestamp.
      */
     @java.lang.Override
@@ -7542,7 +7552,7 @@ public final class Datastreams {
        * Timestamp that the stream was created
        * </pre>
        *
-       * <code>int64 stream_creation_timestamp = 8;</code>
+       * <code>int64 stream_creation_timestamp = 8 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @return The streamCreationTimestamp.
        */
       @java.lang.Override
@@ -7554,7 +7564,7 @@ public final class Datastreams {
        * Timestamp that the stream was created
        * </pre>
        *
-       * <code>int64 stream_creation_timestamp = 8;</code>
+       * <code>int64 stream_creation_timestamp = 8 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @param value The streamCreationTimestamp to set.
        * @return This builder for chaining.
        */
@@ -7569,7 +7579,7 @@ public final class Datastreams {
        * Timestamp that the stream was created
        * </pre>
        *
-       * <code>int64 stream_creation_timestamp = 8;</code>
+       * <code>int64 stream_creation_timestamp = 8 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @return This builder for chaining.
        */
       public Builder clearStreamCreationTimestamp() {
@@ -10165,7 +10175,7 @@ public final class Datastreams {
      * Timestamp that the consumer was created
      * </pre>
      *
-     * <code>int64 consumer_creation_timestamp = 2;</code>
+     * <code>int64 consumer_creation_timestamp = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
      * @return The consumerCreationTimestamp.
      */
     long getConsumerCreationTimestamp();
@@ -10498,7 +10508,7 @@ public final class Datastreams {
      * Timestamp that the consumer was created
      * </pre>
      *
-     * <code>int64 consumer_creation_timestamp = 2;</code>
+     * <code>int64 consumer_creation_timestamp = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
      * @return The consumerCreationTimestamp.
      */
     @java.lang.Override
@@ -11065,7 +11075,7 @@ public final class Datastreams {
        * Timestamp that the consumer was created
        * </pre>
        *
-       * <code>int64 consumer_creation_timestamp = 2;</code>
+       * <code>int64 consumer_creation_timestamp = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @return The consumerCreationTimestamp.
        */
       @java.lang.Override
@@ -11077,7 +11087,7 @@ public final class Datastreams {
        * Timestamp that the consumer was created
        * </pre>
        *
-       * <code>int64 consumer_creation_timestamp = 2;</code>
+       * <code>int64 consumer_creation_timestamp = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @param value The consumerCreationTimestamp to set.
        * @return This builder for chaining.
        */
@@ -11092,7 +11102,7 @@ public final class Datastreams {
        * Timestamp that the consumer was created
        * </pre>
        *
-       * <code>int64 consumer_creation_timestamp = 2;</code>
+       * <code>int64 consumer_creation_timestamp = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @return This builder for chaining.
        */
       public Builder clearConsumerCreationTimestamp() {
@@ -11409,7 +11419,7 @@ public final class Datastreams {
      * Can only be used if AT_TIMESTAMP or FROM_TIMESTAMP are specified.
      * </pre>
      *
-     * <code>int64 timestamp = 2;</code>
+     * <code>int64 timestamp = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
      * @return The timestamp.
      */
     long getTimestamp();
@@ -11779,7 +11789,7 @@ public final class Datastreams {
      * Can only be used if AT_TIMESTAMP or FROM_TIMESTAMP are specified.
      * </pre>
      *
-     * <code>int64 timestamp = 2;</code>
+     * <code>int64 timestamp = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
      * @return The timestamp.
      */
     @java.lang.Override
@@ -12248,7 +12258,7 @@ public final class Datastreams {
        * Can only be used if AT_TIMESTAMP or FROM_TIMESTAMP are specified.
        * </pre>
        *
-       * <code>int64 timestamp = 2;</code>
+       * <code>int64 timestamp = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @return The timestamp.
        */
       @java.lang.Override
@@ -12260,7 +12270,7 @@ public final class Datastreams {
        * Can only be used if AT_TIMESTAMP or FROM_TIMESTAMP are specified.
        * </pre>
        *
-       * <code>int64 timestamp = 2;</code>
+       * <code>int64 timestamp = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @param value The timestamp to set.
        * @return This builder for chaining.
        */
@@ -12275,7 +12285,7 @@ public final class Datastreams {
        * Can only be used if AT_TIMESTAMP or FROM_TIMESTAMP are specified.
        * </pre>
        *
-       * <code>int64 timestamp = 2;</code>
+       * <code>int64 timestamp = 2 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @return This builder for chaining.
        */
       public Builder clearTimestamp() {
@@ -12400,7 +12410,7 @@ public final class Datastreams {
      * Timestamp of the record from which to start reading
      * </pre>
      *
-     * <code>int64 timestamp = 1;</code>
+     * <code>int64 timestamp = 1 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
      * @return The timestamp.
      */
     long getTimestamp();
@@ -12543,7 +12553,7 @@ public final class Datastreams {
      * Timestamp of the record from which to start reading
      * </pre>
      *
-     * <code>int64 timestamp = 1;</code>
+     * <code>int64 timestamp = 1 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
      * @return The timestamp.
      */
     @java.lang.Override
@@ -12962,7 +12972,7 @@ public final class Datastreams {
        * Timestamp of the record from which to start reading
        * </pre>
        *
-       * <code>int64 timestamp = 1;</code>
+       * <code>int64 timestamp = 1 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @return The timestamp.
        */
       @java.lang.Override
@@ -12974,7 +12984,7 @@ public final class Datastreams {
        * Timestamp of the record from which to start reading
        * </pre>
        *
-       * <code>int64 timestamp = 1;</code>
+       * <code>int64 timestamp = 1 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @param value The timestamp to set.
        * @return This builder for chaining.
        */
@@ -12989,7 +12999,7 @@ public final class Datastreams {
        * Timestamp of the record from which to start reading
        * </pre>
        *
-       * <code>int64 timestamp = 1;</code>
+       * <code>int64 timestamp = 1 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @return This builder for chaining.
        */
       public Builder clearTimestamp() {
@@ -13335,7 +13345,7 @@ public final class Datastreams {
      * Timestamp that the stream was created
      * </pre>
      *
-     * <code>int64 stream_creation_timestamp = 8;</code>
+     * <code>int64 stream_creation_timestamp = 8 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
      * @return The streamCreationTimestamp.
      */
     long getStreamCreationTimestamp();
@@ -13748,7 +13758,7 @@ public final class Datastreams {
      * Timestamp that the stream was created
      * </pre>
      *
-     * <code>int64 stream_creation_timestamp = 8;</code>
+     * <code>int64 stream_creation_timestamp = 8 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
      * @return The streamCreationTimestamp.
      */
     @java.lang.Override
@@ -15016,7 +15026,7 @@ public final class Datastreams {
        * Timestamp that the stream was created
        * </pre>
        *
-       * <code>int64 stream_creation_timestamp = 8;</code>
+       * <code>int64 stream_creation_timestamp = 8 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @return The streamCreationTimestamp.
        */
       @java.lang.Override
@@ -15028,7 +15038,7 @@ public final class Datastreams {
        * Timestamp that the stream was created
        * </pre>
        *
-       * <code>int64 stream_creation_timestamp = 8;</code>
+       * <code>int64 stream_creation_timestamp = 8 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @param value The streamCreationTimestamp to set.
        * @return This builder for chaining.
        */
@@ -15043,7 +15053,7 @@ public final class Datastreams {
        * Timestamp that the stream was created
        * </pre>
        *
-       * <code>int64 stream_creation_timestamp = 8;</code>
+       * <code>int64 stream_creation_timestamp = 8 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @return This builder for chaining.
        */
       public Builder clearStreamCreationTimestamp() {
@@ -27596,7 +27606,7 @@ public final class Datastreams {
      * Used to distinguish streams that have the same name
      * </pre>
      *
-     * <code>int64 stream_creation_timestamp = 6;</code>
+     * <code>int64 stream_creation_timestamp = 6 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
      * @return The streamCreationTimestamp.
      */
     long getStreamCreationTimestamp();
@@ -27933,7 +27943,7 @@ public final class Datastreams {
      * Used to distinguish streams that have the same name
      * </pre>
      *
-     * <code>int64 stream_creation_timestamp = 6;</code>
+     * <code>int64 stream_creation_timestamp = 6 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
      * @return The streamCreationTimestamp.
      */
     @java.lang.Override
@@ -28933,7 +28943,7 @@ public final class Datastreams {
        * Used to distinguish streams that have the same name
        * </pre>
        *
-       * <code>int64 stream_creation_timestamp = 6;</code>
+       * <code>int64 stream_creation_timestamp = 6 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @return The streamCreationTimestamp.
        */
       @java.lang.Override
@@ -28945,7 +28955,7 @@ public final class Datastreams {
        * Used to distinguish streams that have the same name
        * </pre>
        *
-       * <code>int64 stream_creation_timestamp = 6;</code>
+       * <code>int64 stream_creation_timestamp = 6 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @param value The streamCreationTimestamp to set.
        * @return This builder for chaining.
        */
@@ -28960,7 +28970,7 @@ public final class Datastreams {
        * Used to distinguish streams that have the same name
        * </pre>
        *
-       * <code>int64 stream_creation_timestamp = 6;</code>
+       * <code>int64 stream_creation_timestamp = 6 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @return This builder for chaining.
        */
       public Builder clearStreamCreationTimestamp() {
@@ -35088,7 +35098,7 @@ public final class Datastreams {
      * Used to distinguish streams that have the same name
      * </pre>
      *
-     * <code>int64 stream_creation_timestamp = 5;</code>
+     * <code>int64 stream_creation_timestamp = 5 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
      * @return The streamCreationTimestamp.
      */
     long getStreamCreationTimestamp();
@@ -35339,7 +35349,7 @@ public final class Datastreams {
      * Used to distinguish streams that have the same name
      * </pre>
      *
-     * <code>int64 stream_creation_timestamp = 5;</code>
+     * <code>int64 stream_creation_timestamp = 5 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
      * @return The streamCreationTimestamp.
      */
     @java.lang.Override
@@ -36071,7 +36081,7 @@ public final class Datastreams {
        * Used to distinguish streams that have the same name
        * </pre>
        *
-       * <code>int64 stream_creation_timestamp = 5;</code>
+       * <code>int64 stream_creation_timestamp = 5 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @return The streamCreationTimestamp.
        */
       @java.lang.Override
@@ -36083,7 +36093,7 @@ public final class Datastreams {
        * Used to distinguish streams that have the same name
        * </pre>
        *
-       * <code>int64 stream_creation_timestamp = 5;</code>
+       * <code>int64 stream_creation_timestamp = 5 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @param value The streamCreationTimestamp to set.
        * @return This builder for chaining.
        */
@@ -36098,7 +36108,7 @@ public final class Datastreams {
        * Used to distinguish streams that have the same name
        * </pre>
        *
-       * <code>int64 stream_creation_timestamp = 5;</code>
+       * <code>int64 stream_creation_timestamp = 5 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @return This builder for chaining.
        */
       public Builder clearStreamCreationTimestamp() {
@@ -58559,7 +58569,7 @@ public final class Datastreams {
      * Used with shard iterator type AT_TIMESTAMP
      * </pre>
      *
-     * <code>int64 timestamp = 6;</code>
+     * <code>int64 timestamp = 6 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
      * @return The timestamp.
      */
     long getTimestamp();
@@ -58877,7 +58887,7 @@ public final class Datastreams {
      * Used with shard iterator type AT_TIMESTAMP
      * </pre>
      *
-     * <code>int64 timestamp = 6;</code>
+     * <code>int64 timestamp = 6 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
      * @return The timestamp.
      */
     @java.lang.Override
@@ -59752,7 +59762,7 @@ public final class Datastreams {
        * Used with shard iterator type AT_TIMESTAMP
        * </pre>
        *
-       * <code>int64 timestamp = 6;</code>
+       * <code>int64 timestamp = 6 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @return The timestamp.
        */
       @java.lang.Override
@@ -59764,7 +59774,7 @@ public final class Datastreams {
        * Used with shard iterator type AT_TIMESTAMP
        * </pre>
        *
-       * <code>int64 timestamp = 6;</code>
+       * <code>int64 timestamp = 6 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @param value The timestamp to set.
        * @return This builder for chaining.
        */
@@ -59779,7 +59789,7 @@ public final class Datastreams {
        * Used with shard iterator type AT_TIMESTAMP
        * </pre>
        *
-       * <code>int64 timestamp = 6;</code>
+       * <code>int64 timestamp = 6 [(.Ydb.DataStreams.V1.FieldTransformer) = TRANSFORM_DOUBLE_S_TO_INT_MS];</code>
        * @return This builder for chaining.
        */
       public Builder clearTimestamp() {
@@ -96621,345 +96631,347 @@ public final class Datastreams {
       "d_level_metrics\030\001 \003(\t\"k\n\nChildShard\0228\n\016h" +
       "ash_key_range\030\001 \001(\0132 .Ydb.DataStreams.V1" +
       ".HashKeyRange\022\025\n\rparent_shards\030\002 \003(\t\022\014\n\004" +
-      "name\030\003 \001(\t\"\255\001\n\010Consumer\022\024\n\014consumer_arn\030" +
-      "\001 \001(\t\022#\n\033consumer_creation_timestamp\030\002 \001" +
-      "(\004\022\025\n\rconsumer_name\030\003 \001(\t\022O\n\017consumer_st" +
-      "atus\030\004 \001(\01626.Ydb.DataStreams.V1.Consumer" +
-      "Description.ConsumerStatus\"B\n\014HashKeyRan" +
-      "ge\022\031\n\021starting_hash_key\030\001 \001(\t\022\027\n\017ending_" +
-      "hash_key\030\002 \001(\t\"\221\001\n\006Record\022\021\n\ttimestamp\030\001" +
-      " \001(\005\022\014\n\004data\030\002 \001(\014\0226\n\nencryption\030\003 \001(\0162\"" +
-      ".Ydb.DataStreams.V1.EncryptionType\022\025\n\rpa" +
-      "rtition_key\030\004 \001(\t\022\027\n\017sequence_number\030\005 \001" +
-      "(\t\"\250\004\n\021StreamDescription\022;\n\017encryption_t" +
-      "ype\030\001 \001(\0162\".Ydb.DataStreams.V1.Encryptio" +
-      "nType\022@\n\023enhanced_monitoring\030\002 \003(\0132#.Ydb" +
-      ".DataStreams.V1.EnhancedMetrics\022\027\n\017has_m" +
-      "ore_shards\030\003 \001(\010\022\016\n\006key_id\030\004 \001(\t\022\036\n\026rete" +
-      "ntion_period_hours\030\005 \001(\005\022)\n\006shards\030\006 \003(\013" +
-      "2\031.Ydb.DataStreams.V1.Shard\022\022\n\nstream_ar" +
-      "n\030\007 \001(\t\022!\n\031stream_creation_timestamp\030\010 \001" +
-      "(\003\022I\n\rstream_status\030\t \001(\01622.Ydb.DataStre" +
-      "ams.V1.StreamDescription.StreamStatus\022\023\n" +
-      "\013stream_name\030\n \001(\t\022\036\n\026write_quota_kb_per" +
-      "_sec\030\013 \001(\005\022\r\n\005owner\030\014 \001(\t\"Z\n\014StreamStatu" +
-      "s\022\024\n\020STATUS_UNDEFINED\020\000\022\014\n\010CREATING\020\001\022\014\n" +
-      "\010DELETING\020\002\022\n\n\006ACTIVE\020\003\022\014\n\010UPDATING\020\004\"W\n" +
-      "\023SequenceNumberRange\022 \n\030starting_sequenc" +
-      "e_number\030\001 \001(\t\022\036\n\026ending_sequence_number" +
-      "\030\002 \001(\t\"\326\001\n\005Shard\022 \n\030adjacent_parent_shar" +
-      "d_id\030\001 \001(\t\0228\n\016hash_key_range\030\002 \001(\0132 .Ydb" +
-      ".DataStreams.V1.HashKeyRange\022\027\n\017parent_s" +
-      "hard_id\030\003 \001(\t\022F\n\025sequence_number_range\030\004" +
-      " \001(\0132\'.Ydb.DataStreams.V1.SequenceNumber" +
-      "Range\022\020\n\010shard_id\030\005 \001(\t\"\232\002\n\023ConsumerDesc" +
-      "ription\022\024\n\014consumer_arn\030\001 \001(\t\022#\n\033consume" +
-      "r_creation_timestamp\030\002 \001(\003\022\025\n\rconsumer_n" +
-      "ame\030\003 \001(\t\022O\n\017consumer_status\030\004 \001(\01626.Ydb" +
-      ".DataStreams.V1.ConsumerDescription.Cons" +
-      "umerStatus\022\022\n\nstream_arn\030\005 \001(\t\"L\n\016Consum" +
-      "erStatus\022\022\n\016STATUS_UNKNOWN\020\000\022\014\n\010CREATING" +
-      "\020\001\022\014\n\010DELETING\020\002\022\n\n\006ACTIVE\020\003\"\224\002\n\013ShardFi" +
-      "lter\022\020\n\010shard_id\030\001 \001(\t\022\021\n\ttimestamp\030\002 \001(" +
-      "\003\022=\n\004type\030\003 \001(\0162/.Ydb.DataStreams.V1.Sha" +
-      "rdFilter.ShardFilterType\"\240\001\n\017ShardFilter" +
-      "Type\022\030\n\024SHARD_TYPE_UNDEFINED\020\000\022\022\n\016AFTER_" +
-      "SHARD_ID\020\001\022\023\n\017AT_TRIM_HORIZON\020\002\022\025\n\021FROM_" +
-      "TRIM_HORIZON\020\003\022\r\n\tAT_LATEST\020\004\022\020\n\014AT_TIME" +
-      "STAMP\020\005\022\022\n\016FROM_TIMESTAMP\020\006\"s\n\020StartingP" +
-      "osition\022\021\n\ttimestamp\030\001 \001(\003\022\027\n\017sequence_n" +
-      "umber\030\002 \001(\t\0223\n\004type\030\003 \001(\0162%.Ydb.DataStre" +
-      "ams.V1.ShardIteratorType\"\222\003\n\030StreamDescr" +
-      "iptionSummary\022\026\n\016consumer_count\030\001 \001(\005\022;\n" +
-      "\017encryption_type\030\002 \001(\0162\".Ydb.DataStreams" +
-      ".V1.EncryptionType\022@\n\023enhanced_monitorin" +
-      "g\030\003 \003(\0132#.Ydb.DataStreams.V1.EnhancedMet" +
-      "rics\022\016\n\006key_id\030\004 \001(\t\022\030\n\020open_shard_count" +
-      "\030\005 \001(\005\022\036\n\026retention_period_hours\030\006 \001(\005\022\022" +
-      "\n\nstream_arn\030\007 \001(\t\022!\n\031stream_creation_ti" +
-      "mestamp\030\010 \001(\003\022\023\n\013stream_name\030\t \001(\t\022I\n\rst" +
-      "ream_status\030\n \001(\01622.Ydb.DataStreams.V1.S" +
-      "treamDescription.StreamStatus\"\276\001\n\025Subscr" +
-      "ibeToShardEvent\0224\n\014child_shards\030\001 \003(\0132\036." +
-      "Ydb.DataStreams.V1.ChildShard\022$\n\034continu" +
-      "ation_sequence_number\030\002 \001(\t\022\034\n\024millis_be" +
-      "hind_latest\030\003 \001(\005\022+\n\007records\030\004 \003(\0132\032.Ydb" +
-      ".DataStreams.V1.Record\"\220\010\n\033SubscribeToSh" +
-      "ardEventStream\022d\n\032internal_failure_excep" +
-      "tion\030\001 \001(\0132>.Ydb.DataStreams.V1.Subscrib" +
-      "eToShardEventStream.ExceptionEventH\000\022e\n\033" +
-      "kms_access_denied_exception\030\002 \001(\0132>.Ydb." +
-      "DataStreams.V1.SubscribeToShardEventStre" +
-      "am.ExceptionEventH\000\022`\n\026kms_disabled_exce" +
-      "ption\030\003 \001(\0132>.Ydb.DataStreams.V1.Subscri" +
-      "beToShardEventStream.ExceptionEventH\000\022e\n" +
-      "\033kms_invalid_state_exception\030\004 \001(\0132>.Ydb" +
-      ".DataStreams.V1.SubscribeToShardEventStr" +
-      "eam.ExceptionEventH\000\022a\n\027kms_not_found_ex" +
-      "ception\030\005 \001(\0132>.Ydb.DataStreams.V1.Subsc" +
-      "ribeToShardEventStream.ExceptionEventH\000\022" +
-      "]\n\023kms_opt_in_required\030\006 \001(\0132>.Ydb.DataS" +
-      "treams.V1.SubscribeToShardEventStream.Ex" +
-      "ceptionEventH\000\022b\n\030kms_throttling_excepti" +
-      "on\030\007 \001(\0132>.Ydb.DataStreams.V1.SubscribeT" +
-      "oShardEventStream.ExceptionEventH\000\022c\n\031re" +
-      "source_in_use_exception\030\010 \001(\0132>.Ydb.Data" +
-      "Streams.V1.SubscribeToShardEventStream.E" +
-      "xceptionEventH\000\022f\n\034resource_not_found_ex" +
-      "ception\030\t \001(\0132>.Ydb.DataStreams.V1.Subsc" +
-      "ribeToShardEventStream.ExceptionEventH\000\022" +
-      "M\n\030subscribe_to_shard_event\030\n \001(\0132).Ydb." +
-      "DataStreams.V1.SubscribeToShardEventH\000\032\020" +
-      "\n\016ExceptionEventB\007\n\005event\"!\n\003Tag\022\013\n\003key\030" +
-      "\001 \001(\t\022\r\n\005value\030\002 \001(\t\"\272\001\n\023CreateStreamReq" +
-      "uest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Ope" +
-      "rations.OperationParams\022\023\n\013stream_name\030\002" +
-      " \001(\t\022\023\n\013shard_count\030\003 \001(\005\022\036\n\026write_quota" +
-      "_kb_per_sec\030\004 \001(\005\022\036\n\026retention_period_ho" +
-      "urs\030\005 \001(\005\"D\n\024CreateStreamResponse\022,\n\tope" +
-      "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"" +
-      "\024\n\022CreateStreamResult\"\210\001\n\023DeleteStreamRe" +
-      "quest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Op" +
-      "erations.OperationParams\022!\n\031enforce_cons" +
-      "umer_deletion\030\002 \001(\010\022\023\n\013stream_name\030\003 \001(\t" +
-      "\"D\n\024DeleteStreamResponse\022,\n\toperation\030\001 " +
-      "\001(\0132\031.Ydb.Operations.Operation\"\024\n\022Delete" +
-      "StreamResult\"\224\001\n\022ListStreamsRequest\0229\n\020o" +
-      "peration_params\030\001 \001(\0132\037.Ydb.Operations.O" +
-      "perationParams\022#\n\033exclusive_start_stream" +
-      "_name\030\002 \001(\t\022\r\n\005limit\030\003 \001(\005\022\017\n\007recurse\030\004 " +
-      "\001(\010\"C\n\023ListStreamsResponse\022,\n\toperation\030" +
-      "\001 \001(\0132\031.Ydb.Operations.Operation\"C\n\021List" +
-      "StreamsResult\022\030\n\020has_more_streams\030\001 \001(\010\022" +
-      "\024\n\014stream_names\030\002 \003(\t\"\210\002\n\021ListShardsRequ" +
-      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
-      "ations.OperationParams\022 \n\030exclusive_star" +
-      "t_shard_id\030\002 \001(\t\022\023\n\013max_results\030\003 \001(\005\022\022\n" +
-      "\nnext_token\030\004 \001(\t\0225\n\014shard_filter\030\005 \001(\0132" +
-      "\037.Ydb.DataStreams.V1.ShardFilter\022!\n\031stre" +
-      "am_creation_timestamp\030\006 \001(\003\022\023\n\013stream_na" +
-      "me\030\007 \001(\t\"B\n\022ListShardsResponse\022,\n\toperat" +
-      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"Q\n\020" +
-      "ListShardsResult\022\022\n\nnext_token\030\001 \001(\t\022)\n\006" +
-      "shards\030\002 \003(\0132\031.Ydb.DataStreams.V1.Shard\"" +
-      "\206\001\n\024SetWriteQuotaRequest\0229\n\020operation_pa" +
-      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
-      "ams\022\023\n\013stream_name\030\002 \001(\t\022\036\n\026write_quota_" +
-      "kb_per_sec\030\003 \001(\005\"E\n\025SetWriteQuotaRespons" +
+      "name\030\003 \001(\t\"\263\001\n\010Consumer\022\024\n\014consumer_arn\030" +
+      "\001 \001(\t\022)\n\033consumer_creation_timestamp\030\002 \001" +
+      "(\003B\004\330\260\034\002\022\025\n\rconsumer_name\030\003 \001(\t\022O\n\017consu" +
+      "mer_status\030\004 \001(\01626.Ydb.DataStreams.V1.Co" +
+      "nsumerDescription.ConsumerStatus\"B\n\014Hash" +
+      "KeyRange\022\031\n\021starting_hash_key\030\001 \001(\t\022\027\n\017e" +
+      "nding_hash_key\030\002 \001(\t\"\235\001\n\006Record\022\027\n\ttimes" +
+      "tamp\030\001 \001(\003B\004\330\260\034\002\022\022\n\004data\030\002 \001(\014B\004\330\260\034\001\0226\n\n" +
+      "encryption\030\003 \001(\0162\".Ydb.DataStreams.V1.En" +
+      "cryptionType\022\025\n\rpartition_key\030\004 \001(\t\022\027\n\017s" +
+      "equence_number\030\005 \001(\t\"\256\004\n\021StreamDescripti" +
+      "on\022;\n\017encryption_type\030\001 \001(\0162\".Ydb.DataSt" +
+      "reams.V1.EncryptionType\022@\n\023enhanced_moni" +
+      "toring\030\002 \003(\0132#.Ydb.DataStreams.V1.Enhanc" +
+      "edMetrics\022\027\n\017has_more_shards\030\003 \001(\010\022\016\n\006ke" +
+      "y_id\030\004 \001(\t\022\036\n\026retention_period_hours\030\005 \001" +
+      "(\005\022)\n\006shards\030\006 \003(\0132\031.Ydb.DataStreams.V1." +
+      "Shard\022\022\n\nstream_arn\030\007 \001(\t\022\'\n\031stream_crea" +
+      "tion_timestamp\030\010 \001(\003B\004\330\260\034\002\022I\n\rstream_sta" +
+      "tus\030\t \001(\01622.Ydb.DataStreams.V1.StreamDes" +
+      "cription.StreamStatus\022\023\n\013stream_name\030\n \001" +
+      "(\t\022\036\n\026write_quota_kb_per_sec\030\013 \001(\005\022\r\n\005ow" +
+      "ner\030\014 \001(\t\"Z\n\014StreamStatus\022\024\n\020STATUS_UNDE" +
+      "FINED\020\000\022\014\n\010CREATING\020\001\022\014\n\010DELETING\020\002\022\n\n\006A" +
+      "CTIVE\020\003\022\014\n\010UPDATING\020\004\"W\n\023SequenceNumberR" +
+      "ange\022 \n\030starting_sequence_number\030\001 \001(\t\022\036" +
+      "\n\026ending_sequence_number\030\002 \001(\t\"\326\001\n\005Shard" +
+      "\022 \n\030adjacent_parent_shard_id\030\001 \001(\t\0228\n\016ha" +
+      "sh_key_range\030\002 \001(\0132 .Ydb.DataStreams.V1." +
+      "HashKeyRange\022\027\n\017parent_shard_id\030\003 \001(\t\022F\n" +
+      "\025sequence_number_range\030\004 \001(\0132\'.Ydb.DataS" +
+      "treams.V1.SequenceNumberRange\022\020\n\010shard_i" +
+      "d\030\005 \001(\t\"\240\002\n\023ConsumerDescription\022\024\n\014consu" +
+      "mer_arn\030\001 \001(\t\022)\n\033consumer_creation_times" +
+      "tamp\030\002 \001(\003B\004\330\260\034\002\022\025\n\rconsumer_name\030\003 \001(\t\022" +
+      "O\n\017consumer_status\030\004 \001(\01626.Ydb.DataStrea" +
+      "ms.V1.ConsumerDescription.ConsumerStatus" +
+      "\022\022\n\nstream_arn\030\005 \001(\t\"L\n\016ConsumerStatus\022\022" +
+      "\n\016STATUS_UNKNOWN\020\000\022\014\n\010CREATING\020\001\022\014\n\010DELE" +
+      "TING\020\002\022\n\n\006ACTIVE\020\003\"\232\002\n\013ShardFilter\022\020\n\010sh" +
+      "ard_id\030\001 \001(\t\022\027\n\ttimestamp\030\002 \001(\003B\004\330\260\034\002\022=\n" +
+      "\004type\030\003 \001(\0162/.Ydb.DataStreams.V1.ShardFi" +
+      "lter.ShardFilterType\"\240\001\n\017ShardFilterType" +
+      "\022\030\n\024SHARD_TYPE_UNDEFINED\020\000\022\022\n\016AFTER_SHAR" +
+      "D_ID\020\001\022\023\n\017AT_TRIM_HORIZON\020\002\022\025\n\021FROM_TRIM" +
+      "_HORIZON\020\003\022\r\n\tAT_LATEST\020\004\022\020\n\014AT_TIMESTAM" +
+      "P\020\005\022\022\n\016FROM_TIMESTAMP\020\006\"y\n\020StartingPosit" +
+      "ion\022\027\n\ttimestamp\030\001 \001(\003B\004\330\260\034\002\022\027\n\017sequence" +
+      "_number\030\002 \001(\t\0223\n\004type\030\003 \001(\0162%.Ydb.DataSt" +
+      "reams.V1.ShardIteratorType\"\230\003\n\030StreamDes" +
+      "criptionSummary\022\026\n\016consumer_count\030\001 \001(\005\022" +
+      ";\n\017encryption_type\030\002 \001(\0162\".Ydb.DataStrea" +
+      "ms.V1.EncryptionType\022@\n\023enhanced_monitor" +
+      "ing\030\003 \003(\0132#.Ydb.DataStreams.V1.EnhancedM" +
+      "etrics\022\016\n\006key_id\030\004 \001(\t\022\030\n\020open_shard_cou" +
+      "nt\030\005 \001(\005\022\036\n\026retention_period_hours\030\006 \001(\005" +
+      "\022\022\n\nstream_arn\030\007 \001(\t\022\'\n\031stream_creation_" +
+      "timestamp\030\010 \001(\003B\004\330\260\034\002\022\023\n\013stream_name\030\t \001" +
+      "(\t\022I\n\rstream_status\030\n \001(\01622.Ydb.DataStre" +
+      "ams.V1.StreamDescription.StreamStatus\"\276\001" +
+      "\n\025SubscribeToShardEvent\0224\n\014child_shards\030" +
+      "\001 \003(\0132\036.Ydb.DataStreams.V1.ChildShard\022$\n" +
+      "\034continuation_sequence_number\030\002 \001(\t\022\034\n\024m" +
+      "illis_behind_latest\030\003 \001(\005\022+\n\007records\030\004 \003" +
+      "(\0132\032.Ydb.DataStreams.V1.Record\"\220\010\n\033Subsc" +
+      "ribeToShardEventStream\022d\n\032internal_failu" +
+      "re_exception\030\001 \001(\0132>.Ydb.DataStreams.V1." +
+      "SubscribeToShardEventStream.ExceptionEve" +
+      "ntH\000\022e\n\033kms_access_denied_exception\030\002 \001(" +
+      "\0132>.Ydb.DataStreams.V1.SubscribeToShardE" +
+      "ventStream.ExceptionEventH\000\022`\n\026kms_disab" +
+      "led_exception\030\003 \001(\0132>.Ydb.DataStreams.V1" +
+      ".SubscribeToShardEventStream.ExceptionEv" +
+      "entH\000\022e\n\033kms_invalid_state_exception\030\004 \001" +
+      "(\0132>.Ydb.DataStreams.V1.SubscribeToShard" +
+      "EventStream.ExceptionEventH\000\022a\n\027kms_not_" +
+      "found_exception\030\005 \001(\0132>.Ydb.DataStreams." +
+      "V1.SubscribeToShardEventStream.Exception" +
+      "EventH\000\022]\n\023kms_opt_in_required\030\006 \001(\0132>.Y" +
+      "db.DataStreams.V1.SubscribeToShardEventS" +
+      "tream.ExceptionEventH\000\022b\n\030kms_throttling" +
+      "_exception\030\007 \001(\0132>.Ydb.DataStreams.V1.Su" +
+      "bscribeToShardEventStream.ExceptionEvent" +
+      "H\000\022c\n\031resource_in_use_exception\030\010 \001(\0132>." +
+      "Ydb.DataStreams.V1.SubscribeToShardEvent" +
+      "Stream.ExceptionEventH\000\022f\n\034resource_not_" +
+      "found_exception\030\t \001(\0132>.Ydb.DataStreams." +
+      "V1.SubscribeToShardEventStream.Exception" +
+      "EventH\000\022M\n\030subscribe_to_shard_event\030\n \001(" +
+      "\0132).Ydb.DataStreams.V1.SubscribeToShardE" +
+      "ventH\000\032\020\n\016ExceptionEventB\007\n\005event\"!\n\003Tag" +
+      "\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t\"\272\001\n\023CreateS" +
+      "treamRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
+      ".Ydb.Operations.OperationParams\022\023\n\013strea" +
+      "m_name\030\002 \001(\t\022\023\n\013shard_count\030\003 \001(\005\022\036\n\026wri" +
+      "te_quota_kb_per_sec\030\004 \001(\005\022\036\n\026retention_p" +
+      "eriod_hours\030\005 \001(\005\"D\n\024CreateStreamRespons" +
       "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
-      "eration\"\025\n\023SetWriteQuotaResult\"\301\001\n\023Updat" +
-      "eStreamRequest\0229\n\020operation_params\030\001 \001(\013" +
-      "2\037.Ydb.Operations.OperationParams\022\023\n\013str" +
-      "eam_name\030\002 \001(\t\022\036\n\026write_quota_kb_per_sec" +
-      "\030\003 \001(\005\022\032\n\022target_shard_count\030\004 \001(\005\022\036\n\026re" +
-      "tention_period_hours\030\005 \001(\005\"D\n\024UpdateStre" +
-      "amResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
-      "ations.Operation\"\024\n\022UpdateStreamResult\"\267" +
-      "\001\n\032ListStreamConsumersRequest\0229\n\020operati" +
-      "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati" +
-      "onParams\022\023\n\013max_results\030\002 \001(\005\022\022\n\nnext_to" +
-      "ken\030\003 \001(\t\022\022\n\nstream_arn\030\004 \001(\t\022!\n\031stream_" +
-      "creation_timestamp\030\005 \001(\003\"K\n\033ListStreamCo" +
-      "nsumersResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
-      ".Operations.Operation\"`\n\031ListStreamConsu" +
-      "mersResult\022\022\n\nnext_token\030\001 \001(\t\022/\n\tconsum" +
-      "ers\030\002 \003(\0132\034.Ydb.DataStreams.V1.Consumer\"" +
-      "\230\001\n\025DescribeStreamRequest\0229\n\020operation_p" +
-      "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa" +
-      "rams\022 \n\030exclusive_start_shard_id\030\002 \001(\t\022\r" +
-      "\n\005limit\030\003 \001(\005\022\023\n\013stream_name\030\004 \001(\t\"F\n\026De" +
-      "scribeStreamResponse\022,\n\toperation\030\001 \001(\0132" +
-      "\031.Ydb.Operations.Operation\"Y\n\024DescribeSt" +
-      "reamResult\022A\n\022stream_description\030\001 \001(\0132%" +
-      ".Ydb.DataStreams.V1.StreamDescription\"\205\001" +
-      "\n\035RegisterStreamConsumerRequest\0229\n\020opera" +
-      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
-      "tionParams\022\025\n\rconsumer_name\030\002 \001(\t\022\022\n\nstr" +
-      "eam_arn\030\003 \001(\t\"N\n\036RegisterStreamConsumerR" +
-      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
-      "ons.Operation\"N\n\034RegisterStreamConsumerR" +
-      "esult\022.\n\010consumer\030\001 \001(\0132\034.Ydb.DataStream" +
-      "s.V1.Consumer\"\235\001\n\037DeregisterStreamConsum" +
-      "erRequest\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
-      "b.Operations.OperationParams\022\024\n\014consumer" +
-      "_arn\030\002 \001(\t\022\025\n\rconsumer_name\030\003 \001(\t\022\022\n\nstr" +
-      "eam_arn\030\004 \001(\t\"P\n DeregisterStreamConsume" +
-      "rResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
-      "tions.Operation\" \n\036DeregisterStreamConsu" +
-      "merResult\"\233\001\n\035DescribeStreamConsumerRequ" +
+      "eration\"\024\n\022CreateStreamResult\"\210\001\n\023Delete" +
+      "StreamRequest\0229\n\020operation_params\030\001 \001(\0132" +
+      "\037.Ydb.Operations.OperationParams\022!\n\031enfo" +
+      "rce_consumer_deletion\030\002 \001(\010\022\023\n\013stream_na" +
+      "me\030\003 \001(\t\"D\n\024DeleteStreamResponse\022,\n\toper" +
+      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\024" +
+      "\n\022DeleteStreamResult\"\224\001\n\022ListStreamsRequ" +
       "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
-      "ations.OperationParams\022\024\n\014consumer_arn\030\002" +
-      " \001(\t\022\025\n\rconsumer_name\030\003 \001(\t\022\022\n\nstream_ar" +
-      "n\030\004 \001(\t\"N\n\036DescribeStreamConsumerRespons" +
-      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
-      "eration\"e\n\034DescribeStreamConsumerResult\022" +
-      "E\n\024consumer_description\030\001 \001(\0132\'.Ydb.Data" +
-      "Streams.V1.ConsumerDescription\"^\n\026PutRec" +
-      "ordsRequestEntry\022\022\n\004data\030\001 \001(\014B\004\330\260\034\001\022\031\n\021" +
-      "explicit_hash_key\030\002 \001(\t\022\025\n\rpartition_key" +
-      "\030\003 \001(\t\"m\n\025PutRecordsResultEntry\022\025\n\rerror" +
-      "_message\030\002 \001(\t\022\022\n\nerror_code\030\003 \001(\t\022\027\n\017se" +
-      "quence_number\030\004 \001(\t\022\020\n\010shard_id\030\005 \001(\t\"u\n" +
-      "\021GetRecordsRequest\0229\n\020operation_params\030\001" +
-      " \001(\0132\037.Ydb.Operations.OperationParams\022\r\n" +
-      "\005limit\030\002 \001(\005\022\026\n\016shard_iterator\030\003 \001(\t\"B\n\022" +
-      "GetRecordsResponse\022,\n\toperation\030\001 \001(\0132\031." +
-      "Ydb.Operations.Operation\"\260\001\n\020GetRecordsR" +
-      "esult\0224\n\014child_shards\030\001 \003(\0132\036.Ydb.DataSt" +
-      "reams.V1.ChildShard\022\034\n\024millis_behind_lat" +
-      "est\030\002 \001(\003\022\033\n\023next_shard_iterator\030\003 \001(\t\022+" +
-      "\n\007records\030\004 \003(\0132\032.Ydb.DataStreams.V1.Rec" +
-      "ord\"\316\001\n\020PutRecordRequest\0229\n\020operation_pa" +
-      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
-      "ams\022\022\n\004data\030\002 \001(\014B\004\330\260\034\001\022\031\n\021explicit_hash" +
-      "_key\030\003 \001(\t\022\025\n\rpartition_key\030\004 \001(\t\022$\n\034seq" +
-      "uence_number_for_ordering\030\005 \001(\t\022\023\n\013strea" +
-      "m_name\030\006 \001(\t\"A\n\021PutRecordResponse\022,\n\tope" +
-      "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"" +
-      "y\n\017PutRecordResult\022;\n\017encryption_type\030\001 " +
-      "\001(\0162\".Ydb.DataStreams.V1.EncryptionType\022" +
-      "\027\n\017sequence_number\030\002 \001(\t\022\020\n\010shard_id\030\003 \001" +
-      "(\t\"\240\001\n\021PutRecordsRequest\0229\n\020operation_pa" +
-      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
-      "ams\022;\n\007records\030\002 \003(\0132*.Ydb.DataStreams.V" +
-      "1.PutRecordsRequestEntry\022\023\n\013stream_name\030" +
-      "\003 \001(\t\"B\n\022PutRecordsResponse\022,\n\toperation" +
-      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\250\001\n\020Pu" +
-      "tRecordsResult\022;\n\017encryption_type\030\001 \001(\0162" +
-      "\".Ydb.DataStreams.V1.EncryptionType\022\033\n\023f" +
-      "ailed_record_count\030\002 \001(\005\022:\n\007records\030\003 \003(" +
-      "\0132).Ydb.DataStreams.V1.PutRecordsResultE" +
-      "ntry\"\364\001\n\027GetShardIteratorRequest\0229\n\020oper" +
-      "ation_params\030\001 \001(\0132\037.Ydb.Operations.Oper" +
-      "ationParams\022\020\n\010shard_id\030\002 \001(\t\022B\n\023shard_i" +
-      "terator_type\030\003 \001(\0162%.Ydb.DataStreams.V1." +
-      "ShardIteratorType\022 \n\030starting_sequence_n" +
-      "umber\030\004 \001(\t\022\023\n\013stream_name\030\005 \001(\t\022\021\n\ttime" +
-      "stamp\030\006 \001(\003\"H\n\030GetShardIteratorResponse\022" +
-      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
-      "ation\"0\n\026GetShardIteratorResult\022\026\n\016shard" +
-      "_iterator\030\001 \001(\t\"\275\001\n\027SubscribeToShardRequ" +
-      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
-      "ations.OperationParams\022\024\n\014consumer_arn\030\002" +
-      " \001(\t\022\020\n\010shard_id\030\003 \001(\t\022?\n\021starting_posit" +
-      "ion\030\004 \001(\0132$.Ydb.DataStreams.V1.StartingP" +
-      "osition\"H\n\030SubscribeToShardResponse\022,\n\to" +
-      "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
-      "n\"_\n\026SubscribeToShardResult\022E\n\014event_str" +
-      "eam\030\001 \001(\0132/.Ydb.DataStreams.V1.Subscribe" +
-      "ToShardEventStream\"v\n\026AddTagsToStreamReq" +
-      "uest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Ope" +
-      "rations.OperationParams\022\023\n\013stream_name\030\002" +
-      " \001(\t\022\014\n\004tags\030\003 \003(\t\"G\n\027AddTagsToStreamRes" +
-      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
-      "s.Operation\"\027\n\025AddTagsToStreamResult\"\226\001\n" +
-      "$DecreaseStreamRetentionPeriodRequest\0229\n" +
-      "\020operation_params\030\001 \001(\0132\037.Ydb.Operations" +
-      ".OperationParams\022\023\n\013stream_name\030\002 \001(\t\022\036\n" +
-      "\026retention_period_hours\030\003 \001(\005\"U\n%Decreas" +
-      "eStreamRetentionPeriodResponse\022,\n\toperat" +
-      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"%\n#" +
-      "DecreaseStreamRetentionPeriodResult\"R\n\025D" +
-      "escribeLimitsRequest\0229\n\020operation_params" +
-      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\"" +
-      "F\n\026DescribeLimitsResponse\022,\n\toperation\030\001" +
-      " \001(\0132\031.Ydb.Operations.Operation\"E\n\024Descr" +
-      "ibeLimitsResult\022\030\n\020open_shard_count\030\001 \001(" +
-      "\005\022\023\n\013shard_limit\030\002 \001(\005\"n\n\034DescribeStream" +
-      "SummaryRequest\0229\n\020operation_params\030\001 \001(\013" +
-      "2\037.Ydb.Operations.OperationParams\022\023\n\013str" +
-      "eam_name\030\002 \001(\t\"M\n\035DescribeStreamSummaryR" +
-      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
-      "ons.Operation\"\035\n\033DescribeStreamSummaryRe" +
-      "sult\"\217\001\n DisableEnhancedMonitoringReques" +
-      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
-      "ions.OperationParams\022\033\n\023shard_level_metr" +
-      "ics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"Q\n!Disabl" +
-      "eEnhancedMonitoringResponse\022,\n\toperation" +
-      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\200\001\n\037Di" +
-      "sableEnhancedMonitoringResult\022#\n\033current" +
-      "_shard_level_metrics\030\001 \003(\t\022#\n\033desired_sh" +
-      "ard_level_metrics\030\002 \003(\t\022\023\n\013stream_name\030\003" +
-      " \001(\t\"\216\001\n\037EnableEnhancedMonitoringRequest" +
-      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
-      "ons.OperationParams\022\033\n\023shard_level_metri" +
-      "cs\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"P\n EnableE" +
-      "nhancedMonitoringResponse\022,\n\toperation\030\001" +
-      " \001(\0132\031.Ydb.Operations.Operation\"\177\n\036Enabl" +
-      "eEnhancedMonitoringResult\022#\n\033current_sha" +
-      "rd_level_metrics\030\001 \003(\t\022#\n\033desired_shard_" +
-      "level_metrics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t" +
-      "\"\226\001\n$IncreaseStreamRetentionPeriodReques" +
-      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
-      "ions.OperationParams\022\036\n\026retention_period" +
-      "_hours\030\002 \001(\005\022\023\n\013stream_name\030\003 \001(\t\"U\n%Inc" +
-      "reaseStreamRetentionPeriodResponse\022,\n\top" +
+      "ations.OperationParams\022#\n\033exclusive_star" +
+      "t_stream_name\030\002 \001(\t\022\r\n\005limit\030\003 \001(\005\022\017\n\007re" +
+      "curse\030\004 \001(\010\"C\n\023ListStreamsResponse\022,\n\top" +
       "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
-      "\"%\n#IncreaseStreamRetentionPeriodResult\"" +
-      "\232\001\n\030ListTagsForStreamRequest\0229\n\020operatio" +
+      "\"C\n\021ListStreamsResult\022\030\n\020has_more_stream" +
+      "s\030\001 \001(\010\022\024\n\014stream_names\030\002 \003(\t\"\216\002\n\021ListSh" +
+      "ardsRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
+      "Ydb.Operations.OperationParams\022 \n\030exclus" +
+      "ive_start_shard_id\030\002 \001(\t\022\023\n\013max_results\030" +
+      "\003 \001(\005\022\022\n\nnext_token\030\004 \001(\t\0225\n\014shard_filte" +
+      "r\030\005 \001(\0132\037.Ydb.DataStreams.V1.ShardFilter" +
+      "\022\'\n\031stream_creation_timestamp\030\006 \001(\003B\004\330\260\034" +
+      "\002\022\023\n\013stream_name\030\007 \001(\t\"B\n\022ListShardsResp" +
+      "onse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations" +
+      ".Operation\"Q\n\020ListShardsResult\022\022\n\nnext_t" +
+      "oken\030\001 \001(\t\022)\n\006shards\030\002 \003(\0132\031.Ydb.DataStr" +
+      "eams.V1.Shard\"\206\001\n\024SetWriteQuotaRequest\0229" +
+      "\n\020operation_params\030\001 \001(\0132\037.Ydb.Operation" +
+      "s.OperationParams\022\023\n\013stream_name\030\002 \001(\t\022\036" +
+      "\n\026write_quota_kb_per_sec\030\003 \001(\005\"E\n\025SetWri" +
+      "teQuotaResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
+      ".Operations.Operation\"\025\n\023SetWriteQuotaRe" +
+      "sult\"\301\001\n\023UpdateStreamRequest\0229\n\020operatio" +
       "n_params\030\001 \001(\0132\037.Ydb.Operations.Operatio" +
-      "nParams\022\037\n\027exclusive_start_tag_key\030\002 \001(\t" +
-      "\022\r\n\005limit\030\003 \001(\005\022\023\n\013stream_name\030\004 \001(\t\"I\n\031" +
-      "ListTagsForStreamResponse\022,\n\toperation\030\001" +
-      " \001(\0132\031.Ydb.Operations.Operation\"W\n\027ListT" +
-      "agsForStreamResult\022\025\n\rhas_more_tags\030\001 \001(" +
-      "\010\022%\n\004tags\030\002 \003(\0132\027.Ydb.DataStreams.V1.Tag" +
-      "\"\235\001\n\022MergeShardsRequest\0229\n\020operation_par" +
-      "ams\030\001 \001(\0132\037.Ydb.Operations.OperationPara" +
-      "ms\022\037\n\027adjacent_shard_to_merge\030\002 \001(\t\022\026\n\016s" +
-      "hard_to_merge\030\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t" +
-      "\"C\n\023MergeShardsResponse\022,\n\toperation\030\001 \001" +
-      "(\0132\031.Ydb.Operations.Operation\"\023\n\021MergeSh" +
-      "ardsResult\"\177\n\033RemoveTagsFromStreamReques" +
-      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
-      "ions.OperationParams\022\023\n\013stream_name\030\002 \001(" +
-      "\t\022\020\n\010tag_keys\030\003 \003(\t\"L\n\034RemoveTagsFromStr" +
-      "eamResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
-      "rations.Operation\"\034\n\032RemoveTagsFromStrea" +
-      "mResult\"\232\001\n\021SplitShardRequest\0229\n\020operati" +
-      "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati" +
-      "onParams\022\035\n\025new_starting_hash_key\030\002 \001(\t\022" +
-      "\026\n\016shard_to_split\030\003 \001(\t\022\023\n\013stream_name\030\004" +
-      " \001(\t\"B\n\022SplitShardResponse\022,\n\toperation\030" +
-      "\001 \001(\0132\031.Ydb.Operations.Operation\"\022\n\020Spli" +
-      "tShardResult\"\273\001\n\034StartStreamEncryptionRe" +
-      "quest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Op" +
-      "erations.OperationParams\022;\n\017encryption_t" +
-      "ype\030\002 \001(\0162\".Ydb.DataStreams.V1.Encryptio" +
-      "nType\022\016\n\006key_id\030\003 \001(\t\022\023\n\013stream_name\030\004 \001" +
-      "(\t\"M\n\035StartStreamEncryptionResponse\022,\n\to" +
+      "nParams\022\023\n\013stream_name\030\002 \001(\t\022\036\n\026write_qu" +
+      "ota_kb_per_sec\030\003 \001(\005\022\032\n\022target_shard_cou" +
+      "nt\030\004 \001(\005\022\036\n\026retention_period_hours\030\005 \001(\005" +
+      "\"D\n\024UpdateStreamResponse\022,\n\toperation\030\001 " +
+      "\001(\0132\031.Ydb.Operations.Operation\"\024\n\022Update" +
+      "StreamResult\"\275\001\n\032ListStreamConsumersRequ" +
+      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
+      "ations.OperationParams\022\023\n\013max_results\030\002 " +
+      "\001(\005\022\022\n\nnext_token\030\003 \001(\t\022\022\n\nstream_arn\030\004 " +
+      "\001(\t\022\'\n\031stream_creation_timestamp\030\005 \001(\003B\004" +
+      "\330\260\034\002\"K\n\033ListStreamConsumersResponse\022,\n\to" +
       "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
-      "n\"\035\n\033StartStreamEncryptionResult\"\272\001\n\033Sto" +
-      "pStreamEncryptionRequest\0229\n\020operation_pa" +
-      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
-      "ams\022;\n\017encryption_type\030\002 \001(\0162\".Ydb.DataS" +
-      "treams.V1.EncryptionType\022\016\n\006key_id\030\003 \001(\t" +
-      "\022\023\n\013stream_name\030\004 \001(\t\"L\n\034StopStreamEncry" +
-      "ptionResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
-      "perations.Operation\"\034\n\032StopStreamEncrypt" +
-      "ionResult\"\222\002\n\027UpdateShardCountRequest\0229\n" +
-      "\020operation_params\030\001 \001(\0132\037.Ydb.Operations" +
-      ".OperationParams\022M\n\014scaling_type\030\002 \001(\01627" +
-      ".Ydb.DataStreams.V1.UpdateShardCountRequ" +
-      "est.ScalingType\022\023\n\013stream_name\030\003 \001(\t\022\032\n\022" +
-      "target_shard_count\030\004 \001(\005\"<\n\013ScalingType\022" +
-      "\030\n\024SCALING_TYPE_UNKNOWN\020\000\022\023\n\017UNIFORM_SCA" +
-      "LING\020\001\"H\n\030UpdateShardCountResponse\022,\n\top" +
-      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
-      "\"f\n\026UpdateShardCountResult\022\033\n\023current_sh" +
-      "ard_count\030\001 \001(\005\022\023\n\013stream_name\030\002 \001(\t\022\032\n\022" +
-      "target_shard_count\030\003 \001(\005*D\n\030EFieldTransf" +
-      "ormationType\022\022\n\016TRANSFORM_NONE\020\000\022\024\n\020TRAN" +
-      "SFORM_BASE64\020\001*=\n\016EncryptionType\022\030\n\024ENCR" +
-      "YPTION_UNDEFINED\020\000\022\010\n\004NONE\020\001\022\007\n\003KMS\020\002*\224\001" +
-      "\n\021ShardIteratorType\022\034\n\030SHARD_ITERATOR_UN" +
-      "DEFINED\020\000\022\026\n\022AT_SEQUENCE_NUMBER\020\001\022\031\n\025AFT" +
-      "ER_SEQUENCE_NUMBER\020\002\022\020\n\014AT_TIMESTAMP\020\003\022\020" +
-      "\n\014TRIM_HORIZON\020\004\022\n\n\006LATEST\020\005:g\n\020FieldTra" +
-      "nsformer\022\035.google.protobuf.FieldOptions\030" +
-      "\213\306\003 \001(\0162,.Ydb.DataStreams.V1.EFieldTrans" +
-      "formationTypeB\"\n\035tech.ydb.datastre" +
-      "ams.v1\370\001\001b\006proto3"
+      "n\"`\n\031ListStreamConsumersResult\022\022\n\nnext_t" +
+      "oken\030\001 \001(\t\022/\n\tconsumers\030\002 \003(\0132\034.Ydb.Data" +
+      "Streams.V1.Consumer\"\230\001\n\025DescribeStreamRe" +
+      "quest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Op" +
+      "erations.OperationParams\022 \n\030exclusive_st" +
+      "art_shard_id\030\002 \001(\t\022\r\n\005limit\030\003 \001(\005\022\023\n\013str" +
+      "eam_name\030\004 \001(\t\"F\n\026DescribeStreamResponse" +
+      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
+      "ration\"Y\n\024DescribeStreamResult\022A\n\022stream" +
+      "_description\030\001 \001(\0132%.Ydb.DataStreams.V1." +
+      "StreamDescription\"\205\001\n\035RegisterStreamCons" +
+      "umerRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
+      "Ydb.Operations.OperationParams\022\025\n\rconsum" +
+      "er_name\030\002 \001(\t\022\022\n\nstream_arn\030\003 \001(\t\"N\n\036Reg" +
+      "isterStreamConsumerResponse\022,\n\toperation" +
+      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"N\n\034Reg" +
+      "isterStreamConsumerResult\022.\n\010consumer\030\001 " +
+      "\001(\0132\034.Ydb.DataStreams.V1.Consumer\"\235\001\n\037De" +
+      "registerStreamConsumerRequest\0229\n\020operati" +
+      "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati" +
+      "onParams\022\024\n\014consumer_arn\030\002 \001(\t\022\025\n\rconsum" +
+      "er_name\030\003 \001(\t\022\022\n\nstream_arn\030\004 \001(\t\"P\n Der" +
+      "egisterStreamConsumerResponse\022,\n\toperati" +
+      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\" \n\036D" +
+      "eregisterStreamConsumerResult\"\233\001\n\035Descri" +
+      "beStreamConsumerRequest\0229\n\020operation_par" +
+      "ams\030\001 \001(\0132\037.Ydb.Operations.OperationPara" +
+      "ms\022\024\n\014consumer_arn\030\002 \001(\t\022\025\n\rconsumer_nam" +
+      "e\030\003 \001(\t\022\022\n\nstream_arn\030\004 \001(\t\"N\n\036DescribeS" +
+      "treamConsumerResponse\022,\n\toperation\030\001 \001(\013" +
+      "2\031.Ydb.Operations.Operation\"e\n\034DescribeS" +
+      "treamConsumerResult\022E\n\024consumer_descript" +
+      "ion\030\001 \001(\0132\'.Ydb.DataStreams.V1.ConsumerD" +
+      "escription\"^\n\026PutRecordsRequestEntry\022\022\n\004" +
+      "data\030\001 \001(\014B\004\330\260\034\001\022\031\n\021explicit_hash_key\030\002 " +
+      "\001(\t\022\025\n\rpartition_key\030\003 \001(\t\"m\n\025PutRecords" +
+      "ResultEntry\022\025\n\rerror_message\030\002 \001(\t\022\022\n\ner" +
+      "ror_code\030\003 \001(\t\022\027\n\017sequence_number\030\004 \001(\t\022" +
+      "\020\n\010shard_id\030\005 \001(\t\"u\n\021GetRecordsRequest\0229" +
+      "\n\020operation_params\030\001 \001(\0132\037.Ydb.Operation" +
+      "s.OperationParams\022\r\n\005limit\030\002 \001(\005\022\026\n\016shar" +
+      "d_iterator\030\003 \001(\t\"B\n\022GetRecordsResponse\022," +
+      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
+      "tion\"\260\001\n\020GetRecordsResult\0224\n\014child_shard" +
+      "s\030\001 \003(\0132\036.Ydb.DataStreams.V1.ChildShard\022" +
+      "\034\n\024millis_behind_latest\030\002 \001(\003\022\033\n\023next_sh" +
+      "ard_iterator\030\003 \001(\t\022+\n\007records\030\004 \003(\0132\032.Yd" +
+      "b.DataStreams.V1.Record\"\316\001\n\020PutRecordReq" +
+      "uest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Ope" +
+      "rations.OperationParams\022\022\n\004data\030\002 \001(\014B\004\330" +
+      "\260\034\001\022\031\n\021explicit_hash_key\030\003 \001(\t\022\025\n\rpartit" +
+      "ion_key\030\004 \001(\t\022$\n\034sequence_number_for_ord" +
+      "ering\030\005 \001(\t\022\023\n\013stream_name\030\006 \001(\t\"A\n\021PutR" +
+      "ecordResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
+      "perations.Operation\"y\n\017PutRecordResult\022;" +
+      "\n\017encryption_type\030\001 \001(\0162\".Ydb.DataStream" +
+      "s.V1.EncryptionType\022\027\n\017sequence_number\030\002" +
+      " \001(\t\022\020\n\010shard_id\030\003 \001(\t\"\240\001\n\021PutRecordsReq" +
+      "uest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Ope" +
+      "rations.OperationParams\022;\n\007records\030\002 \003(\013" +
+      "2*.Ydb.DataStreams.V1.PutRecordsRequestE" +
+      "ntry\022\023\n\013stream_name\030\003 \001(\t\"B\n\022PutRecordsR" +
+      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
+      "ons.Operation\"\250\001\n\020PutRecordsResult\022;\n\017en" +
+      "cryption_type\030\001 \001(\0162\".Ydb.DataStreams.V1" +
+      ".EncryptionType\022\033\n\023failed_record_count\030\002" +
+      " \001(\005\022:\n\007records\030\003 \003(\0132).Ydb.DataStreams." +
+      "V1.PutRecordsResultEntry\"\372\001\n\027GetShardIte" +
+      "ratorRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
+      ".Ydb.Operations.OperationParams\022\020\n\010shard" +
+      "_id\030\002 \001(\t\022B\n\023shard_iterator_type\030\003 \001(\0162%" +
+      ".Ydb.DataStreams.V1.ShardIteratorType\022 \n" +
+      "\030starting_sequence_number\030\004 \001(\t\022\023\n\013strea" +
+      "m_name\030\005 \001(\t\022\027\n\ttimestamp\030\006 \001(\003B\004\330\260\034\002\"H\n" +
+      "\030GetShardIteratorResponse\022,\n\toperation\030\001" +
+      " \001(\0132\031.Ydb.Operations.Operation\"0\n\026GetSh" +
+      "ardIteratorResult\022\026\n\016shard_iterator\030\001 \001(" +
+      "\t\"\275\001\n\027SubscribeToShardRequest\0229\n\020operati" +
+      "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati" +
+      "onParams\022\024\n\014consumer_arn\030\002 \001(\t\022\020\n\010shard_" +
+      "id\030\003 \001(\t\022?\n\021starting_position\030\004 \001(\0132$.Yd" +
+      "b.DataStreams.V1.StartingPosition\"H\n\030Sub" +
+      "scribeToShardResponse\022,\n\toperation\030\001 \001(\013" +
+      "2\031.Ydb.Operations.Operation\"_\n\026Subscribe" +
+      "ToShardResult\022E\n\014event_stream\030\001 \001(\0132/.Yd" +
+      "b.DataStreams.V1.SubscribeToShardEventSt" +
+      "ream\"v\n\026AddTagsToStreamRequest\0229\n\020operat" +
+      "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat" +
+      "ionParams\022\023\n\013stream_name\030\002 \001(\t\022\014\n\004tags\030\003" +
+      " \003(\t\"G\n\027AddTagsToStreamResponse\022,\n\topera" +
+      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\027\n" +
+      "\025AddTagsToStreamResult\"\226\001\n$DecreaseStrea" +
+      "mRetentionPeriodRequest\0229\n\020operation_par" +
+      "ams\030\001 \001(\0132\037.Ydb.Operations.OperationPara" +
+      "ms\022\023\n\013stream_name\030\002 \001(\t\022\036\n\026retention_per" +
+      "iod_hours\030\003 \001(\005\"U\n%DecreaseStreamRetenti" +
+      "onPeriodResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
+      "b.Operations.Operation\"%\n#DecreaseStream" +
+      "RetentionPeriodResult\"R\n\025DescribeLimitsR" +
+      "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O" +
+      "perations.OperationParams\"F\n\026DescribeLim" +
+      "itsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
+      "rations.Operation\"E\n\024DescribeLimitsResul" +
+      "t\022\030\n\020open_shard_count\030\001 \001(\005\022\023\n\013shard_lim" +
+      "it\030\002 \001(\005\"n\n\034DescribeStreamSummaryRequest" +
+      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
+      "ons.OperationParams\022\023\n\013stream_name\030\002 \001(\t" +
+      "\"M\n\035DescribeStreamSummaryResponse\022,\n\tope" +
+      "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"" +
+      "\035\n\033DescribeStreamSummaryResult\"\217\001\n Disab" +
+      "leEnhancedMonitoringRequest\0229\n\020operation" +
+      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
+      "Params\022\033\n\023shard_level_metrics\030\002 \003(\t\022\023\n\013s" +
+      "tream_name\030\003 \001(\t\"Q\n!DisableEnhancedMonit" +
+      "oringResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
+      "perations.Operation\"\200\001\n\037DisableEnhancedM" +
+      "onitoringResult\022#\n\033current_shard_level_m" +
+      "etrics\030\001 \003(\t\022#\n\033desired_shard_level_metr" +
+      "ics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"\216\001\n\037Enabl" +
+      "eEnhancedMonitoringRequest\0229\n\020operation_" +
+      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
+      "arams\022\033\n\023shard_level_metrics\030\002 \003(\t\022\023\n\013st" +
+      "ream_name\030\003 \001(\t\"P\n EnableEnhancedMonitor" +
+      "ingResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
+      "rations.Operation\"\177\n\036EnableEnhancedMonit" +
+      "oringResult\022#\n\033current_shard_level_metri" +
+      "cs\030\001 \003(\t\022#\n\033desired_shard_level_metrics\030" +
+      "\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"\226\001\n$IncreaseS" +
+      "treamRetentionPeriodRequest\0229\n\020operation" +
+      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
+      "Params\022\036\n\026retention_period_hours\030\002 \001(\005\022\023" +
+      "\n\013stream_name\030\003 \001(\t\"U\n%IncreaseStreamRet" +
+      "entionPeriodResponse\022,\n\toperation\030\001 \001(\0132" +
+      "\031.Ydb.Operations.Operation\"%\n#IncreaseSt" +
+      "reamRetentionPeriodResult\"\232\001\n\030ListTagsFo" +
+      "rStreamRequest\0229\n\020operation_params\030\001 \001(\013" +
+      "2\037.Ydb.Operations.OperationParams\022\037\n\027exc" +
+      "lusive_start_tag_key\030\002 \001(\t\022\r\n\005limit\030\003 \001(" +
+      "\005\022\023\n\013stream_name\030\004 \001(\t\"I\n\031ListTagsForStr" +
+      "eamResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
+      "rations.Operation\"W\n\027ListTagsForStreamRe" +
+      "sult\022\025\n\rhas_more_tags\030\001 \001(\010\022%\n\004tags\030\002 \003(" +
+      "\0132\027.Ydb.DataStreams.V1.Tag\"\235\001\n\022MergeShar" +
+      "dsRequest\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
+      "b.Operations.OperationParams\022\037\n\027adjacent" +
+      "_shard_to_merge\030\002 \001(\t\022\026\n\016shard_to_merge\030" +
+      "\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t\"C\n\023MergeShard" +
+      "sResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
+      "tions.Operation\"\023\n\021MergeShardsResult\"\177\n\033" +
+      "RemoveTagsFromStreamRequest\0229\n\020operation" +
+      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
+      "Params\022\023\n\013stream_name\030\002 \001(\t\022\020\n\010tag_keys\030" +
+      "\003 \003(\t\"L\n\034RemoveTagsFromStreamResponse\022,\n" +
+      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
+      "ion\"\034\n\032RemoveTagsFromStreamResult\"\232\001\n\021Sp" +
+      "litShardRequest\0229\n\020operation_params\030\001 \001(" +
+      "\0132\037.Ydb.Operations.OperationParams\022\035\n\025ne" +
+      "w_starting_hash_key\030\002 \001(\t\022\026\n\016shard_to_sp" +
+      "lit\030\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t\"B\n\022SplitS" +
+      "hardResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
+      "erations.Operation\"\022\n\020SplitShardResult\"\273" +
+      "\001\n\034StartStreamEncryptionRequest\0229\n\020opera" +
+      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
+      "tionParams\022;\n\017encryption_type\030\002 \001(\0162\".Yd" +
+      "b.DataStreams.V1.EncryptionType\022\016\n\006key_i" +
+      "d\030\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t\"M\n\035StartStr" +
+      "eamEncryptionResponse\022,\n\toperation\030\001 \001(\013" +
+      "2\031.Ydb.Operations.Operation\"\035\n\033StartStre" +
+      "amEncryptionResult\"\272\001\n\033StopStreamEncrypt" +
+      "ionRequest\0229\n\020operation_params\030\001 \001(\0132\037.Y" +
+      "db.Operations.OperationParams\022;\n\017encrypt" +
+      "ion_type\030\002 \001(\0162\".Ydb.DataStreams.V1.Encr" +
+      "yptionType\022\016\n\006key_id\030\003 \001(\t\022\023\n\013stream_nam" +
+      "e\030\004 \001(\t\"L\n\034StopStreamEncryptionResponse\022" +
+      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
+      "ation\"\034\n\032StopStreamEncryptionResult\"\222\002\n\027" +
+      "UpdateShardCountRequest\0229\n\020operation_par" +
+      "ams\030\001 \001(\0132\037.Ydb.Operations.OperationPara" +
+      "ms\022M\n\014scaling_type\030\002 \001(\01627.Ydb.DataStrea" +
+      "ms.V1.UpdateShardCountRequest.ScalingTyp" +
+      "e\022\023\n\013stream_name\030\003 \001(\t\022\032\n\022target_shard_c" +
+      "ount\030\004 \001(\005\"<\n\013ScalingType\022\030\n\024SCALING_TYP" +
+      "E_UNKNOWN\020\000\022\023\n\017UNIFORM_SCALING\020\001\"H\n\030Upda" +
+      "teShardCountResponse\022,\n\toperation\030\001 \001(\0132" +
+      "\031.Ydb.Operations.Operation\"f\n\026UpdateShar" +
+      "dCountResult\022\033\n\023current_shard_count\030\001 \001(" +
+      "\005\022\023\n\013stream_name\030\002 \001(\t\022\032\n\022target_shard_c" +
+      "ount\030\003 \001(\005*f\n\030EFieldTransformationType\022\022" +
+      "\n\016TRANSFORM_NONE\020\000\022\024\n\020TRANSFORM_BASE64\020\001" +
+      "\022 \n\034TRANSFORM_DOUBLE_S_TO_INT_MS\020\002*=\n\016En" +
+      "cryptionType\022\030\n\024ENCRYPTION_UNDEFINED\020\000\022\010" +
+      "\n\004NONE\020\001\022\007\n\003KMS\020\002*\224\001\n\021ShardIteratorType\022" +
+      "\034\n\030SHARD_ITERATOR_UNDEFINED\020\000\022\026\n\022AT_SEQU" +
+      "ENCE_NUMBER\020\001\022\031\n\025AFTER_SEQUENCE_NUMBER\020\002" +
+      "\022\020\n\014AT_TIMESTAMP\020\003\022\020\n\014TRIM_HORIZON\020\004\022\n\n\006" +
+      "LATEST\020\005:g\n\020FieldTransformer\022\035.google.pr" +
+      "otobuf.FieldOptions\030\213\306\003 \001(\0162,.Ydb.DataSt" +
+      "reams.V1.EFieldTransformationTypeB\"\n\035com" +
+      ".yandex.ydb.datastreams.v1\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

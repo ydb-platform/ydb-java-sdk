@@ -2098,6 +2098,17 @@ public final class AnalyticsIntenalProtos {
      * @return The stateLoadMode.
      */
     com.yandex.query.YandexQueryProtos.StateLoadMode getStateLoadMode();
+
+    /**
+     * <code>.YandexQuery.QueryMeta.ComputeStatus status = 18;</code>
+     * @return The enum numeric value on the wire for status.
+     */
+    int getStatusValue();
+    /**
+     * <code>.YandexQuery.QueryMeta.ComputeStatus status = 18;</code>
+     * @return The status.
+     */
+    com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus getStatus();
   }
   /**
    * Protobuf type {@code Yql.Analytics.GetTaskResult}
@@ -2123,6 +2134,7 @@ public final class AnalyticsIntenalProtos {
       scope_ = "";
       executeMode_ = 0;
       stateLoadMode_ = 0;
+      status_ = 0;
     }
 
     @java.lang.Override
@@ -2283,6 +2295,12 @@ public final class AnalyticsIntenalProtos {
               int rawValue = input.readEnum();
 
               stateLoadMode_ = rawValue;
+              break;
+            }
+            case 144: {
+              int rawValue = input.readEnum();
+
+              status_ = rawValue;
               break;
             }
             default: {
@@ -2832,6 +2850,25 @@ public final class AnalyticsIntenalProtos {
       return result == null ? com.yandex.query.YandexQueryProtos.StateLoadMode.UNRECOGNIZED : result;
     }
 
+    public static final int STATUS_FIELD_NUMBER = 18;
+    private int status_;
+    /**
+     * <code>.YandexQuery.QueryMeta.ComputeStatus status = 18;</code>
+     * @return The enum numeric value on the wire for status.
+     */
+    @java.lang.Override public int getStatusValue() {
+      return status_;
+    }
+    /**
+     * <code>.YandexQuery.QueryMeta.ComputeStatus status = 18;</code>
+     * @return The status.
+     */
+    @java.lang.Override public com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus getStatus() {
+      @SuppressWarnings("deprecation")
+      com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus result = com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus.valueOf(status_);
+      return result == null ? com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -2896,6 +2933,9 @@ public final class AnalyticsIntenalProtos {
       }
       if (stateLoadMode_ != com.yandex.query.YandexQueryProtos.StateLoadMode.STATE_LOAD_MODE_UNSPECIFIED.getNumber()) {
         output.writeEnum(17, stateLoadMode_);
+      }
+      if (status_ != com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus.COMPUTE_STATUS_UNSPECIFIED.getNumber()) {
+        output.writeEnum(18, status_);
       }
       unknownFields.writeTo(output);
     }
@@ -2969,6 +3009,10 @@ public final class AnalyticsIntenalProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(17, stateLoadMode_);
       }
+      if (status_ != com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus.COMPUTE_STATUS_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(18, status_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -3024,6 +3068,7 @@ public final class AnalyticsIntenalProtos {
           .equals(other.getScope())) return false;
       if (executeMode_ != other.executeMode_) return false;
       if (stateLoadMode_ != other.stateLoadMode_) return false;
+      if (status_ != other.status_) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -3084,6 +3129,8 @@ public final class AnalyticsIntenalProtos {
       hash = (53 * hash) + executeMode_;
       hash = (37 * hash) + STATE_LOAD_MODE_FIELD_NUMBER;
       hash = (53 * hash) + stateLoadMode_;
+      hash = (37 * hash) + STATUS_FIELD_NUMBER;
+      hash = (53 * hash) + status_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3278,6 +3325,8 @@ public final class AnalyticsIntenalProtos {
 
         stateLoadMode_ = 0;
 
+        status_ = 0;
+
         return this;
       }
 
@@ -3358,6 +3407,7 @@ public final class AnalyticsIntenalProtos {
         result.scope_ = scope_;
         result.executeMode_ = executeMode_;
         result.stateLoadMode_ = stateLoadMode_;
+        result.status_ = status_;
         onBuilt();
         return result;
       }
@@ -3530,6 +3580,9 @@ public final class AnalyticsIntenalProtos {
         }
         if (other.stateLoadMode_ != 0) {
           setStateLoadModeValue(other.getStateLoadModeValue());
+        }
+        if (other.status_ != 0) {
+          setStatusValue(other.getStatusValue());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -5348,6 +5401,60 @@ public final class AnalyticsIntenalProtos {
         onChanged();
         return this;
       }
+
+      private int status_ = 0;
+      /**
+       * <code>.YandexQuery.QueryMeta.ComputeStatus status = 18;</code>
+       * @return The enum numeric value on the wire for status.
+       */
+      @java.lang.Override public int getStatusValue() {
+        return status_;
+      }
+      /**
+       * <code>.YandexQuery.QueryMeta.ComputeStatus status = 18;</code>
+       * @param value The enum numeric value on the wire for status to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStatusValue(int value) {
+        
+        status_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.YandexQuery.QueryMeta.ComputeStatus status = 18;</code>
+       * @return The status.
+       */
+      @java.lang.Override
+      public com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus getStatus() {
+        @SuppressWarnings("deprecation")
+        com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus result = com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus.valueOf(status_);
+        return result == null ? com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.YandexQuery.QueryMeta.ComputeStatus status = 18;</code>
+       * @param value The status to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStatus(com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        status_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.YandexQuery.QueryMeta.ComputeStatus status = 18;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStatus() {
+        
+        status_ = 0;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -6179,6 +6286,30 @@ public final class AnalyticsIntenalProtos {
         int index);
 
     /**
+     * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+     */
+    java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> 
+        getTransientIssuesList();
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+     */
+    tech.ydb.YdbIssueMessage.IssueMessage getTransientIssues(int index);
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+     */
+    int getTransientIssuesCount();
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+     */
+    java.util.List<? extends tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
+        getTransientIssuesOrBuilderList();
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+     */
+    tech.ydb.YdbIssueMessage.IssueMessageOrBuilder getTransientIssuesOrBuilder(
+        int index);
+
+    /**
      * <code>uint32 result_set_count = 7;</code>
      * @return The resultSetCount.
      */
@@ -6355,6 +6486,7 @@ public final class AnalyticsIntenalProtos {
       ownerId_ = "";
       status_ = 0;
       issues_ = java.util.Collections.emptyList();
+      transientIssues_ = java.util.Collections.emptyList();
       statistics_ = "";
       resultSetMeta_ = java.util.Collections.emptyList();
       executerInfo_ = "";
@@ -6467,9 +6599,9 @@ public final class AnalyticsIntenalProtos {
               break;
             }
             case 74: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
                 resultSetMeta_ = new java.util.ArrayList<com.yandex.query.YandexQueryProtos.ResultSetMeta>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000004;
               }
               resultSetMeta_.add(
                   input.readMessage(com.yandex.query.YandexQueryProtos.ResultSetMeta.parser(), extensionRegistry));
@@ -6515,6 +6647,15 @@ public final class AnalyticsIntenalProtos {
                 operationParams_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            case 130: {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                transientIssues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              transientIssues_.add(
+                  input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.parser(), extensionRegistry));
               break;
             }
             case 802: {
@@ -6567,8 +6708,11 @@ public final class AnalyticsIntenalProtos {
         if (((mutable_bitField0_ & 0x00000001) != 0)) {
           issues_ = java.util.Collections.unmodifiableList(issues_);
         }
-        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+        if (((mutable_bitField0_ & 0x00000004) != 0)) {
           resultSetMeta_ = java.util.Collections.unmodifiableList(resultSetMeta_);
+        }
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          transientIssues_ = java.util.Collections.unmodifiableList(transientIssues_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -6760,6 +6904,46 @@ public final class AnalyticsIntenalProtos {
     public tech.ydb.YdbIssueMessage.IssueMessageOrBuilder getIssuesOrBuilder(
         int index) {
       return issues_.get(index);
+    }
+
+    public static final int TRANSIENT_ISSUES_FIELD_NUMBER = 16;
+    private java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> transientIssues_;
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+     */
+    @java.lang.Override
+    public java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> getTransientIssuesList() {
+      return transientIssues_;
+    }
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
+        getTransientIssuesOrBuilderList() {
+      return transientIssues_;
+    }
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+     */
+    @java.lang.Override
+    public int getTransientIssuesCount() {
+      return transientIssues_.size();
+    }
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+     */
+    @java.lang.Override
+    public tech.ydb.YdbIssueMessage.IssueMessage getTransientIssues(int index) {
+      return transientIssues_.get(index);
+    }
+    /**
+     * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+     */
+    @java.lang.Override
+    public tech.ydb.YdbIssueMessage.IssueMessageOrBuilder getTransientIssuesOrBuilder(
+        int index) {
+      return transientIssues_.get(index);
     }
 
     public static final int RESULT_SET_COUNT_FIELD_NUMBER = 7;
@@ -7197,6 +7381,9 @@ public final class AnalyticsIntenalProtos {
       if (operationParams_ != null) {
         output.writeMessage(15, getOperationParams());
       }
+      for (int i = 0; i < transientIssues_.size(); i++) {
+        output.writeMessage(16, transientIssues_.get(i));
+      }
       if (!getScopeBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 100, scope_);
       }
@@ -7269,6 +7456,10 @@ public final class AnalyticsIntenalProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(15, getOperationParams());
       }
+      for (int i = 0; i < transientIssues_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(16, transientIssues_.get(i));
+      }
       if (!getScopeBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(100, scope_);
       }
@@ -7315,6 +7506,8 @@ public final class AnalyticsIntenalProtos {
       if (status_ != other.status_) return false;
       if (!getIssuesList()
           .equals(other.getIssuesList())) return false;
+      if (!getTransientIssuesList()
+          .equals(other.getTransientIssuesList())) return false;
       if (getResultSetCount()
           != other.getResultSetCount()) return false;
       if (!getStatistics()
@@ -7378,6 +7571,10 @@ public final class AnalyticsIntenalProtos {
       if (getIssuesCount() > 0) {
         hash = (37 * hash) + ISSUES_FIELD_NUMBER;
         hash = (53 * hash) + getIssuesList().hashCode();
+      }
+      if (getTransientIssuesCount() > 0) {
+        hash = (37 * hash) + TRANSIENT_ISSUES_FIELD_NUMBER;
+        hash = (53 * hash) + getTransientIssuesList().hashCode();
       }
       hash = (37 * hash) + RESULT_SET_COUNT_FIELD_NUMBER;
       hash = (53 * hash) + getResultSetCount();
@@ -7541,6 +7738,7 @@ public final class AnalyticsIntenalProtos {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
           getIssuesFieldBuilder();
+          getTransientIssuesFieldBuilder();
           getResultSetMetaFieldBuilder();
         }
       }
@@ -7575,13 +7773,19 @@ public final class AnalyticsIntenalProtos {
         } else {
           issuesBuilder_.clear();
         }
+        if (transientIssuesBuilder_ == null) {
+          transientIssues_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          transientIssuesBuilder_.clear();
+        }
         resultSetCount_ = 0;
 
         statistics_ = "";
 
         if (resultSetMetaBuilder_ == null) {
           resultSetMeta_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
         } else {
           resultSetMetaBuilder_.clear();
         }
@@ -7668,12 +7872,21 @@ public final class AnalyticsIntenalProtos {
         } else {
           result.issues_ = issuesBuilder_.build();
         }
+        if (transientIssuesBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) != 0)) {
+            transientIssues_ = java.util.Collections.unmodifiableList(transientIssues_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.transientIssues_ = transientIssues_;
+        } else {
+          result.transientIssues_ = transientIssuesBuilder_.build();
+        }
         result.resultSetCount_ = resultSetCount_;
         result.statistics_ = statistics_;
         if (resultSetMetaBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) != 0)) {
+          if (((bitField0_ & 0x00000004) != 0)) {
             resultSetMeta_ = java.util.Collections.unmodifiableList(resultSetMeta_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000004);
           }
           result.resultSetMeta_ = resultSetMeta_;
         } else {
@@ -7790,6 +8003,32 @@ public final class AnalyticsIntenalProtos {
             }
           }
         }
+        if (transientIssuesBuilder_ == null) {
+          if (!other.transientIssues_.isEmpty()) {
+            if (transientIssues_.isEmpty()) {
+              transientIssues_ = other.transientIssues_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureTransientIssuesIsMutable();
+              transientIssues_.addAll(other.transientIssues_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.transientIssues_.isEmpty()) {
+            if (transientIssuesBuilder_.isEmpty()) {
+              transientIssuesBuilder_.dispose();
+              transientIssuesBuilder_ = null;
+              transientIssues_ = other.transientIssues_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              transientIssuesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getTransientIssuesFieldBuilder() : null;
+            } else {
+              transientIssuesBuilder_.addAllMessages(other.transientIssues_);
+            }
+          }
+        }
         if (other.getResultSetCount() != 0) {
           setResultSetCount(other.getResultSetCount());
         }
@@ -7801,7 +8040,7 @@ public final class AnalyticsIntenalProtos {
           if (!other.resultSetMeta_.isEmpty()) {
             if (resultSetMeta_.isEmpty()) {
               resultSetMeta_ = other.resultSetMeta_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
             } else {
               ensureResultSetMetaIsMutable();
               resultSetMeta_.addAll(other.resultSetMeta_);
@@ -7814,7 +8053,7 @@ public final class AnalyticsIntenalProtos {
               resultSetMetaBuilder_.dispose();
               resultSetMetaBuilder_ = null;
               resultSetMeta_ = other.resultSetMeta_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
               resultSetMetaBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getResultSetMetaFieldBuilder() : null;
@@ -8612,6 +8851,246 @@ public final class AnalyticsIntenalProtos {
         return issuesBuilder_;
       }
 
+      private java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> transientIssues_ =
+        java.util.Collections.emptyList();
+      private void ensureTransientIssuesIsMutable() {
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          transientIssues_ = new java.util.ArrayList<tech.ydb.YdbIssueMessage.IssueMessage>(transientIssues_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.YdbIssueMessage.IssueMessage, tech.ydb.YdbIssueMessage.IssueMessage.Builder, tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> transientIssuesBuilder_;
+
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+       */
+      public java.util.List<tech.ydb.YdbIssueMessage.IssueMessage> getTransientIssuesList() {
+        if (transientIssuesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(transientIssues_);
+        } else {
+          return transientIssuesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+       */
+      public int getTransientIssuesCount() {
+        if (transientIssuesBuilder_ == null) {
+          return transientIssues_.size();
+        } else {
+          return transientIssuesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+       */
+      public tech.ydb.YdbIssueMessage.IssueMessage getTransientIssues(int index) {
+        if (transientIssuesBuilder_ == null) {
+          return transientIssues_.get(index);
+        } else {
+          return transientIssuesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+       */
+      public Builder setTransientIssues(
+          int index, tech.ydb.YdbIssueMessage.IssueMessage value) {
+        if (transientIssuesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTransientIssuesIsMutable();
+          transientIssues_.set(index, value);
+          onChanged();
+        } else {
+          transientIssuesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+       */
+      public Builder setTransientIssues(
+          int index, tech.ydb.YdbIssueMessage.IssueMessage.Builder builderForValue) {
+        if (transientIssuesBuilder_ == null) {
+          ensureTransientIssuesIsMutable();
+          transientIssues_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          transientIssuesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+       */
+      public Builder addTransientIssues(tech.ydb.YdbIssueMessage.IssueMessage value) {
+        if (transientIssuesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTransientIssuesIsMutable();
+          transientIssues_.add(value);
+          onChanged();
+        } else {
+          transientIssuesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+       */
+      public Builder addTransientIssues(
+          int index, tech.ydb.YdbIssueMessage.IssueMessage value) {
+        if (transientIssuesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTransientIssuesIsMutable();
+          transientIssues_.add(index, value);
+          onChanged();
+        } else {
+          transientIssuesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+       */
+      public Builder addTransientIssues(
+          tech.ydb.YdbIssueMessage.IssueMessage.Builder builderForValue) {
+        if (transientIssuesBuilder_ == null) {
+          ensureTransientIssuesIsMutable();
+          transientIssues_.add(builderForValue.build());
+          onChanged();
+        } else {
+          transientIssuesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+       */
+      public Builder addTransientIssues(
+          int index, tech.ydb.YdbIssueMessage.IssueMessage.Builder builderForValue) {
+        if (transientIssuesBuilder_ == null) {
+          ensureTransientIssuesIsMutable();
+          transientIssues_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          transientIssuesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+       */
+      public Builder addAllTransientIssues(
+          java.lang.Iterable<? extends tech.ydb.YdbIssueMessage.IssueMessage> values) {
+        if (transientIssuesBuilder_ == null) {
+          ensureTransientIssuesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, transientIssues_);
+          onChanged();
+        } else {
+          transientIssuesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+       */
+      public Builder clearTransientIssues() {
+        if (transientIssuesBuilder_ == null) {
+          transientIssues_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          transientIssuesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+       */
+      public Builder removeTransientIssues(int index) {
+        if (transientIssuesBuilder_ == null) {
+          ensureTransientIssuesIsMutable();
+          transientIssues_.remove(index);
+          onChanged();
+        } else {
+          transientIssuesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+       */
+      public tech.ydb.YdbIssueMessage.IssueMessage.Builder getTransientIssuesBuilder(
+          int index) {
+        return getTransientIssuesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+       */
+      public tech.ydb.YdbIssueMessage.IssueMessageOrBuilder getTransientIssuesOrBuilder(
+          int index) {
+        if (transientIssuesBuilder_ == null) {
+          return transientIssues_.get(index);  } else {
+          return transientIssuesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+       */
+      public java.util.List<? extends tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
+           getTransientIssuesOrBuilderList() {
+        if (transientIssuesBuilder_ != null) {
+          return transientIssuesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(transientIssues_);
+        }
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+       */
+      public tech.ydb.YdbIssueMessage.IssueMessage.Builder addTransientIssuesBuilder() {
+        return getTransientIssuesFieldBuilder().addBuilder(
+            tech.ydb.YdbIssueMessage.IssueMessage.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+       */
+      public tech.ydb.YdbIssueMessage.IssueMessage.Builder addTransientIssuesBuilder(
+          int index) {
+        return getTransientIssuesFieldBuilder().addBuilder(
+            index, tech.ydb.YdbIssueMessage.IssueMessage.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Ydb.Issue.IssueMessage transient_issues = 16;</code>
+       */
+      public java.util.List<tech.ydb.YdbIssueMessage.IssueMessage.Builder> 
+           getTransientIssuesBuilderList() {
+        return getTransientIssuesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          tech.ydb.YdbIssueMessage.IssueMessage, tech.ydb.YdbIssueMessage.IssueMessage.Builder, tech.ydb.YdbIssueMessage.IssueMessageOrBuilder> 
+          getTransientIssuesFieldBuilder() {
+        if (transientIssuesBuilder_ == null) {
+          transientIssuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              tech.ydb.YdbIssueMessage.IssueMessage, tech.ydb.YdbIssueMessage.IssueMessage.Builder, tech.ydb.YdbIssueMessage.IssueMessageOrBuilder>(
+                  transientIssues_,
+                  ((bitField0_ & 0x00000002) != 0),
+                  getParentForChildren(),
+                  isClean());
+          transientIssues_ = null;
+        }
+        return transientIssuesBuilder_;
+      }
+
       private int resultSetCount_ ;
       /**
        * <code>uint32 result_set_count = 7;</code>
@@ -8722,9 +9201,9 @@ public final class AnalyticsIntenalProtos {
       private java.util.List<com.yandex.query.YandexQueryProtos.ResultSetMeta> resultSetMeta_ =
         java.util.Collections.emptyList();
       private void ensureResultSetMetaIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000004) != 0)) {
           resultSetMeta_ = new java.util.ArrayList<com.yandex.query.YandexQueryProtos.ResultSetMeta>(resultSetMeta_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
          }
       }
 
@@ -8874,7 +9353,7 @@ public final class AnalyticsIntenalProtos {
       public Builder clearResultSetMeta() {
         if (resultSetMetaBuilder_ == null) {
           resultSetMeta_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
           onChanged();
         } else {
           resultSetMetaBuilder_.clear();
@@ -8951,7 +9430,7 @@ public final class AnalyticsIntenalProtos {
           resultSetMetaBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               com.yandex.query.YandexQueryProtos.ResultSetMeta, com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder, com.yandex.query.YandexQueryProtos.ResultSetMetaOrBuilder>(
                   resultSetMeta_,
-                  ((bitField0_ & 0x00000002) != 0),
+                  ((bitField0_ & 0x00000004) != 0),
                   getParentForChildren(),
                   isClean());
           resultSetMeta_ = null;
@@ -17128,7 +17607,7 @@ public final class AnalyticsIntenalProtos {
       " \001(\t\022\014\n\004host\030\003 \001(\t\0229\n\020operation_params\030\004" +
       " \001(\0132\037.Ydb.Operations.OperationParams\"2\n" +
       "\016SignedIdentity\022\r\n\005value\030\001 \001(\t\022\021\n\tsignat" +
-      "ure\030\002 \001(\t\"\331\004\n\rGetTaskResult\022\020\n\010has_task\030" +
+      "ure\030\002 \001(\t\"\217\005\n\rGetTaskResult\022\020\n\010has_task\030" +
       "\001 \001(\010\0220\n\tresult_id\030\002 \001(\0132\035.Yql.Analytics" +
       ".SignedIdentity\022/\n\010query_id\030\003 \001(\0132\035.Yql." +
       "Analytics.SignedIdentity\022-\n\006job_id\030\004 \001(\013" +
@@ -17143,49 +17622,52 @@ public final class AnalyticsIntenalProtos {
       "Content.QueryType\022\r\n\005scope\030\017 \001(\t\022.\n\014exec" +
       "ute_mode\030\020 \001(\0162\030.YandexQuery.ExecuteMode" +
       "\0223\n\017state_load_mode\030\021 \001(\0162\032.YandexQuery." +
-      "StateLoadMode\"?\n\017GetTaskResponse\022,\n\toper" +
-      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\374" +
-      "\004\n\017PingTaskRequest\022\020\n\010owner_id\030\001 \001(\t\022/\n\010" +
-      "query_id\030\002 \001(\0132\035.Yql.Analytics.SignedIde" +
-      "ntity\022-\n\006job_id\030\003 \001(\0132\035.Yql.Analytics.Si" +
-      "gnedIdentity\0220\n\tresult_id\030\004 \001(\0132\035.Yql.An" +
-      "alytics.SignedIdentity\0224\n\006status\030\005 \001(\0162$" +
-      ".YandexQuery.QueryMeta.ComputeStatus\022\'\n\006" +
-      "issues\030\006 \003(\0132\027.Ydb.Issue.IssueMessage\022\030\n" +
-      "\020result_set_count\030\007 \001(\r\022\022\n\nstatistics\030\010 " +
-      "\001(\t\0223\n\017result_set_meta\030\t \003(\0132\032.YandexQue" +
-      "ry.ResultSetMeta\022\025\n\rexecuter_info\030\n \001(\t\022" +
-      "\020\n\010dq_graph\030\013 \001(\t\022\013\n\003ast\030\014 \001(\t\022\014\n\004plan\030\r" +
-      " \001(\t\022\024\n\014resign_query\030\016 \001(\010\0229\n\020operation_" +
-      "params\030\017 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\022\r\n\005scope\030d \001(\t\022.\n\nstarted_at\030e \001(\013" +
-      "2\032.google.protobuf.Timestamp\022/\n\013finished" +
-      "_at\030f \001(\0132\032.google.protobuf.Timestamp\":\n" +
-      "\016PingTaskResult\022(\n\006action\030\001 \001(\0162\030.Yandex" +
-      "Query.QueryAction\"@\n\020PingTaskResponse\022,\n" +
-      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
-      "ion\"\366\001\n\026WriteTaskResultRequest\022\020\n\010owner_" +
-      "id\030\001 \001(\t\0220\n\tresult_id\030\002 \001(\0132\035.Yql.Analyt" +
-      "ics.SignedIdentity\022\"\n\nresult_set\030\003 \001(\0132\016" +
-      ".Ydb.ResultSet\022\025\n\rresult_set_id\030\004 \001(\r\022\016\n" +
-      "\006offset\030\005 \001(\004\022\022\n\nrequest_id\030\006 \001(\004\0229\n\020ope" +
-      "ration_params\030\007 \001(\0132\037.Ydb.Operations.Ope" +
-      "rationParams\"+\n\025WriteTaskResultResult\022\022\n" +
-      "\nrequest_id\030\001 \001(\004\"G\n\027WriteTaskResultResp" +
+      "StateLoadMode\0224\n\006status\030\022 \001(\0162$.YandexQu" +
+      "ery.QueryMeta.ComputeStatus\"?\n\017GetTaskRe" +
+      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
+      "ns.Operation\"\257\005\n\017PingTaskRequest\022\020\n\010owne" +
+      "r_id\030\001 \001(\t\022/\n\010query_id\030\002 \001(\0132\035.Yql.Analy" +
+      "tics.SignedIdentity\022-\n\006job_id\030\003 \001(\0132\035.Yq" +
+      "l.Analytics.SignedIdentity\0220\n\tresult_id\030" +
+      "\004 \001(\0132\035.Yql.Analytics.SignedIdentity\0224\n\006" +
+      "status\030\005 \001(\0162$.YandexQuery.QueryMeta.Com" +
+      "puteStatus\022\'\n\006issues\030\006 \003(\0132\027.Ydb.Issue.I" +
+      "ssueMessage\0221\n\020transient_issues\030\020 \003(\0132\027." +
+      "Ydb.Issue.IssueMessage\022\030\n\020result_set_cou" +
+      "nt\030\007 \001(\r\022\022\n\nstatistics\030\010 \001(\t\0223\n\017result_s" +
+      "et_meta\030\t \003(\0132\032.YandexQuery.ResultSetMet" +
+      "a\022\025\n\rexecuter_info\030\n \001(\t\022\020\n\010dq_graph\030\013 \001" +
+      "(\t\022\013\n\003ast\030\014 \001(\t\022\014\n\004plan\030\r \001(\t\022\024\n\014resign_" +
+      "query\030\016 \001(\010\0229\n\020operation_params\030\017 \001(\0132\037." +
+      "Ydb.Operations.OperationParams\022\r\n\005scope\030" +
+      "d \001(\t\022.\n\nstarted_at\030e \001(\0132\032.google.proto" +
+      "buf.Timestamp\022/\n\013finished_at\030f \001(\0132\032.goo" +
+      "gle.protobuf.Timestamp\":\n\016PingTaskResult" +
+      "\022(\n\006action\030\001 \001(\0162\030.YandexQuery.QueryActi" +
+      "on\"@\n\020PingTaskResponse\022,\n\toperation\030\001 \001(" +
+      "\0132\031.Ydb.Operations.Operation\"\366\001\n\026WriteTa" +
+      "skResultRequest\022\020\n\010owner_id\030\001 \001(\t\0220\n\tres" +
+      "ult_id\030\002 \001(\0132\035.Yql.Analytics.SignedIdent" +
+      "ity\022\"\n\nresult_set\030\003 \001(\0132\016.Ydb.ResultSet\022" +
+      "\025\n\rresult_set_id\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\022" +
+      "\n\nrequest_id\030\006 \001(\004\0229\n\020operation_params\030\007" +
+      " \001(\0132\037.Ydb.Operations.OperationParams\"+\n" +
+      "\025WriteTaskResultResult\022\022\n\nrequest_id\030\001 \001" +
+      "(\004\"G\n\027WriteTaskResultResponse\022,\n\toperati" +
+      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\264\001\n\027" +
+      "NodesHealthCheckRequest\022\016\n\006tenant\030\001 \001(\t\022" +
+      "\017\n\007node_id\030\002 \001(\r\022\023\n\013instance_id\030\003 \001(\t\022\020\n" +
+      "\010hostname\030\004 \001(\t\022\026\n\016active_workers\030\005 \001(\004\022" +
+      "9\n\020operation_params\030\006 \001(\0132\037.Ydb.Operatio" +
+      "ns.OperationParams\"\233\001\n\026NodesHealthCheckR" +
+      "esult\022=\n\005nodes\030\001 \003(\0132..Yql.Analytics.Nod" +
+      "esHealthCheckResult.NodeInfo\032B\n\010NodeInfo" +
+      "\022\017\n\007node_id\030\001 \001(\r\022\023\n\013instance_id\030\002 \001(\t\022\020" +
+      "\n\010hostname\030\003 \001(\t\"H\n\030NodesHealthCheckResp" +
       "onse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations" +
-      ".Operation\"\264\001\n\027NodesHealthCheckRequest\022\016" +
-      "\n\006tenant\030\001 \001(\t\022\017\n\007node_id\030\002 \001(\r\022\023\n\013insta" +
-      "nce_id\030\003 \001(\t\022\020\n\010hostname\030\004 \001(\t\022\026\n\016active" +
-      "_workers\030\005 \001(\004\0229\n\020operation_params\030\006 \001(\013" +
-      "2\037.Ydb.Operations.OperationParams\"\233\001\n\026No" +
-      "desHealthCheckResult\022=\n\005nodes\030\001 \003(\0132..Yq" +
-      "l.Analytics.NodesHealthCheckResult.NodeI" +
-      "nfo\032B\n\010NodeInfo\022\017\n\007node_id\030\001 \001(\r\022\023\n\013inst" +
-      "ance_id\030\002 \001(\t\022\020\n\010hostname\030\003 \001(\t\"H\n\030Nodes" +
-      "HealthCheckResponse\022,\n\toperation\030\001 \001(\0132\031" +
-      ".Ydb.Operations.OperationB>\n!com.yandex." +
-      "yql.analytics.internalB\026AnalyticsIntenal" +
-      "Protos\370\001\001b\006proto3"
+      ".OperationB>\n!com.yandex.yql.analytics.i" +
+      "nternalB\026AnalyticsIntenalProtos\370\001\001b\006prot" +
+      "o3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -17213,7 +17695,7 @@ public final class AnalyticsIntenalProtos {
     internal_static_Yql_Analytics_GetTaskResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetTaskResult_descriptor,
-        new java.lang.String[] { "HasTask", "ResultId", "QueryId", "JobId", "Generation", "Streaming", "DqGraph", "Text", "Connection", "Binding", "UserToken", "ServiceAccounts", "UserId", "QueryType", "Scope", "ExecuteMode", "StateLoadMode", });
+        new java.lang.String[] { "HasTask", "ResultId", "QueryId", "JobId", "Generation", "Streaming", "DqGraph", "Text", "Connection", "Binding", "UserToken", "ServiceAccounts", "UserId", "QueryType", "Scope", "ExecuteMode", "StateLoadMode", "Status", });
     internal_static_Yql_Analytics_GetTaskResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_Yql_Analytics_GetTaskResponse_fieldAccessorTable = new
@@ -17225,7 +17707,7 @@ public final class AnalyticsIntenalProtos {
     internal_static_Yql_Analytics_PingTaskRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_PingTaskRequest_descriptor,
-        new java.lang.String[] { "OwnerId", "QueryId", "JobId", "ResultId", "Status", "Issues", "ResultSetCount", "Statistics", "ResultSetMeta", "ExecuterInfo", "DqGraph", "Ast", "Plan", "ResignQuery", "OperationParams", "Scope", "StartedAt", "FinishedAt", });
+        new java.lang.String[] { "OwnerId", "QueryId", "JobId", "ResultId", "Status", "Issues", "TransientIssues", "ResultSetCount", "Statistics", "ResultSetMeta", "ExecuterInfo", "DqGraph", "Ast", "Plan", "ResignQuery", "OperationParams", "Scope", "StartedAt", "FinishedAt", });
     internal_static_Yql_Analytics_PingTaskResult_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_Yql_Analytics_PingTaskResult_fieldAccessorTable = new
