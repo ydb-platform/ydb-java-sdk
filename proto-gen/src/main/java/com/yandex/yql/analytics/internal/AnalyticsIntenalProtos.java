@@ -1839,6 +1839,1024 @@ public final class AnalyticsIntenalProtos {
 
   }
 
+  public interface TopicConsumerOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Yql.Analytics.TopicConsumer)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string database_id = 1;</code>
+     * @return The databaseId.
+     */
+    java.lang.String getDatabaseId();
+    /**
+     * <code>string database_id = 1;</code>
+     * @return The bytes for databaseId.
+     */
+    com.google.protobuf.ByteString
+        getDatabaseIdBytes();
+
+    /**
+     * <code>string database = 2;</code>
+     * @return The database.
+     */
+    java.lang.String getDatabase();
+    /**
+     * <code>string database = 2;</code>
+     * @return The bytes for database.
+     */
+    com.google.protobuf.ByteString
+        getDatabaseBytes();
+
+    /**
+     * <code>string topic_path = 3;</code>
+     * @return The topicPath.
+     */
+    java.lang.String getTopicPath();
+    /**
+     * <code>string topic_path = 3;</code>
+     * @return The bytes for topicPath.
+     */
+    com.google.protobuf.ByteString
+        getTopicPathBytes();
+
+    /**
+     * <code>string consumer_name = 4;</code>
+     * @return The consumerName.
+     */
+    java.lang.String getConsumerName();
+    /**
+     * <code>string consumer_name = 4;</code>
+     * @return The bytes for consumerName.
+     */
+    com.google.protobuf.ByteString
+        getConsumerNameBytes();
+  }
+  /**
+   * Protobuf type {@code Yql.Analytics.TopicConsumer}
+   */
+  public static final class TopicConsumer extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Yql.Analytics.TopicConsumer)
+      TopicConsumerOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use TopicConsumer.newBuilder() to construct.
+    private TopicConsumer(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private TopicConsumer() {
+      databaseId_ = "";
+      database_ = "";
+      topicPath_ = "";
+      consumerName_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TopicConsumer();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TopicConsumer(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              databaseId_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              database_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              topicPath_ = s;
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              consumerName_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_TopicConsumer_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_TopicConsumer_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.class, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder.class);
+    }
+
+    public static final int DATABASE_ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object databaseId_;
+    /**
+     * <code>string database_id = 1;</code>
+     * @return The databaseId.
+     */
+    @java.lang.Override
+    public java.lang.String getDatabaseId() {
+      java.lang.Object ref = databaseId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        databaseId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string database_id = 1;</code>
+     * @return The bytes for databaseId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getDatabaseIdBytes() {
+      java.lang.Object ref = databaseId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        databaseId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DATABASE_FIELD_NUMBER = 2;
+    private volatile java.lang.Object database_;
+    /**
+     * <code>string database = 2;</code>
+     * @return The database.
+     */
+    @java.lang.Override
+    public java.lang.String getDatabase() {
+      java.lang.Object ref = database_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        database_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string database = 2;</code>
+     * @return The bytes for database.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getDatabaseBytes() {
+      java.lang.Object ref = database_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        database_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TOPIC_PATH_FIELD_NUMBER = 3;
+    private volatile java.lang.Object topicPath_;
+    /**
+     * <code>string topic_path = 3;</code>
+     * @return The topicPath.
+     */
+    @java.lang.Override
+    public java.lang.String getTopicPath() {
+      java.lang.Object ref = topicPath_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        topicPath_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string topic_path = 3;</code>
+     * @return The bytes for topicPath.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTopicPathBytes() {
+      java.lang.Object ref = topicPath_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        topicPath_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CONSUMER_NAME_FIELD_NUMBER = 4;
+    private volatile java.lang.Object consumerName_;
+    /**
+     * <code>string consumer_name = 4;</code>
+     * @return The consumerName.
+     */
+    @java.lang.Override
+    public java.lang.String getConsumerName() {
+      java.lang.Object ref = consumerName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        consumerName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string consumer_name = 4;</code>
+     * @return The bytes for consumerName.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getConsumerNameBytes() {
+      java.lang.Object ref = consumerName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        consumerName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getDatabaseIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, databaseId_);
+      }
+      if (!getDatabaseBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, database_);
+      }
+      if (!getTopicPathBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, topicPath_);
+      }
+      if (!getConsumerNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, consumerName_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getDatabaseIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, databaseId_);
+      }
+      if (!getDatabaseBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, database_);
+      }
+      if (!getTopicPathBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, topicPath_);
+      }
+      if (!getConsumerNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, consumerName_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer)) {
+        return super.equals(obj);
+      }
+      com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer other = (com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer) obj;
+
+      if (!getDatabaseId()
+          .equals(other.getDatabaseId())) return false;
+      if (!getDatabase()
+          .equals(other.getDatabase())) return false;
+      if (!getTopicPath()
+          .equals(other.getTopicPath())) return false;
+      if (!getConsumerName()
+          .equals(other.getConsumerName())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + DATABASE_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getDatabaseId().hashCode();
+      hash = (37 * hash) + DATABASE_FIELD_NUMBER;
+      hash = (53 * hash) + getDatabase().hashCode();
+      hash = (37 * hash) + TOPIC_PATH_FIELD_NUMBER;
+      hash = (53 * hash) + getTopicPath().hashCode();
+      hash = (37 * hash) + CONSUMER_NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getConsumerName().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Yql.Analytics.TopicConsumer}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Yql.Analytics.TopicConsumer)
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumerOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_TopicConsumer_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_TopicConsumer_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.class, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder.class);
+      }
+
+      // Construct using com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        databaseId_ = "";
+
+        database_ = "";
+
+        topicPath_ = "";
+
+        consumerName_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_TopicConsumer_descriptor;
+      }
+
+      @java.lang.Override
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer getDefaultInstanceForType() {
+        return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer build() {
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer buildPartial() {
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer result = new com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer(this);
+        result.databaseId_ = databaseId_;
+        result.database_ = database_;
+        result.topicPath_ = topicPath_;
+        result.consumerName_ = consumerName_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer) {
+          return mergeFrom((com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer other) {
+        if (other == com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.getDefaultInstance()) return this;
+        if (!other.getDatabaseId().isEmpty()) {
+          databaseId_ = other.databaseId_;
+          onChanged();
+        }
+        if (!other.getDatabase().isEmpty()) {
+          database_ = other.database_;
+          onChanged();
+        }
+        if (!other.getTopicPath().isEmpty()) {
+          topicPath_ = other.topicPath_;
+          onChanged();
+        }
+        if (!other.getConsumerName().isEmpty()) {
+          consumerName_ = other.consumerName_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object databaseId_ = "";
+      /**
+       * <code>string database_id = 1;</code>
+       * @return The databaseId.
+       */
+      public java.lang.String getDatabaseId() {
+        java.lang.Object ref = databaseId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          databaseId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string database_id = 1;</code>
+       * @return The bytes for databaseId.
+       */
+      public com.google.protobuf.ByteString
+          getDatabaseIdBytes() {
+        java.lang.Object ref = databaseId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          databaseId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string database_id = 1;</code>
+       * @param value The databaseId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDatabaseId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        databaseId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string database_id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDatabaseId() {
+        
+        databaseId_ = getDefaultInstance().getDatabaseId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string database_id = 1;</code>
+       * @param value The bytes for databaseId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDatabaseIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        databaseId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object database_ = "";
+      /**
+       * <code>string database = 2;</code>
+       * @return The database.
+       */
+      public java.lang.String getDatabase() {
+        java.lang.Object ref = database_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          database_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string database = 2;</code>
+       * @return The bytes for database.
+       */
+      public com.google.protobuf.ByteString
+          getDatabaseBytes() {
+        java.lang.Object ref = database_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          database_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string database = 2;</code>
+       * @param value The database to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDatabase(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        database_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string database = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDatabase() {
+        
+        database_ = getDefaultInstance().getDatabase();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string database = 2;</code>
+       * @param value The bytes for database to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDatabaseBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        database_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object topicPath_ = "";
+      /**
+       * <code>string topic_path = 3;</code>
+       * @return The topicPath.
+       */
+      public java.lang.String getTopicPath() {
+        java.lang.Object ref = topicPath_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          topicPath_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string topic_path = 3;</code>
+       * @return The bytes for topicPath.
+       */
+      public com.google.protobuf.ByteString
+          getTopicPathBytes() {
+        java.lang.Object ref = topicPath_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          topicPath_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string topic_path = 3;</code>
+       * @param value The topicPath to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTopicPath(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        topicPath_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string topic_path = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTopicPath() {
+        
+        topicPath_ = getDefaultInstance().getTopicPath();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string topic_path = 3;</code>
+       * @param value The bytes for topicPath to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTopicPathBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        topicPath_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object consumerName_ = "";
+      /**
+       * <code>string consumer_name = 4;</code>
+       * @return The consumerName.
+       */
+      public java.lang.String getConsumerName() {
+        java.lang.Object ref = consumerName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          consumerName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string consumer_name = 4;</code>
+       * @return The bytes for consumerName.
+       */
+      public com.google.protobuf.ByteString
+          getConsumerNameBytes() {
+        java.lang.Object ref = consumerName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          consumerName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string consumer_name = 4;</code>
+       * @param value The consumerName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setConsumerName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        consumerName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string consumer_name = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearConsumerName() {
+        
+        consumerName_ = getDefaultInstance().getConsumerName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string consumer_name = 4;</code>
+       * @param value The bytes for consumerName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setConsumerNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        consumerName_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Yql.Analytics.TopicConsumer)
+    }
+
+    // @@protoc_insertion_point(class_scope:Yql.Analytics.TopicConsumer)
+    private static final com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer();
+    }
+
+    public static com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<TopicConsumer>
+        PARSER = new com.google.protobuf.AbstractParser<TopicConsumer>() {
+      @java.lang.Override
+      public TopicConsumer parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TopicConsumer(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<TopicConsumer> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TopicConsumer> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface GetTaskResultOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Yql.Analytics.GetTaskResult)
       com.google.protobuf.MessageOrBuilder {
@@ -2109,6 +3127,40 @@ public final class AnalyticsIntenalProtos {
      * @return The status.
      */
     com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus getStatus();
+
+    /**
+     * <code>map&lt;string, string&gt; sensor_labels = 19;</code>
+     */
+    int getSensorLabelsCount();
+    /**
+     * <code>map&lt;string, string&gt; sensor_labels = 19;</code>
+     */
+    boolean containsSensorLabels(
+        java.lang.String key);
+    /**
+     * Use {@link #getSensorLabelsMap()} instead.
+     */
+    @java.lang.Deprecated
+    java.util.Map<java.lang.String, java.lang.String>
+    getSensorLabels();
+    /**
+     * <code>map&lt;string, string&gt; sensor_labels = 19;</code>
+     */
+    java.util.Map<java.lang.String, java.lang.String>
+    getSensorLabelsMap();
+    /**
+     * <code>map&lt;string, string&gt; sensor_labels = 19;</code>
+     */
+
+    java.lang.String getSensorLabelsOrDefault(
+        java.lang.String key,
+        java.lang.String defaultValue);
+    /**
+     * <code>map&lt;string, string&gt; sensor_labels = 19;</code>
+     */
+
+    java.lang.String getSensorLabelsOrThrow(
+        java.lang.String key);
   }
   /**
    * Protobuf type {@code Yql.Analytics.GetTaskResult}
@@ -2303,6 +3355,19 @@ public final class AnalyticsIntenalProtos {
               status_ = rawValue;
               break;
             }
+            case 154: {
+              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+                sensorLabels_ = com.google.protobuf.MapField.newMapField(
+                    SensorLabelsDefaultEntryHolder.defaultEntry);
+                mutable_bitField0_ |= 0x00000008;
+              }
+              com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+              sensorLabels__ = input.readMessage(
+                  SensorLabelsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+              sensorLabels_.getMutableMap().put(
+                  sensorLabels__.getKey(), sensorLabels__.getValue());
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -2336,6 +3401,18 @@ public final class AnalyticsIntenalProtos {
       return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_GetTaskResult_descriptor;
     }
 
+    @SuppressWarnings({"rawtypes"})
+    @java.lang.Override
+    protected com.google.protobuf.MapField internalGetMapField(
+        int number) {
+      switch (number) {
+        case 19:
+          return internalGetSensorLabels();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
@@ -2869,6 +3946,87 @@ public final class AnalyticsIntenalProtos {
       return result == null ? com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus.UNRECOGNIZED : result;
     }
 
+    public static final int SENSOR_LABELS_FIELD_NUMBER = 19;
+    private static final class SensorLabelsDefaultEntryHolder {
+      static final com.google.protobuf.MapEntry<
+          java.lang.String, java.lang.String> defaultEntry =
+              com.google.protobuf.MapEntry
+              .<java.lang.String, java.lang.String>newDefaultInstance(
+                  com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_GetTaskResult_SensorLabelsEntry_descriptor, 
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "",
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "");
+    }
+    private com.google.protobuf.MapField<
+        java.lang.String, java.lang.String> sensorLabels_;
+    private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+    internalGetSensorLabels() {
+      if (sensorLabels_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            SensorLabelsDefaultEntryHolder.defaultEntry);
+      }
+      return sensorLabels_;
+    }
+
+    public int getSensorLabelsCount() {
+      return internalGetSensorLabels().getMap().size();
+    }
+    /**
+     * <code>map&lt;string, string&gt; sensor_labels = 19;</code>
+     */
+
+    @java.lang.Override
+    public boolean containsSensorLabels(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      return internalGetSensorLabels().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getSensorLabelsMap()} instead.
+     */
+    @java.lang.Override
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, java.lang.String> getSensorLabels() {
+      return getSensorLabelsMap();
+    }
+    /**
+     * <code>map&lt;string, string&gt; sensor_labels = 19;</code>
+     */
+    @java.lang.Override
+
+    public java.util.Map<java.lang.String, java.lang.String> getSensorLabelsMap() {
+      return internalGetSensorLabels().getMap();
+    }
+    /**
+     * <code>map&lt;string, string&gt; sensor_labels = 19;</code>
+     */
+    @java.lang.Override
+
+    public java.lang.String getSensorLabelsOrDefault(
+        java.lang.String key,
+        java.lang.String defaultValue) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, java.lang.String> map =
+          internalGetSensorLabels().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <code>map&lt;string, string&gt; sensor_labels = 19;</code>
+     */
+    @java.lang.Override
+
+    public java.lang.String getSensorLabelsOrThrow(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, java.lang.String> map =
+          internalGetSensorLabels().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -2937,6 +4095,12 @@ public final class AnalyticsIntenalProtos {
       if (status_ != com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus.COMPUTE_STATUS_UNSPECIFIED.getNumber()) {
         output.writeEnum(18, status_);
       }
+      com.google.protobuf.GeneratedMessageV3
+        .serializeStringMapTo(
+          output,
+          internalGetSensorLabels(),
+          SensorLabelsDefaultEntryHolder.defaultEntry,
+          19);
       unknownFields.writeTo(output);
     }
 
@@ -3013,6 +4177,16 @@ public final class AnalyticsIntenalProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(18, status_);
       }
+      for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
+           : internalGetSensorLabels().getMap().entrySet()) {
+        com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+        sensorLabels__ = SensorLabelsDefaultEntryHolder.defaultEntry.newBuilderForType()
+            .setKey(entry.getKey())
+            .setValue(entry.getValue())
+            .build();
+        size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(19, sensorLabels__);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -3069,6 +4243,8 @@ public final class AnalyticsIntenalProtos {
       if (executeMode_ != other.executeMode_) return false;
       if (stateLoadMode_ != other.stateLoadMode_) return false;
       if (status_ != other.status_) return false;
+      if (!internalGetSensorLabels().equals(
+          other.internalGetSensorLabels())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -3131,6 +4307,10 @@ public final class AnalyticsIntenalProtos {
       hash = (53 * hash) + stateLoadMode_;
       hash = (37 * hash) + STATUS_FIELD_NUMBER;
       hash = (53 * hash) + status_;
+      if (!internalGetSensorLabels().getMap().isEmpty()) {
+        hash = (37 * hash) + SENSOR_LABELS_FIELD_NUMBER;
+        hash = (53 * hash) + internalGetSensorLabels().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3238,6 +4418,28 @@ public final class AnalyticsIntenalProtos {
         return com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.internal_static_Yql_Analytics_GetTaskResult_descriptor;
       }
 
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMapField(
+          int number) {
+        switch (number) {
+          case 19:
+            return internalGetSensorLabels();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMutableMapField(
+          int number) {
+        switch (number) {
+          case 19:
+            return internalGetMutableSensorLabels();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
@@ -3327,6 +4529,7 @@ public final class AnalyticsIntenalProtos {
 
         status_ = 0;
 
+        internalGetMutableSensorLabels().clear();
         return this;
       }
 
@@ -3408,6 +4611,8 @@ public final class AnalyticsIntenalProtos {
         result.executeMode_ = executeMode_;
         result.stateLoadMode_ = stateLoadMode_;
         result.status_ = status_;
+        result.sensorLabels_ = internalGetSensorLabels();
+        result.sensorLabels_.makeImmutable();
         onBuilt();
         return result;
       }
@@ -3584,6 +4789,8 @@ public final class AnalyticsIntenalProtos {
         if (other.status_ != 0) {
           setStatusValue(other.getStatusValue());
         }
+        internalGetMutableSensorLabels().mergeFrom(
+            other.internalGetSensorLabels());
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -5455,6 +6662,134 @@ public final class AnalyticsIntenalProtos {
         onChanged();
         return this;
       }
+
+      private com.google.protobuf.MapField<
+          java.lang.String, java.lang.String> sensorLabels_;
+      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+      internalGetSensorLabels() {
+        if (sensorLabels_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              SensorLabelsDefaultEntryHolder.defaultEntry);
+        }
+        return sensorLabels_;
+      }
+      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+      internalGetMutableSensorLabels() {
+        onChanged();;
+        if (sensorLabels_ == null) {
+          sensorLabels_ = com.google.protobuf.MapField.newMapField(
+              SensorLabelsDefaultEntryHolder.defaultEntry);
+        }
+        if (!sensorLabels_.isMutable()) {
+          sensorLabels_ = sensorLabels_.copy();
+        }
+        return sensorLabels_;
+      }
+
+      public int getSensorLabelsCount() {
+        return internalGetSensorLabels().getMap().size();
+      }
+      /**
+       * <code>map&lt;string, string&gt; sensor_labels = 19;</code>
+       */
+
+      @java.lang.Override
+      public boolean containsSensorLabels(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        return internalGetSensorLabels().getMap().containsKey(key);
+      }
+      /**
+       * Use {@link #getSensorLabelsMap()} instead.
+       */
+      @java.lang.Override
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.String> getSensorLabels() {
+        return getSensorLabelsMap();
+      }
+      /**
+       * <code>map&lt;string, string&gt; sensor_labels = 19;</code>
+       */
+      @java.lang.Override
+
+      public java.util.Map<java.lang.String, java.lang.String> getSensorLabelsMap() {
+        return internalGetSensorLabels().getMap();
+      }
+      /**
+       * <code>map&lt;string, string&gt; sensor_labels = 19;</code>
+       */
+      @java.lang.Override
+
+      public java.lang.String getSensorLabelsOrDefault(
+          java.lang.String key,
+          java.lang.String defaultValue) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetSensorLabels().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <code>map&lt;string, string&gt; sensor_labels = 19;</code>
+       */
+      @java.lang.Override
+
+      public java.lang.String getSensorLabelsOrThrow(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetSensorLabels().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
+      }
+
+      public Builder clearSensorLabels() {
+        internalGetMutableSensorLabels().getMutableMap()
+            .clear();
+        return this;
+      }
+      /**
+       * <code>map&lt;string, string&gt; sensor_labels = 19;</code>
+       */
+
+      public Builder removeSensorLabels(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        internalGetMutableSensorLabels().getMutableMap()
+            .remove(key);
+        return this;
+      }
+      /**
+       * Use alternate mutation accessors instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.String>
+      getMutableSensorLabels() {
+        return internalGetMutableSensorLabels().getMutableMap();
+      }
+      /**
+       * <code>map&lt;string, string&gt; sensor_labels = 19;</code>
+       */
+      public Builder putSensorLabels(
+          java.lang.String key,
+          java.lang.String value) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        if (value == null) { throw new java.lang.NullPointerException(); }
+        internalGetMutableSensorLabels().getMutableMap()
+            .put(key, value);
+        return this;
+      }
+      /**
+       * <code>map&lt;string, string&gt; sensor_labels = 19;</code>
+       */
+
+      public Builder putAllSensorLabels(
+          java.util.Map<java.lang.String, java.lang.String> values) {
+        internalGetMutableSensorLabels().getMutableMap()
+            .putAll(values);
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -6406,6 +7741,30 @@ public final class AnalyticsIntenalProtos {
     boolean getResignQuery();
 
     /**
+     * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+     */
+    java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer> 
+        getCreatedTopicConsumersList();
+    /**
+     * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+     */
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer getCreatedTopicConsumers(int index);
+    /**
+     * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+     */
+    int getCreatedTopicConsumersCount();
+    /**
+     * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+     */
+    java.util.List<? extends com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumerOrBuilder> 
+        getCreatedTopicConsumersOrBuilderList();
+    /**
+     * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+     */
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumerOrBuilder getCreatedTopicConsumersOrBuilder(
+        int index);
+
+    /**
      * <code>.Ydb.Operations.OperationParams operation_params = 15;</code>
      * @return Whether the operationParams field is set.
      */
@@ -6493,6 +7852,7 @@ public final class AnalyticsIntenalProtos {
       dqGraph_ = "";
       ast_ = "";
       plan_ = "";
+      createdTopicConsumers_ = java.util.Collections.emptyList();
       scope_ = "";
     }
 
@@ -6658,6 +8018,15 @@ public final class AnalyticsIntenalProtos {
                   input.readMessage(tech.ydb.YdbIssueMessage.IssueMessage.parser(), extensionRegistry));
               break;
             }
+            case 138: {
+              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+                createdTopicConsumers_ = new java.util.ArrayList<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              createdTopicConsumers_.add(
+                  input.readMessage(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.parser(), extensionRegistry));
+              break;
+            }
             case 802: {
               java.lang.String s = input.readStringRequireUtf8();
 
@@ -6713,6 +8082,9 @@ public final class AnalyticsIntenalProtos {
         }
         if (((mutable_bitField0_ & 0x00000002) != 0)) {
           transientIssues_ = java.util.Collections.unmodifiableList(transientIssues_);
+        }
+        if (((mutable_bitField0_ & 0x00000008) != 0)) {
+          createdTopicConsumers_ = java.util.Collections.unmodifiableList(createdTopicConsumers_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -7198,6 +8570,46 @@ public final class AnalyticsIntenalProtos {
       return resignQuery_;
     }
 
+    public static final int CREATED_TOPIC_CONSUMERS_FIELD_NUMBER = 17;
+    private java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer> createdTopicConsumers_;
+    /**
+     * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+     */
+    @java.lang.Override
+    public java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer> getCreatedTopicConsumersList() {
+      return createdTopicConsumers_;
+    }
+    /**
+     * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumerOrBuilder> 
+        getCreatedTopicConsumersOrBuilderList() {
+      return createdTopicConsumers_;
+    }
+    /**
+     * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+     */
+    @java.lang.Override
+    public int getCreatedTopicConsumersCount() {
+      return createdTopicConsumers_.size();
+    }
+    /**
+     * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+     */
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer getCreatedTopicConsumers(int index) {
+      return createdTopicConsumers_.get(index);
+    }
+    /**
+     * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+     */
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumerOrBuilder getCreatedTopicConsumersOrBuilder(
+        int index) {
+      return createdTopicConsumers_.get(index);
+    }
+
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 15;
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
@@ -7384,6 +8796,9 @@ public final class AnalyticsIntenalProtos {
       for (int i = 0; i < transientIssues_.size(); i++) {
         output.writeMessage(16, transientIssues_.get(i));
       }
+      for (int i = 0; i < createdTopicConsumers_.size(); i++) {
+        output.writeMessage(17, createdTopicConsumers_.get(i));
+      }
       if (!getScopeBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 100, scope_);
       }
@@ -7460,6 +8875,10 @@ public final class AnalyticsIntenalProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(16, transientIssues_.get(i));
       }
+      for (int i = 0; i < createdTopicConsumers_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(17, createdTopicConsumers_.get(i));
+      }
       if (!getScopeBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(100, scope_);
       }
@@ -7524,6 +8943,8 @@ public final class AnalyticsIntenalProtos {
           .equals(other.getPlan())) return false;
       if (getResignQuery()
           != other.getResignQuery()) return false;
+      if (!getCreatedTopicConsumersList()
+          .equals(other.getCreatedTopicConsumersList())) return false;
       if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
         if (!getOperationParams()
@@ -7595,6 +9016,10 @@ public final class AnalyticsIntenalProtos {
       hash = (37 * hash) + RESIGN_QUERY_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getResignQuery());
+      if (getCreatedTopicConsumersCount() > 0) {
+        hash = (37 * hash) + CREATED_TOPIC_CONSUMERS_FIELD_NUMBER;
+        hash = (53 * hash) + getCreatedTopicConsumersList().hashCode();
+      }
       if (hasOperationParams()) {
         hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
         hash = (53 * hash) + getOperationParams().hashCode();
@@ -7740,6 +9165,7 @@ public final class AnalyticsIntenalProtos {
           getIssuesFieldBuilder();
           getTransientIssuesFieldBuilder();
           getResultSetMetaFieldBuilder();
+          getCreatedTopicConsumersFieldBuilder();
         }
       }
       @java.lang.Override
@@ -7799,6 +9225,12 @@ public final class AnalyticsIntenalProtos {
 
         resignQuery_ = false;
 
+        if (createdTopicConsumersBuilder_ == null) {
+          createdTopicConsumers_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+        } else {
+          createdTopicConsumersBuilder_.clear();
+        }
         if (operationParamsBuilder_ == null) {
           operationParams_ = null;
         } else {
@@ -7897,6 +9329,15 @@ public final class AnalyticsIntenalProtos {
         result.ast_ = ast_;
         result.plan_ = plan_;
         result.resignQuery_ = resignQuery_;
+        if (createdTopicConsumersBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) != 0)) {
+            createdTopicConsumers_ = java.util.Collections.unmodifiableList(createdTopicConsumers_);
+            bitField0_ = (bitField0_ & ~0x00000008);
+          }
+          result.createdTopicConsumers_ = createdTopicConsumers_;
+        } else {
+          result.createdTopicConsumers_ = createdTopicConsumersBuilder_.build();
+        }
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
         } else {
@@ -8080,6 +9521,32 @@ public final class AnalyticsIntenalProtos {
         }
         if (other.getResignQuery() != false) {
           setResignQuery(other.getResignQuery());
+        }
+        if (createdTopicConsumersBuilder_ == null) {
+          if (!other.createdTopicConsumers_.isEmpty()) {
+            if (createdTopicConsumers_.isEmpty()) {
+              createdTopicConsumers_ = other.createdTopicConsumers_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+            } else {
+              ensureCreatedTopicConsumersIsMutable();
+              createdTopicConsumers_.addAll(other.createdTopicConsumers_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.createdTopicConsumers_.isEmpty()) {
+            if (createdTopicConsumersBuilder_.isEmpty()) {
+              createdTopicConsumersBuilder_.dispose();
+              createdTopicConsumersBuilder_ = null;
+              createdTopicConsumers_ = other.createdTopicConsumers_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+              createdTopicConsumersBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getCreatedTopicConsumersFieldBuilder() : null;
+            } else {
+              createdTopicConsumersBuilder_.addAllMessages(other.createdTopicConsumers_);
+            }
+          }
         }
         if (other.hasOperationParams()) {
           mergeOperationParams(other.getOperationParams());
@@ -9771,6 +11238,246 @@ public final class AnalyticsIntenalProtos {
         resignQuery_ = false;
         onChanged();
         return this;
+      }
+
+      private java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer> createdTopicConsumers_ =
+        java.util.Collections.emptyList();
+      private void ensureCreatedTopicConsumersIsMutable() {
+        if (!((bitField0_ & 0x00000008) != 0)) {
+          createdTopicConsumers_ = new java.util.ArrayList<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer>(createdTopicConsumers_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumerOrBuilder> createdTopicConsumersBuilder_;
+
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+       */
+      public java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer> getCreatedTopicConsumersList() {
+        if (createdTopicConsumersBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(createdTopicConsumers_);
+        } else {
+          return createdTopicConsumersBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+       */
+      public int getCreatedTopicConsumersCount() {
+        if (createdTopicConsumersBuilder_ == null) {
+          return createdTopicConsumers_.size();
+        } else {
+          return createdTopicConsumersBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer getCreatedTopicConsumers(int index) {
+        if (createdTopicConsumersBuilder_ == null) {
+          return createdTopicConsumers_.get(index);
+        } else {
+          return createdTopicConsumersBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+       */
+      public Builder setCreatedTopicConsumers(
+          int index, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer value) {
+        if (createdTopicConsumersBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCreatedTopicConsumersIsMutable();
+          createdTopicConsumers_.set(index, value);
+          onChanged();
+        } else {
+          createdTopicConsumersBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+       */
+      public Builder setCreatedTopicConsumers(
+          int index, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder builderForValue) {
+        if (createdTopicConsumersBuilder_ == null) {
+          ensureCreatedTopicConsumersIsMutable();
+          createdTopicConsumers_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          createdTopicConsumersBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+       */
+      public Builder addCreatedTopicConsumers(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer value) {
+        if (createdTopicConsumersBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCreatedTopicConsumersIsMutable();
+          createdTopicConsumers_.add(value);
+          onChanged();
+        } else {
+          createdTopicConsumersBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+       */
+      public Builder addCreatedTopicConsumers(
+          int index, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer value) {
+        if (createdTopicConsumersBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCreatedTopicConsumersIsMutable();
+          createdTopicConsumers_.add(index, value);
+          onChanged();
+        } else {
+          createdTopicConsumersBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+       */
+      public Builder addCreatedTopicConsumers(
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder builderForValue) {
+        if (createdTopicConsumersBuilder_ == null) {
+          ensureCreatedTopicConsumersIsMutable();
+          createdTopicConsumers_.add(builderForValue.build());
+          onChanged();
+        } else {
+          createdTopicConsumersBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+       */
+      public Builder addCreatedTopicConsumers(
+          int index, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder builderForValue) {
+        if (createdTopicConsumersBuilder_ == null) {
+          ensureCreatedTopicConsumersIsMutable();
+          createdTopicConsumers_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          createdTopicConsumersBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+       */
+      public Builder addAllCreatedTopicConsumers(
+          java.lang.Iterable<? extends com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer> values) {
+        if (createdTopicConsumersBuilder_ == null) {
+          ensureCreatedTopicConsumersIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, createdTopicConsumers_);
+          onChanged();
+        } else {
+          createdTopicConsumersBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+       */
+      public Builder clearCreatedTopicConsumers() {
+        if (createdTopicConsumersBuilder_ == null) {
+          createdTopicConsumers_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+          onChanged();
+        } else {
+          createdTopicConsumersBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+       */
+      public Builder removeCreatedTopicConsumers(int index) {
+        if (createdTopicConsumersBuilder_ == null) {
+          ensureCreatedTopicConsumersIsMutable();
+          createdTopicConsumers_.remove(index);
+          onChanged();
+        } else {
+          createdTopicConsumersBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder getCreatedTopicConsumersBuilder(
+          int index) {
+        return getCreatedTopicConsumersFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumerOrBuilder getCreatedTopicConsumersOrBuilder(
+          int index) {
+        if (createdTopicConsumersBuilder_ == null) {
+          return createdTopicConsumers_.get(index);  } else {
+          return createdTopicConsumersBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+       */
+      public java.util.List<? extends com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumerOrBuilder> 
+           getCreatedTopicConsumersOrBuilderList() {
+        if (createdTopicConsumersBuilder_ != null) {
+          return createdTopicConsumersBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(createdTopicConsumers_);
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder addCreatedTopicConsumersBuilder() {
+        return getCreatedTopicConsumersFieldBuilder().addBuilder(
+            com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder addCreatedTopicConsumersBuilder(
+          int index) {
+        return getCreatedTopicConsumersFieldBuilder().addBuilder(
+            index, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 17;</code>
+       */
+      public java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder> 
+           getCreatedTopicConsumersBuilderList() {
+        return getCreatedTopicConsumersFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumerOrBuilder> 
+          getCreatedTopicConsumersFieldBuilder() {
+        if (createdTopicConsumersBuilder_ == null) {
+          createdTopicConsumersBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumerOrBuilder>(
+                  createdTopicConsumers_,
+                  ((bitField0_ & 0x00000008) != 0),
+                  getParentForChildren(),
+                  isClean());
+          createdTopicConsumers_ = null;
+        }
+        return createdTopicConsumersBuilder_;
       }
 
       private tech.ydb.OperationProtos.OperationParams operationParams_;
@@ -17528,10 +19235,20 @@ public final class AnalyticsIntenalProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Yql_Analytics_SignedIdentity_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Yql_Analytics_TopicConsumer_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Yql_Analytics_TopicConsumer_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Yql_Analytics_GetTaskResult_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Yql_Analytics_GetTaskResult_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Yql_Analytics_GetTaskResult_SensorLabelsEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Yql_Analytics_GetTaskResult_SensorLabelsEntry_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Yql_Analytics_GetTaskResponse_descriptor;
   private static final 
@@ -17607,67 +19324,74 @@ public final class AnalyticsIntenalProtos {
       " \001(\t\022\014\n\004host\030\003 \001(\t\0229\n\020operation_params\030\004" +
       " \001(\0132\037.Ydb.Operations.OperationParams\"2\n" +
       "\016SignedIdentity\022\r\n\005value\030\001 \001(\t\022\021\n\tsignat" +
-      "ure\030\002 \001(\t\"\217\005\n\rGetTaskResult\022\020\n\010has_task\030" +
-      "\001 \001(\010\0220\n\tresult_id\030\002 \001(\0132\035.Yql.Analytics" +
-      ".SignedIdentity\022/\n\010query_id\030\003 \001(\0132\035.Yql." +
-      "Analytics.SignedIdentity\022-\n\006job_id\030\004 \001(\013" +
-      "2\035.Yql.Analytics.SignedIdentity\022\022\n\ngener" +
-      "ation\030\005 \001(\004\022\021\n\tstreaming\030\006 \001(\010\022\020\n\010dq_gra" +
-      "ph\030\007 \001(\t\022\014\n\004text\030\010 \001(\t\022+\n\nconnection\030\t \003" +
-      "(\0132\027.YandexQuery.Connection\022%\n\007binding\030\n" +
-      " \003(\0132\024.YandexQuery.Binding\022\022\n\nuser_token" +
-      "\030\013 \001(\t\0227\n\020service_accounts\030\014 \003(\0132\035.Yql.A" +
-      "nalytics.SignedIdentity\022\017\n\007user_id\030\r \001(\t" +
-      "\0227\n\nquery_type\030\016 \001(\0162#.YandexQuery.Query" +
-      "Content.QueryType\022\r\n\005scope\030\017 \001(\t\022.\n\014exec" +
-      "ute_mode\030\020 \001(\0162\030.YandexQuery.ExecuteMode" +
-      "\0223\n\017state_load_mode\030\021 \001(\0162\032.YandexQuery." +
-      "StateLoadMode\0224\n\006status\030\022 \001(\0162$.YandexQu" +
-      "ery.QueryMeta.ComputeStatus\"?\n\017GetTaskRe" +
-      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
-      "ns.Operation\"\257\005\n\017PingTaskRequest\022\020\n\010owne" +
-      "r_id\030\001 \001(\t\022/\n\010query_id\030\002 \001(\0132\035.Yql.Analy" +
-      "tics.SignedIdentity\022-\n\006job_id\030\003 \001(\0132\035.Yq" +
-      "l.Analytics.SignedIdentity\0220\n\tresult_id\030" +
-      "\004 \001(\0132\035.Yql.Analytics.SignedIdentity\0224\n\006" +
-      "status\030\005 \001(\0162$.YandexQuery.QueryMeta.Com" +
-      "puteStatus\022\'\n\006issues\030\006 \003(\0132\027.Ydb.Issue.I" +
-      "ssueMessage\0221\n\020transient_issues\030\020 \003(\0132\027." +
-      "Ydb.Issue.IssueMessage\022\030\n\020result_set_cou" +
-      "nt\030\007 \001(\r\022\022\n\nstatistics\030\010 \001(\t\0223\n\017result_s" +
-      "et_meta\030\t \003(\0132\032.YandexQuery.ResultSetMet" +
-      "a\022\025\n\rexecuter_info\030\n \001(\t\022\020\n\010dq_graph\030\013 \001" +
-      "(\t\022\013\n\003ast\030\014 \001(\t\022\014\n\004plan\030\r \001(\t\022\024\n\014resign_" +
-      "query\030\016 \001(\010\0229\n\020operation_params\030\017 \001(\0132\037." +
-      "Ydb.Operations.OperationParams\022\r\n\005scope\030" +
-      "d \001(\t\022.\n\nstarted_at\030e \001(\0132\032.google.proto" +
-      "buf.Timestamp\022/\n\013finished_at\030f \001(\0132\032.goo" +
-      "gle.protobuf.Timestamp\":\n\016PingTaskResult" +
-      "\022(\n\006action\030\001 \001(\0162\030.YandexQuery.QueryActi" +
-      "on\"@\n\020PingTaskResponse\022,\n\toperation\030\001 \001(" +
-      "\0132\031.Ydb.Operations.Operation\"\366\001\n\026WriteTa" +
-      "skResultRequest\022\020\n\010owner_id\030\001 \001(\t\0220\n\tres" +
-      "ult_id\030\002 \001(\0132\035.Yql.Analytics.SignedIdent" +
-      "ity\022\"\n\nresult_set\030\003 \001(\0132\016.Ydb.ResultSet\022" +
-      "\025\n\rresult_set_id\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\022" +
-      "\n\nrequest_id\030\006 \001(\004\0229\n\020operation_params\030\007" +
-      " \001(\0132\037.Ydb.Operations.OperationParams\"+\n" +
-      "\025WriteTaskResultResult\022\022\n\nrequest_id\030\001 \001" +
-      "(\004\"G\n\027WriteTaskResultResponse\022,\n\toperati" +
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\264\001\n\027" +
-      "NodesHealthCheckRequest\022\016\n\006tenant\030\001 \001(\t\022" +
-      "\017\n\007node_id\030\002 \001(\r\022\023\n\013instance_id\030\003 \001(\t\022\020\n" +
-      "\010hostname\030\004 \001(\t\022\026\n\016active_workers\030\005 \001(\004\022" +
-      "9\n\020operation_params\030\006 \001(\0132\037.Ydb.Operatio" +
-      "ns.OperationParams\"\233\001\n\026NodesHealthCheckR" +
-      "esult\022=\n\005nodes\030\001 \003(\0132..Yql.Analytics.Nod" +
-      "esHealthCheckResult.NodeInfo\032B\n\010NodeInfo" +
-      "\022\017\n\007node_id\030\001 \001(\r\022\023\n\013instance_id\030\002 \001(\t\022\020" +
-      "\n\010hostname\030\003 \001(\t\"H\n\030NodesHealthCheckResp" +
-      "onse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations" +
-      ".OperationB>\n!com.yandex.yql.analytics.i" +
-      "nternalB\026AnalyticsIntenalProtos\370\001\001b\006prot" +
-      "o3"
+      "ure\030\002 \001(\t\"a\n\rTopicConsumer\022\023\n\013database_i" +
+      "d\030\001 \001(\t\022\020\n\010database\030\002 \001(\t\022\022\n\ntopic_path\030" +
+      "\003 \001(\t\022\025\n\rconsumer_name\030\004 \001(\t\"\213\006\n\rGetTask" +
+      "Result\022\020\n\010has_task\030\001 \001(\010\0220\n\tresult_id\030\002 " +
+      "\001(\0132\035.Yql.Analytics.SignedIdentity\022/\n\010qu" +
+      "ery_id\030\003 \001(\0132\035.Yql.Analytics.SignedIdent" +
+      "ity\022-\n\006job_id\030\004 \001(\0132\035.Yql.Analytics.Sign" +
+      "edIdentity\022\022\n\ngeneration\030\005 \001(\004\022\021\n\tstream" +
+      "ing\030\006 \001(\010\022\020\n\010dq_graph\030\007 \001(\t\022\014\n\004text\030\010 \001(" +
+      "\t\022+\n\nconnection\030\t \003(\0132\027.YandexQuery.Conn" +
+      "ection\022%\n\007binding\030\n \003(\0132\024.YandexQuery.Bi" +
+      "nding\022\022\n\nuser_token\030\013 \001(\t\0227\n\020service_acc" +
+      "ounts\030\014 \003(\0132\035.Yql.Analytics.SignedIdenti" +
+      "ty\022\017\n\007user_id\030\r \001(\t\0227\n\nquery_type\030\016 \001(\0162" +
+      "#.YandexQuery.QueryContent.QueryType\022\r\n\005" +
+      "scope\030\017 \001(\t\022.\n\014execute_mode\030\020 \001(\0162\030.Yand" +
+      "exQuery.ExecuteMode\0223\n\017state_load_mode\030\021" +
+      " \001(\0162\032.YandexQuery.StateLoadMode\0224\n\006stat" +
+      "us\030\022 \001(\0162$.YandexQuery.QueryMeta.Compute" +
+      "Status\022E\n\rsensor_labels\030\023 \003(\0132..Yql.Anal" +
+      "ytics.GetTaskResult.SensorLabelsEntry\0323\n" +
+      "\021SensorLabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value" +
+      "\030\002 \001(\t:\0028\001\"?\n\017GetTaskResponse\022,\n\toperati" +
+      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\356\005\n\017" +
+      "PingTaskRequest\022\020\n\010owner_id\030\001 \001(\t\022/\n\010que" +
+      "ry_id\030\002 \001(\0132\035.Yql.Analytics.SignedIdenti" +
+      "ty\022-\n\006job_id\030\003 \001(\0132\035.Yql.Analytics.Signe" +
+      "dIdentity\0220\n\tresult_id\030\004 \001(\0132\035.Yql.Analy" +
+      "tics.SignedIdentity\0224\n\006status\030\005 \001(\0162$.Ya" +
+      "ndexQuery.QueryMeta.ComputeStatus\022\'\n\006iss" +
+      "ues\030\006 \003(\0132\027.Ydb.Issue.IssueMessage\0221\n\020tr" +
+      "ansient_issues\030\020 \003(\0132\027.Ydb.Issue.IssueMe" +
+      "ssage\022\030\n\020result_set_count\030\007 \001(\r\022\022\n\nstati" +
+      "stics\030\010 \001(\t\0223\n\017result_set_meta\030\t \003(\0132\032.Y" +
+      "andexQuery.ResultSetMeta\022\025\n\rexecuter_inf" +
+      "o\030\n \001(\t\022\020\n\010dq_graph\030\013 \001(\t\022\013\n\003ast\030\014 \001(\t\022\014" +
+      "\n\004plan\030\r \001(\t\022\024\n\014resign_query\030\016 \001(\010\022=\n\027cr" +
+      "eated_topic_consumers\030\021 \003(\0132\034.Yql.Analyt" +
+      "ics.TopicConsumer\0229\n\020operation_params\030\017 " +
+      "\001(\0132\037.Ydb.Operations.OperationParams\022\r\n\005" +
+      "scope\030d \001(\t\022.\n\nstarted_at\030e \001(\0132\032.google" +
+      ".protobuf.Timestamp\022/\n\013finished_at\030f \001(\013" +
+      "2\032.google.protobuf.Timestamp\":\n\016PingTask" +
+      "Result\022(\n\006action\030\001 \001(\0162\030.YandexQuery.Que" +
+      "ryAction\"@\n\020PingTaskResponse\022,\n\toperatio" +
+      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\366\001\n\026W" +
+      "riteTaskResultRequest\022\020\n\010owner_id\030\001 \001(\t\022" +
+      "0\n\tresult_id\030\002 \001(\0132\035.Yql.Analytics.Signe" +
+      "dIdentity\022\"\n\nresult_set\030\003 \001(\0132\016.Ydb.Resu" +
+      "ltSet\022\025\n\rresult_set_id\030\004 \001(\r\022\016\n\006offset\030\005" +
+      " \001(\004\022\022\n\nrequest_id\030\006 \001(\004\0229\n\020operation_pa" +
+      "rams\030\007 \001(\0132\037.Ydb.Operations.OperationPar" +
+      "ams\"+\n\025WriteTaskResultResult\022\022\n\nrequest_" +
+      "id\030\001 \001(\004\"G\n\027WriteTaskResultResponse\022,\n\to" +
+      "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
+      "n\"\264\001\n\027NodesHealthCheckRequest\022\016\n\006tenant\030" +
+      "\001 \001(\t\022\017\n\007node_id\030\002 \001(\r\022\023\n\013instance_id\030\003 " +
+      "\001(\t\022\020\n\010hostname\030\004 \001(\t\022\026\n\016active_workers\030" +
+      "\005 \001(\004\0229\n\020operation_params\030\006 \001(\0132\037.Ydb.Op" +
+      "erations.OperationParams\"\233\001\n\026NodesHealth" +
+      "CheckResult\022=\n\005nodes\030\001 \003(\0132..Yql.Analyti" +
+      "cs.NodesHealthCheckResult.NodeInfo\032B\n\010No" +
+      "deInfo\022\017\n\007node_id\030\001 \001(\r\022\023\n\013instance_id\030\002" +
+      " \001(\t\022\020\n\010hostname\030\003 \001(\t\"H\n\030NodesHealthChe" +
+      "ckResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
+      "ations.OperationB>\n!com.yandex.yql.analy" +
+      "tics.internalB\026AnalyticsIntenalProtos\370\001\001" +
+      "b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -17690,62 +19414,74 @@ public final class AnalyticsIntenalProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_SignedIdentity_descriptor,
         new java.lang.String[] { "Value", "Signature", });
-    internal_static_Yql_Analytics_GetTaskResult_descriptor =
+    internal_static_Yql_Analytics_TopicConsumer_descriptor =
       getDescriptor().getMessageTypes().get(2);
+    internal_static_Yql_Analytics_TopicConsumer_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Yql_Analytics_TopicConsumer_descriptor,
+        new java.lang.String[] { "DatabaseId", "Database", "TopicPath", "ConsumerName", });
+    internal_static_Yql_Analytics_GetTaskResult_descriptor =
+      getDescriptor().getMessageTypes().get(3);
     internal_static_Yql_Analytics_GetTaskResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetTaskResult_descriptor,
-        new java.lang.String[] { "HasTask", "ResultId", "QueryId", "JobId", "Generation", "Streaming", "DqGraph", "Text", "Connection", "Binding", "UserToken", "ServiceAccounts", "UserId", "QueryType", "Scope", "ExecuteMode", "StateLoadMode", "Status", });
+        new java.lang.String[] { "HasTask", "ResultId", "QueryId", "JobId", "Generation", "Streaming", "DqGraph", "Text", "Connection", "Binding", "UserToken", "ServiceAccounts", "UserId", "QueryType", "Scope", "ExecuteMode", "StateLoadMode", "Status", "SensorLabels", });
+    internal_static_Yql_Analytics_GetTaskResult_SensorLabelsEntry_descriptor =
+      internal_static_Yql_Analytics_GetTaskResult_descriptor.getNestedTypes().get(0);
+    internal_static_Yql_Analytics_GetTaskResult_SensorLabelsEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Yql_Analytics_GetTaskResult_SensorLabelsEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
     internal_static_Yql_Analytics_GetTaskResponse_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_Yql_Analytics_GetTaskResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetTaskResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Yql_Analytics_PingTaskRequest_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_Yql_Analytics_PingTaskRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_PingTaskRequest_descriptor,
-        new java.lang.String[] { "OwnerId", "QueryId", "JobId", "ResultId", "Status", "Issues", "TransientIssues", "ResultSetCount", "Statistics", "ResultSetMeta", "ExecuterInfo", "DqGraph", "Ast", "Plan", "ResignQuery", "OperationParams", "Scope", "StartedAt", "FinishedAt", });
+        new java.lang.String[] { "OwnerId", "QueryId", "JobId", "ResultId", "Status", "Issues", "TransientIssues", "ResultSetCount", "Statistics", "ResultSetMeta", "ExecuterInfo", "DqGraph", "Ast", "Plan", "ResignQuery", "CreatedTopicConsumers", "OperationParams", "Scope", "StartedAt", "FinishedAt", });
     internal_static_Yql_Analytics_PingTaskResult_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_Yql_Analytics_PingTaskResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_PingTaskResult_descriptor,
         new java.lang.String[] { "Action", });
     internal_static_Yql_Analytics_PingTaskResponse_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_Yql_Analytics_PingTaskResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_PingTaskResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Yql_Analytics_WriteTaskResultRequest_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_Yql_Analytics_WriteTaskResultRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_WriteTaskResultRequest_descriptor,
         new java.lang.String[] { "OwnerId", "ResultId", "ResultSet", "ResultSetId", "Offset", "RequestId", "OperationParams", });
     internal_static_Yql_Analytics_WriteTaskResultResult_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_Yql_Analytics_WriteTaskResultResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_WriteTaskResultResult_descriptor,
         new java.lang.String[] { "RequestId", });
     internal_static_Yql_Analytics_WriteTaskResultResponse_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_Yql_Analytics_WriteTaskResultResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_WriteTaskResultResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Yql_Analytics_NodesHealthCheckRequest_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_Yql_Analytics_NodesHealthCheckRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_NodesHealthCheckRequest_descriptor,
         new java.lang.String[] { "Tenant", "NodeId", "InstanceId", "Hostname", "ActiveWorkers", "OperationParams", });
     internal_static_Yql_Analytics_NodesHealthCheckResult_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_Yql_Analytics_NodesHealthCheckResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_NodesHealthCheckResult_descriptor,
@@ -17757,7 +19493,7 @@ public final class AnalyticsIntenalProtos {
         internal_static_Yql_Analytics_NodesHealthCheckResult_NodeInfo_descriptor,
         new java.lang.String[] { "NodeId", "InstanceId", "Hostname", });
     internal_static_Yql_Analytics_NodesHealthCheckResponse_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_Yql_Analytics_NodesHealthCheckResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_NodesHealthCheckResponse_descriptor,
