@@ -1,3 +1,7 @@
+## 1.8.3 ##
+
+* Added connection string support
+
 ## 1.8.2 ##
 
 * Added CloudAuthProvider for cloud authentication with environment variables

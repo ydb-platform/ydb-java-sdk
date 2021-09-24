@@ -1,9 +1,12 @@
 package tech.ydb.core.grpc;
 
 import java.io.ByteArrayInputStream;
+import java.net.URI;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -106,6 +109,33 @@ public class GrpcTransport implements RpcTransport {
         checkNotNull(endpoint, "endpoint is null");
         checkNotNull(database, "database is null");
         return new Builder(endpoint, database, null);
+    }
+
+    // [<protocol>://]<host>[:<port>]/?database=<database-path>
+    public static Builder forConnectionString(String connectionString) {
+        checkNotNull(connectionString, "connection string is null");
+        String endpoint;
+        String database;
+        String scheme;
+        try {
+            URI uri = new URI(connectionString.contains("://") ? connectionString : "grpc://" + connectionString);
+            endpoint = uri.getAuthority();
+            checkNotNull(endpoint, "no endpoint in connection string");
+            Map<String, String> params = getQueryMap(uri.getQuery());
+            database = params.get("database");
+            checkNotNull(endpoint, "no database in connection string");
+            scheme = uri.getScheme();
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Failed to parse connection string '" + connectionString +
+                    "'. Expected format: [<protocol>://]<host>[:<port>]/?database=<database-path>", e);
+        }
+        Builder builder = new Builder(endpoint, database, null);
+        if (scheme.equals("grpcs")) {
+            builder.withSecureConnection();
+        } else if (!scheme.equals("grpc")) {
+            throw new IllegalArgumentException("Unknown protocol '" + scheme + "' in connection string");
+        }
+        return builder;
     }
 
     public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
@@ -412,6 +442,18 @@ public class GrpcTransport implements RpcTransport {
     private static Status deadlineExpiredStatus(MethodDescriptor<?, ?> method) {
         String message = "deadline expired before calling method " + method.getFullMethodName();
         return Status.DEADLINE_EXCEEDED.withDescription(message);
+    }
+
+    private static Map<String, String> getQueryMap(String query) {
+        String[] params = query.split("&");
+        Map<String, String> map = new HashMap<String, String>();
+
+        for (String param : params) {
+            String name = param.split("=")[0];
+            String value = param.split("=")[1];
+            map.put(name, value);
+        }
+        return map;
     }
 
     /**
