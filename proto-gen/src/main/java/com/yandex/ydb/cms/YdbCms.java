@@ -7501,6 +7501,28 @@ public final class YdbCms {
      * @return The dataStreamShardsQuota.
      */
     long getDataStreamShardsQuota();
+
+    /**
+     * <pre>
+     * A maximum value of `TtlSettings.concurrency_level` that can be specified.
+     * Default is 1000.
+     * </pre>
+     *
+     * <code>uint32 ttl_max_concurrency_level = 4;</code>
+     * @return The ttlMaxConcurrencyLevel.
+     */
+    int getTtlMaxConcurrencyLevel();
+
+    /**
+     * <pre>
+     * A minimum value of `TtlSettings.run_interval_seconds` that can be specified.
+     * Default is 1800 (15 minutes).
+     * </pre>
+     *
+     * <code>uint32 ttl_min_run_internal_seconds = 5;</code>
+     * @return The ttlMinRunInternalSeconds.
+     */
+    int getTtlMinRunInternalSeconds();
   }
   /**
    * <pre>
@@ -7564,6 +7586,16 @@ public final class YdbCms {
             case 24: {
 
               dataStreamShardsQuota_ = input.readUInt64();
+              break;
+            }
+            case 32: {
+
+              ttlMaxConcurrencyLevel_ = input.readUInt32();
+              break;
+            }
+            case 40: {
+
+              ttlMinRunInternalSeconds_ = input.readUInt32();
               break;
             }
             default: {
@@ -7646,6 +7678,38 @@ public final class YdbCms {
       return dataStreamShardsQuota_;
     }
 
+    public static final int TTL_MAX_CONCURRENCY_LEVEL_FIELD_NUMBER = 4;
+    private int ttlMaxConcurrencyLevel_;
+    /**
+     * <pre>
+     * A maximum value of `TtlSettings.concurrency_level` that can be specified.
+     * Default is 1000.
+     * </pre>
+     *
+     * <code>uint32 ttl_max_concurrency_level = 4;</code>
+     * @return The ttlMaxConcurrencyLevel.
+     */
+    @java.lang.Override
+    public int getTtlMaxConcurrencyLevel() {
+      return ttlMaxConcurrencyLevel_;
+    }
+
+    public static final int TTL_MIN_RUN_INTERNAL_SECONDS_FIELD_NUMBER = 5;
+    private int ttlMinRunInternalSeconds_;
+    /**
+     * <pre>
+     * A minimum value of `TtlSettings.run_interval_seconds` that can be specified.
+     * Default is 1800 (15 minutes).
+     * </pre>
+     *
+     * <code>uint32 ttl_min_run_internal_seconds = 5;</code>
+     * @return The ttlMinRunInternalSeconds.
+     */
+    @java.lang.Override
+    public int getTtlMinRunInternalSeconds() {
+      return ttlMinRunInternalSeconds_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -7669,6 +7733,12 @@ public final class YdbCms {
       if (dataStreamShardsQuota_ != 0L) {
         output.writeUInt64(3, dataStreamShardsQuota_);
       }
+      if (ttlMaxConcurrencyLevel_ != 0) {
+        output.writeUInt32(4, ttlMaxConcurrencyLevel_);
+      }
+      if (ttlMinRunInternalSeconds_ != 0) {
+        output.writeUInt32(5, ttlMinRunInternalSeconds_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -7689,6 +7759,14 @@ public final class YdbCms {
       if (dataStreamShardsQuota_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(3, dataStreamShardsQuota_);
+      }
+      if (ttlMaxConcurrencyLevel_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(4, ttlMaxConcurrencyLevel_);
+      }
+      if (ttlMinRunInternalSeconds_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(5, ttlMinRunInternalSeconds_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -7711,6 +7789,10 @@ public final class YdbCms {
           != other.getDataSizeSoftQuota()) return false;
       if (getDataStreamShardsQuota()
           != other.getDataStreamShardsQuota()) return false;
+      if (getTtlMaxConcurrencyLevel()
+          != other.getTtlMaxConcurrencyLevel()) return false;
+      if (getTtlMinRunInternalSeconds()
+          != other.getTtlMinRunInternalSeconds()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -7731,6 +7813,10 @@ public final class YdbCms {
       hash = (37 * hash) + DATA_STREAM_SHARDS_QUOTA_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getDataStreamShardsQuota());
+      hash = (37 * hash) + TTL_MAX_CONCURRENCY_LEVEL_FIELD_NUMBER;
+      hash = (53 * hash) + getTtlMaxConcurrencyLevel();
+      hash = (37 * hash) + TTL_MIN_RUN_INTERNAL_SECONDS_FIELD_NUMBER;
+      hash = (53 * hash) + getTtlMinRunInternalSeconds();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -7874,6 +7960,10 @@ public final class YdbCms {
 
         dataStreamShardsQuota_ = 0L;
 
+        ttlMaxConcurrencyLevel_ = 0;
+
+        ttlMinRunInternalSeconds_ = 0;
+
         return this;
       }
 
@@ -7903,6 +7993,8 @@ public final class YdbCms {
         result.dataSizeHardQuota_ = dataSizeHardQuota_;
         result.dataSizeSoftQuota_ = dataSizeSoftQuota_;
         result.dataStreamShardsQuota_ = dataStreamShardsQuota_;
+        result.ttlMaxConcurrencyLevel_ = ttlMaxConcurrencyLevel_;
+        result.ttlMinRunInternalSeconds_ = ttlMinRunInternalSeconds_;
         onBuilt();
         return result;
       }
@@ -7959,6 +8051,12 @@ public final class YdbCms {
         }
         if (other.getDataStreamShardsQuota() != 0L) {
           setDataStreamShardsQuota(other.getDataStreamShardsQuota());
+        }
+        if (other.getTtlMaxConcurrencyLevel() != 0) {
+          setTtlMaxConcurrencyLevel(other.getTtlMaxConcurrencyLevel());
+        }
+        if (other.getTtlMinRunInternalSeconds() != 0) {
+          setTtlMinRunInternalSeconds(other.getTtlMinRunInternalSeconds());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -8123,6 +8221,98 @@ public final class YdbCms {
       public Builder clearDataStreamShardsQuota() {
         
         dataStreamShardsQuota_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private int ttlMaxConcurrencyLevel_ ;
+      /**
+       * <pre>
+       * A maximum value of `TtlSettings.concurrency_level` that can be specified.
+       * Default is 1000.
+       * </pre>
+       *
+       * <code>uint32 ttl_max_concurrency_level = 4;</code>
+       * @return The ttlMaxConcurrencyLevel.
+       */
+      @java.lang.Override
+      public int getTtlMaxConcurrencyLevel() {
+        return ttlMaxConcurrencyLevel_;
+      }
+      /**
+       * <pre>
+       * A maximum value of `TtlSettings.concurrency_level` that can be specified.
+       * Default is 1000.
+       * </pre>
+       *
+       * <code>uint32 ttl_max_concurrency_level = 4;</code>
+       * @param value The ttlMaxConcurrencyLevel to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTtlMaxConcurrencyLevel(int value) {
+        
+        ttlMaxConcurrencyLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * A maximum value of `TtlSettings.concurrency_level` that can be specified.
+       * Default is 1000.
+       * </pre>
+       *
+       * <code>uint32 ttl_max_concurrency_level = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTtlMaxConcurrencyLevel() {
+        
+        ttlMaxConcurrencyLevel_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int ttlMinRunInternalSeconds_ ;
+      /**
+       * <pre>
+       * A minimum value of `TtlSettings.run_interval_seconds` that can be specified.
+       * Default is 1800 (15 minutes).
+       * </pre>
+       *
+       * <code>uint32 ttl_min_run_internal_seconds = 5;</code>
+       * @return The ttlMinRunInternalSeconds.
+       */
+      @java.lang.Override
+      public int getTtlMinRunInternalSeconds() {
+        return ttlMinRunInternalSeconds_;
+      }
+      /**
+       * <pre>
+       * A minimum value of `TtlSettings.run_interval_seconds` that can be specified.
+       * Default is 1800 (15 minutes).
+       * </pre>
+       *
+       * <code>uint32 ttl_min_run_internal_seconds = 5;</code>
+       * @param value The ttlMinRunInternalSeconds to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTtlMinRunInternalSeconds(int value) {
+        
+        ttlMinRunInternalSeconds_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * A minimum value of `TtlSettings.run_interval_seconds` that can be specified.
+       * Default is 1800 (15 minutes).
+       * </pre>
+       *
+       * <code>uint32 ttl_min_run_internal_seconds = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTtlMinRunInternalSeconds() {
+        
+        ttlMinRunInternalSeconds_ = 0;
         onChanged();
         return this;
       }
@@ -30785,94 +30975,96 @@ public final class YdbCms {
       "ationQuotas\022G\n\023leaky_bucket_quotas\030\001 \003(\013" +
       "2*.Ydb.Cms.SchemaOperationQuotas.LeakyBu" +
       "cket\032:\n\013LeakyBucket\022\023\n\013bucket_size\030\001 \001(\001" +
-      "\022\026\n\016bucket_seconds\030\002 \001(\004\"n\n\016DatabaseQuot" +
-      "as\022\034\n\024data_size_hard_quota\030\001 \001(\004\022\034\n\024data" +
-      "_size_soft_quota\030\002 \001(\004\022 \n\030data_stream_sh" +
-      "ards_quota\030\003 \001(\004\"\350\003\n\025CreateDatabaseReque" +
-      "st\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Opera" +
-      "tions.OperationParams\022\014\n\004path\030\002 \001(\t\022\'\n\tr" +
-      "esources\030\003 \001(\0132\022.Ydb.Cms.ResourcesH\000\022.\n\020" +
-      "shared_resources\030\006 \001(\0132\022.Ydb.Cms.Resourc" +
-      "esH\000\022<\n\024serverless_resources\030\007 \001(\0132\034.Ydb" +
-      ".Cms.ServerlessResourcesH\000\022)\n\007options\030\004 " +
-      "\001(\0132\030.Ydb.Cms.DatabaseOptions\022&\n\nattribu" +
-      "tes\030\005 \003(\0132\022.Ydb.Cms.Attribute\022?\n\027schema_" +
-      "operation_quotas\030\010 \001(\0132\036.Ydb.Cms.SchemaO" +
-      "perationQuotas\022\027\n\017idempotency_key\030\t \001(\t\022" +
-      "0\n\017database_quotas\030\n \001(\0132\027.Ydb.Cms.Datab" +
-      "aseQuotasB\020\n\016resources_kind\"F\n\026CreateDat" +
-      "abaseResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
-      "perations.Operation\"c\n\030GetDatabaseStatus" +
+      "\022\026\n\016bucket_seconds\030\002 \001(\004\"\267\001\n\016DatabaseQuo" +
+      "tas\022\034\n\024data_size_hard_quota\030\001 \001(\004\022\034\n\024dat" +
+      "a_size_soft_quota\030\002 \001(\004\022 \n\030data_stream_s" +
+      "hards_quota\030\003 \001(\004\022!\n\031ttl_max_concurrency" +
+      "_level\030\004 \001(\r\022$\n\034ttl_min_run_internal_sec" +
+      "onds\030\005 \001(\r\"\350\003\n\025CreateDatabaseRequest\0229\n\020" +
+      "operation_params\030\001 \001(\0132\037.Ydb.Operations." +
+      "OperationParams\022\014\n\004path\030\002 \001(\t\022\'\n\tresourc" +
+      "es\030\003 \001(\0132\022.Ydb.Cms.ResourcesH\000\022.\n\020shared" +
+      "_resources\030\006 \001(\0132\022.Ydb.Cms.ResourcesH\000\022<" +
+      "\n\024serverless_resources\030\007 \001(\0132\034.Ydb.Cms.S" +
+      "erverlessResourcesH\000\022)\n\007options\030\004 \001(\0132\030." +
+      "Ydb.Cms.DatabaseOptions\022&\n\nattributes\030\005 " +
+      "\003(\0132\022.Ydb.Cms.Attribute\022?\n\027schema_operat" +
+      "ion_quotas\030\010 \001(\0132\036.Ydb.Cms.SchemaOperati" +
+      "onQuotas\022\027\n\017idempotency_key\030\t \001(\t\0220\n\017dat" +
+      "abase_quotas\030\n \001(\0132\027.Ydb.Cms.DatabaseQuo" +
+      "tasB\020\n\016resources_kind\"F\n\026CreateDatabaseR" +
+      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
+      "ons.Operation\"c\n\030GetDatabaseStatusReques" +
+      "t\022\014\n\004path\030\001 \001(\t\0229\n\020operation_params\030\002 \001(" +
+      "\0132\037.Ydb.Operations.OperationParams\"I\n\031Ge" +
+      "tDatabaseStatusResponse\022,\n\toperation\030\001 \001" +
+      "(\0132\031.Ydb.Operations.Operation\"\205\005\n\027GetDat" +
+      "abaseStatusResult\022\014\n\004path\030\001 \001(\t\0225\n\005state" +
+      "\030\002 \001(\0162&.Ydb.Cms.GetDatabaseStatusResult" +
+      ".State\0220\n\022required_resources\030\003 \001(\0132\022.Ydb" +
+      ".Cms.ResourcesH\000\0227\n\031required_shared_reso" +
+      "urces\030\007 \001(\0132\022.Ydb.Cms.ResourcesH\000\022<\n\024ser" +
+      "verless_resources\030\010 \001(\0132\034.Ydb.Cms.Server" +
+      "lessResourcesH\000\022/\n\023allocated_resources\030\004" +
+      " \001(\0132\022.Ydb.Cms.Resources\022A\n\024registered_r" +
+      "esources\030\005 \003(\0132#.Ydb.Cms.AllocatedComput" +
+      "ationalUnit\022\022\n\ngeneration\030\006 \001(\004\022?\n\027schem" +
+      "a_operation_quotas\030\t \001(\0132\036.Ydb.Cms.Schem" +
+      "aOperationQuotas\0220\n\017database_quotas\030\n \001(" +
+      "\0132\027.Ydb.Cms.DatabaseQuotas\"o\n\005State\022\025\n\021S" +
+      "TATE_UNSPECIFIED\020\000\022\014\n\010CREATING\020\001\022\013\n\007RUNN" +
+      "ING\020\002\022\014\n\010REMOVING\020\003\022\025\n\021PENDING_RESOURCES" +
+      "\020\004\022\017\n\013CONFIGURING\020\005B\020\n\016resources_kind\"\327\004" +
+      "\n\024AlterDatabaseRequest\022\014\n\004path\030\001 \001(\t\022?\n\032" +
+      "computational_units_to_add\030\002 \003(\0132\033.Ydb.C" +
+      "ms.ComputationalUnits\022B\n\035computational_u" +
+      "nits_to_remove\030\003 \003(\0132\033.Ydb.Cms.Computati" +
+      "onalUnits\0223\n\024storage_units_to_add\030\004 \003(\0132" +
+      "\025.Ydb.Cms.StorageUnits\022L\n\037computational_" +
+      "units_to_register\030\005 \003(\0132#.Ydb.Cms.Alloca" +
+      "tedComputationalUnit\022N\n!computational_un" +
+      "its_to_deregister\030\006 \003(\0132#.Ydb.Cms.Alloca" +
+      "tedComputationalUnit\0229\n\020operation_params" +
+      "\030\007 \001(\0132\037.Ydb.Operations.OperationParams\022" +
+      "\022\n\ngeneration\030\010 \001(\004\022?\n\027schema_operation_" +
+      "quotas\030\t \001(\0132\036.Ydb.Cms.SchemaOperationQu" +
+      "otas\022\027\n\017idempotency_key\030\n \001(\t\0220\n\017databas" +
+      "e_quotas\030\013 \001(\0132\027.Ydb.Cms.DatabaseQuotas\"" +
+      "E\n\025AlterDatabaseResponse\022,\n\toperation\030\001 " +
+      "\001(\0132\031.Ydb.Operations.Operation\"Q\n\024ListDa" +
+      "tabasesRequest\0229\n\020operation_params\030\001 \001(\013" +
+      "2\037.Ydb.Operations.OperationParams\"E\n\025Lis" +
+      "tDatabasesResponse\022,\n\toperation\030\001 \001(\0132\031." +
+      "Ydb.Operations.Operation\"$\n\023ListDatabase" +
+      "sResult\022\r\n\005paths\030\001 \003(\t\"`\n\025RemoveDatabase" +
       "Request\022\014\n\004path\030\001 \001(\t\0229\n\020operation_param" +
       "s\030\002 \001(\0132\037.Ydb.Operations.OperationParams" +
-      "\"I\n\031GetDatabaseStatusResponse\022,\n\toperati" +
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\205\005\n\027" +
-      "GetDatabaseStatusResult\022\014\n\004path\030\001 \001(\t\0225\n" +
-      "\005state\030\002 \001(\0162&.Ydb.Cms.GetDatabaseStatus" +
-      "Result.State\0220\n\022required_resources\030\003 \001(\013" +
-      "2\022.Ydb.Cms.ResourcesH\000\0227\n\031required_share" +
-      "d_resources\030\007 \001(\0132\022.Ydb.Cms.ResourcesH\000\022" +
-      "<\n\024serverless_resources\030\010 \001(\0132\034.Ydb.Cms." +
-      "ServerlessResourcesH\000\022/\n\023allocated_resou" +
-      "rces\030\004 \001(\0132\022.Ydb.Cms.Resources\022A\n\024regist" +
-      "ered_resources\030\005 \003(\0132#.Ydb.Cms.Allocated" +
-      "ComputationalUnit\022\022\n\ngeneration\030\006 \001(\004\022?\n" +
-      "\027schema_operation_quotas\030\t \001(\0132\036.Ydb.Cms" +
-      ".SchemaOperationQuotas\0220\n\017database_quota" +
-      "s\030\n \001(\0132\027.Ydb.Cms.DatabaseQuotas\"o\n\005Stat" +
-      "e\022\025\n\021STATE_UNSPECIFIED\020\000\022\014\n\010CREATING\020\001\022\013" +
-      "\n\007RUNNING\020\002\022\014\n\010REMOVING\020\003\022\025\n\021PENDING_RES" +
-      "OURCES\020\004\022\017\n\013CONFIGURING\020\005B\020\n\016resources_k" +
-      "ind\"\327\004\n\024AlterDatabaseRequest\022\014\n\004path\030\001 \001" +
-      "(\t\022?\n\032computational_units_to_add\030\002 \003(\0132\033" +
-      ".Ydb.Cms.ComputationalUnits\022B\n\035computati" +
-      "onal_units_to_remove\030\003 \003(\0132\033.Ydb.Cms.Com" +
-      "putationalUnits\0223\n\024storage_units_to_add\030" +
-      "\004 \003(\0132\025.Ydb.Cms.StorageUnits\022L\n\037computat" +
-      "ional_units_to_register\030\005 \003(\0132#.Ydb.Cms." +
-      "AllocatedComputationalUnit\022N\n!computatio" +
-      "nal_units_to_deregister\030\006 \003(\0132#.Ydb.Cms." +
-      "AllocatedComputationalUnit\0229\n\020operation_" +
-      "params\030\007 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\022\022\n\ngeneration\030\010 \001(\004\022?\n\027schema_oper" +
-      "ation_quotas\030\t \001(\0132\036.Ydb.Cms.SchemaOpera" +
-      "tionQuotas\022\027\n\017idempotency_key\030\n \001(\t\0220\n\017d" +
-      "atabase_quotas\030\013 \001(\0132\027.Ydb.Cms.DatabaseQ" +
-      "uotas\"E\n\025AlterDatabaseResponse\022,\n\toperat" +
-      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"Q\n\024" +
-      "ListDatabasesRequest\0229\n\020operation_params" +
-      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\"" +
-      "E\n\025ListDatabasesResponse\022,\n\toperation\030\001 " +
-      "\001(\0132\031.Ydb.Operations.Operation\"$\n\023ListDa" +
-      "tabasesResult\022\r\n\005paths\030\001 \003(\t\"`\n\025RemoveDa" +
-      "tabaseRequest\022\014\n\004path\030\001 \001(\t\0229\n\020operation" +
-      "_params\030\002 \001(\0132\037.Ydb.Operations.Operation" +
-      "Params\"F\n\026RemoveDatabaseResponse\022,\n\toper" +
-      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\222" +
-      "\001\n\026StorageUnitDescription\022\014\n\004kind\030\001 \001(\t\022" +
-      ";\n\006labels\030\002 \003(\0132+.Ydb.Cms.StorageUnitDes" +
-      "cription.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003k" +
-      "ey\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\234\001\n\033Availabi" +
-      "lityZoneDescription\022\014\n\004name\030\001 \001(\t\022@\n\006lab" +
-      "els\030\002 \003(\01320.Ydb.Cms.AvailabilityZoneDesc" +
-      "ription.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003ke" +
-      "y\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\302\001\n\034Computati" +
-      "onalUnitDescription\022\014\n\004kind\030\001 \001(\t\022A\n\006lab" +
-      "els\030\002 \003(\01321.Ydb.Cms.ComputationalUnitDes" +
-      "cription.LabelsEntry\022\"\n\032allowed_availabi" +
-      "lity_zones\030\003 \003(\t\032-\n\013LabelsEntry\022\013\n\003key\030\001" +
-      " \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"[\n\036DescribeDatab" +
-      "aseOptionsRequest\0229\n\020operation_params\030\001 " +
-      "\001(\0132\037.Ydb.Operations.OperationParams\"O\n\037" +
-      "DescribeDatabaseOptionsResponse\022,\n\topera" +
-      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\335\001" +
-      "\n\035DescribeDatabaseOptionsResult\0226\n\rstora" +
-      "ge_units\030\001 \003(\0132\037.Ydb.Cms.StorageUnitDesc" +
-      "ription\022@\n\022availability_zones\030\002 \003(\0132$.Yd" +
-      "b.Cms.AvailabilityZoneDescription\022B\n\023com" +
-      "putational_units\030\003 \003(\0132%.Ydb.Cms.Computa" +
-      "tionalUnitDescriptionB\027\n\022tech.ydb." +
-      "cms\370\001\001b\006proto3"
+      "\"F\n\026RemoveDatabaseResponse\022,\n\toperation\030" +
+      "\001 \001(\0132\031.Ydb.Operations.Operation\"\222\001\n\026Sto" +
+      "rageUnitDescription\022\014\n\004kind\030\001 \001(\t\022;\n\006lab" +
+      "els\030\002 \003(\0132+.Ydb.Cms.StorageUnitDescripti" +
+      "on.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001" +
+      "(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\234\001\n\033AvailabilityZo" +
+      "neDescription\022\014\n\004name\030\001 \001(\t\022@\n\006labels\030\002 " +
+      "\003(\01320.Ydb.Cms.AvailabilityZoneDescriptio" +
+      "n.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(" +
+      "\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\302\001\n\034ComputationalUn" +
+      "itDescription\022\014\n\004kind\030\001 \001(\t\022A\n\006labels\030\002 " +
+      "\003(\01321.Ydb.Cms.ComputationalUnitDescripti" +
+      "on.LabelsEntry\022\"\n\032allowed_availability_z" +
+      "ones\030\003 \003(\t\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r" +
+      "\n\005value\030\002 \001(\t:\0028\001\"[\n\036DescribeDatabaseOpt" +
+      "ionsRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
+      "Ydb.Operations.OperationParams\"O\n\037Descri" +
+      "beDatabaseOptionsResponse\022,\n\toperation\030\001" +
+      " \001(\0132\031.Ydb.Operations.Operation\"\335\001\n\035Desc" +
+      "ribeDatabaseOptionsResult\0226\n\rstorage_uni" +
+      "ts\030\001 \003(\0132\037.Ydb.Cms.StorageUnitDescriptio" +
+      "n\022@\n\022availability_zones\030\002 \003(\0132$.Ydb.Cms." +
+      "AvailabilityZoneDescription\022B\n\023computati" +
+      "onal_units\030\003 \003(\0132%.Ydb.Cms.Computational" +
+      "UnitDescriptionB\027\n\022tech.ydb.cms\370\001\001" +
+      "b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -30938,7 +31130,7 @@ public final class YdbCms {
     internal_static_Ydb_Cms_DatabaseQuotas_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_DatabaseQuotas_descriptor,
-        new java.lang.String[] { "DataSizeHardQuota", "DataSizeSoftQuota", "DataStreamShardsQuota", });
+        new java.lang.String[] { "DataSizeHardQuota", "DataSizeSoftQuota", "DataStreamShardsQuota", "TtlMaxConcurrencyLevel", "TtlMinRunInternalSeconds", });
     internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor =
       getDescriptor().getMessageTypes().get(9);
     internal_static_Ydb_Cms_CreateDatabaseRequest_fieldAccessorTable = new

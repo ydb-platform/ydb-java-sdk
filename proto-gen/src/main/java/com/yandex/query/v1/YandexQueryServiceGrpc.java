@@ -275,6 +275,37 @@ public final class YandexQueryServiceGrpc {
     return getListJobsMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.DescribeJobRequest,
+      com.yandex.query.YandexQueryProtos.DescribeJobResponse> getDescribeJobMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "DescribeJob",
+      requestType = com.yandex.query.YandexQueryProtos.DescribeJobRequest.class,
+      responseType = com.yandex.query.YandexQueryProtos.DescribeJobResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.DescribeJobRequest,
+      com.yandex.query.YandexQueryProtos.DescribeJobResponse> getDescribeJobMethod() {
+    io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.DescribeJobRequest, com.yandex.query.YandexQueryProtos.DescribeJobResponse> getDescribeJobMethod;
+    if ((getDescribeJobMethod = YandexQueryServiceGrpc.getDescribeJobMethod) == null) {
+      synchronized (YandexQueryServiceGrpc.class) {
+        if ((getDescribeJobMethod = YandexQueryServiceGrpc.getDescribeJobMethod) == null) {
+          YandexQueryServiceGrpc.getDescribeJobMethod = getDescribeJobMethod =
+              io.grpc.MethodDescriptor.<com.yandex.query.YandexQueryProtos.DescribeJobRequest, com.yandex.query.YandexQueryProtos.DescribeJobResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "DescribeJob"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.yandex.query.YandexQueryProtos.DescribeJobRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.yandex.query.YandexQueryProtos.DescribeJobResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new YandexQueryServiceMethodDescriptorSupplier("DescribeJob"))
+              .build();
+        }
+      }
+    }
+    return getDescribeJobMethod;
+  }
+
   private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.CreateConnectionRequest,
       com.yandex.query.YandexQueryProtos.CreateConnectionResponse> getCreateConnectionMethod;
 
@@ -709,12 +740,22 @@ public final class YandexQueryServiceGrpc {
      * <pre>
      * Job
      * Job - appears immediately after starting the request and contains the request metadata
-     * Get information about the job
+     * Get a list of jobs
      * </pre>
      */
     public void listJobs(com.yandex.query.YandexQueryProtos.ListJobsRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ListJobsResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getListJobsMethod(), responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Get information about the job
+     * </pre>
+     */
+    public void describeJob(com.yandex.query.YandexQueryProtos.DescribeJobRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeJobResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getDescribeJobMethod(), responseObserver);
     }
 
     /**
@@ -879,6 +920,13 @@ public final class YandexQueryServiceGrpc {
                 com.yandex.query.YandexQueryProtos.ListJobsRequest,
                 com.yandex.query.YandexQueryProtos.ListJobsResponse>(
                   this, METHODID_LIST_JOBS)))
+          .addMethod(
+            getDescribeJobMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.yandex.query.YandexQueryProtos.DescribeJobRequest,
+                com.yandex.query.YandexQueryProtos.DescribeJobResponse>(
+                  this, METHODID_DESCRIBE_JOB)))
           .addMethod(
             getCreateConnectionMethod(),
             asyncUnaryCall(
@@ -1050,13 +1098,24 @@ public final class YandexQueryServiceGrpc {
      * <pre>
      * Job
      * Job - appears immediately after starting the request and contains the request metadata
-     * Get information about the job
+     * Get a list of jobs
      * </pre>
      */
     public void listJobs(com.yandex.query.YandexQueryProtos.ListJobsRequest request,
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ListJobsResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getListJobsMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Get information about the job
+     * </pre>
+     */
+    public void describeJob(com.yandex.query.YandexQueryProtos.DescribeJobRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeJobResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getDescribeJobMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -1264,12 +1323,22 @@ public final class YandexQueryServiceGrpc {
      * <pre>
      * Job
      * Job - appears immediately after starting the request and contains the request metadata
-     * Get information about the job
+     * Get a list of jobs
      * </pre>
      */
     public com.yandex.query.YandexQueryProtos.ListJobsResponse listJobs(com.yandex.query.YandexQueryProtos.ListJobsRequest request) {
       return blockingUnaryCall(
           getChannel(), getListJobsMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Get information about the job
+     * </pre>
+     */
+    public com.yandex.query.YandexQueryProtos.DescribeJobResponse describeJob(com.yandex.query.YandexQueryProtos.DescribeJobRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getDescribeJobMethod(), getCallOptions(), request);
     }
 
     /**
@@ -1474,13 +1543,24 @@ public final class YandexQueryServiceGrpc {
      * <pre>
      * Job
      * Job - appears immediately after starting the request and contains the request metadata
-     * Get information about the job
+     * Get a list of jobs
      * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.ListJobsResponse> listJobs(
         com.yandex.query.YandexQueryProtos.ListJobsRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getListJobsMethod(), getCallOptions()), request);
+    }
+
+    /**
+     * <pre>
+     * Get information about the job
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.DescribeJobResponse> describeJob(
+        com.yandex.query.YandexQueryProtos.DescribeJobRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getDescribeJobMethod(), getCallOptions()), request);
     }
 
     /**
@@ -1606,16 +1686,17 @@ public final class YandexQueryServiceGrpc {
   private static final int METHODID_CONTROL_QUERY = 5;
   private static final int METHODID_GET_RESULT_DATA = 6;
   private static final int METHODID_LIST_JOBS = 7;
-  private static final int METHODID_CREATE_CONNECTION = 8;
-  private static final int METHODID_LIST_CONNECTIONS = 9;
-  private static final int METHODID_DESCRIBE_CONNECTION = 10;
-  private static final int METHODID_MODIFY_CONNECTION = 11;
-  private static final int METHODID_DELETE_CONNECTION = 12;
-  private static final int METHODID_CREATE_BINDING = 13;
-  private static final int METHODID_LIST_BINDINGS = 14;
-  private static final int METHODID_DESCRIBE_BINDING = 15;
-  private static final int METHODID_MODIFY_BINDING = 16;
-  private static final int METHODID_DELETE_BINDING = 17;
+  private static final int METHODID_DESCRIBE_JOB = 8;
+  private static final int METHODID_CREATE_CONNECTION = 9;
+  private static final int METHODID_LIST_CONNECTIONS = 10;
+  private static final int METHODID_DESCRIBE_CONNECTION = 11;
+  private static final int METHODID_MODIFY_CONNECTION = 12;
+  private static final int METHODID_DELETE_CONNECTION = 13;
+  private static final int METHODID_CREATE_BINDING = 14;
+  private static final int METHODID_LIST_BINDINGS = 15;
+  private static final int METHODID_DESCRIBE_BINDING = 16;
+  private static final int METHODID_MODIFY_BINDING = 17;
+  private static final int METHODID_DELETE_BINDING = 18;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -1665,6 +1746,10 @@ public final class YandexQueryServiceGrpc {
         case METHODID_LIST_JOBS:
           serviceImpl.listJobs((com.yandex.query.YandexQueryProtos.ListJobsRequest) request,
               (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.ListJobsResponse>) responseObserver);
+          break;
+        case METHODID_DESCRIBE_JOB:
+          serviceImpl.describeJob((com.yandex.query.YandexQueryProtos.DescribeJobRequest) request,
+              (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeJobResponse>) responseObserver);
           break;
         case METHODID_CREATE_CONNECTION:
           serviceImpl.createConnection((com.yandex.query.YandexQueryProtos.CreateConnectionRequest) request,
@@ -1775,6 +1860,7 @@ public final class YandexQueryServiceGrpc {
               .addMethod(getControlQueryMethod())
               .addMethod(getGetResultDataMethod())
               .addMethod(getListJobsMethod())
+              .addMethod(getDescribeJobMethod())
               .addMethod(getCreateConnectionMethod())
               .addMethod(getListConnectionsMethod())
               .addMethod(getDescribeConnectionMethod())

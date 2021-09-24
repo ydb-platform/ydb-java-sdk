@@ -2937,16 +2937,27 @@ public final class AnalyticsIntenalProtos {
     boolean getStreaming();
 
     /**
-     * <code>string dq_graph = 7;</code>
-     * @return The dqGraph.
+     * <code>repeated bytes dq_graph = 7;</code>
+     * @return A list containing the dqGraph.
      */
-    java.lang.String getDqGraph();
+    java.util.List<com.google.protobuf.ByteString> getDqGraphList();
     /**
-     * <code>string dq_graph = 7;</code>
-     * @return The bytes for dqGraph.
+     * <code>repeated bytes dq_graph = 7;</code>
+     * @return The count of dqGraph.
      */
-    com.google.protobuf.ByteString
-        getDqGraphBytes();
+    int getDqGraphCount();
+    /**
+     * <code>repeated bytes dq_graph = 7;</code>
+     * @param index The index of the element to return.
+     * @return The dqGraph at the given index.
+     */
+    com.google.protobuf.ByteString getDqGraph(int index);
+
+    /**
+     * <code>int32 dq_graph_index = 20;</code>
+     * @return The dqGraphIndex.
+     */
+    int getDqGraphIndex();
 
     /**
      * <pre>
@@ -3161,6 +3172,30 @@ public final class AnalyticsIntenalProtos {
 
     java.lang.String getSensorLabelsOrThrow(
         java.lang.String key);
+
+    /**
+     * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+     */
+    java.util.List<com.yandex.query.YandexQueryProtos.ResultSetMeta> 
+        getResultSetMetaList();
+    /**
+     * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+     */
+    com.yandex.query.YandexQueryProtos.ResultSetMeta getResultSetMeta(int index);
+    /**
+     * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+     */
+    int getResultSetMetaCount();
+    /**
+     * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+     */
+    java.util.List<? extends com.yandex.query.YandexQueryProtos.ResultSetMetaOrBuilder> 
+        getResultSetMetaOrBuilderList();
+    /**
+     * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+     */
+    com.yandex.query.YandexQueryProtos.ResultSetMetaOrBuilder getResultSetMetaOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code Yql.Analytics.GetTaskResult}
@@ -3175,7 +3210,7 @@ public final class AnalyticsIntenalProtos {
       super(builder);
     }
     private GetTaskResult() {
-      dqGraph_ = "";
+      dqGraph_ = java.util.Collections.emptyList();
       text_ = "";
       connection_ = java.util.Collections.emptyList();
       binding_ = java.util.Collections.emptyList();
@@ -3187,6 +3222,7 @@ public final class AnalyticsIntenalProtos {
       executeMode_ = 0;
       stateLoadMode_ = 0;
       status_ = 0;
+      resultSetMeta_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -3275,9 +3311,11 @@ public final class AnalyticsIntenalProtos {
               break;
             }
             case 58: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              dqGraph_ = s;
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                dqGraph_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              dqGraph_.add(input.readBytes());
               break;
             }
             case 66: {
@@ -3287,18 +3325,18 @@ public final class AnalyticsIntenalProtos {
               break;
             }
             case 74: {
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 connection_ = new java.util.ArrayList<com.yandex.query.YandexQueryProtos.Connection>();
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000002;
               }
               connection_.add(
                   input.readMessage(com.yandex.query.YandexQueryProtos.Connection.parser(), extensionRegistry));
               break;
             }
             case 82: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
                 binding_ = new java.util.ArrayList<com.yandex.query.YandexQueryProtos.Binding>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000004;
               }
               binding_.add(
                   input.readMessage(com.yandex.query.YandexQueryProtos.Binding.parser(), extensionRegistry));
@@ -3311,9 +3349,9 @@ public final class AnalyticsIntenalProtos {
               break;
             }
             case 98: {
-              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
                 serviceAccounts_ = new java.util.ArrayList<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity>();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000008;
               }
               serviceAccounts_.add(
                   input.readMessage(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.parser(), extensionRegistry));
@@ -3356,16 +3394,30 @@ public final class AnalyticsIntenalProtos {
               break;
             }
             case 154: {
-              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000010) != 0)) {
                 sensorLabels_ = com.google.protobuf.MapField.newMapField(
                     SensorLabelsDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000010;
               }
               com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
               sensorLabels__ = input.readMessage(
                   SensorLabelsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
               sensorLabels_.getMutableMap().put(
                   sensorLabels__.getKey(), sensorLabels__.getValue());
+              break;
+            }
+            case 160: {
+
+              dqGraphIndex_ = input.readInt32();
+              break;
+            }
+            case 170: {
+              if (!((mutable_bitField0_ & 0x00000020) != 0)) {
+                resultSetMeta_ = new java.util.ArrayList<com.yandex.query.YandexQueryProtos.ResultSetMeta>();
+                mutable_bitField0_ |= 0x00000020;
+              }
+              resultSetMeta_.add(
+                  input.readMessage(com.yandex.query.YandexQueryProtos.ResultSetMeta.parser(), extensionRegistry));
               break;
             }
             default: {
@@ -3384,13 +3436,19 @@ public final class AnalyticsIntenalProtos {
             e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000001) != 0)) {
-          connection_ = java.util.Collections.unmodifiableList(connection_);
+          dqGraph_ = java.util.Collections.unmodifiableList(dqGraph_); // C
         }
         if (((mutable_bitField0_ & 0x00000002) != 0)) {
-          binding_ = java.util.Collections.unmodifiableList(binding_);
+          connection_ = java.util.Collections.unmodifiableList(connection_);
         }
         if (((mutable_bitField0_ & 0x00000004) != 0)) {
+          binding_ = java.util.Collections.unmodifiableList(binding_);
+        }
+        if (((mutable_bitField0_ & 0x00000008) != 0)) {
           serviceAccounts_ = java.util.Collections.unmodifiableList(serviceAccounts_);
+        }
+        if (((mutable_bitField0_ & 0x00000020) != 0)) {
+          resultSetMeta_ = java.util.Collections.unmodifiableList(resultSetMeta_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -3545,41 +3603,41 @@ public final class AnalyticsIntenalProtos {
     }
 
     public static final int DQ_GRAPH_FIELD_NUMBER = 7;
-    private volatile java.lang.Object dqGraph_;
+    private java.util.List<com.google.protobuf.ByteString> dqGraph_;
     /**
-     * <code>string dq_graph = 7;</code>
-     * @return The dqGraph.
+     * <code>repeated bytes dq_graph = 7;</code>
+     * @return A list containing the dqGraph.
      */
     @java.lang.Override
-    public java.lang.String getDqGraph() {
-      java.lang.Object ref = dqGraph_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        dqGraph_ = s;
-        return s;
-      }
+    public java.util.List<com.google.protobuf.ByteString>
+        getDqGraphList() {
+      return dqGraph_;
     }
     /**
-     * <code>string dq_graph = 7;</code>
-     * @return The bytes for dqGraph.
+     * <code>repeated bytes dq_graph = 7;</code>
+     * @return The count of dqGraph.
+     */
+    public int getDqGraphCount() {
+      return dqGraph_.size();
+    }
+    /**
+     * <code>repeated bytes dq_graph = 7;</code>
+     * @param index The index of the element to return.
+     * @return The dqGraph at the given index.
+     */
+    public com.google.protobuf.ByteString getDqGraph(int index) {
+      return dqGraph_.get(index);
+    }
+
+    public static final int DQ_GRAPH_INDEX_FIELD_NUMBER = 20;
+    private int dqGraphIndex_;
+    /**
+     * <code>int32 dq_graph_index = 20;</code>
+     * @return The dqGraphIndex.
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString
-        getDqGraphBytes() {
-      java.lang.Object ref = dqGraph_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        dqGraph_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getDqGraphIndex() {
+      return dqGraphIndex_;
     }
 
     public static final int TEXT_FIELD_NUMBER = 8;
@@ -4027,6 +4085,46 @@ public final class AnalyticsIntenalProtos {
       return map.get(key);
     }
 
+    public static final int RESULT_SET_META_FIELD_NUMBER = 21;
+    private java.util.List<com.yandex.query.YandexQueryProtos.ResultSetMeta> resultSetMeta_;
+    /**
+     * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+     */
+    @java.lang.Override
+    public java.util.List<com.yandex.query.YandexQueryProtos.ResultSetMeta> getResultSetMetaList() {
+      return resultSetMeta_;
+    }
+    /**
+     * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends com.yandex.query.YandexQueryProtos.ResultSetMetaOrBuilder> 
+        getResultSetMetaOrBuilderList() {
+      return resultSetMeta_;
+    }
+    /**
+     * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+     */
+    @java.lang.Override
+    public int getResultSetMetaCount() {
+      return resultSetMeta_.size();
+    }
+    /**
+     * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+     */
+    @java.lang.Override
+    public com.yandex.query.YandexQueryProtos.ResultSetMeta getResultSetMeta(int index) {
+      return resultSetMeta_.get(index);
+    }
+    /**
+     * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+     */
+    @java.lang.Override
+    public com.yandex.query.YandexQueryProtos.ResultSetMetaOrBuilder getResultSetMetaOrBuilder(
+        int index) {
+      return resultSetMeta_.get(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -4059,8 +4157,8 @@ public final class AnalyticsIntenalProtos {
       if (streaming_ != false) {
         output.writeBool(6, streaming_);
       }
-      if (!getDqGraphBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, dqGraph_);
+      for (int i = 0; i < dqGraph_.size(); i++) {
+        output.writeBytes(7, dqGraph_.get(i));
       }
       if (!getTextBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 8, text_);
@@ -4101,6 +4199,12 @@ public final class AnalyticsIntenalProtos {
           internalGetSensorLabels(),
           SensorLabelsDefaultEntryHolder.defaultEntry,
           19);
+      if (dqGraphIndex_ != 0) {
+        output.writeInt32(20, dqGraphIndex_);
+      }
+      for (int i = 0; i < resultSetMeta_.size(); i++) {
+        output.writeMessage(21, resultSetMeta_.get(i));
+      }
       unknownFields.writeTo(output);
     }
 
@@ -4134,8 +4238,14 @@ public final class AnalyticsIntenalProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(6, streaming_);
       }
-      if (!getDqGraphBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, dqGraph_);
+      {
+        int dataSize = 0;
+        for (int i = 0; i < dqGraph_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(dqGraph_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getDqGraphList().size();
       }
       if (!getTextBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, text_);
@@ -4187,6 +4297,14 @@ public final class AnalyticsIntenalProtos {
         size += com.google.protobuf.CodedOutputStream
             .computeMessageSize(19, sensorLabels__);
       }
+      if (dqGraphIndex_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(20, dqGraphIndex_);
+      }
+      for (int i = 0; i < resultSetMeta_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(21, resultSetMeta_.get(i));
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -4223,8 +4341,10 @@ public final class AnalyticsIntenalProtos {
           != other.getGeneration()) return false;
       if (getStreaming()
           != other.getStreaming()) return false;
-      if (!getDqGraph()
-          .equals(other.getDqGraph())) return false;
+      if (!getDqGraphList()
+          .equals(other.getDqGraphList())) return false;
+      if (getDqGraphIndex()
+          != other.getDqGraphIndex()) return false;
       if (!getText()
           .equals(other.getText())) return false;
       if (!getConnectionList()
@@ -4245,6 +4365,8 @@ public final class AnalyticsIntenalProtos {
       if (status_ != other.status_) return false;
       if (!internalGetSensorLabels().equals(
           other.internalGetSensorLabels())) return false;
+      if (!getResultSetMetaList()
+          .equals(other.getResultSetMetaList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -4277,8 +4399,12 @@ public final class AnalyticsIntenalProtos {
       hash = (37 * hash) + STREAMING_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getStreaming());
-      hash = (37 * hash) + DQ_GRAPH_FIELD_NUMBER;
-      hash = (53 * hash) + getDqGraph().hashCode();
+      if (getDqGraphCount() > 0) {
+        hash = (37 * hash) + DQ_GRAPH_FIELD_NUMBER;
+        hash = (53 * hash) + getDqGraphList().hashCode();
+      }
+      hash = (37 * hash) + DQ_GRAPH_INDEX_FIELD_NUMBER;
+      hash = (53 * hash) + getDqGraphIndex();
       hash = (37 * hash) + TEXT_FIELD_NUMBER;
       hash = (53 * hash) + getText().hashCode();
       if (getConnectionCount() > 0) {
@@ -4310,6 +4436,10 @@ public final class AnalyticsIntenalProtos {
       if (!internalGetSensorLabels().getMap().isEmpty()) {
         hash = (37 * hash) + SENSOR_LABELS_FIELD_NUMBER;
         hash = (53 * hash) + internalGetSensorLabels().hashCode();
+      }
+      if (getResultSetMetaCount() > 0) {
+        hash = (37 * hash) + RESULT_SET_META_FIELD_NUMBER;
+        hash = (53 * hash) + getResultSetMetaList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -4464,6 +4594,7 @@ public final class AnalyticsIntenalProtos {
           getConnectionFieldBuilder();
           getBindingFieldBuilder();
           getServiceAccountsFieldBuilder();
+          getResultSetMetaFieldBuilder();
         }
       }
       @java.lang.Override
@@ -4493,19 +4624,21 @@ public final class AnalyticsIntenalProtos {
 
         streaming_ = false;
 
-        dqGraph_ = "";
+        dqGraph_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        dqGraphIndex_ = 0;
 
         text_ = "";
 
         if (connectionBuilder_ == null) {
           connection_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
           connectionBuilder_.clear();
         }
         if (bindingBuilder_ == null) {
           binding_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
         } else {
           bindingBuilder_.clear();
         }
@@ -4513,7 +4646,7 @@ public final class AnalyticsIntenalProtos {
 
         if (serviceAccountsBuilder_ == null) {
           serviceAccounts_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000008);
         } else {
           serviceAccountsBuilder_.clear();
         }
@@ -4530,6 +4663,12 @@ public final class AnalyticsIntenalProtos {
         status_ = 0;
 
         internalGetMutableSensorLabels().clear();
+        if (resultSetMetaBuilder_ == null) {
+          resultSetMeta_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000020);
+        } else {
+          resultSetMetaBuilder_.clear();
+        }
         return this;
       }
 
@@ -4575,21 +4714,26 @@ public final class AnalyticsIntenalProtos {
         }
         result.generation_ = generation_;
         result.streaming_ = streaming_;
+        if (((bitField0_ & 0x00000001) != 0)) {
+          dqGraph_ = java.util.Collections.unmodifiableList(dqGraph_);
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
         result.dqGraph_ = dqGraph_;
+        result.dqGraphIndex_ = dqGraphIndex_;
         result.text_ = text_;
         if (connectionBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) != 0)) {
+          if (((bitField0_ & 0x00000002) != 0)) {
             connection_ = java.util.Collections.unmodifiableList(connection_);
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
           result.connection_ = connection_;
         } else {
           result.connection_ = connectionBuilder_.build();
         }
         if (bindingBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) != 0)) {
+          if (((bitField0_ & 0x00000004) != 0)) {
             binding_ = java.util.Collections.unmodifiableList(binding_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000004);
           }
           result.binding_ = binding_;
         } else {
@@ -4597,9 +4741,9 @@ public final class AnalyticsIntenalProtos {
         }
         result.userToken_ = userToken_;
         if (serviceAccountsBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) != 0)) {
+          if (((bitField0_ & 0x00000008) != 0)) {
             serviceAccounts_ = java.util.Collections.unmodifiableList(serviceAccounts_);
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000008);
           }
           result.serviceAccounts_ = serviceAccounts_;
         } else {
@@ -4613,6 +4757,15 @@ public final class AnalyticsIntenalProtos {
         result.status_ = status_;
         result.sensorLabels_ = internalGetSensorLabels();
         result.sensorLabels_.makeImmutable();
+        if (resultSetMetaBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) != 0)) {
+            resultSetMeta_ = java.util.Collections.unmodifiableList(resultSetMeta_);
+            bitField0_ = (bitField0_ & ~0x00000020);
+          }
+          result.resultSetMeta_ = resultSetMeta_;
+        } else {
+          result.resultSetMeta_ = resultSetMetaBuilder_.build();
+        }
         onBuilt();
         return result;
       }
@@ -4679,9 +4832,18 @@ public final class AnalyticsIntenalProtos {
         if (other.getStreaming() != false) {
           setStreaming(other.getStreaming());
         }
-        if (!other.getDqGraph().isEmpty()) {
-          dqGraph_ = other.dqGraph_;
+        if (!other.dqGraph_.isEmpty()) {
+          if (dqGraph_.isEmpty()) {
+            dqGraph_ = other.dqGraph_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureDqGraphIsMutable();
+            dqGraph_.addAll(other.dqGraph_);
+          }
           onChanged();
+        }
+        if (other.getDqGraphIndex() != 0) {
+          setDqGraphIndex(other.getDqGraphIndex());
         }
         if (!other.getText().isEmpty()) {
           text_ = other.text_;
@@ -4691,7 +4853,7 @@ public final class AnalyticsIntenalProtos {
           if (!other.connection_.isEmpty()) {
             if (connection_.isEmpty()) {
               connection_ = other.connection_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensureConnectionIsMutable();
               connection_.addAll(other.connection_);
@@ -4704,7 +4866,7 @@ public final class AnalyticsIntenalProtos {
               connectionBuilder_.dispose();
               connectionBuilder_ = null;
               connection_ = other.connection_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000002);
               connectionBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getConnectionFieldBuilder() : null;
@@ -4717,7 +4879,7 @@ public final class AnalyticsIntenalProtos {
           if (!other.binding_.isEmpty()) {
             if (binding_.isEmpty()) {
               binding_ = other.binding_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
             } else {
               ensureBindingIsMutable();
               binding_.addAll(other.binding_);
@@ -4730,7 +4892,7 @@ public final class AnalyticsIntenalProtos {
               bindingBuilder_.dispose();
               bindingBuilder_ = null;
               binding_ = other.binding_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
               bindingBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getBindingFieldBuilder() : null;
@@ -4747,7 +4909,7 @@ public final class AnalyticsIntenalProtos {
           if (!other.serviceAccounts_.isEmpty()) {
             if (serviceAccounts_.isEmpty()) {
               serviceAccounts_ = other.serviceAccounts_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000008);
             } else {
               ensureServiceAccountsIsMutable();
               serviceAccounts_.addAll(other.serviceAccounts_);
@@ -4760,7 +4922,7 @@ public final class AnalyticsIntenalProtos {
               serviceAccountsBuilder_.dispose();
               serviceAccountsBuilder_ = null;
               serviceAccounts_ = other.serviceAccounts_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000008);
               serviceAccountsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getServiceAccountsFieldBuilder() : null;
@@ -4791,6 +4953,32 @@ public final class AnalyticsIntenalProtos {
         }
         internalGetMutableSensorLabels().mergeFrom(
             other.internalGetSensorLabels());
+        if (resultSetMetaBuilder_ == null) {
+          if (!other.resultSetMeta_.isEmpty()) {
+            if (resultSetMeta_.isEmpty()) {
+              resultSetMeta_ = other.resultSetMeta_;
+              bitField0_ = (bitField0_ & ~0x00000020);
+            } else {
+              ensureResultSetMetaIsMutable();
+              resultSetMeta_.addAll(other.resultSetMeta_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.resultSetMeta_.isEmpty()) {
+            if (resultSetMetaBuilder_.isEmpty()) {
+              resultSetMetaBuilder_.dispose();
+              resultSetMetaBuilder_ = null;
+              resultSetMeta_ = other.resultSetMeta_;
+              bitField0_ = (bitField0_ & ~0x00000020);
+              resultSetMetaBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getResultSetMetaFieldBuilder() : null;
+            } else {
+              resultSetMetaBuilder_.addAllMessages(other.resultSetMeta_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -5307,78 +5495,118 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
 
-      private java.lang.Object dqGraph_ = "";
-      /**
-       * <code>string dq_graph = 7;</code>
-       * @return The dqGraph.
-       */
-      public java.lang.String getDqGraph() {
-        java.lang.Object ref = dqGraph_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          dqGraph_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      private java.util.List<com.google.protobuf.ByteString> dqGraph_ = java.util.Collections.emptyList();
+      private void ensureDqGraphIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          dqGraph_ = new java.util.ArrayList<com.google.protobuf.ByteString>(dqGraph_);
+          bitField0_ |= 0x00000001;
+         }
       }
       /**
-       * <code>string dq_graph = 7;</code>
-       * @return The bytes for dqGraph.
+       * <code>repeated bytes dq_graph = 7;</code>
+       * @return A list containing the dqGraph.
        */
-      public com.google.protobuf.ByteString
-          getDqGraphBytes() {
-        java.lang.Object ref = dqGraph_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          dqGraph_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
+      public java.util.List<com.google.protobuf.ByteString>
+          getDqGraphList() {
+        return ((bitField0_ & 0x00000001) != 0) ?
+                 java.util.Collections.unmodifiableList(dqGraph_) : dqGraph_;
       }
       /**
-       * <code>string dq_graph = 7;</code>
+       * <code>repeated bytes dq_graph = 7;</code>
+       * @return The count of dqGraph.
+       */
+      public int getDqGraphCount() {
+        return dqGraph_.size();
+      }
+      /**
+       * <code>repeated bytes dq_graph = 7;</code>
+       * @param index The index of the element to return.
+       * @return The dqGraph at the given index.
+       */
+      public com.google.protobuf.ByteString getDqGraph(int index) {
+        return dqGraph_.get(index);
+      }
+      /**
+       * <code>repeated bytes dq_graph = 7;</code>
+       * @param index The index to set the value at.
        * @param value The dqGraph to set.
        * @return This builder for chaining.
        */
       public Builder setDqGraph(
-          java.lang.String value) {
+          int index, com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  
-        dqGraph_ = value;
+  ensureDqGraphIsMutable();
+        dqGraph_.set(index, value);
         onChanged();
         return this;
       }
       /**
-       * <code>string dq_graph = 7;</code>
+       * <code>repeated bytes dq_graph = 7;</code>
+       * @param value The dqGraph to add.
+       * @return This builder for chaining.
+       */
+      public Builder addDqGraph(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureDqGraphIsMutable();
+        dqGraph_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bytes dq_graph = 7;</code>
+       * @param values The dqGraph to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllDqGraph(
+          java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
+        ensureDqGraphIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, dqGraph_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bytes dq_graph = 7;</code>
        * @return This builder for chaining.
        */
       public Builder clearDqGraph() {
+        dqGraph_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+
+      private int dqGraphIndex_ ;
+      /**
+       * <code>int32 dq_graph_index = 20;</code>
+       * @return The dqGraphIndex.
+       */
+      @java.lang.Override
+      public int getDqGraphIndex() {
+        return dqGraphIndex_;
+      }
+      /**
+       * <code>int32 dq_graph_index = 20;</code>
+       * @param value The dqGraphIndex to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDqGraphIndex(int value) {
         
-        dqGraph_ = getDefaultInstance().getDqGraph();
+        dqGraphIndex_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string dq_graph = 7;</code>
-       * @param value The bytes for dqGraph to set.
+       * <code>int32 dq_graph_index = 20;</code>
        * @return This builder for chaining.
        */
-      public Builder setDqGraphBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+      public Builder clearDqGraphIndex() {
         
-        dqGraph_ = value;
+        dqGraphIndex_ = 0;
         onChanged();
         return this;
       }
@@ -5482,9 +5710,9 @@ public final class AnalyticsIntenalProtos {
       private java.util.List<com.yandex.query.YandexQueryProtos.Connection> connection_ =
         java.util.Collections.emptyList();
       private void ensureConnectionIsMutable() {
-        if (!((bitField0_ & 0x00000001) != 0)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           connection_ = new java.util.ArrayList<com.yandex.query.YandexQueryProtos.Connection>(connection_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000002;
          }
       }
 
@@ -5634,7 +5862,7 @@ public final class AnalyticsIntenalProtos {
       public Builder clearConnection() {
         if (connectionBuilder_ == null) {
           connection_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
           connectionBuilder_.clear();
@@ -5711,7 +5939,7 @@ public final class AnalyticsIntenalProtos {
           connectionBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               com.yandex.query.YandexQueryProtos.Connection, com.yandex.query.YandexQueryProtos.Connection.Builder, com.yandex.query.YandexQueryProtos.ConnectionOrBuilder>(
                   connection_,
-                  ((bitField0_ & 0x00000001) != 0),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           connection_ = null;
@@ -5722,9 +5950,9 @@ public final class AnalyticsIntenalProtos {
       private java.util.List<com.yandex.query.YandexQueryProtos.Binding> binding_ =
         java.util.Collections.emptyList();
       private void ensureBindingIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000004) != 0)) {
           binding_ = new java.util.ArrayList<com.yandex.query.YandexQueryProtos.Binding>(binding_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
          }
       }
 
@@ -5874,7 +6102,7 @@ public final class AnalyticsIntenalProtos {
       public Builder clearBinding() {
         if (bindingBuilder_ == null) {
           binding_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
           onChanged();
         } else {
           bindingBuilder_.clear();
@@ -5951,7 +6179,7 @@ public final class AnalyticsIntenalProtos {
           bindingBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               com.yandex.query.YandexQueryProtos.Binding, com.yandex.query.YandexQueryProtos.Binding.Builder, com.yandex.query.YandexQueryProtos.BindingOrBuilder>(
                   binding_,
-                  ((bitField0_ & 0x00000002) != 0),
+                  ((bitField0_ & 0x00000004) != 0),
                   getParentForChildren(),
                   isClean());
           binding_ = null;
@@ -6058,9 +6286,9 @@ public final class AnalyticsIntenalProtos {
       private java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity> serviceAccounts_ =
         java.util.Collections.emptyList();
       private void ensureServiceAccountsIsMutable() {
-        if (!((bitField0_ & 0x00000004) != 0)) {
+        if (!((bitField0_ & 0x00000008) != 0)) {
           serviceAccounts_ = new java.util.ArrayList<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity>(serviceAccounts_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000008;
          }
       }
 
@@ -6210,7 +6438,7 @@ public final class AnalyticsIntenalProtos {
       public Builder clearServiceAccounts() {
         if (serviceAccountsBuilder_ == null) {
           serviceAccounts_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000008);
           onChanged();
         } else {
           serviceAccountsBuilder_.clear();
@@ -6287,7 +6515,7 @@ public final class AnalyticsIntenalProtos {
           serviceAccountsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentity.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.SignedIdentityOrBuilder>(
                   serviceAccounts_,
-                  ((bitField0_ & 0x00000004) != 0),
+                  ((bitField0_ & 0x00000008) != 0),
                   getParentForChildren(),
                   isClean());
           serviceAccounts_ = null;
@@ -6789,6 +7017,246 @@ public final class AnalyticsIntenalProtos {
         internalGetMutableSensorLabels().getMutableMap()
             .putAll(values);
         return this;
+      }
+
+      private java.util.List<com.yandex.query.YandexQueryProtos.ResultSetMeta> resultSetMeta_ =
+        java.util.Collections.emptyList();
+      private void ensureResultSetMetaIsMutable() {
+        if (!((bitField0_ & 0x00000020) != 0)) {
+          resultSetMeta_ = new java.util.ArrayList<com.yandex.query.YandexQueryProtos.ResultSetMeta>(resultSetMeta_);
+          bitField0_ |= 0x00000020;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.yandex.query.YandexQueryProtos.ResultSetMeta, com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder, com.yandex.query.YandexQueryProtos.ResultSetMetaOrBuilder> resultSetMetaBuilder_;
+
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+       */
+      public java.util.List<com.yandex.query.YandexQueryProtos.ResultSetMeta> getResultSetMetaList() {
+        if (resultSetMetaBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(resultSetMeta_);
+        } else {
+          return resultSetMetaBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+       */
+      public int getResultSetMetaCount() {
+        if (resultSetMetaBuilder_ == null) {
+          return resultSetMeta_.size();
+        } else {
+          return resultSetMetaBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+       */
+      public com.yandex.query.YandexQueryProtos.ResultSetMeta getResultSetMeta(int index) {
+        if (resultSetMetaBuilder_ == null) {
+          return resultSetMeta_.get(index);
+        } else {
+          return resultSetMetaBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+       */
+      public Builder setResultSetMeta(
+          int index, com.yandex.query.YandexQueryProtos.ResultSetMeta value) {
+        if (resultSetMetaBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureResultSetMetaIsMutable();
+          resultSetMeta_.set(index, value);
+          onChanged();
+        } else {
+          resultSetMetaBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+       */
+      public Builder setResultSetMeta(
+          int index, com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder builderForValue) {
+        if (resultSetMetaBuilder_ == null) {
+          ensureResultSetMetaIsMutable();
+          resultSetMeta_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          resultSetMetaBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+       */
+      public Builder addResultSetMeta(com.yandex.query.YandexQueryProtos.ResultSetMeta value) {
+        if (resultSetMetaBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureResultSetMetaIsMutable();
+          resultSetMeta_.add(value);
+          onChanged();
+        } else {
+          resultSetMetaBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+       */
+      public Builder addResultSetMeta(
+          int index, com.yandex.query.YandexQueryProtos.ResultSetMeta value) {
+        if (resultSetMetaBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureResultSetMetaIsMutable();
+          resultSetMeta_.add(index, value);
+          onChanged();
+        } else {
+          resultSetMetaBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+       */
+      public Builder addResultSetMeta(
+          com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder builderForValue) {
+        if (resultSetMetaBuilder_ == null) {
+          ensureResultSetMetaIsMutable();
+          resultSetMeta_.add(builderForValue.build());
+          onChanged();
+        } else {
+          resultSetMetaBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+       */
+      public Builder addResultSetMeta(
+          int index, com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder builderForValue) {
+        if (resultSetMetaBuilder_ == null) {
+          ensureResultSetMetaIsMutable();
+          resultSetMeta_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          resultSetMetaBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+       */
+      public Builder addAllResultSetMeta(
+          java.lang.Iterable<? extends com.yandex.query.YandexQueryProtos.ResultSetMeta> values) {
+        if (resultSetMetaBuilder_ == null) {
+          ensureResultSetMetaIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, resultSetMeta_);
+          onChanged();
+        } else {
+          resultSetMetaBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+       */
+      public Builder clearResultSetMeta() {
+        if (resultSetMetaBuilder_ == null) {
+          resultSetMeta_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000020);
+          onChanged();
+        } else {
+          resultSetMetaBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+       */
+      public Builder removeResultSetMeta(int index) {
+        if (resultSetMetaBuilder_ == null) {
+          ensureResultSetMetaIsMutable();
+          resultSetMeta_.remove(index);
+          onChanged();
+        } else {
+          resultSetMetaBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+       */
+      public com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder getResultSetMetaBuilder(
+          int index) {
+        return getResultSetMetaFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+       */
+      public com.yandex.query.YandexQueryProtos.ResultSetMetaOrBuilder getResultSetMetaOrBuilder(
+          int index) {
+        if (resultSetMetaBuilder_ == null) {
+          return resultSetMeta_.get(index);  } else {
+          return resultSetMetaBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+       */
+      public java.util.List<? extends com.yandex.query.YandexQueryProtos.ResultSetMetaOrBuilder> 
+           getResultSetMetaOrBuilderList() {
+        if (resultSetMetaBuilder_ != null) {
+          return resultSetMetaBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(resultSetMeta_);
+        }
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+       */
+      public com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder addResultSetMetaBuilder() {
+        return getResultSetMetaFieldBuilder().addBuilder(
+            com.yandex.query.YandexQueryProtos.ResultSetMeta.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+       */
+      public com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder addResultSetMetaBuilder(
+          int index) {
+        return getResultSetMetaFieldBuilder().addBuilder(
+            index, com.yandex.query.YandexQueryProtos.ResultSetMeta.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .YandexQuery.ResultSetMeta result_set_meta = 21;</code>
+       */
+      public java.util.List<com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder> 
+           getResultSetMetaBuilderList() {
+        return getResultSetMetaFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.yandex.query.YandexQueryProtos.ResultSetMeta, com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder, com.yandex.query.YandexQueryProtos.ResultSetMetaOrBuilder> 
+          getResultSetMetaFieldBuilder() {
+        if (resultSetMetaBuilder_ == null) {
+          resultSetMetaBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              com.yandex.query.YandexQueryProtos.ResultSetMeta, com.yandex.query.YandexQueryProtos.ResultSetMeta.Builder, com.yandex.query.YandexQueryProtos.ResultSetMetaOrBuilder>(
+                  resultSetMeta_,
+                  ((bitField0_ & 0x00000020) != 0),
+                  getParentForChildren(),
+                  isClean());
+          resultSetMeta_ = null;
+        }
+        return resultSetMetaBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -7699,16 +8167,27 @@ public final class AnalyticsIntenalProtos {
         getExecuterInfoBytes();
 
     /**
-     * <code>string dq_graph = 11;</code>
-     * @return The dqGraph.
+     * <code>repeated bytes dq_graph = 11;</code>
+     * @return A list containing the dqGraph.
      */
-    java.lang.String getDqGraph();
+    java.util.List<com.google.protobuf.ByteString> getDqGraphList();
     /**
-     * <code>string dq_graph = 11;</code>
-     * @return The bytes for dqGraph.
+     * <code>repeated bytes dq_graph = 11;</code>
+     * @return The count of dqGraph.
      */
-    com.google.protobuf.ByteString
-        getDqGraphBytes();
+    int getDqGraphCount();
+    /**
+     * <code>repeated bytes dq_graph = 11;</code>
+     * @param index The index of the element to return.
+     * @return The dqGraph at the given index.
+     */
+    com.google.protobuf.ByteString getDqGraph(int index);
+
+    /**
+     * <code>int32 dq_graph_index = 20;</code>
+     * @return The dqGraphIndex.
+     */
+    int getDqGraphIndex();
 
     /**
      * <code>string ast = 12;</code>
@@ -7849,7 +8328,7 @@ public final class AnalyticsIntenalProtos {
       statistics_ = "";
       resultSetMeta_ = java.util.Collections.emptyList();
       executerInfo_ = "";
-      dqGraph_ = "";
+      dqGraph_ = java.util.Collections.emptyList();
       ast_ = "";
       plan_ = "";
       createdTopicConsumers_ = java.util.Collections.emptyList();
@@ -7974,9 +8453,11 @@ public final class AnalyticsIntenalProtos {
               break;
             }
             case 90: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              dqGraph_ = s;
+              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+                dqGraph_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              dqGraph_.add(input.readBytes());
               break;
             }
             case 98: {
@@ -8019,12 +8500,17 @@ public final class AnalyticsIntenalProtos {
               break;
             }
             case 138: {
-              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+              if (!((mutable_bitField0_ & 0x00000010) != 0)) {
                 createdTopicConsumers_ = new java.util.ArrayList<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer>();
-                mutable_bitField0_ |= 0x00000008;
+                mutable_bitField0_ |= 0x00000010;
               }
               createdTopicConsumers_.add(
                   input.readMessage(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.parser(), extensionRegistry));
+              break;
+            }
+            case 160: {
+
+              dqGraphIndex_ = input.readInt32();
               break;
             }
             case 802: {
@@ -8080,10 +8566,13 @@ public final class AnalyticsIntenalProtos {
         if (((mutable_bitField0_ & 0x00000004) != 0)) {
           resultSetMeta_ = java.util.Collections.unmodifiableList(resultSetMeta_);
         }
+        if (((mutable_bitField0_ & 0x00000008) != 0)) {
+          dqGraph_ = java.util.Collections.unmodifiableList(dqGraph_); // C
+        }
         if (((mutable_bitField0_ & 0x00000002) != 0)) {
           transientIssues_ = java.util.Collections.unmodifiableList(transientIssues_);
         }
-        if (((mutable_bitField0_ & 0x00000008) != 0)) {
+        if (((mutable_bitField0_ & 0x00000010) != 0)) {
           createdTopicConsumers_ = java.util.Collections.unmodifiableList(createdTopicConsumers_);
         }
         this.unknownFields = unknownFields.build();
@@ -8446,41 +8935,41 @@ public final class AnalyticsIntenalProtos {
     }
 
     public static final int DQ_GRAPH_FIELD_NUMBER = 11;
-    private volatile java.lang.Object dqGraph_;
+    private java.util.List<com.google.protobuf.ByteString> dqGraph_;
     /**
-     * <code>string dq_graph = 11;</code>
-     * @return The dqGraph.
+     * <code>repeated bytes dq_graph = 11;</code>
+     * @return A list containing the dqGraph.
      */
     @java.lang.Override
-    public java.lang.String getDqGraph() {
-      java.lang.Object ref = dqGraph_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        dqGraph_ = s;
-        return s;
-      }
+    public java.util.List<com.google.protobuf.ByteString>
+        getDqGraphList() {
+      return dqGraph_;
     }
     /**
-     * <code>string dq_graph = 11;</code>
-     * @return The bytes for dqGraph.
+     * <code>repeated bytes dq_graph = 11;</code>
+     * @return The count of dqGraph.
+     */
+    public int getDqGraphCount() {
+      return dqGraph_.size();
+    }
+    /**
+     * <code>repeated bytes dq_graph = 11;</code>
+     * @param index The index of the element to return.
+     * @return The dqGraph at the given index.
+     */
+    public com.google.protobuf.ByteString getDqGraph(int index) {
+      return dqGraph_.get(index);
+    }
+
+    public static final int DQ_GRAPH_INDEX_FIELD_NUMBER = 20;
+    private int dqGraphIndex_;
+    /**
+     * <code>int32 dq_graph_index = 20;</code>
+     * @return The dqGraphIndex.
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString
-        getDqGraphBytes() {
-      java.lang.Object ref = dqGraph_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        dqGraph_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getDqGraphIndex() {
+      return dqGraphIndex_;
     }
 
     public static final int AST_FIELD_NUMBER = 12;
@@ -8778,8 +9267,8 @@ public final class AnalyticsIntenalProtos {
       if (!getExecuterInfoBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 10, executerInfo_);
       }
-      if (!getDqGraphBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 11, dqGraph_);
+      for (int i = 0; i < dqGraph_.size(); i++) {
+        output.writeBytes(11, dqGraph_.get(i));
       }
       if (!getAstBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 12, ast_);
@@ -8798,6 +9287,9 @@ public final class AnalyticsIntenalProtos {
       }
       for (int i = 0; i < createdTopicConsumers_.size(); i++) {
         output.writeMessage(17, createdTopicConsumers_.get(i));
+      }
+      if (dqGraphIndex_ != 0) {
+        output.writeInt32(20, dqGraphIndex_);
       }
       if (!getScopeBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 100, scope_);
@@ -8854,8 +9346,14 @@ public final class AnalyticsIntenalProtos {
       if (!getExecuterInfoBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, executerInfo_);
       }
-      if (!getDqGraphBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(11, dqGraph_);
+      {
+        int dataSize = 0;
+        for (int i = 0; i < dqGraph_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(dqGraph_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getDqGraphList().size();
       }
       if (!getAstBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(12, ast_);
@@ -8878,6 +9376,10 @@ public final class AnalyticsIntenalProtos {
       for (int i = 0; i < createdTopicConsumers_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(17, createdTopicConsumers_.get(i));
+      }
+      if (dqGraphIndex_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(20, dqGraphIndex_);
       }
       if (!getScopeBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(100, scope_);
@@ -8935,8 +9437,10 @@ public final class AnalyticsIntenalProtos {
           .equals(other.getResultSetMetaList())) return false;
       if (!getExecuterInfo()
           .equals(other.getExecuterInfo())) return false;
-      if (!getDqGraph()
-          .equals(other.getDqGraph())) return false;
+      if (!getDqGraphList()
+          .equals(other.getDqGraphList())) return false;
+      if (getDqGraphIndex()
+          != other.getDqGraphIndex()) return false;
       if (!getAst()
           .equals(other.getAst())) return false;
       if (!getPlan()
@@ -9007,8 +9511,12 @@ public final class AnalyticsIntenalProtos {
       }
       hash = (37 * hash) + EXECUTER_INFO_FIELD_NUMBER;
       hash = (53 * hash) + getExecuterInfo().hashCode();
-      hash = (37 * hash) + DQ_GRAPH_FIELD_NUMBER;
-      hash = (53 * hash) + getDqGraph().hashCode();
+      if (getDqGraphCount() > 0) {
+        hash = (37 * hash) + DQ_GRAPH_FIELD_NUMBER;
+        hash = (53 * hash) + getDqGraphList().hashCode();
+      }
+      hash = (37 * hash) + DQ_GRAPH_INDEX_FIELD_NUMBER;
+      hash = (53 * hash) + getDqGraphIndex();
       hash = (37 * hash) + AST_FIELD_NUMBER;
       hash = (53 * hash) + getAst().hashCode();
       hash = (37 * hash) + PLAN_FIELD_NUMBER;
@@ -9217,7 +9725,9 @@ public final class AnalyticsIntenalProtos {
         }
         executerInfo_ = "";
 
-        dqGraph_ = "";
+        dqGraph_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000008);
+        dqGraphIndex_ = 0;
 
         ast_ = "";
 
@@ -9227,7 +9737,7 @@ public final class AnalyticsIntenalProtos {
 
         if (createdTopicConsumersBuilder_ == null) {
           createdTopicConsumers_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000010);
         } else {
           createdTopicConsumersBuilder_.clear();
         }
@@ -9325,14 +9835,19 @@ public final class AnalyticsIntenalProtos {
           result.resultSetMeta_ = resultSetMetaBuilder_.build();
         }
         result.executerInfo_ = executerInfo_;
+        if (((bitField0_ & 0x00000008) != 0)) {
+          dqGraph_ = java.util.Collections.unmodifiableList(dqGraph_);
+          bitField0_ = (bitField0_ & ~0x00000008);
+        }
         result.dqGraph_ = dqGraph_;
+        result.dqGraphIndex_ = dqGraphIndex_;
         result.ast_ = ast_;
         result.plan_ = plan_;
         result.resignQuery_ = resignQuery_;
         if (createdTopicConsumersBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) != 0)) {
+          if (((bitField0_ & 0x00000010) != 0)) {
             createdTopicConsumers_ = java.util.Collections.unmodifiableList(createdTopicConsumers_);
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000010);
           }
           result.createdTopicConsumers_ = createdTopicConsumers_;
         } else {
@@ -9507,9 +10022,18 @@ public final class AnalyticsIntenalProtos {
           executerInfo_ = other.executerInfo_;
           onChanged();
         }
-        if (!other.getDqGraph().isEmpty()) {
-          dqGraph_ = other.dqGraph_;
+        if (!other.dqGraph_.isEmpty()) {
+          if (dqGraph_.isEmpty()) {
+            dqGraph_ = other.dqGraph_;
+            bitField0_ = (bitField0_ & ~0x00000008);
+          } else {
+            ensureDqGraphIsMutable();
+            dqGraph_.addAll(other.dqGraph_);
+          }
           onChanged();
+        }
+        if (other.getDqGraphIndex() != 0) {
+          setDqGraphIndex(other.getDqGraphIndex());
         }
         if (!other.getAst().isEmpty()) {
           ast_ = other.ast_;
@@ -9526,7 +10050,7 @@ public final class AnalyticsIntenalProtos {
           if (!other.createdTopicConsumers_.isEmpty()) {
             if (createdTopicConsumers_.isEmpty()) {
               createdTopicConsumers_ = other.createdTopicConsumers_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000010);
             } else {
               ensureCreatedTopicConsumersIsMutable();
               createdTopicConsumers_.addAll(other.createdTopicConsumers_);
@@ -9539,7 +10063,7 @@ public final class AnalyticsIntenalProtos {
               createdTopicConsumersBuilder_.dispose();
               createdTopicConsumersBuilder_ = null;
               createdTopicConsumers_ = other.createdTopicConsumers_;
-              bitField0_ = (bitField0_ & ~0x00000008);
+              bitField0_ = (bitField0_ & ~0x00000010);
               createdTopicConsumersBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getCreatedTopicConsumersFieldBuilder() : null;
@@ -10981,78 +11505,118 @@ public final class AnalyticsIntenalProtos {
         return this;
       }
 
-      private java.lang.Object dqGraph_ = "";
-      /**
-       * <code>string dq_graph = 11;</code>
-       * @return The dqGraph.
-       */
-      public java.lang.String getDqGraph() {
-        java.lang.Object ref = dqGraph_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          dqGraph_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      private java.util.List<com.google.protobuf.ByteString> dqGraph_ = java.util.Collections.emptyList();
+      private void ensureDqGraphIsMutable() {
+        if (!((bitField0_ & 0x00000008) != 0)) {
+          dqGraph_ = new java.util.ArrayList<com.google.protobuf.ByteString>(dqGraph_);
+          bitField0_ |= 0x00000008;
+         }
       }
       /**
-       * <code>string dq_graph = 11;</code>
-       * @return The bytes for dqGraph.
+       * <code>repeated bytes dq_graph = 11;</code>
+       * @return A list containing the dqGraph.
        */
-      public com.google.protobuf.ByteString
-          getDqGraphBytes() {
-        java.lang.Object ref = dqGraph_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          dqGraph_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
+      public java.util.List<com.google.protobuf.ByteString>
+          getDqGraphList() {
+        return ((bitField0_ & 0x00000008) != 0) ?
+                 java.util.Collections.unmodifiableList(dqGraph_) : dqGraph_;
       }
       /**
-       * <code>string dq_graph = 11;</code>
+       * <code>repeated bytes dq_graph = 11;</code>
+       * @return The count of dqGraph.
+       */
+      public int getDqGraphCount() {
+        return dqGraph_.size();
+      }
+      /**
+       * <code>repeated bytes dq_graph = 11;</code>
+       * @param index The index of the element to return.
+       * @return The dqGraph at the given index.
+       */
+      public com.google.protobuf.ByteString getDqGraph(int index) {
+        return dqGraph_.get(index);
+      }
+      /**
+       * <code>repeated bytes dq_graph = 11;</code>
+       * @param index The index to set the value at.
        * @param value The dqGraph to set.
        * @return This builder for chaining.
        */
       public Builder setDqGraph(
-          java.lang.String value) {
+          int index, com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  
-        dqGraph_ = value;
+  ensureDqGraphIsMutable();
+        dqGraph_.set(index, value);
         onChanged();
         return this;
       }
       /**
-       * <code>string dq_graph = 11;</code>
+       * <code>repeated bytes dq_graph = 11;</code>
+       * @param value The dqGraph to add.
+       * @return This builder for chaining.
+       */
+      public Builder addDqGraph(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureDqGraphIsMutable();
+        dqGraph_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bytes dq_graph = 11;</code>
+       * @param values The dqGraph to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllDqGraph(
+          java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
+        ensureDqGraphIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, dqGraph_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated bytes dq_graph = 11;</code>
        * @return This builder for chaining.
        */
       public Builder clearDqGraph() {
+        dqGraph_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000008);
+        onChanged();
+        return this;
+      }
+
+      private int dqGraphIndex_ ;
+      /**
+       * <code>int32 dq_graph_index = 20;</code>
+       * @return The dqGraphIndex.
+       */
+      @java.lang.Override
+      public int getDqGraphIndex() {
+        return dqGraphIndex_;
+      }
+      /**
+       * <code>int32 dq_graph_index = 20;</code>
+       * @param value The dqGraphIndex to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDqGraphIndex(int value) {
         
-        dqGraph_ = getDefaultInstance().getDqGraph();
+        dqGraphIndex_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string dq_graph = 11;</code>
-       * @param value The bytes for dqGraph to set.
+       * <code>int32 dq_graph_index = 20;</code>
        * @return This builder for chaining.
        */
-      public Builder setDqGraphBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+      public Builder clearDqGraphIndex() {
         
-        dqGraph_ = value;
+        dqGraphIndex_ = 0;
         onChanged();
         return this;
       }
@@ -11243,9 +11807,9 @@ public final class AnalyticsIntenalProtos {
       private java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer> createdTopicConsumers_ =
         java.util.Collections.emptyList();
       private void ensureCreatedTopicConsumersIsMutable() {
-        if (!((bitField0_ & 0x00000008) != 0)) {
+        if (!((bitField0_ & 0x00000010) != 0)) {
           createdTopicConsumers_ = new java.util.ArrayList<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer>(createdTopicConsumers_);
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000010;
          }
       }
 
@@ -11395,7 +11959,7 @@ public final class AnalyticsIntenalProtos {
       public Builder clearCreatedTopicConsumers() {
         if (createdTopicConsumersBuilder_ == null) {
           createdTopicConsumers_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000010);
           onChanged();
         } else {
           createdTopicConsumersBuilder_.clear();
@@ -11472,7 +12036,7 @@ public final class AnalyticsIntenalProtos {
           createdTopicConsumersBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumerOrBuilder>(
                   createdTopicConsumers_,
-                  ((bitField0_ & 0x00000008) != 0),
+                  ((bitField0_ & 0x00000010) != 0),
                   getParentForChildren(),
                   isClean());
           createdTopicConsumers_ = null;
@@ -19326,72 +19890,74 @@ public final class AnalyticsIntenalProtos {
       "\016SignedIdentity\022\r\n\005value\030\001 \001(\t\022\021\n\tsignat" +
       "ure\030\002 \001(\t\"a\n\rTopicConsumer\022\023\n\013database_i" +
       "d\030\001 \001(\t\022\020\n\010database\030\002 \001(\t\022\022\n\ntopic_path\030" +
-      "\003 \001(\t\022\025\n\rconsumer_name\030\004 \001(\t\"\213\006\n\rGetTask" +
+      "\003 \001(\t\022\025\n\rconsumer_name\030\004 \001(\t\"\330\006\n\rGetTask" +
       "Result\022\020\n\010has_task\030\001 \001(\010\0220\n\tresult_id\030\002 " +
       "\001(\0132\035.Yql.Analytics.SignedIdentity\022/\n\010qu" +
       "ery_id\030\003 \001(\0132\035.Yql.Analytics.SignedIdent" +
       "ity\022-\n\006job_id\030\004 \001(\0132\035.Yql.Analytics.Sign" +
       "edIdentity\022\022\n\ngeneration\030\005 \001(\004\022\021\n\tstream" +
-      "ing\030\006 \001(\010\022\020\n\010dq_graph\030\007 \001(\t\022\014\n\004text\030\010 \001(" +
-      "\t\022+\n\nconnection\030\t \003(\0132\027.YandexQuery.Conn" +
-      "ection\022%\n\007binding\030\n \003(\0132\024.YandexQuery.Bi" +
-      "nding\022\022\n\nuser_token\030\013 \001(\t\0227\n\020service_acc" +
-      "ounts\030\014 \003(\0132\035.Yql.Analytics.SignedIdenti" +
-      "ty\022\017\n\007user_id\030\r \001(\t\0227\n\nquery_type\030\016 \001(\0162" +
-      "#.YandexQuery.QueryContent.QueryType\022\r\n\005" +
-      "scope\030\017 \001(\t\022.\n\014execute_mode\030\020 \001(\0162\030.Yand" +
-      "exQuery.ExecuteMode\0223\n\017state_load_mode\030\021" +
-      " \001(\0162\032.YandexQuery.StateLoadMode\0224\n\006stat" +
-      "us\030\022 \001(\0162$.YandexQuery.QueryMeta.Compute" +
-      "Status\022E\n\rsensor_labels\030\023 \003(\0132..Yql.Anal" +
-      "ytics.GetTaskResult.SensorLabelsEntry\0323\n" +
-      "\021SensorLabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value" +
-      "\030\002 \001(\t:\0028\001\"?\n\017GetTaskResponse\022,\n\toperati" +
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\356\005\n\017" +
-      "PingTaskRequest\022\020\n\010owner_id\030\001 \001(\t\022/\n\010que" +
-      "ry_id\030\002 \001(\0132\035.Yql.Analytics.SignedIdenti" +
-      "ty\022-\n\006job_id\030\003 \001(\0132\035.Yql.Analytics.Signe" +
-      "dIdentity\0220\n\tresult_id\030\004 \001(\0132\035.Yql.Analy" +
-      "tics.SignedIdentity\0224\n\006status\030\005 \001(\0162$.Ya" +
-      "ndexQuery.QueryMeta.ComputeStatus\022\'\n\006iss" +
-      "ues\030\006 \003(\0132\027.Ydb.Issue.IssueMessage\0221\n\020tr" +
-      "ansient_issues\030\020 \003(\0132\027.Ydb.Issue.IssueMe" +
-      "ssage\022\030\n\020result_set_count\030\007 \001(\r\022\022\n\nstati" +
-      "stics\030\010 \001(\t\0223\n\017result_set_meta\030\t \003(\0132\032.Y" +
-      "andexQuery.ResultSetMeta\022\025\n\rexecuter_inf" +
-      "o\030\n \001(\t\022\020\n\010dq_graph\030\013 \001(\t\022\013\n\003ast\030\014 \001(\t\022\014" +
-      "\n\004plan\030\r \001(\t\022\024\n\014resign_query\030\016 \001(\010\022=\n\027cr" +
-      "eated_topic_consumers\030\021 \003(\0132\034.Yql.Analyt" +
-      "ics.TopicConsumer\0229\n\020operation_params\030\017 " +
-      "\001(\0132\037.Ydb.Operations.OperationParams\022\r\n\005" +
-      "scope\030d \001(\t\022.\n\nstarted_at\030e \001(\0132\032.google" +
-      ".protobuf.Timestamp\022/\n\013finished_at\030f \001(\013" +
-      "2\032.google.protobuf.Timestamp\":\n\016PingTask" +
-      "Result\022(\n\006action\030\001 \001(\0162\030.YandexQuery.Que" +
-      "ryAction\"@\n\020PingTaskResponse\022,\n\toperatio" +
-      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\366\001\n\026W" +
-      "riteTaskResultRequest\022\020\n\010owner_id\030\001 \001(\t\022" +
-      "0\n\tresult_id\030\002 \001(\0132\035.Yql.Analytics.Signe" +
-      "dIdentity\022\"\n\nresult_set\030\003 \001(\0132\016.Ydb.Resu" +
-      "ltSet\022\025\n\rresult_set_id\030\004 \001(\r\022\016\n\006offset\030\005" +
-      " \001(\004\022\022\n\nrequest_id\030\006 \001(\004\0229\n\020operation_pa" +
-      "rams\030\007 \001(\0132\037.Ydb.Operations.OperationPar" +
-      "ams\"+\n\025WriteTaskResultResult\022\022\n\nrequest_" +
-      "id\030\001 \001(\004\"G\n\027WriteTaskResultResponse\022,\n\to" +
-      "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
-      "n\"\264\001\n\027NodesHealthCheckRequest\022\016\n\006tenant\030" +
-      "\001 \001(\t\022\017\n\007node_id\030\002 \001(\r\022\023\n\013instance_id\030\003 " +
-      "\001(\t\022\020\n\010hostname\030\004 \001(\t\022\026\n\016active_workers\030" +
-      "\005 \001(\004\0229\n\020operation_params\030\006 \001(\0132\037.Ydb.Op" +
-      "erations.OperationParams\"\233\001\n\026NodesHealth" +
-      "CheckResult\022=\n\005nodes\030\001 \003(\0132..Yql.Analyti" +
-      "cs.NodesHealthCheckResult.NodeInfo\032B\n\010No" +
-      "deInfo\022\017\n\007node_id\030\001 \001(\r\022\023\n\013instance_id\030\002" +
-      " \001(\t\022\020\n\010hostname\030\003 \001(\t\"H\n\030NodesHealthChe" +
-      "ckResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
-      "ations.OperationB>\n!com.yandex.yql.analy" +
-      "tics.internalB\026AnalyticsIntenalProtos\370\001\001" +
-      "b\006proto3"
+      "ing\030\006 \001(\010\022\020\n\010dq_graph\030\007 \003(\014\022\026\n\016dq_graph_" +
+      "index\030\024 \001(\005\022\014\n\004text\030\010 \001(\t\022+\n\nconnection\030" +
+      "\t \003(\0132\027.YandexQuery.Connection\022%\n\007bindin" +
+      "g\030\n \003(\0132\024.YandexQuery.Binding\022\022\n\nuser_to" +
+      "ken\030\013 \001(\t\0227\n\020service_accounts\030\014 \003(\0132\035.Yq" +
+      "l.Analytics.SignedIdentity\022\017\n\007user_id\030\r " +
+      "\001(\t\0227\n\nquery_type\030\016 \001(\0162#.YandexQuery.Qu" +
+      "eryContent.QueryType\022\r\n\005scope\030\017 \001(\t\022.\n\014e" +
+      "xecute_mode\030\020 \001(\0162\030.YandexQuery.ExecuteM" +
+      "ode\0223\n\017state_load_mode\030\021 \001(\0162\032.YandexQue" +
+      "ry.StateLoadMode\0224\n\006status\030\022 \001(\0162$.Yande" +
+      "xQuery.QueryMeta.ComputeStatus\022E\n\rsensor" +
+      "_labels\030\023 \003(\0132..Yql.Analytics.GetTaskRes" +
+      "ult.SensorLabelsEntry\0223\n\017result_set_meta" +
+      "\030\025 \003(\0132\032.YandexQuery.ResultSetMeta\0323\n\021Se" +
+      "nsorLabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 " +
+      "\001(\t:\0028\001\"?\n\017GetTaskResponse\022,\n\toperation\030" +
+      "\001 \001(\0132\031.Ydb.Operations.Operation\"\206\006\n\017Pin" +
+      "gTaskRequest\022\020\n\010owner_id\030\001 \001(\t\022/\n\010query_" +
+      "id\030\002 \001(\0132\035.Yql.Analytics.SignedIdentity\022" +
+      "-\n\006job_id\030\003 \001(\0132\035.Yql.Analytics.SignedId" +
+      "entity\0220\n\tresult_id\030\004 \001(\0132\035.Yql.Analytic" +
+      "s.SignedIdentity\0224\n\006status\030\005 \001(\0162$.Yande" +
+      "xQuery.QueryMeta.ComputeStatus\022\'\n\006issues" +
+      "\030\006 \003(\0132\027.Ydb.Issue.IssueMessage\0221\n\020trans" +
+      "ient_issues\030\020 \003(\0132\027.Ydb.Issue.IssueMessa" +
+      "ge\022\030\n\020result_set_count\030\007 \001(\r\022\022\n\nstatisti" +
+      "cs\030\010 \001(\t\0223\n\017result_set_meta\030\t \003(\0132\032.Yand" +
+      "exQuery.ResultSetMeta\022\025\n\rexecuter_info\030\n" +
+      " \001(\t\022\020\n\010dq_graph\030\013 \003(\014\022\026\n\016dq_graph_index" +
+      "\030\024 \001(\005\022\013\n\003ast\030\014 \001(\t\022\014\n\004plan\030\r \001(\t\022\024\n\014res" +
+      "ign_query\030\016 \001(\010\022=\n\027created_topic_consume" +
+      "rs\030\021 \003(\0132\034.Yql.Analytics.TopicConsumer\0229" +
+      "\n\020operation_params\030\017 \001(\0132\037.Ydb.Operation" +
+      "s.OperationParams\022\r\n\005scope\030d \001(\t\022.\n\nstar" +
+      "ted_at\030e \001(\0132\032.google.protobuf.Timestamp" +
+      "\022/\n\013finished_at\030f \001(\0132\032.google.protobuf." +
+      "Timestamp\":\n\016PingTaskResult\022(\n\006action\030\001 " +
+      "\001(\0162\030.YandexQuery.QueryAction\"@\n\020PingTas" +
+      "kResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
+      "tions.Operation\"\366\001\n\026WriteTaskResultReque" +
+      "st\022\020\n\010owner_id\030\001 \001(\t\0220\n\tresult_id\030\002 \001(\0132" +
+      "\035.Yql.Analytics.SignedIdentity\022\"\n\nresult" +
+      "_set\030\003 \001(\0132\016.Ydb.ResultSet\022\025\n\rresult_set" +
+      "_id\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\022\n\nrequest_id\030" +
+      "\006 \001(\004\0229\n\020operation_params\030\007 \001(\0132\037.Ydb.Op" +
+      "erations.OperationParams\"+\n\025WriteTaskRes" +
+      "ultResult\022\022\n\nrequest_id\030\001 \001(\004\"G\n\027WriteTa" +
+      "skResultResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
+      "b.Operations.Operation\"\264\001\n\027NodesHealthCh" +
+      "eckRequest\022\016\n\006tenant\030\001 \001(\t\022\017\n\007node_id\030\002 " +
+      "\001(\r\022\023\n\013instance_id\030\003 \001(\t\022\020\n\010hostname\030\004 \001" +
+      "(\t\022\026\n\016active_workers\030\005 \001(\004\0229\n\020operation_" +
+      "params\030\006 \001(\0132\037.Ydb.Operations.OperationP" +
+      "arams\"\233\001\n\026NodesHealthCheckResult\022=\n\005node" +
+      "s\030\001 \003(\0132..Yql.Analytics.NodesHealthCheck" +
+      "Result.NodeInfo\032B\n\010NodeInfo\022\017\n\007node_id\030\001" +
+      " \001(\r\022\023\n\013instance_id\030\002 \001(\t\022\020\n\010hostname\030\003 " +
+      "\001(\t\"H\n\030NodesHealthCheckResponse\022,\n\topera" +
+      "tion\030\001 \001(\0132\031.Ydb.Operations.OperationB>\n" +
+      "!com.yandex.yql.analytics.internalB\026Anal" +
+      "yticsIntenalProtos\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -19425,7 +19991,7 @@ public final class AnalyticsIntenalProtos {
     internal_static_Yql_Analytics_GetTaskResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetTaskResult_descriptor,
-        new java.lang.String[] { "HasTask", "ResultId", "QueryId", "JobId", "Generation", "Streaming", "DqGraph", "Text", "Connection", "Binding", "UserToken", "ServiceAccounts", "UserId", "QueryType", "Scope", "ExecuteMode", "StateLoadMode", "Status", "SensorLabels", });
+        new java.lang.String[] { "HasTask", "ResultId", "QueryId", "JobId", "Generation", "Streaming", "DqGraph", "DqGraphIndex", "Text", "Connection", "Binding", "UserToken", "ServiceAccounts", "UserId", "QueryType", "Scope", "ExecuteMode", "StateLoadMode", "Status", "SensorLabels", "ResultSetMeta", });
     internal_static_Yql_Analytics_GetTaskResult_SensorLabelsEntry_descriptor =
       internal_static_Yql_Analytics_GetTaskResult_descriptor.getNestedTypes().get(0);
     internal_static_Yql_Analytics_GetTaskResult_SensorLabelsEntry_fieldAccessorTable = new
@@ -19443,7 +20009,7 @@ public final class AnalyticsIntenalProtos {
     internal_static_Yql_Analytics_PingTaskRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_PingTaskRequest_descriptor,
-        new java.lang.String[] { "OwnerId", "QueryId", "JobId", "ResultId", "Status", "Issues", "TransientIssues", "ResultSetCount", "Statistics", "ResultSetMeta", "ExecuterInfo", "DqGraph", "Ast", "Plan", "ResignQuery", "CreatedTopicConsumers", "OperationParams", "Scope", "StartedAt", "FinishedAt", });
+        new java.lang.String[] { "OwnerId", "QueryId", "JobId", "ResultId", "Status", "Issues", "TransientIssues", "ResultSetCount", "Statistics", "ResultSetMeta", "ExecuterInfo", "DqGraph", "DqGraphIndex", "Ast", "Plan", "ResignQuery", "CreatedTopicConsumers", "OperationParams", "Scope", "StartedAt", "FinishedAt", });
     internal_static_Yql_Analytics_PingTaskResult_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_Yql_Analytics_PingTaskResult_fieldAccessorTable = new
