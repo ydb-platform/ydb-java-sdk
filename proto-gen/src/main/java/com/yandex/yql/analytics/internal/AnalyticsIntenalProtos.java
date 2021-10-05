@@ -1890,6 +1890,42 @@ public final class AnalyticsIntenalProtos {
      */
     com.google.protobuf.ByteString
         getConsumerNameBytes();
+
+    /**
+     * <code>string cluster_endpoint = 5;</code>
+     * @return The clusterEndpoint.
+     */
+    java.lang.String getClusterEndpoint();
+    /**
+     * <code>string cluster_endpoint = 5;</code>
+     * @return The bytes for clusterEndpoint.
+     */
+    com.google.protobuf.ByteString
+        getClusterEndpointBytes();
+
+    /**
+     * <code>bool use_ssl = 6;</code>
+     * @return The useSsl.
+     */
+    boolean getUseSsl();
+
+    /**
+     * <code>string token_name = 7;</code>
+     * @return The tokenName.
+     */
+    java.lang.String getTokenName();
+    /**
+     * <code>string token_name = 7;</code>
+     * @return The bytes for tokenName.
+     */
+    com.google.protobuf.ByteString
+        getTokenNameBytes();
+
+    /**
+     * <code>bool add_bearer_to_token = 8;</code>
+     * @return The addBearerToToken.
+     */
+    boolean getAddBearerToToken();
   }
   /**
    * Protobuf type {@code Yql.Analytics.TopicConsumer}
@@ -1908,6 +1944,8 @@ public final class AnalyticsIntenalProtos {
       database_ = "";
       topicPath_ = "";
       consumerName_ = "";
+      clusterEndpoint_ = "";
+      tokenName_ = "";
     }
 
     @java.lang.Override
@@ -1962,6 +2000,28 @@ public final class AnalyticsIntenalProtos {
               java.lang.String s = input.readStringRequireUtf8();
 
               consumerName_ = s;
+              break;
+            }
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              clusterEndpoint_ = s;
+              break;
+            }
+            case 48: {
+
+              useSsl_ = input.readBool();
+              break;
+            }
+            case 58: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              tokenName_ = s;
+              break;
+            }
+            case 64: {
+
+              addBearerToToken_ = input.readBool();
               break;
             }
             default: {
@@ -2148,6 +2208,104 @@ public final class AnalyticsIntenalProtos {
       }
     }
 
+    public static final int CLUSTER_ENDPOINT_FIELD_NUMBER = 5;
+    private volatile java.lang.Object clusterEndpoint_;
+    /**
+     * <code>string cluster_endpoint = 5;</code>
+     * @return The clusterEndpoint.
+     */
+    @java.lang.Override
+    public java.lang.String getClusterEndpoint() {
+      java.lang.Object ref = clusterEndpoint_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        clusterEndpoint_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string cluster_endpoint = 5;</code>
+     * @return The bytes for clusterEndpoint.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getClusterEndpointBytes() {
+      java.lang.Object ref = clusterEndpoint_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        clusterEndpoint_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int USE_SSL_FIELD_NUMBER = 6;
+    private boolean useSsl_;
+    /**
+     * <code>bool use_ssl = 6;</code>
+     * @return The useSsl.
+     */
+    @java.lang.Override
+    public boolean getUseSsl() {
+      return useSsl_;
+    }
+
+    public static final int TOKEN_NAME_FIELD_NUMBER = 7;
+    private volatile java.lang.Object tokenName_;
+    /**
+     * <code>string token_name = 7;</code>
+     * @return The tokenName.
+     */
+    @java.lang.Override
+    public java.lang.String getTokenName() {
+      java.lang.Object ref = tokenName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        tokenName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string token_name = 7;</code>
+     * @return The bytes for tokenName.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTokenNameBytes() {
+      java.lang.Object ref = tokenName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tokenName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ADD_BEARER_TO_TOKEN_FIELD_NUMBER = 8;
+    private boolean addBearerToToken_;
+    /**
+     * <code>bool add_bearer_to_token = 8;</code>
+     * @return The addBearerToToken.
+     */
+    @java.lang.Override
+    public boolean getAddBearerToToken() {
+      return addBearerToToken_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -2174,6 +2332,18 @@ public final class AnalyticsIntenalProtos {
       if (!getConsumerNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, consumerName_);
       }
+      if (!getClusterEndpointBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, clusterEndpoint_);
+      }
+      if (useSsl_ != false) {
+        output.writeBool(6, useSsl_);
+      }
+      if (!getTokenNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, tokenName_);
+      }
+      if (addBearerToToken_ != false) {
+        output.writeBool(8, addBearerToToken_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -2194,6 +2364,20 @@ public final class AnalyticsIntenalProtos {
       }
       if (!getConsumerNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, consumerName_);
+      }
+      if (!getClusterEndpointBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, clusterEndpoint_);
+      }
+      if (useSsl_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(6, useSsl_);
+      }
+      if (!getTokenNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, tokenName_);
+      }
+      if (addBearerToToken_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(8, addBearerToToken_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2218,6 +2402,14 @@ public final class AnalyticsIntenalProtos {
           .equals(other.getTopicPath())) return false;
       if (!getConsumerName()
           .equals(other.getConsumerName())) return false;
+      if (!getClusterEndpoint()
+          .equals(other.getClusterEndpoint())) return false;
+      if (getUseSsl()
+          != other.getUseSsl()) return false;
+      if (!getTokenName()
+          .equals(other.getTokenName())) return false;
+      if (getAddBearerToToken()
+          != other.getAddBearerToToken()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -2237,6 +2429,16 @@ public final class AnalyticsIntenalProtos {
       hash = (53 * hash) + getTopicPath().hashCode();
       hash = (37 * hash) + CONSUMER_NAME_FIELD_NUMBER;
       hash = (53 * hash) + getConsumerName().hashCode();
+      hash = (37 * hash) + CLUSTER_ENDPOINT_FIELD_NUMBER;
+      hash = (53 * hash) + getClusterEndpoint().hashCode();
+      hash = (37 * hash) + USE_SSL_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getUseSsl());
+      hash = (37 * hash) + TOKEN_NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getTokenName().hashCode();
+      hash = (37 * hash) + ADD_BEARER_TO_TOKEN_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getAddBearerToToken());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2378,6 +2580,14 @@ public final class AnalyticsIntenalProtos {
 
         consumerName_ = "";
 
+        clusterEndpoint_ = "";
+
+        useSsl_ = false;
+
+        tokenName_ = "";
+
+        addBearerToToken_ = false;
+
         return this;
       }
 
@@ -2408,6 +2618,10 @@ public final class AnalyticsIntenalProtos {
         result.database_ = database_;
         result.topicPath_ = topicPath_;
         result.consumerName_ = consumerName_;
+        result.clusterEndpoint_ = clusterEndpoint_;
+        result.useSsl_ = useSsl_;
+        result.tokenName_ = tokenName_;
+        result.addBearerToToken_ = addBearerToToken_;
         onBuilt();
         return result;
       }
@@ -2471,6 +2685,20 @@ public final class AnalyticsIntenalProtos {
         if (!other.getConsumerName().isEmpty()) {
           consumerName_ = other.consumerName_;
           onChanged();
+        }
+        if (!other.getClusterEndpoint().isEmpty()) {
+          clusterEndpoint_ = other.clusterEndpoint_;
+          onChanged();
+        }
+        if (other.getUseSsl() != false) {
+          setUseSsl(other.getUseSsl());
+        }
+        if (!other.getTokenName().isEmpty()) {
+          tokenName_ = other.tokenName_;
+          onChanged();
+        }
+        if (other.getAddBearerToToken() != false) {
+          setAddBearerToToken(other.getAddBearerToToken());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2801,6 +3029,220 @@ public final class AnalyticsIntenalProtos {
   checkByteStringIsUtf8(value);
         
         consumerName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object clusterEndpoint_ = "";
+      /**
+       * <code>string cluster_endpoint = 5;</code>
+       * @return The clusterEndpoint.
+       */
+      public java.lang.String getClusterEndpoint() {
+        java.lang.Object ref = clusterEndpoint_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          clusterEndpoint_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string cluster_endpoint = 5;</code>
+       * @return The bytes for clusterEndpoint.
+       */
+      public com.google.protobuf.ByteString
+          getClusterEndpointBytes() {
+        java.lang.Object ref = clusterEndpoint_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          clusterEndpoint_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string cluster_endpoint = 5;</code>
+       * @param value The clusterEndpoint to set.
+       * @return This builder for chaining.
+       */
+      public Builder setClusterEndpoint(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        clusterEndpoint_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string cluster_endpoint = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearClusterEndpoint() {
+        
+        clusterEndpoint_ = getDefaultInstance().getClusterEndpoint();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string cluster_endpoint = 5;</code>
+       * @param value The bytes for clusterEndpoint to set.
+       * @return This builder for chaining.
+       */
+      public Builder setClusterEndpointBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        clusterEndpoint_ = value;
+        onChanged();
+        return this;
+      }
+
+      private boolean useSsl_ ;
+      /**
+       * <code>bool use_ssl = 6;</code>
+       * @return The useSsl.
+       */
+      @java.lang.Override
+      public boolean getUseSsl() {
+        return useSsl_;
+      }
+      /**
+       * <code>bool use_ssl = 6;</code>
+       * @param value The useSsl to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUseSsl(boolean value) {
+        
+        useSsl_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool use_ssl = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearUseSsl() {
+        
+        useSsl_ = false;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object tokenName_ = "";
+      /**
+       * <code>string token_name = 7;</code>
+       * @return The tokenName.
+       */
+      public java.lang.String getTokenName() {
+        java.lang.Object ref = tokenName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          tokenName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string token_name = 7;</code>
+       * @return The bytes for tokenName.
+       */
+      public com.google.protobuf.ByteString
+          getTokenNameBytes() {
+        java.lang.Object ref = tokenName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tokenName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string token_name = 7;</code>
+       * @param value The tokenName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTokenName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        tokenName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string token_name = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTokenName() {
+        
+        tokenName_ = getDefaultInstance().getTokenName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string token_name = 7;</code>
+       * @param value The bytes for tokenName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTokenNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        tokenName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private boolean addBearerToToken_ ;
+      /**
+       * <code>bool add_bearer_to_token = 8;</code>
+       * @return The addBearerToToken.
+       */
+      @java.lang.Override
+      public boolean getAddBearerToToken() {
+        return addBearerToToken_;
+      }
+      /**
+       * <code>bool add_bearer_to_token = 8;</code>
+       * @param value The addBearerToToken to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAddBearerToToken(boolean value) {
+        
+        addBearerToToken_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool add_bearer_to_token = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAddBearerToToken() {
+        
+        addBearerToToken_ = false;
         onChanged();
         return this;
       }
@@ -3196,6 +3638,30 @@ public final class AnalyticsIntenalProtos {
      */
     com.yandex.query.YandexQueryProtos.ResultSetMetaOrBuilder getResultSetMetaOrBuilder(
         int index);
+
+    /**
+     * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+     */
+    java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer> 
+        getCreatedTopicConsumersList();
+    /**
+     * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+     */
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer getCreatedTopicConsumers(int index);
+    /**
+     * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+     */
+    int getCreatedTopicConsumersCount();
+    /**
+     * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+     */
+    java.util.List<? extends com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumerOrBuilder> 
+        getCreatedTopicConsumersOrBuilderList();
+    /**
+     * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+     */
+    com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumerOrBuilder getCreatedTopicConsumersOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code Yql.Analytics.GetTaskResult}
@@ -3223,6 +3689,7 @@ public final class AnalyticsIntenalProtos {
       stateLoadMode_ = 0;
       status_ = 0;
       resultSetMeta_ = java.util.Collections.emptyList();
+      createdTopicConsumers_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -3420,6 +3887,15 @@ public final class AnalyticsIntenalProtos {
                   input.readMessage(com.yandex.query.YandexQueryProtos.ResultSetMeta.parser(), extensionRegistry));
               break;
             }
+            case 178: {
+              if (!((mutable_bitField0_ & 0x00000040) != 0)) {
+                createdTopicConsumers_ = new java.util.ArrayList<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer>();
+                mutable_bitField0_ |= 0x00000040;
+              }
+              createdTopicConsumers_.add(
+                  input.readMessage(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.parser(), extensionRegistry));
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -3449,6 +3925,9 @@ public final class AnalyticsIntenalProtos {
         }
         if (((mutable_bitField0_ & 0x00000020) != 0)) {
           resultSetMeta_ = java.util.Collections.unmodifiableList(resultSetMeta_);
+        }
+        if (((mutable_bitField0_ & 0x00000040) != 0)) {
+          createdTopicConsumers_ = java.util.Collections.unmodifiableList(createdTopicConsumers_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -4125,6 +4604,46 @@ public final class AnalyticsIntenalProtos {
       return resultSetMeta_.get(index);
     }
 
+    public static final int CREATED_TOPIC_CONSUMERS_FIELD_NUMBER = 22;
+    private java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer> createdTopicConsumers_;
+    /**
+     * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+     */
+    @java.lang.Override
+    public java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer> getCreatedTopicConsumersList() {
+      return createdTopicConsumers_;
+    }
+    /**
+     * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumerOrBuilder> 
+        getCreatedTopicConsumersOrBuilderList() {
+      return createdTopicConsumers_;
+    }
+    /**
+     * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+     */
+    @java.lang.Override
+    public int getCreatedTopicConsumersCount() {
+      return createdTopicConsumers_.size();
+    }
+    /**
+     * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+     */
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer getCreatedTopicConsumers(int index) {
+      return createdTopicConsumers_.get(index);
+    }
+    /**
+     * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+     */
+    @java.lang.Override
+    public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumerOrBuilder getCreatedTopicConsumersOrBuilder(
+        int index) {
+      return createdTopicConsumers_.get(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -4204,6 +4723,9 @@ public final class AnalyticsIntenalProtos {
       }
       for (int i = 0; i < resultSetMeta_.size(); i++) {
         output.writeMessage(21, resultSetMeta_.get(i));
+      }
+      for (int i = 0; i < createdTopicConsumers_.size(); i++) {
+        output.writeMessage(22, createdTopicConsumers_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -4305,6 +4827,10 @@ public final class AnalyticsIntenalProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(21, resultSetMeta_.get(i));
       }
+      for (int i = 0; i < createdTopicConsumers_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(22, createdTopicConsumers_.get(i));
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -4367,6 +4893,8 @@ public final class AnalyticsIntenalProtos {
           other.internalGetSensorLabels())) return false;
       if (!getResultSetMetaList()
           .equals(other.getResultSetMetaList())) return false;
+      if (!getCreatedTopicConsumersList()
+          .equals(other.getCreatedTopicConsumersList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -4440,6 +4968,10 @@ public final class AnalyticsIntenalProtos {
       if (getResultSetMetaCount() > 0) {
         hash = (37 * hash) + RESULT_SET_META_FIELD_NUMBER;
         hash = (53 * hash) + getResultSetMetaList().hashCode();
+      }
+      if (getCreatedTopicConsumersCount() > 0) {
+        hash = (37 * hash) + CREATED_TOPIC_CONSUMERS_FIELD_NUMBER;
+        hash = (53 * hash) + getCreatedTopicConsumersList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -4595,6 +5127,7 @@ public final class AnalyticsIntenalProtos {
           getBindingFieldBuilder();
           getServiceAccountsFieldBuilder();
           getResultSetMetaFieldBuilder();
+          getCreatedTopicConsumersFieldBuilder();
         }
       }
       @java.lang.Override
@@ -4668,6 +5201,12 @@ public final class AnalyticsIntenalProtos {
           bitField0_ = (bitField0_ & ~0x00000020);
         } else {
           resultSetMetaBuilder_.clear();
+        }
+        if (createdTopicConsumersBuilder_ == null) {
+          createdTopicConsumers_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+        } else {
+          createdTopicConsumersBuilder_.clear();
         }
         return this;
       }
@@ -4765,6 +5304,15 @@ public final class AnalyticsIntenalProtos {
           result.resultSetMeta_ = resultSetMeta_;
         } else {
           result.resultSetMeta_ = resultSetMetaBuilder_.build();
+        }
+        if (createdTopicConsumersBuilder_ == null) {
+          if (((bitField0_ & 0x00000040) != 0)) {
+            createdTopicConsumers_ = java.util.Collections.unmodifiableList(createdTopicConsumers_);
+            bitField0_ = (bitField0_ & ~0x00000040);
+          }
+          result.createdTopicConsumers_ = createdTopicConsumers_;
+        } else {
+          result.createdTopicConsumers_ = createdTopicConsumersBuilder_.build();
         }
         onBuilt();
         return result;
@@ -4976,6 +5524,32 @@ public final class AnalyticsIntenalProtos {
                    getResultSetMetaFieldBuilder() : null;
             } else {
               resultSetMetaBuilder_.addAllMessages(other.resultSetMeta_);
+            }
+          }
+        }
+        if (createdTopicConsumersBuilder_ == null) {
+          if (!other.createdTopicConsumers_.isEmpty()) {
+            if (createdTopicConsumers_.isEmpty()) {
+              createdTopicConsumers_ = other.createdTopicConsumers_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+            } else {
+              ensureCreatedTopicConsumersIsMutable();
+              createdTopicConsumers_.addAll(other.createdTopicConsumers_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.createdTopicConsumers_.isEmpty()) {
+            if (createdTopicConsumersBuilder_.isEmpty()) {
+              createdTopicConsumersBuilder_.dispose();
+              createdTopicConsumersBuilder_ = null;
+              createdTopicConsumers_ = other.createdTopicConsumers_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+              createdTopicConsumersBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getCreatedTopicConsumersFieldBuilder() : null;
+            } else {
+              createdTopicConsumersBuilder_.addAllMessages(other.createdTopicConsumers_);
             }
           }
         }
@@ -7257,6 +7831,246 @@ public final class AnalyticsIntenalProtos {
           resultSetMeta_ = null;
         }
         return resultSetMetaBuilder_;
+      }
+
+      private java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer> createdTopicConsumers_ =
+        java.util.Collections.emptyList();
+      private void ensureCreatedTopicConsumersIsMutable() {
+        if (!((bitField0_ & 0x00000040) != 0)) {
+          createdTopicConsumers_ = new java.util.ArrayList<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer>(createdTopicConsumers_);
+          bitField0_ |= 0x00000040;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumerOrBuilder> createdTopicConsumersBuilder_;
+
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+       */
+      public java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer> getCreatedTopicConsumersList() {
+        if (createdTopicConsumersBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(createdTopicConsumers_);
+        } else {
+          return createdTopicConsumersBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+       */
+      public int getCreatedTopicConsumersCount() {
+        if (createdTopicConsumersBuilder_ == null) {
+          return createdTopicConsumers_.size();
+        } else {
+          return createdTopicConsumersBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer getCreatedTopicConsumers(int index) {
+        if (createdTopicConsumersBuilder_ == null) {
+          return createdTopicConsumers_.get(index);
+        } else {
+          return createdTopicConsumersBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+       */
+      public Builder setCreatedTopicConsumers(
+          int index, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer value) {
+        if (createdTopicConsumersBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCreatedTopicConsumersIsMutable();
+          createdTopicConsumers_.set(index, value);
+          onChanged();
+        } else {
+          createdTopicConsumersBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+       */
+      public Builder setCreatedTopicConsumers(
+          int index, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder builderForValue) {
+        if (createdTopicConsumersBuilder_ == null) {
+          ensureCreatedTopicConsumersIsMutable();
+          createdTopicConsumers_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          createdTopicConsumersBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+       */
+      public Builder addCreatedTopicConsumers(com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer value) {
+        if (createdTopicConsumersBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCreatedTopicConsumersIsMutable();
+          createdTopicConsumers_.add(value);
+          onChanged();
+        } else {
+          createdTopicConsumersBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+       */
+      public Builder addCreatedTopicConsumers(
+          int index, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer value) {
+        if (createdTopicConsumersBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCreatedTopicConsumersIsMutable();
+          createdTopicConsumers_.add(index, value);
+          onChanged();
+        } else {
+          createdTopicConsumersBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+       */
+      public Builder addCreatedTopicConsumers(
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder builderForValue) {
+        if (createdTopicConsumersBuilder_ == null) {
+          ensureCreatedTopicConsumersIsMutable();
+          createdTopicConsumers_.add(builderForValue.build());
+          onChanged();
+        } else {
+          createdTopicConsumersBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+       */
+      public Builder addCreatedTopicConsumers(
+          int index, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder builderForValue) {
+        if (createdTopicConsumersBuilder_ == null) {
+          ensureCreatedTopicConsumersIsMutable();
+          createdTopicConsumers_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          createdTopicConsumersBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+       */
+      public Builder addAllCreatedTopicConsumers(
+          java.lang.Iterable<? extends com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer> values) {
+        if (createdTopicConsumersBuilder_ == null) {
+          ensureCreatedTopicConsumersIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, createdTopicConsumers_);
+          onChanged();
+        } else {
+          createdTopicConsumersBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+       */
+      public Builder clearCreatedTopicConsumers() {
+        if (createdTopicConsumersBuilder_ == null) {
+          createdTopicConsumers_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+          onChanged();
+        } else {
+          createdTopicConsumersBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+       */
+      public Builder removeCreatedTopicConsumers(int index) {
+        if (createdTopicConsumersBuilder_ == null) {
+          ensureCreatedTopicConsumersIsMutable();
+          createdTopicConsumers_.remove(index);
+          onChanged();
+        } else {
+          createdTopicConsumersBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder getCreatedTopicConsumersBuilder(
+          int index) {
+        return getCreatedTopicConsumersFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumerOrBuilder getCreatedTopicConsumersOrBuilder(
+          int index) {
+        if (createdTopicConsumersBuilder_ == null) {
+          return createdTopicConsumers_.get(index);  } else {
+          return createdTopicConsumersBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+       */
+      public java.util.List<? extends com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumerOrBuilder> 
+           getCreatedTopicConsumersOrBuilderList() {
+        if (createdTopicConsumersBuilder_ != null) {
+          return createdTopicConsumersBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(createdTopicConsumers_);
+        }
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder addCreatedTopicConsumersBuilder() {
+        return getCreatedTopicConsumersFieldBuilder().addBuilder(
+            com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+       */
+      public com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder addCreatedTopicConsumersBuilder(
+          int index) {
+        return getCreatedTopicConsumersFieldBuilder().addBuilder(
+            index, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Yql.Analytics.TopicConsumer created_topic_consumers = 22;</code>
+       */
+      public java.util.List<com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder> 
+           getCreatedTopicConsumersBuilderList() {
+        return getCreatedTopicConsumersFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumerOrBuilder> 
+          getCreatedTopicConsumersFieldBuilder() {
+        if (createdTopicConsumersBuilder_ == null) {
+          createdTopicConsumersBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumer.Builder, com.yandex.yql.analytics.internal.AnalyticsIntenalProtos.TopicConsumerOrBuilder>(
+                  createdTopicConsumers_,
+                  ((bitField0_ & 0x00000040) != 0),
+                  getParentForChildren(),
+                  isClean());
+          createdTopicConsumers_ = null;
+        }
+        return createdTopicConsumersBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -19888,76 +20702,80 @@ public final class AnalyticsIntenalProtos {
       " \001(\t\022\014\n\004host\030\003 \001(\t\0229\n\020operation_params\030\004" +
       " \001(\0132\037.Ydb.Operations.OperationParams\"2\n" +
       "\016SignedIdentity\022\r\n\005value\030\001 \001(\t\022\021\n\tsignat" +
-      "ure\030\002 \001(\t\"a\n\rTopicConsumer\022\023\n\013database_i" +
-      "d\030\001 \001(\t\022\020\n\010database\030\002 \001(\t\022\022\n\ntopic_path\030" +
-      "\003 \001(\t\022\025\n\rconsumer_name\030\004 \001(\t\"\330\006\n\rGetTask" +
-      "Result\022\020\n\010has_task\030\001 \001(\010\0220\n\tresult_id\030\002 " +
-      "\001(\0132\035.Yql.Analytics.SignedIdentity\022/\n\010qu" +
-      "ery_id\030\003 \001(\0132\035.Yql.Analytics.SignedIdent" +
-      "ity\022-\n\006job_id\030\004 \001(\0132\035.Yql.Analytics.Sign" +
-      "edIdentity\022\022\n\ngeneration\030\005 \001(\004\022\021\n\tstream" +
-      "ing\030\006 \001(\010\022\020\n\010dq_graph\030\007 \003(\014\022\026\n\016dq_graph_" +
-      "index\030\024 \001(\005\022\014\n\004text\030\010 \001(\t\022+\n\nconnection\030" +
-      "\t \003(\0132\027.YandexQuery.Connection\022%\n\007bindin" +
-      "g\030\n \003(\0132\024.YandexQuery.Binding\022\022\n\nuser_to" +
-      "ken\030\013 \001(\t\0227\n\020service_accounts\030\014 \003(\0132\035.Yq" +
-      "l.Analytics.SignedIdentity\022\017\n\007user_id\030\r " +
-      "\001(\t\0227\n\nquery_type\030\016 \001(\0162#.YandexQuery.Qu" +
-      "eryContent.QueryType\022\r\n\005scope\030\017 \001(\t\022.\n\014e" +
-      "xecute_mode\030\020 \001(\0162\030.YandexQuery.ExecuteM" +
-      "ode\0223\n\017state_load_mode\030\021 \001(\0162\032.YandexQue" +
-      "ry.StateLoadMode\0224\n\006status\030\022 \001(\0162$.Yande" +
-      "xQuery.QueryMeta.ComputeStatus\022E\n\rsensor" +
-      "_labels\030\023 \003(\0132..Yql.Analytics.GetTaskRes" +
-      "ult.SensorLabelsEntry\0223\n\017result_set_meta" +
-      "\030\025 \003(\0132\032.YandexQuery.ResultSetMeta\0323\n\021Se" +
-      "nsorLabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 " +
-      "\001(\t:\0028\001\"?\n\017GetTaskResponse\022,\n\toperation\030" +
-      "\001 \001(\0132\031.Ydb.Operations.Operation\"\206\006\n\017Pin" +
-      "gTaskRequest\022\020\n\010owner_id\030\001 \001(\t\022/\n\010query_" +
-      "id\030\002 \001(\0132\035.Yql.Analytics.SignedIdentity\022" +
-      "-\n\006job_id\030\003 \001(\0132\035.Yql.Analytics.SignedId" +
-      "entity\0220\n\tresult_id\030\004 \001(\0132\035.Yql.Analytic" +
-      "s.SignedIdentity\0224\n\006status\030\005 \001(\0162$.Yande" +
-      "xQuery.QueryMeta.ComputeStatus\022\'\n\006issues" +
-      "\030\006 \003(\0132\027.Ydb.Issue.IssueMessage\0221\n\020trans" +
-      "ient_issues\030\020 \003(\0132\027.Ydb.Issue.IssueMessa" +
-      "ge\022\030\n\020result_set_count\030\007 \001(\r\022\022\n\nstatisti" +
-      "cs\030\010 \001(\t\0223\n\017result_set_meta\030\t \003(\0132\032.Yand" +
-      "exQuery.ResultSetMeta\022\025\n\rexecuter_info\030\n" +
-      " \001(\t\022\020\n\010dq_graph\030\013 \003(\014\022\026\n\016dq_graph_index" +
-      "\030\024 \001(\005\022\013\n\003ast\030\014 \001(\t\022\014\n\004plan\030\r \001(\t\022\024\n\014res" +
-      "ign_query\030\016 \001(\010\022=\n\027created_topic_consume" +
-      "rs\030\021 \003(\0132\034.Yql.Analytics.TopicConsumer\0229" +
-      "\n\020operation_params\030\017 \001(\0132\037.Ydb.Operation" +
-      "s.OperationParams\022\r\n\005scope\030d \001(\t\022.\n\nstar" +
-      "ted_at\030e \001(\0132\032.google.protobuf.Timestamp" +
-      "\022/\n\013finished_at\030f \001(\0132\032.google.protobuf." +
-      "Timestamp\":\n\016PingTaskResult\022(\n\006action\030\001 " +
-      "\001(\0162\030.YandexQuery.QueryAction\"@\n\020PingTas" +
-      "kResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
-      "tions.Operation\"\366\001\n\026WriteTaskResultReque" +
-      "st\022\020\n\010owner_id\030\001 \001(\t\0220\n\tresult_id\030\002 \001(\0132" +
-      "\035.Yql.Analytics.SignedIdentity\022\"\n\nresult" +
-      "_set\030\003 \001(\0132\016.Ydb.ResultSet\022\025\n\rresult_set" +
-      "_id\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\022\n\nrequest_id\030" +
-      "\006 \001(\004\0229\n\020operation_params\030\007 \001(\0132\037.Ydb.Op" +
-      "erations.OperationParams\"+\n\025WriteTaskRes" +
-      "ultResult\022\022\n\nrequest_id\030\001 \001(\004\"G\n\027WriteTa" +
-      "skResultResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
-      "b.Operations.Operation\"\264\001\n\027NodesHealthCh" +
-      "eckRequest\022\016\n\006tenant\030\001 \001(\t\022\017\n\007node_id\030\002 " +
-      "\001(\r\022\023\n\013instance_id\030\003 \001(\t\022\020\n\010hostname\030\004 \001" +
-      "(\t\022\026\n\016active_workers\030\005 \001(\004\0229\n\020operation_" +
-      "params\030\006 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\"\233\001\n\026NodesHealthCheckResult\022=\n\005node" +
-      "s\030\001 \003(\0132..Yql.Analytics.NodesHealthCheck" +
-      "Result.NodeInfo\032B\n\010NodeInfo\022\017\n\007node_id\030\001" +
-      " \001(\r\022\023\n\013instance_id\030\002 \001(\t\022\020\n\010hostname\030\003 " +
-      "\001(\t\"H\n\030NodesHealthCheckResponse\022,\n\topera" +
-      "tion\030\001 \001(\0132\031.Ydb.Operations.OperationB>\n" +
-      "!com.yandex.yql.analytics.internalB\026Anal" +
-      "yticsIntenalProtos\370\001\001b\006proto3"
+      "ure\030\002 \001(\t\"\275\001\n\rTopicConsumer\022\023\n\013database_" +
+      "id\030\001 \001(\t\022\020\n\010database\030\002 \001(\t\022\022\n\ntopic_path" +
+      "\030\003 \001(\t\022\025\n\rconsumer_name\030\004 \001(\t\022\030\n\020cluster" +
+      "_endpoint\030\005 \001(\t\022\017\n\007use_ssl\030\006 \001(\010\022\022\n\ntoke" +
+      "n_name\030\007 \001(\t\022\033\n\023add_bearer_to_token\030\010 \001(" +
+      "\010\"\227\007\n\rGetTaskResult\022\020\n\010has_task\030\001 \001(\010\0220\n" +
+      "\tresult_id\030\002 \001(\0132\035.Yql.Analytics.SignedI" +
+      "dentity\022/\n\010query_id\030\003 \001(\0132\035.Yql.Analytic" +
+      "s.SignedIdentity\022-\n\006job_id\030\004 \001(\0132\035.Yql.A" +
+      "nalytics.SignedIdentity\022\022\n\ngeneration\030\005 " +
+      "\001(\004\022\021\n\tstreaming\030\006 \001(\010\022\020\n\010dq_graph\030\007 \003(\014" +
+      "\022\026\n\016dq_graph_index\030\024 \001(\005\022\014\n\004text\030\010 \001(\t\022+" +
+      "\n\nconnection\030\t \003(\0132\027.YandexQuery.Connect" +
+      "ion\022%\n\007binding\030\n \003(\0132\024.YandexQuery.Bindi" +
+      "ng\022\022\n\nuser_token\030\013 \001(\t\0227\n\020service_accoun" +
+      "ts\030\014 \003(\0132\035.Yql.Analytics.SignedIdentity\022" +
+      "\017\n\007user_id\030\r \001(\t\0227\n\nquery_type\030\016 \001(\0162#.Y" +
+      "andexQuery.QueryContent.QueryType\022\r\n\005sco" +
+      "pe\030\017 \001(\t\022.\n\014execute_mode\030\020 \001(\0162\030.YandexQ" +
+      "uery.ExecuteMode\0223\n\017state_load_mode\030\021 \001(" +
+      "\0162\032.YandexQuery.StateLoadMode\0224\n\006status\030" +
+      "\022 \001(\0162$.YandexQuery.QueryMeta.ComputeSta" +
+      "tus\022E\n\rsensor_labels\030\023 \003(\0132..Yql.Analyti" +
+      "cs.GetTaskResult.SensorLabelsEntry\0223\n\017re" +
+      "sult_set_meta\030\025 \003(\0132\032.YandexQuery.Result" +
+      "SetMeta\022=\n\027created_topic_consumers\030\026 \003(\013" +
+      "2\034.Yql.Analytics.TopicConsumer\0323\n\021Sensor" +
+      "LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:" +
+      "\0028\001\"?\n\017GetTaskResponse\022,\n\toperation\030\001 \001(" +
+      "\0132\031.Ydb.Operations.Operation\"\206\006\n\017PingTas" +
+      "kRequest\022\020\n\010owner_id\030\001 \001(\t\022/\n\010query_id\030\002" +
+      " \001(\0132\035.Yql.Analytics.SignedIdentity\022-\n\006j" +
+      "ob_id\030\003 \001(\0132\035.Yql.Analytics.SignedIdenti" +
+      "ty\0220\n\tresult_id\030\004 \001(\0132\035.Yql.Analytics.Si" +
+      "gnedIdentity\0224\n\006status\030\005 \001(\0162$.YandexQue" +
+      "ry.QueryMeta.ComputeStatus\022\'\n\006issues\030\006 \003" +
+      "(\0132\027.Ydb.Issue.IssueMessage\0221\n\020transient" +
+      "_issues\030\020 \003(\0132\027.Ydb.Issue.IssueMessage\022\030" +
+      "\n\020result_set_count\030\007 \001(\r\022\022\n\nstatistics\030\010" +
+      " \001(\t\0223\n\017result_set_meta\030\t \003(\0132\032.YandexQu" +
+      "ery.ResultSetMeta\022\025\n\rexecuter_info\030\n \001(\t" +
+      "\022\020\n\010dq_graph\030\013 \003(\014\022\026\n\016dq_graph_index\030\024 \001" +
+      "(\005\022\013\n\003ast\030\014 \001(\t\022\014\n\004plan\030\r \001(\t\022\024\n\014resign_" +
+      "query\030\016 \001(\010\022=\n\027created_topic_consumers\030\021" +
+      " \003(\0132\034.Yql.Analytics.TopicConsumer\0229\n\020op" +
+      "eration_params\030\017 \001(\0132\037.Ydb.Operations.Op" +
+      "erationParams\022\r\n\005scope\030d \001(\t\022.\n\nstarted_" +
+      "at\030e \001(\0132\032.google.protobuf.Timestamp\022/\n\013" +
+      "finished_at\030f \001(\0132\032.google.protobuf.Time" +
+      "stamp\":\n\016PingTaskResult\022(\n\006action\030\001 \001(\0162" +
+      "\030.YandexQuery.QueryAction\"@\n\020PingTaskRes" +
+      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
+      "s.Operation\"\366\001\n\026WriteTaskResultRequest\022\020" +
+      "\n\010owner_id\030\001 \001(\t\0220\n\tresult_id\030\002 \001(\0132\035.Yq" +
+      "l.Analytics.SignedIdentity\022\"\n\nresult_set" +
+      "\030\003 \001(\0132\016.Ydb.ResultSet\022\025\n\rresult_set_id\030" +
+      "\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\022\n\nrequest_id\030\006 \001(" +
+      "\004\0229\n\020operation_params\030\007 \001(\0132\037.Ydb.Operat" +
+      "ions.OperationParams\"+\n\025WriteTaskResultR" +
+      "esult\022\022\n\nrequest_id\030\001 \001(\004\"G\n\027WriteTaskRe" +
+      "sultResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
+      "erations.Operation\"\264\001\n\027NodesHealthCheckR" +
+      "equest\022\016\n\006tenant\030\001 \001(\t\022\017\n\007node_id\030\002 \001(\r\022" +
+      "\023\n\013instance_id\030\003 \001(\t\022\020\n\010hostname\030\004 \001(\t\022\026" +
+      "\n\016active_workers\030\005 \001(\004\0229\n\020operation_para" +
+      "ms\030\006 \001(\0132\037.Ydb.Operations.OperationParam" +
+      "s\"\233\001\n\026NodesHealthCheckResult\022=\n\005nodes\030\001 " +
+      "\003(\0132..Yql.Analytics.NodesHealthCheckResu" +
+      "lt.NodeInfo\032B\n\010NodeInfo\022\017\n\007node_id\030\001 \001(\r" +
+      "\022\023\n\013instance_id\030\002 \001(\t\022\020\n\010hostname\030\003 \001(\t\"" +
+      "H\n\030NodesHealthCheckResponse\022,\n\toperation" +
+      "\030\001 \001(\0132\031.Ydb.Operations.OperationB>\n!com" +
+      ".yandex.yql.analytics.internalB\026Analytic" +
+      "sIntenalProtos\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -19985,13 +20803,13 @@ public final class AnalyticsIntenalProtos {
     internal_static_Yql_Analytics_TopicConsumer_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_TopicConsumer_descriptor,
-        new java.lang.String[] { "DatabaseId", "Database", "TopicPath", "ConsumerName", });
+        new java.lang.String[] { "DatabaseId", "Database", "TopicPath", "ConsumerName", "ClusterEndpoint", "UseSsl", "TokenName", "AddBearerToToken", });
     internal_static_Yql_Analytics_GetTaskResult_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_Yql_Analytics_GetTaskResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetTaskResult_descriptor,
-        new java.lang.String[] { "HasTask", "ResultId", "QueryId", "JobId", "Generation", "Streaming", "DqGraph", "DqGraphIndex", "Text", "Connection", "Binding", "UserToken", "ServiceAccounts", "UserId", "QueryType", "Scope", "ExecuteMode", "StateLoadMode", "Status", "SensorLabels", "ResultSetMeta", });
+        new java.lang.String[] { "HasTask", "ResultId", "QueryId", "JobId", "Generation", "Streaming", "DqGraph", "DqGraphIndex", "Text", "Connection", "Binding", "UserToken", "ServiceAccounts", "UserId", "QueryType", "Scope", "ExecuteMode", "StateLoadMode", "Status", "SensorLabels", "ResultSetMeta", "CreatedTopicConsumers", });
     internal_static_Yql_Analytics_GetTaskResult_SensorLabelsEntry_descriptor =
       internal_static_Yql_Analytics_GetTaskResult_descriptor.getNestedTypes().get(0);
     internal_static_Yql_Analytics_GetTaskResult_SensorLabelsEntry_fieldAccessorTable = new
