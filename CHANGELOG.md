@@ -1,3 +1,7 @@
+## 1.8.4 ##
+
+* Use a bit more modern GRPC name resolver factory API to facilitate GRPC implementation upgrades downstream
+
 ## 1.8.3 ##
 
 * Added connection string support

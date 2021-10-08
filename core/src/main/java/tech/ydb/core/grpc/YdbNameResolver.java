@@ -215,7 +215,7 @@ final class YdbNameResolver extends NameResolver {
         return new Factory() {
             @Nullable
             @Override
-            public NameResolver newNameResolver(URI targetUri, Helper helper) {
+            public NameResolver newNameResolver(URI targetUri, Args args) {
                 if (!SCHEME.equals(targetUri.getScheme())) {
                     return null;
                 }
@@ -241,7 +241,7 @@ final class YdbNameResolver extends NameResolver {
                 }
                 GrpcTransport transport = transportBuilder.build();
                 GrpcDiscoveryRpc rpc = new GrpcDiscoveryRpc(transport);
-                return new YdbNameResolver(database, authority, rpc, helper.getSynchronizationContext(), discoveryPeriod);
+                return new YdbNameResolver(database, authority, rpc, args.getSynchronizationContext(), discoveryPeriod);
             }
 
             @Override
