@@ -1,22 +1,26 @@
+## 1.9.1 ##
+
+* All timers are now stopped on shutdown so the application should stop immediately.
+
 ## 1.9.0 ##
 
-* Added Random choice load balancer which is now used by default instead of round robin load balancer
+* Added Random choice load balancer which is now used by default instead of round robin load balancer.
 
 ## 1.8.4 ##
 
-* Use a bit more modern GRPC name resolver factory API to facilitate GRPC implementation upgrades downstream
+* Use a bit more modern GRPC name resolver factory API to facilitate GRPC implementation upgrades downstream.
 
 ## 1.8.3 ##
 
-* Added connection string support
+* Added connection string support.
 
 ## 1.8.2 ##
 
-* Added CloudAuthProvider for cloud authentication with environment variables
+* Added CloudAuthProvider for cloud authentication with environment variables.
 
 ## 1.8.1 ##
 
-* Added AlterLogTable to ydb_logstore_v1.proto
+* Added AlterLogTable to ydb_logstore_v1.proto.
 
 ## 1.8.0 ##
 

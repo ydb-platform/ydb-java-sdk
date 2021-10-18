@@ -39,7 +39,7 @@ public class SettlersPool<T> {
         this.keepAliveTimeMillis = keepAliveTimeMillis;
 
         // delay first run
-        Async.runAfter(keepAliveTask, keepAliveTimeMillis, TimeUnit.MILLISECONDS);
+        this.keepAliveTask.scheduleNext();
     }
 
     public boolean offerIfHaveSpace(T object) {
@@ -90,9 +90,14 @@ public class SettlersPool<T> {
      */
     private final class KeepAliveTask implements TimerTask {
         private volatile boolean stopped = false;
+        private Timeout scheduledHandle = null;
 
         void stop() {
             stopped = true;
+            if (scheduledHandle != null) {
+                scheduledHandle.cancel();
+                scheduledHandle = null;
+            }
         }
 
         @Override
@@ -106,7 +111,7 @@ public class SettlersPool<T> {
             }
 
             if (!it.hasNext()) {
-                Async.runAfter(keepAliveTask, keepAliveTimeMillis, TimeUnit.MILLISECONDS);
+                scheduleNext();
                 return;
             }
 
@@ -164,6 +169,10 @@ public class SettlersPool<T> {
 
                     checkNextObject(it);
                 });
+        }
+
+        void scheduleNext() {
+            scheduledHandle = Async.runAfter(this, keepAliveTimeMillis, TimeUnit.MILLISECONDS);
         }
     }
 }

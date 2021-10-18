@@ -397,6 +397,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
         private final long keepAliveTimeMillis;
         private final long maxIdleTimeMillis;
         private final int batchSize;
+        private Timeout scheduledHandle = null;
 
         private volatile boolean stoped = false;
 
@@ -509,11 +510,15 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
 
         void scheduleNext() {
             long delayMillis = Math.min(1_000, keepAliveTimeMillis / 2);
-            Async.runAfter(this, delayMillis, TimeUnit.MILLISECONDS);
+            scheduledHandle = Async.runAfter(this, delayMillis, TimeUnit.MILLISECONDS);
         }
 
         void stop() {
             stoped = true;
+            if (scheduledHandle != null) {
+                scheduledHandle.cancel();
+                scheduledHandle = null;
+            }
         }
     }
 }
