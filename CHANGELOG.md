@@ -1,3 +1,7 @@
+## 1.9.0 ##
+
+* Added Random choice load balancer which is now used by default instead of round robin load balancer
+
 ## 1.8.4 ##
 
 * Use a bit more modern GRPC name resolver factory API to facilitate GRPC implementation upgrades downstream

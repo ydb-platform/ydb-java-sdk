@@ -307,6 +307,58 @@ public class GrpcTransport implements RpcTransport {
         realChannel.shutdown();
     }
 
+    private static void registerPreferNearestLB(String localDc) {
+        final LoadBalancerRegistry lbr = LoadBalancerRegistry.getDefaultRegistry();
+
+        lbr.register(new LoadBalancerProvider() {
+            @Override
+            public boolean isAvailable() {
+                return true;
+            }
+
+            @Override
+            public int getPriority() {
+                return 10;
+            }
+
+            @Override
+            public String getPolicyName() {
+                return "prefer_nearest";
+            }
+
+            @Override
+            public LoadBalancer newLoadBalancer(LoadBalancer.Helper helper) {
+                return new PreferNearestLoadBalancer(helper, localDc);
+            }
+        });
+    }
+
+    private static void registerRandomChoiceLB() {
+        final LoadBalancerRegistry lbr = LoadBalancerRegistry.getDefaultRegistry();
+
+        lbr.register(new LoadBalancerProvider() {
+            @Override
+            public boolean isAvailable() {
+                return true;
+            }
+
+            @Override
+            public int getPriority() {
+                return 5;
+            }
+
+            @Override
+            public String getPolicyName() {
+                return "random_choice";
+            }
+
+            @Override
+            public LoadBalancer newLoadBalancer(LoadBalancer.Helper helper) {
+                return new RandomChoiceLoadBalancer(helper);
+            }
+        });
+    }
+
     private static ManagedChannel createChannel(Builder builder) {
         String endpoint = builder.getEndpoint();
         String database = builder.getDatabase();
@@ -316,35 +368,14 @@ public class GrpcTransport implements RpcTransport {
 
         final String localDc = builder.getLocalDc();
 
-        String defaultPolicy = "round_robin";
+        String defaultPolicy;
 
         if (!StringUtil.isNullOrEmpty(localDc)) {
             defaultPolicy = "prefer_nearest";
-            final LoadBalancerRegistry lbr = LoadBalancerRegistry.getDefaultRegistry();
-
-            lbr.register(new LoadBalancerProvider() {
-                @Override
-                public boolean isAvailable() {
-                    return true;
-                }
-
-                @Override
-                public int getPriority() {
-                    return 10;
-                }
-
-                ;
-
-                @Override
-                public String getPolicyName() {
-                    return "prefer_nearest";
-                }
-
-                @Override
-                public LoadBalancer newLoadBalancer(LoadBalancer.Helper helper) {
-                    return new PreferNearestLoadBalancer(helper, localDc);
-                }
-            });
+            registerPreferNearestLB(localDc);
+        } else {
+            defaultPolicy = "random_choice";
+            registerRandomChoiceLB();
         }
 
         final NettyChannelBuilder channelBuilder;
