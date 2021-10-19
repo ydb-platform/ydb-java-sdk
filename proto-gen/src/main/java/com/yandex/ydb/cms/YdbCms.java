@@ -5225,724 +5225,6 @@ public final class YdbCms {
 
   }
 
-  public interface AttributeOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Ydb.Cms.Attribute)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>string name = 1;</code>
-     * @return The name.
-     */
-    java.lang.String getName();
-    /**
-     * <code>string name = 1;</code>
-     * @return The bytes for name.
-     */
-    com.google.protobuf.ByteString
-        getNameBytes();
-
-    /**
-     * <code>string value = 2;</code>
-     * @return The value.
-     */
-    java.lang.String getValue();
-    /**
-     * <code>string value = 2;</code>
-     * @return The bytes for value.
-     */
-    com.google.protobuf.ByteString
-        getValueBytes();
-  }
-  /**
-   * Protobuf type {@code Ydb.Cms.Attribute}
-   */
-  public static final class Attribute extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Ydb.Cms.Attribute)
-      AttributeOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use Attribute.newBuilder() to construct.
-    private Attribute(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private Attribute() {
-      name_ = "";
-      value_ = "";
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new Attribute();
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private Attribute(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              name_ = s;
-              break;
-            }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              value_ = s;
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_Attribute_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_Attribute_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              tech.ydb.cms.YdbCms.Attribute.class, tech.ydb.cms.YdbCms.Attribute.Builder.class);
-    }
-
-    public static final int NAME_FIELD_NUMBER = 1;
-    private volatile java.lang.Object name_;
-    /**
-     * <code>string name = 1;</code>
-     * @return The name.
-     */
-    @java.lang.Override
-    public java.lang.String getName() {
-      java.lang.Object ref = name_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        name_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string name = 1;</code>
-     * @return The bytes for name.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getNameBytes() {
-      java.lang.Object ref = name_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        name_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int VALUE_FIELD_NUMBER = 2;
-    private volatile java.lang.Object value_;
-    /**
-     * <code>string value = 2;</code>
-     * @return The value.
-     */
-    @java.lang.Override
-    public java.lang.String getValue() {
-      java.lang.Object ref = value_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        value_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string value = 2;</code>
-     * @return The bytes for value.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getValueBytes() {
-      java.lang.Object ref = value_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        value_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (!getNameBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
-      }
-      if (!getValueBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, value_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (!getNameBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
-      }
-      if (!getValueBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, value_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof tech.ydb.cms.YdbCms.Attribute)) {
-        return super.equals(obj);
-      }
-      tech.ydb.cms.YdbCms.Attribute other = (tech.ydb.cms.YdbCms.Attribute) obj;
-
-      if (!getName()
-          .equals(other.getName())) return false;
-      if (!getValue()
-          .equals(other.getValue())) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + NAME_FIELD_NUMBER;
-      hash = (53 * hash) + getName().hashCode();
-      hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + getValue().hashCode();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static tech.ydb.cms.YdbCms.Attribute parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.cms.YdbCms.Attribute parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.cms.YdbCms.Attribute parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.cms.YdbCms.Attribute parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.cms.YdbCms.Attribute parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static tech.ydb.cms.YdbCms.Attribute parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static tech.ydb.cms.YdbCms.Attribute parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.cms.YdbCms.Attribute parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.cms.YdbCms.Attribute parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static tech.ydb.cms.YdbCms.Attribute parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static tech.ydb.cms.YdbCms.Attribute parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static tech.ydb.cms.YdbCms.Attribute parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(tech.ydb.cms.YdbCms.Attribute prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code Ydb.Cms.Attribute}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Ydb.Cms.Attribute)
-        tech.ydb.cms.YdbCms.AttributeOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_Attribute_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_Attribute_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                tech.ydb.cms.YdbCms.Attribute.class, tech.ydb.cms.YdbCms.Attribute.Builder.class);
-      }
-
-      // Construct using tech.ydb.cms.YdbCms.Attribute.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        name_ = "";
-
-        value_ = "";
-
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_Attribute_descriptor;
-      }
-
-      @java.lang.Override
-      public tech.ydb.cms.YdbCms.Attribute getDefaultInstanceForType() {
-        return tech.ydb.cms.YdbCms.Attribute.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public tech.ydb.cms.YdbCms.Attribute build() {
-        tech.ydb.cms.YdbCms.Attribute result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public tech.ydb.cms.YdbCms.Attribute buildPartial() {
-        tech.ydb.cms.YdbCms.Attribute result = new tech.ydb.cms.YdbCms.Attribute(this);
-        result.name_ = name_;
-        result.value_ = value_;
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof tech.ydb.cms.YdbCms.Attribute) {
-          return mergeFrom((tech.ydb.cms.YdbCms.Attribute)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(tech.ydb.cms.YdbCms.Attribute other) {
-        if (other == tech.ydb.cms.YdbCms.Attribute.getDefaultInstance()) return this;
-        if (!other.getName().isEmpty()) {
-          name_ = other.name_;
-          onChanged();
-        }
-        if (!other.getValue().isEmpty()) {
-          value_ = other.value_;
-          onChanged();
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        tech.ydb.cms.YdbCms.Attribute parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (tech.ydb.cms.YdbCms.Attribute) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private java.lang.Object name_ = "";
-      /**
-       * <code>string name = 1;</code>
-       * @return The name.
-       */
-      public java.lang.String getName() {
-        java.lang.Object ref = name_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          name_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string name = 1;</code>
-       * @return The bytes for name.
-       */
-      public com.google.protobuf.ByteString
-          getNameBytes() {
-        java.lang.Object ref = name_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          name_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string name = 1;</code>
-       * @param value The name to set.
-       * @return This builder for chaining.
-       */
-      public Builder setName(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        name_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string name = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearName() {
-        
-        name_ = getDefaultInstance().getName();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string name = 1;</code>
-       * @param value The bytes for name to set.
-       * @return This builder for chaining.
-       */
-      public Builder setNameBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        name_ = value;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object value_ = "";
-      /**
-       * <code>string value = 2;</code>
-       * @return The value.
-       */
-      public java.lang.String getValue() {
-        java.lang.Object ref = value_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          value_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string value = 2;</code>
-       * @return The bytes for value.
-       */
-      public com.google.protobuf.ByteString
-          getValueBytes() {
-        java.lang.Object ref = value_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          value_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string value = 2;</code>
-       * @param value The value to set.
-       * @return This builder for chaining.
-       */
-      public Builder setValue(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        value_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string value = 2;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearValue() {
-        
-        value_ = getDefaultInstance().getValue();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string value = 2;</code>
-       * @param value The bytes for value to set.
-       * @return This builder for chaining.
-       */
-      public Builder setValueBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        value_ = value;
-        onChanged();
-        return this;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:Ydb.Cms.Attribute)
-    }
-
-    // @@protoc_insertion_point(class_scope:Ydb.Cms.Attribute)
-    private static final tech.ydb.cms.YdbCms.Attribute DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new tech.ydb.cms.YdbCms.Attribute();
-    }
-
-    public static tech.ydb.cms.YdbCms.Attribute getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<Attribute>
-        PARSER = new com.google.protobuf.AbstractParser<Attribute>() {
-      @java.lang.Override
-      public Attribute parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Attribute(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<Attribute> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<Attribute> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public tech.ydb.cms.YdbCms.Attribute getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
   public interface SchemaOperationQuotasOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Ydb.Cms.SchemaOperationQuotas)
       com.google.protobuf.MessageOrBuilder {
@@ -8426,24 +7708,7 @@ public final class YdbCms {
      * Attach attributes to database.
      * </pre>
      *
-     * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
-     */
-    java.util.List<tech.ydb.cms.YdbCms.Attribute> 
-        getAttributesList();
-    /**
-     * <pre>
-     * Attach attributes to database.
-     * </pre>
-     *
-     * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
-     */
-    tech.ydb.cms.YdbCms.Attribute getAttributes(int index);
-    /**
-     * <pre>
-     * Attach attributes to database.
-     * </pre>
-     *
-     * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
+     * <code>map&lt;string, string&gt; attributes = 5;</code>
      */
     int getAttributesCount();
     /**
@@ -8451,19 +7716,46 @@ public final class YdbCms {
      * Attach attributes to database.
      * </pre>
      *
-     * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
+     * <code>map&lt;string, string&gt; attributes = 5;</code>
      */
-    java.util.List<? extends tech.ydb.cms.YdbCms.AttributeOrBuilder> 
-        getAttributesOrBuilderList();
+    boolean containsAttributes(
+        java.lang.String key);
+    /**
+     * Use {@link #getAttributesMap()} instead.
+     */
+    @java.lang.Deprecated
+    java.util.Map<java.lang.String, java.lang.String>
+    getAttributes();
     /**
      * <pre>
      * Attach attributes to database.
      * </pre>
      *
-     * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
+     * <code>map&lt;string, string&gt; attributes = 5;</code>
      */
-    tech.ydb.cms.YdbCms.AttributeOrBuilder getAttributesOrBuilder(
-        int index);
+    java.util.Map<java.lang.String, java.lang.String>
+    getAttributesMap();
+    /**
+     * <pre>
+     * Attach attributes to database.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 5;</code>
+     */
+
+    java.lang.String getAttributesOrDefault(
+        java.lang.String key,
+        java.lang.String defaultValue);
+    /**
+     * <pre>
+     * Attach attributes to database.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 5;</code>
+     */
+
+    java.lang.String getAttributesOrThrow(
+        java.lang.String key);
 
     /**
      * <pre>
@@ -8561,7 +7853,6 @@ public final class YdbCms {
     }
     private CreateDatabaseRequest() {
       path_ = "";
-      attributes_ = java.util.Collections.emptyList();
       idempotencyKey_ = "";
     }
 
@@ -8644,11 +7935,15 @@ public final class YdbCms {
             }
             case 42: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                attributes_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.Attribute>();
+                attributes_ = com.google.protobuf.MapField.newMapField(
+                    AttributesDefaultEntryHolder.defaultEntry);
                 mutable_bitField0_ |= 0x00000001;
               }
-              attributes_.add(
-                  input.readMessage(tech.ydb.cms.YdbCms.Attribute.parser(), extensionRegistry));
+              com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+              attributes__ = input.readMessage(
+                  AttributesDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+              attributes_.getMutableMap().put(
+                  attributes__.getKey(), attributes__.getValue());
               break;
             }
             case 50: {
@@ -8726,9 +8021,6 @@ public final class YdbCms {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) != 0)) {
-          attributes_ = java.util.Collections.unmodifiableList(attributes_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -8738,6 +8030,18 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor;
     }
 
+    @SuppressWarnings({"rawtypes"})
+    @java.lang.Override
+    protected com.google.protobuf.MapField internalGetMapField(
+        int number) {
+      switch (number) {
+        case 5:
+          return internalGetAttributes();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
@@ -9029,63 +8333,100 @@ public final class YdbCms {
     }
 
     public static final int ATTRIBUTES_FIELD_NUMBER = 5;
-    private java.util.List<tech.ydb.cms.YdbCms.Attribute> attributes_;
-    /**
-     * <pre>
-     * Attach attributes to database.
-     * </pre>
-     *
-     * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
-     */
-    @java.lang.Override
-    public java.util.List<tech.ydb.cms.YdbCms.Attribute> getAttributesList() {
+    private static final class AttributesDefaultEntryHolder {
+      static final com.google.protobuf.MapEntry<
+          java.lang.String, java.lang.String> defaultEntry =
+              com.google.protobuf.MapEntry
+              .<java.lang.String, java.lang.String>newDefaultInstance(
+                  tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_CreateDatabaseRequest_AttributesEntry_descriptor, 
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "",
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "");
+    }
+    private com.google.protobuf.MapField<
+        java.lang.String, java.lang.String> attributes_;
+    private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+    internalGetAttributes() {
+      if (attributes_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            AttributesDefaultEntryHolder.defaultEntry);
+      }
       return attributes_;
     }
-    /**
-     * <pre>
-     * Attach attributes to database.
-     * </pre>
-     *
-     * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
-     */
-    @java.lang.Override
-    public java.util.List<? extends tech.ydb.cms.YdbCms.AttributeOrBuilder> 
-        getAttributesOrBuilderList() {
-      return attributes_;
-    }
-    /**
-     * <pre>
-     * Attach attributes to database.
-     * </pre>
-     *
-     * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
-     */
-    @java.lang.Override
+
     public int getAttributesCount() {
-      return attributes_.size();
+      return internalGetAttributes().getMap().size();
     }
     /**
      * <pre>
      * Attach attributes to database.
      * </pre>
      *
-     * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
+     * <code>map&lt;string, string&gt; attributes = 5;</code>
+     */
+
+    @java.lang.Override
+    public boolean containsAttributes(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      return internalGetAttributes().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getAttributesMap()} instead.
      */
     @java.lang.Override
-    public tech.ydb.cms.YdbCms.Attribute getAttributes(int index) {
-      return attributes_.get(index);
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, java.lang.String> getAttributes() {
+      return getAttributesMap();
     }
     /**
      * <pre>
      * Attach attributes to database.
      * </pre>
      *
-     * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
+     * <code>map&lt;string, string&gt; attributes = 5;</code>
      */
     @java.lang.Override
-    public tech.ydb.cms.YdbCms.AttributeOrBuilder getAttributesOrBuilder(
-        int index) {
-      return attributes_.get(index);
+
+    public java.util.Map<java.lang.String, java.lang.String> getAttributesMap() {
+      return internalGetAttributes().getMap();
+    }
+    /**
+     * <pre>
+     * Attach attributes to database.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 5;</code>
+     */
+    @java.lang.Override
+
+    public java.lang.String getAttributesOrDefault(
+        java.lang.String key,
+        java.lang.String defaultValue) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, java.lang.String> map =
+          internalGetAttributes().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <pre>
+     * Attach attributes to database.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; attributes = 5;</code>
+     */
+    @java.lang.Override
+
+    public java.lang.String getAttributesOrThrow(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, java.lang.String> map =
+          internalGetAttributes().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
     }
 
     public static final int SCHEMA_OPERATION_QUOTAS_FIELD_NUMBER = 8;
@@ -9236,9 +8577,12 @@ public final class YdbCms {
       if (options_ != null) {
         output.writeMessage(4, getOptions());
       }
-      for (int i = 0; i < attributes_.size(); i++) {
-        output.writeMessage(5, attributes_.get(i));
-      }
+      com.google.protobuf.GeneratedMessageV3
+        .serializeStringMapTo(
+          output,
+          internalGetAttributes(),
+          AttributesDefaultEntryHolder.defaultEntry,
+          5);
       if (resourcesKindCase_ == 6) {
         output.writeMessage(6, (tech.ydb.cms.YdbCms.Resources) resourcesKind_);
       }
@@ -9278,9 +8622,15 @@ public final class YdbCms {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, getOptions());
       }
-      for (int i = 0; i < attributes_.size(); i++) {
+      for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
+           : internalGetAttributes().getMap().entrySet()) {
+        com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+        attributes__ = AttributesDefaultEntryHolder.defaultEntry.newBuilderForType()
+            .setKey(entry.getKey())
+            .setValue(entry.getValue())
+            .build();
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, attributes_.get(i));
+            .computeMessageSize(5, attributes__);
       }
       if (resourcesKindCase_ == 6) {
         size += com.google.protobuf.CodedOutputStream
@@ -9328,8 +8678,8 @@ public final class YdbCms {
         if (!getOptions()
             .equals(other.getOptions())) return false;
       }
-      if (!getAttributesList()
-          .equals(other.getAttributesList())) return false;
+      if (!internalGetAttributes().equals(
+          other.internalGetAttributes())) return false;
       if (hasSchemaOperationQuotas() != other.hasSchemaOperationQuotas()) return false;
       if (hasSchemaOperationQuotas()) {
         if (!getSchemaOperationQuotas()
@@ -9380,9 +8730,9 @@ public final class YdbCms {
         hash = (37 * hash) + OPTIONS_FIELD_NUMBER;
         hash = (53 * hash) + getOptions().hashCode();
       }
-      if (getAttributesCount() > 0) {
+      if (!internalGetAttributes().getMap().isEmpty()) {
         hash = (37 * hash) + ATTRIBUTES_FIELD_NUMBER;
-        hash = (53 * hash) + getAttributesList().hashCode();
+        hash = (53 * hash) + internalGetAttributes().hashCode();
       }
       if (hasSchemaOperationQuotas()) {
         hash = (37 * hash) + SCHEMA_OPERATION_QUOTAS_FIELD_NUMBER;
@@ -9523,6 +8873,28 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor;
       }
 
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMapField(
+          int number) {
+        switch (number) {
+          case 5:
+            return internalGetAttributes();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMutableMapField(
+          int number) {
+        switch (number) {
+          case 5:
+            return internalGetMutableAttributes();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
@@ -9544,7 +8916,6 @@ public final class YdbCms {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
-          getAttributesFieldBuilder();
         }
       }
       @java.lang.Override
@@ -9564,12 +8935,7 @@ public final class YdbCms {
           options_ = null;
           optionsBuilder_ = null;
         }
-        if (attributesBuilder_ == null) {
-          attributes_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        } else {
-          attributesBuilder_.clear();
-        }
+        internalGetMutableAttributes().clear();
         if (schemaOperationQuotasBuilder_ == null) {
           schemaOperationQuotas_ = null;
         } else {
@@ -9645,15 +9011,8 @@ public final class YdbCms {
         } else {
           result.options_ = optionsBuilder_.build();
         }
-        if (attributesBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) != 0)) {
-            attributes_ = java.util.Collections.unmodifiableList(attributes_);
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.attributes_ = attributes_;
-        } else {
-          result.attributes_ = attributesBuilder_.build();
-        }
+        result.attributes_ = internalGetAttributes();
+        result.attributes_.makeImmutable();
         if (schemaOperationQuotasBuilder_ == null) {
           result.schemaOperationQuotas_ = schemaOperationQuotas_;
         } else {
@@ -9724,32 +9083,8 @@ public final class YdbCms {
         if (other.hasOptions()) {
           mergeOptions(other.getOptions());
         }
-        if (attributesBuilder_ == null) {
-          if (!other.attributes_.isEmpty()) {
-            if (attributes_.isEmpty()) {
-              attributes_ = other.attributes_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-            } else {
-              ensureAttributesIsMutable();
-              attributes_.addAll(other.attributes_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.attributes_.isEmpty()) {
-            if (attributesBuilder_.isEmpty()) {
-              attributesBuilder_.dispose();
-              attributesBuilder_ = null;
-              attributes_ = other.attributes_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-              attributesBuilder_ = 
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getAttributesFieldBuilder() : null;
-            } else {
-              attributesBuilder_.addAllMessages(other.attributes_);
-            }
-          }
-        }
+        internalGetMutableAttributes().mergeFrom(
+            other.internalGetAttributes());
         if (other.hasSchemaOperationQuotas()) {
           mergeSchemaOperationQuotas(other.getSchemaOperationQuotas());
         }
@@ -10723,210 +10058,106 @@ public final class YdbCms {
         return optionsBuilder_;
       }
 
-      private java.util.List<tech.ydb.cms.YdbCms.Attribute> attributes_ =
-        java.util.Collections.emptyList();
-      private void ensureAttributesIsMutable() {
-        if (!((bitField0_ & 0x00000001) != 0)) {
-          attributes_ = new java.util.ArrayList<tech.ydb.cms.YdbCms.Attribute>(attributes_);
-          bitField0_ |= 0x00000001;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          tech.ydb.cms.YdbCms.Attribute, tech.ydb.cms.YdbCms.Attribute.Builder, tech.ydb.cms.YdbCms.AttributeOrBuilder> attributesBuilder_;
-
-      /**
-       * <pre>
-       * Attach attributes to database.
-       * </pre>
-       *
-       * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
-       */
-      public java.util.List<tech.ydb.cms.YdbCms.Attribute> getAttributesList() {
-        if (attributesBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(attributes_);
-        } else {
-          return attributesBuilder_.getMessageList();
+      private com.google.protobuf.MapField<
+          java.lang.String, java.lang.String> attributes_;
+      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+      internalGetAttributes() {
+        if (attributes_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              AttributesDefaultEntryHolder.defaultEntry);
         }
+        return attributes_;
       }
-      /**
-       * <pre>
-       * Attach attributes to database.
-       * </pre>
-       *
-       * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
-       */
+      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+      internalGetMutableAttributes() {
+        onChanged();;
+        if (attributes_ == null) {
+          attributes_ = com.google.protobuf.MapField.newMapField(
+              AttributesDefaultEntryHolder.defaultEntry);
+        }
+        if (!attributes_.isMutable()) {
+          attributes_ = attributes_.copy();
+        }
+        return attributes_;
+      }
+
       public int getAttributesCount() {
-        if (attributesBuilder_ == null) {
-          return attributes_.size();
-        } else {
-          return attributesBuilder_.getCount();
-        }
+        return internalGetAttributes().getMap().size();
       }
       /**
        * <pre>
        * Attach attributes to database.
        * </pre>
        *
-       * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
+       * <code>map&lt;string, string&gt; attributes = 5;</code>
        */
-      public tech.ydb.cms.YdbCms.Attribute getAttributes(int index) {
-        if (attributesBuilder_ == null) {
-          return attributes_.get(index);
-        } else {
-          return attributesBuilder_.getMessage(index);
-        }
+
+      @java.lang.Override
+      public boolean containsAttributes(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        return internalGetAttributes().getMap().containsKey(key);
+      }
+      /**
+       * Use {@link #getAttributesMap()} instead.
+       */
+      @java.lang.Override
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.String> getAttributes() {
+        return getAttributesMap();
       }
       /**
        * <pre>
        * Attach attributes to database.
        * </pre>
        *
-       * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
+       * <code>map&lt;string, string&gt; attributes = 5;</code>
        */
-      public Builder setAttributes(
-          int index, tech.ydb.cms.YdbCms.Attribute value) {
-        if (attributesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureAttributesIsMutable();
-          attributes_.set(index, value);
-          onChanged();
-        } else {
-          attributesBuilder_.setMessage(index, value);
-        }
-        return this;
+      @java.lang.Override
+
+      public java.util.Map<java.lang.String, java.lang.String> getAttributesMap() {
+        return internalGetAttributes().getMap();
       }
       /**
        * <pre>
        * Attach attributes to database.
        * </pre>
        *
-       * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
+       * <code>map&lt;string, string&gt; attributes = 5;</code>
        */
-      public Builder setAttributes(
-          int index, tech.ydb.cms.YdbCms.Attribute.Builder builderForValue) {
-        if (attributesBuilder_ == null) {
-          ensureAttributesIsMutable();
-          attributes_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          attributesBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
+      @java.lang.Override
+
+      public java.lang.String getAttributesOrDefault(
+          java.lang.String key,
+          java.lang.String defaultValue) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetAttributes().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
       }
       /**
        * <pre>
        * Attach attributes to database.
        * </pre>
        *
-       * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
+       * <code>map&lt;string, string&gt; attributes = 5;</code>
        */
-      public Builder addAttributes(tech.ydb.cms.YdbCms.Attribute value) {
-        if (attributesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureAttributesIsMutable();
-          attributes_.add(value);
-          onChanged();
-        } else {
-          attributesBuilder_.addMessage(value);
+      @java.lang.Override
+
+      public java.lang.String getAttributesOrThrow(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetAttributes().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
         }
-        return this;
+        return map.get(key);
       }
-      /**
-       * <pre>
-       * Attach attributes to database.
-       * </pre>
-       *
-       * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
-       */
-      public Builder addAttributes(
-          int index, tech.ydb.cms.YdbCms.Attribute value) {
-        if (attributesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureAttributesIsMutable();
-          attributes_.add(index, value);
-          onChanged();
-        } else {
-          attributesBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <pre>
-       * Attach attributes to database.
-       * </pre>
-       *
-       * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
-       */
-      public Builder addAttributes(
-          tech.ydb.cms.YdbCms.Attribute.Builder builderForValue) {
-        if (attributesBuilder_ == null) {
-          ensureAttributesIsMutable();
-          attributes_.add(builderForValue.build());
-          onChanged();
-        } else {
-          attributesBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <pre>
-       * Attach attributes to database.
-       * </pre>
-       *
-       * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
-       */
-      public Builder addAttributes(
-          int index, tech.ydb.cms.YdbCms.Attribute.Builder builderForValue) {
-        if (attributesBuilder_ == null) {
-          ensureAttributesIsMutable();
-          attributes_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          attributesBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <pre>
-       * Attach attributes to database.
-       * </pre>
-       *
-       * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
-       */
-      public Builder addAllAttributes(
-          java.lang.Iterable<? extends tech.ydb.cms.YdbCms.Attribute> values) {
-        if (attributesBuilder_ == null) {
-          ensureAttributesIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, attributes_);
-          onChanged();
-        } else {
-          attributesBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <pre>
-       * Attach attributes to database.
-       * </pre>
-       *
-       * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
-       */
+
       public Builder clearAttributes() {
-        if (attributesBuilder_ == null) {
-          attributes_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-        } else {
-          attributesBuilder_.clear();
-        }
+        internalGetMutableAttributes().getMutableMap()
+            .clear();
         return this;
       }
       /**
@@ -10934,16 +10165,38 @@ public final class YdbCms {
        * Attach attributes to database.
        * </pre>
        *
-       * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
+       * <code>map&lt;string, string&gt; attributes = 5;</code>
        */
-      public Builder removeAttributes(int index) {
-        if (attributesBuilder_ == null) {
-          ensureAttributesIsMutable();
-          attributes_.remove(index);
-          onChanged();
-        } else {
-          attributesBuilder_.remove(index);
-        }
+
+      public Builder removeAttributes(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        internalGetMutableAttributes().getMutableMap()
+            .remove(key);
+        return this;
+      }
+      /**
+       * Use alternate mutation accessors instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.String>
+      getMutableAttributes() {
+        return internalGetMutableAttributes().getMutableMap();
+      }
+      /**
+       * <pre>
+       * Attach attributes to database.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; attributes = 5;</code>
+       */
+      public Builder putAttributes(
+          java.lang.String key,
+          java.lang.String value) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        if (value == null) { throw new java.lang.NullPointerException(); }
+        internalGetMutableAttributes().getMutableMap()
+            .put(key, value);
         return this;
       }
       /**
@@ -10951,88 +10204,14 @@ public final class YdbCms {
        * Attach attributes to database.
        * </pre>
        *
-       * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
+       * <code>map&lt;string, string&gt; attributes = 5;</code>
        */
-      public tech.ydb.cms.YdbCms.Attribute.Builder getAttributesBuilder(
-          int index) {
-        return getAttributesFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <pre>
-       * Attach attributes to database.
-       * </pre>
-       *
-       * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
-       */
-      public tech.ydb.cms.YdbCms.AttributeOrBuilder getAttributesOrBuilder(
-          int index) {
-        if (attributesBuilder_ == null) {
-          return attributes_.get(index);  } else {
-          return attributesBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <pre>
-       * Attach attributes to database.
-       * </pre>
-       *
-       * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
-       */
-      public java.util.List<? extends tech.ydb.cms.YdbCms.AttributeOrBuilder> 
-           getAttributesOrBuilderList() {
-        if (attributesBuilder_ != null) {
-          return attributesBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(attributes_);
-        }
-      }
-      /**
-       * <pre>
-       * Attach attributes to database.
-       * </pre>
-       *
-       * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
-       */
-      public tech.ydb.cms.YdbCms.Attribute.Builder addAttributesBuilder() {
-        return getAttributesFieldBuilder().addBuilder(
-            tech.ydb.cms.YdbCms.Attribute.getDefaultInstance());
-      }
-      /**
-       * <pre>
-       * Attach attributes to database.
-       * </pre>
-       *
-       * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
-       */
-      public tech.ydb.cms.YdbCms.Attribute.Builder addAttributesBuilder(
-          int index) {
-        return getAttributesFieldBuilder().addBuilder(
-            index, tech.ydb.cms.YdbCms.Attribute.getDefaultInstance());
-      }
-      /**
-       * <pre>
-       * Attach attributes to database.
-       * </pre>
-       *
-       * <code>repeated .Ydb.Cms.Attribute attributes = 5;</code>
-       */
-      public java.util.List<tech.ydb.cms.YdbCms.Attribute.Builder> 
-           getAttributesBuilderList() {
-        return getAttributesFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          tech.ydb.cms.YdbCms.Attribute, tech.ydb.cms.YdbCms.Attribute.Builder, tech.ydb.cms.YdbCms.AttributeOrBuilder> 
-          getAttributesFieldBuilder() {
-        if (attributesBuilder_ == null) {
-          attributesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              tech.ydb.cms.YdbCms.Attribute, tech.ydb.cms.YdbCms.Attribute.Builder, tech.ydb.cms.YdbCms.AttributeOrBuilder>(
-                  attributes_,
-                  ((bitField0_ & 0x00000001) != 0),
-                  getParentForChildren(),
-                  isClean());
-          attributes_ = null;
-        }
-        return attributesBuilder_;
+
+      public Builder putAllAttributes(
+          java.util.Map<java.lang.String, java.lang.String> values) {
+        internalGetMutableAttributes().getMutableMap()
+            .putAll(values);
+        return this;
       }
 
       private tech.ydb.cms.YdbCms.SchemaOperationQuotas schemaOperationQuotas_;
@@ -17105,6 +16284,60 @@ public final class YdbCms {
      * <code>.Ydb.Cms.DatabaseQuotas database_quotas = 11;</code>
      */
     tech.ydb.cms.YdbCms.DatabaseQuotasOrBuilder getDatabaseQuotasOrBuilder();
+
+    /**
+     * <pre>
+     * Alter attributes. Leave the value blank to drop an attribute.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; alter_attributes = 12;</code>
+     */
+    int getAlterAttributesCount();
+    /**
+     * <pre>
+     * Alter attributes. Leave the value blank to drop an attribute.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; alter_attributes = 12;</code>
+     */
+    boolean containsAlterAttributes(
+        java.lang.String key);
+    /**
+     * Use {@link #getAlterAttributesMap()} instead.
+     */
+    @java.lang.Deprecated
+    java.util.Map<java.lang.String, java.lang.String>
+    getAlterAttributes();
+    /**
+     * <pre>
+     * Alter attributes. Leave the value blank to drop an attribute.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; alter_attributes = 12;</code>
+     */
+    java.util.Map<java.lang.String, java.lang.String>
+    getAlterAttributesMap();
+    /**
+     * <pre>
+     * Alter attributes. Leave the value blank to drop an attribute.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; alter_attributes = 12;</code>
+     */
+
+    java.lang.String getAlterAttributesOrDefault(
+        java.lang.String key,
+        java.lang.String defaultValue);
+    /**
+     * <pre>
+     * Alter attributes. Leave the value blank to drop an attribute.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; alter_attributes = 12;</code>
+     */
+
+    java.lang.String getAlterAttributesOrThrow(
+        java.lang.String key);
   }
   /**
    * <pre>
@@ -17264,6 +16497,19 @@ public final class YdbCms {
 
               break;
             }
+            case 98: {
+              if (!((mutable_bitField0_ & 0x00000020) != 0)) {
+                alterAttributes_ = com.google.protobuf.MapField.newMapField(
+                    AlterAttributesDefaultEntryHolder.defaultEntry);
+                mutable_bitField0_ |= 0x00000020;
+              }
+              com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+              alterAttributes__ = input.readMessage(
+                  AlterAttributesDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+              alterAttributes_.getMutableMap().put(
+                  alterAttributes__.getKey(), alterAttributes__.getValue());
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -17303,6 +16549,18 @@ public final class YdbCms {
       return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AlterDatabaseRequest_descriptor;
     }
 
+    @SuppressWarnings({"rawtypes"})
+    @java.lang.Override
+    protected com.google.protobuf.MapField internalGetMapField(
+        int number) {
+      switch (number) {
+        case 12:
+          return internalGetAlterAttributes();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
@@ -17832,6 +17090,103 @@ public final class YdbCms {
       return getDatabaseQuotas();
     }
 
+    public static final int ALTER_ATTRIBUTES_FIELD_NUMBER = 12;
+    private static final class AlterAttributesDefaultEntryHolder {
+      static final com.google.protobuf.MapEntry<
+          java.lang.String, java.lang.String> defaultEntry =
+              com.google.protobuf.MapEntry
+              .<java.lang.String, java.lang.String>newDefaultInstance(
+                  tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AlterDatabaseRequest_AlterAttributesEntry_descriptor, 
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "",
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "");
+    }
+    private com.google.protobuf.MapField<
+        java.lang.String, java.lang.String> alterAttributes_;
+    private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+    internalGetAlterAttributes() {
+      if (alterAttributes_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            AlterAttributesDefaultEntryHolder.defaultEntry);
+      }
+      return alterAttributes_;
+    }
+
+    public int getAlterAttributesCount() {
+      return internalGetAlterAttributes().getMap().size();
+    }
+    /**
+     * <pre>
+     * Alter attributes. Leave the value blank to drop an attribute.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; alter_attributes = 12;</code>
+     */
+
+    @java.lang.Override
+    public boolean containsAlterAttributes(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      return internalGetAlterAttributes().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getAlterAttributesMap()} instead.
+     */
+    @java.lang.Override
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, java.lang.String> getAlterAttributes() {
+      return getAlterAttributesMap();
+    }
+    /**
+     * <pre>
+     * Alter attributes. Leave the value blank to drop an attribute.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; alter_attributes = 12;</code>
+     */
+    @java.lang.Override
+
+    public java.util.Map<java.lang.String, java.lang.String> getAlterAttributesMap() {
+      return internalGetAlterAttributes().getMap();
+    }
+    /**
+     * <pre>
+     * Alter attributes. Leave the value blank to drop an attribute.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; alter_attributes = 12;</code>
+     */
+    @java.lang.Override
+
+    public java.lang.String getAlterAttributesOrDefault(
+        java.lang.String key,
+        java.lang.String defaultValue) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, java.lang.String> map =
+          internalGetAlterAttributes().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <pre>
+     * Alter attributes. Leave the value blank to drop an attribute.
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; alter_attributes = 12;</code>
+     */
+    @java.lang.Override
+
+    public java.lang.String getAlterAttributesOrThrow(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, java.lang.String> map =
+          internalGetAlterAttributes().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -17879,6 +17234,12 @@ public final class YdbCms {
       if (databaseQuotas_ != null) {
         output.writeMessage(11, getDatabaseQuotas());
       }
+      com.google.protobuf.GeneratedMessageV3
+        .serializeStringMapTo(
+          output,
+          internalGetAlterAttributes(),
+          AlterAttributesDefaultEntryHolder.defaultEntry,
+          12);
       unknownFields.writeTo(output);
     }
 
@@ -17930,6 +17291,16 @@ public final class YdbCms {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(11, getDatabaseQuotas());
       }
+      for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
+           : internalGetAlterAttributes().getMap().entrySet()) {
+        com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+        alterAttributes__ = AlterAttributesDefaultEntryHolder.defaultEntry.newBuilderForType()
+            .setKey(entry.getKey())
+            .setValue(entry.getValue())
+            .build();
+        size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(12, alterAttributes__);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -17976,6 +17347,8 @@ public final class YdbCms {
         if (!getDatabaseQuotas()
             .equals(other.getDatabaseQuotas())) return false;
       }
+      if (!internalGetAlterAttributes().equals(
+          other.internalGetAlterAttributes())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -18025,6 +17398,10 @@ public final class YdbCms {
       if (hasDatabaseQuotas()) {
         hash = (37 * hash) + DATABASE_QUOTAS_FIELD_NUMBER;
         hash = (53 * hash) + getDatabaseQuotas().hashCode();
+      }
+      if (!internalGetAlterAttributes().getMap().isEmpty()) {
+        hash = (37 * hash) + ALTER_ATTRIBUTES_FIELD_NUMBER;
+        hash = (53 * hash) + internalGetAlterAttributes().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -18137,6 +17514,28 @@ public final class YdbCms {
         return tech.ydb.cms.YdbCms.internal_static_Ydb_Cms_AlterDatabaseRequest_descriptor;
       }
 
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMapField(
+          int number) {
+        switch (number) {
+          case 12:
+            return internalGetAlterAttributes();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMutableMapField(
+          int number) {
+        switch (number) {
+          case 12:
+            return internalGetMutableAlterAttributes();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
@@ -18222,6 +17621,7 @@ public final class YdbCms {
           databaseQuotas_ = null;
           databaseQuotasBuilder_ = null;
         }
+        internalGetMutableAlterAttributes().clear();
         return this;
       }
 
@@ -18312,6 +17712,8 @@ public final class YdbCms {
         } else {
           result.databaseQuotas_ = databaseQuotasBuilder_.build();
         }
+        result.alterAttributes_ = internalGetAlterAttributes();
+        result.alterAttributes_.makeImmutable();
         onBuilt();
         return result;
       }
@@ -18510,6 +17912,8 @@ public final class YdbCms {
         if (other.hasDatabaseQuotas()) {
           mergeDatabaseQuotas(other.getDatabaseQuotas());
         }
+        internalGetMutableAlterAttributes().mergeFrom(
+            other.internalGetAlterAttributes());
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -20798,6 +20202,162 @@ public final class YdbCms {
           databaseQuotas_ = null;
         }
         return databaseQuotasBuilder_;
+      }
+
+      private com.google.protobuf.MapField<
+          java.lang.String, java.lang.String> alterAttributes_;
+      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+      internalGetAlterAttributes() {
+        if (alterAttributes_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              AlterAttributesDefaultEntryHolder.defaultEntry);
+        }
+        return alterAttributes_;
+      }
+      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+      internalGetMutableAlterAttributes() {
+        onChanged();;
+        if (alterAttributes_ == null) {
+          alterAttributes_ = com.google.protobuf.MapField.newMapField(
+              AlterAttributesDefaultEntryHolder.defaultEntry);
+        }
+        if (!alterAttributes_.isMutable()) {
+          alterAttributes_ = alterAttributes_.copy();
+        }
+        return alterAttributes_;
+      }
+
+      public int getAlterAttributesCount() {
+        return internalGetAlterAttributes().getMap().size();
+      }
+      /**
+       * <pre>
+       * Alter attributes. Leave the value blank to drop an attribute.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; alter_attributes = 12;</code>
+       */
+
+      @java.lang.Override
+      public boolean containsAlterAttributes(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        return internalGetAlterAttributes().getMap().containsKey(key);
+      }
+      /**
+       * Use {@link #getAlterAttributesMap()} instead.
+       */
+      @java.lang.Override
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.String> getAlterAttributes() {
+        return getAlterAttributesMap();
+      }
+      /**
+       * <pre>
+       * Alter attributes. Leave the value blank to drop an attribute.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; alter_attributes = 12;</code>
+       */
+      @java.lang.Override
+
+      public java.util.Map<java.lang.String, java.lang.String> getAlterAttributesMap() {
+        return internalGetAlterAttributes().getMap();
+      }
+      /**
+       * <pre>
+       * Alter attributes. Leave the value blank to drop an attribute.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; alter_attributes = 12;</code>
+       */
+      @java.lang.Override
+
+      public java.lang.String getAlterAttributesOrDefault(
+          java.lang.String key,
+          java.lang.String defaultValue) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetAlterAttributes().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <pre>
+       * Alter attributes. Leave the value blank to drop an attribute.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; alter_attributes = 12;</code>
+       */
+      @java.lang.Override
+
+      public java.lang.String getAlterAttributesOrThrow(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetAlterAttributes().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
+      }
+
+      public Builder clearAlterAttributes() {
+        internalGetMutableAlterAttributes().getMutableMap()
+            .clear();
+        return this;
+      }
+      /**
+       * <pre>
+       * Alter attributes. Leave the value blank to drop an attribute.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; alter_attributes = 12;</code>
+       */
+
+      public Builder removeAlterAttributes(
+          java.lang.String key) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        internalGetMutableAlterAttributes().getMutableMap()
+            .remove(key);
+        return this;
+      }
+      /**
+       * Use alternate mutation accessors instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.String>
+      getMutableAlterAttributes() {
+        return internalGetMutableAlterAttributes().getMutableMap();
+      }
+      /**
+       * <pre>
+       * Alter attributes. Leave the value blank to drop an attribute.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; alter_attributes = 12;</code>
+       */
+      public Builder putAlterAttributes(
+          java.lang.String key,
+          java.lang.String value) {
+        if (key == null) { throw new java.lang.NullPointerException(); }
+        if (value == null) { throw new java.lang.NullPointerException(); }
+        internalGetMutableAlterAttributes().getMutableMap()
+            .put(key, value);
+        return this;
+      }
+      /**
+       * <pre>
+       * Alter attributes. Leave the value blank to drop an attribute.
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; alter_attributes = 12;</code>
+       */
+
+      public Builder putAllAlterAttributes(
+          java.util.Map<java.lang.String, java.lang.String> values) {
+        internalGetMutableAlterAttributes().getMutableMap()
+            .putAll(values);
+        return this;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -30728,11 +30288,6 @@ public final class YdbCms {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Cms_DatabaseOptions_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Ydb_Cms_Attribute_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Ydb_Cms_Attribute_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Cms_SchemaOperationQuotas_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -30752,6 +30307,11 @@ public final class YdbCms {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Cms_CreateDatabaseRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Cms_CreateDatabaseRequest_AttributesEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Cms_CreateDatabaseRequest_AttributesEntry_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Cms_CreateDatabaseResponse_descriptor;
   private static final 
@@ -30777,6 +30337,11 @@ public final class YdbCms {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Ydb_Cms_AlterDatabaseRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Ydb_Cms_AlterDatabaseRequest_AlterAttributesEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Ydb_Cms_AlterDatabaseRequest_AlterAttributesEntry_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Ydb_Cms_AlterDatabaseResponse_descriptor;
   private static final 
@@ -30875,100 +30440,104 @@ public final class YdbCms {
       "urces\022\034\n\024shared_database_path\030\001 \001(\t\"j\n\017D" +
       "atabaseOptions\022\032\n\022disable_tx_service\030\001 \001" +
       "(\010\022\"\n\032disable_external_subdomain\030\002 \001(\010\022\027" +
-      "\n\017plan_resolution\030\003 \001(\r\"(\n\tAttribute\022\014\n\004" +
-      "name\030\001 \001(\t\022\r\n\005value\030\002 \001(\t\"\234\001\n\025SchemaOper" +
-      "ationQuotas\022G\n\023leaky_bucket_quotas\030\001 \003(\013" +
-      "2*.Ydb.Cms.SchemaOperationQuotas.LeakyBu" +
-      "cket\032:\n\013LeakyBucket\022\023\n\013bucket_size\030\001 \001(\001" +
-      "\022\026\n\016bucket_seconds\030\002 \001(\004\"\224\001\n\016DatabaseQuo" +
-      "tas\022\034\n\024data_size_hard_quota\030\001 \001(\004\022\034\n\024dat" +
-      "a_size_soft_quota\030\002 \001(\004\022 \n\030data_stream_s" +
-      "hards_quota\030\003 \001(\004\022$\n\034ttl_min_run_interna" +
-      "l_seconds\030\004 \001(\r\"\350\003\n\025CreateDatabaseReques" +
-      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
-      "ions.OperationParams\022\014\n\004path\030\002 \001(\t\022\'\n\tre" +
-      "sources\030\003 \001(\0132\022.Ydb.Cms.ResourcesH\000\022.\n\020s" +
-      "hared_resources\030\006 \001(\0132\022.Ydb.Cms.Resource" +
-      "sH\000\022<\n\024serverless_resources\030\007 \001(\0132\034.Ydb." +
-      "Cms.ServerlessResourcesH\000\022)\n\007options\030\004 \001" +
-      "(\0132\030.Ydb.Cms.DatabaseOptions\022&\n\nattribut" +
-      "es\030\005 \003(\0132\022.Ydb.Cms.Attribute\022?\n\027schema_o" +
-      "peration_quotas\030\010 \001(\0132\036.Ydb.Cms.SchemaOp" +
-      "erationQuotas\022\027\n\017idempotency_key\030\t \001(\t\0220" +
-      "\n\017database_quotas\030\n \001(\0132\027.Ydb.Cms.Databa" +
-      "seQuotasB\020\n\016resources_kind\"F\n\026CreateData" +
-      "baseResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
-      "erations.Operation\"c\n\030GetDatabaseStatusR" +
-      "equest\022\014\n\004path\030\001 \001(\t\0229\n\020operation_params" +
-      "\030\002 \001(\0132\037.Ydb.Operations.OperationParams\"" +
-      "I\n\031GetDatabaseStatusResponse\022,\n\toperatio" +
-      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\205\005\n\027G" +
-      "etDatabaseStatusResult\022\014\n\004path\030\001 \001(\t\0225\n\005" +
-      "state\030\002 \001(\0162&.Ydb.Cms.GetDatabaseStatusR" +
-      "esult.State\0220\n\022required_resources\030\003 \001(\0132" +
-      "\022.Ydb.Cms.ResourcesH\000\0227\n\031required_shared" +
-      "_resources\030\007 \001(\0132\022.Ydb.Cms.ResourcesH\000\022<" +
-      "\n\024serverless_resources\030\010 \001(\0132\034.Ydb.Cms.S" +
-      "erverlessResourcesH\000\022/\n\023allocated_resour" +
-      "ces\030\004 \001(\0132\022.Ydb.Cms.Resources\022A\n\024registe" +
-      "red_resources\030\005 \003(\0132#.Ydb.Cms.AllocatedC" +
-      "omputationalUnit\022\022\n\ngeneration\030\006 \001(\004\022?\n\027" +
-      "schema_operation_quotas\030\t \001(\0132\036.Ydb.Cms." +
-      "SchemaOperationQuotas\0220\n\017database_quotas" +
-      "\030\n \001(\0132\027.Ydb.Cms.DatabaseQuotas\"o\n\005State" +
-      "\022\025\n\021STATE_UNSPECIFIED\020\000\022\014\n\010CREATING\020\001\022\013\n" +
-      "\007RUNNING\020\002\022\014\n\010REMOVING\020\003\022\025\n\021PENDING_RESO" +
-      "URCES\020\004\022\017\n\013CONFIGURING\020\005B\020\n\016resources_ki" +
-      "nd\"\327\004\n\024AlterDatabaseRequest\022\014\n\004path\030\001 \001(" +
-      "\t\022?\n\032computational_units_to_add\030\002 \003(\0132\033." +
-      "Ydb.Cms.ComputationalUnits\022B\n\035computatio" +
-      "nal_units_to_remove\030\003 \003(\0132\033.Ydb.Cms.Comp" +
-      "utationalUnits\0223\n\024storage_units_to_add\030\004" +
-      " \003(\0132\025.Ydb.Cms.StorageUnits\022L\n\037computati" +
-      "onal_units_to_register\030\005 \003(\0132#.Ydb.Cms.A" +
-      "llocatedComputationalUnit\022N\n!computation" +
-      "al_units_to_deregister\030\006 \003(\0132#.Ydb.Cms.A" +
-      "llocatedComputationalUnit\0229\n\020operation_p" +
-      "arams\030\007 \001(\0132\037.Ydb.Operations.OperationPa" +
-      "rams\022\022\n\ngeneration\030\010 \001(\004\022?\n\027schema_opera" +
-      "tion_quotas\030\t \001(\0132\036.Ydb.Cms.SchemaOperat" +
-      "ionQuotas\022\027\n\017idempotency_key\030\n \001(\t\0220\n\017da" +
-      "tabase_quotas\030\013 \001(\0132\027.Ydb.Cms.DatabaseQu" +
-      "otas\"E\n\025AlterDatabaseResponse\022,\n\toperati" +
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"Q\n\024L" +
-      "istDatabasesRequest\0229\n\020operation_params\030" +
-      "\001 \001(\0132\037.Ydb.Operations.OperationParams\"E" +
-      "\n\025ListDatabasesResponse\022,\n\toperation\030\001 \001" +
-      "(\0132\031.Ydb.Operations.Operation\"$\n\023ListDat" +
-      "abasesResult\022\r\n\005paths\030\001 \003(\t\"`\n\025RemoveDat" +
-      "abaseRequest\022\014\n\004path\030\001 \001(\t\0229\n\020operation_" +
-      "params\030\002 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\"F\n\026RemoveDatabaseResponse\022,\n\topera" +
-      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\222\001" +
-      "\n\026StorageUnitDescription\022\014\n\004kind\030\001 \001(\t\022;" +
-      "\n\006labels\030\002 \003(\0132+.Ydb.Cms.StorageUnitDesc" +
-      "ription.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003ke" +
-      "y\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\234\001\n\033Availabil" +
-      "ityZoneDescription\022\014\n\004name\030\001 \001(\t\022@\n\006labe" +
-      "ls\030\002 \003(\01320.Ydb.Cms.AvailabilityZoneDescr" +
-      "iption.LabelsEntry\032-\n\013LabelsEntry\022\013\n\003key" +
-      "\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\302\001\n\034Computatio" +
-      "nalUnitDescription\022\014\n\004kind\030\001 \001(\t\022A\n\006labe" +
-      "ls\030\002 \003(\01321.Ydb.Cms.ComputationalUnitDesc" +
-      "ription.LabelsEntry\022\"\n\032allowed_availabil" +
-      "ity_zones\030\003 \003(\t\032-\n\013LabelsEntry\022\013\n\003key\030\001 " +
-      "\001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"[\n\036DescribeDataba" +
-      "seOptionsRequest\0229\n\020operation_params\030\001 \001" +
-      "(\0132\037.Ydb.Operations.OperationParams\"O\n\037D" +
-      "escribeDatabaseOptionsResponse\022,\n\toperat" +
-      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\335\001\n" +
-      "\035DescribeDatabaseOptionsResult\0226\n\rstorag" +
-      "e_units\030\001 \003(\0132\037.Ydb.Cms.StorageUnitDescr" +
-      "iption\022@\n\022availability_zones\030\002 \003(\0132$.Ydb" +
-      ".Cms.AvailabilityZoneDescription\022B\n\023comp" +
-      "utational_units\030\003 \003(\0132%.Ydb.Cms.Computat" +
-      "ionalUnitDescriptionB\027\n\022tech.ydb.c" +
-      "ms\370\001\001b\006proto3"
+      "\n\017plan_resolution\030\003 \001(\r\"\234\001\n\025SchemaOperat" +
+      "ionQuotas\022G\n\023leaky_bucket_quotas\030\001 \003(\0132*" +
+      ".Ydb.Cms.SchemaOperationQuotas.LeakyBuck" +
+      "et\032:\n\013LeakyBucket\022\023\n\013bucket_size\030\001 \001(\001\022\026" +
+      "\n\016bucket_seconds\030\002 \001(\004\"\224\001\n\016DatabaseQuota" +
+      "s\022\034\n\024data_size_hard_quota\030\001 \001(\004\022\034\n\024data_" +
+      "size_soft_quota\030\002 \001(\004\022 \n\030data_stream_sha" +
+      "rds_quota\030\003 \001(\004\022$\n\034ttl_min_run_internal_" +
+      "seconds\030\004 \001(\r\"\267\004\n\025CreateDatabaseRequest\022" +
+      "9\n\020operation_params\030\001 \001(\0132\037.Ydb.Operatio" +
+      "ns.OperationParams\022\014\n\004path\030\002 \001(\t\022\'\n\treso" +
+      "urces\030\003 \001(\0132\022.Ydb.Cms.ResourcesH\000\022.\n\020sha" +
+      "red_resources\030\006 \001(\0132\022.Ydb.Cms.ResourcesH" +
+      "\000\022<\n\024serverless_resources\030\007 \001(\0132\034.Ydb.Cm" +
+      "s.ServerlessResourcesH\000\022)\n\007options\030\004 \001(\013" +
+      "2\030.Ydb.Cms.DatabaseOptions\022B\n\nattributes" +
+      "\030\005 \003(\0132..Ydb.Cms.CreateDatabaseRequest.A" +
+      "ttributesEntry\022?\n\027schema_operation_quota" +
+      "s\030\010 \001(\0132\036.Ydb.Cms.SchemaOperationQuotas\022" +
+      "\027\n\017idempotency_key\030\t \001(\t\0220\n\017database_quo" +
+      "tas\030\n \001(\0132\027.Ydb.Cms.DatabaseQuotas\0321\n\017At" +
+      "tributesEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(" +
+      "\t:\0028\001B\020\n\016resources_kind\"F\n\026CreateDatabas" +
+      "eResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
+      "tions.Operation\"c\n\030GetDatabaseStatusRequ" +
+      "est\022\014\n\004path\030\001 \001(\t\0229\n\020operation_params\030\002 " +
+      "\001(\0132\037.Ydb.Operations.OperationParams\"I\n\031" +
+      "GetDatabaseStatusResponse\022,\n\toperation\030\001" +
+      " \001(\0132\031.Ydb.Operations.Operation\"\205\005\n\027GetD" +
+      "atabaseStatusResult\022\014\n\004path\030\001 \001(\t\0225\n\005sta" +
+      "te\030\002 \001(\0162&.Ydb.Cms.GetDatabaseStatusResu" +
+      "lt.State\0220\n\022required_resources\030\003 \001(\0132\022.Y" +
+      "db.Cms.ResourcesH\000\0227\n\031required_shared_re" +
+      "sources\030\007 \001(\0132\022.Ydb.Cms.ResourcesH\000\022<\n\024s" +
+      "erverless_resources\030\010 \001(\0132\034.Ydb.Cms.Serv" +
+      "erlessResourcesH\000\022/\n\023allocated_resources" +
+      "\030\004 \001(\0132\022.Ydb.Cms.Resources\022A\n\024registered" +
+      "_resources\030\005 \003(\0132#.Ydb.Cms.AllocatedComp" +
+      "utationalUnit\022\022\n\ngeneration\030\006 \001(\004\022?\n\027sch" +
+      "ema_operation_quotas\030\t \001(\0132\036.Ydb.Cms.Sch" +
+      "emaOperationQuotas\0220\n\017database_quotas\030\n " +
+      "\001(\0132\027.Ydb.Cms.DatabaseQuotas\"o\n\005State\022\025\n" +
+      "\021STATE_UNSPECIFIED\020\000\022\014\n\010CREATING\020\001\022\013\n\007RU" +
+      "NNING\020\002\022\014\n\010REMOVING\020\003\022\025\n\021PENDING_RESOURC" +
+      "ES\020\004\022\017\n\013CONFIGURING\020\005B\020\n\016resources_kind\"" +
+      "\335\005\n\024AlterDatabaseRequest\022\014\n\004path\030\001 \001(\t\022?" +
+      "\n\032computational_units_to_add\030\002 \003(\0132\033.Ydb" +
+      ".Cms.ComputationalUnits\022B\n\035computational" +
+      "_units_to_remove\030\003 \003(\0132\033.Ydb.Cms.Computa" +
+      "tionalUnits\0223\n\024storage_units_to_add\030\004 \003(" +
+      "\0132\025.Ydb.Cms.StorageUnits\022L\n\037computationa" +
+      "l_units_to_register\030\005 \003(\0132#.Ydb.Cms.Allo" +
+      "catedComputationalUnit\022N\n!computational_" +
+      "units_to_deregister\030\006 \003(\0132#.Ydb.Cms.Allo" +
+      "catedComputationalUnit\0229\n\020operation_para" +
+      "ms\030\007 \001(\0132\037.Ydb.Operations.OperationParam" +
+      "s\022\022\n\ngeneration\030\010 \001(\004\022?\n\027schema_operatio" +
+      "n_quotas\030\t \001(\0132\036.Ydb.Cms.SchemaOperation" +
+      "Quotas\022\027\n\017idempotency_key\030\n \001(\t\0220\n\017datab" +
+      "ase_quotas\030\013 \001(\0132\027.Ydb.Cms.DatabaseQuota" +
+      "s\022L\n\020alter_attributes\030\014 \003(\01322.Ydb.Cms.Al" +
+      "terDatabaseRequest.AlterAttributesEntry\032" +
+      "6\n\024AlterAttributesEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005" +
+      "value\030\002 \001(\t:\0028\001\"E\n\025AlterDatabaseResponse" +
+      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
+      "ration\"Q\n\024ListDatabasesRequest\0229\n\020operat" +
+      "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat" +
+      "ionParams\"E\n\025ListDatabasesResponse\022,\n\top" +
+      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
+      "\"$\n\023ListDatabasesResult\022\r\n\005paths\030\001 \003(\t\"`" +
+      "\n\025RemoveDatabaseRequest\022\014\n\004path\030\001 \001(\t\0229\n" +
+      "\020operation_params\030\002 \001(\0132\037.Ydb.Operations" +
+      ".OperationParams\"F\n\026RemoveDatabaseRespon" +
+      "se\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.O" +
+      "peration\"\222\001\n\026StorageUnitDescription\022\014\n\004k" +
+      "ind\030\001 \001(\t\022;\n\006labels\030\002 \003(\0132+.Ydb.Cms.Stor" +
+      "ageUnitDescription.LabelsEntry\032-\n\013Labels" +
+      "Entry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\234\001" +
+      "\n\033AvailabilityZoneDescription\022\014\n\004name\030\001 " +
+      "\001(\t\022@\n\006labels\030\002 \003(\01320.Ydb.Cms.Availabili" +
+      "tyZoneDescription.LabelsEntry\032-\n\013LabelsE" +
+      "ntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\302\001\n" +
+      "\034ComputationalUnitDescription\022\014\n\004kind\030\001 " +
+      "\001(\t\022A\n\006labels\030\002 \003(\01321.Ydb.Cms.Computatio" +
+      "nalUnitDescription.LabelsEntry\022\"\n\032allowe" +
+      "d_availability_zones\030\003 \003(\t\032-\n\013LabelsEntr" +
+      "y\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"[\n\036Des" +
+      "cribeDatabaseOptionsRequest\0229\n\020operation" +
+      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
+      "Params\"O\n\037DescribeDatabaseOptionsRespons" +
+      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
+      "eration\"\335\001\n\035DescribeDatabaseOptionsResul" +
+      "t\0226\n\rstorage_units\030\001 \003(\0132\037.Ydb.Cms.Stora" +
+      "geUnitDescription\022@\n\022availability_zones\030" +
+      "\002 \003(\0132$.Ydb.Cms.AvailabilityZoneDescript" +
+      "ion\022B\n\023computational_units\030\003 \003(\0132%.Ydb.C" +
+      "ms.ComputationalUnitDescriptionB\027\n\022com.y" +
+      "andex.ydb.cms\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -31011,14 +30580,8 @@ public final class YdbCms {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_DatabaseOptions_descriptor,
         new java.lang.String[] { "DisableTxService", "DisableExternalSubdomain", "PlanResolution", });
-    internal_static_Ydb_Cms_Attribute_descriptor =
-      getDescriptor().getMessageTypes().get(6);
-    internal_static_Ydb_Cms_Attribute_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Ydb_Cms_Attribute_descriptor,
-        new java.lang.String[] { "Name", "Value", });
     internal_static_Ydb_Cms_SchemaOperationQuotas_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_Ydb_Cms_SchemaOperationQuotas_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_SchemaOperationQuotas_descriptor,
@@ -31030,85 +30593,97 @@ public final class YdbCms {
         internal_static_Ydb_Cms_SchemaOperationQuotas_LeakyBucket_descriptor,
         new java.lang.String[] { "BucketSize", "BucketSeconds", });
     internal_static_Ydb_Cms_DatabaseQuotas_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_Ydb_Cms_DatabaseQuotas_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_DatabaseQuotas_descriptor,
         new java.lang.String[] { "DataSizeHardQuota", "DataSizeSoftQuota", "DataStreamShardsQuota", "TtlMinRunInternalSeconds", });
     internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_Ydb_Cms_CreateDatabaseRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor,
         new java.lang.String[] { "OperationParams", "Path", "Resources", "SharedResources", "ServerlessResources", "Options", "Attributes", "SchemaOperationQuotas", "IdempotencyKey", "DatabaseQuotas", "ResourcesKind", });
+    internal_static_Ydb_Cms_CreateDatabaseRequest_AttributesEntry_descriptor =
+      internal_static_Ydb_Cms_CreateDatabaseRequest_descriptor.getNestedTypes().get(0);
+    internal_static_Ydb_Cms_CreateDatabaseRequest_AttributesEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Cms_CreateDatabaseRequest_AttributesEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Cms_CreateDatabaseResponse_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_Ydb_Cms_CreateDatabaseResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_CreateDatabaseResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_GetDatabaseStatusRequest_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_Ydb_Cms_GetDatabaseStatusRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_GetDatabaseStatusRequest_descriptor,
         new java.lang.String[] { "Path", "OperationParams", });
     internal_static_Ydb_Cms_GetDatabaseStatusResponse_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_Ydb_Cms_GetDatabaseStatusResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_GetDatabaseStatusResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_GetDatabaseStatusResult_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_Ydb_Cms_GetDatabaseStatusResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_GetDatabaseStatusResult_descriptor,
         new java.lang.String[] { "Path", "State", "RequiredResources", "RequiredSharedResources", "ServerlessResources", "AllocatedResources", "RegisteredResources", "Generation", "SchemaOperationQuotas", "DatabaseQuotas", "ResourcesKind", });
     internal_static_Ydb_Cms_AlterDatabaseRequest_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_Ydb_Cms_AlterDatabaseRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_AlterDatabaseRequest_descriptor,
-        new java.lang.String[] { "Path", "ComputationalUnitsToAdd", "ComputationalUnitsToRemove", "StorageUnitsToAdd", "ComputationalUnitsToRegister", "ComputationalUnitsToDeregister", "OperationParams", "Generation", "SchemaOperationQuotas", "IdempotencyKey", "DatabaseQuotas", });
+        new java.lang.String[] { "Path", "ComputationalUnitsToAdd", "ComputationalUnitsToRemove", "StorageUnitsToAdd", "ComputationalUnitsToRegister", "ComputationalUnitsToDeregister", "OperationParams", "Generation", "SchemaOperationQuotas", "IdempotencyKey", "DatabaseQuotas", "AlterAttributes", });
+    internal_static_Ydb_Cms_AlterDatabaseRequest_AlterAttributesEntry_descriptor =
+      internal_static_Ydb_Cms_AlterDatabaseRequest_descriptor.getNestedTypes().get(0);
+    internal_static_Ydb_Cms_AlterDatabaseRequest_AlterAttributesEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Ydb_Cms_AlterDatabaseRequest_AlterAttributesEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Cms_AlterDatabaseResponse_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_Ydb_Cms_AlterDatabaseResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_AlterDatabaseResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_ListDatabasesRequest_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_Ydb_Cms_ListDatabasesRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_ListDatabasesRequest_descriptor,
         new java.lang.String[] { "OperationParams", });
     internal_static_Ydb_Cms_ListDatabasesResponse_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_Ydb_Cms_ListDatabasesResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_ListDatabasesResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_ListDatabasesResult_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_Ydb_Cms_ListDatabasesResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_ListDatabasesResult_descriptor,
         new java.lang.String[] { "Paths", });
     internal_static_Ydb_Cms_RemoveDatabaseRequest_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_Ydb_Cms_RemoveDatabaseRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_RemoveDatabaseRequest_descriptor,
         new java.lang.String[] { "Path", "OperationParams", });
     internal_static_Ydb_Cms_RemoveDatabaseResponse_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_Ydb_Cms_RemoveDatabaseResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_RemoveDatabaseResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_StorageUnitDescription_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_Ydb_Cms_StorageUnitDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_StorageUnitDescription_descriptor,
@@ -31120,7 +30695,7 @@ public final class YdbCms {
         internal_static_Ydb_Cms_StorageUnitDescription_LabelsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Cms_AvailabilityZoneDescription_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_Ydb_Cms_AvailabilityZoneDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_AvailabilityZoneDescription_descriptor,
@@ -31132,7 +30707,7 @@ public final class YdbCms {
         internal_static_Ydb_Cms_AvailabilityZoneDescription_LabelsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Cms_ComputationalUnitDescription_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_Ydb_Cms_ComputationalUnitDescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_ComputationalUnitDescription_descriptor,
@@ -31144,19 +30719,19 @@ public final class YdbCms {
         internal_static_Ydb_Cms_ComputationalUnitDescription_LabelsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Ydb_Cms_DescribeDatabaseOptionsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(24);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_Ydb_Cms_DescribeDatabaseOptionsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_DescribeDatabaseOptionsRequest_descriptor,
         new java.lang.String[] { "OperationParams", });
     internal_static_Ydb_Cms_DescribeDatabaseOptionsResponse_descriptor =
-      getDescriptor().getMessageTypes().get(25);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_Ydb_Cms_DescribeDatabaseOptionsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_DescribeDatabaseOptionsResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Ydb_Cms_DescribeDatabaseOptionsResult_descriptor =
-      getDescriptor().getMessageTypes().get(26);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_Ydb_Cms_DescribeDatabaseOptionsResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Cms_DescribeDatabaseOptionsResult_descriptor,
