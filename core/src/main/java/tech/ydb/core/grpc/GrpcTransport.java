@@ -500,7 +500,7 @@ public class GrpcTransport implements RpcTransport {
         private Consumer<NettyChannelBuilder> channelInitializer = (cb) -> {
         };
         private String localDc;
-        private Duration endpointsDiscoveryPeriod = Duration.ofSeconds(15);
+        private Duration endpointsDiscoveryPeriod = Duration.ofSeconds(60);
 
         private Builder(@Nullable String endpoint, @Nullable String database, @Nullable List<HostAndPort> hosts) {
             this.endpoint = endpoint;

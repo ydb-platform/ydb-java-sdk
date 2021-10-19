@@ -1,3 +1,7 @@
+## 1.9.2 ##
+
+* Endpoint re-discovery now launches periodically as intended.
+
 ## 1.9.1 ##
 
 * All timers are now stopped on shutdown so the application should stop immediately.

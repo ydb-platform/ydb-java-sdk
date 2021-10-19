@@ -44,6 +44,7 @@ final class YdbNameResolver extends NameResolver {
 
     private static final String SCHEME = "ydb";
     public static final Attributes.Key<String> LOCATION_ATTR = Attributes.Key.create("loc");
+    private static final Duration discoveryOnFailPeriod = Duration.ofSeconds(5);
 
     private final String database;
     private final String authority;
@@ -66,10 +67,8 @@ final class YdbNameResolver extends NameResolver {
         this.authority = authority;
         this.discoveryRpc = discoveryRpc;
         this.synchronizationContext = synchronizationContext;
-        if (discoveryPeriod.toMillis() < 5000) {
-            discoveryPeriod = Duration.ofSeconds(5);
-        }
-        this.discoveryPeriod = discoveryPeriod;
+        this.discoveryPeriod = discoveryPeriod.toMillis() < discoveryOnFailPeriod.toMillis()
+                ? discoveryOnFailPeriod : discoveryPeriod;
     }
 
     static String makeTarget(String endpoint, String database) {
@@ -95,18 +94,19 @@ final class YdbNameResolver extends NameResolver {
 
     @Override
     public void refresh() {
-        cancelScheduledRefresh();
+        cancelScheduledDiscovery();
         resolve();
     }
 
     @Override
     public void shutdown() {
-        cancelScheduledRefresh();
+        cancelScheduledDiscovery();
         discoveryRpc.close();
         shutdown = true;
     }
 
-    private void cancelScheduledRefresh() {
+    private void cancelScheduledDiscovery() {
+        logger.debug("Canceling scheduled discovery");
         if (scheduledHandle != null) {
             scheduledHandle.cancel();
             scheduledHandle = null;
@@ -138,11 +138,12 @@ final class YdbNameResolver extends NameResolver {
                     }
 
                     listener.onAddresses(groups, Attributes.EMPTY);
+                    scheduleNextDiscovery(discoveryPeriod);
                 })
                 .exceptionally(e -> {
                     String msg = "unable to resolve database " + database + ", unhandled exception";
                     listener.onError(Status.UNAVAILABLE.withDescription(msg).withCause(e));
-                    scheduleNextDiscovery();
+                    scheduleNextDiscovery(discoveryOnFailPeriod);
                     return null;
                 });
     }
@@ -165,22 +166,26 @@ final class YdbNameResolver extends NameResolver {
         }
 
         if (logger.isDebugEnabled()) {
-            logger.debug("ListEndpointsResult - {}",
+            logger.debug("ListEndpointsResult - {} endpoints: {}",
+                    response.getEndpointsList().size(),
                     response.getEndpointsList().stream()
-                            .map(e -> String.format("{addr - %s, loc - %s}", e.getAddress(), e.getLocation()))
+                            .map(e -> String.format("%s[%s]", e.getAddress(), e.getLocation()))
                             .collect(Collectors.joining(",")));
+        } else {
+            logger.info("ListEndpointsResult - {} endpoints", response.getEndpointsList().size());
         }
         return response;
     }
 
-    private void scheduleNextDiscovery() {
+    private void scheduleNextDiscovery(Duration delay) {
         synchronizationContext.execute(() -> {
-            cancelScheduledRefresh();
+            cancelScheduledDiscovery();
+            logger.debug("Schedule next discovery in {} ms", delay.toMillis());
             scheduledHandle = Async.runAfter((timeout) -> {
                 if (!timeout.isCancelled()) {
                     synchronizationContext.execute(this::refresh);
                 }
-            }, randomDelay(discoveryPeriod.toMillis()), TimeUnit.MILLISECONDS);
+            }, randomDelay(delay.toMillis()), TimeUnit.MILLISECONDS);
         });
     }
 
