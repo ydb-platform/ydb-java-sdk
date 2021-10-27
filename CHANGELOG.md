@@ -1,3 +1,7 @@
+## 1.9.3 ##
+
+* Fix String comparsion in CloudAuthHelper.
+
 ## 1.9.2 ##
 
 * Endpoint re-discovery now launches periodically as intended.
