@@ -71143,6 +71143,33 @@ public final class Datastreams {
   public interface DescribeStreamSummaryResultOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Ydb.DataStreams.V1.DescribeStreamSummaryResult)
       com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Stream description sumary
+     * </pre>
+     *
+     * <code>.Ydb.DataStreams.V1.StreamDescriptionSummary stream_description_summary = 1;</code>
+     * @return Whether the streamDescriptionSummary field is set.
+     */
+    boolean hasStreamDescriptionSummary();
+    /**
+     * <pre>
+     * Stream description sumary
+     * </pre>
+     *
+     * <code>.Ydb.DataStreams.V1.StreamDescriptionSummary stream_description_summary = 1;</code>
+     * @return The streamDescriptionSummary.
+     */
+    tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary getStreamDescriptionSummary();
+    /**
+     * <pre>
+     * Stream description sumary
+     * </pre>
+     *
+     * <code>.Ydb.DataStreams.V1.StreamDescriptionSummary stream_description_summary = 1;</code>
+     */
+    tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummaryOrBuilder getStreamDescriptionSummaryOrBuilder();
   }
   /**
    * Protobuf type {@code Ydb.DataStreams.V1.DescribeStreamSummaryResult}
@@ -71189,6 +71216,19 @@ public final class Datastreams {
             case 0:
               done = true;
               break;
+            case 10: {
+              tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary.Builder subBuilder = null;
+              if (streamDescriptionSummary_ != null) {
+                subBuilder = streamDescriptionSummary_.toBuilder();
+              }
+              streamDescriptionSummary_ = input.readMessage(tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(streamDescriptionSummary_);
+                streamDescriptionSummary_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -71221,6 +71261,44 @@ public final class Datastreams {
               tech.ydb.datastreams.v1.Datastreams.DescribeStreamSummaryResult.class, tech.ydb.datastreams.v1.Datastreams.DescribeStreamSummaryResult.Builder.class);
     }
 
+    public static final int STREAM_DESCRIPTION_SUMMARY_FIELD_NUMBER = 1;
+    private tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary streamDescriptionSummary_;
+    /**
+     * <pre>
+     * Stream description sumary
+     * </pre>
+     *
+     * <code>.Ydb.DataStreams.V1.StreamDescriptionSummary stream_description_summary = 1;</code>
+     * @return Whether the streamDescriptionSummary field is set.
+     */
+    @java.lang.Override
+    public boolean hasStreamDescriptionSummary() {
+      return streamDescriptionSummary_ != null;
+    }
+    /**
+     * <pre>
+     * Stream description sumary
+     * </pre>
+     *
+     * <code>.Ydb.DataStreams.V1.StreamDescriptionSummary stream_description_summary = 1;</code>
+     * @return The streamDescriptionSummary.
+     */
+    @java.lang.Override
+    public tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary getStreamDescriptionSummary() {
+      return streamDescriptionSummary_ == null ? tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary.getDefaultInstance() : streamDescriptionSummary_;
+    }
+    /**
+     * <pre>
+     * Stream description sumary
+     * </pre>
+     *
+     * <code>.Ydb.DataStreams.V1.StreamDescriptionSummary stream_description_summary = 1;</code>
+     */
+    @java.lang.Override
+    public tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummaryOrBuilder getStreamDescriptionSummaryOrBuilder() {
+      return getStreamDescriptionSummary();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -71235,6 +71313,9 @@ public final class Datastreams {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (streamDescriptionSummary_ != null) {
+        output.writeMessage(1, getStreamDescriptionSummary());
+      }
       unknownFields.writeTo(output);
     }
 
@@ -71244,6 +71325,10 @@ public final class Datastreams {
       if (size != -1) return size;
 
       size = 0;
+      if (streamDescriptionSummary_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getStreamDescriptionSummary());
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -71259,6 +71344,11 @@ public final class Datastreams {
       }
       tech.ydb.datastreams.v1.Datastreams.DescribeStreamSummaryResult other = (tech.ydb.datastreams.v1.Datastreams.DescribeStreamSummaryResult) obj;
 
+      if (hasStreamDescriptionSummary() != other.hasStreamDescriptionSummary()) return false;
+      if (hasStreamDescriptionSummary()) {
+        if (!getStreamDescriptionSummary()
+            .equals(other.getStreamDescriptionSummary())) return false;
+      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -71270,6 +71360,10 @@ public final class Datastreams {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasStreamDescriptionSummary()) {
+        hash = (37 * hash) + STREAM_DESCRIPTION_SUMMARY_FIELD_NUMBER;
+        hash = (53 * hash) + getStreamDescriptionSummary().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -71403,6 +71497,12 @@ public final class Datastreams {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        if (streamDescriptionSummaryBuilder_ == null) {
+          streamDescriptionSummary_ = null;
+        } else {
+          streamDescriptionSummary_ = null;
+          streamDescriptionSummaryBuilder_ = null;
+        }
         return this;
       }
 
@@ -71429,6 +71529,11 @@ public final class Datastreams {
       @java.lang.Override
       public tech.ydb.datastreams.v1.Datastreams.DescribeStreamSummaryResult buildPartial() {
         tech.ydb.datastreams.v1.Datastreams.DescribeStreamSummaryResult result = new tech.ydb.datastreams.v1.Datastreams.DescribeStreamSummaryResult(this);
+        if (streamDescriptionSummaryBuilder_ == null) {
+          result.streamDescriptionSummary_ = streamDescriptionSummary_;
+        } else {
+          result.streamDescriptionSummary_ = streamDescriptionSummaryBuilder_.build();
+        }
         onBuilt();
         return result;
       }
@@ -71477,6 +71582,9 @@ public final class Datastreams {
 
       public Builder mergeFrom(tech.ydb.datastreams.v1.Datastreams.DescribeStreamSummaryResult other) {
         if (other == tech.ydb.datastreams.v1.Datastreams.DescribeStreamSummaryResult.getDefaultInstance()) return this;
+        if (other.hasStreamDescriptionSummary()) {
+          mergeStreamDescriptionSummary(other.getStreamDescriptionSummary());
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -71504,6 +71612,161 @@ public final class Datastreams {
           }
         }
         return this;
+      }
+
+      private tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary streamDescriptionSummary_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary, tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary.Builder, tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummaryOrBuilder> streamDescriptionSummaryBuilder_;
+      /**
+       * <pre>
+       * Stream description sumary
+       * </pre>
+       *
+       * <code>.Ydb.DataStreams.V1.StreamDescriptionSummary stream_description_summary = 1;</code>
+       * @return Whether the streamDescriptionSummary field is set.
+       */
+      public boolean hasStreamDescriptionSummary() {
+        return streamDescriptionSummaryBuilder_ != null || streamDescriptionSummary_ != null;
+      }
+      /**
+       * <pre>
+       * Stream description sumary
+       * </pre>
+       *
+       * <code>.Ydb.DataStreams.V1.StreamDescriptionSummary stream_description_summary = 1;</code>
+       * @return The streamDescriptionSummary.
+       */
+      public tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary getStreamDescriptionSummary() {
+        if (streamDescriptionSummaryBuilder_ == null) {
+          return streamDescriptionSummary_ == null ? tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary.getDefaultInstance() : streamDescriptionSummary_;
+        } else {
+          return streamDescriptionSummaryBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Stream description sumary
+       * </pre>
+       *
+       * <code>.Ydb.DataStreams.V1.StreamDescriptionSummary stream_description_summary = 1;</code>
+       */
+      public Builder setStreamDescriptionSummary(tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary value) {
+        if (streamDescriptionSummaryBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          streamDescriptionSummary_ = value;
+          onChanged();
+        } else {
+          streamDescriptionSummaryBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Stream description sumary
+       * </pre>
+       *
+       * <code>.Ydb.DataStreams.V1.StreamDescriptionSummary stream_description_summary = 1;</code>
+       */
+      public Builder setStreamDescriptionSummary(
+          tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary.Builder builderForValue) {
+        if (streamDescriptionSummaryBuilder_ == null) {
+          streamDescriptionSummary_ = builderForValue.build();
+          onChanged();
+        } else {
+          streamDescriptionSummaryBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Stream description sumary
+       * </pre>
+       *
+       * <code>.Ydb.DataStreams.V1.StreamDescriptionSummary stream_description_summary = 1;</code>
+       */
+      public Builder mergeStreamDescriptionSummary(tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary value) {
+        if (streamDescriptionSummaryBuilder_ == null) {
+          if (streamDescriptionSummary_ != null) {
+            streamDescriptionSummary_ =
+              tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary.newBuilder(streamDescriptionSummary_).mergeFrom(value).buildPartial();
+          } else {
+            streamDescriptionSummary_ = value;
+          }
+          onChanged();
+        } else {
+          streamDescriptionSummaryBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Stream description sumary
+       * </pre>
+       *
+       * <code>.Ydb.DataStreams.V1.StreamDescriptionSummary stream_description_summary = 1;</code>
+       */
+      public Builder clearStreamDescriptionSummary() {
+        if (streamDescriptionSummaryBuilder_ == null) {
+          streamDescriptionSummary_ = null;
+          onChanged();
+        } else {
+          streamDescriptionSummary_ = null;
+          streamDescriptionSummaryBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * Stream description sumary
+       * </pre>
+       *
+       * <code>.Ydb.DataStreams.V1.StreamDescriptionSummary stream_description_summary = 1;</code>
+       */
+      public tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary.Builder getStreamDescriptionSummaryBuilder() {
+        
+        onChanged();
+        return getStreamDescriptionSummaryFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Stream description sumary
+       * </pre>
+       *
+       * <code>.Ydb.DataStreams.V1.StreamDescriptionSummary stream_description_summary = 1;</code>
+       */
+      public tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummaryOrBuilder getStreamDescriptionSummaryOrBuilder() {
+        if (streamDescriptionSummaryBuilder_ != null) {
+          return streamDescriptionSummaryBuilder_.getMessageOrBuilder();
+        } else {
+          return streamDescriptionSummary_ == null ?
+              tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary.getDefaultInstance() : streamDescriptionSummary_;
+        }
+      }
+      /**
+       * <pre>
+       * Stream description sumary
+       * </pre>
+       *
+       * <code>.Ydb.DataStreams.V1.StreamDescriptionSummary stream_description_summary = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary, tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary.Builder, tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummaryOrBuilder> 
+          getStreamDescriptionSummaryFieldBuilder() {
+        if (streamDescriptionSummaryBuilder_ == null) {
+          streamDescriptionSummaryBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary, tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummary.Builder, tech.ydb.datastreams.v1.Datastreams.StreamDescriptionSummaryOrBuilder>(
+                  getStreamDescriptionSummary(),
+                  getParentForChildren(),
+                  isClean());
+          streamDescriptionSummary_ = null;
+        }
+        return streamDescriptionSummaryBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -96882,96 +97145,98 @@ public final class Datastreams {
       "ons.OperationParams\022\023\n\013stream_name\030\002 \001(\t" +
       "\"M\n\035DescribeStreamSummaryResponse\022,\n\tope" +
       "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"" +
-      "\035\n\033DescribeStreamSummaryResult\"\217\001\n Disab" +
-      "leEnhancedMonitoringRequest\0229\n\020operation" +
-      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
-      "Params\022\033\n\023shard_level_metrics\030\002 \003(\t\022\023\n\013s" +
-      "tream_name\030\003 \001(\t\"Q\n!DisableEnhancedMonit" +
+      "o\n\033DescribeStreamSummaryResult\022P\n\032stream" +
+      "_description_summary\030\001 \001(\0132,.Ydb.DataStr" +
+      "eams.V1.StreamDescriptionSummary\"\217\001\n Dis" +
+      "ableEnhancedMonitoringRequest\0229\n\020operati" +
+      "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati" +
+      "onParams\022\033\n\023shard_level_metrics\030\002 \003(\t\022\023\n" +
+      "\013stream_name\030\003 \001(\t\"Q\n!DisableEnhancedMon" +
+      "itoringResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
+      ".Operations.Operation\"\200\001\n\037DisableEnhance" +
+      "dMonitoringResult\022#\n\033current_shard_level" +
+      "_metrics\030\001 \003(\t\022#\n\033desired_shard_level_me" +
+      "trics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"\216\001\n\037Ena" +
+      "bleEnhancedMonitoringRequest\0229\n\020operatio" +
+      "n_params\030\001 \001(\0132\037.Ydb.Operations.Operatio" +
+      "nParams\022\033\n\023shard_level_metrics\030\002 \003(\t\022\023\n\013" +
+      "stream_name\030\003 \001(\t\"P\n EnableEnhancedMonit" +
       "oringResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
-      "perations.Operation\"\200\001\n\037DisableEnhancedM" +
-      "onitoringResult\022#\n\033current_shard_level_m" +
-      "etrics\030\001 \003(\t\022#\n\033desired_shard_level_metr" +
-      "ics\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"\216\001\n\037Enabl" +
-      "eEnhancedMonitoringRequest\0229\n\020operation_" +
-      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\022\033\n\023shard_level_metrics\030\002 \003(\t\022\023\n\013st" +
-      "ream_name\030\003 \001(\t\"P\n EnableEnhancedMonitor" +
-      "ingResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
-      "rations.Operation\"\177\n\036EnableEnhancedMonit" +
-      "oringResult\022#\n\033current_shard_level_metri" +
-      "cs\030\001 \003(\t\022#\n\033desired_shard_level_metrics\030" +
-      "\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"\226\001\n$IncreaseS" +
-      "treamRetentionPeriodRequest\0229\n\020operation" +
-      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
-      "Params\022\036\n\026retention_period_hours\030\002 \001(\005\022\023" +
-      "\n\013stream_name\030\003 \001(\t\"U\n%IncreaseStreamRet" +
-      "entionPeriodResponse\022,\n\toperation\030\001 \001(\0132" +
-      "\031.Ydb.Operations.Operation\"%\n#IncreaseSt" +
-      "reamRetentionPeriodResult\"\232\001\n\030ListTagsFo" +
-      "rStreamRequest\0229\n\020operation_params\030\001 \001(\013" +
-      "2\037.Ydb.Operations.OperationParams\022\037\n\027exc" +
-      "lusive_start_tag_key\030\002 \001(\t\022\r\n\005limit\030\003 \001(" +
-      "\005\022\023\n\013stream_name\030\004 \001(\t\"I\n\031ListTagsForStr" +
-      "eamResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
-      "rations.Operation\"W\n\027ListTagsForStreamRe" +
-      "sult\022\025\n\rhas_more_tags\030\001 \001(\010\022%\n\004tags\030\002 \003(" +
-      "\0132\027.Ydb.DataStreams.V1.Tag\"\235\001\n\022MergeShar" +
-      "dsRequest\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
-      "b.Operations.OperationParams\022\037\n\027adjacent" +
-      "_shard_to_merge\030\002 \001(\t\022\026\n\016shard_to_merge\030" +
-      "\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t\"C\n\023MergeShard" +
-      "sResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
-      "tions.Operation\"\023\n\021MergeShardsResult\"\177\n\033" +
-      "RemoveTagsFromStreamRequest\0229\n\020operation" +
-      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
-      "Params\022\023\n\013stream_name\030\002 \001(\t\022\020\n\010tag_keys\030" +
-      "\003 \003(\t\"L\n\034RemoveTagsFromStreamResponse\022,\n" +
-      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
-      "ion\"\034\n\032RemoveTagsFromStreamResult\"\232\001\n\021Sp" +
-      "litShardRequest\0229\n\020operation_params\030\001 \001(" +
-      "\0132\037.Ydb.Operations.OperationParams\022\035\n\025ne" +
-      "w_starting_hash_key\030\002 \001(\t\022\026\n\016shard_to_sp" +
-      "lit\030\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t\"B\n\022SplitS" +
-      "hardResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
-      "erations.Operation\"\022\n\020SplitShardResult\"\273" +
-      "\001\n\034StartStreamEncryptionRequest\0229\n\020opera" +
-      "tion_params\030\001 \001(\0132\037.Ydb.Operations.Opera" +
-      "tionParams\022;\n\017encryption_type\030\002 \001(\0162\".Yd" +
-      "b.DataStreams.V1.EncryptionType\022\016\n\006key_i" +
-      "d\030\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t\"M\n\035StartStr" +
-      "eamEncryptionResponse\022,\n\toperation\030\001 \001(\013" +
-      "2\031.Ydb.Operations.Operation\"\035\n\033StartStre" +
-      "amEncryptionResult\"\272\001\n\033StopStreamEncrypt" +
-      "ionRequest\0229\n\020operation_params\030\001 \001(\0132\037.Y" +
-      "db.Operations.OperationParams\022;\n\017encrypt" +
-      "ion_type\030\002 \001(\0162\".Ydb.DataStreams.V1.Encr" +
-      "yptionType\022\016\n\006key_id\030\003 \001(\t\022\023\n\013stream_nam" +
-      "e\030\004 \001(\t\"L\n\034StopStreamEncryptionResponse\022" +
+      "perations.Operation\"\177\n\036EnableEnhancedMon" +
+      "itoringResult\022#\n\033current_shard_level_met" +
+      "rics\030\001 \003(\t\022#\n\033desired_shard_level_metric" +
+      "s\030\002 \003(\t\022\023\n\013stream_name\030\003 \001(\t\"\226\001\n$Increas" +
+      "eStreamRetentionPeriodRequest\0229\n\020operati" +
+      "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati" +
+      "onParams\022\036\n\026retention_period_hours\030\002 \001(\005" +
+      "\022\023\n\013stream_name\030\003 \001(\t\"U\n%IncreaseStreamR" +
+      "etentionPeriodResponse\022,\n\toperation\030\001 \001(" +
+      "\0132\031.Ydb.Operations.Operation\"%\n#Increase" +
+      "StreamRetentionPeriodResult\"\232\001\n\030ListTags" +
+      "ForStreamRequest\0229\n\020operation_params\030\001 \001" +
+      "(\0132\037.Ydb.Operations.OperationParams\022\037\n\027e" +
+      "xclusive_start_tag_key\030\002 \001(\t\022\r\n\005limit\030\003 " +
+      "\001(\005\022\023\n\013stream_name\030\004 \001(\t\"I\n\031ListTagsForS" +
+      "treamResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
+      "perations.Operation\"W\n\027ListTagsForStream" +
+      "Result\022\025\n\rhas_more_tags\030\001 \001(\010\022%\n\004tags\030\002 " +
+      "\003(\0132\027.Ydb.DataStreams.V1.Tag\"\235\001\n\022MergeSh" +
+      "ardsRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
+      "Ydb.Operations.OperationParams\022\037\n\027adjace" +
+      "nt_shard_to_merge\030\002 \001(\t\022\026\n\016shard_to_merg" +
+      "e\030\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t\"C\n\023MergeSha" +
+      "rdsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
+      "rations.Operation\"\023\n\021MergeShardsResult\"\177" +
+      "\n\033RemoveTagsFromStreamRequest\0229\n\020operati" +
+      "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati" +
+      "onParams\022\023\n\013stream_name\030\002 \001(\t\022\020\n\010tag_key" +
+      "s\030\003 \003(\t\"L\n\034RemoveTagsFromStreamResponse\022" +
       ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
-      "ation\"\034\n\032StopStreamEncryptionResult\"\222\002\n\027" +
-      "UpdateShardCountRequest\0229\n\020operation_par" +
-      "ams\030\001 \001(\0132\037.Ydb.Operations.OperationPara" +
-      "ms\022M\n\014scaling_type\030\002 \001(\01627.Ydb.DataStrea" +
-      "ms.V1.UpdateShardCountRequest.ScalingTyp" +
-      "e\022\023\n\013stream_name\030\003 \001(\t\022\032\n\022target_shard_c" +
-      "ount\030\004 \001(\005\"<\n\013ScalingType\022\030\n\024SCALING_TYP" +
-      "E_UNKNOWN\020\000\022\023\n\017UNIFORM_SCALING\020\001\"H\n\030Upda" +
-      "teShardCountResponse\022,\n\toperation\030\001 \001(\0132" +
-      "\031.Ydb.Operations.Operation\"f\n\026UpdateShar" +
-      "dCountResult\022\033\n\023current_shard_count\030\001 \001(" +
-      "\005\022\023\n\013stream_name\030\002 \001(\t\022\032\n\022target_shard_c" +
-      "ount\030\003 \001(\005*f\n\030EFieldTransformationType\022\022" +
-      "\n\016TRANSFORM_NONE\020\000\022\024\n\020TRANSFORM_BASE64\020\001" +
-      "\022 \n\034TRANSFORM_DOUBLE_S_TO_INT_MS\020\002*=\n\016En" +
-      "cryptionType\022\030\n\024ENCRYPTION_UNDEFINED\020\000\022\010" +
-      "\n\004NONE\020\001\022\007\n\003KMS\020\002*\224\001\n\021ShardIteratorType\022" +
-      "\034\n\030SHARD_ITERATOR_UNDEFINED\020\000\022\026\n\022AT_SEQU" +
-      "ENCE_NUMBER\020\001\022\031\n\025AFTER_SEQUENCE_NUMBER\020\002" +
-      "\022\020\n\014AT_TIMESTAMP\020\003\022\020\n\014TRIM_HORIZON\020\004\022\n\n\006" +
-      "LATEST\020\005:g\n\020FieldTransformer\022\035.google.pr" +
-      "otobuf.FieldOptions\030\213\306\003 \001(\0162,.Ydb.DataSt" +
-      "reams.V1.EFieldTransformationTypeB\"\n\035com" +
-      ".yandex.ydb.datastreams.v1\370\001\001b\006proto3"
+      "ation\"\034\n\032RemoveTagsFromStreamResult\"\232\001\n\021" +
+      "SplitShardRequest\0229\n\020operation_params\030\001 " +
+      "\001(\0132\037.Ydb.Operations.OperationParams\022\035\n\025" +
+      "new_starting_hash_key\030\002 \001(\t\022\026\n\016shard_to_" +
+      "split\030\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t\"B\n\022Spli" +
+      "tShardResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
+      "Operations.Operation\"\022\n\020SplitShardResult" +
+      "\"\273\001\n\034StartStreamEncryptionRequest\0229\n\020ope" +
+      "ration_params\030\001 \001(\0132\037.Ydb.Operations.Ope" +
+      "rationParams\022;\n\017encryption_type\030\002 \001(\0162\"." +
+      "Ydb.DataStreams.V1.EncryptionType\022\016\n\006key" +
+      "_id\030\003 \001(\t\022\023\n\013stream_name\030\004 \001(\t\"M\n\035StartS" +
+      "treamEncryptionResponse\022,\n\toperation\030\001 \001" +
+      "(\0132\031.Ydb.Operations.Operation\"\035\n\033StartSt" +
+      "reamEncryptionResult\"\272\001\n\033StopStreamEncry" +
+      "ptionRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
+      ".Ydb.Operations.OperationParams\022;\n\017encry" +
+      "ption_type\030\002 \001(\0162\".Ydb.DataStreams.V1.En" +
+      "cryptionType\022\016\n\006key_id\030\003 \001(\t\022\023\n\013stream_n" +
+      "ame\030\004 \001(\t\"L\n\034StopStreamEncryptionRespons" +
+      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
+      "eration\"\034\n\032StopStreamEncryptionResult\"\222\002" +
+      "\n\027UpdateShardCountRequest\0229\n\020operation_p" +
+      "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa" +
+      "rams\022M\n\014scaling_type\030\002 \001(\01627.Ydb.DataStr" +
+      "eams.V1.UpdateShardCountRequest.ScalingT" +
+      "ype\022\023\n\013stream_name\030\003 \001(\t\022\032\n\022target_shard" +
+      "_count\030\004 \001(\005\"<\n\013ScalingType\022\030\n\024SCALING_T" +
+      "YPE_UNKNOWN\020\000\022\023\n\017UNIFORM_SCALING\020\001\"H\n\030Up" +
+      "dateShardCountResponse\022,\n\toperation\030\001 \001(" +
+      "\0132\031.Ydb.Operations.Operation\"f\n\026UpdateSh" +
+      "ardCountResult\022\033\n\023current_shard_count\030\001 " +
+      "\001(\005\022\023\n\013stream_name\030\002 \001(\t\022\032\n\022target_shard" +
+      "_count\030\003 \001(\005*f\n\030EFieldTransformationType" +
+      "\022\022\n\016TRANSFORM_NONE\020\000\022\024\n\020TRANSFORM_BASE64" +
+      "\020\001\022 \n\034TRANSFORM_DOUBLE_S_TO_INT_MS\020\002*=\n\016" +
+      "EncryptionType\022\030\n\024ENCRYPTION_UNDEFINED\020\000" +
+      "\022\010\n\004NONE\020\001\022\007\n\003KMS\020\002*\224\001\n\021ShardIteratorTyp" +
+      "e\022\034\n\030SHARD_ITERATOR_UNDEFINED\020\000\022\026\n\022AT_SE" +
+      "QUENCE_NUMBER\020\001\022\031\n\025AFTER_SEQUENCE_NUMBER" +
+      "\020\002\022\020\n\014AT_TIMESTAMP\020\003\022\020\n\014TRIM_HORIZON\020\004\022\n" +
+      "\n\006LATEST\020\005:g\n\020FieldTransformer\022\035.google." +
+      "protobuf.FieldOptions\030\213\306\003 \001(\0162,.Ydb.Data" +
+      "Streams.V1.EFieldTransformationTypeB\"\n\035c" +
+      "om.yandex.ydb.datastreams.v1\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -97448,7 +97713,7 @@ public final class Datastreams {
     internal_static_Ydb_DataStreams_V1_DescribeStreamSummaryResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_DataStreams_V1_DescribeStreamSummaryResult_descriptor,
-        new java.lang.String[] { });
+        new java.lang.String[] { "StreamDescriptionSummary", });
     internal_static_Ydb_DataStreams_V1_DisableEnhancedMonitoringRequest_descriptor =
       getDescriptor().getMessageTypes().get(77);
     internal_static_Ydb_DataStreams_V1_DisableEnhancedMonitoringRequest_fieldAccessorTable = new

@@ -23,7 +23,7 @@ public enum ConsistencyMode
   CONSISTENCY_MODE_UNSET(0),
   /**
    * <pre>
-   * Strict mode makes sure operations may only complete on current master
+   * Strict mode makes sure operations may only complete on current leader
    * </pre>
    *
    * <code>CONSISTENCY_MODE_STRICT = 1;</code>
@@ -50,7 +50,7 @@ public enum ConsistencyMode
   public static final int CONSISTENCY_MODE_UNSET_VALUE = 0;
   /**
    * <pre>
-   * Strict mode makes sure operations may only complete on current master
+   * Strict mode makes sure operations may only complete on current leader
    * </pre>
    *
    * <code>CONSISTENCY_MODE_STRICT = 1;</code>

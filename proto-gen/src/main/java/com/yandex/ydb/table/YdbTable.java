@@ -19849,7 +19849,7 @@ public final class YdbTable {
     /**
      * <pre>
      * If this feature in enabled then read-only replicas can be promoted
-     * to master.
+     * to leader.
      * </pre>
      *
      * <code>.Ydb.FeatureFlag.Status allow_promotion = 4;</code>
@@ -19859,7 +19859,7 @@ public final class YdbTable {
     /**
      * <pre>
      * If this feature in enabled then read-only replicas can be promoted
-     * to master.
+     * to leader.
      * </pre>
      *
      * <code>.Ydb.FeatureFlag.Status allow_promotion = 4;</code>
@@ -20059,7 +20059,7 @@ public final class YdbTable {
     /**
      * <pre>
      * If this feature in enabled then read-only replicas can be promoted
-     * to master.
+     * to leader.
      * </pre>
      *
      * <code>.Ydb.FeatureFlag.Status allow_promotion = 4;</code>
@@ -20071,7 +20071,7 @@ public final class YdbTable {
     /**
      * <pre>
      * If this feature in enabled then read-only replicas can be promoted
-     * to master.
+     * to leader.
      * </pre>
      *
      * <code>.Ydb.FeatureFlag.Status allow_promotion = 4;</code>
@@ -20642,7 +20642,7 @@ public final class YdbTable {
       /**
        * <pre>
        * If this feature in enabled then read-only replicas can be promoted
-       * to master.
+       * to leader.
        * </pre>
        *
        * <code>.Ydb.FeatureFlag.Status allow_promotion = 4;</code>
@@ -20654,7 +20654,7 @@ public final class YdbTable {
       /**
        * <pre>
        * If this feature in enabled then read-only replicas can be promoted
-       * to master.
+       * to leader.
        * </pre>
        *
        * <code>.Ydb.FeatureFlag.Status allow_promotion = 4;</code>
@@ -20670,7 +20670,7 @@ public final class YdbTable {
       /**
        * <pre>
        * If this feature in enabled then read-only replicas can be promoted
-       * to master.
+       * to leader.
        * </pre>
        *
        * <code>.Ydb.FeatureFlag.Status allow_promotion = 4;</code>
@@ -20685,7 +20685,7 @@ public final class YdbTable {
       /**
        * <pre>
        * If this feature in enabled then read-only replicas can be promoted
-       * to master.
+       * to leader.
        * </pre>
        *
        * <code>.Ydb.FeatureFlag.Status allow_promotion = 4;</code>
@@ -20704,7 +20704,7 @@ public final class YdbTable {
       /**
        * <pre>
        * If this feature in enabled then read-only replicas can be promoted
-       * to master.
+       * to leader.
        * </pre>
        *
        * <code>.Ydb.FeatureFlag.Status allow_promotion = 4;</code>

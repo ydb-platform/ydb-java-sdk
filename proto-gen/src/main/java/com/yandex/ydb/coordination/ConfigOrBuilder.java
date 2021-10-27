@@ -39,7 +39,7 @@ public interface ConfigOrBuilder extends
 
   /**
    * <pre>
-   * Grace period for sessions on master change (default 10 seconds)
+   * Grace period for sessions on leader change (default 10 seconds)
    * </pre>
    *
    * <code>uint32 session_grace_period_millis = 3;</code>

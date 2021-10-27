@@ -76,6 +76,12 @@ public final class AnalyticsIntenalProtos {
      * <code>.Ydb.Operations.OperationParams operation_params = 4;</code>
      */
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
+
+    /**
+     * <code>uint64 tasks_batch_size = 5;</code>
+     * @return The tasksBatchSize.
+     */
+    long getTasksBatchSize();
   }
   /**
    * Protobuf type {@code Yql.Analytics.GetTaskRequest}
@@ -154,6 +160,11 @@ public final class AnalyticsIntenalProtos {
                 operationParams_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            case 40: {
+
+              tasksBatchSize_ = input.readUInt64();
               break;
             }
             default: {
@@ -336,6 +347,17 @@ public final class AnalyticsIntenalProtos {
       return getOperationParams();
     }
 
+    public static final int TASKS_BATCH_SIZE_FIELD_NUMBER = 5;
+    private long tasksBatchSize_;
+    /**
+     * <code>uint64 tasks_batch_size = 5;</code>
+     * @return The tasksBatchSize.
+     */
+    @java.lang.Override
+    public long getTasksBatchSize() {
+      return tasksBatchSize_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -362,6 +384,9 @@ public final class AnalyticsIntenalProtos {
       if (operationParams_ != null) {
         output.writeMessage(4, getOperationParams());
       }
+      if (tasksBatchSize_ != 0L) {
+        output.writeUInt64(5, tasksBatchSize_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -383,6 +408,10 @@ public final class AnalyticsIntenalProtos {
       if (operationParams_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, getOperationParams());
+      }
+      if (tasksBatchSize_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(5, tasksBatchSize_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -410,6 +439,8 @@ public final class AnalyticsIntenalProtos {
         if (!getOperationParams()
             .equals(other.getOperationParams())) return false;
       }
+      if (getTasksBatchSize()
+          != other.getTasksBatchSize()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -431,6 +462,9 @@ public final class AnalyticsIntenalProtos {
         hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
         hash = (53 * hash) + getOperationParams().hashCode();
       }
+      hash = (37 * hash) + TASKS_BATCH_SIZE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTasksBatchSize());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -576,6 +610,8 @@ public final class AnalyticsIntenalProtos {
           operationParams_ = null;
           operationParamsBuilder_ = null;
         }
+        tasksBatchSize_ = 0L;
+
         return this;
       }
 
@@ -610,6 +646,7 @@ public final class AnalyticsIntenalProtos {
         } else {
           result.operationParams_ = operationParamsBuilder_.build();
         }
+        result.tasksBatchSize_ = tasksBatchSize_;
         onBuilt();
         return result;
       }
@@ -672,6 +709,9 @@ public final class AnalyticsIntenalProtos {
         }
         if (other.hasOperationParams()) {
           mergeOperationParams(other.getOperationParams());
+        }
+        if (other.getTasksBatchSize() != 0L) {
+          setTasksBatchSize(other.getTasksBatchSize());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1067,6 +1107,37 @@ public final class AnalyticsIntenalProtos {
           operationParams_ = null;
         }
         return operationParamsBuilder_;
+      }
+
+      private long tasksBatchSize_ ;
+      /**
+       * <code>uint64 tasks_batch_size = 5;</code>
+       * @return The tasksBatchSize.
+       */
+      @java.lang.Override
+      public long getTasksBatchSize() {
+        return tasksBatchSize_;
+      }
+      /**
+       * <code>uint64 tasks_batch_size = 5;</code>
+       * @param value The tasksBatchSize to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTasksBatchSize(long value) {
+        
+        tasksBatchSize_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 tasks_batch_size = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTasksBatchSize() {
+        
+        tasksBatchSize_ = 0L;
+        onChanged();
+        return this;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -21424,86 +21495,87 @@ public final class AnalyticsIntenalProtos {
       "/public/api/protos/ydb_value.proto\0320kiki" +
       "mr/public/api/protos/ydb_issue_message.p" +
       "roto\032!kikimr/public/api/protos/yq.proto\032" +
-      "\037google/protobuf/timestamp.proto\"{\n\016GetT" +
-      "askRequest\022\016\n\006tenant\030\001 \001(\t\022\020\n\010owner_id\030\002" +
-      " \001(\t\022\014\n\004host\030\003 \001(\t\0229\n\020operation_params\030\004" +
-      " \001(\0132\037.Ydb.Operations.OperationParams\"2\n" +
-      "\016SignedIdentity\022\r\n\005value\030\001 \001(\t\022\021\n\tsignat" +
-      "ure\030\002 \001(\t\"\275\001\n\rTopicConsumer\022\023\n\013database_" +
-      "id\030\001 \001(\t\022\020\n\010database\030\002 \001(\t\022\022\n\ntopic_path" +
-      "\030\003 \001(\t\022\025\n\rconsumer_name\030\004 \001(\t\022\030\n\020cluster" +
-      "_endpoint\030\005 \001(\t\022\017\n\007use_ssl\030\006 \001(\010\022\022\n\ntoke" +
-      "n_name\030\007 \001(\t\022\033\n\023add_bearer_to_token\030\010 \001(" +
-      "\010\"\305\007\n\rGetTaskResult\0220\n\005tasks\030\001 \003(\0132!.Yql" +
-      ".Analytics.GetTaskResult.Task\032\201\007\n\004Task\0220" +
-      "\n\tresult_id\030\001 \001(\0132\035.Yql.Analytics.Signed" +
-      "Identity\022/\n\010query_id\030\002 \001(\0132\035.Yql.Analyti" +
-      "cs.SignedIdentity\022-\n\006job_id\030\003 \001(\0132\035.Yql." +
-      "Analytics.SignedIdentity\022\022\n\ngeneration\030\004" +
-      " \001(\004\022\021\n\tstreaming\030\005 \001(\010\022\020\n\010dq_graph\030\006 \003(" +
-      "\014\022\014\n\004text\030\007 \001(\t\022+\n\nconnection\030\010 \003(\0132\027.Ya" +
-      "ndexQuery.Connection\022%\n\007binding\030\t \003(\0132\024." +
-      "YandexQuery.Binding\022\022\n\nuser_token\030\n \001(\t\022" +
-      "7\n\020service_accounts\030\013 \003(\0132\035.Yql.Analytic" +
-      "s.SignedIdentity\022\017\n\007user_id\030\014 \001(\t\0227\n\nque" +
-      "ry_type\030\r \001(\0162#.YandexQuery.QueryContent" +
-      ".QueryType\022\r\n\005scope\030\016 \001(\t\022.\n\014execute_mod" +
-      "e\030\017 \001(\0162\030.YandexQuery.ExecuteMode\0223\n\017sta" +
-      "te_load_mode\030\020 \001(\0162\032.YandexQuery.StateLo" +
-      "adMode\0224\n\006status\030\021 \001(\0162$.YandexQuery.Que" +
-      "ryMeta.ComputeStatus\0223\n\017result_set_meta\030" +
-      "\022 \003(\0132\032.YandexQuery.ResultSetMeta\022=\n\027cre" +
-      "ated_topic_consumers\030\023 \003(\0132\034.Yql.Analyti" +
-      "cs.TopicConsumer\022\026\n\016dq_graph_index\030\024 \001(\005" +
-      "\022J\n\rsensor_labels\030\025 \003(\01323.Yql.Analytics." +
-      "GetTaskResult.Task.SensorLabelsEntry\0323\n\021" +
-      "SensorLabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030" +
-      "\002 \001(\t:\0028\001\"?\n\017GetTaskResponse\022,\n\toperatio" +
-      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\206\006\n\017P" +
-      "ingTaskRequest\022\020\n\010owner_id\030\001 \001(\t\022/\n\010quer" +
-      "y_id\030\002 \001(\0132\035.Yql.Analytics.SignedIdentit" +
-      "y\022-\n\006job_id\030\003 \001(\0132\035.Yql.Analytics.Signed" +
-      "Identity\0220\n\tresult_id\030\004 \001(\0132\035.Yql.Analyt" +
-      "ics.SignedIdentity\0224\n\006status\030\005 \001(\0162$.Yan" +
-      "dexQuery.QueryMeta.ComputeStatus\022\'\n\006issu" +
-      "es\030\006 \003(\0132\027.Ydb.Issue.IssueMessage\0221\n\020tra" +
-      "nsient_issues\030\020 \003(\0132\027.Ydb.Issue.IssueMes" +
-      "sage\022\030\n\020result_set_count\030\007 \001(\r\022\022\n\nstatis" +
-      "tics\030\010 \001(\t\0223\n\017result_set_meta\030\t \003(\0132\032.Ya" +
-      "ndexQuery.ResultSetMeta\022\025\n\rexecuter_info" +
-      "\030\n \001(\t\022\020\n\010dq_graph\030\013 \003(\014\022\026\n\016dq_graph_ind" +
-      "ex\030\024 \001(\005\022\013\n\003ast\030\014 \001(\t\022\014\n\004plan\030\r \001(\t\022\024\n\014r" +
-      "esign_query\030\016 \001(\010\022=\n\027created_topic_consu" +
-      "mers\030\021 \003(\0132\034.Yql.Analytics.TopicConsumer" +
-      "\0229\n\020operation_params\030\017 \001(\0132\037.Ydb.Operati" +
-      "ons.OperationParams\022\r\n\005scope\030d \001(\t\022.\n\nst" +
-      "arted_at\030e \001(\0132\032.google.protobuf.Timesta" +
-      "mp\022/\n\013finished_at\030f \001(\0132\032.google.protobu" +
-      "f.Timestamp\":\n\016PingTaskResult\022(\n\006action\030" +
-      "\001 \001(\0162\030.YandexQuery.QueryAction\"@\n\020PingT" +
-      "askResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
-      "rations.Operation\"\366\001\n\026WriteTaskResultReq" +
-      "uest\022\020\n\010owner_id\030\001 \001(\t\0220\n\tresult_id\030\002 \001(" +
-      "\0132\035.Yql.Analytics.SignedIdentity\022\"\n\nresu" +
-      "lt_set\030\003 \001(\0132\016.Ydb.ResultSet\022\025\n\rresult_s" +
-      "et_id\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\022\n\nrequest_i" +
-      "d\030\006 \001(\004\0229\n\020operation_params\030\007 \001(\0132\037.Ydb." +
-      "Operations.OperationParams\"+\n\025WriteTaskR" +
-      "esultResult\022\022\n\nrequest_id\030\001 \001(\004\"G\n\027Write" +
-      "TaskResultResponse\022,\n\toperation\030\001 \001(\0132\031." +
-      "Ydb.Operations.Operation\"\264\001\n\027NodesHealth" +
-      "CheckRequest\022\016\n\006tenant\030\001 \001(\t\022\017\n\007node_id\030" +
-      "\002 \001(\r\022\023\n\013instance_id\030\003 \001(\t\022\020\n\010hostname\030\004" +
-      " \001(\t\022\026\n\016active_workers\030\005 \001(\004\0229\n\020operatio" +
-      "n_params\030\006 \001(\0132\037.Ydb.Operations.Operatio" +
-      "nParams\"\233\001\n\026NodesHealthCheckResult\022=\n\005no" +
-      "des\030\001 \003(\0132..Yql.Analytics.NodesHealthChe" +
-      "ckResult.NodeInfo\032B\n\010NodeInfo\022\017\n\007node_id" +
-      "\030\001 \001(\r\022\023\n\013instance_id\030\002 \001(\t\022\020\n\010hostname\030" +
-      "\003 \001(\t\"H\n\030NodesHealthCheckResponse\022,\n\tope" +
-      "ration\030\001 \001(\0132\031.Ydb.Operations.OperationB" +
-      ">\n!com.yandex.yql.analytics.internalB\026An" +
-      "alyticsIntenalProtos\370\001\001b\006proto3"
+      "\037google/protobuf/timestamp.proto\"\225\001\n\016Get" +
+      "TaskRequest\022\016\n\006tenant\030\001 \001(\t\022\020\n\010owner_id\030" +
+      "\002 \001(\t\022\014\n\004host\030\003 \001(\t\0229\n\020operation_params\030" +
+      "\004 \001(\0132\037.Ydb.Operations.OperationParams\022\030" +
+      "\n\020tasks_batch_size\030\005 \001(\004\"2\n\016SignedIdenti" +
+      "ty\022\r\n\005value\030\001 \001(\t\022\021\n\tsignature\030\002 \001(\t\"\275\001\n" +
+      "\rTopicConsumer\022\023\n\013database_id\030\001 \001(\t\022\020\n\010d" +
+      "atabase\030\002 \001(\t\022\022\n\ntopic_path\030\003 \001(\t\022\025\n\rcon" +
+      "sumer_name\030\004 \001(\t\022\030\n\020cluster_endpoint\030\005 \001" +
+      "(\t\022\017\n\007use_ssl\030\006 \001(\010\022\022\n\ntoken_name\030\007 \001(\t\022" +
+      "\033\n\023add_bearer_to_token\030\010 \001(\010\"\305\007\n\rGetTask" +
+      "Result\0220\n\005tasks\030\001 \003(\0132!.Yql.Analytics.Ge" +
+      "tTaskResult.Task\032\201\007\n\004Task\0220\n\tresult_id\030\001" +
+      " \001(\0132\035.Yql.Analytics.SignedIdentity\022/\n\010q" +
+      "uery_id\030\002 \001(\0132\035.Yql.Analytics.SignedIden" +
+      "tity\022-\n\006job_id\030\003 \001(\0132\035.Yql.Analytics.Sig" +
+      "nedIdentity\022\022\n\ngeneration\030\004 \001(\004\022\021\n\tstrea" +
+      "ming\030\005 \001(\010\022\020\n\010dq_graph\030\006 \003(\014\022\014\n\004text\030\007 \001" +
+      "(\t\022+\n\nconnection\030\010 \003(\0132\027.YandexQuery.Con" +
+      "nection\022%\n\007binding\030\t \003(\0132\024.YandexQuery.B" +
+      "inding\022\022\n\nuser_token\030\n \001(\t\0227\n\020service_ac" +
+      "counts\030\013 \003(\0132\035.Yql.Analytics.SignedIdent" +
+      "ity\022\017\n\007user_id\030\014 \001(\t\0227\n\nquery_type\030\r \001(\016" +
+      "2#.YandexQuery.QueryContent.QueryType\022\r\n" +
+      "\005scope\030\016 \001(\t\022.\n\014execute_mode\030\017 \001(\0162\030.Yan" +
+      "dexQuery.ExecuteMode\0223\n\017state_load_mode\030" +
+      "\020 \001(\0162\032.YandexQuery.StateLoadMode\0224\n\006sta" +
+      "tus\030\021 \001(\0162$.YandexQuery.QueryMeta.Comput" +
+      "eStatus\0223\n\017result_set_meta\030\022 \003(\0132\032.Yande" +
+      "xQuery.ResultSetMeta\022=\n\027created_topic_co" +
+      "nsumers\030\023 \003(\0132\034.Yql.Analytics.TopicConsu" +
+      "mer\022\026\n\016dq_graph_index\030\024 \001(\005\022J\n\rsensor_la" +
+      "bels\030\025 \003(\01323.Yql.Analytics.GetTaskResult" +
+      ".Task.SensorLabelsEntry\0323\n\021SensorLabelsE" +
+      "ntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"?\n\017" +
+      "GetTaskResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
+      ".Operations.Operation\"\206\006\n\017PingTaskReques" +
+      "t\022\020\n\010owner_id\030\001 \001(\t\022/\n\010query_id\030\002 \001(\0132\035." +
+      "Yql.Analytics.SignedIdentity\022-\n\006job_id\030\003" +
+      " \001(\0132\035.Yql.Analytics.SignedIdentity\0220\n\tr" +
+      "esult_id\030\004 \001(\0132\035.Yql.Analytics.SignedIde" +
+      "ntity\0224\n\006status\030\005 \001(\0162$.YandexQuery.Quer" +
+      "yMeta.ComputeStatus\022\'\n\006issues\030\006 \003(\0132\027.Yd" +
+      "b.Issue.IssueMessage\0221\n\020transient_issues" +
+      "\030\020 \003(\0132\027.Ydb.Issue.IssueMessage\022\030\n\020resul" +
+      "t_set_count\030\007 \001(\r\022\022\n\nstatistics\030\010 \001(\t\0223\n" +
+      "\017result_set_meta\030\t \003(\0132\032.YandexQuery.Res" +
+      "ultSetMeta\022\025\n\rexecuter_info\030\n \001(\t\022\020\n\010dq_" +
+      "graph\030\013 \003(\014\022\026\n\016dq_graph_index\030\024 \001(\005\022\013\n\003a" +
+      "st\030\014 \001(\t\022\014\n\004plan\030\r \001(\t\022\024\n\014resign_query\030\016" +
+      " \001(\010\022=\n\027created_topic_consumers\030\021 \003(\0132\034." +
+      "Yql.Analytics.TopicConsumer\0229\n\020operation" +
+      "_params\030\017 \001(\0132\037.Ydb.Operations.Operation" +
+      "Params\022\r\n\005scope\030d \001(\t\022.\n\nstarted_at\030e \001(" +
+      "\0132\032.google.protobuf.Timestamp\022/\n\013finishe" +
+      "d_at\030f \001(\0132\032.google.protobuf.Timestamp\":" +
+      "\n\016PingTaskResult\022(\n\006action\030\001 \001(\0162\030.Yande" +
+      "xQuery.QueryAction\"@\n\020PingTaskResponse\022," +
+      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
+      "tion\"\366\001\n\026WriteTaskResultRequest\022\020\n\010owner" +
+      "_id\030\001 \001(\t\0220\n\tresult_id\030\002 \001(\0132\035.Yql.Analy" +
+      "tics.SignedIdentity\022\"\n\nresult_set\030\003 \001(\0132" +
+      "\016.Ydb.ResultSet\022\025\n\rresult_set_id\030\004 \001(\r\022\016" +
+      "\n\006offset\030\005 \001(\004\022\022\n\nrequest_id\030\006 \001(\004\0229\n\020op" +
+      "eration_params\030\007 \001(\0132\037.Ydb.Operations.Op" +
+      "erationParams\"+\n\025WriteTaskResultResult\022\022" +
+      "\n\nrequest_id\030\001 \001(\004\"G\n\027WriteTaskResultRes" +
+      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
+      "s.Operation\"\264\001\n\027NodesHealthCheckRequest\022" +
+      "\016\n\006tenant\030\001 \001(\t\022\017\n\007node_id\030\002 \001(\r\022\023\n\013inst" +
+      "ance_id\030\003 \001(\t\022\020\n\010hostname\030\004 \001(\t\022\026\n\016activ" +
+      "e_workers\030\005 \001(\004\0229\n\020operation_params\030\006 \001(" +
+      "\0132\037.Ydb.Operations.OperationParams\"\233\001\n\026N" +
+      "odesHealthCheckResult\022=\n\005nodes\030\001 \003(\0132..Y" +
+      "ql.Analytics.NodesHealthCheckResult.Node" +
+      "Info\032B\n\010NodeInfo\022\017\n\007node_id\030\001 \001(\r\022\023\n\013ins" +
+      "tance_id\030\002 \001(\t\022\020\n\010hostname\030\003 \001(\t\"H\n\030Node" +
+      "sHealthCheckResponse\022,\n\toperation\030\001 \001(\0132" +
+      "\031.Ydb.Operations.OperationB>\n!com.yandex" +
+      ".yql.analytics.internalB\026AnalyticsIntena" +
+      "lProtos\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -21519,7 +21591,7 @@ public final class AnalyticsIntenalProtos {
     internal_static_Yql_Analytics_GetTaskRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetTaskRequest_descriptor,
-        new java.lang.String[] { "Tenant", "OwnerId", "Host", "OperationParams", });
+        new java.lang.String[] { "Tenant", "OwnerId", "Host", "OperationParams", "TasksBatchSize", });
     internal_static_Yql_Analytics_SignedIdentity_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_Yql_Analytics_SignedIdentity_fieldAccessorTable = new
