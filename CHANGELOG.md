@@ -1,3 +1,7 @@
+## 1.10.0 ##
+
+* Added DiscoveryMode for GrpcTransport. SYNC mode is used by default, which means GRPCTransport will lock on constructor until grpc channel will be connected. This should improve session balancing on start with high load. It should also reduce latency of first requests.
+
 ## 1.9.3 ##
 
 * Fix String comparsion in CloudAuthHelper.

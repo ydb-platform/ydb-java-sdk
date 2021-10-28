@@ -3,13 +3,16 @@ package tech.ydb.core.grpc;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -39,6 +42,7 @@ import io.grpc.Channel;
 import io.grpc.ClientCall;
 import io.grpc.ClientInterceptor;
 import io.grpc.ClientInterceptors;
+import io.grpc.ConnectivityState;
 import io.grpc.LoadBalancer;
 import io.grpc.LoadBalancerProvider;
 import io.grpc.LoadBalancerRegistry;
@@ -70,8 +74,14 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 public class GrpcTransport implements RpcTransport {
 
     public static final int DEFAULT_PORT = 2135;
+    public static final long WAIT_FOR_CONNECTION_MS = 10000;
 
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransport.class);
+
+    private static final EnumSet<ConnectivityState> TEMPORARY_STATES = EnumSet.of(
+        ConnectivityState.IDLE,
+        ConnectivityState.CONNECTING
+    );
 
     private final ManagedChannel realChannel;
     private final Channel channel;
@@ -79,6 +89,7 @@ public class GrpcTransport implements RpcTransport {
     private final String database;
     private final GrpcOperationTray operationTray;
     private final long defautlReadTimeoutMillis;
+    private final DiscoveryMode discoveryMode;
 
     private GrpcTransport(Builder builder) {
         this.realChannel = createChannel(builder);
@@ -87,6 +98,55 @@ public class GrpcTransport implements RpcTransport {
         this.defautlReadTimeoutMillis = builder.getReadTimeoutMillis();
         this.database = Strings.nullToEmpty(builder.getDatabase());
         this.operationTray = new GrpcOperationTray(this);
+        this.discoveryMode = builder.getDiscoveryMode();
+        init();
+    }
+
+    private void init() {
+        switch (discoveryMode) {
+            case SYNC:
+                try {
+                    Instant start = Instant.now();
+                    establishConnection().get(WAIT_FOR_CONNECTION_MS, TimeUnit.MILLISECONDS);
+                    logger.debug("GrpcTransport sync initialization took {} ms",
+                            Duration.between(start, Instant.now()).toMillis());
+                } catch (TimeoutException ignore) {
+                    logger.warn("Couldn't establish YDB transport connection in {} ms", WAIT_FOR_CONNECTION_MS);
+                    // keep going
+                } catch (Exception e) {
+                    logger.warn("Error while establishing YDB transport connection: " + e);
+                }
+                break;
+            case ASYNC:
+            default:
+                break;
+        }
+    }
+
+    private CompletableFuture<ConnectivityState> establishConnection() {
+        CompletableFuture<ConnectivityState> promise = new CompletableFuture<>();
+        ConnectivityState initialState = realChannel.getState(true);
+        logger.debug("GrpcTransport channel initial state: {}", initialState);
+        if (!TEMPORARY_STATES.contains(initialState)) {
+            promise.complete(initialState);
+        } else {
+            realChannel.notifyWhenStateChanged(
+                initialState,
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        ConnectivityState currState = realChannel.getState(false);
+                        logger.debug("GrpcTransport channel new state: {}", currState);
+                        if (TEMPORARY_STATES.contains(currState)) {
+                            realChannel.notifyWhenStateChanged(currState, this);
+                        } else {
+                            promise.complete(currState);
+                        }
+                    }
+                }
+            );
+        }
+        return promise;
     }
 
     public static Builder forHost(String host, int port) {
@@ -501,6 +561,7 @@ public class GrpcTransport implements RpcTransport {
         };
         private String localDc;
         private Duration endpointsDiscoveryPeriod = Duration.ofSeconds(60);
+        private DiscoveryMode discoveryMode = DiscoveryMode.SYNC;
 
         private Builder(@Nullable String endpoint, @Nullable String database, @Nullable List<HostAndPort> hosts) {
             this.endpoint = endpoint;
@@ -546,6 +607,10 @@ public class GrpcTransport implements RpcTransport {
             return localDc;
         }
 
+        public DiscoveryMode getDiscoveryMode() {
+            return discoveryMode;
+        }
+
         public Builder withChannelInitializer(Consumer<NettyChannelBuilder> channelInitializer) {
             this.channelInitializer = checkNotNull(channelInitializer, "channelInitializer is null");
             return this;
@@ -569,6 +634,11 @@ public class GrpcTransport implements RpcTransport {
 
         public Builder withSecureConnection() {
             this.useTLS = true;
+            return this;
+        }
+
+        public Builder withDiscoveryMode(DiscoveryMode discoveryMode) {
+            this.discoveryMode = discoveryMode;
             return this;
         }
 

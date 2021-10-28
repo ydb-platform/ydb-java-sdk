@@ -236,7 +236,8 @@ final class YdbNameResolver extends NameResolver {
                         .withAuthProvider(authProvider)
                         .withCallExecutor(executor)
                         .withDataBase(database)
-                        .withChannelInitializer(channelCustomizer);
+                        .withChannelInitializer(channelCustomizer)
+                        .withDiscoveryMode(DiscoveryMode.ASYNC);
                 if (useTLS) {
                     if (cert != null) {
                         transportBuilder.withSecureConnection(cert);
