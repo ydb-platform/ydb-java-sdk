@@ -50,6 +50,7 @@ public class SessionRetryContext {
     private final int fastBackoffCeiling;
     private final Duration sessionSupplyTimeout;
     private final boolean retryNotFound;
+    private final boolean idempotent;
 
     private SessionRetryContext(Builder b) {
         this.sessionSupplier = b.sessionSupplier;
@@ -61,6 +62,7 @@ public class SessionRetryContext {
         this.fastBackoffCeiling = b.fastBackoffCeiling;
         this.sessionSupplyTimeout = b.sessionSupplyTimeout;
         this.retryNotFound = b.retryNotFound;
+        this.idempotent = b.idempotent;
     }
 
     public static Builder create(SessionSupplier sessionSupplier) {
@@ -92,8 +94,16 @@ public class SessionRetryContext {
         if (RETRYABLE_STATUSES.contains(code)) {
             return true;
         }
-        if (code == StatusCode.NOT_FOUND && retryNotFound) {
-            return true;
+        switch (code) {
+            case NOT_FOUND:
+                return retryNotFound;
+            case CLIENT_CANCELLED:
+            case CLIENT_INTERNAL_ERROR:
+            case UNDETERMINED:
+            case TRANSPORT_UNAVAILABLE:
+                return idempotent;
+            default:
+                break;
         }
         return false;
     }
@@ -115,13 +125,18 @@ public class SessionRetryContext {
     private long backoffTimeMillis(StatusCode code, int retryNumber) {
         switch (code) {
             case BAD_SESSION:
-            case SESSION_BUSY:
                 // Instant retry
                 return 0;
             case ABORTED:
+            case CLIENT_CANCELLED:
+            case CLIENT_INTERNAL_ERROR:
+            case SESSION_BUSY:
+            case TRANSPORT_UNAVAILABLE:
             case UNAVAILABLE:
+            case UNDETERMINED:
                 // Fast backoff
                 return fastBackoffTimeMillis(retryNumber);
+            case NOT_FOUND:
             case OVERLOADED:
             case CLIENT_RESOURCE_EXHAUSTED:
             default:
@@ -298,6 +313,7 @@ public class SessionRetryContext {
         private int fastBackoffCeiling = 10;
         private Duration sessionSupplyTimeout = Duration.ofSeconds(5);
         private boolean retryNotFound = true;
+        private boolean idempotent = false;
 
         public Builder(SessionSupplier sessionSupplier) {
             this.sessionSupplier = sessionSupplier;
@@ -343,6 +359,11 @@ public class SessionRetryContext {
 
         public Builder retryNotFound(boolean retryNotFound) {
             this.retryNotFound = retryNotFound;
+            return this;
+        }
+
+        public Builder idempotent(boolean idempotent) {
+            this.idempotent = idempotent;
             return this;
         }
 

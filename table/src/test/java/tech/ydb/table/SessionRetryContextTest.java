@@ -190,7 +190,8 @@ public class SessionRetryContextTest {
             }).join();
 
             Duration timePassed = Duration.between(startTime, Instant.now());
-            Assert.assertTrue("Wrong timeout between retries",timePassed.compareTo(FIVE_SECONDS) < 0);
+            Assert.assertTrue(String.format("Code: %s - Wrong timeout between retries", statusCode.toString()),
+                    timePassed.compareTo(FIVE_SECONDS) < 0);
 
             Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 2, sessionSupplier.getRetriesCount());
             Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 1, cnt.get());
@@ -200,6 +201,7 @@ public class SessionRetryContextTest {
         // one session creation fail, but retryable. Fast backoff
         List<StatusCode> fastBackoffCodes = Arrays.asList(
                 StatusCode.ABORTED,
+                StatusCode.SESSION_BUSY,
                 StatusCode.UNAVAILABLE
         );
         for(StatusCode statusCode : fastBackoffCodes) {
@@ -218,7 +220,49 @@ public class SessionRetryContextTest {
             }).join();
 
             Duration timePassed = Duration.between(startTime, Instant.now());
-            Assert.assertTrue("Wrong timeout between retries",timePassed.compareTo(FIVE_SECONDS) < 0);
+            Assert.assertTrue(String.format("Code: %s - Wrong timeout between retries", statusCode.toString()),
+                    timePassed.compareTo(FIVE_SECONDS) < 0);
+
+            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 2, sessionSupplier.getRetriesCount());
+            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 1, cnt.get());
+            Assert.assertEquals(Status.SUCCESS, status);
+        }
+
+        // one session creation fail, but retryable. Idempotent operations. Fast backoff
+        List<StatusCode> fastBackoffIdempotentCodes = Arrays.asList(
+                StatusCode.CLIENT_CANCELLED,
+                StatusCode.CLIENT_INTERNAL_ERROR,
+                StatusCode.UNDETERMINED,
+                StatusCode.TRANSPORT_UNAVAILABLE
+        );
+        // Idempotent = false (default)
+        for(StatusCode statusCode : fastBackoffIdempotentCodes) {
+            FailSupplier sessionSupplier = new FailSupplier(1, statusCode);
+            SessionRetryContext ctx = SessionRetryContext.create(sessionSupplier).build();
+            Status status = ctx.supplyStatus(session -> completedFuture(Status.SUCCESS)).join();
+            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 1, sessionSupplier.getRetriesCount());
+            Assert.assertEquals(statusCode, status.getCode());
+        }
+        // Idempotent = true
+        for(StatusCode statusCode : fastBackoffIdempotentCodes) {
+            FailSupplier sessionSupplier = new FailSupplier(1, statusCode);
+            SessionRetryContext ctx = SessionRetryContext.create(sessionSupplier)
+                    .maxRetries(1)
+                    .backoffSlot(TEN_SECONDS)
+                    .fastBackoffSlot(TEN_MILLIS)
+                    .idempotent(true)
+                    .build();
+
+            AtomicInteger cnt = new AtomicInteger();
+            Instant startTime = Instant.now();
+            Status status = ctx.supplyStatus(session -> {
+                cnt.incrementAndGet();
+                return completedFuture(Status.SUCCESS);
+            }).join();
+
+            Duration timePassed = Duration.between(startTime, Instant.now());
+            Assert.assertTrue(String.format("Code: %s - Wrong timeout between retries", statusCode.toString()),
+                    timePassed.compareTo(FIVE_SECONDS) < 0);
 
             Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 2, sessionSupplier.getRetriesCount());
             Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 1, cnt.get());
@@ -227,8 +271,7 @@ public class SessionRetryContextTest {
 
         // one session creation fail, but retryable. Instant retry
         List<StatusCode> instantRetryCodes = Arrays.asList(
-                StatusCode.BAD_SESSION,
-                StatusCode.SESSION_BUSY
+                StatusCode.BAD_SESSION
         );
         for(StatusCode statusCode : instantRetryCodes) {
             FailSupplier sessionSupplier = new FailSupplier(1, statusCode);
@@ -246,7 +289,8 @@ public class SessionRetryContextTest {
             }).join();
 
             Duration timePassed = Duration.between(startTime, Instant.now());
-            Assert.assertTrue("Wrong timeout between retries",timePassed.compareTo(FIVE_SECONDS) < 0);
+            Assert.assertTrue(String.format("Code: %s - Wrong timeout between retries", statusCode.toString()),
+                    timePassed.compareTo(FIVE_SECONDS) < 0);
 
             Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 2, sessionSupplier.getRetriesCount());
             Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 1, cnt.get());

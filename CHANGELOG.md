@@ -1,3 +1,7 @@
+## 1.10.2 ##
+
+* Added idempotent flag for SessionRetryContext which mark an operation as retryable.
+
 ## 1.10.1 ##
 
 * Added public method tryToConnect() for GrpcTransport allowing to add any logic in case of connection timeout or other errors.
