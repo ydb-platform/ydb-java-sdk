@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.BiConsumer;
@@ -107,14 +108,16 @@ public class GrpcTransport implements RpcTransport {
             case SYNC:
                 try {
                     Instant start = Instant.now();
-                    establishConnection().get(WAIT_FOR_CONNECTION_MS, TimeUnit.MILLISECONDS);
+                    tryToConnect().get(WAIT_FOR_CONNECTION_MS, TimeUnit.MILLISECONDS);
                     logger.debug("GrpcTransport sync initialization took {} ms",
                             Duration.between(start, Instant.now()).toMillis());
                 } catch (TimeoutException ignore) {
                     logger.warn("Couldn't establish YDB transport connection in {} ms", WAIT_FOR_CONNECTION_MS);
-                    // keep going
-                } catch (Exception e) {
-                    logger.warn("Error while establishing YDB transport connection: " + e);
+                    // Keep going
+                    // Use ASYNC discovery mode and tryToConnect() method to add actions in case of connection timeout
+                } catch (InterruptedException | ExecutionException e) {
+                    logger.error("Exception thrown while establishing YDB transport connection: " + e);
+                    throw new RuntimeException("Exception thrown while establishing YDB transport connection", e);
                 }
                 break;
             case ASYNC:
@@ -123,7 +126,11 @@ public class GrpcTransport implements RpcTransport {
         }
     }
 
-    private CompletableFuture<ConnectivityState> establishConnection() {
+    /**
+     * Establish connection for grpc channel(s) if its currently IDLE
+     * Returns a future to a first {@link ConnectivityState} that is not IDLE or CONNECTING
+     */
+    public CompletableFuture<ConnectivityState> tryToConnect() {
         CompletableFuture<ConnectivityState> promise = new CompletableFuture<>();
         ConnectivityState initialState = realChannel.getState(true);
         logger.debug("GrpcTransport channel initial state: {}", initialState);
