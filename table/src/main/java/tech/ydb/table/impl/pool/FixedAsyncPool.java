@@ -31,6 +31,7 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
  */
 public final class FixedAsyncPool<T> implements AsyncPool<T> {
     private static final Logger logger = LoggerFactory.getLogger(FixedAsyncPool.class);
+    private static final Logger keepAliveTaskLogger = LoggerFactory.getLogger(FixedAsyncPool.KeepAliveTask.class);
 
     private final Deque<PooledObject<T>> objects = new LinkedList<>();
     private final AtomicInteger acquiredObjectsCount = new AtomicInteger(0);
@@ -413,11 +414,15 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
                 return;
             }
 
-            final long nowMillis = System.currentTimeMillis();
             final List<PooledObject<T>> toDestroy = new ArrayList<>();
             final List<PooledObject<T>> toKeepAlive = new ArrayList<>();
 
             synchronized (objects) {
+                final long nowMillis = System.currentTimeMillis();
+                if (keepAliveTaskLogger.isDebugEnabled()) {
+                    keepAliveTaskLogger.debug("Start objects processing in KeepAliveTask");
+                }
+
                 for (Iterator<PooledObject<T>> it = objects.iterator(); it.hasNext(); ) {
                     PooledObject<T> o = it.next();
                     if (o.getNeedsToBeDestroyed()) {
@@ -442,6 +447,10 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
                             toKeepAlive.add(o);
                         }
                     }
+                }
+                if (keepAliveTaskLogger.isDebugEnabled()) {
+                    keepAliveTaskLogger.debug("Finished objects processing in KeepAliveTask in {}ms",
+                            System.currentTimeMillis() - nowMillis);
                 }
             }
 

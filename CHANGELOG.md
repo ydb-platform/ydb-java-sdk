@@ -1,3 +1,7 @@
+## 1.10.3 ##
+
+* Added logging for locks in session pool.
+
 ## 1.10.2 ##
 
 * Added idempotent flag for SessionRetryContext which mark an operation as retryable.
