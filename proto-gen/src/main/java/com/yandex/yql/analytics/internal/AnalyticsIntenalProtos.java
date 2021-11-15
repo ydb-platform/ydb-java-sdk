@@ -76,12 +76,6 @@ public final class AnalyticsIntenalProtos {
      * <code>.Ydb.Operations.OperationParams operation_params = 4;</code>
      */
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
-
-    /**
-     * <code>uint64 tasks_batch_size = 5;</code>
-     * @return The tasksBatchSize.
-     */
-    long getTasksBatchSize();
   }
   /**
    * Protobuf type {@code Yql.Analytics.GetTaskRequest}
@@ -160,11 +154,6 @@ public final class AnalyticsIntenalProtos {
                 operationParams_ = subBuilder.buildPartial();
               }
 
-              break;
-            }
-            case 40: {
-
-              tasksBatchSize_ = input.readUInt64();
               break;
             }
             default: {
@@ -347,17 +336,6 @@ public final class AnalyticsIntenalProtos {
       return getOperationParams();
     }
 
-    public static final int TASKS_BATCH_SIZE_FIELD_NUMBER = 5;
-    private long tasksBatchSize_;
-    /**
-     * <code>uint64 tasks_batch_size = 5;</code>
-     * @return The tasksBatchSize.
-     */
-    @java.lang.Override
-    public long getTasksBatchSize() {
-      return tasksBatchSize_;
-    }
-
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -384,9 +362,6 @@ public final class AnalyticsIntenalProtos {
       if (operationParams_ != null) {
         output.writeMessage(4, getOperationParams());
       }
-      if (tasksBatchSize_ != 0L) {
-        output.writeUInt64(5, tasksBatchSize_);
-      }
       unknownFields.writeTo(output);
     }
 
@@ -408,10 +383,6 @@ public final class AnalyticsIntenalProtos {
       if (operationParams_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, getOperationParams());
-      }
-      if (tasksBatchSize_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(5, tasksBatchSize_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -439,8 +410,6 @@ public final class AnalyticsIntenalProtos {
         if (!getOperationParams()
             .equals(other.getOperationParams())) return false;
       }
-      if (getTasksBatchSize()
-          != other.getTasksBatchSize()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -462,9 +431,6 @@ public final class AnalyticsIntenalProtos {
         hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
         hash = (53 * hash) + getOperationParams().hashCode();
       }
-      hash = (37 * hash) + TASKS_BATCH_SIZE_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getTasksBatchSize());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -610,8 +576,6 @@ public final class AnalyticsIntenalProtos {
           operationParams_ = null;
           operationParamsBuilder_ = null;
         }
-        tasksBatchSize_ = 0L;
-
         return this;
       }
 
@@ -646,7 +610,6 @@ public final class AnalyticsIntenalProtos {
         } else {
           result.operationParams_ = operationParamsBuilder_.build();
         }
-        result.tasksBatchSize_ = tasksBatchSize_;
         onBuilt();
         return result;
       }
@@ -709,9 +672,6 @@ public final class AnalyticsIntenalProtos {
         }
         if (other.hasOperationParams()) {
           mergeOperationParams(other.getOperationParams());
-        }
-        if (other.getTasksBatchSize() != 0L) {
-          setTasksBatchSize(other.getTasksBatchSize());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1107,37 +1067,6 @@ public final class AnalyticsIntenalProtos {
           operationParams_ = null;
         }
         return operationParamsBuilder_;
-      }
-
-      private long tasksBatchSize_ ;
-      /**
-       * <code>uint64 tasks_batch_size = 5;</code>
-       * @return The tasksBatchSize.
-       */
-      @java.lang.Override
-      public long getTasksBatchSize() {
-        return tasksBatchSize_;
-      }
-      /**
-       * <code>uint64 tasks_batch_size = 5;</code>
-       * @param value The tasksBatchSize to set.
-       * @return This builder for chaining.
-       */
-      public Builder setTasksBatchSize(long value) {
-        
-        tasksBatchSize_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint64 tasks_batch_size = 5;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearTasksBatchSize() {
-        
-        tasksBatchSize_ = 0L;
-        onChanged();
-        return this;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -3846,6 +3775,24 @@ public final class AnalyticsIntenalProtos {
 
       java.lang.String getSensorLabelsOrThrow(
           java.lang.String key);
+
+      /**
+       * <code>bool automatic = 22;</code>
+       * @return The automatic.
+       */
+      boolean getAutomatic();
+
+      /**
+       * <code>string query_name = 23;</code>
+       * @return The queryName.
+       */
+      java.lang.String getQueryName();
+      /**
+       * <code>string query_name = 23;</code>
+       * @return The bytes for queryName.
+       */
+      com.google.protobuf.ByteString
+          getQueryNameBytes();
     }
     /**
      * Protobuf type {@code Yql.Analytics.GetTaskResult.Task}
@@ -3874,6 +3821,7 @@ public final class AnalyticsIntenalProtos {
         status_ = 0;
         resultSetMeta_ = java.util.Collections.emptyList();
         createdTopicConsumers_ = java.util.Collections.emptyList();
+        queryName_ = "";
       }
 
       @java.lang.Override
@@ -4073,6 +4021,17 @@ public final class AnalyticsIntenalProtos {
                     SensorLabelsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
                 sensorLabels_.getMutableMap().put(
                     sensorLabels__.getKey(), sensorLabels__.getValue());
+                break;
+              }
+              case 176: {
+
+                automatic_ = input.readBool();
+                break;
+              }
+              case 186: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                queryName_ = s;
                 break;
               }
               default: {
@@ -4812,6 +4771,55 @@ public final class AnalyticsIntenalProtos {
         return map.get(key);
       }
 
+      public static final int AUTOMATIC_FIELD_NUMBER = 22;
+      private boolean automatic_;
+      /**
+       * <code>bool automatic = 22;</code>
+       * @return The automatic.
+       */
+      @java.lang.Override
+      public boolean getAutomatic() {
+        return automatic_;
+      }
+
+      public static final int QUERY_NAME_FIELD_NUMBER = 23;
+      private volatile java.lang.Object queryName_;
+      /**
+       * <code>string query_name = 23;</code>
+       * @return The queryName.
+       */
+      @java.lang.Override
+      public java.lang.String getQueryName() {
+        java.lang.Object ref = queryName_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          queryName_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string query_name = 23;</code>
+       * @return The bytes for queryName.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getQueryNameBytes() {
+        java.lang.Object ref = queryName_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          queryName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
       private byte memoizedIsInitialized = -1;
       @java.lang.Override
       public final boolean isInitialized() {
@@ -4892,6 +4900,12 @@ public final class AnalyticsIntenalProtos {
             internalGetSensorLabels(),
             SensorLabelsDefaultEntryHolder.defaultEntry,
             21);
+        if (automatic_ != false) {
+          output.writeBool(22, automatic_);
+        }
+        if (!getQueryNameBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 23, queryName_);
+        }
         unknownFields.writeTo(output);
       }
 
@@ -4992,6 +5006,13 @@ public final class AnalyticsIntenalProtos {
           size += com.google.protobuf.CodedOutputStream
               .computeMessageSize(21, sensorLabels__);
         }
+        if (automatic_ != false) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeBoolSize(22, automatic_);
+        }
+        if (!getQueryNameBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(23, queryName_);
+        }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
         return size;
@@ -5054,6 +5075,10 @@ public final class AnalyticsIntenalProtos {
             != other.getDqGraphIndex()) return false;
         if (!internalGetSensorLabels().equals(
             other.internalGetSensorLabels())) return false;
+        if (getAutomatic()
+            != other.getAutomatic()) return false;
+        if (!getQueryName()
+            .equals(other.getQueryName())) return false;
         if (!unknownFields.equals(other.unknownFields)) return false;
         return true;
       }
@@ -5129,6 +5154,11 @@ public final class AnalyticsIntenalProtos {
           hash = (37 * hash) + SENSOR_LABELS_FIELD_NUMBER;
           hash = (53 * hash) + internalGetSensorLabels().hashCode();
         }
+        hash = (37 * hash) + AUTOMATIC_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getAutomatic());
+        hash = (37 * hash) + QUERY_NAME_FIELD_NUMBER;
+        hash = (53 * hash) + getQueryName().hashCode();
         hash = (29 * hash) + unknownFields.hashCode();
         memoizedHashCode = hash;
         return hash;
@@ -5362,6 +5392,10 @@ public final class AnalyticsIntenalProtos {
           dqGraphIndex_ = 0;
 
           internalGetMutableSensorLabels().clear();
+          automatic_ = false;
+
+          queryName_ = "";
+
           return this;
         }
 
@@ -5467,6 +5501,8 @@ public final class AnalyticsIntenalProtos {
           result.dqGraphIndex_ = dqGraphIndex_;
           result.sensorLabels_ = internalGetSensorLabels();
           result.sensorLabels_.makeImmutable();
+          result.automatic_ = automatic_;
+          result.queryName_ = queryName_;
           onBuilt();
           return result;
         }
@@ -5703,6 +5739,13 @@ public final class AnalyticsIntenalProtos {
           }
           internalGetMutableSensorLabels().mergeFrom(
               other.internalGetSensorLabels());
+          if (other.getAutomatic() != false) {
+            setAutomatic(other.getAutomatic());
+          }
+          if (!other.getQueryName().isEmpty()) {
+            queryName_ = other.queryName_;
+            onChanged();
+          }
           this.mergeUnknownFields(other.unknownFields);
           onChanged();
           return this;
@@ -8189,6 +8232,113 @@ public final class AnalyticsIntenalProtos {
             java.util.Map<java.lang.String, java.lang.String> values) {
           internalGetMutableSensorLabels().getMutableMap()
               .putAll(values);
+          return this;
+        }
+
+        private boolean automatic_ ;
+        /**
+         * <code>bool automatic = 22;</code>
+         * @return The automatic.
+         */
+        @java.lang.Override
+        public boolean getAutomatic() {
+          return automatic_;
+        }
+        /**
+         * <code>bool automatic = 22;</code>
+         * @param value The automatic to set.
+         * @return This builder for chaining.
+         */
+        public Builder setAutomatic(boolean value) {
+          
+          automatic_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>bool automatic = 22;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearAutomatic() {
+          
+          automatic_ = false;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object queryName_ = "";
+        /**
+         * <code>string query_name = 23;</code>
+         * @return The queryName.
+         */
+        public java.lang.String getQueryName() {
+          java.lang.Object ref = queryName_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            queryName_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string query_name = 23;</code>
+         * @return The bytes for queryName.
+         */
+        public com.google.protobuf.ByteString
+            getQueryNameBytes() {
+          java.lang.Object ref = queryName_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            queryName_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string query_name = 23;</code>
+         * @param value The queryName to set.
+         * @return This builder for chaining.
+         */
+        public Builder setQueryName(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          queryName_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string query_name = 23;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearQueryName() {
+          
+          queryName_ = getDefaultInstance().getQueryName();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string query_name = 23;</code>
+         * @param value The bytes for queryName to set.
+         * @return This builder for chaining.
+         */
+        public Builder setQueryNameBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          queryName_ = value;
+          onChanged();
           return this;
         }
         @java.lang.Override
@@ -21495,87 +21645,87 @@ public final class AnalyticsIntenalProtos {
       "/public/api/protos/ydb_value.proto\0320kiki" +
       "mr/public/api/protos/ydb_issue_message.p" +
       "roto\032!kikimr/public/api/protos/yq.proto\032" +
-      "\037google/protobuf/timestamp.proto\"\225\001\n\016Get" +
-      "TaskRequest\022\016\n\006tenant\030\001 \001(\t\022\020\n\010owner_id\030" +
-      "\002 \001(\t\022\014\n\004host\030\003 \001(\t\0229\n\020operation_params\030" +
-      "\004 \001(\0132\037.Ydb.Operations.OperationParams\022\030" +
-      "\n\020tasks_batch_size\030\005 \001(\004\"2\n\016SignedIdenti" +
-      "ty\022\r\n\005value\030\001 \001(\t\022\021\n\tsignature\030\002 \001(\t\"\275\001\n" +
-      "\rTopicConsumer\022\023\n\013database_id\030\001 \001(\t\022\020\n\010d" +
-      "atabase\030\002 \001(\t\022\022\n\ntopic_path\030\003 \001(\t\022\025\n\rcon" +
-      "sumer_name\030\004 \001(\t\022\030\n\020cluster_endpoint\030\005 \001" +
-      "(\t\022\017\n\007use_ssl\030\006 \001(\010\022\022\n\ntoken_name\030\007 \001(\t\022" +
-      "\033\n\023add_bearer_to_token\030\010 \001(\010\"\305\007\n\rGetTask" +
-      "Result\0220\n\005tasks\030\001 \003(\0132!.Yql.Analytics.Ge" +
-      "tTaskResult.Task\032\201\007\n\004Task\0220\n\tresult_id\030\001" +
-      " \001(\0132\035.Yql.Analytics.SignedIdentity\022/\n\010q" +
-      "uery_id\030\002 \001(\0132\035.Yql.Analytics.SignedIden" +
-      "tity\022-\n\006job_id\030\003 \001(\0132\035.Yql.Analytics.Sig" +
-      "nedIdentity\022\022\n\ngeneration\030\004 \001(\004\022\021\n\tstrea" +
-      "ming\030\005 \001(\010\022\020\n\010dq_graph\030\006 \003(\014\022\014\n\004text\030\007 \001" +
-      "(\t\022+\n\nconnection\030\010 \003(\0132\027.YandexQuery.Con" +
-      "nection\022%\n\007binding\030\t \003(\0132\024.YandexQuery.B" +
-      "inding\022\022\n\nuser_token\030\n \001(\t\0227\n\020service_ac" +
-      "counts\030\013 \003(\0132\035.Yql.Analytics.SignedIdent" +
-      "ity\022\017\n\007user_id\030\014 \001(\t\0227\n\nquery_type\030\r \001(\016" +
-      "2#.YandexQuery.QueryContent.QueryType\022\r\n" +
-      "\005scope\030\016 \001(\t\022.\n\014execute_mode\030\017 \001(\0162\030.Yan" +
-      "dexQuery.ExecuteMode\0223\n\017state_load_mode\030" +
-      "\020 \001(\0162\032.YandexQuery.StateLoadMode\0224\n\006sta" +
-      "tus\030\021 \001(\0162$.YandexQuery.QueryMeta.Comput" +
-      "eStatus\0223\n\017result_set_meta\030\022 \003(\0132\032.Yande" +
-      "xQuery.ResultSetMeta\022=\n\027created_topic_co" +
-      "nsumers\030\023 \003(\0132\034.Yql.Analytics.TopicConsu" +
-      "mer\022\026\n\016dq_graph_index\030\024 \001(\005\022J\n\rsensor_la" +
-      "bels\030\025 \003(\01323.Yql.Analytics.GetTaskResult" +
-      ".Task.SensorLabelsEntry\0323\n\021SensorLabelsE" +
-      "ntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"?\n\017" +
-      "GetTaskResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
-      ".Operations.Operation\"\206\006\n\017PingTaskReques" +
-      "t\022\020\n\010owner_id\030\001 \001(\t\022/\n\010query_id\030\002 \001(\0132\035." +
-      "Yql.Analytics.SignedIdentity\022-\n\006job_id\030\003" +
-      " \001(\0132\035.Yql.Analytics.SignedIdentity\0220\n\tr" +
-      "esult_id\030\004 \001(\0132\035.Yql.Analytics.SignedIde" +
-      "ntity\0224\n\006status\030\005 \001(\0162$.YandexQuery.Quer" +
-      "yMeta.ComputeStatus\022\'\n\006issues\030\006 \003(\0132\027.Yd" +
-      "b.Issue.IssueMessage\0221\n\020transient_issues" +
-      "\030\020 \003(\0132\027.Ydb.Issue.IssueMessage\022\030\n\020resul" +
-      "t_set_count\030\007 \001(\r\022\022\n\nstatistics\030\010 \001(\t\0223\n" +
-      "\017result_set_meta\030\t \003(\0132\032.YandexQuery.Res" +
-      "ultSetMeta\022\025\n\rexecuter_info\030\n \001(\t\022\020\n\010dq_" +
-      "graph\030\013 \003(\014\022\026\n\016dq_graph_index\030\024 \001(\005\022\013\n\003a" +
-      "st\030\014 \001(\t\022\014\n\004plan\030\r \001(\t\022\024\n\014resign_query\030\016" +
-      " \001(\010\022=\n\027created_topic_consumers\030\021 \003(\0132\034." +
-      "Yql.Analytics.TopicConsumer\0229\n\020operation" +
-      "_params\030\017 \001(\0132\037.Ydb.Operations.Operation" +
-      "Params\022\r\n\005scope\030d \001(\t\022.\n\nstarted_at\030e \001(" +
-      "\0132\032.google.protobuf.Timestamp\022/\n\013finishe" +
-      "d_at\030f \001(\0132\032.google.protobuf.Timestamp\":" +
-      "\n\016PingTaskResult\022(\n\006action\030\001 \001(\0162\030.Yande" +
-      "xQuery.QueryAction\"@\n\020PingTaskResponse\022," +
-      "\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Opera" +
-      "tion\"\366\001\n\026WriteTaskResultRequest\022\020\n\010owner" +
-      "_id\030\001 \001(\t\0220\n\tresult_id\030\002 \001(\0132\035.Yql.Analy" +
-      "tics.SignedIdentity\022\"\n\nresult_set\030\003 \001(\0132" +
-      "\016.Ydb.ResultSet\022\025\n\rresult_set_id\030\004 \001(\r\022\016" +
-      "\n\006offset\030\005 \001(\004\022\022\n\nrequest_id\030\006 \001(\004\0229\n\020op" +
-      "eration_params\030\007 \001(\0132\037.Ydb.Operations.Op" +
-      "erationParams\"+\n\025WriteTaskResultResult\022\022" +
-      "\n\nrequest_id\030\001 \001(\004\"G\n\027WriteTaskResultRes" +
-      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
-      "s.Operation\"\264\001\n\027NodesHealthCheckRequest\022" +
-      "\016\n\006tenant\030\001 \001(\t\022\017\n\007node_id\030\002 \001(\r\022\023\n\013inst" +
-      "ance_id\030\003 \001(\t\022\020\n\010hostname\030\004 \001(\t\022\026\n\016activ" +
-      "e_workers\030\005 \001(\004\0229\n\020operation_params\030\006 \001(" +
-      "\0132\037.Ydb.Operations.OperationParams\"\233\001\n\026N" +
-      "odesHealthCheckResult\022=\n\005nodes\030\001 \003(\0132..Y" +
-      "ql.Analytics.NodesHealthCheckResult.Node" +
-      "Info\032B\n\010NodeInfo\022\017\n\007node_id\030\001 \001(\r\022\023\n\013ins" +
-      "tance_id\030\002 \001(\t\022\020\n\010hostname\030\003 \001(\t\"H\n\030Node" +
-      "sHealthCheckResponse\022,\n\toperation\030\001 \001(\0132" +
-      "\031.Ydb.Operations.OperationB>\n!com.yandex" +
-      ".yql.analytics.internalB\026AnalyticsIntena" +
-      "lProtos\370\001\001b\006proto3"
+      "\037google/protobuf/timestamp.proto\"{\n\016GetT" +
+      "askRequest\022\016\n\006tenant\030\001 \001(\t\022\020\n\010owner_id\030\002" +
+      " \001(\t\022\014\n\004host\030\003 \001(\t\0229\n\020operation_params\030\004" +
+      " \001(\0132\037.Ydb.Operations.OperationParams\"2\n" +
+      "\016SignedIdentity\022\r\n\005value\030\001 \001(\t\022\021\n\tsignat" +
+      "ure\030\002 \001(\t\"\275\001\n\rTopicConsumer\022\023\n\013database_" +
+      "id\030\001 \001(\t\022\020\n\010database\030\002 \001(\t\022\022\n\ntopic_path" +
+      "\030\003 \001(\t\022\025\n\rconsumer_name\030\004 \001(\t\022\030\n\020cluster" +
+      "_endpoint\030\005 \001(\t\022\017\n\007use_ssl\030\006 \001(\010\022\022\n\ntoke" +
+      "n_name\030\007 \001(\t\022\033\n\023add_bearer_to_token\030\010 \001(" +
+      "\010\"\354\007\n\rGetTaskResult\0220\n\005tasks\030\001 \003(\0132!.Yql" +
+      ".Analytics.GetTaskResult.Task\032\250\007\n\004Task\0220" +
+      "\n\tresult_id\030\001 \001(\0132\035.Yql.Analytics.Signed" +
+      "Identity\022/\n\010query_id\030\002 \001(\0132\035.Yql.Analyti" +
+      "cs.SignedIdentity\022-\n\006job_id\030\003 \001(\0132\035.Yql." +
+      "Analytics.SignedIdentity\022\022\n\ngeneration\030\004" +
+      " \001(\004\022\021\n\tstreaming\030\005 \001(\010\022\020\n\010dq_graph\030\006 \003(" +
+      "\014\022\014\n\004text\030\007 \001(\t\022+\n\nconnection\030\010 \003(\0132\027.Ya" +
+      "ndexQuery.Connection\022%\n\007binding\030\t \003(\0132\024." +
+      "YandexQuery.Binding\022\022\n\nuser_token\030\n \001(\t\022" +
+      "7\n\020service_accounts\030\013 \003(\0132\035.Yql.Analytic" +
+      "s.SignedIdentity\022\017\n\007user_id\030\014 \001(\t\0227\n\nque" +
+      "ry_type\030\r \001(\0162#.YandexQuery.QueryContent" +
+      ".QueryType\022\r\n\005scope\030\016 \001(\t\022.\n\014execute_mod" +
+      "e\030\017 \001(\0162\030.YandexQuery.ExecuteMode\0223\n\017sta" +
+      "te_load_mode\030\020 \001(\0162\032.YandexQuery.StateLo" +
+      "adMode\0224\n\006status\030\021 \001(\0162$.YandexQuery.Que" +
+      "ryMeta.ComputeStatus\0223\n\017result_set_meta\030" +
+      "\022 \003(\0132\032.YandexQuery.ResultSetMeta\022=\n\027cre" +
+      "ated_topic_consumers\030\023 \003(\0132\034.Yql.Analyti" +
+      "cs.TopicConsumer\022\026\n\016dq_graph_index\030\024 \001(\005" +
+      "\022J\n\rsensor_labels\030\025 \003(\01323.Yql.Analytics." +
+      "GetTaskResult.Task.SensorLabelsEntry\022\021\n\t" +
+      "automatic\030\026 \001(\010\022\022\n\nquery_name\030\027 \001(\t\0323\n\021S" +
+      "ensorLabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002" +
+      " \001(\t:\0028\001\"?\n\017GetTaskResponse\022,\n\toperation" +
+      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\206\006\n\017Pi" +
+      "ngTaskRequest\022\020\n\010owner_id\030\001 \001(\t\022/\n\010query" +
+      "_id\030\002 \001(\0132\035.Yql.Analytics.SignedIdentity" +
+      "\022-\n\006job_id\030\003 \001(\0132\035.Yql.Analytics.SignedI" +
+      "dentity\0220\n\tresult_id\030\004 \001(\0132\035.Yql.Analyti" +
+      "cs.SignedIdentity\0224\n\006status\030\005 \001(\0162$.Yand" +
+      "exQuery.QueryMeta.ComputeStatus\022\'\n\006issue" +
+      "s\030\006 \003(\0132\027.Ydb.Issue.IssueMessage\0221\n\020tran" +
+      "sient_issues\030\020 \003(\0132\027.Ydb.Issue.IssueMess" +
+      "age\022\030\n\020result_set_count\030\007 \001(\r\022\022\n\nstatist" +
+      "ics\030\010 \001(\t\0223\n\017result_set_meta\030\t \003(\0132\032.Yan" +
+      "dexQuery.ResultSetMeta\022\025\n\rexecuter_info\030" +
+      "\n \001(\t\022\020\n\010dq_graph\030\013 \003(\014\022\026\n\016dq_graph_inde" +
+      "x\030\024 \001(\005\022\013\n\003ast\030\014 \001(\t\022\014\n\004plan\030\r \001(\t\022\024\n\014re" +
+      "sign_query\030\016 \001(\010\022=\n\027created_topic_consum" +
+      "ers\030\021 \003(\0132\034.Yql.Analytics.TopicConsumer\022" +
+      "9\n\020operation_params\030\017 \001(\0132\037.Ydb.Operatio" +
+      "ns.OperationParams\022\r\n\005scope\030d \001(\t\022.\n\nsta" +
+      "rted_at\030e \001(\0132\032.google.protobuf.Timestam" +
+      "p\022/\n\013finished_at\030f \001(\0132\032.google.protobuf" +
+      ".Timestamp\":\n\016PingTaskResult\022(\n\006action\030\001" +
+      " \001(\0162\030.YandexQuery.QueryAction\"@\n\020PingTa" +
+      "skResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
+      "ations.Operation\"\366\001\n\026WriteTaskResultRequ" +
+      "est\022\020\n\010owner_id\030\001 \001(\t\0220\n\tresult_id\030\002 \001(\013" +
+      "2\035.Yql.Analytics.SignedIdentity\022\"\n\nresul" +
+      "t_set\030\003 \001(\0132\016.Ydb.ResultSet\022\025\n\rresult_se" +
+      "t_id\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\022\n\nrequest_id" +
+      "\030\006 \001(\004\0229\n\020operation_params\030\007 \001(\0132\037.Ydb.O" +
+      "perations.OperationParams\"+\n\025WriteTaskRe" +
+      "sultResult\022\022\n\nrequest_id\030\001 \001(\004\"G\n\027WriteT" +
+      "askResultResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
+      "db.Operations.Operation\"\264\001\n\027NodesHealthC" +
+      "heckRequest\022\016\n\006tenant\030\001 \001(\t\022\017\n\007node_id\030\002" +
+      " \001(\r\022\023\n\013instance_id\030\003 \001(\t\022\020\n\010hostname\030\004 " +
+      "\001(\t\022\026\n\016active_workers\030\005 \001(\004\0229\n\020operation" +
+      "_params\030\006 \001(\0132\037.Ydb.Operations.Operation" +
+      "Params\"\233\001\n\026NodesHealthCheckResult\022=\n\005nod" +
+      "es\030\001 \003(\0132..Yql.Analytics.NodesHealthChec" +
+      "kResult.NodeInfo\032B\n\010NodeInfo\022\017\n\007node_id\030" +
+      "\001 \001(\r\022\023\n\013instance_id\030\002 \001(\t\022\020\n\010hostname\030\003" +
+      " \001(\t\"H\n\030NodesHealthCheckResponse\022,\n\toper" +
+      "ation\030\001 \001(\0132\031.Ydb.Operations.OperationB>" +
+      "\n!com.yandex.yql.analytics.internalB\026Ana" +
+      "lyticsIntenalProtos\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -21591,7 +21741,7 @@ public final class AnalyticsIntenalProtos {
     internal_static_Yql_Analytics_GetTaskRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetTaskRequest_descriptor,
-        new java.lang.String[] { "Tenant", "OwnerId", "Host", "OperationParams", "TasksBatchSize", });
+        new java.lang.String[] { "Tenant", "OwnerId", "Host", "OperationParams", });
     internal_static_Yql_Analytics_SignedIdentity_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_Yql_Analytics_SignedIdentity_fieldAccessorTable = new
@@ -21615,7 +21765,7 @@ public final class AnalyticsIntenalProtos {
     internal_static_Yql_Analytics_GetTaskResult_Task_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yql_Analytics_GetTaskResult_Task_descriptor,
-        new java.lang.String[] { "ResultId", "QueryId", "JobId", "Generation", "Streaming", "DqGraph", "Text", "Connection", "Binding", "UserToken", "ServiceAccounts", "UserId", "QueryType", "Scope", "ExecuteMode", "StateLoadMode", "Status", "ResultSetMeta", "CreatedTopicConsumers", "DqGraphIndex", "SensorLabels", });
+        new java.lang.String[] { "ResultId", "QueryId", "JobId", "Generation", "Streaming", "DqGraph", "Text", "Connection", "Binding", "UserToken", "ServiceAccounts", "UserId", "QueryType", "Scope", "ExecuteMode", "StateLoadMode", "Status", "ResultSetMeta", "CreatedTopicConsumers", "DqGraphIndex", "SensorLabels", "Automatic", "QueryName", });
     internal_static_Yql_Analytics_GetTaskResult_Task_SensorLabelsEntry_descriptor =
       internal_static_Yql_Analytics_GetTaskResult_Task_descriptor.getNestedTypes().get(0);
     internal_static_Yql_Analytics_GetTaskResult_Task_SensorLabelsEntry_fieldAccessorTable = new
