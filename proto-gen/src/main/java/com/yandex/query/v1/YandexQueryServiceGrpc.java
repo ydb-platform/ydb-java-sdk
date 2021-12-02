@@ -120,6 +120,37 @@ public final class YandexQueryServiceGrpc {
     return getDescribeQueryMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.GetQueryStatusRequest,
+      com.yandex.query.YandexQueryProtos.GetQueryStatusResponse> getGetQueryStatusMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "GetQueryStatus",
+      requestType = com.yandex.query.YandexQueryProtos.GetQueryStatusRequest.class,
+      responseType = com.yandex.query.YandexQueryProtos.GetQueryStatusResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.GetQueryStatusRequest,
+      com.yandex.query.YandexQueryProtos.GetQueryStatusResponse> getGetQueryStatusMethod() {
+    io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.GetQueryStatusRequest, com.yandex.query.YandexQueryProtos.GetQueryStatusResponse> getGetQueryStatusMethod;
+    if ((getGetQueryStatusMethod = YandexQueryServiceGrpc.getGetQueryStatusMethod) == null) {
+      synchronized (YandexQueryServiceGrpc.class) {
+        if ((getGetQueryStatusMethod = YandexQueryServiceGrpc.getGetQueryStatusMethod) == null) {
+          YandexQueryServiceGrpc.getGetQueryStatusMethod = getGetQueryStatusMethod =
+              io.grpc.MethodDescriptor.<com.yandex.query.YandexQueryProtos.GetQueryStatusRequest, com.yandex.query.YandexQueryProtos.GetQueryStatusResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetQueryStatus"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.yandex.query.YandexQueryProtos.GetQueryStatusRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.yandex.query.YandexQueryProtos.GetQueryStatusResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new YandexQueryServiceMethodDescriptorSupplier("GetQueryStatus"))
+              .build();
+        }
+      }
+    }
+    return getGetQueryStatusMethod;
+  }
+
   private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.ModifyQueryRequest,
       com.yandex.query.YandexQueryProtos.ModifyQueryResponse> getModifyQueryMethod;
 
@@ -698,6 +729,16 @@ public final class YandexQueryServiceGrpc {
 
     /**
      * <pre>
+     * Get status of the query
+     * </pre>
+     */
+    public void getQueryStatus(com.yandex.query.YandexQueryProtos.GetQueryStatusRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.GetQueryStatusResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetQueryStatusMethod(), responseObserver);
+    }
+
+    /**
+     * <pre>
      * Change the attributes of the query (acl, name, ...)
      * </pre>
      */
@@ -886,6 +927,13 @@ public final class YandexQueryServiceGrpc {
                 com.yandex.query.YandexQueryProtos.DescribeQueryResponse>(
                   this, METHODID_DESCRIBE_QUERY)))
           .addMethod(
+            getGetQueryStatusMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.yandex.query.YandexQueryProtos.GetQueryStatusRequest,
+                com.yandex.query.YandexQueryProtos.GetQueryStatusResponse>(
+                  this, METHODID_GET_QUERY_STATUS)))
+          .addMethod(
             getModifyQueryMethod(),
             asyncUnaryCall(
               new MethodHandlers<
@@ -1048,6 +1096,17 @@ public final class YandexQueryServiceGrpc {
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeQueryResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getDescribeQueryMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Get status of the query
+     * </pre>
+     */
+    public void getQueryStatus(com.yandex.query.YandexQueryProtos.GetQueryStatusRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.GetQueryStatusResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getGetQueryStatusMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -1281,6 +1340,16 @@ public final class YandexQueryServiceGrpc {
 
     /**
      * <pre>
+     * Get status of the query
+     * </pre>
+     */
+    public com.yandex.query.YandexQueryProtos.GetQueryStatusResponse getQueryStatus(com.yandex.query.YandexQueryProtos.GetQueryStatusRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getGetQueryStatusMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
      * Change the attributes of the query (acl, name, ...)
      * </pre>
      */
@@ -1497,6 +1566,17 @@ public final class YandexQueryServiceGrpc {
 
     /**
      * <pre>
+     * Get status of the query
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.GetQueryStatusResponse> getQueryStatus(
+        com.yandex.query.YandexQueryProtos.GetQueryStatusRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getGetQueryStatusMethod(), getCallOptions()), request);
+    }
+
+    /**
+     * <pre>
      * Change the attributes of the query (acl, name, ...)
      * </pre>
      */
@@ -1681,22 +1761,23 @@ public final class YandexQueryServiceGrpc {
   private static final int METHODID_CREATE_QUERY = 0;
   private static final int METHODID_LIST_QUERIES = 1;
   private static final int METHODID_DESCRIBE_QUERY = 2;
-  private static final int METHODID_MODIFY_QUERY = 3;
-  private static final int METHODID_DELETE_QUERY = 4;
-  private static final int METHODID_CONTROL_QUERY = 5;
-  private static final int METHODID_GET_RESULT_DATA = 6;
-  private static final int METHODID_LIST_JOBS = 7;
-  private static final int METHODID_DESCRIBE_JOB = 8;
-  private static final int METHODID_CREATE_CONNECTION = 9;
-  private static final int METHODID_LIST_CONNECTIONS = 10;
-  private static final int METHODID_DESCRIBE_CONNECTION = 11;
-  private static final int METHODID_MODIFY_CONNECTION = 12;
-  private static final int METHODID_DELETE_CONNECTION = 13;
-  private static final int METHODID_CREATE_BINDING = 14;
-  private static final int METHODID_LIST_BINDINGS = 15;
-  private static final int METHODID_DESCRIBE_BINDING = 16;
-  private static final int METHODID_MODIFY_BINDING = 17;
-  private static final int METHODID_DELETE_BINDING = 18;
+  private static final int METHODID_GET_QUERY_STATUS = 3;
+  private static final int METHODID_MODIFY_QUERY = 4;
+  private static final int METHODID_DELETE_QUERY = 5;
+  private static final int METHODID_CONTROL_QUERY = 6;
+  private static final int METHODID_GET_RESULT_DATA = 7;
+  private static final int METHODID_LIST_JOBS = 8;
+  private static final int METHODID_DESCRIBE_JOB = 9;
+  private static final int METHODID_CREATE_CONNECTION = 10;
+  private static final int METHODID_LIST_CONNECTIONS = 11;
+  private static final int METHODID_DESCRIBE_CONNECTION = 12;
+  private static final int METHODID_MODIFY_CONNECTION = 13;
+  private static final int METHODID_DELETE_CONNECTION = 14;
+  private static final int METHODID_CREATE_BINDING = 15;
+  private static final int METHODID_LIST_BINDINGS = 16;
+  private static final int METHODID_DESCRIBE_BINDING = 17;
+  private static final int METHODID_MODIFY_BINDING = 18;
+  private static final int METHODID_DELETE_BINDING = 19;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -1726,6 +1807,10 @@ public final class YandexQueryServiceGrpc {
         case METHODID_DESCRIBE_QUERY:
           serviceImpl.describeQuery((com.yandex.query.YandexQueryProtos.DescribeQueryRequest) request,
               (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DescribeQueryResponse>) responseObserver);
+          break;
+        case METHODID_GET_QUERY_STATUS:
+          serviceImpl.getQueryStatus((com.yandex.query.YandexQueryProtos.GetQueryStatusRequest) request,
+              (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.GetQueryStatusResponse>) responseObserver);
           break;
         case METHODID_MODIFY_QUERY:
           serviceImpl.modifyQuery((com.yandex.query.YandexQueryProtos.ModifyQueryRequest) request,
@@ -1855,6 +1940,7 @@ public final class YandexQueryServiceGrpc {
               .addMethod(getCreateQueryMethod())
               .addMethod(getListQueriesMethod())
               .addMethod(getDescribeQueryMethod())
+              .addMethod(getGetQueryStatusMethod())
               .addMethod(getModifyQueryMethod())
               .addMethod(getDeleteQueryMethod())
               .addMethod(getControlQueryMethod())
