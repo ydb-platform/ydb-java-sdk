@@ -8796,6 +8796,36 @@ public final class YandexQueryProtos {
      */
     com.google.protobuf.ByteString
         getLastJobIdBytes();
+
+    /**
+     * <code>.google.protobuf.Timestamp expire_at = 8;</code>
+     * @return Whether the expireAt field is set.
+     */
+    boolean hasExpireAt();
+    /**
+     * <code>.google.protobuf.Timestamp expire_at = 8;</code>
+     * @return The expireAt.
+     */
+    com.google.protobuf.Timestamp getExpireAt();
+    /**
+     * <code>.google.protobuf.Timestamp expire_at = 8;</code>
+     */
+    com.google.protobuf.TimestampOrBuilder getExpireAtOrBuilder();
+
+    /**
+     * <code>.google.protobuf.Timestamp result_expire_at = 9;</code>
+     * @return Whether the resultExpireAt field is set.
+     */
+    boolean hasResultExpireAt();
+    /**
+     * <code>.google.protobuf.Timestamp result_expire_at = 9;</code>
+     * @return The resultExpireAt.
+     */
+    com.google.protobuf.Timestamp getResultExpireAt();
+    /**
+     * <code>.google.protobuf.Timestamp result_expire_at = 9;</code>
+     */
+    com.google.protobuf.TimestampOrBuilder getResultExpireAtOrBuilder();
   }
   /**
    * Protobuf type {@code YandexQuery.QueryMeta}
@@ -8905,6 +8935,32 @@ public final class YandexQueryProtos {
               java.lang.String s = input.readStringRequireUtf8();
 
               lastJobId_ = s;
+              break;
+            }
+            case 66: {
+              com.google.protobuf.Timestamp.Builder subBuilder = null;
+              if (expireAt_ != null) {
+                subBuilder = expireAt_.toBuilder();
+              }
+              expireAt_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(expireAt_);
+                expireAt_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 74: {
+              com.google.protobuf.Timestamp.Builder subBuilder = null;
+              if (resultExpireAt_ != null) {
+                subBuilder = resultExpireAt_.toBuilder();
+              }
+              resultExpireAt_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(resultExpireAt_);
+                resultExpireAt_ = subBuilder.buildPartial();
+              }
+
               break;
             }
             default: {
@@ -9424,6 +9480,58 @@ public final class YandexQueryProtos {
       }
     }
 
+    public static final int EXPIRE_AT_FIELD_NUMBER = 8;
+    private com.google.protobuf.Timestamp expireAt_;
+    /**
+     * <code>.google.protobuf.Timestamp expire_at = 8;</code>
+     * @return Whether the expireAt field is set.
+     */
+    @java.lang.Override
+    public boolean hasExpireAt() {
+      return expireAt_ != null;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp expire_at = 8;</code>
+     * @return The expireAt.
+     */
+    @java.lang.Override
+    public com.google.protobuf.Timestamp getExpireAt() {
+      return expireAt_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : expireAt_;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp expire_at = 8;</code>
+     */
+    @java.lang.Override
+    public com.google.protobuf.TimestampOrBuilder getExpireAtOrBuilder() {
+      return getExpireAt();
+    }
+
+    public static final int RESULT_EXPIRE_AT_FIELD_NUMBER = 9;
+    private com.google.protobuf.Timestamp resultExpireAt_;
+    /**
+     * <code>.google.protobuf.Timestamp result_expire_at = 9;</code>
+     * @return Whether the resultExpireAt field is set.
+     */
+    @java.lang.Override
+    public boolean hasResultExpireAt() {
+      return resultExpireAt_ != null;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp result_expire_at = 9;</code>
+     * @return The resultExpireAt.
+     */
+    @java.lang.Override
+    public com.google.protobuf.Timestamp getResultExpireAt() {
+      return resultExpireAt_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : resultExpireAt_;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp result_expire_at = 9;</code>
+     */
+    @java.lang.Override
+    public com.google.protobuf.TimestampOrBuilder getResultExpireAtOrBuilder() {
+      return getResultExpireAt();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -9458,6 +9566,12 @@ public final class YandexQueryProtos {
       }
       if (!getLastJobIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 7, lastJobId_);
+      }
+      if (expireAt_ != null) {
+        output.writeMessage(8, getExpireAt());
+      }
+      if (resultExpireAt_ != null) {
+        output.writeMessage(9, getResultExpireAt());
       }
       unknownFields.writeTo(output);
     }
@@ -9495,6 +9609,14 @@ public final class YandexQueryProtos {
       if (!getLastJobIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, lastJobId_);
       }
+      if (expireAt_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, getExpireAt());
+      }
+      if (resultExpireAt_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(9, getResultExpireAt());
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -9531,6 +9653,16 @@ public final class YandexQueryProtos {
           != other.getLastJobQueryRevision()) return false;
       if (!getLastJobId()
           .equals(other.getLastJobId())) return false;
+      if (hasExpireAt() != other.hasExpireAt()) return false;
+      if (hasExpireAt()) {
+        if (!getExpireAt()
+            .equals(other.getExpireAt())) return false;
+      }
+      if (hasResultExpireAt() != other.hasResultExpireAt()) return false;
+      if (hasResultExpireAt()) {
+        if (!getResultExpireAt()
+            .equals(other.getResultExpireAt())) return false;
+      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -9563,6 +9695,14 @@ public final class YandexQueryProtos {
           getLastJobQueryRevision());
       hash = (37 * hash) + LAST_JOB_ID_FIELD_NUMBER;
       hash = (53 * hash) + getLastJobId().hashCode();
+      if (hasExpireAt()) {
+        hash = (37 * hash) + EXPIRE_AT_FIELD_NUMBER;
+        hash = (53 * hash) + getExpireAt().hashCode();
+      }
+      if (hasResultExpireAt()) {
+        hash = (37 * hash) + RESULT_EXPIRE_AT_FIELD_NUMBER;
+        hash = (53 * hash) + getResultExpireAt().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -9722,6 +9862,18 @@ public final class YandexQueryProtos {
 
         lastJobId_ = "";
 
+        if (expireAtBuilder_ == null) {
+          expireAt_ = null;
+        } else {
+          expireAt_ = null;
+          expireAtBuilder_ = null;
+        }
+        if (resultExpireAtBuilder_ == null) {
+          resultExpireAt_ = null;
+        } else {
+          resultExpireAt_ = null;
+          resultExpireAtBuilder_ = null;
+        }
         return this;
       }
 
@@ -9767,6 +9919,16 @@ public final class YandexQueryProtos {
         result.status_ = status_;
         result.lastJobQueryRevision_ = lastJobQueryRevision_;
         result.lastJobId_ = lastJobId_;
+        if (expireAtBuilder_ == null) {
+          result.expireAt_ = expireAt_;
+        } else {
+          result.expireAt_ = expireAtBuilder_.build();
+        }
+        if (resultExpireAtBuilder_ == null) {
+          result.resultExpireAt_ = resultExpireAt_;
+        } else {
+          result.resultExpireAt_ = resultExpireAtBuilder_.build();
+        }
         onBuilt();
         return result;
       }
@@ -9836,6 +9998,12 @@ public final class YandexQueryProtos {
         if (!other.getLastJobId().isEmpty()) {
           lastJobId_ = other.lastJobId_;
           onChanged();
+        }
+        if (other.hasExpireAt()) {
+          mergeExpireAt(other.getExpireAt());
+        }
+        if (other.hasResultExpireAt()) {
+          mergeResultExpireAt(other.getResultExpireAt());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -10436,6 +10604,244 @@ public final class YandexQueryProtos {
         lastJobId_ = value;
         onChanged();
         return this;
+      }
+
+      private com.google.protobuf.Timestamp expireAt_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> expireAtBuilder_;
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 8;</code>
+       * @return Whether the expireAt field is set.
+       */
+      public boolean hasExpireAt() {
+        return expireAtBuilder_ != null || expireAt_ != null;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 8;</code>
+       * @return The expireAt.
+       */
+      public com.google.protobuf.Timestamp getExpireAt() {
+        if (expireAtBuilder_ == null) {
+          return expireAt_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : expireAt_;
+        } else {
+          return expireAtBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 8;</code>
+       */
+      public Builder setExpireAt(com.google.protobuf.Timestamp value) {
+        if (expireAtBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          expireAt_ = value;
+          onChanged();
+        } else {
+          expireAtBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 8;</code>
+       */
+      public Builder setExpireAt(
+          com.google.protobuf.Timestamp.Builder builderForValue) {
+        if (expireAtBuilder_ == null) {
+          expireAt_ = builderForValue.build();
+          onChanged();
+        } else {
+          expireAtBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 8;</code>
+       */
+      public Builder mergeExpireAt(com.google.protobuf.Timestamp value) {
+        if (expireAtBuilder_ == null) {
+          if (expireAt_ != null) {
+            expireAt_ =
+              com.google.protobuf.Timestamp.newBuilder(expireAt_).mergeFrom(value).buildPartial();
+          } else {
+            expireAt_ = value;
+          }
+          onChanged();
+        } else {
+          expireAtBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 8;</code>
+       */
+      public Builder clearExpireAt() {
+        if (expireAtBuilder_ == null) {
+          expireAt_ = null;
+          onChanged();
+        } else {
+          expireAt_ = null;
+          expireAtBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 8;</code>
+       */
+      public com.google.protobuf.Timestamp.Builder getExpireAtBuilder() {
+        
+        onChanged();
+        return getExpireAtFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 8;</code>
+       */
+      public com.google.protobuf.TimestampOrBuilder getExpireAtOrBuilder() {
+        if (expireAtBuilder_ != null) {
+          return expireAtBuilder_.getMessageOrBuilder();
+        } else {
+          return expireAt_ == null ?
+              com.google.protobuf.Timestamp.getDefaultInstance() : expireAt_;
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 8;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
+          getExpireAtFieldBuilder() {
+        if (expireAtBuilder_ == null) {
+          expireAtBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
+                  getExpireAt(),
+                  getParentForChildren(),
+                  isClean());
+          expireAt_ = null;
+        }
+        return expireAtBuilder_;
+      }
+
+      private com.google.protobuf.Timestamp resultExpireAt_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> resultExpireAtBuilder_;
+      /**
+       * <code>.google.protobuf.Timestamp result_expire_at = 9;</code>
+       * @return Whether the resultExpireAt field is set.
+       */
+      public boolean hasResultExpireAt() {
+        return resultExpireAtBuilder_ != null || resultExpireAt_ != null;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp result_expire_at = 9;</code>
+       * @return The resultExpireAt.
+       */
+      public com.google.protobuf.Timestamp getResultExpireAt() {
+        if (resultExpireAtBuilder_ == null) {
+          return resultExpireAt_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : resultExpireAt_;
+        } else {
+          return resultExpireAtBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp result_expire_at = 9;</code>
+       */
+      public Builder setResultExpireAt(com.google.protobuf.Timestamp value) {
+        if (resultExpireAtBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          resultExpireAt_ = value;
+          onChanged();
+        } else {
+          resultExpireAtBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp result_expire_at = 9;</code>
+       */
+      public Builder setResultExpireAt(
+          com.google.protobuf.Timestamp.Builder builderForValue) {
+        if (resultExpireAtBuilder_ == null) {
+          resultExpireAt_ = builderForValue.build();
+          onChanged();
+        } else {
+          resultExpireAtBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp result_expire_at = 9;</code>
+       */
+      public Builder mergeResultExpireAt(com.google.protobuf.Timestamp value) {
+        if (resultExpireAtBuilder_ == null) {
+          if (resultExpireAt_ != null) {
+            resultExpireAt_ =
+              com.google.protobuf.Timestamp.newBuilder(resultExpireAt_).mergeFrom(value).buildPartial();
+          } else {
+            resultExpireAt_ = value;
+          }
+          onChanged();
+        } else {
+          resultExpireAtBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp result_expire_at = 9;</code>
+       */
+      public Builder clearResultExpireAt() {
+        if (resultExpireAtBuilder_ == null) {
+          resultExpireAt_ = null;
+          onChanged();
+        } else {
+          resultExpireAt_ = null;
+          resultExpireAtBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp result_expire_at = 9;</code>
+       */
+      public com.google.protobuf.Timestamp.Builder getResultExpireAtBuilder() {
+        
+        onChanged();
+        return getResultExpireAtFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.google.protobuf.Timestamp result_expire_at = 9;</code>
+       */
+      public com.google.protobuf.TimestampOrBuilder getResultExpireAtOrBuilder() {
+        if (resultExpireAtBuilder_ != null) {
+          return resultExpireAtBuilder_.getMessageOrBuilder();
+        } else {
+          return resultExpireAt_ == null ?
+              com.google.protobuf.Timestamp.getDefaultInstance() : resultExpireAt_;
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp result_expire_at = 9;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
+          getResultExpireAtFieldBuilder() {
+        if (resultExpireAtBuilder_ == null) {
+          resultExpireAtBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
+                  getResultExpireAt(),
+                  getParentForChildren(),
+                  isClean());
+          resultExpireAt_ = null;
+        }
+        return resultExpireAtBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -34828,6 +35234,21 @@ public final class YandexQueryProtos {
      * @return The automatic.
      */
     boolean getAutomatic();
+
+    /**
+     * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+     * @return Whether the expireAt field is set.
+     */
+    boolean hasExpireAt();
+    /**
+     * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+     * @return The expireAt.
+     */
+    com.google.protobuf.Timestamp getExpireAt();
+    /**
+     * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+     */
+    com.google.protobuf.TimestampOrBuilder getExpireAtOrBuilder();
   }
   /**
    * Protobuf type {@code YandexQuery.BriefJob}
@@ -34917,6 +35338,19 @@ public final class YandexQueryProtos {
             case 88: {
 
               automatic_ = input.readBool();
+              break;
+            }
+            case 98: {
+              com.google.protobuf.Timestamp.Builder subBuilder = null;
+              if (expireAt_ != null) {
+                subBuilder = expireAt_.toBuilder();
+              }
+              expireAt_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(expireAt_);
+                expireAt_ = subBuilder.buildPartial();
+              }
+
               break;
             }
             default: {
@@ -35071,6 +35505,32 @@ public final class YandexQueryProtos {
       return automatic_;
     }
 
+    public static final int EXPIRE_AT_FIELD_NUMBER = 12;
+    private com.google.protobuf.Timestamp expireAt_;
+    /**
+     * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+     * @return Whether the expireAt field is set.
+     */
+    @java.lang.Override
+    public boolean hasExpireAt() {
+      return expireAt_ != null;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+     * @return The expireAt.
+     */
+    @java.lang.Override
+    public com.google.protobuf.Timestamp getExpireAt() {
+      return expireAt_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : expireAt_;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+     */
+    @java.lang.Override
+    public com.google.protobuf.TimestampOrBuilder getExpireAtOrBuilder() {
+      return getExpireAt();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -35100,6 +35560,9 @@ public final class YandexQueryProtos {
       if (automatic_ != false) {
         output.writeBool(11, automatic_);
       }
+      if (expireAt_ != null) {
+        output.writeMessage(12, getExpireAt());
+      }
       unknownFields.writeTo(output);
     }
 
@@ -35127,6 +35590,10 @@ public final class YandexQueryProtos {
       if (automatic_ != false) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(11, automatic_);
+      }
+      if (expireAt_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(12, getExpireAt());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -35158,6 +35625,11 @@ public final class YandexQueryProtos {
       if (visibility_ != other.visibility_) return false;
       if (getAutomatic()
           != other.getAutomatic()) return false;
+      if (hasExpireAt() != other.hasExpireAt()) return false;
+      if (hasExpireAt()) {
+        if (!getExpireAt()
+            .equals(other.getExpireAt())) return false;
+      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -35184,6 +35656,10 @@ public final class YandexQueryProtos {
       hash = (37 * hash) + AUTOMATIC_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getAutomatic());
+      if (hasExpireAt()) {
+        hash = (37 * hash) + EXPIRE_AT_FIELD_NUMBER;
+        hash = (53 * hash) + getExpireAt().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -35335,6 +35811,12 @@ public final class YandexQueryProtos {
 
         automatic_ = false;
 
+        if (expireAtBuilder_ == null) {
+          expireAt_ = null;
+        } else {
+          expireAt_ = null;
+          expireAtBuilder_ = null;
+        }
         return this;
       }
 
@@ -35374,6 +35856,11 @@ public final class YandexQueryProtos {
         result.queryName_ = queryName_;
         result.visibility_ = visibility_;
         result.automatic_ = automatic_;
+        if (expireAtBuilder_ == null) {
+          result.expireAt_ = expireAt_;
+        } else {
+          result.expireAt_ = expireAtBuilder_.build();
+        }
         onBuilt();
         return result;
       }
@@ -35437,6 +35924,9 @@ public final class YandexQueryProtos {
         }
         if (other.getAutomatic() != false) {
           setAutomatic(other.getAutomatic());
+        }
+        if (other.hasExpireAt()) {
+          mergeExpireAt(other.getExpireAt());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -35865,6 +36355,125 @@ public final class YandexQueryProtos {
         onChanged();
         return this;
       }
+
+      private com.google.protobuf.Timestamp expireAt_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> expireAtBuilder_;
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+       * @return Whether the expireAt field is set.
+       */
+      public boolean hasExpireAt() {
+        return expireAtBuilder_ != null || expireAt_ != null;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+       * @return The expireAt.
+       */
+      public com.google.protobuf.Timestamp getExpireAt() {
+        if (expireAtBuilder_ == null) {
+          return expireAt_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : expireAt_;
+        } else {
+          return expireAtBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+       */
+      public Builder setExpireAt(com.google.protobuf.Timestamp value) {
+        if (expireAtBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          expireAt_ = value;
+          onChanged();
+        } else {
+          expireAtBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+       */
+      public Builder setExpireAt(
+          com.google.protobuf.Timestamp.Builder builderForValue) {
+        if (expireAtBuilder_ == null) {
+          expireAt_ = builderForValue.build();
+          onChanged();
+        } else {
+          expireAtBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+       */
+      public Builder mergeExpireAt(com.google.protobuf.Timestamp value) {
+        if (expireAtBuilder_ == null) {
+          if (expireAt_ != null) {
+            expireAt_ =
+              com.google.protobuf.Timestamp.newBuilder(expireAt_).mergeFrom(value).buildPartial();
+          } else {
+            expireAt_ = value;
+          }
+          onChanged();
+        } else {
+          expireAtBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+       */
+      public Builder clearExpireAt() {
+        if (expireAtBuilder_ == null) {
+          expireAt_ = null;
+          onChanged();
+        } else {
+          expireAt_ = null;
+          expireAtBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+       */
+      public com.google.protobuf.Timestamp.Builder getExpireAtBuilder() {
+        
+        onChanged();
+        return getExpireAtFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+       */
+      public com.google.protobuf.TimestampOrBuilder getExpireAtOrBuilder() {
+        if (expireAtBuilder_ != null) {
+          return expireAtBuilder_.getMessageOrBuilder();
+        } else {
+          return expireAt_ == null ?
+              com.google.protobuf.Timestamp.getDefaultInstance() : expireAt_;
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
+          getExpireAtFieldBuilder() {
+        if (expireAtBuilder_ == null) {
+          expireAtBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
+                  getExpireAt(),
+                  getParentForChildren(),
+                  isClean());
+          expireAt_ = null;
+        }
+        return expireAtBuilder_;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -36089,6 +36698,21 @@ public final class YandexQueryProtos {
      * @return The automatic.
      */
     boolean getAutomatic();
+
+    /**
+     * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+     * @return Whether the expireAt field is set.
+     */
+    boolean hasExpireAt();
+    /**
+     * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+     * @return The expireAt.
+     */
+    com.google.protobuf.Timestamp getExpireAt();
+    /**
+     * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+     */
+    com.google.protobuf.TimestampOrBuilder getExpireAtOrBuilder();
   }
   /**
    * Protobuf type {@code YandexQuery.Job}
@@ -36251,6 +36875,19 @@ public final class YandexQueryProtos {
             case 88: {
 
               automatic_ = input.readBool();
+              break;
+            }
+            case 98: {
+              com.google.protobuf.Timestamp.Builder subBuilder = null;
+              if (expireAt_ != null) {
+                subBuilder = expireAt_.toBuilder();
+              }
+              expireAt_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(expireAt_);
+                expireAt_ = subBuilder.buildPartial();
+              }
+
               break;
             }
             default: {
@@ -36614,6 +37251,32 @@ public final class YandexQueryProtos {
       return automatic_;
     }
 
+    public static final int EXPIRE_AT_FIELD_NUMBER = 12;
+    private com.google.protobuf.Timestamp expireAt_;
+    /**
+     * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+     * @return Whether the expireAt field is set.
+     */
+    @java.lang.Override
+    public boolean hasExpireAt() {
+      return expireAt_ != null;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+     * @return The expireAt.
+     */
+    @java.lang.Override
+    public com.google.protobuf.Timestamp getExpireAt() {
+      return expireAt_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : expireAt_;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+     */
+    @java.lang.Override
+    public com.google.protobuf.TimestampOrBuilder getExpireAtOrBuilder() {
+      return getExpireAt();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -36660,6 +37323,9 @@ public final class YandexQueryProtos {
       }
       if (automatic_ != false) {
         output.writeBool(11, automatic_);
+      }
+      if (expireAt_ != null) {
+        output.writeMessage(12, getExpireAt());
       }
       unknownFields.writeTo(output);
     }
@@ -36711,6 +37377,10 @@ public final class YandexQueryProtos {
       if (automatic_ != false) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(11, automatic_);
+      }
+      if (expireAt_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(12, getExpireAt());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -36767,6 +37437,11 @@ public final class YandexQueryProtos {
       }
       if (getAutomatic()
           != other.getAutomatic()) return false;
+      if (hasExpireAt() != other.hasExpireAt()) return false;
+      if (hasExpireAt()) {
+        if (!getExpireAt()
+            .equals(other.getExpireAt())) return false;
+      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -36817,6 +37492,10 @@ public final class YandexQueryProtos {
       hash = (37 * hash) + AUTOMATIC_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getAutomatic());
+      if (hasExpireAt()) {
+        hash = (37 * hash) + EXPIRE_AT_FIELD_NUMBER;
+        hash = (53 * hash) + getExpireAt().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -37006,6 +37685,12 @@ public final class YandexQueryProtos {
         }
         automatic_ = false;
 
+        if (expireAtBuilder_ == null) {
+          expireAt_ = null;
+        } else {
+          expireAt_ = null;
+          expireAtBuilder_ = null;
+        }
         return this;
       }
 
@@ -37084,6 +37769,11 @@ public final class YandexQueryProtos {
           result.acl_ = aclBuilder_.build();
         }
         result.automatic_ = automatic_;
+        if (expireAtBuilder_ == null) {
+          result.expireAt_ = expireAt_;
+        } else {
+          result.expireAt_ = expireAtBuilder_.build();
+        }
         onBuilt();
         return result;
       }
@@ -37212,6 +37902,9 @@ public final class YandexQueryProtos {
         }
         if (other.getAutomatic() != false) {
           setAutomatic(other.getAutomatic());
+        }
+        if (other.hasExpireAt()) {
+          mergeExpireAt(other.getExpireAt());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -38618,6 +39311,125 @@ public final class YandexQueryProtos {
         automatic_ = false;
         onChanged();
         return this;
+      }
+
+      private com.google.protobuf.Timestamp expireAt_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> expireAtBuilder_;
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+       * @return Whether the expireAt field is set.
+       */
+      public boolean hasExpireAt() {
+        return expireAtBuilder_ != null || expireAt_ != null;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+       * @return The expireAt.
+       */
+      public com.google.protobuf.Timestamp getExpireAt() {
+        if (expireAtBuilder_ == null) {
+          return expireAt_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : expireAt_;
+        } else {
+          return expireAtBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+       */
+      public Builder setExpireAt(com.google.protobuf.Timestamp value) {
+        if (expireAtBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          expireAt_ = value;
+          onChanged();
+        } else {
+          expireAtBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+       */
+      public Builder setExpireAt(
+          com.google.protobuf.Timestamp.Builder builderForValue) {
+        if (expireAtBuilder_ == null) {
+          expireAt_ = builderForValue.build();
+          onChanged();
+        } else {
+          expireAtBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+       */
+      public Builder mergeExpireAt(com.google.protobuf.Timestamp value) {
+        if (expireAtBuilder_ == null) {
+          if (expireAt_ != null) {
+            expireAt_ =
+              com.google.protobuf.Timestamp.newBuilder(expireAt_).mergeFrom(value).buildPartial();
+          } else {
+            expireAt_ = value;
+          }
+          onChanged();
+        } else {
+          expireAtBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+       */
+      public Builder clearExpireAt() {
+        if (expireAtBuilder_ == null) {
+          expireAt_ = null;
+          onChanged();
+        } else {
+          expireAt_ = null;
+          expireAtBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+       */
+      public com.google.protobuf.Timestamp.Builder getExpireAtBuilder() {
+        
+        onChanged();
+        return getExpireAtFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+       */
+      public com.google.protobuf.TimestampOrBuilder getExpireAtOrBuilder() {
+        if (expireAtBuilder_ != null) {
+          return expireAtBuilder_.getMessageOrBuilder();
+        } else {
+          return expireAt_ == null ?
+              com.google.protobuf.Timestamp.getDefaultInstance() : expireAt_;
+        }
+      }
+      /**
+       * <code>.google.protobuf.Timestamp expire_at = 12;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
+          getExpireAtFieldBuilder() {
+        if (expireAtBuilder_ == null) {
+          expireAtBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
+                  getExpireAt(),
+                  getParentForChildren(),
+                  isClean());
+          expireAt_ = null;
+        }
+        return expireAtBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -91802,317 +92614,322 @@ public final class YandexQueryProtos {
       " \n\013modified_by\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022.\n\ncre" +
       "ated_at\030\004 \001(\0132\032.google.protobuf.Timestam" +
       "p\022/\n\013modified_at\030\005 \001(\0132\032.google.protobuf" +
-      ".Timestamp\022\032\n\010revision\030\006 \001(\003B\010\262\346*\004>= 0\"\267" +
-      "\004\n\tQueryMeta\022\'\n\006common\030\001 \001(\0132\027.YandexQue" +
+      ".Timestamp\022\032\n\010revision\030\006 \001(\003B\010\262\346*\004>= 0\"\234" +
+      "\005\n\tQueryMeta\022\'\n\006common\030\001 \001(\0132\027.YandexQue" +
       "ry.CommonMeta\022.\n\nstarted_at\030\002 \001(\0132\032.goog" +
       "le.protobuf.Timestamp\022/\n\013finished_at\030\003 \001" +
       "(\0132\032.google.protobuf.Timestamp\022.\n\014execut" +
       "e_mode\030\004 \001(\0162\030.YandexQuery.ExecuteMode\0224" +
       "\n\006status\030\005 \001(\0162$.YandexQuery.QueryMeta.C" +
       "omputeStatus\022\037\n\027last_job_query_revision\030" +
-      "\006 \001(\003\022\023\n\013last_job_id\030\007 \001(\t\"\203\002\n\rComputeSt" +
-      "atus\022\036\n\032COMPUTE_STATUS_UNSPECIFIED\020\000\022\014\n\010" +
-      "STARTING\020\001\022\023\n\017ABORTED_BY_USER\020\002\022\025\n\021ABORT" +
-      "ED_BY_SYSTEM\020\003\022\024\n\020ABORTING_BY_USER\020\004\022\026\n\022" +
-      "ABORTING_BY_SYSTEM\020\005\022\014\n\010RESUMING\020\006\022\013\n\007RU" +
-      "NNING\020\007\022\r\n\tCOMPLETED\020\010\022\016\n\nCOMPLETING\020\014\022\n" +
-      "\n\006FAILED\020\t\022\013\n\007FAILING\020\r\022\n\n\006PAUSED\020\013\022\013\n\007P" +
-      "AUSING\020\n\"\300\001\n\nBriefQuery\0221\n\004type\030\001 \001(\0162#." +
-      "YandexQuery.QueryContent.QueryType\022\025\n\004na" +
-      "me\030\002 \001(\tB\007\242\346*\003\030\200\010\022$\n\004meta\030\003 \001(\0132\026.Yandex" +
-      "Query.QueryMeta\022/\n\nvisibility\030\004 \001(\0162\033.Ya" +
-      "ndexQuery.Acl.Visibility\022\021\n\tautomatic\030\005 " +
-      "\001(\010\"\031\n\tQueryPlan\022\014\n\004json\030\001 \001(\t\"\030\n\010QueryA" +
-      "st\022\014\n\004data\030\001 \001(\t\"]\n\rResultSetMeta\022\033\n\006col" +
-      "umn\030\001 \003(\0132\013.Ydb.Column\022\034\n\nrows_count\030\002 \001" +
-      "(\003B\010\262\346*\004>= 0\022\021\n\ttruncated\030\003 \001(\010\"\344\002\n\005Quer" +
-      "y\022$\n\004meta\030\001 \001(\0132\026.YandexQuery.QueryMeta\022" +
-      "*\n\007content\030\002 \001(\0132\031.YandexQuery.QueryCont" +
-      "ent\022$\n\004plan\030\003 \001(\0132\026.YandexQuery.QueryPla" +
-      "n\022&\n\005issue\030\004 \003(\0132\027.Ydb.Issue.IssueMessag" +
-      "e\0220\n\017transient_issue\030\005 \003(\0132\027.Ydb.Issue.I" +
-      "ssueMessage\0220\n\nstatistics\030\006 \001(\0132\034.Yandex" +
-      "Query.QueryStatistics\0223\n\017result_set_meta" +
-      "\030\007 \003(\0132\032.YandexQuery.ResultSetMeta\022\"\n\003as" +
-      "t\030\010 \001(\0132\025.YandexQuery.QueryAst\"\037\n\017QueryS" +
-      "tatistics\022\014\n\004json\030\001 \001(\t\"\205\002\n\022CreateQueryR" +
-      "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O" +
-      "perations.OperationParams\022*\n\007content\030\002 \001" +
-      "(\0132\031.YandexQuery.QueryContent\022.\n\014execute" +
-      "_mode\030\003 \001(\0162\030.YandexQuery.ExecuteMode\0226\n" +
-      "\013disposition\030\004 \001(\0132!.YandexQuery.Streami" +
-      "ngDisposition\022 \n\017idempotency_key\030\005 \001(\tB\007" +
-      "\242\346*\003\030\200\010\"C\n\023CreateQueryResponse\022,\n\toperat" +
-      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\".\n\021" +
-      "CreateQueryResult\022\031\n\010query_id\030\001 \001(\tB\007\242\346*" +
-      "\003\030\200\010\"\201\004\n\022ListQueriesRequest\0229\n\020operation" +
+      "\006 \001(\003\022\023\n\013last_job_id\030\007 \001(\t\022-\n\texpire_at\030" +
+      "\010 \001(\0132\032.google.protobuf.Timestamp\0224\n\020res" +
+      "ult_expire_at\030\t \001(\0132\032.google.protobuf.Ti" +
+      "mestamp\"\203\002\n\rComputeStatus\022\036\n\032COMPUTE_STA" +
+      "TUS_UNSPECIFIED\020\000\022\014\n\010STARTING\020\001\022\023\n\017ABORT" +
+      "ED_BY_USER\020\002\022\025\n\021ABORTED_BY_SYSTEM\020\003\022\024\n\020A" +
+      "BORTING_BY_USER\020\004\022\026\n\022ABORTING_BY_SYSTEM\020" +
+      "\005\022\014\n\010RESUMING\020\006\022\013\n\007RUNNING\020\007\022\r\n\tCOMPLETE" +
+      "D\020\010\022\016\n\nCOMPLETING\020\014\022\n\n\006FAILED\020\t\022\013\n\007FAILI" +
+      "NG\020\r\022\n\n\006PAUSED\020\013\022\013\n\007PAUSING\020\n\"\300\001\n\nBriefQ" +
+      "uery\0221\n\004type\030\001 \001(\0162#.YandexQuery.QueryCo" +
+      "ntent.QueryType\022\025\n\004name\030\002 \001(\tB\007\242\346*\003\030\200\010\022$" +
+      "\n\004meta\030\003 \001(\0132\026.YandexQuery.QueryMeta\022/\n\n" +
+      "visibility\030\004 \001(\0162\033.YandexQuery.Acl.Visib" +
+      "ility\022\021\n\tautomatic\030\005 \001(\010\"\031\n\tQueryPlan\022\014\n" +
+      "\004json\030\001 \001(\t\"\030\n\010QueryAst\022\014\n\004data\030\001 \001(\t\"]\n" +
+      "\rResultSetMeta\022\033\n\006column\030\001 \003(\0132\013.Ydb.Col" +
+      "umn\022\034\n\nrows_count\030\002 \001(\003B\010\262\346*\004>= 0\022\021\n\ttru" +
+      "ncated\030\003 \001(\010\"\344\002\n\005Query\022$\n\004meta\030\001 \001(\0132\026.Y" +
+      "andexQuery.QueryMeta\022*\n\007content\030\002 \001(\0132\031." +
+      "YandexQuery.QueryContent\022$\n\004plan\030\003 \001(\0132\026" +
+      ".YandexQuery.QueryPlan\022&\n\005issue\030\004 \003(\0132\027." +
+      "Ydb.Issue.IssueMessage\0220\n\017transient_issu" +
+      "e\030\005 \003(\0132\027.Ydb.Issue.IssueMessage\0220\n\nstat" +
+      "istics\030\006 \001(\0132\034.YandexQuery.QueryStatisti" +
+      "cs\0223\n\017result_set_meta\030\007 \003(\0132\032.YandexQuer" +
+      "y.ResultSetMeta\022\"\n\003ast\030\010 \001(\0132\025.YandexQue" +
+      "ry.QueryAst\"\037\n\017QueryStatistics\022\014\n\004json\030\001" +
+      " \001(\t\"\205\002\n\022CreateQueryRequest\0229\n\020operation" +
       "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
-      "Params\022\033\n\npage_token\030\002 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005l" +
-      "imit\030\003 \001(\005B\014\262\346*\010[1; 100]\0226\n\006filter\030\004 \001(\013" +
-      "2&.YandexQuery.ListQueriesRequest.Filter" +
-      "\032\275\002\n\006Filter\0227\n\nquery_type\030\001 \001(\0162#.Yandex" +
-      "Query.QueryContent.QueryType\022<\n\006status\030\002" +
-      " \003(\0162$.YandexQuery.QueryMeta.ComputeStat" +
-      "usB\006\232\346*\002\030\024\022.\n\004mode\030\003 \003(\0162\030.YandexQuery.E" +
-      "xecuteModeB\006\232\346*\002\030\024\022\025\n\004name\030\004 \001(\tB\007\242\346*\003\030\200" +
-      "\010\022\025\n\rcreated_by_me\030\005 \001(\010\022/\n\nvisibility\030\006" +
-      " \001(\0162\033.YandexQuery.Acl.Visibility\022-\n\taut" +
-      "omatic\030\007 \001(\0162\032.YandexQuery.AutomaticType" +
-      "\"C\n\023ListQueriesResponse\022,\n\toperation\030\001 \001" +
-      "(\0132\031.Ydb.Operations.Operation\"]\n\021ListQue" +
-      "riesResult\022&\n\005query\030\001 \003(\0132\027.YandexQuery." +
-      "BriefQuery\022 \n\017next_page_token\030\002 \001(\tB\007\242\346*" +
-      "\003\030\200\010\"p\n\024DescribeQueryRequest\0229\n\020operatio" +
-      "n_params\030\001 \001(\0132\037.Ydb.Operations.Operatio" +
-      "nParams\022\035\n\010query_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"E" +
-      "\n\025DescribeQueryResponse\022,\n\toperation\030\001 \001" +
-      "(\0132\031.Ydb.Operations.Operation\"8\n\023Describ" +
-      "eQueryResult\022!\n\005query\030\001 \001(\0132\022.YandexQuer" +
-      "y.Query\"q\n\025GetQueryStatusRequest\0229\n\020oper" +
-      "ation_params\030\001 \001(\0132\037.Ydb.Operations.Oper" +
-      "ationParams\022\035\n\010query_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020" +
-      "\200\010\"F\n\026GetQueryStatusResponse\022,\n\toperatio" +
-      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"L\n\024Ge" +
-      "tQueryStatusResult\0224\n\006status\030\001 \001(\0162$.Yan" +
-      "dexQuery.QueryMeta.ComputeStatus\"\265\001\n\022Del" +
-      "eteQueryRequest\0229\n\020operation_params\030\001 \001(" +
-      "\0132\037.Ydb.Operations.OperationParams\022\035\n\010qu" +
-      "ery_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022#\n\021previous_re" +
-      "vision\030\003 \001(\003B\010\262\346*\004>= 0\022 \n\017idempotency_ke" +
-      "y\030\004 \001(\tB\007\242\346*\003\030\200\010\"C\n\023DeleteQueryResponse\022" +
-      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
-      "ation\"\023\n\021DeleteQueryResult\"\371\002\n\022ModifyQue" +
+      "Params\022*\n\007content\030\002 \001(\0132\031.YandexQuery.Qu" +
+      "eryContent\022.\n\014execute_mode\030\003 \001(\0162\030.Yande" +
+      "xQuery.ExecuteMode\0226\n\013disposition\030\004 \001(\0132" +
+      "!.YandexQuery.StreamingDisposition\022 \n\017id" +
+      "empotency_key\030\005 \001(\tB\007\242\346*\003\030\200\010\"C\n\023CreateQu" +
+      "eryResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
+      "rations.Operation\".\n\021CreateQueryResult\022\031" +
+      "\n\010query_id\030\001 \001(\tB\007\242\346*\003\030\200\010\"\201\004\n\022ListQuerie" +
+      "sRequest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb" +
+      ".Operations.OperationParams\022\033\n\npage_toke" +
+      "n\030\002 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limit\030\003 \001(\005B\014\262\346*\010[1;" +
+      " 100]\0226\n\006filter\030\004 \001(\0132&.YandexQuery.List" +
+      "QueriesRequest.Filter\032\275\002\n\006Filter\0227\n\nquer" +
+      "y_type\030\001 \001(\0162#.YandexQuery.QueryContent." +
+      "QueryType\022<\n\006status\030\002 \003(\0162$.YandexQuery." +
+      "QueryMeta.ComputeStatusB\006\232\346*\002\030\024\022.\n\004mode\030" +
+      "\003 \003(\0162\030.YandexQuery.ExecuteModeB\006\232\346*\002\030\024\022" +
+      "\025\n\004name\030\004 \001(\tB\007\242\346*\003\030\200\010\022\025\n\rcreated_by_me\030" +
+      "\005 \001(\010\022/\n\nvisibility\030\006 \001(\0162\033.YandexQuery." +
+      "Acl.Visibility\022-\n\tautomatic\030\007 \001(\0162\032.Yand" +
+      "exQuery.AutomaticType\"C\n\023ListQueriesResp" +
+      "onse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations" +
+      ".Operation\"]\n\021ListQueriesResult\022&\n\005query" +
+      "\030\001 \003(\0132\027.YandexQuery.BriefQuery\022 \n\017next_" +
+      "page_token\030\002 \001(\tB\007\242\346*\003\030\200\010\"p\n\024DescribeQue" +
       "ryRequest\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
       "b.Operations.OperationParams\022\035\n\010query_id" +
-      "\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022*\n\007content\030\003 \001(\0132\031.Y" +
-      "andexQuery.QueryContent\022.\n\014execute_mode\030" +
-      "\004 \001(\0162\030.YandexQuery.ExecuteMode\0226\n\013dispo" +
-      "sition\030\005 \001(\0132!.YandexQuery.StreamingDisp" +
-      "osition\022.\n\nstate_mode\030\006 \001(\0162\032.YandexQuer" +
-      "y.StateLoadMode\022#\n\021previous_revision\030\007 \001" +
-      "(\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\010 \001(\tB\007\242" +
-      "\346*\003\030\200\010\"C\n\023ModifyQueryResponse\022,\n\toperati" +
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\023\n\021M" +
-      "odifyQueryResult\"\340\001\n\023ControlQueryRequest" +
-      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
-      "ons.OperationParams\022\035\n\010query_id\030\002 \001(\tB\013\242" +
-      "\346*\007\n\005\010\001\020\200\010\022(\n\006action\030\003 \001(\0162\030.YandexQuery" +
-      ".QueryAction\022#\n\021previous_revision\030\004 \001(\003B" +
-      "\010\262\346*\004>= 0\022 \n\017idempotency_key\030\005 \001(\tB\007\242\346*\003" +
-      "\030\200\010\"D\n\024ControlQueryResponse\022,\n\toperation" +
-      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"\024\n\022Con" +
-      "trolQueryResult\"\265\001\n\010BriefJob\022%\n\004meta\030\001 \001" +
-      "(\0132\027.YandexQuery.CommonMeta\022*\n\nquery_met" +
-      "a\030\003 \001(\0132\026.YandexQuery.QueryMeta\022\022\n\nquery" +
-      "_name\030\t \001(\t\022/\n\nvisibility\030\n \001(\0162\033.Yandex" +
-      "Query.Acl.Visibility\022\021\n\tautomatic\030\013 \001(\010\"" +
-      "\205\003\n\003Job\022%\n\004meta\030\001 \001(\0132\027.YandexQuery.Comm" +
-      "onMeta\022\014\n\004text\030\002 \001(\t\022*\n\nquery_meta\030\003 \001(\013" +
-      "2\026.YandexQuery.QueryMeta\022$\n\004plan\030\004 \001(\0132\026" +
-      ".YandexQuery.QueryPlan\022&\n\005issue\030\005 \003(\0132\027." +
-      "Ydb.Issue.IssueMessage\0220\n\nstatistics\030\006 \001" +
-      "(\0132\034.YandexQuery.QueryStatistics\0223\n\017resu" +
-      "lt_set_meta\030\007 \003(\0132\032.YandexQuery.ResultSe" +
-      "tMeta\022\"\n\003ast\030\010 \001(\0132\025.YandexQuery.QueryAs" +
-      "t\022\022\n\nquery_name\030\t \001(\t\022\035\n\003acl\030\n \001(\0132\020.Yan" +
-      "dexQuery.Acl\022\021\n\tautomatic\030\013 \001(\010\"\211\002\n\017List" +
-      "JobsRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
-      "Ydb.Operations.OperationParams\022\033\n\npage_t" +
-      "oken\030\002 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limit\030\003 \001(\005B\014\262\346*\010" +
-      "[1; 100]\022\020\n\010query_id\030\005 \001(\t\0223\n\006filter\030\004 \001" +
-      "(\0132#.YandexQuery.ListJobsRequest.Filter\032" +
-      ":\n\006Filter\022\031\n\010query_id\030\001 \001(\tB\007\242\346*\003\030\200\010\022\025\n\r" +
-      "created_by_me\030\002 \001(\010\"@\n\020ListJobsResponse\022" +
-      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
-      "ation\"V\n\016ListJobsResult\022\"\n\003job\030\001 \003(\0132\025.Y" +
-      "andexQuery.BriefJob\022 \n\017next_page_token\030\002" +
-      " \001(\tB\007\242\346*\003\030\200\010\"l\n\022DescribeJobRequest\0229\n\020o" +
-      "peration_params\030\001 \001(\0132\037.Ydb.Operations.O" +
-      "perationParams\022\033\n\006job_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001" +
-      "\020\200\010\"C\n\023DescribeJobResponse\022,\n\toperation\030" +
-      "\001 \001(\0132\031.Ydb.Operations.Operation\"2\n\021Desc" +
-      "ribeJobResult\022\035\n\003job\030\001 \001(\0132\020.YandexQuery" +
-      ".Job\"\025\n\023CurrentIAMTokenAuth\"\n\n\010NoneAuth\"" +
-      ")\n\022ServiceAccountAuth\022\023\n\002id\030\001 \001(\tB\007\242\346*\003\030" +
-      "\200\010\"\261\001\n\007IamAuth\0227\n\013current_iam\030\001 \001(\0132 .Ya" +
-      "ndexQuery.CurrentIAMTokenAuthH\000\022:\n\017servi" +
-      "ce_account\030\002 \001(\0132\037.YandexQuery.ServiceAc" +
-      "countAuthH\000\022%\n\004none\030\003 \001(\0132\025.YandexQuery." +
-      "NoneAuthH\000B\n\n\010identity\"\225\001\n\013DataStreams\022\034" +
-      "\n\013database_id\030\001 \001(\tB\007\242\346*\003\030\200\010\022\"\n\004auth\030\002 \001" +
-      "(\0132\024.YandexQuery.IamAuth\022\031\n\010endpoint\030\003 \001" +
-      "(\tB\007\242\346*\003\030\200\010\022\031\n\010database\030\004 \001(\tB\007\242\346*\003\030\200\010\022\016" +
-      "\n\006secure\030\005 \001(\010\"d\n\nMonitoring\022\030\n\007project\030" +
-      "\001 \001(\tB\007\242\346*\003\030\310\001\022\030\n\007cluster\030\002 \001(\tB\007\242\346*\003\030\310\001" +
-      "\022\"\n\004auth\030\003 \001(\0132\024.YandexQuery.IamAuth\"\225\001\n" +
-      "\013YdbDatabase\022\034\n\013database_id\030\001 \001(\tB\007\242\346*\003\030" +
-      "\200\010\022\"\n\004auth\030\002 \001(\0132\024.YandexQuery.IamAuth\022\031" +
-      "\n\010endpoint\030\003 \001(\tB\007\242\346*\003\030\200\010\022\031\n\010database\030\004 " +
-      "\001(\tB\007\242\346*\003\030\200\010\022\016\n\006secure\030\005 \001(\010\"\315\001\n\021ClickHo" +
-      "useCluster\022\034\n\013database_id\030\001 \001(\tB\007\242\346*\003\030\200\010" +
-      "\022\026\n\005login\030\002 \001(\tB\007\242\346*\003\030\200\010\022\031\n\010password\030\003 \001" +
-      "(\tB\007\242\346*\003\030\200\010\022\"\n\004auth\030\004 \001(\0132\024.YandexQuery." +
-      "IamAuth\022\025\n\004host\030\005 \001(\tB\007\242\346*\003\030\200\010\022\034\n\004port\030\006" +
-      " \001(\005B\016\262\346*\n[0; 65536]\022\016\n\006secure\030\007 \001(\010\"V\n\027" +
-      "ObjectStorageConnection\022\027\n\006bucket\030\001 \001(\tB" +
-      "\007\242\346*\003\030\200\010\022\"\n\004auth\030\002 \001(\0132\024.YandexQuery.Iam" +
-      "Auth\"\306\003\n\021ConnectionSetting\0220\n\014ydb_databa" +
-      "se\030\001 \001(\0132\030.YandexQuery.YdbDatabaseH\000\022<\n\022" +
-      "clickhouse_cluster\030\002 \001(\0132\036.YandexQuery.C" +
-      "lickHouseClusterH\000\0220\n\014data_streams\030\003 \001(\013" +
-      "2\030.YandexQuery.DataStreamsH\000\022>\n\016object_s" +
-      "torage\030\004 \001(\0132$.YandexQuery.ObjectStorage" +
-      "ConnectionH\000\022-\n\nmonitoring\030\005 \001(\0132\027.Yande" +
-      "xQuery.MonitoringH\000\"\221\001\n\016ConnectionType\022\037" +
-      "\n\033CONNECTION_TYPE_UNSPECIFIED\020\000\022\020\n\014YDB_D" +
-      "ATABASE\020\001\022\026\n\022CLICKHOUSE_CLUSTER\020\002\022\020\n\014DAT" +
-      "A_STREAMS\020\003\022\022\n\016OBJECT_STORAGE\020\004\022\016\n\nMONIT" +
-      "ORING\020\005B\014\n\nconnection\"\234\001\n\021ConnectionCont" +
-      "ent\022\031\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022/\n\007settin" +
-      "g\030\002 \001(\0132\036.YandexQuery.ConnectionSetting\022" +
-      "\035\n\003acl\030\003 \001(\0132\020.YandexQuery.Acl\022\034\n\013descri" +
-      "ption\030\004 \001(\tB\007\242\346*\003\030\200P\"d\n\nConnection\022/\n\007co" +
-      "ntent\030\001 \001(\0132\036.YandexQuery.ConnectionCont" +
-      "ent\022%\n\004meta\030\002 \001(\0132\027.YandexQuery.CommonMe" +
-      "ta\"\247\001\n\027CreateConnectionRequest\0229\n\020operat" +
+      "\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"E\n\025DescribeQueryResp" +
+      "onse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations" +
+      ".Operation\"8\n\023DescribeQueryResult\022!\n\005que" +
+      "ry\030\001 \001(\0132\022.YandexQuery.Query\"q\n\025GetQuery" +
+      "StatusRequest\0229\n\020operation_params\030\001 \001(\0132" +
+      "\037.Ydb.Operations.OperationParams\022\035\n\010quer" +
+      "y_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"F\n\026GetQueryStatu" +
+      "sResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
+      "tions.Operation\"L\n\024GetQueryStatusResult\022" +
+      "4\n\006status\030\001 \001(\0162$.YandexQuery.QueryMeta." +
+      "ComputeStatus\"\265\001\n\022DeleteQueryRequest\0229\n\020" +
+      "operation_params\030\001 \001(\0132\037.Ydb.Operations." +
+      "OperationParams\022\035\n\010query_id\030\002 \001(\tB\013\242\346*\007\n" +
+      "\005\010\001\020\200\010\022#\n\021previous_revision\030\003 \001(\003B\010\262\346*\004>" +
+      "= 0\022 \n\017idempotency_key\030\004 \001(\tB\007\242\346*\003\030\200\010\"C\n" +
+      "\023DeleteQueryResponse\022,\n\toperation\030\001 \001(\0132" +
+      "\031.Ydb.Operations.Operation\"\023\n\021DeleteQuer" +
+      "yResult\"\371\002\n\022ModifyQueryRequest\0229\n\020operat" +
       "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat" +
-      "ionParams\022/\n\007content\030\002 \001(\0132\036.YandexQuery" +
-      ".ConnectionContent\022 \n\017idempotency_key\030\003 " +
-      "\001(\tB\007\242\346*\003\030\200\010\"H\n\030CreateConnectionResponse" +
-      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
-      "ration\"<\n\026CreateConnectionResult\022\"\n\rconn" +
-      "ection_id\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"\311\002\n\026ListCon" +
-      "nectionsRequest\0229\n\020operation_params\030\001 \001(" +
-      "\0132\037.Ydb.Operations.OperationParams\022\033\n\npa" +
-      "ge_token\030\002 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limit\030\003 \001(\005B\014" +
-      "\262\346*\010[1; 100]\022:\n\006filter\030\004 \001(\0132*.YandexQue" +
-      "ry.ListConnectionsRequest.Filter\032~\n\006Filt" +
-      "er\022\025\n\004name\030\001 \001(\tB\007\242\346*\003\030\200\010\022\025\n\rcreated_by_" +
-      "me\030\002 \001(\010\022F\n\017connection_type\030\003 \001(\0162-.Yand" +
-      "exQuery.ConnectionSetting.ConnectionType" +
-      "\"G\n\027ListConnectionsResponse\022,\n\toperation" +
-      "\030\001 \001(\0132\031.Ydb.Operations.Operation\"f\n\025Lis" +
-      "tConnectionsResult\022+\n\nconnection\030\001 \003(\0132\027" +
-      ".YandexQuery.Connection\022 \n\017next_page_tok" +
-      "en\030\002 \001(\tB\007\242\346*\003\030\200\010\"z\n\031DescribeConnectionR" +
-      "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O" +
-      "perations.OperationParams\022\"\n\rconnection_" +
-      "id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"J\n\032DescribeConnect" +
-      "ionResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
-      "rations.Operation\"G\n\030DescribeConnectionR" +
-      "esult\022+\n\nconnection\030\001 \001(\0132\027.YandexQuery." +
-      "Connection\"\360\001\n\027ModifyConnectionRequest\0229" +
-      "\n\020operation_params\030\001 \001(\0132\037.Ydb.Operation" +
-      "s.OperationParams\022\"\n\rconnection_id\030\002 \001(\t" +
-      "B\013\242\346*\007\n\005\010\001\020\200\010\022/\n\007content\030\003 \001(\0132\036.YandexQ" +
-      "uery.ConnectionContent\022#\n\021previous_revis" +
-      "ion\030\004 \001(\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\005" +
-      " \001(\tB\007\242\346*\003\030\200\010\"H\n\030ModifyConnectionRespons" +
-      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
-      "eration\"\030\n\026ModifyConnectionResult\"\277\001\n\027De" +
-      "leteConnectionRequest\0229\n\020operation_param" +
+      "ionParams\022\035\n\010query_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010" +
+      "\022*\n\007content\030\003 \001(\0132\031.YandexQuery.QueryCon" +
+      "tent\022.\n\014execute_mode\030\004 \001(\0162\030.YandexQuery" +
+      ".ExecuteMode\0226\n\013disposition\030\005 \001(\0132!.Yand" +
+      "exQuery.StreamingDisposition\022.\n\nstate_mo" +
+      "de\030\006 \001(\0162\032.YandexQuery.StateLoadMode\022#\n\021" +
+      "previous_revision\030\007 \001(\003B\010\262\346*\004>= 0\022 \n\017ide" +
+      "mpotency_key\030\010 \001(\tB\007\242\346*\003\030\200\010\"C\n\023ModifyQue" +
+      "ryResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
+      "ations.Operation\"\023\n\021ModifyQueryResult\"\340\001" +
+      "\n\023ControlQueryRequest\0229\n\020operation_param" +
       "s\030\001 \001(\0132\037.Ydb.Operations.OperationParams" +
-      "\022\"\n\rconnection_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022#\n\021" +
-      "previous_revision\030\003 \001(\003B\010\262\346*\004>= 0\022 \n\017ide" +
-      "mpotency_key\030\004 \001(\tB\007\242\346*\003\030\200\010\"H\n\030DeleteCon" +
-      "nectionResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
-      ".Operations.Operation\"\030\n\026DeleteConnectio" +
-      "nResult\"\314\001\n\024GetResultDataRequest\0229\n\020oper" +
-      "ation_params\030\001 \001(\0132\037.Ydb.Operations.Oper" +
-      "ationParams\022\035\n\010query_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020" +
-      "\200\010\022\"\n\020result_set_index\030\003 \001(\005B\010\262\346*\004>= 0\022\030" +
-      "\n\006offset\030\004 \001(\003B\010\262\346*\004>= 0\022\034\n\005limit\030\005 \001(\003B" +
-      "\r\262\346*\t[1; 1000]\"E\n\025GetResultDataResponse\022" +
-      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
-      "ation\"9\n\023GetResultDataResult\022\"\n\nresult_s" +
-      "et\030\001 \001(\0132\016.Ydb.ResultSet\"-\n\006Schema\022#\n\006co" +
-      "lumn\030\001 \003(\0132\013.Ydb.ColumnB\006\232\346*\002\030d\"\234\002\n\022Data" +
-      "StreamsBinding\022 \n\013stream_name\030\001 \001(\tB\013\242\346*" +
-      "\007\n\005\010\001\020\200\010\022\027\n\006format\030\002 \001(\tB\007\242\346*\003\030\200\010\022\034\n\013com" +
-      "pression\030\003 \001(\tB\007\242\346*\003\030\200\010\022#\n\006schema\030\004 \001(\0132" +
-      "\023.YandexQuery.Schema\022R\n\016format_setting\030\005" +
-      " \003(\01322.YandexQuery.DataStreamsBinding.Fo" +
-      "rmatSettingEntryB\006\232\346*\002\030d\0324\n\022FormatSettin" +
-      "gEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\355" +
-      "\002\n\024ObjectStorageBinding\0228\n\006subset\030\001 \003(\0132" +
-      "(.YandexQuery.ObjectStorageBinding.Subse" +
-      "t\032\232\002\n\006Subset\022!\n\014path_pattern\030\001 \001(\tB\013\242\346*\007" +
-      "\n\005\010\001\020\200\010\022\027\n\006format\030\002 \001(\tB\007\242\346*\003\030\200\010\022[\n\016form" +
-      "at_setting\030\003 \003(\0132;.YandexQuery.ObjectSto" +
-      "rageBinding.Subset.FormatSettingEntryB\006\232" +
-      "\346*\002\030d\022\034\n\013compression\030\004 \001(\tB\007\242\346*\003\030\200\010\022#\n\006s" +
-      "chema\030\005 \001(\0132\023.YandexQuery.Schema\0324\n\022Form" +
-      "atSettingEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001" +
-      "(\t:\0028\001\"\344\001\n\016BindingSetting\0227\n\014data_stream" +
-      "s\030\001 \001(\0132\037.YandexQuery.DataStreamsBinding" +
-      "H\000\022;\n\016object_storage\030\002 \001(\0132!.YandexQuery" +
-      ".ObjectStorageBindingH\000\"Q\n\013BindingType\022\034" +
-      "\n\030BINDING_TYPE_UNSPECIFIED\020\000\022\020\n\014DATA_STR" +
-      "EAMS\020\001\022\022\n\016OBJECT_STORAGE\020\002B\t\n\007binding\"\253\001" +
-      "\n\014BriefBinding\022\031\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200" +
-      "\010\022\"\n\rconnection_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022%\n" +
-      "\004meta\030\003 \001(\0132\027.YandexQuery.CommonMeta\0225\n\004" +
-      "type\030\004 \001(\0162\'.YandexQuery.BindingSetting." +
-      "BindingType\"\272\001\n\016BindingContent\022\031\n\004name\030\001" +
-      " \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\rconnection_id\030\002 \001(\t" +
-      "B\013\242\346*\007\n\005\010\001\020\200\010\022,\n\007setting\030\003 \001(\0132\033.YandexQ" +
-      "uery.BindingSetting\022\035\n\003acl\030\004 \001(\0132\020.Yande" +
-      "xQuery.Acl\022\034\n\013description\030\005 \001(\tB\007\242\346*\003\030\200P" +
-      "\"^\n\007Binding\022,\n\007content\030\001 \001(\0132\033.YandexQue" +
-      "ry.BindingContent\022%\n\004meta\030\002 \001(\0132\027.Yandex" +
-      "Query.CommonMeta\"\241\001\n\024CreateBindingReques" +
+      "\022\035\n\010query_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022(\n\006actio" +
+      "n\030\003 \001(\0162\030.YandexQuery.QueryAction\022#\n\021pre" +
+      "vious_revision\030\004 \001(\003B\010\262\346*\004>= 0\022 \n\017idempo" +
+      "tency_key\030\005 \001(\tB\007\242\346*\003\030\200\010\"D\n\024ControlQuery" +
+      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
+      "ions.Operation\"\024\n\022ControlQueryResult\"\344\001\n" +
+      "\010BriefJob\022%\n\004meta\030\001 \001(\0132\027.YandexQuery.Co" +
+      "mmonMeta\022*\n\nquery_meta\030\003 \001(\0132\026.YandexQue" +
+      "ry.QueryMeta\022\022\n\nquery_name\030\t \001(\t\022/\n\nvisi" +
+      "bility\030\n \001(\0162\033.YandexQuery.Acl.Visibilit" +
+      "y\022\021\n\tautomatic\030\013 \001(\010\022-\n\texpire_at\030\014 \001(\0132" +
+      "\032.google.protobuf.Timestamp\"\264\003\n\003Job\022%\n\004m" +
+      "eta\030\001 \001(\0132\027.YandexQuery.CommonMeta\022\014\n\004te" +
+      "xt\030\002 \001(\t\022*\n\nquery_meta\030\003 \001(\0132\026.YandexQue" +
+      "ry.QueryMeta\022$\n\004plan\030\004 \001(\0132\026.YandexQuery" +
+      ".QueryPlan\022&\n\005issue\030\005 \003(\0132\027.Ydb.Issue.Is" +
+      "sueMessage\0220\n\nstatistics\030\006 \001(\0132\034.YandexQ" +
+      "uery.QueryStatistics\0223\n\017result_set_meta\030" +
+      "\007 \003(\0132\032.YandexQuery.ResultSetMeta\022\"\n\003ast" +
+      "\030\010 \001(\0132\025.YandexQuery.QueryAst\022\022\n\nquery_n" +
+      "ame\030\t \001(\t\022\035\n\003acl\030\n \001(\0132\020.YandexQuery.Acl" +
+      "\022\021\n\tautomatic\030\013 \001(\010\022-\n\texpire_at\030\014 \001(\0132\032" +
+      ".google.protobuf.Timestamp\"\211\002\n\017ListJobsR" +
+      "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O" +
+      "perations.OperationParams\022\033\n\npage_token\030" +
+      "\002 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limit\030\003 \001(\005B\014\262\346*\010[1; 1" +
+      "00]\022\020\n\010query_id\030\005 \001(\t\0223\n\006filter\030\004 \001(\0132#." +
+      "YandexQuery.ListJobsRequest.Filter\032:\n\006Fi" +
+      "lter\022\031\n\010query_id\030\001 \001(\tB\007\242\346*\003\030\200\010\022\025\n\rcreat" +
+      "ed_by_me\030\002 \001(\010\"@\n\020ListJobsResponse\022,\n\top" +
+      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
+      "\"V\n\016ListJobsResult\022\"\n\003job\030\001 \003(\0132\025.Yandex" +
+      "Query.BriefJob\022 \n\017next_page_token\030\002 \001(\tB" +
+      "\007\242\346*\003\030\200\010\"l\n\022DescribeJobRequest\0229\n\020operat" +
+      "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat" +
+      "ionParams\022\033\n\006job_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"C" +
+      "\n\023DescribeJobResponse\022,\n\toperation\030\001 \001(\013" +
+      "2\031.Ydb.Operations.Operation\"2\n\021DescribeJ" +
+      "obResult\022\035\n\003job\030\001 \001(\0132\020.YandexQuery.Job\"" +
+      "\025\n\023CurrentIAMTokenAuth\"\n\n\010NoneAuth\")\n\022Se" +
+      "rviceAccountAuth\022\023\n\002id\030\001 \001(\tB\007\242\346*\003\030\200\010\"\261\001" +
+      "\n\007IamAuth\0227\n\013current_iam\030\001 \001(\0132 .YandexQ" +
+      "uery.CurrentIAMTokenAuthH\000\022:\n\017service_ac" +
+      "count\030\002 \001(\0132\037.YandexQuery.ServiceAccount" +
+      "AuthH\000\022%\n\004none\030\003 \001(\0132\025.YandexQuery.NoneA" +
+      "uthH\000B\n\n\010identity\"\225\001\n\013DataStreams\022\034\n\013dat" +
+      "abase_id\030\001 \001(\tB\007\242\346*\003\030\200\010\022\"\n\004auth\030\002 \001(\0132\024." +
+      "YandexQuery.IamAuth\022\031\n\010endpoint\030\003 \001(\tB\007\242" +
+      "\346*\003\030\200\010\022\031\n\010database\030\004 \001(\tB\007\242\346*\003\030\200\010\022\016\n\006sec" +
+      "ure\030\005 \001(\010\"d\n\nMonitoring\022\030\n\007project\030\001 \001(\t" +
+      "B\007\242\346*\003\030\310\001\022\030\n\007cluster\030\002 \001(\tB\007\242\346*\003\030\310\001\022\"\n\004a" +
+      "uth\030\003 \001(\0132\024.YandexQuery.IamAuth\"\225\001\n\013YdbD" +
+      "atabase\022\034\n\013database_id\030\001 \001(\tB\007\242\346*\003\030\200\010\022\"\n" +
+      "\004auth\030\002 \001(\0132\024.YandexQuery.IamAuth\022\031\n\010end" +
+      "point\030\003 \001(\tB\007\242\346*\003\030\200\010\022\031\n\010database\030\004 \001(\tB\007" +
+      "\242\346*\003\030\200\010\022\016\n\006secure\030\005 \001(\010\"\315\001\n\021ClickHouseCl" +
+      "uster\022\034\n\013database_id\030\001 \001(\tB\007\242\346*\003\030\200\010\022\026\n\005l" +
+      "ogin\030\002 \001(\tB\007\242\346*\003\030\200\010\022\031\n\010password\030\003 \001(\tB\007\242" +
+      "\346*\003\030\200\010\022\"\n\004auth\030\004 \001(\0132\024.YandexQuery.IamAu" +
+      "th\022\025\n\004host\030\005 \001(\tB\007\242\346*\003\030\200\010\022\034\n\004port\030\006 \001(\005B" +
+      "\016\262\346*\n[0; 65536]\022\016\n\006secure\030\007 \001(\010\"V\n\027Objec" +
+      "tStorageConnection\022\027\n\006bucket\030\001 \001(\tB\007\242\346*\003" +
+      "\030\200\010\022\"\n\004auth\030\002 \001(\0132\024.YandexQuery.IamAuth\"" +
+      "\306\003\n\021ConnectionSetting\0220\n\014ydb_database\030\001 " +
+      "\001(\0132\030.YandexQuery.YdbDatabaseH\000\022<\n\022click" +
+      "house_cluster\030\002 \001(\0132\036.YandexQuery.ClickH" +
+      "ouseClusterH\000\0220\n\014data_streams\030\003 \001(\0132\030.Ya" +
+      "ndexQuery.DataStreamsH\000\022>\n\016object_storag" +
+      "e\030\004 \001(\0132$.YandexQuery.ObjectStorageConne" +
+      "ctionH\000\022-\n\nmonitoring\030\005 \001(\0132\027.YandexQuer" +
+      "y.MonitoringH\000\"\221\001\n\016ConnectionType\022\037\n\033CON" +
+      "NECTION_TYPE_UNSPECIFIED\020\000\022\020\n\014YDB_DATABA" +
+      "SE\020\001\022\026\n\022CLICKHOUSE_CLUSTER\020\002\022\020\n\014DATA_STR" +
+      "EAMS\020\003\022\022\n\016OBJECT_STORAGE\020\004\022\016\n\nMONITORING" +
+      "\020\005B\014\n\nconnection\"\234\001\n\021ConnectionContent\022\031" +
+      "\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022/\n\007setting\030\002 \001" +
+      "(\0132\036.YandexQuery.ConnectionSetting\022\035\n\003ac" +
+      "l\030\003 \001(\0132\020.YandexQuery.Acl\022\034\n\013description" +
+      "\030\004 \001(\tB\007\242\346*\003\030\200P\"d\n\nConnection\022/\n\007content" +
+      "\030\001 \001(\0132\036.YandexQuery.ConnectionContent\022%" +
+      "\n\004meta\030\002 \001(\0132\027.YandexQuery.CommonMeta\"\247\001" +
+      "\n\027CreateConnectionRequest\0229\n\020operation_p" +
+      "arams\030\001 \001(\0132\037.Ydb.Operations.OperationPa" +
+      "rams\022/\n\007content\030\002 \001(\0132\036.YandexQuery.Conn" +
+      "ectionContent\022 \n\017idempotency_key\030\003 \001(\tB\007" +
+      "\242\346*\003\030\200\010\"H\n\030CreateConnectionResponse\022,\n\to" +
+      "peration\030\001 \001(\0132\031.Ydb.Operations.Operatio" +
+      "n\"<\n\026CreateConnectionResult\022\"\n\rconnectio" +
+      "n_id\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"\311\002\n\026ListConnecti" +
+      "onsRequest\0229\n\020operation_params\030\001 \001(\0132\037.Y" +
+      "db.Operations.OperationParams\022\033\n\npage_to" +
+      "ken\030\002 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limit\030\003 \001(\005B\014\262\346*\010[" +
+      "1; 100]\022:\n\006filter\030\004 \001(\0132*.YandexQuery.Li" +
+      "stConnectionsRequest.Filter\032~\n\006Filter\022\025\n" +
+      "\004name\030\001 \001(\tB\007\242\346*\003\030\200\010\022\025\n\rcreated_by_me\030\002 " +
+      "\001(\010\022F\n\017connection_type\030\003 \001(\0162-.YandexQue" +
+      "ry.ConnectionSetting.ConnectionType\"G\n\027L" +
+      "istConnectionsResponse\022,\n\toperation\030\001 \001(" +
+      "\0132\031.Ydb.Operations.Operation\"f\n\025ListConn" +
+      "ectionsResult\022+\n\nconnection\030\001 \003(\0132\027.Yand" +
+      "exQuery.Connection\022 \n\017next_page_token\030\002 " +
+      "\001(\tB\007\242\346*\003\030\200\010\"z\n\031DescribeConnectionReques" +
       "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
-      "ions.OperationParams\022,\n\007content\030\002 \001(\0132\033." +
-      "YandexQuery.BindingContent\022 \n\017idempotenc" +
-      "y_key\030\003 \001(\tB\007\242\346*\003\030\200\010\"E\n\025CreateBindingRes" +
-      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
-      "s.Operation\"6\n\023CreateBindingResult\022\037\n\nbi" +
-      "nding_id\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"\233\002\n\023ListBind" +
-      "ingsRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
-      "Ydb.Operations.OperationParams\022\033\n\npage_t" +
-      "oken\030\002 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limit\030\003 \001(\005B\014\262\346*\010" +
-      "[1; 100]\0227\n\006filter\030\004 \001(\0132\'.YandexQuery.L" +
-      "istBindingsRequest.Filter\032V\n\006Filter\022\036\n\rc" +
-      "onnection_id\030\001 \001(\tB\007\242\346*\003\030\200\010\022\025\n\004name\030\002 \001(" +
-      "\tB\007\242\346*\003\030\200\010\022\025\n\rcreated_by_me\030\003 \001(\010\"D\n\024Lis" +
-      "tBindingsResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
-      "db.Operations.Operation\"b\n\022ListBindingsR" +
-      "esult\022*\n\007binding\030\001 \003(\0132\031.YandexQuery.Bri" +
-      "efBinding\022 \n\017next_page_token\030\002 \001(\tB\007\242\346*\003" +
-      "\030\200\010\"t\n\026DescribeBindingRequest\0229\n\020operati" +
-      "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati" +
-      "onParams\022\037\n\nbinding_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200" +
-      "\010\"G\n\027DescribeBindingResponse\022,\n\toperatio" +
-      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\">\n\025De" +
-      "scribeBindingResult\022%\n\007binding\030\001 \001(\0132\024.Y" +
-      "andexQuery.Binding\"\347\001\n\024ModifyBindingRequ" +
-      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
-      "ations.OperationParams\022\037\n\nbinding_id\030\002 \001" +
-      "(\tB\013\242\346*\007\n\005\010\001\020\200\010\022,\n\007content\030\003 \001(\0132\033.Yande" +
-      "xQuery.BindingContent\022#\n\021previous_revisi" +
-      "on\030\004 \001(\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\005 " +
-      "\001(\tB\007\242\346*\003\030\200\010\"E\n\025ModifyBindingResponse\022,\n" +
-      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
-      "ion\"\025\n\023ModifyBindingResult\"\271\001\n\024DeleteBin" +
-      "dingRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
-      "Ydb.Operations.OperationParams\022\037\n\nbindin" +
-      "g_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022#\n\021previous_revi" +
-      "sion\030\003 \001(\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030" +
-      "\004 \001(\tB\007\242\346*\003\030\200\010\"E\n\025DeleteBindingResponse\022" +
-      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
-      "ation\"\025\n\023DeleteBindingResult*q\n\013ExecuteM" +
-      "ode\022\034\n\030EXECUTE_MODE_UNSPECIFIED\020\000\022\010\n\004SAV" +
-      "E\020\001\022\t\n\005PARSE\020\002\022\013\n\007COMPILE\020\003\022\014\n\010VALIDATE\020" +
-      "\004\022\013\n\007EXPLAIN\020\005\022\007\n\003RUN\020\006*y\n\013QueryAction\022\034" +
-      "\n\030QUERY_ACTION_UNSPECIFIED\020\000\022\t\n\005PAUSE\020\001\022" +
-      "\024\n\020PAUSE_GRACEFULLY\020\002\022\t\n\005ABORT\020\003\022\024\n\020ABOR" +
-      "T_GRACEFULLY\020\004\022\n\n\006RESUME\020\005*U\n\rStateLoadM" +
-      "ode\022\037\n\033STATE_LOAD_MODE_UNSPECIFIED\020\000\022\t\n\005" +
-      "EMPTY\020\001\022\030\n\024FROM_LAST_CHECKPOINT\020\002*Q\n\rAut" +
-      "omaticType\022\036\n\032AUTOMATIC_TYPE_UNSPECIFIED" +
-      "\020\000\022\r\n\tAUTOMATIC\020\001\022\021\n\rNOT_AUTOMATIC\020\002B(\n\020" +
-      "com.yandex.queryB\021YandexQueryProtos\370\001\001b\006" +
-      "proto3"
+      "ions.OperationParams\022\"\n\rconnection_id\030\002 " +
+      "\001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"J\n\032DescribeConnectionRe" +
+      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
+      "ns.Operation\"G\n\030DescribeConnectionResult" +
+      "\022+\n\nconnection\030\001 \001(\0132\027.YandexQuery.Conne" +
+      "ction\"\360\001\n\027ModifyConnectionRequest\0229\n\020ope" +
+      "ration_params\030\001 \001(\0132\037.Ydb.Operations.Ope" +
+      "rationParams\022\"\n\rconnection_id\030\002 \001(\tB\013\242\346*" +
+      "\007\n\005\010\001\020\200\010\022/\n\007content\030\003 \001(\0132\036.YandexQuery." +
+      "ConnectionContent\022#\n\021previous_revision\030\004" +
+      " \001(\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\005 \001(\tB" +
+      "\007\242\346*\003\030\200\010\"H\n\030ModifyConnectionResponse\022,\n\t" +
+      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
+      "on\"\030\n\026ModifyConnectionResult\"\277\001\n\027DeleteC" +
+      "onnectionRequest\0229\n\020operation_params\030\001 \001" +
+      "(\0132\037.Ydb.Operations.OperationParams\022\"\n\rc" +
+      "onnection_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022#\n\021previ" +
+      "ous_revision\030\003 \001(\003B\010\262\346*\004>= 0\022 \n\017idempote" +
+      "ncy_key\030\004 \001(\tB\007\242\346*\003\030\200\010\"H\n\030DeleteConnecti" +
+      "onResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
+      "ations.Operation\"\030\n\026DeleteConnectionResu" +
+      "lt\"\314\001\n\024GetResultDataRequest\0229\n\020operation" +
+      "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
+      "Params\022\035\n\010query_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n" +
+      "\020result_set_index\030\003 \001(\005B\010\262\346*\004>= 0\022\030\n\006off" +
+      "set\030\004 \001(\003B\010\262\346*\004>= 0\022\034\n\005limit\030\005 \001(\003B\r\262\346*\t" +
+      "[1; 1000]\"E\n\025GetResultDataResponse\022,\n\top" +
+      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
+      "\"9\n\023GetResultDataResult\022\"\n\nresult_set\030\001 " +
+      "\001(\0132\016.Ydb.ResultSet\"-\n\006Schema\022#\n\006column\030" +
+      "\001 \003(\0132\013.Ydb.ColumnB\006\232\346*\002\030d\"\234\002\n\022DataStrea" +
+      "msBinding\022 \n\013stream_name\030\001 \001(\tB\013\242\346*\007\n\005\010\001" +
+      "\020\200\010\022\027\n\006format\030\002 \001(\tB\007\242\346*\003\030\200\010\022\034\n\013compress" +
+      "ion\030\003 \001(\tB\007\242\346*\003\030\200\010\022#\n\006schema\030\004 \001(\0132\023.Yan" +
+      "dexQuery.Schema\022R\n\016format_setting\030\005 \003(\0132" +
+      "2.YandexQuery.DataStreamsBinding.FormatS" +
+      "ettingEntryB\006\232\346*\002\030d\0324\n\022FormatSettingEntr" +
+      "y\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\355\002\n\024Ob" +
+      "jectStorageBinding\0228\n\006subset\030\001 \003(\0132(.Yan" +
+      "dexQuery.ObjectStorageBinding.Subset\032\232\002\n" +
+      "\006Subset\022!\n\014path_pattern\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020" +
+      "\200\010\022\027\n\006format\030\002 \001(\tB\007\242\346*\003\030\200\010\022[\n\016format_se" +
+      "tting\030\003 \003(\0132;.YandexQuery.ObjectStorageB" +
+      "inding.Subset.FormatSettingEntryB\006\232\346*\002\030d" +
+      "\022\034\n\013compression\030\004 \001(\tB\007\242\346*\003\030\200\010\022#\n\006schema" +
+      "\030\005 \001(\0132\023.YandexQuery.Schema\0324\n\022FormatSet" +
+      "tingEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028" +
+      "\001\"\344\001\n\016BindingSetting\0227\n\014data_streams\030\001 \001" +
+      "(\0132\037.YandexQuery.DataStreamsBindingH\000\022;\n" +
+      "\016object_storage\030\002 \001(\0132!.YandexQuery.Obje" +
+      "ctStorageBindingH\000\"Q\n\013BindingType\022\034\n\030BIN" +
+      "DING_TYPE_UNSPECIFIED\020\000\022\020\n\014DATA_STREAMS\020" +
+      "\001\022\022\n\016OBJECT_STORAGE\020\002B\t\n\007binding\"\253\001\n\014Bri" +
+      "efBinding\022\031\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\r" +
+      "connection_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022%\n\004meta" +
+      "\030\003 \001(\0132\027.YandexQuery.CommonMeta\0225\n\004type\030" +
+      "\004 \001(\0162\'.YandexQuery.BindingSetting.Bindi" +
+      "ngType\"\272\001\n\016BindingContent\022\031\n\004name\030\001 \001(\tB" +
+      "\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\rconnection_id\030\002 \001(\tB\013\242\346*" +
+      "\007\n\005\010\001\020\200\010\022,\n\007setting\030\003 \001(\0132\033.YandexQuery." +
+      "BindingSetting\022\035\n\003acl\030\004 \001(\0132\020.YandexQuer" +
+      "y.Acl\022\034\n\013description\030\005 \001(\tB\007\242\346*\003\030\200P\"^\n\007B" +
+      "inding\022,\n\007content\030\001 \001(\0132\033.YandexQuery.Bi" +
+      "ndingContent\022%\n\004meta\030\002 \001(\0132\027.YandexQuery" +
+      ".CommonMeta\"\241\001\n\024CreateBindingRequest\0229\n\020" +
+      "operation_params\030\001 \001(\0132\037.Ydb.Operations." +
+      "OperationParams\022,\n\007content\030\002 \001(\0132\033.Yande" +
+      "xQuery.BindingContent\022 \n\017idempotency_key" +
+      "\030\003 \001(\tB\007\242\346*\003\030\200\010\"E\n\025CreateBindingResponse" +
+      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
+      "ration\"6\n\023CreateBindingResult\022\037\n\nbinding" +
+      "_id\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"\233\002\n\023ListBindingsR" +
+      "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O" +
+      "perations.OperationParams\022\033\n\npage_token\030" +
+      "\002 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limit\030\003 \001(\005B\014\262\346*\010[1; 1" +
+      "00]\0227\n\006filter\030\004 \001(\0132\'.YandexQuery.ListBi" +
+      "ndingsRequest.Filter\032V\n\006Filter\022\036\n\rconnec" +
+      "tion_id\030\001 \001(\tB\007\242\346*\003\030\200\010\022\025\n\004name\030\002 \001(\tB\007\242\346" +
+      "*\003\030\200\010\022\025\n\rcreated_by_me\030\003 \001(\010\"D\n\024ListBind" +
+      "ingsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
+      "erations.Operation\"b\n\022ListBindingsResult" +
+      "\022*\n\007binding\030\001 \003(\0132\031.YandexQuery.BriefBin" +
+      "ding\022 \n\017next_page_token\030\002 \001(\tB\007\242\346*\003\030\200\010\"t" +
+      "\n\026DescribeBindingRequest\0229\n\020operation_pa" +
+      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
+      "ams\022\037\n\nbinding_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"G\n\027" +
+      "DescribeBindingResponse\022,\n\toperation\030\001 \001" +
+      "(\0132\031.Ydb.Operations.Operation\">\n\025Describ" +
+      "eBindingResult\022%\n\007binding\030\001 \001(\0132\024.Yandex" +
+      "Query.Binding\"\347\001\n\024ModifyBindingRequest\0229" +
+      "\n\020operation_params\030\001 \001(\0132\037.Ydb.Operation" +
+      "s.OperationParams\022\037\n\nbinding_id\030\002 \001(\tB\013\242" +
+      "\346*\007\n\005\010\001\020\200\010\022,\n\007content\030\003 \001(\0132\033.YandexQuer" +
+      "y.BindingContent\022#\n\021previous_revision\030\004 " +
+      "\001(\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\005 \001(\tB\007" +
+      "\242\346*\003\030\200\010\"E\n\025ModifyBindingResponse\022,\n\toper" +
+      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\025" +
+      "\n\023ModifyBindingResult\"\271\001\n\024DeleteBindingR" +
+      "equest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.O" +
+      "perations.OperationParams\022\037\n\nbinding_id\030" +
+      "\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022#\n\021previous_revision\030" +
+      "\003 \001(\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\004 \001(\t" +
+      "B\007\242\346*\003\030\200\010\"E\n\025DeleteBindingResponse\022,\n\top" +
+      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
+      "\"\025\n\023DeleteBindingResult*q\n\013ExecuteMode\022\034" +
+      "\n\030EXECUTE_MODE_UNSPECIFIED\020\000\022\010\n\004SAVE\020\001\022\t" +
+      "\n\005PARSE\020\002\022\013\n\007COMPILE\020\003\022\014\n\010VALIDATE\020\004\022\013\n\007" +
+      "EXPLAIN\020\005\022\007\n\003RUN\020\006*y\n\013QueryAction\022\034\n\030QUE" +
+      "RY_ACTION_UNSPECIFIED\020\000\022\t\n\005PAUSE\020\001\022\024\n\020PA" +
+      "USE_GRACEFULLY\020\002\022\t\n\005ABORT\020\003\022\024\n\020ABORT_GRA" +
+      "CEFULLY\020\004\022\n\n\006RESUME\020\005*U\n\rStateLoadMode\022\037" +
+      "\n\033STATE_LOAD_MODE_UNSPECIFIED\020\000\022\t\n\005EMPTY" +
+      "\020\001\022\030\n\024FROM_LAST_CHECKPOINT\020\002*Q\n\rAutomati" +
+      "cType\022\036\n\032AUTOMATIC_TYPE_UNSPECIFIED\020\000\022\r\n" +
+      "\tAUTOMATIC\020\001\022\021\n\rNOT_AUTOMATIC\020\002B(\n\020com.y" +
+      "andex.queryB\021YandexQueryProtos\370\001\001b\006proto" +
+      "3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -92172,7 +92989,7 @@ public final class YandexQueryProtos {
     internal_static_YandexQuery_QueryMeta_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_YandexQuery_QueryMeta_descriptor,
-        new java.lang.String[] { "Common", "StartedAt", "FinishedAt", "ExecuteMode", "Status", "LastJobQueryRevision", "LastJobId", });
+        new java.lang.String[] { "Common", "StartedAt", "FinishedAt", "ExecuteMode", "Status", "LastJobQueryRevision", "LastJobId", "ExpireAt", "ResultExpireAt", });
     internal_static_YandexQuery_BriefQuery_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_YandexQuery_BriefQuery_fieldAccessorTable = new
@@ -92346,13 +93163,13 @@ public final class YandexQueryProtos {
     internal_static_YandexQuery_BriefJob_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_YandexQuery_BriefJob_descriptor,
-        new java.lang.String[] { "Meta", "QueryMeta", "QueryName", "Visibility", "Automatic", });
+        new java.lang.String[] { "Meta", "QueryMeta", "QueryName", "Visibility", "Automatic", "ExpireAt", });
     internal_static_YandexQuery_Job_descriptor =
       getDescriptor().getMessageTypes().get(34);
     internal_static_YandexQuery_Job_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_YandexQuery_Job_descriptor,
-        new java.lang.String[] { "Meta", "Text", "QueryMeta", "Plan", "Issue", "Statistics", "ResultSetMeta", "Ast", "QueryName", "Acl", "Automatic", });
+        new java.lang.String[] { "Meta", "Text", "QueryMeta", "Plan", "Issue", "Statistics", "ResultSetMeta", "Ast", "QueryName", "Acl", "Automatic", "ExpireAt", });
     internal_static_YandexQuery_ListJobsRequest_descriptor =
       getDescriptor().getMessageTypes().get(35);
     internal_static_YandexQuery_ListJobsRequest_fieldAccessorTable = new

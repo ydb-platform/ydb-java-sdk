@@ -105761,6 +105761,60 @@ public final class YdbTable {
      * <code>.Ydb.Operations.OperationParams operation_params = 3;</code>
      */
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
+
+    /**
+     * <pre>
+     * It's a faster alternative for rows. You may set data_format and data instead of rows.
+     * </pre>
+     *
+     * <code>.Ydb.Table.BulkUpsertRequest.DataFormat data_format = 4;</code>
+     * @return The enum numeric value on the wire for dataFormat.
+     */
+    int getDataFormatValue();
+    /**
+     * <pre>
+     * It's a faster alternative for rows. You may set data_format and data instead of rows.
+     * </pre>
+     *
+     * <code>.Ydb.Table.BulkUpsertRequest.DataFormat data_format = 4;</code>
+     * @return The dataFormat.
+     */
+    tech.ydb.table.YdbTable.BulkUpsertRequest.DataFormat getDataFormat();
+
+    /**
+     * <pre>
+     * You have to set schema and schema_format if data_format requires them.
+     * </pre>
+     *
+     * <code>.Ydb.Table.BulkUpsertRequest.SchemaFormat schema_format = 5;</code>
+     * @return The enum numeric value on the wire for schemaFormat.
+     */
+    int getSchemaFormatValue();
+    /**
+     * <pre>
+     * You have to set schema and schema_format if data_format requires them.
+     * </pre>
+     *
+     * <code>.Ydb.Table.BulkUpsertRequest.SchemaFormat schema_format = 5;</code>
+     * @return The schemaFormat.
+     */
+    tech.ydb.table.YdbTable.BulkUpsertRequest.SchemaFormat getSchemaFormat();
+
+    /**
+     * <code>bytes schema = 6;</code>
+     * @return The schema.
+     */
+    com.google.protobuf.ByteString getSchema();
+
+    /**
+     * <pre>
+     * It's last in the definition to help with sidecar patterns
+     * </pre>
+     *
+     * <code>bytes data = 1000;</code>
+     * @return The data.
+     */
+    com.google.protobuf.ByteString getData();
   }
   /**
    * Protobuf type {@code Ydb.Table.BulkUpsertRequest}
@@ -105776,6 +105830,10 @@ public final class YdbTable {
     }
     private BulkUpsertRequest() {
       table_ = "";
+      dataFormat_ = 0;
+      schemaFormat_ = 0;
+      schema_ = com.google.protobuf.ByteString.EMPTY;
+      data_ = com.google.protobuf.ByteString.EMPTY;
     }
 
     @java.lang.Override
@@ -105840,6 +105898,28 @@ public final class YdbTable {
 
               break;
             }
+            case 32: {
+              int rawValue = input.readEnum();
+
+              dataFormat_ = rawValue;
+              break;
+            }
+            case 40: {
+              int rawValue = input.readEnum();
+
+              schemaFormat_ = rawValue;
+              break;
+            }
+            case 50: {
+
+              schema_ = input.readBytes();
+              break;
+            }
+            case 8002: {
+
+              data_ = input.readBytes();
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -105870,6 +105950,255 @@ public final class YdbTable {
       return tech.ydb.table.YdbTable.internal_static_Ydb_Table_BulkUpsertRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               tech.ydb.table.YdbTable.BulkUpsertRequest.class, tech.ydb.table.YdbTable.BulkUpsertRequest.Builder.class);
+    }
+
+    /**
+     * Protobuf enum {@code Ydb.Table.BulkUpsertRequest.DataFormat}
+     */
+    public enum DataFormat
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>TYPED_VALUE_ROWS = 0;</code>
+       */
+      TYPED_VALUE_ROWS(0),
+      /**
+       * <pre>
+       * Apache Arrow.IPC serialized data with splitted Schema and RecordBatch
+       * </pre>
+       *
+       * <code>APACHE_ARROW_BATCH = 1;</code>
+       */
+      APACHE_ARROW_BATCH(1),
+      /**
+       * <code>CSV = 2;</code>
+       */
+      CSV(2),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <code>TYPED_VALUE_ROWS = 0;</code>
+       */
+      public static final int TYPED_VALUE_ROWS_VALUE = 0;
+      /**
+       * <pre>
+       * Apache Arrow.IPC serialized data with splitted Schema and RecordBatch
+       * </pre>
+       *
+       * <code>APACHE_ARROW_BATCH = 1;</code>
+       */
+      public static final int APACHE_ARROW_BATCH_VALUE = 1;
+      /**
+       * <code>CSV = 2;</code>
+       */
+      public static final int CSV_VALUE = 2;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static DataFormat valueOf(int value) {
+        return forNumber(value);
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
+      public static DataFormat forNumber(int value) {
+        switch (value) {
+          case 0: return TYPED_VALUE_ROWS;
+          case 1: return APACHE_ARROW_BATCH;
+          case 2: return CSV;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<DataFormat>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          DataFormat> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<DataFormat>() {
+              public DataFormat findValueByNumber(int number) {
+                return DataFormat.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return tech.ydb.table.YdbTable.BulkUpsertRequest.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final DataFormat[] VALUES = values();
+
+      public static DataFormat valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private DataFormat(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:Ydb.Table.BulkUpsertRequest.DataFormat)
+    }
+
+    /**
+     * Protobuf enum {@code Ydb.Table.BulkUpsertRequest.SchemaFormat}
+     */
+    public enum SchemaFormat
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <pre>
+       * data field contains all metadata needed for parsing
+       * </pre>
+       *
+       * <code>SCHEMA_FORMAT_EMBEDDED = 0;</code>
+       */
+      SCHEMA_FORMAT_EMBEDDED(0),
+      /**
+       * <pre>
+       * schema field conatins Apache Arrow.IPC serialized schema
+       * </pre>
+       *
+       * <code>APACHE_ARROW_SCHEMA = 1;</code>
+       */
+      APACHE_ARROW_SCHEMA(1),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <pre>
+       * data field contains all metadata needed for parsing
+       * </pre>
+       *
+       * <code>SCHEMA_FORMAT_EMBEDDED = 0;</code>
+       */
+      public static final int SCHEMA_FORMAT_EMBEDDED_VALUE = 0;
+      /**
+       * <pre>
+       * schema field conatins Apache Arrow.IPC serialized schema
+       * </pre>
+       *
+       * <code>APACHE_ARROW_SCHEMA = 1;</code>
+       */
+      public static final int APACHE_ARROW_SCHEMA_VALUE = 1;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static SchemaFormat valueOf(int value) {
+        return forNumber(value);
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
+      public static SchemaFormat forNumber(int value) {
+        switch (value) {
+          case 0: return SCHEMA_FORMAT_EMBEDDED;
+          case 1: return APACHE_ARROW_SCHEMA;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<SchemaFormat>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          SchemaFormat> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<SchemaFormat>() {
+              public SchemaFormat findValueByNumber(int number) {
+                return SchemaFormat.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return tech.ydb.table.YdbTable.BulkUpsertRequest.getDescriptor().getEnumTypes().get(1);
+      }
+
+      private static final SchemaFormat[] VALUES = values();
+
+      public static SchemaFormat valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private SchemaFormat(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:Ydb.Table.BulkUpsertRequest.SchemaFormat)
     }
 
     public static final int TABLE_FIELD_NUMBER = 1;
@@ -105980,6 +106309,86 @@ public final class YdbTable {
       return getOperationParams();
     }
 
+    public static final int DATA_FORMAT_FIELD_NUMBER = 4;
+    private int dataFormat_;
+    /**
+     * <pre>
+     * It's a faster alternative for rows. You may set data_format and data instead of rows.
+     * </pre>
+     *
+     * <code>.Ydb.Table.BulkUpsertRequest.DataFormat data_format = 4;</code>
+     * @return The enum numeric value on the wire for dataFormat.
+     */
+    @java.lang.Override public int getDataFormatValue() {
+      return dataFormat_;
+    }
+    /**
+     * <pre>
+     * It's a faster alternative for rows. You may set data_format and data instead of rows.
+     * </pre>
+     *
+     * <code>.Ydb.Table.BulkUpsertRequest.DataFormat data_format = 4;</code>
+     * @return The dataFormat.
+     */
+    @java.lang.Override public tech.ydb.table.YdbTable.BulkUpsertRequest.DataFormat getDataFormat() {
+      @SuppressWarnings("deprecation")
+      tech.ydb.table.YdbTable.BulkUpsertRequest.DataFormat result = tech.ydb.table.YdbTable.BulkUpsertRequest.DataFormat.valueOf(dataFormat_);
+      return result == null ? tech.ydb.table.YdbTable.BulkUpsertRequest.DataFormat.UNRECOGNIZED : result;
+    }
+
+    public static final int SCHEMA_FORMAT_FIELD_NUMBER = 5;
+    private int schemaFormat_;
+    /**
+     * <pre>
+     * You have to set schema and schema_format if data_format requires them.
+     * </pre>
+     *
+     * <code>.Ydb.Table.BulkUpsertRequest.SchemaFormat schema_format = 5;</code>
+     * @return The enum numeric value on the wire for schemaFormat.
+     */
+    @java.lang.Override public int getSchemaFormatValue() {
+      return schemaFormat_;
+    }
+    /**
+     * <pre>
+     * You have to set schema and schema_format if data_format requires them.
+     * </pre>
+     *
+     * <code>.Ydb.Table.BulkUpsertRequest.SchemaFormat schema_format = 5;</code>
+     * @return The schemaFormat.
+     */
+    @java.lang.Override public tech.ydb.table.YdbTable.BulkUpsertRequest.SchemaFormat getSchemaFormat() {
+      @SuppressWarnings("deprecation")
+      tech.ydb.table.YdbTable.BulkUpsertRequest.SchemaFormat result = tech.ydb.table.YdbTable.BulkUpsertRequest.SchemaFormat.valueOf(schemaFormat_);
+      return result == null ? tech.ydb.table.YdbTable.BulkUpsertRequest.SchemaFormat.UNRECOGNIZED : result;
+    }
+
+    public static final int SCHEMA_FIELD_NUMBER = 6;
+    private com.google.protobuf.ByteString schema_;
+    /**
+     * <code>bytes schema = 6;</code>
+     * @return The schema.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getSchema() {
+      return schema_;
+    }
+
+    public static final int DATA_FIELD_NUMBER = 1000;
+    private com.google.protobuf.ByteString data_;
+    /**
+     * <pre>
+     * It's last in the definition to help with sidecar patterns
+     * </pre>
+     *
+     * <code>bytes data = 1000;</code>
+     * @return The data.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getData() {
+      return data_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -106003,6 +106412,18 @@ public final class YdbTable {
       if (operationParams_ != null) {
         output.writeMessage(3, getOperationParams());
       }
+      if (dataFormat_ != tech.ydb.table.YdbTable.BulkUpsertRequest.DataFormat.TYPED_VALUE_ROWS.getNumber()) {
+        output.writeEnum(4, dataFormat_);
+      }
+      if (schemaFormat_ != tech.ydb.table.YdbTable.BulkUpsertRequest.SchemaFormat.SCHEMA_FORMAT_EMBEDDED.getNumber()) {
+        output.writeEnum(5, schemaFormat_);
+      }
+      if (!schema_.isEmpty()) {
+        output.writeBytes(6, schema_);
+      }
+      if (!data_.isEmpty()) {
+        output.writeBytes(1000, data_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -106022,6 +106443,22 @@ public final class YdbTable {
       if (operationParams_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, getOperationParams());
+      }
+      if (dataFormat_ != tech.ydb.table.YdbTable.BulkUpsertRequest.DataFormat.TYPED_VALUE_ROWS.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(4, dataFormat_);
+      }
+      if (schemaFormat_ != tech.ydb.table.YdbTable.BulkUpsertRequest.SchemaFormat.SCHEMA_FORMAT_EMBEDDED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(5, schemaFormat_);
+      }
+      if (!schema_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, schema_);
+      }
+      if (!data_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1000, data_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -106050,6 +106487,12 @@ public final class YdbTable {
         if (!getOperationParams()
             .equals(other.getOperationParams())) return false;
       }
+      if (dataFormat_ != other.dataFormat_) return false;
+      if (schemaFormat_ != other.schemaFormat_) return false;
+      if (!getSchema()
+          .equals(other.getSchema())) return false;
+      if (!getData()
+          .equals(other.getData())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -106071,6 +106514,14 @@ public final class YdbTable {
         hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
         hash = (53 * hash) + getOperationParams().hashCode();
       }
+      hash = (37 * hash) + DATA_FORMAT_FIELD_NUMBER;
+      hash = (53 * hash) + dataFormat_;
+      hash = (37 * hash) + SCHEMA_FORMAT_FIELD_NUMBER;
+      hash = (53 * hash) + schemaFormat_;
+      hash = (37 * hash) + SCHEMA_FIELD_NUMBER;
+      hash = (53 * hash) + getSchema().hashCode();
+      hash = (37 * hash) + DATA_FIELD_NUMBER;
+      hash = (53 * hash) + getData().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -106218,6 +106669,14 @@ public final class YdbTable {
           operationParams_ = null;
           operationParamsBuilder_ = null;
         }
+        dataFormat_ = 0;
+
+        schemaFormat_ = 0;
+
+        schema_ = com.google.protobuf.ByteString.EMPTY;
+
+        data_ = com.google.protobuf.ByteString.EMPTY;
+
         return this;
       }
 
@@ -106255,6 +106714,10 @@ public final class YdbTable {
         } else {
           result.operationParams_ = operationParamsBuilder_.build();
         }
+        result.dataFormat_ = dataFormat_;
+        result.schemaFormat_ = schemaFormat_;
+        result.schema_ = schema_;
+        result.data_ = data_;
         onBuilt();
         return result;
       }
@@ -106312,6 +106775,18 @@ public final class YdbTable {
         }
         if (other.hasOperationParams()) {
           mergeOperationParams(other.getOperationParams());
+        }
+        if (other.dataFormat_ != 0) {
+          setDataFormatValue(other.getDataFormatValue());
+        }
+        if (other.schemaFormat_ != 0) {
+          setSchemaFormatValue(other.getSchemaFormatValue());
+        }
+        if (other.getSchema() != com.google.protobuf.ByteString.EMPTY) {
+          setSchema(other.getSchema());
+        }
+        if (other.getData() != com.google.protobuf.ByteString.EMPTY) {
+          setData(other.getData());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -106708,6 +107183,234 @@ public final class YdbTable {
           operationParams_ = null;
         }
         return operationParamsBuilder_;
+      }
+
+      private int dataFormat_ = 0;
+      /**
+       * <pre>
+       * It's a faster alternative for rows. You may set data_format and data instead of rows.
+       * </pre>
+       *
+       * <code>.Ydb.Table.BulkUpsertRequest.DataFormat data_format = 4;</code>
+       * @return The enum numeric value on the wire for dataFormat.
+       */
+      @java.lang.Override public int getDataFormatValue() {
+        return dataFormat_;
+      }
+      /**
+       * <pre>
+       * It's a faster alternative for rows. You may set data_format and data instead of rows.
+       * </pre>
+       *
+       * <code>.Ydb.Table.BulkUpsertRequest.DataFormat data_format = 4;</code>
+       * @param value The enum numeric value on the wire for dataFormat to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDataFormatValue(int value) {
+        
+        dataFormat_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * It's a faster alternative for rows. You may set data_format and data instead of rows.
+       * </pre>
+       *
+       * <code>.Ydb.Table.BulkUpsertRequest.DataFormat data_format = 4;</code>
+       * @return The dataFormat.
+       */
+      @java.lang.Override
+      public tech.ydb.table.YdbTable.BulkUpsertRequest.DataFormat getDataFormat() {
+        @SuppressWarnings("deprecation")
+        tech.ydb.table.YdbTable.BulkUpsertRequest.DataFormat result = tech.ydb.table.YdbTable.BulkUpsertRequest.DataFormat.valueOf(dataFormat_);
+        return result == null ? tech.ydb.table.YdbTable.BulkUpsertRequest.DataFormat.UNRECOGNIZED : result;
+      }
+      /**
+       * <pre>
+       * It's a faster alternative for rows. You may set data_format and data instead of rows.
+       * </pre>
+       *
+       * <code>.Ydb.Table.BulkUpsertRequest.DataFormat data_format = 4;</code>
+       * @param value The dataFormat to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDataFormat(tech.ydb.table.YdbTable.BulkUpsertRequest.DataFormat value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        dataFormat_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * It's a faster alternative for rows. You may set data_format and data instead of rows.
+       * </pre>
+       *
+       * <code>.Ydb.Table.BulkUpsertRequest.DataFormat data_format = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDataFormat() {
+        
+        dataFormat_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int schemaFormat_ = 0;
+      /**
+       * <pre>
+       * You have to set schema and schema_format if data_format requires them.
+       * </pre>
+       *
+       * <code>.Ydb.Table.BulkUpsertRequest.SchemaFormat schema_format = 5;</code>
+       * @return The enum numeric value on the wire for schemaFormat.
+       */
+      @java.lang.Override public int getSchemaFormatValue() {
+        return schemaFormat_;
+      }
+      /**
+       * <pre>
+       * You have to set schema and schema_format if data_format requires them.
+       * </pre>
+       *
+       * <code>.Ydb.Table.BulkUpsertRequest.SchemaFormat schema_format = 5;</code>
+       * @param value The enum numeric value on the wire for schemaFormat to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSchemaFormatValue(int value) {
+        
+        schemaFormat_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * You have to set schema and schema_format if data_format requires them.
+       * </pre>
+       *
+       * <code>.Ydb.Table.BulkUpsertRequest.SchemaFormat schema_format = 5;</code>
+       * @return The schemaFormat.
+       */
+      @java.lang.Override
+      public tech.ydb.table.YdbTable.BulkUpsertRequest.SchemaFormat getSchemaFormat() {
+        @SuppressWarnings("deprecation")
+        tech.ydb.table.YdbTable.BulkUpsertRequest.SchemaFormat result = tech.ydb.table.YdbTable.BulkUpsertRequest.SchemaFormat.valueOf(schemaFormat_);
+        return result == null ? tech.ydb.table.YdbTable.BulkUpsertRequest.SchemaFormat.UNRECOGNIZED : result;
+      }
+      /**
+       * <pre>
+       * You have to set schema and schema_format if data_format requires them.
+       * </pre>
+       *
+       * <code>.Ydb.Table.BulkUpsertRequest.SchemaFormat schema_format = 5;</code>
+       * @param value The schemaFormat to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSchemaFormat(tech.ydb.table.YdbTable.BulkUpsertRequest.SchemaFormat value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        schemaFormat_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * You have to set schema and schema_format if data_format requires them.
+       * </pre>
+       *
+       * <code>.Ydb.Table.BulkUpsertRequest.SchemaFormat schema_format = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSchemaFormat() {
+        
+        schemaFormat_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString schema_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>bytes schema = 6;</code>
+       * @return The schema.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getSchema() {
+        return schema_;
+      }
+      /**
+       * <code>bytes schema = 6;</code>
+       * @param value The schema to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSchema(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        schema_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bytes schema = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSchema() {
+        
+        schema_ = getDefaultInstance().getSchema();
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <pre>
+       * It's last in the definition to help with sidecar patterns
+       * </pre>
+       *
+       * <code>bytes data = 1000;</code>
+       * @return The data.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getData() {
+        return data_;
+      }
+      /**
+       * <pre>
+       * It's last in the definition to help with sidecar patterns
+       * </pre>
+       *
+       * <code>bytes data = 1000;</code>
+       * @param value The data to set.
+       * @return This builder for chaining.
+       */
+      public Builder setData(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        data_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * It's last in the definition to help with sidecar patterns
+       * </pre>
+       *
+       * <code>bytes data = 1000;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearData() {
+        
+        data_ = getDefaultInstance().getData();
+        onChanged();
+        return this;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -112001,31 +112704,39 @@ public final class YdbTable {
       "\002 \003(\0132\027.Ydb.Issue.IssueMessage\022*\n\006result" +
       "\030\003 \001(\0132\032.Ydb.Table.ReadTableResult\"5\n\017Re" +
       "adTableResult\022\"\n\nresult_set\030\001 \001(\0132\016.Ydb." +
-      "ResultSet\"|\n\021BulkUpsertRequest\022\r\n\005table\030",
-      "\001 \001(\t\022\035\n\004rows\030\002 \001(\0132\017.Ydb.TypedValue\0229\n\020" +
-      "operation_params\030\003 \001(\0132\037.Ydb.Operations." +
-      "OperationParams\"B\n\022BulkUpsertResponse\022,\n" +
-      "\toperation\030\001 \001(\0132\031.Ydb.Operations.Operat" +
-      "ion\"\022\n\020BulkUpsertResult\"\221\003\n\027ExecuteScanQ" +
-      "ueryRequest\022\037\n\005query\030\003 \001(\0132\020.Ydb.Table.Q" +
-      "uery\022F\n\nparameters\030\004 \003(\01322.Ydb.Table.Exe" +
-      "cuteScanQueryRequest.ParametersEntry\0225\n\004" +
-      "mode\030\006 \001(\0162\'.Ydb.Table.ExecuteScanQueryR" +
-      "equest.Mode\022;\n\rcollect_stats\030\010 \001(\0162$.Ydb" +
-      ".Table.QueryStatsCollection.Mode\032B\n\017Para" +
-      "metersEntry\022\013\n\003key\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132" +
-      "\017.Ydb.TypedValue:\0028\001\"=\n\004Mode\022\024\n\020MODE_UNS" +
-      "PECIFIED\020\000\022\020\n\014MODE_EXPLAIN\020\001\022\r\n\tMODE_EXE" +
-      "C\020\003J\004\010\001\020\002J\004\010\002\020\003J\004\010\005\020\006J\004\010\007\020\010\"\257\001\n\037ExecuteS" +
-      "canQueryPartialResponse\022)\n\006status\030\001 \001(\0162" +
-      "\031.Ydb.StatusIds.StatusCode\022\'\n\006issues\030\002 \003" +
-      "(\0132\027.Ydb.Issue.IssueMessage\0228\n\006result\030\003 " +
-      "\001(\0132(.Ydb.Table.ExecuteScanQueryPartialR" +
-      "esult\"\214\001\n\035ExecuteScanQueryPartialResult\022" +
-      "\"\n\nresult_set\030\001 \001(\0132\016.Ydb.ResultSet\022/\n\013q" +
-      "uery_stats\030\006 \001(\0132\032.Ydb.TableStats.QueryS" +
-      "tatsJ\004\010\002\020\003J\004\010\003\020\004J\004\010\004\020\005J\004\010\005\020\006B\031\n\024com.yand" +
-      "ex.ydb.table\370\001\001b\006proto3"
+      "ResultSet\"\245\003\n\021BulkUpsertRequest\022\r\n\005table",
+      "\030\001 \001(\t\022\035\n\004rows\030\002 \001(\0132\017.Ydb.TypedValue\0229\n" +
+      "\020operation_params\030\003 \001(\0132\037.Ydb.Operations" +
+      ".OperationParams\022<\n\013data_format\030\004 \001(\0162\'." +
+      "Ydb.Table.BulkUpsertRequest.DataFormat\022@" +
+      "\n\rschema_format\030\005 \001(\0162).Ydb.Table.BulkUp" +
+      "sertRequest.SchemaFormat\022\016\n\006schema\030\006 \001(\014" +
+      "\022\r\n\004data\030\350\007 \001(\014\"C\n\nDataFormat\022\024\n\020TYPED_V" +
+      "ALUE_ROWS\020\000\022\026\n\022APACHE_ARROW_BATCH\020\001\022\007\n\003C" +
+      "SV\020\002\"C\n\014SchemaFormat\022\032\n\026SCHEMA_FORMAT_EM" +
+      "BEDDED\020\000\022\027\n\023APACHE_ARROW_SCHEMA\020\001\"B\n\022Bul" +
+      "kUpsertResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
+      ".Operations.Operation\"\022\n\020BulkUpsertResul" +
+      "t\"\221\003\n\027ExecuteScanQueryRequest\022\037\n\005query\030\003" +
+      " \001(\0132\020.Ydb.Table.Query\022F\n\nparameters\030\004 \003" +
+      "(\01322.Ydb.Table.ExecuteScanQueryRequest.P" +
+      "arametersEntry\0225\n\004mode\030\006 \001(\0162\'.Ydb.Table" +
+      ".ExecuteScanQueryRequest.Mode\022;\n\rcollect" +
+      "_stats\030\010 \001(\0162$.Ydb.Table.QueryStatsColle" +
+      "ction.Mode\032B\n\017ParametersEntry\022\013\n\003key\030\001 \001" +
+      "(\t\022\036\n\005value\030\002 \001(\0132\017.Ydb.TypedValue:\0028\001\"=" +
+      "\n\004Mode\022\024\n\020MODE_UNSPECIFIED\020\000\022\020\n\014MODE_EXP" +
+      "LAIN\020\001\022\r\n\tMODE_EXEC\020\003J\004\010\001\020\002J\004\010\002\020\003J\004\010\005\020\006J" +
+      "\004\010\007\020\010\"\257\001\n\037ExecuteScanQueryPartialRespons" +
+      "e\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusIds.Status" +
+      "Code\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issue.IssueMe" +
+      "ssage\0228\n\006result\030\003 \001(\0132(.Ydb.Table.Execut" +
+      "eScanQueryPartialResult\"\214\001\n\035ExecuteScanQ" +
+      "ueryPartialResult\022\"\n\nresult_set\030\001 \001(\0132\016." +
+      "Ydb.ResultSet\022/\n\013query_stats\030\006 \001(\0132\032.Ydb" +
+      ".TableStats.QueryStatsJ\004\010\002\020\003J\004\010\003\020\004J\004\010\004\020\005" +
+      "J\004\010\005\020\006B\031\n\024tech.ydb.table\370\001\001b\006proto" +
+      "3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -112706,7 +113417,7 @@ public final class YdbTable {
     internal_static_Ydb_Table_BulkUpsertRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Table_BulkUpsertRequest_descriptor,
-        new java.lang.String[] { "Table", "Rows", "OperationParams", });
+        new java.lang.String[] { "Table", "Rows", "OperationParams", "DataFormat", "SchemaFormat", "Schema", "Data", });
     internal_static_Ydb_Table_BulkUpsertResponse_descriptor =
       getDescriptor().getMessageTypes().get(98);
     internal_static_Ydb_Table_BulkUpsertResponse_fieldAccessorTable = new

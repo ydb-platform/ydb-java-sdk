@@ -1839,566 +1839,6 @@ public final class YqPrivate {
 
   }
 
-  public interface SignedTimestampOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Yq.Private.SignedTimestamp)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>uint64 value = 1;</code>
-     * @return The value.
-     */
-    long getValue();
-
-    /**
-     * <code>uint64 signature = 2;</code>
-     * @return The signature.
-     */
-    long getSignature();
-  }
-  /**
-   * Protobuf type {@code Yq.Private.SignedTimestamp}
-   */
-  public static final class SignedTimestamp extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Yq.Private.SignedTimestamp)
-      SignedTimestampOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use SignedTimestamp.newBuilder() to construct.
-    private SignedTimestamp(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private SignedTimestamp() {
-    }
-
-    @java.lang.Override
-    @SuppressWarnings({"unused"})
-    protected java.lang.Object newInstance(
-        UnusedPrivateParameter unused) {
-      return new SignedTimestamp();
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private SignedTimestamp(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-
-              value_ = input.readUInt64();
-              break;
-            }
-            case 16: {
-
-              signature_ = input.readUInt64();
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return Yq.Private.YqPrivate.internal_static_Yq_Private_SignedTimestamp_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return Yq.Private.YqPrivate.internal_static_Yq_Private_SignedTimestamp_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              Yq.Private.YqPrivate.SignedTimestamp.class, Yq.Private.YqPrivate.SignedTimestamp.Builder.class);
-    }
-
-    public static final int VALUE_FIELD_NUMBER = 1;
-    private long value_;
-    /**
-     * <code>uint64 value = 1;</code>
-     * @return The value.
-     */
-    @java.lang.Override
-    public long getValue() {
-      return value_;
-    }
-
-    public static final int SIGNATURE_FIELD_NUMBER = 2;
-    private long signature_;
-    /**
-     * <code>uint64 signature = 2;</code>
-     * @return The signature.
-     */
-    @java.lang.Override
-    public long getSignature() {
-      return signature_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (value_ != 0L) {
-        output.writeUInt64(1, value_);
-      }
-      if (signature_ != 0L) {
-        output.writeUInt64(2, signature_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (value_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(1, value_);
-      }
-      if (signature_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(2, signature_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof Yq.Private.YqPrivate.SignedTimestamp)) {
-        return super.equals(obj);
-      }
-      Yq.Private.YqPrivate.SignedTimestamp other = (Yq.Private.YqPrivate.SignedTimestamp) obj;
-
-      if (getValue()
-          != other.getValue()) return false;
-      if (getSignature()
-          != other.getSignature()) return false;
-      if (!unknownFields.equals(other.unknownFields)) return false;
-      return true;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getValue());
-      hash = (37 * hash) + SIGNATURE_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getSignature());
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static Yq.Private.YqPrivate.SignedTimestamp parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static Yq.Private.YqPrivate.SignedTimestamp parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static Yq.Private.YqPrivate.SignedTimestamp parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static Yq.Private.YqPrivate.SignedTimestamp parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static Yq.Private.YqPrivate.SignedTimestamp parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static Yq.Private.YqPrivate.SignedTimestamp parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static Yq.Private.YqPrivate.SignedTimestamp parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static Yq.Private.YqPrivate.SignedTimestamp parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static Yq.Private.YqPrivate.SignedTimestamp parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static Yq.Private.YqPrivate.SignedTimestamp parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static Yq.Private.YqPrivate.SignedTimestamp parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static Yq.Private.YqPrivate.SignedTimestamp parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(Yq.Private.YqPrivate.SignedTimestamp prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code Yq.Private.SignedTimestamp}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Yq.Private.SignedTimestamp)
-        Yq.Private.YqPrivate.SignedTimestampOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return Yq.Private.YqPrivate.internal_static_Yq_Private_SignedTimestamp_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return Yq.Private.YqPrivate.internal_static_Yq_Private_SignedTimestamp_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                Yq.Private.YqPrivate.SignedTimestamp.class, Yq.Private.YqPrivate.SignedTimestamp.Builder.class);
-      }
-
-      // Construct using Yq.Private.YqPrivate.SignedTimestamp.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        value_ = 0L;
-
-        signature_ = 0L;
-
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return Yq.Private.YqPrivate.internal_static_Yq_Private_SignedTimestamp_descriptor;
-      }
-
-      @java.lang.Override
-      public Yq.Private.YqPrivate.SignedTimestamp getDefaultInstanceForType() {
-        return Yq.Private.YqPrivate.SignedTimestamp.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public Yq.Private.YqPrivate.SignedTimestamp build() {
-        Yq.Private.YqPrivate.SignedTimestamp result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public Yq.Private.YqPrivate.SignedTimestamp buildPartial() {
-        Yq.Private.YqPrivate.SignedTimestamp result = new Yq.Private.YqPrivate.SignedTimestamp(this);
-        result.value_ = value_;
-        result.signature_ = signature_;
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof Yq.Private.YqPrivate.SignedTimestamp) {
-          return mergeFrom((Yq.Private.YqPrivate.SignedTimestamp)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(Yq.Private.YqPrivate.SignedTimestamp other) {
-        if (other == Yq.Private.YqPrivate.SignedTimestamp.getDefaultInstance()) return this;
-        if (other.getValue() != 0L) {
-          setValue(other.getValue());
-        }
-        if (other.getSignature() != 0L) {
-          setSignature(other.getSignature());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        Yq.Private.YqPrivate.SignedTimestamp parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (Yq.Private.YqPrivate.SignedTimestamp) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private long value_ ;
-      /**
-       * <code>uint64 value = 1;</code>
-       * @return The value.
-       */
-      @java.lang.Override
-      public long getValue() {
-        return value_;
-      }
-      /**
-       * <code>uint64 value = 1;</code>
-       * @param value The value to set.
-       * @return This builder for chaining.
-       */
-      public Builder setValue(long value) {
-        
-        value_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint64 value = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearValue() {
-        
-        value_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      private long signature_ ;
-      /**
-       * <code>uint64 signature = 2;</code>
-       * @return The signature.
-       */
-      @java.lang.Override
-      public long getSignature() {
-        return signature_;
-      }
-      /**
-       * <code>uint64 signature = 2;</code>
-       * @param value The signature to set.
-       * @return This builder for chaining.
-       */
-      public Builder setSignature(long value) {
-        
-        signature_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint64 signature = 2;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearSignature() {
-        
-        signature_ = 0L;
-        onChanged();
-        return this;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:Yq.Private.SignedTimestamp)
-    }
-
-    // @@protoc_insertion_point(class_scope:Yq.Private.SignedTimestamp)
-    private static final Yq.Private.YqPrivate.SignedTimestamp DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new Yq.Private.YqPrivate.SignedTimestamp();
-    }
-
-    public static Yq.Private.YqPrivate.SignedTimestamp getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<SignedTimestamp>
-        PARSER = new com.google.protobuf.AbstractParser<SignedTimestamp>() {
-      @java.lang.Override
-      public SignedTimestamp parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new SignedTimestamp(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<SignedTimestamp> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<SignedTimestamp> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public Yq.Private.YqPrivate.SignedTimestamp getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
   public interface TopicConsumerOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Yq.Private.TopicConsumer)
       com.google.protobuf.MessageOrBuilder {
@@ -4355,19 +3795,19 @@ public final class YqPrivate {
           getQueryNameBytes();
 
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 24;</code>
+       * <code>.google.protobuf.Timestamp deadline = 24;</code>
        * @return Whether the deadline field is set.
        */
       boolean hasDeadline();
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 24;</code>
+       * <code>.google.protobuf.Timestamp deadline = 24;</code>
        * @return The deadline.
        */
-      Yq.Private.YqPrivate.SignedTimestamp getDeadline();
+      com.google.protobuf.Timestamp getDeadline();
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 24;</code>
+       * <code>.google.protobuf.Timestamp deadline = 24;</code>
        */
-      Yq.Private.YqPrivate.SignedTimestampOrBuilder getDeadlineOrBuilder();
+      com.google.protobuf.TimestampOrBuilder getDeadlineOrBuilder();
     }
     /**
      * Protobuf type {@code Yq.Private.GetTaskResult.Task}
@@ -4610,11 +4050,11 @@ public final class YqPrivate {
                 break;
               }
               case 194: {
-                Yq.Private.YqPrivate.SignedTimestamp.Builder subBuilder = null;
+                com.google.protobuf.Timestamp.Builder subBuilder = null;
                 if (deadline_ != null) {
                   subBuilder = deadline_.toBuilder();
                 }
-                deadline_ = input.readMessage(Yq.Private.YqPrivate.SignedTimestamp.parser(), extensionRegistry);
+                deadline_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
                 if (subBuilder != null) {
                   subBuilder.mergeFrom(deadline_);
                   deadline_ = subBuilder.buildPartial();
@@ -5409,9 +4849,9 @@ public final class YqPrivate {
       }
 
       public static final int DEADLINE_FIELD_NUMBER = 24;
-      private Yq.Private.YqPrivate.SignedTimestamp deadline_;
+      private com.google.protobuf.Timestamp deadline_;
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 24;</code>
+       * <code>.google.protobuf.Timestamp deadline = 24;</code>
        * @return Whether the deadline field is set.
        */
       @java.lang.Override
@@ -5419,18 +4859,18 @@ public final class YqPrivate {
         return deadline_ != null;
       }
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 24;</code>
+       * <code>.google.protobuf.Timestamp deadline = 24;</code>
        * @return The deadline.
        */
       @java.lang.Override
-      public Yq.Private.YqPrivate.SignedTimestamp getDeadline() {
-        return deadline_ == null ? Yq.Private.YqPrivate.SignedTimestamp.getDefaultInstance() : deadline_;
+      public com.google.protobuf.Timestamp getDeadline() {
+        return deadline_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : deadline_;
       }
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 24;</code>
+       * <code>.google.protobuf.Timestamp deadline = 24;</code>
        */
       @java.lang.Override
-      public Yq.Private.YqPrivate.SignedTimestampOrBuilder getDeadlineOrBuilder() {
+      public com.google.protobuf.TimestampOrBuilder getDeadlineOrBuilder() {
         return getDeadline();
       }
 
@@ -8986,31 +8426,31 @@ public final class YqPrivate {
           return this;
         }
 
-        private Yq.Private.YqPrivate.SignedTimestamp deadline_;
+        private com.google.protobuf.Timestamp deadline_;
         private com.google.protobuf.SingleFieldBuilderV3<
-            Yq.Private.YqPrivate.SignedTimestamp, Yq.Private.YqPrivate.SignedTimestamp.Builder, Yq.Private.YqPrivate.SignedTimestampOrBuilder> deadlineBuilder_;
+            com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> deadlineBuilder_;
         /**
-         * <code>.Yq.Private.SignedTimestamp deadline = 24;</code>
+         * <code>.google.protobuf.Timestamp deadline = 24;</code>
          * @return Whether the deadline field is set.
          */
         public boolean hasDeadline() {
           return deadlineBuilder_ != null || deadline_ != null;
         }
         /**
-         * <code>.Yq.Private.SignedTimestamp deadline = 24;</code>
+         * <code>.google.protobuf.Timestamp deadline = 24;</code>
          * @return The deadline.
          */
-        public Yq.Private.YqPrivate.SignedTimestamp getDeadline() {
+        public com.google.protobuf.Timestamp getDeadline() {
           if (deadlineBuilder_ == null) {
-            return deadline_ == null ? Yq.Private.YqPrivate.SignedTimestamp.getDefaultInstance() : deadline_;
+            return deadline_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : deadline_;
           } else {
             return deadlineBuilder_.getMessage();
           }
         }
         /**
-         * <code>.Yq.Private.SignedTimestamp deadline = 24;</code>
+         * <code>.google.protobuf.Timestamp deadline = 24;</code>
          */
-        public Builder setDeadline(Yq.Private.YqPrivate.SignedTimestamp value) {
+        public Builder setDeadline(com.google.protobuf.Timestamp value) {
           if (deadlineBuilder_ == null) {
             if (value == null) {
               throw new NullPointerException();
@@ -9024,10 +8464,10 @@ public final class YqPrivate {
           return this;
         }
         /**
-         * <code>.Yq.Private.SignedTimestamp deadline = 24;</code>
+         * <code>.google.protobuf.Timestamp deadline = 24;</code>
          */
         public Builder setDeadline(
-            Yq.Private.YqPrivate.SignedTimestamp.Builder builderForValue) {
+            com.google.protobuf.Timestamp.Builder builderForValue) {
           if (deadlineBuilder_ == null) {
             deadline_ = builderForValue.build();
             onChanged();
@@ -9038,13 +8478,13 @@ public final class YqPrivate {
           return this;
         }
         /**
-         * <code>.Yq.Private.SignedTimestamp deadline = 24;</code>
+         * <code>.google.protobuf.Timestamp deadline = 24;</code>
          */
-        public Builder mergeDeadline(Yq.Private.YqPrivate.SignedTimestamp value) {
+        public Builder mergeDeadline(com.google.protobuf.Timestamp value) {
           if (deadlineBuilder_ == null) {
             if (deadline_ != null) {
               deadline_ =
-                Yq.Private.YqPrivate.SignedTimestamp.newBuilder(deadline_).mergeFrom(value).buildPartial();
+                com.google.protobuf.Timestamp.newBuilder(deadline_).mergeFrom(value).buildPartial();
             } else {
               deadline_ = value;
             }
@@ -9056,7 +8496,7 @@ public final class YqPrivate {
           return this;
         }
         /**
-         * <code>.Yq.Private.SignedTimestamp deadline = 24;</code>
+         * <code>.google.protobuf.Timestamp deadline = 24;</code>
          */
         public Builder clearDeadline() {
           if (deadlineBuilder_ == null) {
@@ -9070,33 +8510,33 @@ public final class YqPrivate {
           return this;
         }
         /**
-         * <code>.Yq.Private.SignedTimestamp deadline = 24;</code>
+         * <code>.google.protobuf.Timestamp deadline = 24;</code>
          */
-        public Yq.Private.YqPrivate.SignedTimestamp.Builder getDeadlineBuilder() {
+        public com.google.protobuf.Timestamp.Builder getDeadlineBuilder() {
           
           onChanged();
           return getDeadlineFieldBuilder().getBuilder();
         }
         /**
-         * <code>.Yq.Private.SignedTimestamp deadline = 24;</code>
+         * <code>.google.protobuf.Timestamp deadline = 24;</code>
          */
-        public Yq.Private.YqPrivate.SignedTimestampOrBuilder getDeadlineOrBuilder() {
+        public com.google.protobuf.TimestampOrBuilder getDeadlineOrBuilder() {
           if (deadlineBuilder_ != null) {
             return deadlineBuilder_.getMessageOrBuilder();
           } else {
             return deadline_ == null ?
-                Yq.Private.YqPrivate.SignedTimestamp.getDefaultInstance() : deadline_;
+                com.google.protobuf.Timestamp.getDefaultInstance() : deadline_;
           }
         }
         /**
-         * <code>.Yq.Private.SignedTimestamp deadline = 24;</code>
+         * <code>.google.protobuf.Timestamp deadline = 24;</code>
          */
         private com.google.protobuf.SingleFieldBuilderV3<
-            Yq.Private.YqPrivate.SignedTimestamp, Yq.Private.YqPrivate.SignedTimestamp.Builder, Yq.Private.YqPrivate.SignedTimestampOrBuilder> 
+            com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
             getDeadlineFieldBuilder() {
           if (deadlineBuilder_ == null) {
             deadlineBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-                Yq.Private.YqPrivate.SignedTimestamp, Yq.Private.YqPrivate.SignedTimestamp.Builder, Yq.Private.YqPrivate.SignedTimestampOrBuilder>(
+                com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
                     getDeadline(),
                     getParentForChildren(),
                     isClean());
@@ -10829,19 +10269,19 @@ public final class YqPrivate {
     com.google.protobuf.TimestampOrBuilder getFinishedAtOrBuilder();
 
     /**
-     * <code>.Yq.Private.SignedTimestamp deadline = 103;</code>
+     * <code>.google.protobuf.Timestamp deadline = 103;</code>
      * @return Whether the deadline field is set.
      */
     boolean hasDeadline();
     /**
-     * <code>.Yq.Private.SignedTimestamp deadline = 103;</code>
+     * <code>.google.protobuf.Timestamp deadline = 103;</code>
      * @return The deadline.
      */
-    Yq.Private.YqPrivate.SignedTimestamp getDeadline();
+    com.google.protobuf.Timestamp getDeadline();
     /**
-     * <code>.Yq.Private.SignedTimestamp deadline = 103;</code>
+     * <code>.google.protobuf.Timestamp deadline = 103;</code>
      */
-    Yq.Private.YqPrivate.SignedTimestampOrBuilder getDeadlineOrBuilder();
+    com.google.protobuf.TimestampOrBuilder getDeadlineOrBuilder();
   }
   /**
    * Protobuf type {@code Yq.Private.PingTaskRequest}
@@ -11081,11 +10521,11 @@ public final class YqPrivate {
               break;
             }
             case 826: {
-              Yq.Private.YqPrivate.SignedTimestamp.Builder subBuilder = null;
+              com.google.protobuf.Timestamp.Builder subBuilder = null;
               if (deadline_ != null) {
                 subBuilder = deadline_.toBuilder();
               }
-              deadline_ = input.readMessage(Yq.Private.YqPrivate.SignedTimestamp.parser(), extensionRegistry);
+              deadline_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(deadline_);
                 deadline_ = subBuilder.buildPartial();
@@ -11772,9 +11212,9 @@ public final class YqPrivate {
     }
 
     public static final int DEADLINE_FIELD_NUMBER = 103;
-    private Yq.Private.YqPrivate.SignedTimestamp deadline_;
+    private com.google.protobuf.Timestamp deadline_;
     /**
-     * <code>.Yq.Private.SignedTimestamp deadline = 103;</code>
+     * <code>.google.protobuf.Timestamp deadline = 103;</code>
      * @return Whether the deadline field is set.
      */
     @java.lang.Override
@@ -11782,18 +11222,18 @@ public final class YqPrivate {
       return deadline_ != null;
     }
     /**
-     * <code>.Yq.Private.SignedTimestamp deadline = 103;</code>
+     * <code>.google.protobuf.Timestamp deadline = 103;</code>
      * @return The deadline.
      */
     @java.lang.Override
-    public Yq.Private.YqPrivate.SignedTimestamp getDeadline() {
-      return deadline_ == null ? Yq.Private.YqPrivate.SignedTimestamp.getDefaultInstance() : deadline_;
+    public com.google.protobuf.Timestamp getDeadline() {
+      return deadline_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : deadline_;
     }
     /**
-     * <code>.Yq.Private.SignedTimestamp deadline = 103;</code>
+     * <code>.google.protobuf.Timestamp deadline = 103;</code>
      */
     @java.lang.Override
-    public Yq.Private.YqPrivate.SignedTimestampOrBuilder getDeadlineOrBuilder() {
+    public com.google.protobuf.TimestampOrBuilder getDeadlineOrBuilder() {
       return getDeadline();
     }
 
@@ -15101,31 +14541,31 @@ public final class YqPrivate {
         return finishedAtBuilder_;
       }
 
-      private Yq.Private.YqPrivate.SignedTimestamp deadline_;
+      private com.google.protobuf.Timestamp deadline_;
       private com.google.protobuf.SingleFieldBuilderV3<
-          Yq.Private.YqPrivate.SignedTimestamp, Yq.Private.YqPrivate.SignedTimestamp.Builder, Yq.Private.YqPrivate.SignedTimestampOrBuilder> deadlineBuilder_;
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> deadlineBuilder_;
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 103;</code>
+       * <code>.google.protobuf.Timestamp deadline = 103;</code>
        * @return Whether the deadline field is set.
        */
       public boolean hasDeadline() {
         return deadlineBuilder_ != null || deadline_ != null;
       }
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 103;</code>
+       * <code>.google.protobuf.Timestamp deadline = 103;</code>
        * @return The deadline.
        */
-      public Yq.Private.YqPrivate.SignedTimestamp getDeadline() {
+      public com.google.protobuf.Timestamp getDeadline() {
         if (deadlineBuilder_ == null) {
-          return deadline_ == null ? Yq.Private.YqPrivate.SignedTimestamp.getDefaultInstance() : deadline_;
+          return deadline_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : deadline_;
         } else {
           return deadlineBuilder_.getMessage();
         }
       }
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 103;</code>
+       * <code>.google.protobuf.Timestamp deadline = 103;</code>
        */
-      public Builder setDeadline(Yq.Private.YqPrivate.SignedTimestamp value) {
+      public Builder setDeadline(com.google.protobuf.Timestamp value) {
         if (deadlineBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -15139,10 +14579,10 @@ public final class YqPrivate {
         return this;
       }
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 103;</code>
+       * <code>.google.protobuf.Timestamp deadline = 103;</code>
        */
       public Builder setDeadline(
-          Yq.Private.YqPrivate.SignedTimestamp.Builder builderForValue) {
+          com.google.protobuf.Timestamp.Builder builderForValue) {
         if (deadlineBuilder_ == null) {
           deadline_ = builderForValue.build();
           onChanged();
@@ -15153,13 +14593,13 @@ public final class YqPrivate {
         return this;
       }
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 103;</code>
+       * <code>.google.protobuf.Timestamp deadline = 103;</code>
        */
-      public Builder mergeDeadline(Yq.Private.YqPrivate.SignedTimestamp value) {
+      public Builder mergeDeadline(com.google.protobuf.Timestamp value) {
         if (deadlineBuilder_ == null) {
           if (deadline_ != null) {
             deadline_ =
-              Yq.Private.YqPrivate.SignedTimestamp.newBuilder(deadline_).mergeFrom(value).buildPartial();
+              com.google.protobuf.Timestamp.newBuilder(deadline_).mergeFrom(value).buildPartial();
           } else {
             deadline_ = value;
           }
@@ -15171,7 +14611,7 @@ public final class YqPrivate {
         return this;
       }
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 103;</code>
+       * <code>.google.protobuf.Timestamp deadline = 103;</code>
        */
       public Builder clearDeadline() {
         if (deadlineBuilder_ == null) {
@@ -15185,33 +14625,33 @@ public final class YqPrivate {
         return this;
       }
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 103;</code>
+       * <code>.google.protobuf.Timestamp deadline = 103;</code>
        */
-      public Yq.Private.YqPrivate.SignedTimestamp.Builder getDeadlineBuilder() {
+      public com.google.protobuf.Timestamp.Builder getDeadlineBuilder() {
         
         onChanged();
         return getDeadlineFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 103;</code>
+       * <code>.google.protobuf.Timestamp deadline = 103;</code>
        */
-      public Yq.Private.YqPrivate.SignedTimestampOrBuilder getDeadlineOrBuilder() {
+      public com.google.protobuf.TimestampOrBuilder getDeadlineOrBuilder() {
         if (deadlineBuilder_ != null) {
           return deadlineBuilder_.getMessageOrBuilder();
         } else {
           return deadline_ == null ?
-              Yq.Private.YqPrivate.SignedTimestamp.getDefaultInstance() : deadline_;
+              com.google.protobuf.Timestamp.getDefaultInstance() : deadline_;
         }
       }
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 103;</code>
+       * <code>.google.protobuf.Timestamp deadline = 103;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          Yq.Private.YqPrivate.SignedTimestamp, Yq.Private.YqPrivate.SignedTimestamp.Builder, Yq.Private.YqPrivate.SignedTimestampOrBuilder> 
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
           getDeadlineFieldBuilder() {
         if (deadlineBuilder_ == null) {
           deadlineBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              Yq.Private.YqPrivate.SignedTimestamp, Yq.Private.YqPrivate.SignedTimestamp.Builder, Yq.Private.YqPrivate.SignedTimestampOrBuilder>(
+              com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
                   getDeadline(),
                   getParentForChildren(),
                   isClean());
@@ -16558,19 +15998,19 @@ public final class YqPrivate {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
-     * <code>.Yq.Private.SignedTimestamp deadline = 8;</code>
+     * <code>.google.protobuf.Timestamp deadline = 8;</code>
      * @return Whether the deadline field is set.
      */
     boolean hasDeadline();
     /**
-     * <code>.Yq.Private.SignedTimestamp deadline = 8;</code>
+     * <code>.google.protobuf.Timestamp deadline = 8;</code>
      * @return The deadline.
      */
-    Yq.Private.YqPrivate.SignedTimestamp getDeadline();
+    com.google.protobuf.Timestamp getDeadline();
     /**
-     * <code>.Yq.Private.SignedTimestamp deadline = 8;</code>
+     * <code>.google.protobuf.Timestamp deadline = 8;</code>
      */
-    Yq.Private.YqPrivate.SignedTimestampOrBuilder getDeadlineOrBuilder();
+    com.google.protobuf.TimestampOrBuilder getDeadlineOrBuilder();
   }
   /**
    * Protobuf type {@code Yq.Private.WriteTaskResultRequest}
@@ -16679,11 +16119,11 @@ public final class YqPrivate {
               break;
             }
             case 66: {
-              Yq.Private.YqPrivate.SignedTimestamp.Builder subBuilder = null;
+              com.google.protobuf.Timestamp.Builder subBuilder = null;
               if (deadline_ != null) {
                 subBuilder = deadline_.toBuilder();
               }
-              deadline_ = input.readMessage(Yq.Private.YqPrivate.SignedTimestamp.parser(), extensionRegistry);
+              deadline_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(deadline_);
                 deadline_ = subBuilder.buildPartial();
@@ -16873,9 +16313,9 @@ public final class YqPrivate {
     }
 
     public static final int DEADLINE_FIELD_NUMBER = 8;
-    private Yq.Private.YqPrivate.SignedTimestamp deadline_;
+    private com.google.protobuf.Timestamp deadline_;
     /**
-     * <code>.Yq.Private.SignedTimestamp deadline = 8;</code>
+     * <code>.google.protobuf.Timestamp deadline = 8;</code>
      * @return Whether the deadline field is set.
      */
     @java.lang.Override
@@ -16883,18 +16323,18 @@ public final class YqPrivate {
       return deadline_ != null;
     }
     /**
-     * <code>.Yq.Private.SignedTimestamp deadline = 8;</code>
+     * <code>.google.protobuf.Timestamp deadline = 8;</code>
      * @return The deadline.
      */
     @java.lang.Override
-    public Yq.Private.YqPrivate.SignedTimestamp getDeadline() {
-      return deadline_ == null ? Yq.Private.YqPrivate.SignedTimestamp.getDefaultInstance() : deadline_;
+    public com.google.protobuf.Timestamp getDeadline() {
+      return deadline_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : deadline_;
     }
     /**
-     * <code>.Yq.Private.SignedTimestamp deadline = 8;</code>
+     * <code>.google.protobuf.Timestamp deadline = 8;</code>
      */
     @java.lang.Override
-    public Yq.Private.YqPrivate.SignedTimestampOrBuilder getDeadlineOrBuilder() {
+    public com.google.protobuf.TimestampOrBuilder getDeadlineOrBuilder() {
       return getDeadline();
     }
 
@@ -17899,31 +17339,31 @@ public final class YqPrivate {
         return operationParamsBuilder_;
       }
 
-      private Yq.Private.YqPrivate.SignedTimestamp deadline_;
+      private com.google.protobuf.Timestamp deadline_;
       private com.google.protobuf.SingleFieldBuilderV3<
-          Yq.Private.YqPrivate.SignedTimestamp, Yq.Private.YqPrivate.SignedTimestamp.Builder, Yq.Private.YqPrivate.SignedTimestampOrBuilder> deadlineBuilder_;
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> deadlineBuilder_;
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 8;</code>
+       * <code>.google.protobuf.Timestamp deadline = 8;</code>
        * @return Whether the deadline field is set.
        */
       public boolean hasDeadline() {
         return deadlineBuilder_ != null || deadline_ != null;
       }
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 8;</code>
+       * <code>.google.protobuf.Timestamp deadline = 8;</code>
        * @return The deadline.
        */
-      public Yq.Private.YqPrivate.SignedTimestamp getDeadline() {
+      public com.google.protobuf.Timestamp getDeadline() {
         if (deadlineBuilder_ == null) {
-          return deadline_ == null ? Yq.Private.YqPrivate.SignedTimestamp.getDefaultInstance() : deadline_;
+          return deadline_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : deadline_;
         } else {
           return deadlineBuilder_.getMessage();
         }
       }
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 8;</code>
+       * <code>.google.protobuf.Timestamp deadline = 8;</code>
        */
-      public Builder setDeadline(Yq.Private.YqPrivate.SignedTimestamp value) {
+      public Builder setDeadline(com.google.protobuf.Timestamp value) {
         if (deadlineBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -17937,10 +17377,10 @@ public final class YqPrivate {
         return this;
       }
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 8;</code>
+       * <code>.google.protobuf.Timestamp deadline = 8;</code>
        */
       public Builder setDeadline(
-          Yq.Private.YqPrivate.SignedTimestamp.Builder builderForValue) {
+          com.google.protobuf.Timestamp.Builder builderForValue) {
         if (deadlineBuilder_ == null) {
           deadline_ = builderForValue.build();
           onChanged();
@@ -17951,13 +17391,13 @@ public final class YqPrivate {
         return this;
       }
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 8;</code>
+       * <code>.google.protobuf.Timestamp deadline = 8;</code>
        */
-      public Builder mergeDeadline(Yq.Private.YqPrivate.SignedTimestamp value) {
+      public Builder mergeDeadline(com.google.protobuf.Timestamp value) {
         if (deadlineBuilder_ == null) {
           if (deadline_ != null) {
             deadline_ =
-              Yq.Private.YqPrivate.SignedTimestamp.newBuilder(deadline_).mergeFrom(value).buildPartial();
+              com.google.protobuf.Timestamp.newBuilder(deadline_).mergeFrom(value).buildPartial();
           } else {
             deadline_ = value;
           }
@@ -17969,7 +17409,7 @@ public final class YqPrivate {
         return this;
       }
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 8;</code>
+       * <code>.google.protobuf.Timestamp deadline = 8;</code>
        */
       public Builder clearDeadline() {
         if (deadlineBuilder_ == null) {
@@ -17983,33 +17423,33 @@ public final class YqPrivate {
         return this;
       }
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 8;</code>
+       * <code>.google.protobuf.Timestamp deadline = 8;</code>
        */
-      public Yq.Private.YqPrivate.SignedTimestamp.Builder getDeadlineBuilder() {
+      public com.google.protobuf.Timestamp.Builder getDeadlineBuilder() {
         
         onChanged();
         return getDeadlineFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 8;</code>
+       * <code>.google.protobuf.Timestamp deadline = 8;</code>
        */
-      public Yq.Private.YqPrivate.SignedTimestampOrBuilder getDeadlineOrBuilder() {
+      public com.google.protobuf.TimestampOrBuilder getDeadlineOrBuilder() {
         if (deadlineBuilder_ != null) {
           return deadlineBuilder_.getMessageOrBuilder();
         } else {
           return deadline_ == null ?
-              Yq.Private.YqPrivate.SignedTimestamp.getDefaultInstance() : deadline_;
+              com.google.protobuf.Timestamp.getDefaultInstance() : deadline_;
         }
       }
       /**
-       * <code>.Yq.Private.SignedTimestamp deadline = 8;</code>
+       * <code>.google.protobuf.Timestamp deadline = 8;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          Yq.Private.YqPrivate.SignedTimestamp, Yq.Private.YqPrivate.SignedTimestamp.Builder, Yq.Private.YqPrivate.SignedTimestampOrBuilder> 
+          com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
           getDeadlineFieldBuilder() {
         if (deadlineBuilder_ == null) {
           deadlineBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              Yq.Private.YqPrivate.SignedTimestamp, Yq.Private.YqPrivate.SignedTimestamp.Builder, Yq.Private.YqPrivate.SignedTimestampOrBuilder>(
+              com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
                   getDeadline(),
                   getParentForChildren(),
                   isClean());
@@ -22920,11 +22360,6 @@ public final class YqPrivate {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Yq_Private_SignedIdentity_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Yq_Private_SignedTimestamp_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Yq_Private_SignedTimestamp_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Yq_Private_TopicConsumer_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -23019,86 +22454,84 @@ public final class YqPrivate {
       "\014\n\004host\030\003 \001(\t\0229\n\020operation_params\030\004 \001(\0132" +
       "\037.Ydb.Operations.OperationParams\"2\n\016Sign" +
       "edIdentity\022\r\n\005value\030\001 \001(\t\022\021\n\tsignature\030\002" +
-      " \001(\t\"3\n\017SignedTimestamp\022\r\n\005value\030\001 \001(\004\022\021" +
-      "\n\tsignature\030\002 \001(\004\"\275\001\n\rTopicConsumer\022\023\n\013d" +
-      "atabase_id\030\001 \001(\t\022\020\n\010database\030\002 \001(\t\022\022\n\nto" +
-      "pic_path\030\003 \001(\t\022\025\n\rconsumer_name\030\004 \001(\t\022\030\n" +
-      "\020cluster_endpoint\030\005 \001(\t\022\017\n\007use_ssl\030\006 \001(\010" +
-      "\022\022\n\ntoken_name\030\007 \001(\t\022\033\n\023add_bearer_to_to" +
-      "ken\030\010 \001(\010\"\206\010\n\rGetTaskResult\022-\n\005tasks\030\001 \003" +
-      "(\0132\036.Yq.Private.GetTaskResult.Task\032\305\007\n\004T" +
-      "ask\022-\n\tresult_id\030\001 \001(\0132\032.Yq.Private.Sign" +
-      "edIdentity\022,\n\010query_id\030\002 \001(\0132\032.Yq.Privat" +
-      "e.SignedIdentity\022*\n\006job_id\030\003 \001(\0132\032.Yq.Pr" +
-      "ivate.SignedIdentity\022\022\n\ngeneration\030\004 \001(\004" +
-      "\022\021\n\tstreaming\030\005 \001(\010\022\020\n\010dq_graph\030\006 \003(\014\022\014\n" +
-      "\004text\030\007 \001(\t\022+\n\nconnection\030\010 \003(\0132\027.Yandex" +
-      "Query.Connection\022%\n\007binding\030\t \003(\0132\024.Yand" +
-      "exQuery.Binding\022\022\n\nuser_token\030\n \001(\t\0224\n\020s" +
-      "ervice_accounts\030\013 \003(\0132\032.Yq.Private.Signe" +
-      "dIdentity\022\017\n\007user_id\030\014 \001(\t\0227\n\nquery_type" +
-      "\030\r \001(\0162#.YandexQuery.QueryContent.QueryT" +
-      "ype\022\r\n\005scope\030\016 \001(\t\022.\n\014execute_mode\030\017 \001(\016" +
-      "2\030.YandexQuery.ExecuteMode\0223\n\017state_load" +
-      "_mode\030\020 \001(\0162\032.YandexQuery.StateLoadMode\022" +
-      "4\n\006status\030\021 \001(\0162$.YandexQuery.QueryMeta." +
-      "ComputeStatus\0223\n\017result_set_meta\030\022 \003(\0132\032" +
-      ".YandexQuery.ResultSetMeta\022:\n\027created_to" +
-      "pic_consumers\030\023 \003(\0132\031.Yq.Private.TopicCo" +
-      "nsumer\022\026\n\016dq_graph_index\030\024 \001(\005\022G\n\rsensor" +
-      "_labels\030\025 \003(\01320.Yq.Private.GetTaskResult" +
-      ".Task.SensorLabelsEntry\022\021\n\tautomatic\030\026 \001" +
-      "(\010\022\022\n\nquery_name\030\027 \001(\t\022-\n\010deadline\030\030 \001(\013" +
-      "2\033.Yq.Private.SignedTimestamp\0323\n\021SensorL" +
-      "abelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\002" +
-      "8\001\"?\n\017GetTaskResponse\022,\n\toperation\030\001 \001(\013" +
-      "2\031.Ydb.Operations.Operation\"\251\006\n\017PingTask" +
-      "Request\022\020\n\010owner_id\030\001 \001(\t\022,\n\010query_id\030\002 " +
-      "\001(\0132\032.Yq.Private.SignedIdentity\022*\n\006job_i" +
-      "d\030\003 \001(\0132\032.Yq.Private.SignedIdentity\022-\n\tr" +
-      "esult_id\030\004 \001(\0132\032.Yq.Private.SignedIdenti" +
-      "ty\0224\n\006status\030\005 \001(\0162$.YandexQuery.QueryMe" +
-      "ta.ComputeStatus\022\'\n\006issues\030\006 \003(\0132\027.Ydb.I" +
-      "ssue.IssueMessage\0221\n\020transient_issues\030\020 " +
-      "\003(\0132\027.Ydb.Issue.IssueMessage\022\030\n\020result_s" +
-      "et_count\030\007 \001(\r\022\022\n\nstatistics\030\010 \001(\t\0223\n\017re" +
-      "sult_set_meta\030\t \003(\0132\032.YandexQuery.Result" +
-      "SetMeta\022\025\n\rexecuter_info\030\n \001(\t\022\020\n\010dq_gra" +
-      "ph\030\013 \003(\014\022\026\n\016dq_graph_index\030\024 \001(\005\022\013\n\003ast\030" +
-      "\014 \001(\t\022\014\n\004plan\030\r \001(\t\022\024\n\014resign_query\030\016 \001(" +
-      "\010\022:\n\027created_topic_consumers\030\021 \003(\0132\031.Yq." +
-      "Private.TopicConsumer\0229\n\020operation_param" +
-      "s\030\017 \001(\0132\037.Ydb.Operations.OperationParams" +
-      "\022\r\n\005scope\030d \001(\t\022.\n\nstarted_at\030e \001(\0132\032.go" +
-      "ogle.protobuf.Timestamp\022/\n\013finished_at\030f" +
-      " \001(\0132\032.google.protobuf.Timestamp\022-\n\010dead" +
-      "line\030g \001(\0132\033.Yq.Private.SignedTimestamp\"" +
-      ":\n\016PingTaskResult\022(\n\006action\030\001 \001(\0162\030.Yand" +
-      "exQuery.QueryAction\"@\n\020PingTaskResponse\022" +
-      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
-      "ation\"\242\002\n\026WriteTaskResultRequest\022\020\n\010owne" +
-      "r_id\030\001 \001(\t\022-\n\tresult_id\030\002 \001(\0132\032.Yq.Priva" +
-      "te.SignedIdentity\022\"\n\nresult_set\030\003 \001(\0132\016." +
-      "Ydb.ResultSet\022\025\n\rresult_set_id\030\004 \001(\r\022\016\n\006" +
-      "offset\030\005 \001(\004\022\022\n\nrequest_id\030\006 \001(\004\0229\n\020oper" +
-      "ation_params\030\007 \001(\0132\037.Ydb.Operations.Oper" +
-      "ationParams\022-\n\010deadline\030\010 \001(\0132\033.Yq.Priva" +
-      "te.SignedTimestamp\"+\n\025WriteTaskResultRes" +
-      "ult\022\022\n\nrequest_id\030\001 \001(\004\"G\n\027WriteTaskResu" +
-      "ltResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
-      "ations.Operation\"\273\001\n\010NodeInfo\022\017\n\007node_id" +
-      "\030\001 \001(\r\022\023\n\013instance_id\030\002 \001(\t\022\020\n\010hostname\030" +
-      "\003 \001(\t\022\026\n\016active_workers\030\004 \001(\004\022\024\n\014memory_" +
-      "limit\030\005 \001(\004\022\030\n\020memory_allocated\030\006 \001(\004\022\031\n" +
-      "\021interconnect_port\030\007 \001(\r\022\024\n\014node_address" +
-      "\030\010 \001(\t\"\210\001\n\027NodesHealthCheckRequest\022\016\n\006te" +
-      "nant\030\001 \001(\t\022\"\n\004node\030\002 \001(\0132\024.Yq.Private.No" +
-      "deInfo\0229\n\020operation_params\030\006 \001(\0132\037.Ydb.O" +
-      "perations.OperationParams\"=\n\026NodesHealth" +
-      "CheckResult\022#\n\005nodes\030\001 \003(\0132\024.Yq.Private." +
-      "NodeInfo\"H\n\030NodesHealthCheckResponse\022,\n\t" +
-      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
-      "onB\003\370\001\001b\006proto3"
+      " \001(\t\"\275\001\n\rTopicConsumer\022\023\n\013database_id\030\001 " +
+      "\001(\t\022\020\n\010database\030\002 \001(\t\022\022\n\ntopic_path\030\003 \001(" +
+      "\t\022\025\n\rconsumer_name\030\004 \001(\t\022\030\n\020cluster_endp" +
+      "oint\030\005 \001(\t\022\017\n\007use_ssl\030\006 \001(\010\022\022\n\ntoken_nam" +
+      "e\030\007 \001(\t\022\033\n\023add_bearer_to_token\030\010 \001(\010\"\205\010\n" +
+      "\rGetTaskResult\022-\n\005tasks\030\001 \003(\0132\036.Yq.Priva" +
+      "te.GetTaskResult.Task\032\304\007\n\004Task\022-\n\tresult" +
+      "_id\030\001 \001(\0132\032.Yq.Private.SignedIdentity\022,\n" +
+      "\010query_id\030\002 \001(\0132\032.Yq.Private.SignedIdent" +
+      "ity\022*\n\006job_id\030\003 \001(\0132\032.Yq.Private.SignedI" +
+      "dentity\022\022\n\ngeneration\030\004 \001(\004\022\021\n\tstreaming" +
+      "\030\005 \001(\010\022\020\n\010dq_graph\030\006 \003(\014\022\014\n\004text\030\007 \001(\t\022+" +
+      "\n\nconnection\030\010 \003(\0132\027.YandexQuery.Connect" +
+      "ion\022%\n\007binding\030\t \003(\0132\024.YandexQuery.Bindi" +
+      "ng\022\022\n\nuser_token\030\n \001(\t\0224\n\020service_accoun" +
+      "ts\030\013 \003(\0132\032.Yq.Private.SignedIdentity\022\017\n\007" +
+      "user_id\030\014 \001(\t\0227\n\nquery_type\030\r \001(\0162#.Yand" +
+      "exQuery.QueryContent.QueryType\022\r\n\005scope\030" +
+      "\016 \001(\t\022.\n\014execute_mode\030\017 \001(\0162\030.YandexQuer" +
+      "y.ExecuteMode\0223\n\017state_load_mode\030\020 \001(\0162\032" +
+      ".YandexQuery.StateLoadMode\0224\n\006status\030\021 \001" +
+      "(\0162$.YandexQuery.QueryMeta.ComputeStatus" +
+      "\0223\n\017result_set_meta\030\022 \003(\0132\032.YandexQuery." +
+      "ResultSetMeta\022:\n\027created_topic_consumers" +
+      "\030\023 \003(\0132\031.Yq.Private.TopicConsumer\022\026\n\016dq_" +
+      "graph_index\030\024 \001(\005\022G\n\rsensor_labels\030\025 \003(\013" +
+      "20.Yq.Private.GetTaskResult.Task.SensorL" +
+      "abelsEntry\022\021\n\tautomatic\030\026 \001(\010\022\022\n\nquery_n" +
+      "ame\030\027 \001(\t\022,\n\010deadline\030\030 \001(\0132\032.google.pro" +
+      "tobuf.Timestamp\0323\n\021SensorLabelsEntry\022\013\n\003" +
+      "key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"?\n\017GetTaskR" +
+      "esponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operati" +
+      "ons.Operation\"\250\006\n\017PingTaskRequest\022\020\n\010own" +
+      "er_id\030\001 \001(\t\022,\n\010query_id\030\002 \001(\0132\032.Yq.Priva" +
+      "te.SignedIdentity\022*\n\006job_id\030\003 \001(\0132\032.Yq.P" +
+      "rivate.SignedIdentity\022-\n\tresult_id\030\004 \001(\013" +
+      "2\032.Yq.Private.SignedIdentity\0224\n\006status\030\005" +
+      " \001(\0162$.YandexQuery.QueryMeta.ComputeStat" +
+      "us\022\'\n\006issues\030\006 \003(\0132\027.Ydb.Issue.IssueMess" +
+      "age\0221\n\020transient_issues\030\020 \003(\0132\027.Ydb.Issu" +
+      "e.IssueMessage\022\030\n\020result_set_count\030\007 \001(\r" +
+      "\022\022\n\nstatistics\030\010 \001(\t\0223\n\017result_set_meta\030" +
+      "\t \003(\0132\032.YandexQuery.ResultSetMeta\022\025\n\rexe" +
+      "cuter_info\030\n \001(\t\022\020\n\010dq_graph\030\013 \003(\014\022\026\n\016dq" +
+      "_graph_index\030\024 \001(\005\022\013\n\003ast\030\014 \001(\t\022\014\n\004plan\030" +
+      "\r \001(\t\022\024\n\014resign_query\030\016 \001(\010\022:\n\027created_t" +
+      "opic_consumers\030\021 \003(\0132\031.Yq.Private.TopicC" +
+      "onsumer\0229\n\020operation_params\030\017 \001(\0132\037.Ydb." +
+      "Operations.OperationParams\022\r\n\005scope\030d \001(" +
+      "\t\022.\n\nstarted_at\030e \001(\0132\032.google.protobuf." +
+      "Timestamp\022/\n\013finished_at\030f \001(\0132\032.google." +
+      "protobuf.Timestamp\022,\n\010deadline\030g \001(\0132\032.g" +
+      "oogle.protobuf.Timestamp\":\n\016PingTaskResu" +
+      "lt\022(\n\006action\030\001 \001(\0162\030.YandexQuery.QueryAc" +
+      "tion\"@\n\020PingTaskResponse\022,\n\toperation\030\001 " +
+      "\001(\0132\031.Ydb.Operations.Operation\"\241\002\n\026Write" +
+      "TaskResultRequest\022\020\n\010owner_id\030\001 \001(\t\022-\n\tr" +
+      "esult_id\030\002 \001(\0132\032.Yq.Private.SignedIdenti" +
+      "ty\022\"\n\nresult_set\030\003 \001(\0132\016.Ydb.ResultSet\022\025" +
+      "\n\rresult_set_id\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\022\n" +
+      "\nrequest_id\030\006 \001(\004\0229\n\020operation_params\030\007 " +
+      "\001(\0132\037.Ydb.Operations.OperationParams\022,\n\010" +
+      "deadline\030\010 \001(\0132\032.google.protobuf.Timesta" +
+      "mp\"+\n\025WriteTaskResultResult\022\022\n\nrequest_i" +
+      "d\030\001 \001(\004\"G\n\027WriteTaskResultResponse\022,\n\top" +
+      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
+      "\"\273\001\n\010NodeInfo\022\017\n\007node_id\030\001 \001(\r\022\023\n\013instan" +
+      "ce_id\030\002 \001(\t\022\020\n\010hostname\030\003 \001(\t\022\026\n\016active_" +
+      "workers\030\004 \001(\004\022\024\n\014memory_limit\030\005 \001(\004\022\030\n\020m" +
+      "emory_allocated\030\006 \001(\004\022\031\n\021interconnect_po" +
+      "rt\030\007 \001(\r\022\024\n\014node_address\030\010 \001(\t\"\210\001\n\027Nodes" +
+      "HealthCheckRequest\022\016\n\006tenant\030\001 \001(\t\022\"\n\004no" +
+      "de\030\002 \001(\0132\024.Yq.Private.NodeInfo\0229\n\020operat" +
+      "ion_params\030\006 \001(\0132\037.Ydb.Operations.Operat" +
+      "ionParams\"=\n\026NodesHealthCheckResult\022#\n\005n" +
+      "odes\030\001 \003(\0132\024.Yq.Private.NodeInfo\"H\n\030Node" +
+      "sHealthCheckResponse\022,\n\toperation\030\001 \001(\0132" +
+      "\031.Ydb.Operations.OperationB\003\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -23121,20 +22554,14 @@ public final class YqPrivate {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yq_Private_SignedIdentity_descriptor,
         new java.lang.String[] { "Value", "Signature", });
-    internal_static_Yq_Private_SignedTimestamp_descriptor =
-      getDescriptor().getMessageTypes().get(2);
-    internal_static_Yq_Private_SignedTimestamp_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Yq_Private_SignedTimestamp_descriptor,
-        new java.lang.String[] { "Value", "Signature", });
     internal_static_Yq_Private_TopicConsumer_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(2);
     internal_static_Yq_Private_TopicConsumer_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yq_Private_TopicConsumer_descriptor,
         new java.lang.String[] { "DatabaseId", "Database", "TopicPath", "ConsumerName", "ClusterEndpoint", "UseSsl", "TokenName", "AddBearerToToken", });
     internal_static_Yq_Private_GetTaskResult_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_Yq_Private_GetTaskResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yq_Private_GetTaskResult_descriptor,
@@ -23152,67 +22579,67 @@ public final class YqPrivate {
         internal_static_Yq_Private_GetTaskResult_Task_SensorLabelsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_Yq_Private_GetTaskResponse_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_Yq_Private_GetTaskResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yq_Private_GetTaskResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Yq_Private_PingTaskRequest_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_Yq_Private_PingTaskRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yq_Private_PingTaskRequest_descriptor,
         new java.lang.String[] { "OwnerId", "QueryId", "JobId", "ResultId", "Status", "Issues", "TransientIssues", "ResultSetCount", "Statistics", "ResultSetMeta", "ExecuterInfo", "DqGraph", "DqGraphIndex", "Ast", "Plan", "ResignQuery", "CreatedTopicConsumers", "OperationParams", "Scope", "StartedAt", "FinishedAt", "Deadline", });
     internal_static_Yq_Private_PingTaskResult_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_Yq_Private_PingTaskResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yq_Private_PingTaskResult_descriptor,
         new java.lang.String[] { "Action", });
     internal_static_Yq_Private_PingTaskResponse_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_Yq_Private_PingTaskResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yq_Private_PingTaskResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Yq_Private_WriteTaskResultRequest_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_Yq_Private_WriteTaskResultRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yq_Private_WriteTaskResultRequest_descriptor,
         new java.lang.String[] { "OwnerId", "ResultId", "ResultSet", "ResultSetId", "Offset", "RequestId", "OperationParams", "Deadline", });
     internal_static_Yq_Private_WriteTaskResultResult_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_Yq_Private_WriteTaskResultResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yq_Private_WriteTaskResultResult_descriptor,
         new java.lang.String[] { "RequestId", });
     internal_static_Yq_Private_WriteTaskResultResponse_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_Yq_Private_WriteTaskResultResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yq_Private_WriteTaskResultResponse_descriptor,
         new java.lang.String[] { "Operation", });
     internal_static_Yq_Private_NodeInfo_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_Yq_Private_NodeInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yq_Private_NodeInfo_descriptor,
         new java.lang.String[] { "NodeId", "InstanceId", "Hostname", "ActiveWorkers", "MemoryLimit", "MemoryAllocated", "InterconnectPort", "NodeAddress", });
     internal_static_Yq_Private_NodesHealthCheckRequest_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_Yq_Private_NodesHealthCheckRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yq_Private_NodesHealthCheckRequest_descriptor,
         new java.lang.String[] { "Tenant", "Node", "OperationParams", });
     internal_static_Yq_Private_NodesHealthCheckResult_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_Yq_Private_NodesHealthCheckResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yq_Private_NodesHealthCheckResult_descriptor,
         new java.lang.String[] { "Nodes", });
     internal_static_Yq_Private_NodesHealthCheckResponse_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_Yq_Private_NodesHealthCheckResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yq_Private_NodesHealthCheckResponse_descriptor,

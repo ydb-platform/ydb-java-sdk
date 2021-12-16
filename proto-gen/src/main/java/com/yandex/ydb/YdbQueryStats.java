@@ -3638,6 +3638,18 @@ public final class YdbQueryStats {
      */
     com.google.protobuf.ByteString
         getQueryAstBytes();
+
+    /**
+     * <code>uint64 total_duration_us = 6;</code>
+     * @return The totalDurationUs.
+     */
+    long getTotalDurationUs();
+
+    /**
+     * <code>uint64 total_cpu_time_us = 7;</code>
+     * @return The totalCpuTimeUs.
+     */
+    long getTotalCpuTimeUs();
   }
   /**
    * Protobuf type {@code Ydb.TableStats.QueryStats}
@@ -3725,6 +3737,16 @@ public final class YdbQueryStats {
               java.lang.String s = input.readStringRequireUtf8();
 
               queryAst_ = s;
+              break;
+            }
+            case 48: {
+
+              totalDurationUs_ = input.readUInt64();
+              break;
+            }
+            case 56: {
+
+              totalCpuTimeUs_ = input.readUInt64();
               break;
             }
             default: {
@@ -3935,6 +3957,28 @@ public final class YdbQueryStats {
       }
     }
 
+    public static final int TOTAL_DURATION_US_FIELD_NUMBER = 6;
+    private long totalDurationUs_;
+    /**
+     * <code>uint64 total_duration_us = 6;</code>
+     * @return The totalDurationUs.
+     */
+    @java.lang.Override
+    public long getTotalDurationUs() {
+      return totalDurationUs_;
+    }
+
+    public static final int TOTAL_CPU_TIME_US_FIELD_NUMBER = 7;
+    private long totalCpuTimeUs_;
+    /**
+     * <code>uint64 total_cpu_time_us = 7;</code>
+     * @return The totalCpuTimeUs.
+     */
+    @java.lang.Override
+    public long getTotalCpuTimeUs() {
+      return totalCpuTimeUs_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -3964,6 +4008,12 @@ public final class YdbQueryStats {
       if (!getQueryAstBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 5, queryAst_);
       }
+      if (totalDurationUs_ != 0L) {
+        output.writeUInt64(6, totalDurationUs_);
+      }
+      if (totalCpuTimeUs_ != 0L) {
+        output.writeUInt64(7, totalCpuTimeUs_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -3990,6 +4040,14 @@ public final class YdbQueryStats {
       }
       if (!getQueryAstBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, queryAst_);
+      }
+      if (totalDurationUs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(6, totalDurationUs_);
+      }
+      if (totalCpuTimeUs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(7, totalCpuTimeUs_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4019,6 +4077,10 @@ public final class YdbQueryStats {
           .equals(other.getQueryPlan())) return false;
       if (!getQueryAst()
           .equals(other.getQueryAst())) return false;
+      if (getTotalDurationUs()
+          != other.getTotalDurationUs()) return false;
+      if (getTotalCpuTimeUs()
+          != other.getTotalCpuTimeUs()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -4045,6 +4107,12 @@ public final class YdbQueryStats {
       hash = (53 * hash) + getQueryPlan().hashCode();
       hash = (37 * hash) + QUERY_AST_FIELD_NUMBER;
       hash = (53 * hash) + getQueryAst().hashCode();
+      hash = (37 * hash) + TOTAL_DURATION_US_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTotalDurationUs());
+      hash = (37 * hash) + TOTAL_CPU_TIME_US_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTotalCpuTimeUs());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -4197,6 +4265,10 @@ public final class YdbQueryStats {
 
         queryAst_ = "";
 
+        totalDurationUs_ = 0L;
+
+        totalCpuTimeUs_ = 0L;
+
         return this;
       }
 
@@ -4241,6 +4313,8 @@ public final class YdbQueryStats {
         result.processCpuTimeUs_ = processCpuTimeUs_;
         result.queryPlan_ = queryPlan_;
         result.queryAst_ = queryAst_;
+        result.totalDurationUs_ = totalDurationUs_;
+        result.totalCpuTimeUs_ = totalCpuTimeUs_;
         onBuilt();
         return result;
       }
@@ -4328,6 +4402,12 @@ public final class YdbQueryStats {
         if (!other.getQueryAst().isEmpty()) {
           queryAst_ = other.queryAst_;
           onChanged();
+        }
+        if (other.getTotalDurationUs() != 0L) {
+          setTotalDurationUs(other.getTotalDurationUs());
+        }
+        if (other.getTotalCpuTimeUs() != 0L) {
+          setTotalCpuTimeUs(other.getTotalCpuTimeUs());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -4972,6 +5052,68 @@ public final class YdbQueryStats {
         onChanged();
         return this;
       }
+
+      private long totalDurationUs_ ;
+      /**
+       * <code>uint64 total_duration_us = 6;</code>
+       * @return The totalDurationUs.
+       */
+      @java.lang.Override
+      public long getTotalDurationUs() {
+        return totalDurationUs_;
+      }
+      /**
+       * <code>uint64 total_duration_us = 6;</code>
+       * @param value The totalDurationUs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTotalDurationUs(long value) {
+        
+        totalDurationUs_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 total_duration_us = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTotalDurationUs() {
+        
+        totalDurationUs_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long totalCpuTimeUs_ ;
+      /**
+       * <code>uint64 total_cpu_time_us = 7;</code>
+       * @return The totalCpuTimeUs.
+       */
+      @java.lang.Override
+      public long getTotalCpuTimeUs() {
+        return totalCpuTimeUs_;
+      }
+      /**
+       * <code>uint64 total_cpu_time_us = 7;</code>
+       * @param value The totalCpuTimeUs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTotalCpuTimeUs(long value) {
+        
+        totalCpuTimeUs_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 total_cpu_time_us = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTotalCpuTimeUs() {
+        
+        totalCpuTimeUs_ = 0L;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -5073,12 +5215,14 @@ public final class YdbQueryStats {
       "\004\022\027\n\017affected_shards\030\004 \001(\004\022\025\n\rliteral_ph" +
       "ase\030\005 \001(\010\"P\n\020CompilationStats\022\022\n\nfrom_ca" +
       "che\030\001 \001(\010\022\023\n\013duration_us\030\002 \001(\004\022\023\n\013cpu_ti" +
-      "me_us\030\003 \001(\004\"\276\001\n\nQueryStats\0225\n\014query_phas" +
+      "me_us\030\003 \001(\004\"\364\001\n\nQueryStats\0225\n\014query_phas" +
       "es\030\001 \003(\0132\037.Ydb.TableStats.QueryPhaseStat" +
       "s\0225\n\013compilation\030\002 \001(\0132 .Ydb.TableStats." +
       "CompilationStats\022\033\n\023process_cpu_time_us\030" +
       "\003 \001(\004\022\022\n\nquery_plan\030\004 \001(\t\022\021\n\tquery_ast\030\005" +
-      " \001(\tB\023\n\016tech.ydb\370\001\001b\006proto3"
+      " \001(\t\022\031\n\021total_duration_us\030\006 \001(\004\022\031\n\021total" +
+      "_cpu_time_us\030\007 \001(\004B\023\n\016tech.ydb\370\001\001b" +
+      "\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -5113,7 +5257,7 @@ public final class YdbQueryStats {
     internal_static_Ydb_TableStats_QueryStats_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_TableStats_QueryStats_descriptor,
-        new java.lang.String[] { "QueryPhases", "Compilation", "ProcessCpuTimeUs", "QueryPlan", "QueryAst", });
+        new java.lang.String[] { "QueryPhases", "Compilation", "ProcessCpuTimeUs", "QueryPlan", "QueryAst", "TotalDurationUs", "TotalCpuTimeUs", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
