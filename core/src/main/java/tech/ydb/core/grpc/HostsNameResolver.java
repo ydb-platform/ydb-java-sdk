@@ -5,6 +5,7 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,6 +16,8 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
+import com.google.common.hash.Hasher;
+import com.google.common.hash.Hashing;
 import com.google.common.net.HostAndPort;
 import io.grpc.Attributes;
 import io.grpc.EquivalentAddressGroup;
@@ -41,7 +44,7 @@ final class HostsNameResolver extends NameResolver {
 
     private HostsNameResolver(List<HostAndPort> hosts, Executor executor) {
         this.hosts = hosts;
-        this.authority = join(hosts);
+        this.authority = makeAuthority(hosts);
         this.executor = executor;
     }
 
@@ -134,6 +137,14 @@ final class HostsNameResolver extends NameResolver {
         return hosts.stream()
             .map(HostAndPort::toString)
             .collect(Collectors.joining(","));
+    }
+
+    private static String makeAuthority(List<HostAndPort> hosts) {
+        Hasher hasher = Hashing.sha256().newHasher();
+        for (HostAndPort host : hosts) {
+            hasher.putString(host.toString(), StandardCharsets.UTF_8);
+        }
+        return hasher.hash().toString();
     }
 
     /**
