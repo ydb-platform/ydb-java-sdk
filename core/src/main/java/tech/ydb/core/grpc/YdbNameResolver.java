@@ -130,18 +130,25 @@ final class YdbNameResolver extends NameResolver {
                         try {
                             groups.add(createAddressGroup(e));
                         } catch (UnknownHostException x) {
-                            String msg = "unable to resolve database " + database +
-                                    ", got unknown hostname: " + e.getAddress();
-                            listener.onError(Status.UNAVAILABLE.withDescription(msg).withCause(x));
-                            return;
+                            logger.error("Couldn't resolve hostname {} for database {}",
+                                    e.getAddress(), database);
                         }
+                    }
+                    // At least 1/2 of all hosts resolved considered success
+                    if (groups.size() * 2 < response.getEndpointsCount()) {
+                        String msg = String.format("Unable to resolve hosts for database %s ."
+                                        + " Only %d/%d hostnames from discovery request were resolved",
+                                        database, groups.size(), response.getEndpointsCount());
+                        logger.error(msg);
+                        listener.onError(Status.UNAVAILABLE.withDescription(msg));
+                        return;
                     }
 
                     listener.onAddresses(groups, Attributes.EMPTY);
                     scheduleNextDiscovery(discoveryPeriod);
                 })
                 .exceptionally(e -> {
-                    String msg = "unable to resolve database " + database + ", unhandled exception";
+                    String msg = "Unable to resolve hosts for database " + database + " . Unhandled exception";
                     listener.onError(Status.UNAVAILABLE.withDescription(msg).withCause(e));
                     scheduleNextDiscovery(discoveryOnFailPeriod);
                     return null;
