@@ -1,7 +1,7 @@
 syntax = "proto3";
 option cc_enable_arenas = true;
 
-import "kikimr/public/api/protos/validation/validation.proto";
+import "kikimr/public/api/protos/annotations/validation.proto";
 import "kikimr/public/api/protos/ydb_common.proto";
 import "kikimr/public/api/protos/ydb_issue_message.proto";
 import "kikimr/public/api/protos/ydb_operation.proto";
@@ -9,6 +9,7 @@ import "kikimr/public/api/protos/ydb_query_stats.proto";
 import "kikimr/public/api/protos/ydb_value.proto";
 import "kikimr/public/api/protos/ydb_scheme.proto";
 import "kikimr/public/api/protos/ydb_status_codes.proto";
+import "kikimr/public/api/protos/ydb_formats.proto";
 
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
@@ -144,6 +145,9 @@ message ColumnFamilyPolicy {
     // Storage settings for the column group (default to values in storage policy)
     StoragePool data = 2;
     StoragePool external = 3;
+
+    // When enabled table data will be kept in memory
+    // WARNING: DO NOT USE
     Ydb.FeatureFlag.Status keep_in_memory = 4;
 
     // Optionally specify whether data should be compressed
@@ -318,7 +322,8 @@ message StorageSettings {
     StoragePool external = 4;
 
     // Optionally store large values in "external blobs"
-    // Don't use unless required, restrictions apply:
+    // WARNING: DO NOT USE
+    // This feature is experimental and should not be used, restrictions apply:
     // * Table cannot split/merge when this is enabled
     // * Table cannot be copied or backed up when this is enabled
     // * This feature cannot be disabled once enabled for a table
@@ -342,7 +347,8 @@ message ColumnFamily {
     // Optionally specify how data should be compressed
     Compression compression = 3;
 
-    // When enabled keeps data pages in memory
+    // When enabled table data will be kept in memory
+    // WARNING: DO NOT USE
     Ydb.FeatureFlag.Status keep_in_memory = 4;
 }
 
@@ -935,17 +941,6 @@ message ReadTableResult {
 }
 
 message BulkUpsertRequest {
-    enum DataFormat {
-        TYPED_VALUE_ROWS            = 0x0000;
-        APACHE_ARROW_BATCH          = 0x0001; // Apache Arrow.IPC serialized data with splitted Schema and RecordBatch
-        CSV                         = 0x0002;
-    }
-
-    enum SchemaFormat {
-        SCHEMA_FORMAT_EMBEDDED      = 0x0000; // data field contains all metadata needed for parsing
-        APACHE_ARROW_SCHEMA         = 0x0001; // schema field conatins Apache Arrow.IPC serialized schema
-    }
-
     string table = 1;
     // "rows" parameter must be a list of structs where each stuct represents one row.
     // It must contain all key columns but not necessarily all non-key columns.
@@ -953,11 +948,11 @@ message BulkUpsertRequest {
     TypedValue rows = 2;
     Ydb.Operations.OperationParams operation_params = 3;
 
-    // It's a faster alternative for rows. You may set data_format and data instead of rows.
-    DataFormat data_format = 4;
-    // You have to set schema and schema_format if data_format requires them.
-    SchemaFormat schema_format = 5;
-    bytes schema = 6;
+    // You may set data_format + data instead of rows to insert data in serialized formats.
+    oneof data_format {
+        Ydb.Formats.ArrowBatchSettings arrow_batch_settings = 7;
+        Ydb.Formats.CsvSettings csv_settings = 8;
+    }
 
     // It's last in the definition to help with sidecar patterns
     bytes data = 1000;

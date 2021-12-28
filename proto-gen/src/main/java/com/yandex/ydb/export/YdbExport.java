@@ -12902,64 +12902,64 @@ public final class YdbExport {
   static {
     java.lang.String[] descriptorData = {
       "\n)kikimr/public/api/protos/ydb_export.pr" +
-      "oto\022\nYdb.Export\0324kikimr/public/api/proto" +
-      "s/validation/validation.proto\032,kikimr/pu" +
-      "blic/api/protos/ydb_operation.proto\032\037goo" +
-      "gle/protobuf/timestamp.proto\"\261\001\n\016ExportP" +
-      "rogress\"\236\001\n\010Progress\022\030\n\024PROGRESS_UNSPECI" +
-      "FIED\020\000\022\026\n\022PROGRESS_PREPARING\020\001\022\032\n\026PROGRE" +
-      "SS_TRANSFER_DATA\020\002\022\021\n\rPROGRESS_DONE\020\003\022\031\n" +
-      "\025PROGRESS_CANCELLATION\020\004\022\026\n\022PROGRESS_CAN" +
-      "CELLED\020\005\"\240\001\n\022ExportItemProgress\022\023\n\013parts" +
-      "_total\030\001 \001(\r\022\027\n\017parts_completed\030\002 \001(\r\022.\n" +
-      "\nstart_time\030\003 \001(\0132\032.google.protobuf.Time" +
-      "stamp\022,\n\010end_time\030\004 \001(\0132\032.google.protobu" +
-      "f.Timestamp\"\230\002\n\022ExportToYtSettings\022\022\n\004ho" +
-      "st\030\001 \001(\tB\004\220\346*\001\022\014\n\004port\030\002 \001(\r\022\023\n\005token\030\003 " +
-      "\001(\tB\004\220\346*\001\022:\n\005items\030\004 \003(\0132#.Ydb.Export.Ex" +
-      "portToYtSettings.ItemB\006\232\346*\002(\001\022\034\n\013descrip" +
-      "tion\030\005 \001(\tB\007\242\346*\003\030\200\001\022\031\n\021number_of_retries" +
-      "\030\006 \001(\r\022\023\n\013use_type_v3\030\007 \001(\010\032A\n\004Item\022\031\n\013s" +
-      "ource_path\030\001 \001(\tB\004\220\346*\001\022\036\n\020destination_pa" +
-      "th\030\002 \001(\tB\004\220\346*\001\"\022\n\020ExportToYtResult\"\265\001\n\022E" +
-      "xportToYtMetadata\0220\n\010settings\030\001 \001(\0132\036.Yd" +
-      "b.Export.ExportToYtSettings\0225\n\010progress\030" +
-      "\002 \001(\0162#.Ydb.Export.ExportProgress.Progre" +
-      "ss\0226\n\016items_progress\030\003 \003(\0132\036.Ydb.Export." +
-      "ExportItemProgress\"\206\001\n\021ExportToYtRequest" +
-      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
-      "ons.OperationParams\0226\n\010settings\030\002 \001(\0132\036." +
-      "Ydb.Export.ExportToYtSettingsB\004\220\346*\001\"B\n\022E" +
-      "xportToYtResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
-      "db.Operations.Operation\"\230\005\n\022ExportToS3Se" +
-      "ttings\022\026\n\010endpoint\030\001 \001(\tB\004\220\346*\001\0225\n\006scheme" +
-      "\030\002 \001(\0162%.Ydb.Export.ExportToS3Settings.S" +
-      "cheme\022\024\n\006bucket\030\003 \001(\tB\004\220\346*\001\022\030\n\naccess_ke" +
-      "y\030\004 \001(\tB\004\220\346*\001\022\030\n\nsecret_key\030\005 \001(\tB\004\220\346*\001\022" +
-      ":\n\005items\030\006 \003(\0132#.Ydb.Export.ExportToS3Se" +
-      "ttings.ItemB\006\232\346*\002(\001\022\034\n\013description\030\007 \001(\t" +
-      "B\007\242\346*\003\030\200\001\022\031\n\021number_of_retries\030\010 \001(\r\022B\n\r" +
-      "storage_class\030\t \001(\0162+.Ydb.Export.ExportT" +
-      "oS3Settings.StorageClass\032C\n\004Item\022\031\n\013sour" +
-      "ce_path\030\001 \001(\tB\004\220\346*\001\022 \n\022destination_prefi" +
-      "x\030\002 \001(\tB\004\220\346*\001\".\n\006Scheme\022\017\n\013UNSPECIFIED\020\000" +
-      "\022\010\n\004HTTP\020\001\022\t\n\005HTTPS\020\002\"\272\001\n\014StorageClass\022\035" +
-      "\n\031STORAGE_CLASS_UNSPECIFIED\020\000\022\014\n\010STANDAR" +
-      "D\020\001\022\026\n\022REDUCED_REDUNDANCY\020\002\022\017\n\013STANDARD_" +
-      "IA\020\003\022\016\n\nONEZONE_IA\020\004\022\027\n\023INTELLIGENT_TIER" +
-      "ING\020\005\022\013\n\007GLACIER\020\006\022\020\n\014DEEP_ARCHIVE\020\007\022\014\n\010" +
-      "OUTPOSTS\020\010\"\022\n\020ExportToS3Result\"\265\001\n\022Expor" +
-      "tToS3Metadata\0220\n\010settings\030\001 \001(\0132\036.Ydb.Ex" +
-      "port.ExportToS3Settings\0225\n\010progress\030\002 \001(" +
-      "\0162#.Ydb.Export.ExportProgress.Progress\0226" +
-      "\n\016items_progress\030\003 \003(\0132\036.Ydb.Export.Expo" +
-      "rtItemProgress\"\206\001\n\021ExportToS3Request\0229\n\020" +
-      "operation_params\030\001 \001(\0132\037.Ydb.Operations." +
-      "OperationParams\0226\n\010settings\030\002 \001(\0132\036.Ydb." +
-      "Export.ExportToS3SettingsB\004\220\346*\001\"B\n\022Expor" +
-      "tToS3Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.O" +
-      "perations.OperationB\032\n\025tech.ydb.ex" +
-      "port\370\001\001b\006proto3"
+      "oto\022\nYdb.Export\0325kikimr/public/api/proto" +
+      "s/annotations/validation.proto\032,kikimr/p" +
+      "ublic/api/protos/ydb_operation.proto\032\037go" +
+      "ogle/protobuf/timestamp.proto\"\261\001\n\016Export" +
+      "Progress\"\236\001\n\010Progress\022\030\n\024PROGRESS_UNSPEC" +
+      "IFIED\020\000\022\026\n\022PROGRESS_PREPARING\020\001\022\032\n\026PROGR" +
+      "ESS_TRANSFER_DATA\020\002\022\021\n\rPROGRESS_DONE\020\003\022\031" +
+      "\n\025PROGRESS_CANCELLATION\020\004\022\026\n\022PROGRESS_CA" +
+      "NCELLED\020\005\"\240\001\n\022ExportItemProgress\022\023\n\013part" +
+      "s_total\030\001 \001(\r\022\027\n\017parts_completed\030\002 \001(\r\022." +
+      "\n\nstart_time\030\003 \001(\0132\032.google.protobuf.Tim" +
+      "estamp\022,\n\010end_time\030\004 \001(\0132\032.google.protob" +
+      "uf.Timestamp\"\230\002\n\022ExportToYtSettings\022\022\n\004h" +
+      "ost\030\001 \001(\tB\004\220\346*\001\022\014\n\004port\030\002 \001(\r\022\023\n\005token\030\003" +
+      " \001(\tB\004\220\346*\001\022:\n\005items\030\004 \003(\0132#.Ydb.Export.E" +
+      "xportToYtSettings.ItemB\006\232\346*\002(\001\022\034\n\013descri" +
+      "ption\030\005 \001(\tB\007\242\346*\003\030\200\001\022\031\n\021number_of_retrie" +
+      "s\030\006 \001(\r\022\023\n\013use_type_v3\030\007 \001(\010\032A\n\004Item\022\031\n\013" +
+      "source_path\030\001 \001(\tB\004\220\346*\001\022\036\n\020destination_p" +
+      "ath\030\002 \001(\tB\004\220\346*\001\"\022\n\020ExportToYtResult\"\265\001\n\022" +
+      "ExportToYtMetadata\0220\n\010settings\030\001 \001(\0132\036.Y" +
+      "db.Export.ExportToYtSettings\0225\n\010progress" +
+      "\030\002 \001(\0162#.Ydb.Export.ExportProgress.Progr" +
+      "ess\0226\n\016items_progress\030\003 \003(\0132\036.Ydb.Export" +
+      ".ExportItemProgress\"\206\001\n\021ExportToYtReques" +
+      "t\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operat" +
+      "ions.OperationParams\0226\n\010settings\030\002 \001(\0132\036" +
+      ".Ydb.Export.ExportToYtSettingsB\004\220\346*\001\"B\n\022" +
+      "ExportToYtResponse\022,\n\toperation\030\001 \001(\0132\031." +
+      "Ydb.Operations.Operation\"\230\005\n\022ExportToS3S" +
+      "ettings\022\026\n\010endpoint\030\001 \001(\tB\004\220\346*\001\0225\n\006schem" +
+      "e\030\002 \001(\0162%.Ydb.Export.ExportToS3Settings." +
+      "Scheme\022\024\n\006bucket\030\003 \001(\tB\004\220\346*\001\022\030\n\naccess_k" +
+      "ey\030\004 \001(\tB\004\220\346*\001\022\030\n\nsecret_key\030\005 \001(\tB\004\220\346*\001" +
+      "\022:\n\005items\030\006 \003(\0132#.Ydb.Export.ExportToS3S" +
+      "ettings.ItemB\006\232\346*\002(\001\022\034\n\013description\030\007 \001(" +
+      "\tB\007\242\346*\003\030\200\001\022\031\n\021number_of_retries\030\010 \001(\r\022B\n" +
+      "\rstorage_class\030\t \001(\0162+.Ydb.Export.Export" +
+      "ToS3Settings.StorageClass\032C\n\004Item\022\031\n\013sou" +
+      "rce_path\030\001 \001(\tB\004\220\346*\001\022 \n\022destination_pref" +
+      "ix\030\002 \001(\tB\004\220\346*\001\".\n\006Scheme\022\017\n\013UNSPECIFIED\020" +
+      "\000\022\010\n\004HTTP\020\001\022\t\n\005HTTPS\020\002\"\272\001\n\014StorageClass\022" +
+      "\035\n\031STORAGE_CLASS_UNSPECIFIED\020\000\022\014\n\010STANDA" +
+      "RD\020\001\022\026\n\022REDUCED_REDUNDANCY\020\002\022\017\n\013STANDARD" +
+      "_IA\020\003\022\016\n\nONEZONE_IA\020\004\022\027\n\023INTELLIGENT_TIE" +
+      "RING\020\005\022\013\n\007GLACIER\020\006\022\020\n\014DEEP_ARCHIVE\020\007\022\014\n" +
+      "\010OUTPOSTS\020\010\"\022\n\020ExportToS3Result\"\265\001\n\022Expo" +
+      "rtToS3Metadata\0220\n\010settings\030\001 \001(\0132\036.Ydb.E" +
+      "xport.ExportToS3Settings\0225\n\010progress\030\002 \001" +
+      "(\0162#.Ydb.Export.ExportProgress.Progress\022" +
+      "6\n\016items_progress\030\003 \003(\0132\036.Ydb.Export.Exp" +
+      "ortItemProgress\"\206\001\n\021ExportToS3Request\0229\n" +
+      "\020operation_params\030\001 \001(\0132\037.Ydb.Operations" +
+      ".OperationParams\0226\n\010settings\030\002 \001(\0132\036.Ydb" +
+      ".Export.ExportToS3SettingsB\004\220\346*\001\"B\n\022Expo" +
+      "rtToS3Response\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
+      "Operations.OperationB\032\n\025tech.ydb.e" +
+      "xport\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

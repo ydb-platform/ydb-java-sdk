@@ -10221,47 +10221,47 @@ public final class OperationProtos {
       "\n,kikimr/public/api/protos/ydb_operation" +
       ".proto\022\016Ydb.Operations\032\031google/protobuf/" +
       "any.proto\032\036google/protobuf/duration.prot" +
-      "o\0324kikimr/public/api/protos/validation/v" +
-      "alidation.proto\032)kikimr/public/api/proto" +
-      "s/ydb_common.proto\0320kikimr/public/api/pr" +
-      "otos/ydb_issue_message.proto\032/kikimr/pub" +
-      "lic/api/protos/ydb_status_codes.proto\"\266\003" +
-      "\n\017OperationParams\022E\n\016operation_mode\030\001 \001(" +
-      "\0162-.Ydb.Operations.OperationParams.Opera" +
-      "tionMode\0224\n\021operation_timeout\030\002 \001(\0132\031.go" +
-      "ogle.protobuf.Duration\022/\n\014cancel_after\030\003" +
-      " \001(\0132\031.google.protobuf.Duration\022M\n\006label" +
-      "s\030\004 \003(\0132+.Ydb.Operations.OperationParams" +
-      ".LabelsEntryB\020\252\346*\005\n\003\030\200\001\242\346*\003\030\200\001\0221\n\020report" +
-      "_cost_info\030\005 \001(\0162\027.Ydb.FeatureFlag.Statu" +
-      "s\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002" +
-      " \001(\t:\0028\001\"D\n\rOperationMode\022\036\n\032OPERATION_M" +
-      "ODE_UNSPECIFIED\020\000\022\010\n\004SYNC\020\001\022\t\n\005ASYNC\020\002\"\'" +
-      "\n\023GetOperationRequest\022\020\n\002id\030\001 \001(\tB\004\220\346*\001\"" +
-      "D\n\024GetOperationResponse\022,\n\toperation\030\001 \001" +
-      "(\0132\031.Ydb.Operations.Operation\"*\n\026CancelO" +
-      "perationRequest\022\020\n\002id\030\001 \001(\tB\004\220\346*\001\"m\n\027Can" +
-      "celOperationResponse\022)\n\006status\030\001 \001(\0162\031.Y" +
-      "db.StatusIds.StatusCode\022\'\n\006issues\030\002 \003(\0132" +
-      "\027.Ydb.Issue.IssueMessage\"*\n\026ForgetOperat" +
-      "ionRequest\022\020\n\002id\030\001 \001(\tB\004\220\346*\001\"m\n\027ForgetOp" +
-      "erationResponse\022)\n\006status\030\001 \001(\0162\031.Ydb.St" +
-      "atusIds.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb" +
-      ".Issue.IssueMessage\"R\n\025ListOperationsReq" +
-      "uest\022\022\n\004kind\030\001 \001(\tB\004\220\346*\001\022\021\n\tpage_size\030\002 " +
-      "\001(\004\022\022\n\npage_token\030\003 \001(\t\"\264\001\n\026ListOperatio" +
-      "nsResponse\022)\n\006status\030\001 \001(\0162\031.Ydb.StatusI" +
-      "ds.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Issu" +
-      "e.IssueMessage\022-\n\noperations\030\003 \003(\0132\031.Ydb" +
-      ".Operations.Operation\022\027\n\017next_page_token" +
-      "\030\004 \001(\t\"\352\001\n\tOperation\022\n\n\002id\030\001 \001(\t\022\r\n\005read" +
-      "y\030\002 \001(\010\022)\n\006status\030\003 \001(\0162\031.Ydb.StatusIds." +
-      "StatusCode\022\'\n\006issues\030\004 \003(\0132\027.Ydb.Issue.I" +
-      "ssueMessage\022$\n\006result\030\005 \001(\0132\024.google.pro" +
-      "tobuf.Any\022&\n\010metadata\030\006 \001(\0132\024.google.pro" +
-      "tobuf.Any\022 \n\tcost_info\030\007 \001(\0132\r.Ydb.CostI" +
-      "nfoB$\n\016tech.ydbB\017OperationProtos\370\001" +
-      "\001b\006proto3"
+      "o\0325kikimr/public/api/protos/annotations/" +
+      "validation.proto\032)kikimr/public/api/prot" +
+      "os/ydb_common.proto\0320kikimr/public/api/p" +
+      "rotos/ydb_issue_message.proto\032/kikimr/pu" +
+      "blic/api/protos/ydb_status_codes.proto\"\266" +
+      "\003\n\017OperationParams\022E\n\016operation_mode\030\001 \001" +
+      "(\0162-.Ydb.Operations.OperationParams.Oper" +
+      "ationMode\0224\n\021operation_timeout\030\002 \001(\0132\031.g" +
+      "oogle.protobuf.Duration\022/\n\014cancel_after\030" +
+      "\003 \001(\0132\031.google.protobuf.Duration\022M\n\006labe" +
+      "ls\030\004 \003(\0132+.Ydb.Operations.OperationParam" +
+      "s.LabelsEntryB\020\252\346*\005\n\003\030\200\001\242\346*\003\030\200\001\0221\n\020repor" +
+      "t_cost_info\030\005 \001(\0162\027.Ydb.FeatureFlag.Stat" +
+      "us\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030" +
+      "\002 \001(\t:\0028\001\"D\n\rOperationMode\022\036\n\032OPERATION_" +
+      "MODE_UNSPECIFIED\020\000\022\010\n\004SYNC\020\001\022\t\n\005ASYNC\020\002\"" +
+      "\'\n\023GetOperationRequest\022\020\n\002id\030\001 \001(\tB\004\220\346*\001" +
+      "\"D\n\024GetOperationResponse\022,\n\toperation\030\001 " +
+      "\001(\0132\031.Ydb.Operations.Operation\"*\n\026Cancel" +
+      "OperationRequest\022\020\n\002id\030\001 \001(\tB\004\220\346*\001\"m\n\027Ca" +
+      "ncelOperationResponse\022)\n\006status\030\001 \001(\0162\031." +
+      "Ydb.StatusIds.StatusCode\022\'\n\006issues\030\002 \003(\013" +
+      "2\027.Ydb.Issue.IssueMessage\"*\n\026ForgetOpera" +
+      "tionRequest\022\020\n\002id\030\001 \001(\tB\004\220\346*\001\"m\n\027ForgetO" +
+      "perationResponse\022)\n\006status\030\001 \001(\0162\031.Ydb.S" +
+      "tatusIds.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Yd" +
+      "b.Issue.IssueMessage\"R\n\025ListOperationsRe" +
+      "quest\022\022\n\004kind\030\001 \001(\tB\004\220\346*\001\022\021\n\tpage_size\030\002" +
+      " \001(\004\022\022\n\npage_token\030\003 \001(\t\"\264\001\n\026ListOperati" +
+      "onsResponse\022)\n\006status\030\001 \001(\0162\031.Ydb.Status" +
+      "Ids.StatusCode\022\'\n\006issues\030\002 \003(\0132\027.Ydb.Iss" +
+      "ue.IssueMessage\022-\n\noperations\030\003 \003(\0132\031.Yd" +
+      "b.Operations.Operation\022\027\n\017next_page_toke" +
+      "n\030\004 \001(\t\"\352\001\n\tOperation\022\n\n\002id\030\001 \001(\t\022\r\n\005rea" +
+      "dy\030\002 \001(\010\022)\n\006status\030\003 \001(\0162\031.Ydb.StatusIds" +
+      ".StatusCode\022\'\n\006issues\030\004 \003(\0132\027.Ydb.Issue." +
+      "IssueMessage\022$\n\006result\030\005 \001(\0132\024.google.pr" +
+      "otobuf.Any\022&\n\010metadata\030\006 \001(\0132\024.google.pr" +
+      "otobuf.Any\022 \n\tcost_info\030\007 \001(\0132\r.Ydb.Cost" +
+      "InfoB$\n\016tech.ydbB\017OperationProtos\370" +
+      "\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

@@ -10401,49 +10401,49 @@ public final class YdbImport {
   static {
     java.lang.String[] descriptorData = {
       "\n)kikimr/public/api/protos/ydb_import.pr" +
-      "oto\022\nYdb.Import\0324kikimr/public/api/proto" +
-      "s/validation/validation.proto\032,kikimr/pu" +
-      "blic/api/protos/ydb_operation.proto\032\037goo" +
-      "gle/protobuf/timestamp.proto\"\315\001\n\016ImportP" +
-      "rogress\"\272\001\n\010Progress\022\030\n\024PROGRESS_UNSPECI" +
-      "FIED\020\000\022\026\n\022PROGRESS_PREPARING\020\001\022\032\n\026PROGRE" +
-      "SS_TRANSFER_DATA\020\002\022\032\n\026PROGRESS_BUILD_IND" +
-      "EXES\020\003\022\021\n\rPROGRESS_DONE\020\004\022\031\n\025PROGRESS_CA" +
-      "NCELLATION\020\005\022\026\n\022PROGRESS_CANCELLED\020\006\"\240\001\n" +
-      "\022ImportItemProgress\022\023\n\013parts_total\030\001 \001(\r" +
-      "\022\027\n\017parts_completed\030\002 \001(\r\022.\n\nstart_time\030" +
-      "\003 \001(\0132\032.google.protobuf.Timestamp\022,\n\010end" +
-      "_time\030\004 \001(\0132\032.google.protobuf.Timestamp\"" +
-      "\235\003\n\024ImportFromS3Settings\022\026\n\010endpoint\030\001 \001" +
-      "(\tB\004\220\346*\001\0227\n\006scheme\030\002 \001(\0162\'.Ydb.Import.Im" +
-      "portFromS3Settings.Scheme\022\024\n\006bucket\030\003 \001(" +
-      "\tB\004\220\346*\001\022\030\n\naccess_key\030\004 \001(\tB\004\220\346*\001\022\030\n\nsec" +
-      "ret_key\030\005 \001(\tB\004\220\346*\001\022<\n\005items\030\006 \003(\0132%.Ydb" +
-      ".Import.ImportFromS3Settings.ItemB\006\232\346*\002(" +
-      "\001\022\034\n\013description\030\007 \001(\tB\007\242\346*\003\030\200\001\022\031\n\021numbe" +
-      "r_of_retries\030\010 \001(\r\032C\n\004Item\022\033\n\rsource_pre" +
-      "fix\030\001 \001(\tB\004\220\346*\001\022\036\n\020destination_path\030\002 \001(" +
-      "\tB\004\220\346*\001\".\n\006Scheme\022\017\n\013UNSPECIFIED\020\000\022\010\n\004HT" +
-      "TP\020\001\022\t\n\005HTTPS\020\002\"\024\n\022ImportFromS3Result\"\271\001" +
-      "\n\024ImportFromS3Metadata\0222\n\010settings\030\001 \001(\013" +
-      "2 .Ydb.Import.ImportFromS3Settings\0225\n\010pr" +
-      "ogress\030\002 \001(\0162#.Ydb.Import.ImportProgress" +
-      ".Progress\0226\n\016items_progress\030\003 \003(\0132\036.Ydb." +
-      "Import.ImportItemProgress\"\212\001\n\023ImportFrom" +
-      "S3Request\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
-      "b.Operations.OperationParams\0228\n\010settings" +
-      "\030\002 \001(\0132 .Ydb.Import.ImportFromS3Settings" +
-      "B\004\220\346*\001\"D\n\024ImportFromS3Response\022,\n\toperat" +
-      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\" \n\r" +
-      "YdbDumpFormat\022\017\n\007columns\030\001 \003(\t\"\022\n\020Import" +
-      "DataResult\"\256\001\n\021ImportDataRequest\0229\n\020oper" +
-      "ation_params\030\001 \001(\0132\037.Ydb.Operations.Oper" +
-      "ationParams\022\014\n\004path\030\002 \001(\t\022\027\n\004data\030\003 \001(\014B" +
-      "\t\242\346*\005\030\200\200\200\004\022-\n\010ydb_dump\030\004 \001(\0132\031.Ydb.Impor" +
-      "t.YdbDumpFormatH\000B\010\n\006format\"B\n\022ImportDat" +
-      "aResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
-      "tions.OperationB\033\n\026tech.ydb.import" +
-      "_\370\001\001b\006proto3"
+      "oto\022\nYdb.Import\0325kikimr/public/api/proto" +
+      "s/annotations/validation.proto\032,kikimr/p" +
+      "ublic/api/protos/ydb_operation.proto\032\037go" +
+      "ogle/protobuf/timestamp.proto\"\315\001\n\016Import" +
+      "Progress\"\272\001\n\010Progress\022\030\n\024PROGRESS_UNSPEC" +
+      "IFIED\020\000\022\026\n\022PROGRESS_PREPARING\020\001\022\032\n\026PROGR" +
+      "ESS_TRANSFER_DATA\020\002\022\032\n\026PROGRESS_BUILD_IN" +
+      "DEXES\020\003\022\021\n\rPROGRESS_DONE\020\004\022\031\n\025PROGRESS_C" +
+      "ANCELLATION\020\005\022\026\n\022PROGRESS_CANCELLED\020\006\"\240\001" +
+      "\n\022ImportItemProgress\022\023\n\013parts_total\030\001 \001(" +
+      "\r\022\027\n\017parts_completed\030\002 \001(\r\022.\n\nstart_time" +
+      "\030\003 \001(\0132\032.google.protobuf.Timestamp\022,\n\010en" +
+      "d_time\030\004 \001(\0132\032.google.protobuf.Timestamp" +
+      "\"\235\003\n\024ImportFromS3Settings\022\026\n\010endpoint\030\001 " +
+      "\001(\tB\004\220\346*\001\0227\n\006scheme\030\002 \001(\0162\'.Ydb.Import.I" +
+      "mportFromS3Settings.Scheme\022\024\n\006bucket\030\003 \001" +
+      "(\tB\004\220\346*\001\022\030\n\naccess_key\030\004 \001(\tB\004\220\346*\001\022\030\n\nse" +
+      "cret_key\030\005 \001(\tB\004\220\346*\001\022<\n\005items\030\006 \003(\0132%.Yd" +
+      "b.Import.ImportFromS3Settings.ItemB\006\232\346*\002" +
+      "(\001\022\034\n\013description\030\007 \001(\tB\007\242\346*\003\030\200\001\022\031\n\021numb" +
+      "er_of_retries\030\010 \001(\r\032C\n\004Item\022\033\n\rsource_pr" +
+      "efix\030\001 \001(\tB\004\220\346*\001\022\036\n\020destination_path\030\002 \001" +
+      "(\tB\004\220\346*\001\".\n\006Scheme\022\017\n\013UNSPECIFIED\020\000\022\010\n\004H" +
+      "TTP\020\001\022\t\n\005HTTPS\020\002\"\024\n\022ImportFromS3Result\"\271" +
+      "\001\n\024ImportFromS3Metadata\0222\n\010settings\030\001 \001(" +
+      "\0132 .Ydb.Import.ImportFromS3Settings\0225\n\010p" +
+      "rogress\030\002 \001(\0162#.Ydb.Import.ImportProgres" +
+      "s.Progress\0226\n\016items_progress\030\003 \003(\0132\036.Ydb" +
+      ".Import.ImportItemProgress\"\212\001\n\023ImportFro" +
+      "mS3Request\0229\n\020operation_params\030\001 \001(\0132\037.Y" +
+      "db.Operations.OperationParams\0228\n\010setting" +
+      "s\030\002 \001(\0132 .Ydb.Import.ImportFromS3Setting" +
+      "sB\004\220\346*\001\"D\n\024ImportFromS3Response\022,\n\topera" +
+      "tion\030\001 \001(\0132\031.Ydb.Operations.Operation\" \n" +
+      "\rYdbDumpFormat\022\017\n\007columns\030\001 \003(\t\"\022\n\020Impor" +
+      "tDataResult\"\256\001\n\021ImportDataRequest\0229\n\020ope" +
+      "ration_params\030\001 \001(\0132\037.Ydb.Operations.Ope" +
+      "rationParams\022\014\n\004path\030\002 \001(\t\022\027\n\004data\030\003 \001(\014" +
+      "B\t\242\346*\005\030\200\200\200\004\022-\n\010ydb_dump\030\004 \001(\0132\031.Ydb.Impo" +
+      "rt.YdbDumpFormatH\000B\010\n\006format\"B\n\022ImportDa" +
+      "taResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
+      "ations.OperationB\033\n\026tech.ydb.impor" +
+      "t_\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
