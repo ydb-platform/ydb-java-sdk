@@ -25,7 +25,7 @@ public final class YqV1 {
     java.lang.String[] descriptorData = {
       "\n\"kikimr/public/api/grpc/yq_v1.proto\022\016Ya" +
       "ndexQuery.V1\032!kikimr/public/api/protos/y" +
-      "q.proto2\372\r\n\022YandexQueryService\022P\n\013Create" +
+      "q.proto2\325\016\n\022YandexQueryService\022P\n\013Create" +
       "Query\022\037.YandexQuery.CreateQueryRequest\032 " +
       ".YandexQuery.CreateQueryResponse\022P\n\013List" +
       "Queries\022\037.YandexQuery.ListQueriesRequest" +
@@ -58,19 +58,21 @@ public final class YqV1 {
       "ConnectionRequest\032%.YandexQuery.ModifyCo" +
       "nnectionResponse\022_\n\020DeleteConnection\022$.Y" +
       "andexQuery.DeleteConnectionRequest\032%.Yan" +
-      "dexQuery.DeleteConnectionResponse\022V\n\rCre" +
-      "ateBinding\022!.YandexQuery.CreateBindingRe" +
-      "quest\032\".YandexQuery.CreateBindingRespons" +
-      "e\022S\n\014ListBindings\022 .YandexQuery.ListBind" +
-      "ingsRequest\032!.YandexQuery.ListBindingsRe" +
-      "sponse\022\\\n\017DescribeBinding\022#.YandexQuery." +
-      "DescribeBindingRequest\032$.YandexQuery.Des" +
-      "cribeBindingResponse\022V\n\rModifyBinding\022!." +
-      "YandexQuery.ModifyBindingRequest\032\".Yande" +
-      "xQuery.ModifyBindingResponse\022V\n\rDeleteBi" +
-      "nding\022!.YandexQuery.DeleteBindingRequest" +
-      "\032\".YandexQuery.DeleteBindingResponseB\025\n\023" +
-      "com.yandex.query.v1b\006proto3"
+      "dexQuery.DeleteConnectionResponse\022Y\n\016Tes" +
+      "tConnection\022\".YandexQuery.TestConnection" +
+      "Request\032#.YandexQuery.TestConnectionResp" +
+      "onse\022V\n\rCreateBinding\022!.YandexQuery.Crea" +
+      "teBindingRequest\032\".YandexQuery.CreateBin" +
+      "dingResponse\022S\n\014ListBindings\022 .YandexQue" +
+      "ry.ListBindingsRequest\032!.YandexQuery.Lis" +
+      "tBindingsResponse\022\\\n\017DescribeBinding\022#.Y" +
+      "andexQuery.DescribeBindingRequest\032$.Yand" +
+      "exQuery.DescribeBindingResponse\022V\n\rModif" +
+      "yBinding\022!.YandexQuery.ModifyBindingRequ" +
+      "est\032\".YandexQuery.ModifyBindingResponse\022" +
+      "V\n\rDeleteBinding\022!.YandexQuery.DeleteBin" +
+      "dingRequest\032\".YandexQuery.DeleteBindingR" +
+      "esponseB\025\n\023com.yandex.query.v1b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

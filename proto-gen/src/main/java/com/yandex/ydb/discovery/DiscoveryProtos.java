@@ -807,11 +807,19 @@ public final class DiscoveryProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     * This is an address (usually fqdn) and port of this node's grpc endpoint
+     * </pre>
+     *
      * <code>string address = 1;</code>
      * @return The address.
      */
     java.lang.String getAddress();
     /**
+     * <pre>
+     * This is an address (usually fqdn) and port of this node's grpc endpoint
+     * </pre>
+     *
      * <code>string address = 1;</code>
      * @return The bytes for address.
      */
@@ -878,6 +886,102 @@ public final class DiscoveryProtos {
      * @return The nodeId.
      */
     int getNodeId();
+
+    /**
+     * <pre>
+     * Optional ipv4 and/or ipv6 addresses of the endpoint, which clients may
+     * use instead of a dns name in the address field.
+     * </pre>
+     *
+     * <code>repeated string ip_v4 = 8;</code>
+     * @return A list containing the ipV4.
+     */
+    java.util.List<java.lang.String>
+        getIpV4List();
+    /**
+     * <pre>
+     * Optional ipv4 and/or ipv6 addresses of the endpoint, which clients may
+     * use instead of a dns name in the address field.
+     * </pre>
+     *
+     * <code>repeated string ip_v4 = 8;</code>
+     * @return The count of ipV4.
+     */
+    int getIpV4Count();
+    /**
+     * <pre>
+     * Optional ipv4 and/or ipv6 addresses of the endpoint, which clients may
+     * use instead of a dns name in the address field.
+     * </pre>
+     *
+     * <code>repeated string ip_v4 = 8;</code>
+     * @param index The index of the element to return.
+     * @return The ipV4 at the given index.
+     */
+    java.lang.String getIpV4(int index);
+    /**
+     * <pre>
+     * Optional ipv4 and/or ipv6 addresses of the endpoint, which clients may
+     * use instead of a dns name in the address field.
+     * </pre>
+     *
+     * <code>repeated string ip_v4 = 8;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the ipV4 at the given index.
+     */
+    com.google.protobuf.ByteString
+        getIpV4Bytes(int index);
+
+    /**
+     * <code>repeated string ip_v6 = 9;</code>
+     * @return A list containing the ipV6.
+     */
+    java.util.List<java.lang.String>
+        getIpV6List();
+    /**
+     * <code>repeated string ip_v6 = 9;</code>
+     * @return The count of ipV6.
+     */
+    int getIpV6Count();
+    /**
+     * <code>repeated string ip_v6 = 9;</code>
+     * @param index The index of the element to return.
+     * @return The ipV6 at the given index.
+     */
+    java.lang.String getIpV6(int index);
+    /**
+     * <code>repeated string ip_v6 = 9;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the ipV6 at the given index.
+     */
+    com.google.protobuf.ByteString
+        getIpV6Bytes(int index);
+
+    /**
+     * <pre>
+     * Optional value for grpc.ssl_target_name_override option that must be
+     * used when connecting to this endpoint. This may be specified when an ssl
+     * endpoint is using certificate chain valid for a balancer hostname, and
+     * not this specific node hostname.
+     * </pre>
+     *
+     * <code>string ssl_target_name_override = 10;</code>
+     * @return The sslTargetNameOverride.
+     */
+    java.lang.String getSslTargetNameOverride();
+    /**
+     * <pre>
+     * Optional value for grpc.ssl_target_name_override option that must be
+     * used when connecting to this endpoint. This may be specified when an ssl
+     * endpoint is using certificate chain valid for a balancer hostname, and
+     * not this specific node hostname.
+     * </pre>
+     *
+     * <code>string ssl_target_name_override = 10;</code>
+     * @return The bytes for sslTargetNameOverride.
+     */
+    com.google.protobuf.ByteString
+        getSslTargetNameOverrideBytes();
   }
   /**
    * Protobuf type {@code Ydb.Discovery.EndpointInfo}
@@ -895,6 +999,9 @@ public final class DiscoveryProtos {
       address_ = "";
       service_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       location_ = "";
+      ipV4_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      ipV6_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      sslTargetNameOverride_ = "";
     }
 
     @java.lang.Override
@@ -969,6 +1076,30 @@ public final class DiscoveryProtos {
               nodeId_ = input.readUInt32();
               break;
             }
+            case 66: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                ipV4_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              ipV4_.add(s);
+              break;
+            }
+            case 74: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000004) != 0)) {
+                ipV6_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              ipV6_.add(s);
+              break;
+            }
+            case 82: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              sslTargetNameOverride_ = s;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -986,6 +1117,12 @@ public final class DiscoveryProtos {
       } finally {
         if (((mutable_bitField0_ & 0x00000001) != 0)) {
           service_ = service_.getUnmodifiableView();
+        }
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          ipV4_ = ipV4_.getUnmodifiableView();
+        }
+        if (((mutable_bitField0_ & 0x00000004) != 0)) {
+          ipV6_ = ipV6_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -1007,6 +1144,10 @@ public final class DiscoveryProtos {
     public static final int ADDRESS_FIELD_NUMBER = 1;
     private volatile java.lang.Object address_;
     /**
+     * <pre>
+     * This is an address (usually fqdn) and port of this node's grpc endpoint
+     * </pre>
+     *
      * <code>string address = 1;</code>
      * @return The address.
      */
@@ -1024,6 +1165,10 @@ public final class DiscoveryProtos {
       }
     }
     /**
+     * <pre>
+     * This is an address (usually fqdn) and port of this node's grpc endpoint
+     * </pre>
+     *
      * <code>string address = 1;</code>
      * @return The bytes for address.
      */
@@ -1159,6 +1304,148 @@ public final class DiscoveryProtos {
       return nodeId_;
     }
 
+    public static final int IP_V4_FIELD_NUMBER = 8;
+    private com.google.protobuf.LazyStringList ipV4_;
+    /**
+     * <pre>
+     * Optional ipv4 and/or ipv6 addresses of the endpoint, which clients may
+     * use instead of a dns name in the address field.
+     * </pre>
+     *
+     * <code>repeated string ip_v4 = 8;</code>
+     * @return A list containing the ipV4.
+     */
+    public com.google.protobuf.ProtocolStringList
+        getIpV4List() {
+      return ipV4_;
+    }
+    /**
+     * <pre>
+     * Optional ipv4 and/or ipv6 addresses of the endpoint, which clients may
+     * use instead of a dns name in the address field.
+     * </pre>
+     *
+     * <code>repeated string ip_v4 = 8;</code>
+     * @return The count of ipV4.
+     */
+    public int getIpV4Count() {
+      return ipV4_.size();
+    }
+    /**
+     * <pre>
+     * Optional ipv4 and/or ipv6 addresses of the endpoint, which clients may
+     * use instead of a dns name in the address field.
+     * </pre>
+     *
+     * <code>repeated string ip_v4 = 8;</code>
+     * @param index The index of the element to return.
+     * @return The ipV4 at the given index.
+     */
+    public java.lang.String getIpV4(int index) {
+      return ipV4_.get(index);
+    }
+    /**
+     * <pre>
+     * Optional ipv4 and/or ipv6 addresses of the endpoint, which clients may
+     * use instead of a dns name in the address field.
+     * </pre>
+     *
+     * <code>repeated string ip_v4 = 8;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the ipV4 at the given index.
+     */
+    public com.google.protobuf.ByteString
+        getIpV4Bytes(int index) {
+      return ipV4_.getByteString(index);
+    }
+
+    public static final int IP_V6_FIELD_NUMBER = 9;
+    private com.google.protobuf.LazyStringList ipV6_;
+    /**
+     * <code>repeated string ip_v6 = 9;</code>
+     * @return A list containing the ipV6.
+     */
+    public com.google.protobuf.ProtocolStringList
+        getIpV6List() {
+      return ipV6_;
+    }
+    /**
+     * <code>repeated string ip_v6 = 9;</code>
+     * @return The count of ipV6.
+     */
+    public int getIpV6Count() {
+      return ipV6_.size();
+    }
+    /**
+     * <code>repeated string ip_v6 = 9;</code>
+     * @param index The index of the element to return.
+     * @return The ipV6 at the given index.
+     */
+    public java.lang.String getIpV6(int index) {
+      return ipV6_.get(index);
+    }
+    /**
+     * <code>repeated string ip_v6 = 9;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the ipV6 at the given index.
+     */
+    public com.google.protobuf.ByteString
+        getIpV6Bytes(int index) {
+      return ipV6_.getByteString(index);
+    }
+
+    public static final int SSL_TARGET_NAME_OVERRIDE_FIELD_NUMBER = 10;
+    private volatile java.lang.Object sslTargetNameOverride_;
+    /**
+     * <pre>
+     * Optional value for grpc.ssl_target_name_override option that must be
+     * used when connecting to this endpoint. This may be specified when an ssl
+     * endpoint is using certificate chain valid for a balancer hostname, and
+     * not this specific node hostname.
+     * </pre>
+     *
+     * <code>string ssl_target_name_override = 10;</code>
+     * @return The sslTargetNameOverride.
+     */
+    @java.lang.Override
+    public java.lang.String getSslTargetNameOverride() {
+      java.lang.Object ref = sslTargetNameOverride_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        sslTargetNameOverride_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Optional value for grpc.ssl_target_name_override option that must be
+     * used when connecting to this endpoint. This may be specified when an ssl
+     * endpoint is using certificate chain valid for a balancer hostname, and
+     * not this specific node hostname.
+     * </pre>
+     *
+     * <code>string ssl_target_name_override = 10;</code>
+     * @return The bytes for sslTargetNameOverride.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getSslTargetNameOverrideBytes() {
+      java.lang.Object ref = sslTargetNameOverride_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        sslTargetNameOverride_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1193,6 +1480,15 @@ public final class DiscoveryProtos {
       }
       if (nodeId_ != 0) {
         output.writeUInt32(7, nodeId_);
+      }
+      for (int i = 0; i < ipV4_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 8, ipV4_.getRaw(i));
+      }
+      for (int i = 0; i < ipV6_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 9, ipV6_.getRaw(i));
+      }
+      if (!getSslTargetNameOverrideBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 10, sslTargetNameOverride_);
       }
       unknownFields.writeTo(output);
     }
@@ -1233,6 +1529,25 @@ public final class DiscoveryProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(7, nodeId_);
       }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < ipV4_.size(); i++) {
+          dataSize += computeStringSizeNoTag(ipV4_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getIpV4List().size();
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < ipV6_.size(); i++) {
+          dataSize += computeStringSizeNoTag(ipV6_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getIpV6List().size();
+      }
+      if (!getSslTargetNameOverrideBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, sslTargetNameOverride_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -1263,6 +1578,12 @@ public final class DiscoveryProtos {
           .equals(other.getLocation())) return false;
       if (getNodeId()
           != other.getNodeId()) return false;
+      if (!getIpV4List()
+          .equals(other.getIpV4List())) return false;
+      if (!getIpV6List()
+          .equals(other.getIpV6List())) return false;
+      if (!getSslTargetNameOverride()
+          .equals(other.getSslTargetNameOverride())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -1292,6 +1613,16 @@ public final class DiscoveryProtos {
       hash = (53 * hash) + getLocation().hashCode();
       hash = (37 * hash) + NODE_ID_FIELD_NUMBER;
       hash = (53 * hash) + getNodeId();
+      if (getIpV4Count() > 0) {
+        hash = (37 * hash) + IP_V4_FIELD_NUMBER;
+        hash = (53 * hash) + getIpV4List().hashCode();
+      }
+      if (getIpV6Count() > 0) {
+        hash = (37 * hash) + IP_V6_FIELD_NUMBER;
+        hash = (53 * hash) + getIpV6List().hashCode();
+      }
+      hash = (37 * hash) + SSL_TARGET_NAME_OVERRIDE_FIELD_NUMBER;
+      hash = (53 * hash) + getSslTargetNameOverride().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1439,6 +1770,12 @@ public final class DiscoveryProtos {
 
         nodeId_ = 0;
 
+        ipV4_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        ipV6_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        sslTargetNameOverride_ = "";
+
         return this;
       }
 
@@ -1477,6 +1814,17 @@ public final class DiscoveryProtos {
         result.service_ = service_;
         result.location_ = location_;
         result.nodeId_ = nodeId_;
+        if (((bitField0_ & 0x00000002) != 0)) {
+          ipV4_ = ipV4_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.ipV4_ = ipV4_;
+        if (((bitField0_ & 0x00000004) != 0)) {
+          ipV6_ = ipV6_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        }
+        result.ipV6_ = ipV6_;
+        result.sslTargetNameOverride_ = sslTargetNameOverride_;
         onBuilt();
         return result;
       }
@@ -1555,6 +1903,30 @@ public final class DiscoveryProtos {
         if (other.getNodeId() != 0) {
           setNodeId(other.getNodeId());
         }
+        if (!other.ipV4_.isEmpty()) {
+          if (ipV4_.isEmpty()) {
+            ipV4_ = other.ipV4_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureIpV4IsMutable();
+            ipV4_.addAll(other.ipV4_);
+          }
+          onChanged();
+        }
+        if (!other.ipV6_.isEmpty()) {
+          if (ipV6_.isEmpty()) {
+            ipV6_ = other.ipV6_;
+            bitField0_ = (bitField0_ & ~0x00000004);
+          } else {
+            ensureIpV6IsMutable();
+            ipV6_.addAll(other.ipV6_);
+          }
+          onChanged();
+        }
+        if (!other.getSslTargetNameOverride().isEmpty()) {
+          sslTargetNameOverride_ = other.sslTargetNameOverride_;
+          onChanged();
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -1587,6 +1959,10 @@ public final class DiscoveryProtos {
 
       private java.lang.Object address_ = "";
       /**
+       * <pre>
+       * This is an address (usually fqdn) and port of this node's grpc endpoint
+       * </pre>
+       *
        * <code>string address = 1;</code>
        * @return The address.
        */
@@ -1603,6 +1979,10 @@ public final class DiscoveryProtos {
         }
       }
       /**
+       * <pre>
+       * This is an address (usually fqdn) and port of this node's grpc endpoint
+       * </pre>
+       *
        * <code>string address = 1;</code>
        * @return The bytes for address.
        */
@@ -1620,6 +2000,10 @@ public final class DiscoveryProtos {
         }
       }
       /**
+       * <pre>
+       * This is an address (usually fqdn) and port of this node's grpc endpoint
+       * </pre>
+       *
        * <code>string address = 1;</code>
        * @param value The address to set.
        * @return This builder for chaining.
@@ -1635,6 +2019,10 @@ public final class DiscoveryProtos {
         return this;
       }
       /**
+       * <pre>
+       * This is an address (usually fqdn) and port of this node's grpc endpoint
+       * </pre>
+       *
        * <code>string address = 1;</code>
        * @return This builder for chaining.
        */
@@ -1645,6 +2033,10 @@ public final class DiscoveryProtos {
         return this;
       }
       /**
+       * <pre>
+       * This is an address (usually fqdn) and port of this node's grpc endpoint
+       * </pre>
+       *
        * <code>string address = 1;</code>
        * @param value The bytes for address to set.
        * @return This builder for chaining.
@@ -1967,6 +2359,382 @@ public final class DiscoveryProtos {
       public Builder clearNodeId() {
         
         nodeId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList ipV4_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureIpV4IsMutable() {
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          ipV4_ = new com.google.protobuf.LazyStringArrayList(ipV4_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <pre>
+       * Optional ipv4 and/or ipv6 addresses of the endpoint, which clients may
+       * use instead of a dns name in the address field.
+       * </pre>
+       *
+       * <code>repeated string ip_v4 = 8;</code>
+       * @return A list containing the ipV4.
+       */
+      public com.google.protobuf.ProtocolStringList
+          getIpV4List() {
+        return ipV4_.getUnmodifiableView();
+      }
+      /**
+       * <pre>
+       * Optional ipv4 and/or ipv6 addresses of the endpoint, which clients may
+       * use instead of a dns name in the address field.
+       * </pre>
+       *
+       * <code>repeated string ip_v4 = 8;</code>
+       * @return The count of ipV4.
+       */
+      public int getIpV4Count() {
+        return ipV4_.size();
+      }
+      /**
+       * <pre>
+       * Optional ipv4 and/or ipv6 addresses of the endpoint, which clients may
+       * use instead of a dns name in the address field.
+       * </pre>
+       *
+       * <code>repeated string ip_v4 = 8;</code>
+       * @param index The index of the element to return.
+       * @return The ipV4 at the given index.
+       */
+      public java.lang.String getIpV4(int index) {
+        return ipV4_.get(index);
+      }
+      /**
+       * <pre>
+       * Optional ipv4 and/or ipv6 addresses of the endpoint, which clients may
+       * use instead of a dns name in the address field.
+       * </pre>
+       *
+       * <code>repeated string ip_v4 = 8;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the ipV4 at the given index.
+       */
+      public com.google.protobuf.ByteString
+          getIpV4Bytes(int index) {
+        return ipV4_.getByteString(index);
+      }
+      /**
+       * <pre>
+       * Optional ipv4 and/or ipv6 addresses of the endpoint, which clients may
+       * use instead of a dns name in the address field.
+       * </pre>
+       *
+       * <code>repeated string ip_v4 = 8;</code>
+       * @param index The index to set the value at.
+       * @param value The ipV4 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIpV4(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureIpV4IsMutable();
+        ipV4_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional ipv4 and/or ipv6 addresses of the endpoint, which clients may
+       * use instead of a dns name in the address field.
+       * </pre>
+       *
+       * <code>repeated string ip_v4 = 8;</code>
+       * @param value The ipV4 to add.
+       * @return This builder for chaining.
+       */
+      public Builder addIpV4(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureIpV4IsMutable();
+        ipV4_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional ipv4 and/or ipv6 addresses of the endpoint, which clients may
+       * use instead of a dns name in the address field.
+       * </pre>
+       *
+       * <code>repeated string ip_v4 = 8;</code>
+       * @param values The ipV4 to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllIpV4(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureIpV4IsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, ipV4_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional ipv4 and/or ipv6 addresses of the endpoint, which clients may
+       * use instead of a dns name in the address field.
+       * </pre>
+       *
+       * <code>repeated string ip_v4 = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIpV4() {
+        ipV4_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional ipv4 and/or ipv6 addresses of the endpoint, which clients may
+       * use instead of a dns name in the address field.
+       * </pre>
+       *
+       * <code>repeated string ip_v4 = 8;</code>
+       * @param value The bytes of the ipV4 to add.
+       * @return This builder for chaining.
+       */
+      public Builder addIpV4Bytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureIpV4IsMutable();
+        ipV4_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList ipV6_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureIpV6IsMutable() {
+        if (!((bitField0_ & 0x00000004) != 0)) {
+          ipV6_ = new com.google.protobuf.LazyStringArrayList(ipV6_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+      /**
+       * <code>repeated string ip_v6 = 9;</code>
+       * @return A list containing the ipV6.
+       */
+      public com.google.protobuf.ProtocolStringList
+          getIpV6List() {
+        return ipV6_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string ip_v6 = 9;</code>
+       * @return The count of ipV6.
+       */
+      public int getIpV6Count() {
+        return ipV6_.size();
+      }
+      /**
+       * <code>repeated string ip_v6 = 9;</code>
+       * @param index The index of the element to return.
+       * @return The ipV6 at the given index.
+       */
+      public java.lang.String getIpV6(int index) {
+        return ipV6_.get(index);
+      }
+      /**
+       * <code>repeated string ip_v6 = 9;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the ipV6 at the given index.
+       */
+      public com.google.protobuf.ByteString
+          getIpV6Bytes(int index) {
+        return ipV6_.getByteString(index);
+      }
+      /**
+       * <code>repeated string ip_v6 = 9;</code>
+       * @param index The index to set the value at.
+       * @param value The ipV6 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIpV6(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureIpV6IsMutable();
+        ipV6_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string ip_v6 = 9;</code>
+       * @param value The ipV6 to add.
+       * @return This builder for chaining.
+       */
+      public Builder addIpV6(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureIpV6IsMutable();
+        ipV6_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string ip_v6 = 9;</code>
+       * @param values The ipV6 to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllIpV6(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureIpV6IsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, ipV6_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string ip_v6 = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIpV6() {
+        ipV6_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string ip_v6 = 9;</code>
+       * @param value The bytes of the ipV6 to add.
+       * @return This builder for chaining.
+       */
+      public Builder addIpV6Bytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureIpV6IsMutable();
+        ipV6_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object sslTargetNameOverride_ = "";
+      /**
+       * <pre>
+       * Optional value for grpc.ssl_target_name_override option that must be
+       * used when connecting to this endpoint. This may be specified when an ssl
+       * endpoint is using certificate chain valid for a balancer hostname, and
+       * not this specific node hostname.
+       * </pre>
+       *
+       * <code>string ssl_target_name_override = 10;</code>
+       * @return The sslTargetNameOverride.
+       */
+      public java.lang.String getSslTargetNameOverride() {
+        java.lang.Object ref = sslTargetNameOverride_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          sslTargetNameOverride_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Optional value for grpc.ssl_target_name_override option that must be
+       * used when connecting to this endpoint. This may be specified when an ssl
+       * endpoint is using certificate chain valid for a balancer hostname, and
+       * not this specific node hostname.
+       * </pre>
+       *
+       * <code>string ssl_target_name_override = 10;</code>
+       * @return The bytes for sslTargetNameOverride.
+       */
+      public com.google.protobuf.ByteString
+          getSslTargetNameOverrideBytes() {
+        java.lang.Object ref = sslTargetNameOverride_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          sslTargetNameOverride_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Optional value for grpc.ssl_target_name_override option that must be
+       * used when connecting to this endpoint. This may be specified when an ssl
+       * endpoint is using certificate chain valid for a balancer hostname, and
+       * not this specific node hostname.
+       * </pre>
+       *
+       * <code>string ssl_target_name_override = 10;</code>
+       * @param value The sslTargetNameOverride to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSslTargetNameOverride(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        sslTargetNameOverride_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional value for grpc.ssl_target_name_override option that must be
+       * used when connecting to this endpoint. This may be specified when an ssl
+       * endpoint is using certificate chain valid for a balancer hostname, and
+       * not this specific node hostname.
+       * </pre>
+       *
+       * <code>string ssl_target_name_override = 10;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSslTargetNameOverride() {
+        
+        sslTargetNameOverride_ = getDefaultInstance().getSslTargetNameOverride();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional value for grpc.ssl_target_name_override option that must be
+       * used when connecting to this endpoint. This may be specified when an ssl
+       * endpoint is using certificate chain valid for a balancer hostname, and
+       * not this specific node hostname.
+       * </pre>
+       *
+       * <code>string ssl_target_name_override = 10;</code>
+       * @param value The bytes for sslTargetNameOverride to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSslTargetNameOverrideBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        sslTargetNameOverride_ = value;
         onChanged();
         return this;
       }
@@ -5657,19 +6425,21 @@ public final class DiscoveryProtos {
       ".proto\022\rYdb.Discovery\032,kikimr/public/api" +
       "/protos/ydb_operation.proto\"9\n\024ListEndpo" +
       "intsRequest\022\020\n\010database\030\001 \001(\t\022\017\n\007service" +
-      "\030\002 \003(\t\"\203\001\n\014EndpointInfo\022\017\n\007address\030\001 \001(\t" +
+      "\030\002 \003(\t\"\303\001\n\014EndpointInfo\022\017\n\007address\030\001 \001(\t" +
       "\022\014\n\004port\030\002 \001(\r\022\023\n\013load_factor\030\003 \001(\002\022\013\n\003s" +
       "sl\030\004 \001(\010\022\017\n\007service\030\005 \003(\t\022\020\n\010location\030\006 " +
-      "\001(\t\022\017\n\007node_id\030\007 \001(\r\"\\\n\023ListEndpointsRes" +
-      "ult\022.\n\tendpoints\030\001 \003(\0132\033.Ydb.Discovery.E" +
-      "ndpointInfo\022\025\n\rself_location\030\002 \001(\t\"E\n\025Li" +
-      "stEndpointsResponse\022,\n\toperation\030\001 \001(\0132\031" +
-      ".Ydb.Operations.Operation\"\'\n\rWhoAmIReque" +
-      "st\022\026\n\016include_groups\030\001 \001(\010\",\n\014WhoAmIResu" +
-      "lt\022\014\n\004user\030\001 \001(\t\022\016\n\006groups\030\002 \003(\t\">\n\016WhoA" +
-      "mIResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
-      "ations.OperationB.\n\030tech.ydb.disco" +
-      "veryB\017DiscoveryProtos\370\001\001b\006proto3"
+      "\001(\t\022\017\n\007node_id\030\007 \001(\r\022\r\n\005ip_v4\030\010 \003(\t\022\r\n\005i" +
+      "p_v6\030\t \003(\t\022 \n\030ssl_target_name_override\030\n" +
+      " \001(\t\"\\\n\023ListEndpointsResult\022.\n\tendpoints" +
+      "\030\001 \003(\0132\033.Ydb.Discovery.EndpointInfo\022\025\n\rs" +
+      "elf_location\030\002 \001(\t\"E\n\025ListEndpointsRespo" +
+      "nse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations." +
+      "Operation\"\'\n\rWhoAmIRequest\022\026\n\016include_gr" +
+      "oups\030\001 \001(\010\",\n\014WhoAmIResult\022\014\n\004user\030\001 \001(\t" +
+      "\022\016\n\006groups\030\002 \003(\t\">\n\016WhoAmIResponse\022,\n\top" +
+      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
+      "B.\n\030tech.ydb.discoveryB\017DiscoveryP" +
+      "rotos\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -5687,7 +6457,7 @@ public final class DiscoveryProtos {
     internal_static_Ydb_Discovery_EndpointInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Discovery_EndpointInfo_descriptor,
-        new java.lang.String[] { "Address", "Port", "LoadFactor", "Ssl", "Service", "Location", "NodeId", });
+        new java.lang.String[] { "Address", "Port", "LoadFactor", "Ssl", "Service", "Location", "NodeId", "IpV4", "IpV6", "SslTargetNameOverride", });
     internal_static_Ydb_Discovery_ListEndpointsResult_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_Ydb_Discovery_ListEndpointsResult_fieldAccessorTable = new

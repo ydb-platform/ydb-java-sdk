@@ -15,4 +15,6 @@ message CsvSettings {
     bytes delimiter = 2;
     // String value that would be interpreted as NULL.
     bytes null_value = 3;
+    // First not skipped line is a CSV header (list of column names).
+    bool header = 4;
 }

@@ -539,6 +539,16 @@ public final class YdbFormats {
      * @return The nullValue.
      */
     com.google.protobuf.ByteString getNullValue();
+
+    /**
+     * <pre>
+     * First not skipped line is a CSV header (list of column names).
+     * </pre>
+     *
+     * <code>bool header = 4;</code>
+     * @return The header.
+     */
+    boolean getHeader();
   }
   /**
    * Protobuf type {@code Ydb.Formats.CsvSettings}
@@ -600,6 +610,11 @@ public final class YdbFormats {
             case 26: {
 
               nullValue_ = input.readBytes();
+              break;
+            }
+            case 32: {
+
+              header_ = input.readBool();
               break;
             }
             default: {
@@ -679,6 +694,21 @@ public final class YdbFormats {
       return nullValue_;
     }
 
+    public static final int HEADER_FIELD_NUMBER = 4;
+    private boolean header_;
+    /**
+     * <pre>
+     * First not skipped line is a CSV header (list of column names).
+     * </pre>
+     *
+     * <code>bool header = 4;</code>
+     * @return The header.
+     */
+    @java.lang.Override
+    public boolean getHeader() {
+      return header_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -702,6 +732,9 @@ public final class YdbFormats {
       if (!nullValue_.isEmpty()) {
         output.writeBytes(3, nullValue_);
       }
+      if (header_ != false) {
+        output.writeBool(4, header_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -722,6 +755,10 @@ public final class YdbFormats {
       if (!nullValue_.isEmpty()) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, nullValue_);
+      }
+      if (header_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, header_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -744,6 +781,8 @@ public final class YdbFormats {
           .equals(other.getDelimiter())) return false;
       if (!getNullValue()
           .equals(other.getNullValue())) return false;
+      if (getHeader()
+          != other.getHeader()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -761,6 +800,9 @@ public final class YdbFormats {
       hash = (53 * hash) + getDelimiter().hashCode();
       hash = (37 * hash) + NULL_VALUE_FIELD_NUMBER;
       hash = (53 * hash) + getNullValue().hashCode();
+      hash = (37 * hash) + HEADER_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getHeader());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -900,6 +942,8 @@ public final class YdbFormats {
 
         nullValue_ = com.google.protobuf.ByteString.EMPTY;
 
+        header_ = false;
+
         return this;
       }
 
@@ -929,6 +973,7 @@ public final class YdbFormats {
         result.skipRows_ = skipRows_;
         result.delimiter_ = delimiter_;
         result.nullValue_ = nullValue_;
+        result.header_ = header_;
         onBuilt();
         return result;
       }
@@ -985,6 +1030,9 @@ public final class YdbFormats {
         }
         if (other.getNullValue() != com.google.protobuf.ByteString.EMPTY) {
           setNullValue(other.getNullValue());
+        }
+        if (other.getHeader() != false) {
+          setHeader(other.getHeader());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1149,6 +1197,49 @@ public final class YdbFormats {
         onChanged();
         return this;
       }
+
+      private boolean header_ ;
+      /**
+       * <pre>
+       * First not skipped line is a CSV header (list of column names).
+       * </pre>
+       *
+       * <code>bool header = 4;</code>
+       * @return The header.
+       */
+      @java.lang.Override
+      public boolean getHeader() {
+        return header_;
+      }
+      /**
+       * <pre>
+       * First not skipped line is a CSV header (list of column names).
+       * </pre>
+       *
+       * <code>bool header = 4;</code>
+       * @param value The header to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHeader(boolean value) {
+        
+        header_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * First not skipped line is a CSV header (list of column names).
+       * </pre>
+       *
+       * <code>bool header = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHeader() {
+        
+        header_ = false;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -1223,10 +1314,10 @@ public final class YdbFormats {
     java.lang.String[] descriptorData = {
       "\n*kikimr/public/api/protos/ydb_formats.p" +
       "roto\022\013Ydb.Formats\"$\n\022ArrowBatchSettings\022" +
-      "\016\n\006schema\030\001 \001(\014\"G\n\013CsvSettings\022\021\n\tskip_r" +
+      "\016\n\006schema\030\001 \001(\014\"W\n\013CsvSettings\022\021\n\tskip_r" +
       "ows\030\001 \001(\r\022\021\n\tdelimiter\030\002 \001(\014\022\022\n\nnull_val" +
-      "ue\030\003 \001(\014B\033\n\026tech.ydb.formats\370\001\001b\006p" +
-      "roto3"
+      "ue\030\003 \001(\014\022\016\n\006header\030\004 \001(\010B\033\n\026com.yandex.y" +
+      "db.formats\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1243,7 +1334,7 @@ public final class YdbFormats {
     internal_static_Ydb_Formats_CsvSettings_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Ydb_Formats_CsvSettings_descriptor,
-        new java.lang.String[] { "SkipRows", "Delimiter", "NullValue", });
+        new java.lang.String[] { "SkipRows", "Delimiter", "NullValue", "Header", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

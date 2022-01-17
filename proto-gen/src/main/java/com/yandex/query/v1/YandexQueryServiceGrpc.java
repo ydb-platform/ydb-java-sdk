@@ -492,6 +492,37 @@ public final class YandexQueryServiceGrpc {
     return getDeleteConnectionMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.TestConnectionRequest,
+      com.yandex.query.YandexQueryProtos.TestConnectionResponse> getTestConnectionMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "TestConnection",
+      requestType = com.yandex.query.YandexQueryProtos.TestConnectionRequest.class,
+      responseType = com.yandex.query.YandexQueryProtos.TestConnectionResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.TestConnectionRequest,
+      com.yandex.query.YandexQueryProtos.TestConnectionResponse> getTestConnectionMethod() {
+    io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.TestConnectionRequest, com.yandex.query.YandexQueryProtos.TestConnectionResponse> getTestConnectionMethod;
+    if ((getTestConnectionMethod = YandexQueryServiceGrpc.getTestConnectionMethod) == null) {
+      synchronized (YandexQueryServiceGrpc.class) {
+        if ((getTestConnectionMethod = YandexQueryServiceGrpc.getTestConnectionMethod) == null) {
+          YandexQueryServiceGrpc.getTestConnectionMethod = getTestConnectionMethod =
+              io.grpc.MethodDescriptor.<com.yandex.query.YandexQueryProtos.TestConnectionRequest, com.yandex.query.YandexQueryProtos.TestConnectionResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "TestConnection"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.yandex.query.YandexQueryProtos.TestConnectionRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.yandex.query.YandexQueryProtos.TestConnectionResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new YandexQueryServiceMethodDescriptorSupplier("TestConnection"))
+              .build();
+        }
+      }
+    }
+    return getTestConnectionMethod;
+  }
+
   private static volatile io.grpc.MethodDescriptor<com.yandex.query.YandexQueryProtos.CreateBindingRequest,
       com.yandex.query.YandexQueryProtos.CreateBindingResponse> getCreateBindingMethod;
 
@@ -853,6 +884,16 @@ public final class YandexQueryServiceGrpc {
 
     /**
      * <pre>
+     * Test the connection (permissions, network, ...)
+     * </pre>
+     */
+    public void testConnection(com.yandex.query.YandexQueryProtos.TestConnectionRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.TestConnectionResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getTestConnectionMethod(), responseObserver);
+    }
+
+    /**
+     * <pre>
      * Binding
      * Binding - entity using which a schema is assigned to non-schematic data
      * Create a binding object - bind schema with ObjectStorage object or YDS stream
@@ -1010,6 +1051,13 @@ public final class YandexQueryServiceGrpc {
                 com.yandex.query.YandexQueryProtos.DeleteConnectionRequest,
                 com.yandex.query.YandexQueryProtos.DeleteConnectionResponse>(
                   this, METHODID_DELETE_CONNECTION)))
+          .addMethod(
+            getTestConnectionMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.yandex.query.YandexQueryProtos.TestConnectionRequest,
+                com.yandex.query.YandexQueryProtos.TestConnectionResponse>(
+                  this, METHODID_TEST_CONNECTION)))
           .addMethod(
             getCreateBindingMethod(),
             asyncUnaryCall(
@@ -1232,6 +1280,17 @@ public final class YandexQueryServiceGrpc {
         io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DeleteConnectionResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getDeleteConnectionMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     * <pre>
+     * Test the connection (permissions, network, ...)
+     * </pre>
+     */
+    public void testConnection(com.yandex.query.YandexQueryProtos.TestConnectionRequest request,
+        io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.TestConnectionResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getTestConnectionMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -1460,6 +1519,16 @@ public final class YandexQueryServiceGrpc {
     public com.yandex.query.YandexQueryProtos.DeleteConnectionResponse deleteConnection(com.yandex.query.YandexQueryProtos.DeleteConnectionRequest request) {
       return blockingUnaryCall(
           getChannel(), getDeleteConnectionMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Test the connection (permissions, network, ...)
+     * </pre>
+     */
+    public com.yandex.query.YandexQueryProtos.TestConnectionResponse testConnection(com.yandex.query.YandexQueryProtos.TestConnectionRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getTestConnectionMethod(), getCallOptions(), request);
     }
 
     /**
@@ -1702,6 +1771,17 @@ public final class YandexQueryServiceGrpc {
 
     /**
      * <pre>
+     * Test the connection (permissions, network, ...)
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.yandex.query.YandexQueryProtos.TestConnectionResponse> testConnection(
+        com.yandex.query.YandexQueryProtos.TestConnectionRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getTestConnectionMethod(), getCallOptions()), request);
+    }
+
+    /**
+     * <pre>
      * Binding
      * Binding - entity using which a schema is assigned to non-schematic data
      * Create a binding object - bind schema with ObjectStorage object or YDS stream
@@ -1773,11 +1853,12 @@ public final class YandexQueryServiceGrpc {
   private static final int METHODID_DESCRIBE_CONNECTION = 12;
   private static final int METHODID_MODIFY_CONNECTION = 13;
   private static final int METHODID_DELETE_CONNECTION = 14;
-  private static final int METHODID_CREATE_BINDING = 15;
-  private static final int METHODID_LIST_BINDINGS = 16;
-  private static final int METHODID_DESCRIBE_BINDING = 17;
-  private static final int METHODID_MODIFY_BINDING = 18;
-  private static final int METHODID_DELETE_BINDING = 19;
+  private static final int METHODID_TEST_CONNECTION = 15;
+  private static final int METHODID_CREATE_BINDING = 16;
+  private static final int METHODID_LIST_BINDINGS = 17;
+  private static final int METHODID_DESCRIBE_BINDING = 18;
+  private static final int METHODID_MODIFY_BINDING = 19;
+  private static final int METHODID_DELETE_BINDING = 20;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -1855,6 +1936,10 @@ public final class YandexQueryServiceGrpc {
         case METHODID_DELETE_CONNECTION:
           serviceImpl.deleteConnection((com.yandex.query.YandexQueryProtos.DeleteConnectionRequest) request,
               (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.DeleteConnectionResponse>) responseObserver);
+          break;
+        case METHODID_TEST_CONNECTION:
+          serviceImpl.testConnection((com.yandex.query.YandexQueryProtos.TestConnectionRequest) request,
+              (io.grpc.stub.StreamObserver<com.yandex.query.YandexQueryProtos.TestConnectionResponse>) responseObserver);
           break;
         case METHODID_CREATE_BINDING:
           serviceImpl.createBinding((com.yandex.query.YandexQueryProtos.CreateBindingRequest) request,
@@ -1952,6 +2037,7 @@ public final class YandexQueryServiceGrpc {
               .addMethod(getDescribeConnectionMethod())
               .addMethod(getModifyConnectionMethod())
               .addMethod(getDeleteConnectionMethod())
+              .addMethod(getTestConnectionMethod())
               .addMethod(getCreateBindingMethod())
               .addMethod(getListBindingsMethod())
               .addMethod(getDescribeBindingMethod())

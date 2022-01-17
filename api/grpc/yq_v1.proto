@@ -57,6 +57,9 @@ service YandexQueryService {
     // Completely delete the connection
     rpc DeleteConnection(YandexQuery.DeleteConnectionRequest) returns (YandexQuery.DeleteConnectionResponse);
 
+    // Test the connection (permissions, network, ...)
+    rpc TestConnection(YandexQuery.TestConnectionRequest) returns (YandexQuery.TestConnectionResponse);
+
     // Binding
     // Binding - entity using which a schema is assigned to non-schematic data
     // Create a binding object - bind schema with ObjectStorage object or YDS stream
