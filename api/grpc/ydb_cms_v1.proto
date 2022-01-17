@@ -3,7 +3,7 @@ syntax = "proto3";
 package Ydb.Cms.V1;
 option java_package = "tech.ydb.cms.v1";
 
-import "kikimr/public/api/protos/ydb_cms.proto";
+import "ydb/public/api/protos/ydb_cms.proto";
 
 // CMS stands for Cluster Management System. CmsService provides some
 // functionality for managing cluster, i.e. managing YDB Database

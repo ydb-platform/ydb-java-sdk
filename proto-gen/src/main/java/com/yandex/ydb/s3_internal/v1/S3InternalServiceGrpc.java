@@ -19,7 +19,7 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
  */
 @javax.annotation.Generated(
     value = "by gRPC proto compiler",
-    comments = "Source: kikimr/public/api/grpc/draft/ydb_s3_internal_v1.proto")
+    comments = "Source: ydb/public/api/grpc/draft/ydb_s3_internal_v1.proto")
 public final class S3InternalServiceGrpc {
 
   private S3InternalServiceGrpc() {}

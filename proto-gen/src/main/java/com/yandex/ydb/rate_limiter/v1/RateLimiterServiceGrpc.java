@@ -22,7 +22,7 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
  */
 @javax.annotation.Generated(
     value = "by gRPC proto compiler",
-    comments = "Source: kikimr/public/api/grpc/ydb_rate_limiter_v1.proto")
+    comments = "Source: ydb/public/api/grpc/ydb_rate_limiter_v1.proto")
 public final class RateLimiterServiceGrpc {
 
   private RateLimiterServiceGrpc() {}

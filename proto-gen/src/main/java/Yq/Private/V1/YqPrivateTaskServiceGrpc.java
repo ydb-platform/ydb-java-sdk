@@ -19,7 +19,7 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
  */
 @javax.annotation.Generated(
     value = "by gRPC proto compiler",
-    comments = "Source: kikimr/public/api/grpc/draft/yql_db_v1.proto")
+    comments = "Source: ydb/public/api/grpc/draft/yql_db_v1.proto")
 public final class YqPrivateTaskServiceGrpc {
 
   private YqPrivateTaskServiceGrpc() {}

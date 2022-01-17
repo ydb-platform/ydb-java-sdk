@@ -3,7 +3,7 @@ syntax = "proto3";
 package Ydb.Table.V1;
 option java_package = "tech.ydb.table.v1";
 
-import "kikimr/public/api/protos/ydb_table.proto";
+import "ydb/public/api/protos/ydb_table.proto";
 
 service TableService {
 

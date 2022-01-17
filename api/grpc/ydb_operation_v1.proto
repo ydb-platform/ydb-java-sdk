@@ -3,7 +3,7 @@ syntax = "proto3";
 package Ydb.Operation.V1;
 option java_package = "tech.ydb.operation.v1";
 
-import "kikimr/public/api/protos/ydb_operation.proto";
+import "ydb/public/api/protos/ydb_operation.proto";
 
 // All rpc calls to YDB are allowed to be asynchronous. Response message
 // of an rpc call contains Operation structure and OperationService
