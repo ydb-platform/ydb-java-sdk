@@ -78,7 +78,7 @@ final class RandomChoiceLoadBalancer extends LoadBalancer {
         Set<EquivalentAddressGroup> currentAddrs = subchannels.keySet();
         Map<EquivalentAddressGroup, EquivalentAddressGroup> latestAddrs = stripAttrs(servers);
         Set<EquivalentAddressGroup> removedAddrs = setsDifference(currentAddrs, latestAddrs.keySet());
-        logger.info(String.format("handle resolved address - %d latest addresses",  latestAddrs.size()));
+        logger.debug(String.format("handle resolved address - %d latest addresses",  latestAddrs.size()));
 
         for (Map.Entry<EquivalentAddressGroup, EquivalentAddressGroup> latestEntry :
                 latestAddrs.entrySet()) {
@@ -196,8 +196,12 @@ final class RandomChoiceLoadBalancer extends LoadBalancer {
         } else {
             updateBalancingState(READY, new ReadyPicker(activeList));
         }
-        logger.info(String.format("update balancing state list - %d active connections: %s", activeList.size(),
-                activeList.stream().map(s -> s.getAddresses().toString()).collect(Collectors.joining(","))));
+        if (logger.isTraceEnabled()) {
+            logger.trace(String.format("update balancing state list - %d active connections: %s", activeList.size(),
+                    activeList.stream().map(s -> s.getAddresses().toString()).collect(Collectors.joining(","))));
+        } else if(logger.isDebugEnabled()) {
+            logger.debug(String.format("update balancing state list - %d active connections.", activeList.size()));
+        }
     }
 
     private void updateBalancingState(ConnectivityState state, RandomChoicePicker picker) {

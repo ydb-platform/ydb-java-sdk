@@ -1,3 +1,7 @@
+## 1.10.5 ##
+
+* Lowered logging level for some messages.
+
 ## 1.10.4 ##
 
 * Discovery host resolve check was softened. Now at least 1/2 resolved hosts of all that discovery returned is considered as a success resolve. This prevents from failing requests when some hosts can not be resolved.

@@ -165,7 +165,9 @@ final class YdbNameResolver extends NameResolver {
         }
 
         ListEndpointsResult response = result.expect("listEndpoints()");
-        logger.debug("response METHOD_LIST_ENDPOINTS - {}", response.toString());
+        if (logger.isTraceEnabled()) {
+            logger.trace("response METHOD_LIST_ENDPOINTS - {}", response.toString());
+        }
         if (response.getEndpointsCount() == 0) {
             String msg = "unable to resolve database " + database + ", got empty list of endpoints";
             listener.onError(Status.UNAVAILABLE.withDescription(msg));

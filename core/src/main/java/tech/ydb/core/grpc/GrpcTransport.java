@@ -109,7 +109,7 @@ public class GrpcTransport implements RpcTransport {
                 try {
                     Instant start = Instant.now();
                     tryToConnect().get(WAIT_FOR_CONNECTION_MS, TimeUnit.MILLISECONDS);
-                    logger.debug("GrpcTransport sync initialization took {} ms",
+                    logger.info("GrpcTransport sync initialization took {} ms",
                             Duration.between(start, Instant.now()).toMillis());
                 } catch (TimeoutException ignore) {
                     logger.warn("Couldn't establish YDB transport connection in {} ms", WAIT_FOR_CONNECTION_MS);
