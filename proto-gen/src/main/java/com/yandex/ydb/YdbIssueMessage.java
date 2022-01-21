@@ -68,7 +68,7 @@ public final class YdbIssueMessage {
 
     /**
      * <pre>
-     * Severity values from yql/public/issue/protos/issue_severity.proto
+     * Severity values from ydb/library/yql/public/issue/protos/issue_severity.proto
      * FATAL = 0;
      * ERROR = 1;
      * WARNING = 2;
@@ -106,7 +106,7 @@ public final class YdbIssueMessage {
   }
   /**
    * <pre>
-   * IssueMessage is a transport format for yql/public/issue library
+   * IssueMessage is a transport format for ydb/library/yql/public/issue library
    * </pre>
    *
    * Protobuf type {@code Ydb.Issue.IssueMessage}
@@ -1055,7 +1055,7 @@ public final class YdbIssueMessage {
     private int severity_;
     /**
      * <pre>
-     * Severity values from yql/public/issue/protos/issue_severity.proto
+     * Severity values from ydb/library/yql/public/issue/protos/issue_severity.proto
      * FATAL = 0;
      * ERROR = 1;
      * WARNING = 2;
@@ -1333,7 +1333,7 @@ public final class YdbIssueMessage {
     }
     /**
      * <pre>
-     * IssueMessage is a transport format for yql/public/issue library
+     * IssueMessage is a transport format for ydb/library/yql/public/issue library
      * </pre>
      *
      * Protobuf type {@code Ydb.Issue.IssueMessage}
@@ -1915,7 +1915,7 @@ public final class YdbIssueMessage {
       private int severity_ ;
       /**
        * <pre>
-       * Severity values from yql/public/issue/protos/issue_severity.proto
+       * Severity values from ydb/library/yql/public/issue/protos/issue_severity.proto
        * FATAL = 0;
        * ERROR = 1;
        * WARNING = 2;
@@ -1931,7 +1931,7 @@ public final class YdbIssueMessage {
       }
       /**
        * <pre>
-       * Severity values from yql/public/issue/protos/issue_severity.proto
+       * Severity values from ydb/library/yql/public/issue/protos/issue_severity.proto
        * FATAL = 0;
        * ERROR = 1;
        * WARNING = 2;
@@ -1950,7 +1950,7 @@ public final class YdbIssueMessage {
       }
       /**
        * <pre>
-       * Severity values from yql/public/issue/protos/issue_severity.proto
+       * Severity values from ydb/library/yql/public/issue/protos/issue_severity.proto
        * FATAL = 0;
        * ERROR = 1;
        * WARNING = 2;
