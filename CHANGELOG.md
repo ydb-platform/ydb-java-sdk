@@ -1,3 +1,8 @@
+## 1.10.6 ##
+
+* Add JUnit tests with testcontainer support
+* Add bulk upsert example
+
 ## 1.10.5 ##
 
 * Lowered logging level for some messages.

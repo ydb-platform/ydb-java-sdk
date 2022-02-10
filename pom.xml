@@ -8,7 +8,7 @@
 
   <groupId>tech.ydb</groupId>
   <artifactId>ydb-sdk-parent</artifactId>
-  <version>1.10.5</version>
+  <version>1.10.6</version>
 
   <name>Java SDK for YDB</name>
   <description>Java SDK for YDB</description>
@@ -61,6 +61,11 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.2</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
