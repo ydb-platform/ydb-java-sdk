@@ -103,7 +103,7 @@ public final class PrimitiveType implements Type {
     private static final PrimitiveType TZ_DATETIME = new PrimitiveType(Id.TzDatetime, ProtoType.tzDatetime());
     private static final PrimitiveType TZ_TIMESTAMP = new PrimitiveType(Id.TzTimestamp, ProtoType.tzTimestamp());
     private static final PrimitiveType JSON_DOCUMENT = new PrimitiveType(Id.JsonDocument, ProtoType.jsonDocument());
-    private static final PrimitiveType DYNUMBER = new PrimitiveType(Id.DyNumber, ProtoType.tzTimestamp());
+    private static final PrimitiveType DYNUMBER = new PrimitiveType(Id.DyNumber, ProtoType.dyNumber());
 
     private static final PrimitiveType[] BY_IDS;
     static {
