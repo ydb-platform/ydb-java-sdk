@@ -1,3 +1,7 @@
+## 1.10.7 ##
+
+* Reuse HashedWheelTimer in GrpcOperationTray
+
 ## 1.10.6 ##
 
 * Add JUnit tests with testcontainer support

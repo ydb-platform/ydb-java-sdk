@@ -1,9 +1,13 @@
 package tech.ydb.core.grpc;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+
+import javax.annotation.concurrent.GuardedBy;
 
 import com.google.protobuf.Message;
 import tech.ydb.OperationProtos;
@@ -29,15 +33,26 @@ final class GrpcOperationTray implements OperationTray {
     private static final long INITIAL_DELAY_MILLIS = 10; // The delay before first operations service call, ms
     private static final long MAX_DELAY_MILLIS = 10_000; // The max delay between getOperation calls for one operation, ms
 
+    // From https://netty.io/4.1/api/io/netty/util/HashedWheelTimer.html
+    // HashedWheelTimer creates a new thread whenever it is instantiated and started.
+    // Therefore, you should make sure to create only one instance and share it across
+    // your application. One of the common mistakes, that makes your application unresponsive,
+    // is to create a new instance for every connection.
+    private static final Timer WHEEL_TIMER = new HashedWheelTimer(
+            new DefaultThreadFactory("SharedOperationTrayTimer"),
+            INITIAL_DELAY_MILLIS,
+            TimeUnit.MILLISECONDS
+    );
+
     private final GrpcTransport transport;
-    private final Timer timer;
+
+    @GuardedBy("this")
+    private final Set<Timeout> timeouts = new HashSet<>();
+    @GuardedBy("this")
+    private  CancellationException cancelEx = null;
 
     GrpcOperationTray(GrpcTransport transport) {
         this.transport = transport;
-        this.timer = new HashedWheelTimer(
-            new DefaultThreadFactory("OperationTrayTimer"),
-            INITIAL_DELAY_MILLIS,
-            TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -52,7 +67,7 @@ final class GrpcOperationTray implements OperationTray {
             }
         } else {
             new WaitStatusTask(operation.getId(), promise, deadlineAfter)
-                .scheduleNext(timer);
+                .scheduleNext(WHEEL_TIMER);
         }
 
         return promise;
@@ -80,7 +95,7 @@ final class GrpcOperationTray implements OperationTray {
             }
         } else {
             new WaitResultTask<>(operation.getId(), promise, resultClass, mapper, deadlineAfter)
-                .scheduleNext(timer);
+                .scheduleNext(WHEEL_TIMER);
         }
 
         return promise;
@@ -92,11 +107,13 @@ final class GrpcOperationTray implements OperationTray {
 
     @Override
     public void close() {
-        CancellationException cancelEx = new CancellationException();
-        for (Timeout timeout : timer.stop()) {
-            TimerTask task = timeout.task();
-            if (task instanceof BaseTask) {
-                ((BaseTask) task).promise.completeExceptionally(cancelEx);
+        synchronized (this) {
+            this.cancelEx = new CancellationException();
+            for (Timeout timeout : timeouts) {
+                TimerTask task = timeout.task();
+                if (task instanceof BaseTask) {
+                    ((BaseTask) task).promise.completeExceptionally(cancelEx);
+                }
             }
         }
     }
@@ -123,6 +140,14 @@ final class GrpcOperationTray implements OperationTray {
 
         @Override
         public void run(Timeout timeout) {
+            synchronized (GrpcOperationTray.this) {
+                // Check if operation tray is stopped and all tasks already completed with exception
+                if (cancelEx != null) {
+                    return;
+                }
+                timeouts.remove(timeout);
+            }
+
             if (promise.isCancelled()) {
                 return;
             }
@@ -153,9 +178,15 @@ final class GrpcOperationTray implements OperationTray {
         }
 
         void scheduleNext(Timer timer) {
-            // exponentially growing delay
-            delayMillis = Math.min(delayMillis * 2, MAX_DELAY_MILLIS);
-            timer.newTimeout(this, delayMillis, TimeUnit.MILLISECONDS);
+            synchronized (GrpcOperationTray.this) {
+                // Check if operation tray is stopped and all tasks already completed with exception
+                if (cancelEx != null) {
+                    return;
+                }
+                // exponentially growing delay
+                delayMillis = Math.min(delayMillis * 2, MAX_DELAY_MILLIS);
+                timeouts.add(timer.newTimeout(this, delayMillis, TimeUnit.MILLISECONDS));
+            }
         }
     }
 
