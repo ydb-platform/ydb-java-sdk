@@ -1,3 +1,7 @@
+## 1.10.8 ##
+
+* Add URL Shortener demo application
+
 ## 1.10.7 ##
 
 * Reuse HashedWheelTimer in GrpcOperationTray
