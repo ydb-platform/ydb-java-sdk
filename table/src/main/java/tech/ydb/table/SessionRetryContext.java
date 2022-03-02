@@ -1,6 +1,7 @@
 package tech.ydb.table;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.EnumSet;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -22,6 +23,8 @@ import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.utils.Async;
 import io.netty.util.Timeout;
 import io.netty.util.TimerTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -31,6 +34,7 @@ import static com.google.common.base.Preconditions.checkArgument;
  */
 @ParametersAreNonnullByDefault
 public class SessionRetryContext {
+    private final static Logger log = LoggerFactory.getLogger(SessionRetryContext.class);
 
     private static final EnumSet<StatusCode> RETRYABLE_STATUSES = EnumSet.of(
         StatusCode.ABORTED,
@@ -88,6 +92,18 @@ public class SessionRetryContext {
             return canRetry(statusCode);
         }
         return false;
+    }
+
+    private String errorMsg(Throwable t) {
+        if (!log.isDebugEnabled()) {
+            return "unknown";
+        }
+        Throwable cause = Async.unwrapCompletionException(t);
+        if (cause instanceof UnexpectedResultException) {
+            StatusCode statusCode = ((UnexpectedResultException) cause).getStatusCode();
+            return statusCode.name();
+        }
+        return t.getMessage();
     }
 
     private boolean canRetry(StatusCode code) {
@@ -161,6 +177,7 @@ public class SessionRetryContext {
         private final CompletableFuture<R> promise = new CompletableFuture<>();
         private final AtomicInteger retryNumber = new AtomicInteger();
         private final Function<Session, CompletableFuture<R>> fn;
+        private final long createTimestamp = Instant.now().toEpochMilli();
 
         BaseRetryableTask(Function<Session, CompletableFuture<R>> fn) {
             this.fn = fn;
@@ -173,10 +190,15 @@ public class SessionRetryContext {
         abstract StatusCode toStatusCode(R result);
         abstract R toFailedResult(Result<Session> sessionResult);
 
+        private long ms() {
+            return Instant.now().toEpochMilli() - createTimestamp;
+        }
+
         // called on timer expiration
         @Override
         public void run(Timeout timeout) {
             if (promise.isCancelled()) {
+                log.debug("RetryCtx[{}] cancelled, {} retries, {} ms", hashCode(), retryNumber.get(), ms());
                 return;
             }
             retryNumber.incrementAndGet();
@@ -222,6 +244,7 @@ public class SessionRetryContext {
 
                         StatusCode statusCode = toStatusCode(fnResult);
                         if (statusCode == StatusCode.SUCCESS) {
+                            log.debug("RetryCtx[{}] OK, {} retries, {} ms", hashCode(), retryNumber.get(), ms());
                             promise.complete(fnResult);
                         } else {
                             retryIfPossible(statusCode, fnResult, null);
@@ -246,15 +269,21 @@ public class SessionRetryContext {
             int retry = retryNumber.incrementAndGet();
 
             if (ex != null) {
+                String msg = errorMsg(ex);
                 if (retry <= maxRetries && canRetry(ex)) {
+                    log.debug("RetryCtx[{}] ERROR[{}], schedule next retry {}, {} ms", hashCode(), msg, retry, ms());
                     scheduleNext(backoffTimeMillis(ex, retry));
                 } else {
+                    log.debug("RetryCtx[{}] ERROR[{}], completed exceptionaly, {} retries, {} ms", hashCode(), msg, retry - 1, ms());
                     promise.completeExceptionally(ex);
                 }
             } else {
                 if (retry <= maxRetries && canRetry(code)) {
+                    log.debug("RetryCtx[{}] ERROR[{}], schedule next retry {}, {} ms", hashCode(), code, retry, ms());
                     scheduleNext(backoffTimeMillis(code, retry));
                 } else {
+                    String cause = canRetry(code) ? "retries limit" : "unretryable";
+                    log.debug("RetryCtx[{}] ERROR[{}], completed by {}, {} ms", hashCode(), code, cause, ms());
                     promise.complete(result);
                 }
             }

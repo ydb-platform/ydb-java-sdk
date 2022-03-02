@@ -1,3 +1,7 @@
+## 1.10.9 ##
+
+* Extended logging for Session and SessionRetryContext
+
 ## 1.10.8 ##
 
 * Add URL Shortener demo application

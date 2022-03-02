@@ -73,6 +73,8 @@ import tech.ydb.table.values.ListValue;
 import tech.ydb.table.values.Value;
 import tech.ydb.table.values.proto.ProtoType;
 import tech.ydb.table.values.proto.ProtoValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static tech.ydb.table.YdbTable.ColumnFamily.Compression.COMPRESSION_LZ4;
 import static tech.ydb.table.YdbTable.ColumnFamily.Compression.COMPRESSION_NONE;
@@ -83,6 +85,7 @@ import static tech.ydb.table.YdbTable.ColumnFamily.Compression.COMPRESSION_UNSPE
  * @author Sergey Polovko
  */
 class SessionImpl implements Session {
+    private final static Logger log = LoggerFactory.getLogger(Session.class);
 
     enum State {
         IDLE,
@@ -541,8 +544,28 @@ class SessionImpl implements Session {
                 .setKeepInCache(true);
         }
 
+        String msg = "query";
+        if (log.isDebugEnabled() && keepQueryText) {
+            StringBuilder sb = new StringBuilder(query.replaceAll("\\s", " "));
+            if (!params.isEmpty()) {
+                sb.append(" [");
+                boolean one = true;
+                for (Map.Entry<String, Value<?>> entry : params.values().entrySet()) {
+                    if (!one) {
+                        sb.append(", ");
+                    }
+                    sb.append(entry.getKey());
+                    sb.append("=");
+                    sb.append(entry.getValue());
+                    one = false;
+                }
+                sb.append("]");
+            }
+            msg = sb.toString();
+        }
+
         final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
-        return interceptResult(tableRpc.executeDataQuery(request.build(), deadlineAfter)
+        return interceptResultWithLog(msg, tableRpc.executeDataQuery(request.build(), deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
@@ -935,6 +958,15 @@ class SessionImpl implements Session {
                 }
                 return operationTray.waitStatus(response.expect("deleteSession()").getOperation(), deadlineAfter);
             }));
+    }
+
+    private <T> CompletableFuture<Result<T>> interceptResultWithLog(String msg, CompletableFuture<Result<T>> future) {
+        final long start = Instant.now().toEpochMilli();
+        return future.whenComplete((r, t) -> {
+            long ms = Instant.now().toEpochMilli() - start;
+            log.debug("Session[{}] {} => {}, took {} ms", hashCode(), msg, r.getCode(), ms);
+            changeSessionState(t, r.getCode());
+        });
     }
 
     private <T> CompletableFuture<Result<T>> interceptResult(CompletableFuture<Result<T>> future) {
