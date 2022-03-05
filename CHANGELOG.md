@@ -1,3 +1,7 @@
+## 1.10.10 ##
+
+* Fix retries counter in SessionRetryContext
+
 ## 1.10.9 ##
 
 * Extended logging for Session and SessionRetryContext

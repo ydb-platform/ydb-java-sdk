@@ -30,7 +30,7 @@ public class SessionRetryContextTest {
     @Test
     public void successSession_successResult() {
         SessionRetryContext ctx = SessionRetryContext.create(new SuccessSupplier())
-            .maxRetries(3)
+            .maxRetries(2)
             .build();
 
         AtomicInteger cnt = new AtomicInteger();
@@ -46,7 +46,7 @@ public class SessionRetryContextTest {
     @Test
     public void successSession_failedResult() {
         SessionRetryContext ctx = SessionRetryContext.create(new SuccessSupplier())
-            .maxRetries(3)
+            .maxRetries(2)
             .backoffSlot(TEN_MILLIS)
             .build();
 
@@ -78,7 +78,7 @@ public class SessionRetryContextTest {
     @Test
     public void successSession_exceptionResult() {
         SessionRetryContext ctx = SessionRetryContext.create(new SuccessSupplier())
-            .maxRetries(3)
+            .maxRetries(2)
             .backoffSlot(TEN_MILLIS)
             .retryNotFound(true)
             .build();
@@ -122,7 +122,7 @@ public class SessionRetryContextTest {
     @Test
     public void successSession_successStatus() {
         SessionRetryContext ctx = SessionRetryContext.create(new SuccessSupplier())
-            .maxRetries(3)
+            .maxRetries(2)
             .build();
 
         AtomicInteger cnt = new AtomicInteger();
@@ -138,7 +138,7 @@ public class SessionRetryContextTest {
     @Test
     public void successSession_failedStatus() {
         SessionRetryContext ctx = SessionRetryContext.create(new SuccessSupplier())
-            .maxRetries(3)
+            .maxRetries(2)
             .backoffSlot(TEN_MILLIS)
             .build();
 
@@ -177,7 +177,7 @@ public class SessionRetryContextTest {
         for(StatusCode statusCode : slowBackoffCodes) {
             FailSupplier sessionSupplier = new FailSupplier(1, statusCode);
             SessionRetryContext ctx = SessionRetryContext.create(sessionSupplier)
-                .maxRetries(1)
+                .maxRetries(2)
                 .backoffSlot(TEN_MILLIS)
                 .fastBackoffSlot(TEN_SECONDS)
                 .build();
@@ -193,7 +193,7 @@ public class SessionRetryContextTest {
             Assert.assertTrue(String.format("Code: %s - Wrong timeout between retries", statusCode.toString()),
                     timePassed.compareTo(FIVE_SECONDS) < 0);
 
-            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 2, sessionSupplier.getRetriesCount());
+            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 2, sessionSupplier.getRequestsCount());
             Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 1, cnt.get());
             Assert.assertEquals(Status.SUCCESS, status);
         }
@@ -207,7 +207,7 @@ public class SessionRetryContextTest {
         for(StatusCode statusCode : fastBackoffCodes) {
             FailSupplier sessionSupplier = new FailSupplier(1, statusCode);
             SessionRetryContext ctx = SessionRetryContext.create(sessionSupplier)
-                    .maxRetries(1)
+                    .maxRetries(2)
                     .backoffSlot(TEN_SECONDS)
                     .fastBackoffSlot(TEN_MILLIS)
                     .build();
@@ -223,7 +223,7 @@ public class SessionRetryContextTest {
             Assert.assertTrue(String.format("Code: %s - Wrong timeout between retries", statusCode.toString()),
                     timePassed.compareTo(FIVE_SECONDS) < 0);
 
-            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 2, sessionSupplier.getRetriesCount());
+            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 2, sessionSupplier.getRequestsCount());
             Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 1, cnt.get());
             Assert.assertEquals(Status.SUCCESS, status);
         }
@@ -240,14 +240,14 @@ public class SessionRetryContextTest {
             FailSupplier sessionSupplier = new FailSupplier(1, statusCode);
             SessionRetryContext ctx = SessionRetryContext.create(sessionSupplier).build();
             Status status = ctx.supplyStatus(session -> completedFuture(Status.SUCCESS)).join();
-            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 1, sessionSupplier.getRetriesCount());
+            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 1, sessionSupplier.getRequestsCount());
             Assert.assertEquals(statusCode, status.getCode());
         }
         // Idempotent = true
         for(StatusCode statusCode : fastBackoffIdempotentCodes) {
             FailSupplier sessionSupplier = new FailSupplier(1, statusCode);
             SessionRetryContext ctx = SessionRetryContext.create(sessionSupplier)
-                    .maxRetries(1)
+                    .maxRetries(2)
                     .backoffSlot(TEN_SECONDS)
                     .fastBackoffSlot(TEN_MILLIS)
                     .idempotent(true)
@@ -264,7 +264,7 @@ public class SessionRetryContextTest {
             Assert.assertTrue(String.format("Code: %s - Wrong timeout between retries", statusCode.toString()),
                     timePassed.compareTo(FIVE_SECONDS) < 0);
 
-            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 2, sessionSupplier.getRetriesCount());
+            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 2, sessionSupplier.getRequestsCount());
             Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 1, cnt.get());
             Assert.assertEquals(Status.SUCCESS, status);
         }
@@ -292,7 +292,7 @@ public class SessionRetryContextTest {
             Assert.assertTrue(String.format("Code: %s - Wrong timeout between retries", statusCode.toString()),
                     timePassed.compareTo(FIVE_SECONDS) < 0);
 
-            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 2, sessionSupplier.getRetriesCount());
+            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 2, sessionSupplier.getRequestsCount());
             Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 1, cnt.get());
             Assert.assertEquals(Status.SUCCESS, status);
         }
@@ -301,7 +301,7 @@ public class SessionRetryContextTest {
         {
             FailSupplier sessionSupplier = new FailSupplier(10, StatusCode.CLIENT_RESOURCE_EXHAUSTED);
             SessionRetryContext ctx = SessionRetryContext.create(sessionSupplier)
-                .maxRetries(3)
+                .maxRetries(2)
                 .backoffSlot(TEN_MILLIS)
                 .build();
 
@@ -311,7 +311,7 @@ public class SessionRetryContextTest {
                 return completedFuture(Status.SUCCESS);
             }).join();
 
-            Assert.assertEquals(3, sessionSupplier.getRetriesCount());
+            Assert.assertEquals(3, sessionSupplier.getRequestsCount());
             Assert.assertEquals(0, cnt.get());
             Assert.assertEquals(Status.of(StatusCode.CLIENT_RESOURCE_EXHAUSTED), status);
         }
@@ -321,7 +321,7 @@ public class SessionRetryContextTest {
     public void failedSession_nonRetryable() {
         FailSupplier sessionSupplier = new FailSupplier(10, StatusCode.TRANSPORT_UNAVAILABLE);
         SessionRetryContext ctx = SessionRetryContext.create(sessionSupplier)
-            .maxRetries(3)
+            .maxRetries(2)
             .build();
 
         AtomicInteger cnt = new AtomicInteger();
@@ -330,7 +330,7 @@ public class SessionRetryContextTest {
             return completedFuture(Status.SUCCESS);
         }).join();
 
-        Assert.assertEquals(1, sessionSupplier.getRetriesCount());
+        Assert.assertEquals(1, sessionSupplier.getRequestsCount());
         Assert.assertEquals(0, cnt.get());
         Assert.assertEquals(Status.of(StatusCode.TRANSPORT_UNAVAILABLE), status);
     }
@@ -339,7 +339,7 @@ public class SessionRetryContextTest {
     public void exceptionSession() {
         ExceptionSupplier sessionSupplier = new ExceptionSupplier();
         SessionRetryContext ctx = SessionRetryContext.create(sessionSupplier)
-            .maxRetries(3)
+            .maxRetries(2)
             .build();
 
         AtomicInteger cnt = new AtomicInteger();
@@ -362,7 +362,7 @@ public class SessionRetryContextTest {
     @Test(timeout = 5_000)
     public void sessionBusy_retryable() {
         SessionRetryContext ctx = SessionRetryContext.create(new SuccessSupplier())
-            .maxRetries(3)
+            .maxRetries(2)
             .backoffSlot(Duration.ofHours(10L))
             .build();
 
@@ -394,20 +394,20 @@ public class SessionRetryContextTest {
     private static final class FailSupplier implements SessionSupplier {
         private final int maxFails;
         private final StatusCode statusCode;
-        private final AtomicInteger retriesCount = new AtomicInteger();
+        private final AtomicInteger requestsCount = new AtomicInteger();
 
         FailSupplier(int maxFails, StatusCode statusCode) {
             this.maxFails = maxFails;
             this.statusCode = statusCode;
         }
 
-        int getRetriesCount() {
-            return retriesCount.get();
+        int getRequestsCount() {
+            return requestsCount.get();
         }
 
         @Override
         public CompletableFuture<Result<Session>> getOrCreateSession(Duration timeout) {
-            if (retriesCount.getAndIncrement() == maxFails) {
+            if (requestsCount.getAndIncrement() >= maxFails) {
                 return completedFuture(Result.success(new SessionStub()));
             }
             return completedFuture(Result.fail(statusCode));

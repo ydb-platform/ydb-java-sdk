@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.util.concurrent.MoreExecutors;
@@ -201,7 +201,6 @@ public class SessionRetryContext {
                 log.debug("RetryCtx[{}] cancelled, {} retries, {} ms", hashCode(), retryNumber.get(), ms());
                 return;
             }
-            retryNumber.incrementAndGet();
             // call run() method outside of the timer thread
             executor.execute(this::run);
         }
@@ -222,12 +221,12 @@ public class SessionRetryContext {
             assert (sessionResult == null) != (sessionException == null);
 
             if (sessionException != null) {
-                retryIfPossible(null, null, sessionException);
+                handleException(sessionException);
                 return;
             }
 
             if (!sessionResult.isSuccess()) {
-                retryIfPossible(sessionResult.getCode(), toFailedResult(sessionResult), null);
+                handleError(sessionResult.getCode(), toFailedResult(sessionResult));
                 return;
             }
 
@@ -238,18 +237,21 @@ public class SessionRetryContext {
                         session.release();
 
                         if (fnException != null) {
-                            retryIfPossible(null, null, fnException);
+                            handleException(fnException);
                             return;
                         }
 
                         StatusCode statusCode = toStatusCode(fnResult);
                         if (statusCode == StatusCode.SUCCESS) {
-                            log.debug("RetryCtx[{}] OK, {} retries, {} ms", hashCode(), retryNumber.get(), ms());
+                            log.debug("RetryCtx[{}] OK, finished after {} retries, {} ms total",
+                                    hashCode(), retryNumber.get(), ms());
                             promise.complete(fnResult);
                         } else {
-                            retryIfPossible(statusCode, fnResult, null);
+                            handleError(statusCode, fnResult);
                         }
                     } catch (Throwable unexpected) {
+                        log.debug("RetryCtx[{}] UNEXPECTED[{}], finished after {} retries, {} ms total",
+                                hashCode(), unexpected.getMessage(), retryNumber.get(), ms());
                         promise.completeExceptionally(unexpected);
                     }
                 });
@@ -262,30 +264,47 @@ public class SessionRetryContext {
             Async.runAfter(this, delayMillis, TimeUnit.MILLISECONDS);
         }
 
-        private void retryIfPossible(@Nullable StatusCode code, @Nullable R result, @Nullable Throwable ex) {
-            assert (result == null) != (ex == null);
-            assert (code == null) == (result == null);
+        private void handleError(@Nonnull StatusCode code, R result) {
+            // Check retrayable status
+            if (!canRetry(code)) {
+                log.debug("RetryCtx[{}] NON-RETRYABLE CODE[{}], finished after {} retries, {} ms total",
+                        hashCode(), code, retryNumber.get(), ms());
+                promise.complete(result);
+                return;
+            }
 
             int retry = retryNumber.incrementAndGet();
-
-            if (ex != null) {
-                String msg = errorMsg(ex);
-                if (retry <= maxRetries && canRetry(ex)) {
-                    log.debug("RetryCtx[{}] ERROR[{}], schedule next retry {}, {} ms", hashCode(), msg, retry, ms());
-                    scheduleNext(backoffTimeMillis(ex, retry));
-                } else {
-                    log.debug("RetryCtx[{}] ERROR[{}], completed exceptionaly, {} retries, {} ms", hashCode(), msg, retry - 1, ms());
-                    promise.completeExceptionally(ex);
-                }
+            if (retry <= maxRetries) {
+                long next = backoffTimeMillis(code, retry);
+                log.debug("RetryCtx[{}] RETRYABLE CODE[{}], scheduling next retry #{} in {} ms, {} ms total",
+                        hashCode(), code, retry, next, ms());
+                scheduleNext(next);
             } else {
-                if (retry <= maxRetries && canRetry(code)) {
-                    log.debug("RetryCtx[{}] ERROR[{}], schedule next retry {}, {} ms", hashCode(), code, retry, ms());
-                    scheduleNext(backoffTimeMillis(code, retry));
-                } else {
-                    String cause = canRetry(code) ? "retries limit" : "unretryable";
-                    log.debug("RetryCtx[{}] ERROR[{}], completed by {}, {} ms", hashCode(), code, cause, ms());
-                    promise.complete(result);
-                }
+                log.debug("RetryCtx[{}] RETRYABLE CODE[{}], finished by retries limit ({}), {} ms total",
+                        hashCode(), code, maxRetries, ms());
+                promise.complete(result);
+            }
+        }
+
+        private void handleException(@Nonnull Throwable ex) {
+            // Check retrayable execption
+            if (!canRetry(ex)) {
+                log.debug("RetryCtx[{}] NON-RETRYABLE ERROR[{}], finished after {} retries, {} ms total",
+                        hashCode(), errorMsg(ex), retryNumber.get(), ms());
+                promise.completeExceptionally(ex);
+                return;
+            }
+
+            int retry = retryNumber.incrementAndGet();
+            if (retry <= maxRetries) {
+                long next = backoffTimeMillis(ex, retry);
+                log.debug("RetryCtx[{}] RETRYABLE ERROR[{}], scheduling next retry #{} in {} ms, {} ms total",
+                        hashCode(), errorMsg(ex), retry, next, ms());
+                scheduleNext(next);
+            } else {
+                log.debug("RetryCtx[{}] RETRYABLE ERROR[{}], finished by retries limit ({}), {} ms total",
+                        hashCode(), errorMsg(ex), maxRetries, ms());
+                promise.completeExceptionally(ex);
             }
         }
     }
