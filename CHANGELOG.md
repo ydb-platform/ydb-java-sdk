@@ -1,3 +1,7 @@
+## 1.10.11 ##
+
+* Fix unwrapped CompletionException for getOrCreateSession
+
 ## 1.10.10 ##
 
 * Fix retries counter in SessionRetryContext

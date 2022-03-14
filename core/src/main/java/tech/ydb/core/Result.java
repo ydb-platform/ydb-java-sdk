@@ -35,6 +35,10 @@ public abstract class Result<T> {
         return new Fail<>(code, issues);
     }
 
+    public static <V> Result<V> fail(UnexpectedResultException unexpected) {
+        return new Fail<>(unexpected.getStatusCode(), unexpected.getIssues());
+    }
+
     public static <V> Result<V> error(Throwable throwable) {
         return new Error<>("", throwable);
     }

@@ -8,7 +8,7 @@
   <parent>
     <groupId>tech.ydb</groupId>
     <artifactId>ydb-sdk-parent</artifactId>
-    <version>1.10.10</version>
+    <version>1.10.11</version>
   </parent>
 
   <artifactId>ydb-sdk-table</artifactId>
@@ -20,28 +20,34 @@
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>tech.ydb</groupId>
-      <artifactId>ydb-sdk-core</artifactId>
-      <version>${project.parent.version}</version>
-    </dependency>
-	<dependency>
-	  <groupId>junit</groupId>
-	  <artifactId>junit</artifactId>
-	  <version>4.13.1</version>
-      <scope>test</scope>
-	</dependency>
-	<dependency>
-	  <groupId>com.google.truth</groupId>
-	  <artifactId>truth</artifactId>
-	  <version>0.34</version>
-      <scope>test</scope>
-	</dependency>
-	<dependency>
-	  <groupId>com.google.truth.extensions</groupId>
-	  <artifactId>truth-proto-extension</artifactId>
-	  <version>0.34</version>
-      <scope>test</scope>
-	</dependency>
+      <dependency>
+          <groupId>tech.ydb</groupId>
+          <artifactId>ydb-sdk-core</artifactId>
+          <version>${project.parent.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>4.13.1</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-slf4j-impl</artifactId>
+          <version>2.17.1</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>com.google.truth</groupId>
+          <artifactId>truth</artifactId>
+          <version>0.34</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>com.google.truth.extensions</groupId>
+          <artifactId>truth-proto-extension</artifactId>
+          <version>0.34</version>
+          <scope>test</scope>
+      </dependency>
   </dependencies>
 </project>

@@ -1,6 +1,5 @@
 package tech.ydb.core;
 
-import com.google.protobuf.Any;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 import tech.ydb.OperationProtos.Operation;
@@ -27,14 +26,5 @@ public final class Operations {
         } catch (InvalidProtocolBufferException e) {
             throw new RuntimeException("cannot unpack result of operation: " + operation.getId(), e);
         }
-    }
-
-    public static <M extends Message> Operation packResult(M message) {
-        return Operation.newBuilder()
-            .setId("fake_id")
-            .setStatus(StatusIds.StatusCode.SUCCESS)
-            .setReady(true)
-            .setResult(Any.pack(message))
-            .build();
     }
 }
