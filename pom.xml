@@ -16,7 +16,6 @@
 
   <modules>
     <module>core</module>
-    <module>examples/url-shortener-demo</module>
     <module>proto-gen</module>
     <module>table</module>
   </modules>
