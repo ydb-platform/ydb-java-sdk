@@ -1,4 +1,8 @@
-## 1.11.0 ##
+## 1.11.2 ##
+
+* Fixed Netty TLS on JDK8 builds
+
+## 1.11.1 ##
 
 * Additional timing logs for Session
 
