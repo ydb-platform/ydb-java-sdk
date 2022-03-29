@@ -10448,24 +10448,28 @@ public final class YqPrivate {
     tech.ydb.OperationProtos.OperationParamsOrBuilder getOperationParamsOrBuilder();
 
     /**
-     * <pre>
-     *TODO remove
-     * </pre>
-     *
      * <code>string scope = 100;</code>
      * @return The scope.
      */
     java.lang.String getScope();
     /**
-     * <pre>
-     *TODO remove
-     * </pre>
-     *
      * <code>string scope = 100;</code>
      * @return The bytes for scope.
      */
     com.google.protobuf.ByteString
         getScopeBytes();
+
+    /**
+     * <code>string tenant = 104;</code>
+     * @return The tenant.
+     */
+    java.lang.String getTenant();
+    /**
+     * <code>string tenant = 104;</code>
+     * @return The bytes for tenant.
+     */
+    com.google.protobuf.ByteString
+        getTenantBytes();
 
     /**
      * <code>.google.protobuf.Timestamp started_at = 101;</code>
@@ -10538,6 +10542,7 @@ public final class YqPrivate {
       createdTopicConsumers_ = java.util.Collections.emptyList();
       stateLoadMode_ = 0;
       scope_ = "";
+      tenant_ = "";
     }
 
     @java.lang.Override
@@ -10780,6 +10785,12 @@ public final class YqPrivate {
                 deadline_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            case 834: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              tenant_ = s;
               break;
             }
             default: {
@@ -11410,10 +11421,6 @@ public final class YqPrivate {
     public static final int SCOPE_FIELD_NUMBER = 100;
     private volatile java.lang.Object scope_;
     /**
-     * <pre>
-     *TODO remove
-     * </pre>
-     *
      * <code>string scope = 100;</code>
      * @return The scope.
      */
@@ -11431,10 +11438,6 @@ public final class YqPrivate {
       }
     }
     /**
-     * <pre>
-     *TODO remove
-     * </pre>
-     *
      * <code>string scope = 100;</code>
      * @return The bytes for scope.
      */
@@ -11447,6 +11450,44 @@ public final class YqPrivate {
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
         scope_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TENANT_FIELD_NUMBER = 104;
+    private volatile java.lang.Object tenant_;
+    /**
+     * <code>string tenant = 104;</code>
+     * @return The tenant.
+     */
+    @java.lang.Override
+    public java.lang.String getTenant() {
+      java.lang.Object ref = tenant_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        tenant_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string tenant = 104;</code>
+     * @return The bytes for tenant.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTenantBytes() {
+      java.lang.Object ref = tenant_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tenant_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -11617,6 +11658,9 @@ public final class YqPrivate {
       if (deadline_ != null) {
         output.writeMessage(103, getDeadline());
       }
+      if (!getTenantBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 104, tenant_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -11721,6 +11765,9 @@ public final class YqPrivate {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(103, getDeadline());
       }
+      if (!getTenantBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(104, tenant_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -11791,6 +11838,8 @@ public final class YqPrivate {
       }
       if (!getScope()
           .equals(other.getScope())) return false;
+      if (!getTenant()
+          .equals(other.getTenant())) return false;
       if (hasStartedAt() != other.hasStartedAt()) return false;
       if (hasStartedAt()) {
         if (!getStartedAt()
@@ -11880,6 +11929,8 @@ public final class YqPrivate {
       }
       hash = (37 * hash) + SCOPE_FIELD_NUMBER;
       hash = (53 * hash) + getScope().hashCode();
+      hash = (37 * hash) + TENANT_FIELD_NUMBER;
+      hash = (53 * hash) + getTenant().hashCode();
       if (hasStartedAt()) {
         hash = (37 * hash) + STARTED_AT_FIELD_NUMBER;
         hash = (53 * hash) + getStartedAt().hashCode();
@@ -12107,6 +12158,8 @@ public final class YqPrivate {
         }
         scope_ = "";
 
+        tenant_ = "";
+
         if (startedAtBuilder_ == null) {
           startedAt_ = null;
         } else {
@@ -12229,6 +12282,7 @@ public final class YqPrivate {
           result.operationParams_ = operationParamsBuilder_.build();
         }
         result.scope_ = scope_;
+        result.tenant_ = tenant_;
         if (startedAtBuilder_ == null) {
           result.startedAt_ = startedAt_;
         } else {
@@ -12458,6 +12512,10 @@ public final class YqPrivate {
         }
         if (!other.getScope().isEmpty()) {
           scope_ = other.scope_;
+          onChanged();
+        }
+        if (!other.getTenant().isEmpty()) {
+          tenant_ = other.tenant_;
           onChanged();
         }
         if (other.hasStartedAt()) {
@@ -14722,10 +14780,6 @@ public final class YqPrivate {
 
       private java.lang.Object scope_ = "";
       /**
-       * <pre>
-       *TODO remove
-       * </pre>
-       *
        * <code>string scope = 100;</code>
        * @return The scope.
        */
@@ -14742,10 +14796,6 @@ public final class YqPrivate {
         }
       }
       /**
-       * <pre>
-       *TODO remove
-       * </pre>
-       *
        * <code>string scope = 100;</code>
        * @return The bytes for scope.
        */
@@ -14763,10 +14813,6 @@ public final class YqPrivate {
         }
       }
       /**
-       * <pre>
-       *TODO remove
-       * </pre>
-       *
        * <code>string scope = 100;</code>
        * @param value The scope to set.
        * @return This builder for chaining.
@@ -14782,10 +14828,6 @@ public final class YqPrivate {
         return this;
       }
       /**
-       * <pre>
-       *TODO remove
-       * </pre>
-       *
        * <code>string scope = 100;</code>
        * @return This builder for chaining.
        */
@@ -14796,10 +14838,6 @@ public final class YqPrivate {
         return this;
       }
       /**
-       * <pre>
-       *TODO remove
-       * </pre>
-       *
        * <code>string scope = 100;</code>
        * @param value The bytes for scope to set.
        * @return This builder for chaining.
@@ -14812,6 +14850,82 @@ public final class YqPrivate {
   checkByteStringIsUtf8(value);
         
         scope_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object tenant_ = "";
+      /**
+       * <code>string tenant = 104;</code>
+       * @return The tenant.
+       */
+      public java.lang.String getTenant() {
+        java.lang.Object ref = tenant_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          tenant_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string tenant = 104;</code>
+       * @return The bytes for tenant.
+       */
+      public com.google.protobuf.ByteString
+          getTenantBytes() {
+        java.lang.Object ref = tenant_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tenant_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string tenant = 104;</code>
+       * @param value The tenant to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTenant(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        tenant_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string tenant = 104;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTenant() {
+        
+        tenant_ = getDefaultInstance().getTenant();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string tenant = 104;</code>
+       * @param value The bytes for tenant to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTenantBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        tenant_ = value;
         onChanged();
         return this;
       }
@@ -23000,7 +23114,7 @@ public final class YqPrivate {
       "amingDisposition\0323\n\021SensorLabelsEntry\022\013\n" +
       "\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"?\n\017GetTask" +
       "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
-      "ions.Operation\"\225\007\n\017PingTaskRequest\022\020\n\010ow" +
+      "ions.Operation\"\245\007\n\017PingTaskRequest\022\020\n\010ow" +
       "ner_id\030\001 \001(\t\022,\n\010query_id\030\002 \001(\0132\032.Yq.Priv" +
       "ate.SignedIdentity\022*\n\006job_id\030\003 \001(\0132\032.Yq." +
       "Private.SignedIdentity\022-\n\tresult_id\030\004 \001(" +
@@ -23019,36 +23133,37 @@ public final class YqPrivate {
       "exQuery.StateLoadMode\0226\n\013disposition\030\023 \001" +
       "(\0132!.YandexQuery.StreamingDisposition\0229\n" +
       "\020operation_params\030\017 \001(\0132\037.Ydb.Operations" +
-      ".OperationParams\022\r\n\005scope\030d \001(\t\022.\n\nstart" +
-      "ed_at\030e \001(\0132\032.google.protobuf.Timestamp\022" +
-      "/\n\013finished_at\030f \001(\0132\032.google.protobuf.T" +
-      "imestamp\022,\n\010deadline\030g \001(\0132\032.google.prot" +
-      "obuf.Timestamp\":\n\016PingTaskResult\022(\n\006acti" +
-      "on\030\001 \001(\0162\030.YandexQuery.QueryAction\"@\n\020Pi" +
-      "ngTaskResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
-      "Operations.Operation\"\241\002\n\026WriteTaskResult" +
-      "Request\022\020\n\010owner_id\030\001 \001(\t\022-\n\tresult_id\030\002" +
-      " \001(\0132\032.Yq.Private.SignedIdentity\022\"\n\nresu" +
-      "lt_set\030\003 \001(\0132\016.Ydb.ResultSet\022\025\n\rresult_s" +
-      "et_id\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\022\n\nrequest_i" +
-      "d\030\006 \001(\004\0229\n\020operation_params\030\007 \001(\0132\037.Ydb." +
-      "Operations.OperationParams\022,\n\010deadline\030\010" +
-      " \001(\0132\032.google.protobuf.Timestamp\"+\n\025Writ" +
-      "eTaskResultResult\022\022\n\nrequest_id\030\001 \001(\004\"G\n" +
-      "\027WriteTaskResultResponse\022,\n\toperation\030\001 " +
-      "\001(\0132\031.Ydb.Operations.Operation\"\273\001\n\010NodeI" +
-      "nfo\022\017\n\007node_id\030\001 \001(\r\022\023\n\013instance_id\030\002 \001(" +
-      "\t\022\020\n\010hostname\030\003 \001(\t\022\026\n\016active_workers\030\004 " +
-      "\001(\004\022\024\n\014memory_limit\030\005 \001(\004\022\030\n\020memory_allo" +
-      "cated\030\006 \001(\004\022\031\n\021interconnect_port\030\007 \001(\r\022\024" +
-      "\n\014node_address\030\010 \001(\t\"\210\001\n\027NodesHealthChec" +
-      "kRequest\022\016\n\006tenant\030\001 \001(\t\022\"\n\004node\030\002 \001(\0132\024" +
-      ".Yq.Private.NodeInfo\0229\n\020operation_params" +
-      "\030\006 \001(\0132\037.Ydb.Operations.OperationParams\"" +
-      "=\n\026NodesHealthCheckResult\022#\n\005nodes\030\001 \003(\013" +
-      "2\024.Yq.Private.NodeInfo\"H\n\030NodesHealthChe" +
-      "ckResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
-      "ations.OperationB\003\370\001\001b\006proto3"
+      ".OperationParams\022\r\n\005scope\030d \001(\t\022\016\n\006tenan" +
+      "t\030h \001(\t\022.\n\nstarted_at\030e \001(\0132\032.google.pro" +
+      "tobuf.Timestamp\022/\n\013finished_at\030f \001(\0132\032.g" +
+      "oogle.protobuf.Timestamp\022,\n\010deadline\030g \001" +
+      "(\0132\032.google.protobuf.Timestamp\":\n\016PingTa" +
+      "skResult\022(\n\006action\030\001 \001(\0162\030.YandexQuery.Q" +
+      "ueryAction\"@\n\020PingTaskResponse\022,\n\toperat" +
+      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\241\002\n" +
+      "\026WriteTaskResultRequest\022\020\n\010owner_id\030\001 \001(" +
+      "\t\022-\n\tresult_id\030\002 \001(\0132\032.Yq.Private.Signed" +
+      "Identity\022\"\n\nresult_set\030\003 \001(\0132\016.Ydb.Resul" +
+      "tSet\022\025\n\rresult_set_id\030\004 \001(\r\022\016\n\006offset\030\005 " +
+      "\001(\004\022\022\n\nrequest_id\030\006 \001(\004\0229\n\020operation_par" +
+      "ams\030\007 \001(\0132\037.Ydb.Operations.OperationPara" +
+      "ms\022,\n\010deadline\030\010 \001(\0132\032.google.protobuf.T" +
+      "imestamp\"+\n\025WriteTaskResultResult\022\022\n\nreq" +
+      "uest_id\030\001 \001(\004\"G\n\027WriteTaskResultResponse" +
+      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
+      "ration\"\273\001\n\010NodeInfo\022\017\n\007node_id\030\001 \001(\r\022\023\n\013" +
+      "instance_id\030\002 \001(\t\022\020\n\010hostname\030\003 \001(\t\022\026\n\016a" +
+      "ctive_workers\030\004 \001(\004\022\024\n\014memory_limit\030\005 \001(" +
+      "\004\022\030\n\020memory_allocated\030\006 \001(\004\022\031\n\021interconn" +
+      "ect_port\030\007 \001(\r\022\024\n\014node_address\030\010 \001(\t\"\210\001\n" +
+      "\027NodesHealthCheckRequest\022\016\n\006tenant\030\001 \001(\t" +
+      "\022\"\n\004node\030\002 \001(\0132\024.Yq.Private.NodeInfo\0229\n\020" +
+      "operation_params\030\006 \001(\0132\037.Ydb.Operations." +
+      "OperationParams\"=\n\026NodesHealthCheckResul" +
+      "t\022#\n\005nodes\030\001 \003(\0132\024.Yq.Private.NodeInfo\"H" +
+      "\n\030NodesHealthCheckResponse\022,\n\toperation\030" +
+      "\001 \001(\0132\031.Ydb.Operations.OperationB\003\370\001\001b\006p" +
+      "roto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -23106,7 +23221,7 @@ public final class YqPrivate {
     internal_static_Yq_Private_PingTaskRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yq_Private_PingTaskRequest_descriptor,
-        new java.lang.String[] { "OwnerId", "QueryId", "JobId", "ResultId", "Status", "Issues", "TransientIssues", "ResultSetCount", "Statistics", "ResultSetMeta", "ExecuterInfo", "DqGraph", "DqGraphIndex", "Ast", "Plan", "ResignQuery", "CreatedTopicConsumers", "StateLoadMode", "Disposition", "OperationParams", "Scope", "StartedAt", "FinishedAt", "Deadline", });
+        new java.lang.String[] { "OwnerId", "QueryId", "JobId", "ResultId", "Status", "Issues", "TransientIssues", "ResultSetCount", "Statistics", "ResultSetMeta", "ExecuterInfo", "DqGraph", "DqGraphIndex", "Ast", "Plan", "ResignQuery", "CreatedTopicConsumers", "StateLoadMode", "Disposition", "OperationParams", "Scope", "Tenant", "StartedAt", "FinishedAt", "Deadline", });
     internal_static_Yq_Private_PingTaskResult_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_Yq_Private_PingTaskResult_fieldAccessorTable = new
