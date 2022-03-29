@@ -2591,7 +2591,7 @@ public final class YandexQueryProtos {
      * Start processing with offset which corresponds to the last checkpoint
      * </pre>
      *
-     * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
+     * <code>.YandexQuery.StreamingDisposition.FromLastCheckpoint from_last_checkpoint = 5;</code>
      * @return Whether the fromLastCheckpoint field is set.
      */
     boolean hasFromLastCheckpoint();
@@ -2600,18 +2600,18 @@ public final class YandexQueryProtos {
      * Start processing with offset which corresponds to the last checkpoint
      * </pre>
      *
-     * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
+     * <code>.YandexQuery.StreamingDisposition.FromLastCheckpoint from_last_checkpoint = 5;</code>
      * @return The fromLastCheckpoint.
      */
-    com.google.protobuf.Empty getFromLastCheckpoint();
+    com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint getFromLastCheckpoint();
     /**
      * <pre>
      * Start processing with offset which corresponds to the last checkpoint
      * </pre>
      *
-     * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
+     * <code>.YandexQuery.StreamingDisposition.FromLastCheckpoint from_last_checkpoint = 5;</code>
      */
-    com.google.protobuf.EmptyOrBuilder getFromLastCheckpointOrBuilder();
+    com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpointOrBuilder getFromLastCheckpointOrBuilder();
 
     public com.yandex.query.YandexQueryProtos.StreamingDisposition.DispositionCase getDispositionCase();
   }
@@ -2721,14 +2721,14 @@ public final class YandexQueryProtos {
               break;
             }
             case 42: {
-              com.google.protobuf.Empty.Builder subBuilder = null;
+              com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.Builder subBuilder = null;
               if (dispositionCase_ == 5) {
-                subBuilder = ((com.google.protobuf.Empty) disposition_).toBuilder();
+                subBuilder = ((com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint) disposition_).toBuilder();
               }
               disposition_ =
-                  input.readMessage(com.google.protobuf.Empty.parser(), extensionRegistry);
+                  input.readMessage(com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((com.google.protobuf.Empty) disposition_);
+                subBuilder.mergeFrom((com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint) disposition_);
                 disposition_ = subBuilder.buildPartial();
               }
               dispositionCase_ = 5;
@@ -4008,6 +4008,530 @@ public final class YandexQueryProtos {
 
     }
 
+    public interface FromLastCheckpointOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:YandexQuery.StreamingDisposition.FromLastCheckpoint)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <pre>
+       * By default if new query streams set doesn't equal to old query streams set,
+       * error will occur and query won't be allowed to load offsets for streams for the last checkpoint.
+       * If this flag is set all offsets that can be matched with previous query checkpoint will be matched.
+       * Others will use "fresh" streaming disposition.
+       * </pre>
+       *
+       * <code>bool force = 1;</code>
+       * @return The force.
+       */
+      boolean getForce();
+    }
+    /**
+     * Protobuf type {@code YandexQuery.StreamingDisposition.FromLastCheckpoint}
+     */
+    public static final class FromLastCheckpoint extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:YandexQuery.StreamingDisposition.FromLastCheckpoint)
+        FromLastCheckpointOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use FromLastCheckpoint.newBuilder() to construct.
+      private FromLastCheckpoint(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private FromLastCheckpoint() {
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new FromLastCheckpoint();
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private FromLastCheckpoint(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+
+                force_ = input.readBool();
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_StreamingDisposition_FromLastCheckpoint_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_StreamingDisposition_FromLastCheckpoint_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.class, com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.Builder.class);
+      }
+
+      public static final int FORCE_FIELD_NUMBER = 1;
+      private boolean force_;
+      /**
+       * <pre>
+       * By default if new query streams set doesn't equal to old query streams set,
+       * error will occur and query won't be allowed to load offsets for streams for the last checkpoint.
+       * If this flag is set all offsets that can be matched with previous query checkpoint will be matched.
+       * Others will use "fresh" streaming disposition.
+       * </pre>
+       *
+       * <code>bool force = 1;</code>
+       * @return The force.
+       */
+      @java.lang.Override
+      public boolean getForce() {
+        return force_;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (force_ != false) {
+          output.writeBool(1, force_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (force_ != false) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeBoolSize(1, force_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint)) {
+          return super.equals(obj);
+        }
+        com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint other = (com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint) obj;
+
+        if (getForce()
+            != other.getForce()) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + FORCE_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getForce());
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code YandexQuery.StreamingDisposition.FromLastCheckpoint}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:YandexQuery.StreamingDisposition.FromLastCheckpoint)
+          com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpointOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_StreamingDisposition_FromLastCheckpoint_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_StreamingDisposition_FromLastCheckpoint_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.class, com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.Builder.class);
+        }
+
+        // Construct using com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          force_ = false;
+
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return com.yandex.query.YandexQueryProtos.internal_static_YandexQuery_StreamingDisposition_FromLastCheckpoint_descriptor;
+        }
+
+        @java.lang.Override
+        public com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint getDefaultInstanceForType() {
+          return com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint build() {
+          com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint buildPartial() {
+          com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint result = new com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint(this);
+          result.force_ = force_;
+          onBuilt();
+          return result;
+        }
+
+        @java.lang.Override
+        public Builder clone() {
+          return super.clone();
+        }
+        @java.lang.Override
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return super.setField(field, value);
+        }
+        @java.lang.Override
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return super.clearField(field);
+        }
+        @java.lang.Override
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return super.clearOneof(oneof);
+        }
+        @java.lang.Override
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return super.setRepeatedField(field, index, value);
+        }
+        @java.lang.Override
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return super.addRepeatedField(field, value);
+        }
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint) {
+            return mergeFrom((com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint other) {
+          if (other == com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.getDefaultInstance()) return this;
+          if (other.getForce() != false) {
+            setForce(other.getForce());
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+
+        private boolean force_ ;
+        /**
+         * <pre>
+         * By default if new query streams set doesn't equal to old query streams set,
+         * error will occur and query won't be allowed to load offsets for streams for the last checkpoint.
+         * If this flag is set all offsets that can be matched with previous query checkpoint will be matched.
+         * Others will use "fresh" streaming disposition.
+         * </pre>
+         *
+         * <code>bool force = 1;</code>
+         * @return The force.
+         */
+        @java.lang.Override
+        public boolean getForce() {
+          return force_;
+        }
+        /**
+         * <pre>
+         * By default if new query streams set doesn't equal to old query streams set,
+         * error will occur and query won't be allowed to load offsets for streams for the last checkpoint.
+         * If this flag is set all offsets that can be matched with previous query checkpoint will be matched.
+         * Others will use "fresh" streaming disposition.
+         * </pre>
+         *
+         * <code>bool force = 1;</code>
+         * @param value The force to set.
+         * @return This builder for chaining.
+         */
+        public Builder setForce(boolean value) {
+          
+          force_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * By default if new query streams set doesn't equal to old query streams set,
+         * error will occur and query won't be allowed to load offsets for streams for the last checkpoint.
+         * If this flag is set all offsets that can be matched with previous query checkpoint will be matched.
+         * Others will use "fresh" streaming disposition.
+         * </pre>
+         *
+         * <code>bool force = 1;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearForce() {
+          
+          force_ = false;
+          onChanged();
+          return this;
+        }
+        @java.lang.Override
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFields(unknownFields);
+        }
+
+        @java.lang.Override
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:YandexQuery.StreamingDisposition.FromLastCheckpoint)
+      }
+
+      // @@protoc_insertion_point(class_scope:YandexQuery.StreamingDisposition.FromLastCheckpoint)
+      private static final com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint();
+      }
+
+      public static com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<FromLastCheckpoint>
+          PARSER = new com.google.protobuf.AbstractParser<FromLastCheckpoint>() {
+        @java.lang.Override
+        public FromLastCheckpoint parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new FromLastCheckpoint(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<FromLastCheckpoint> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<FromLastCheckpoint> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
     private int dispositionCase_ = 0;
     private java.lang.Object disposition_;
     public enum DispositionCase
@@ -4233,7 +4757,7 @@ public final class YandexQueryProtos {
      * Start processing with offset which corresponds to the last checkpoint
      * </pre>
      *
-     * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
+     * <code>.YandexQuery.StreamingDisposition.FromLastCheckpoint from_last_checkpoint = 5;</code>
      * @return Whether the fromLastCheckpoint field is set.
      */
     @java.lang.Override
@@ -4245,29 +4769,29 @@ public final class YandexQueryProtos {
      * Start processing with offset which corresponds to the last checkpoint
      * </pre>
      *
-     * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
+     * <code>.YandexQuery.StreamingDisposition.FromLastCheckpoint from_last_checkpoint = 5;</code>
      * @return The fromLastCheckpoint.
      */
     @java.lang.Override
-    public com.google.protobuf.Empty getFromLastCheckpoint() {
+    public com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint getFromLastCheckpoint() {
       if (dispositionCase_ == 5) {
-         return (com.google.protobuf.Empty) disposition_;
+         return (com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint) disposition_;
       }
-      return com.google.protobuf.Empty.getDefaultInstance();
+      return com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.getDefaultInstance();
     }
     /**
      * <pre>
      * Start processing with offset which corresponds to the last checkpoint
      * </pre>
      *
-     * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
+     * <code>.YandexQuery.StreamingDisposition.FromLastCheckpoint from_last_checkpoint = 5;</code>
      */
     @java.lang.Override
-    public com.google.protobuf.EmptyOrBuilder getFromLastCheckpointOrBuilder() {
+    public com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpointOrBuilder getFromLastCheckpointOrBuilder() {
       if (dispositionCase_ == 5) {
-         return (com.google.protobuf.Empty) disposition_;
+         return (com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint) disposition_;
       }
-      return com.google.protobuf.Empty.getDefaultInstance();
+      return com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.getDefaultInstance();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -4297,7 +4821,7 @@ public final class YandexQueryProtos {
         output.writeMessage(4, (com.yandex.query.YandexQueryProtos.StreamingDisposition.TimeAgo) disposition_);
       }
       if (dispositionCase_ == 5) {
-        output.writeMessage(5, (com.google.protobuf.Empty) disposition_);
+        output.writeMessage(5, (com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint) disposition_);
       }
       unknownFields.writeTo(output);
     }
@@ -4326,7 +4850,7 @@ public final class YandexQueryProtos {
       }
       if (dispositionCase_ == 5) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, (com.google.protobuf.Empty) disposition_);
+          .computeMessageSize(5, (com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint) disposition_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -5430,13 +5954,13 @@ public final class YandexQueryProtos {
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
-          com.google.protobuf.Empty, com.google.protobuf.Empty.Builder, com.google.protobuf.EmptyOrBuilder> fromLastCheckpointBuilder_;
+          com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint, com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.Builder, com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpointOrBuilder> fromLastCheckpointBuilder_;
       /**
        * <pre>
        * Start processing with offset which corresponds to the last checkpoint
        * </pre>
        *
-       * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
+       * <code>.YandexQuery.StreamingDisposition.FromLastCheckpoint from_last_checkpoint = 5;</code>
        * @return Whether the fromLastCheckpoint field is set.
        */
       @java.lang.Override
@@ -5448,21 +5972,21 @@ public final class YandexQueryProtos {
        * Start processing with offset which corresponds to the last checkpoint
        * </pre>
        *
-       * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
+       * <code>.YandexQuery.StreamingDisposition.FromLastCheckpoint from_last_checkpoint = 5;</code>
        * @return The fromLastCheckpoint.
        */
       @java.lang.Override
-      public com.google.protobuf.Empty getFromLastCheckpoint() {
+      public com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint getFromLastCheckpoint() {
         if (fromLastCheckpointBuilder_ == null) {
           if (dispositionCase_ == 5) {
-            return (com.google.protobuf.Empty) disposition_;
+            return (com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint) disposition_;
           }
-          return com.google.protobuf.Empty.getDefaultInstance();
+          return com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.getDefaultInstance();
         } else {
           if (dispositionCase_ == 5) {
             return fromLastCheckpointBuilder_.getMessage();
           }
-          return com.google.protobuf.Empty.getDefaultInstance();
+          return com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.getDefaultInstance();
         }
       }
       /**
@@ -5470,9 +5994,9 @@ public final class YandexQueryProtos {
        * Start processing with offset which corresponds to the last checkpoint
        * </pre>
        *
-       * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
+       * <code>.YandexQuery.StreamingDisposition.FromLastCheckpoint from_last_checkpoint = 5;</code>
        */
-      public Builder setFromLastCheckpoint(com.google.protobuf.Empty value) {
+      public Builder setFromLastCheckpoint(com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint value) {
         if (fromLastCheckpointBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -5490,10 +6014,10 @@ public final class YandexQueryProtos {
        * Start processing with offset which corresponds to the last checkpoint
        * </pre>
        *
-       * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
+       * <code>.YandexQuery.StreamingDisposition.FromLastCheckpoint from_last_checkpoint = 5;</code>
        */
       public Builder setFromLastCheckpoint(
-          com.google.protobuf.Empty.Builder builderForValue) {
+          com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.Builder builderForValue) {
         if (fromLastCheckpointBuilder_ == null) {
           disposition_ = builderForValue.build();
           onChanged();
@@ -5508,13 +6032,13 @@ public final class YandexQueryProtos {
        * Start processing with offset which corresponds to the last checkpoint
        * </pre>
        *
-       * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
+       * <code>.YandexQuery.StreamingDisposition.FromLastCheckpoint from_last_checkpoint = 5;</code>
        */
-      public Builder mergeFromLastCheckpoint(com.google.protobuf.Empty value) {
+      public Builder mergeFromLastCheckpoint(com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint value) {
         if (fromLastCheckpointBuilder_ == null) {
           if (dispositionCase_ == 5 &&
-              disposition_ != com.google.protobuf.Empty.getDefaultInstance()) {
-            disposition_ = com.google.protobuf.Empty.newBuilder((com.google.protobuf.Empty) disposition_)
+              disposition_ != com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.getDefaultInstance()) {
+            disposition_ = com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.newBuilder((com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint) disposition_)
                 .mergeFrom(value).buildPartial();
           } else {
             disposition_ = value;
@@ -5534,7 +6058,7 @@ public final class YandexQueryProtos {
        * Start processing with offset which corresponds to the last checkpoint
        * </pre>
        *
-       * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
+       * <code>.YandexQuery.StreamingDisposition.FromLastCheckpoint from_last_checkpoint = 5;</code>
        */
       public Builder clearFromLastCheckpoint() {
         if (fromLastCheckpointBuilder_ == null) {
@@ -5557,9 +6081,9 @@ public final class YandexQueryProtos {
        * Start processing with offset which corresponds to the last checkpoint
        * </pre>
        *
-       * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
+       * <code>.YandexQuery.StreamingDisposition.FromLastCheckpoint from_last_checkpoint = 5;</code>
        */
-      public com.google.protobuf.Empty.Builder getFromLastCheckpointBuilder() {
+      public com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.Builder getFromLastCheckpointBuilder() {
         return getFromLastCheckpointFieldBuilder().getBuilder();
       }
       /**
@@ -5567,17 +6091,17 @@ public final class YandexQueryProtos {
        * Start processing with offset which corresponds to the last checkpoint
        * </pre>
        *
-       * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
+       * <code>.YandexQuery.StreamingDisposition.FromLastCheckpoint from_last_checkpoint = 5;</code>
        */
       @java.lang.Override
-      public com.google.protobuf.EmptyOrBuilder getFromLastCheckpointOrBuilder() {
+      public com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpointOrBuilder getFromLastCheckpointOrBuilder() {
         if ((dispositionCase_ == 5) && (fromLastCheckpointBuilder_ != null)) {
           return fromLastCheckpointBuilder_.getMessageOrBuilder();
         } else {
           if (dispositionCase_ == 5) {
-            return (com.google.protobuf.Empty) disposition_;
+            return (com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint) disposition_;
           }
-          return com.google.protobuf.Empty.getDefaultInstance();
+          return com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.getDefaultInstance();
         }
       }
       /**
@@ -5585,18 +6109,18 @@ public final class YandexQueryProtos {
        * Start processing with offset which corresponds to the last checkpoint
        * </pre>
        *
-       * <code>.google.protobuf.Empty from_last_checkpoint = 5;</code>
+       * <code>.YandexQuery.StreamingDisposition.FromLastCheckpoint from_last_checkpoint = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          com.google.protobuf.Empty, com.google.protobuf.Empty.Builder, com.google.protobuf.EmptyOrBuilder> 
+          com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint, com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.Builder, com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpointOrBuilder> 
           getFromLastCheckpointFieldBuilder() {
         if (fromLastCheckpointBuilder_ == null) {
           if (!(dispositionCase_ == 5)) {
-            disposition_ = com.google.protobuf.Empty.getDefaultInstance();
+            disposition_ = com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.getDefaultInstance();
           }
           fromLastCheckpointBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              com.google.protobuf.Empty, com.google.protobuf.Empty.Builder, com.google.protobuf.EmptyOrBuilder>(
-                  (com.google.protobuf.Empty) disposition_,
+              com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint, com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint.Builder, com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpointOrBuilder>(
+                  (com.yandex.query.YandexQueryProtos.StreamingDisposition.FromLastCheckpoint) disposition_,
                   getParentForChildren(),
                   isClean());
           disposition_ = null;
@@ -8873,6 +9397,17 @@ public final class YandexQueryProtos {
     com.google.protobuf.ByteString
         getPausedByBytes();
 
+    /**
+     * <pre>
+     * One of the versions of this query has fully saved checkpoint.
+     * If this flag is not set streaming disposition mode "from last checkpoint" can't be used.
+     * </pre>
+     *
+     * <code>bool has_saved_checkpoints = 13;</code>
+     * @return The hasSavedCheckpoints.
+     */
+    boolean getHasSavedCheckpoints();
+
     public com.yandex.query.YandexQueryProtos.QueryMeta.ActionCase getActionCase();
   }
   /**
@@ -9028,6 +9563,11 @@ public final class YandexQueryProtos {
               java.lang.String s = input.readStringRequireUtf8();
               actionCase_ = 12;
               action_ = s;
+              break;
+            }
+            case 104: {
+
+              hasSavedCheckpoints_ = input.readBool();
               break;
             }
             default: {
@@ -9782,6 +10322,22 @@ public final class YandexQueryProtos {
       }
     }
 
+    public static final int HAS_SAVED_CHECKPOINTS_FIELD_NUMBER = 13;
+    private boolean hasSavedCheckpoints_;
+    /**
+     * <pre>
+     * One of the versions of this query has fully saved checkpoint.
+     * If this flag is not set streaming disposition mode "from last checkpoint" can't be used.
+     * </pre>
+     *
+     * <code>bool has_saved_checkpoints = 13;</code>
+     * @return The hasSavedCheckpoints.
+     */
+    @java.lang.Override
+    public boolean getHasSavedCheckpoints() {
+      return hasSavedCheckpoints_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -9831,6 +10387,9 @@ public final class YandexQueryProtos {
       }
       if (actionCase_ == 12) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 12, action_);
+      }
+      if (hasSavedCheckpoints_ != false) {
+        output.writeBool(13, hasSavedCheckpoints_);
       }
       unknownFields.writeTo(output);
     }
@@ -9885,6 +10444,10 @@ public final class YandexQueryProtos {
       if (actionCase_ == 12) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(12, action_);
       }
+      if (hasSavedCheckpoints_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(13, hasSavedCheckpoints_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -9933,6 +10496,8 @@ public final class YandexQueryProtos {
       }
       if (!getStartedBy()
           .equals(other.getStartedBy())) return false;
+      if (getHasSavedCheckpoints()
+          != other.getHasSavedCheckpoints()) return false;
       if (!getActionCase().equals(other.getActionCase())) return false;
       switch (actionCase_) {
         case 11:
@@ -9988,6 +10553,9 @@ public final class YandexQueryProtos {
       }
       hash = (37 * hash) + STARTED_BY_FIELD_NUMBER;
       hash = (53 * hash) + getStartedBy().hashCode();
+      hash = (37 * hash) + HAS_SAVED_CHECKPOINTS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getHasSavedCheckpoints());
       switch (actionCase_) {
         case 11:
           hash = (37 * hash) + ABORTED_BY_FIELD_NUMBER;
@@ -10173,6 +10741,8 @@ public final class YandexQueryProtos {
         }
         startedBy_ = "";
 
+        hasSavedCheckpoints_ = false;
+
         actionCase_ = 0;
         action_ = null;
         return this;
@@ -10237,6 +10807,7 @@ public final class YandexQueryProtos {
         if (actionCase_ == 12) {
           result.action_ = action_;
         }
+        result.hasSavedCheckpoints_ = hasSavedCheckpoints_;
         result.actionCase_ = actionCase_;
         onBuilt();
         return result;
@@ -10317,6 +10888,9 @@ public final class YandexQueryProtos {
         if (!other.getStartedBy().isEmpty()) {
           startedBy_ = other.startedBy_;
           onChanged();
+        }
+        if (other.getHasSavedCheckpoints() != false) {
+          setHasSavedCheckpoints(other.getHasSavedCheckpoints());
         }
         switch (other.getActionCase()) {
           case ABORTED_BY: {
@@ -11455,6 +12029,52 @@ public final class YandexQueryProtos {
   checkByteStringIsUtf8(value);
         actionCase_ = 12;
         action_ = value;
+        onChanged();
+        return this;
+      }
+
+      private boolean hasSavedCheckpoints_ ;
+      /**
+       * <pre>
+       * One of the versions of this query has fully saved checkpoint.
+       * If this flag is not set streaming disposition mode "from last checkpoint" can't be used.
+       * </pre>
+       *
+       * <code>bool has_saved_checkpoints = 13;</code>
+       * @return The hasSavedCheckpoints.
+       */
+      @java.lang.Override
+      public boolean getHasSavedCheckpoints() {
+        return hasSavedCheckpoints_;
+      }
+      /**
+       * <pre>
+       * One of the versions of this query has fully saved checkpoint.
+       * If this flag is not set streaming disposition mode "from last checkpoint" can't be used.
+       * </pre>
+       *
+       * <code>bool has_saved_checkpoints = 13;</code>
+       * @param value The hasSavedCheckpoints to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHasSavedCheckpoints(boolean value) {
+        
+        hasSavedCheckpoints_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * One of the versions of this query has fully saved checkpoint.
+       * If this flag is not set streaming disposition mode "from last checkpoint" can't be used.
+       * </pre>
+       *
+       * <code>bool has_saved_checkpoints = 13;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHasSavedCheckpoints() {
+        
+        hasSavedCheckpoints_ = false;
         onChanged();
         return this;
       }
@@ -94629,6 +95249,11 @@ public final class YandexQueryProtos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_YandexQuery_StreamingDisposition_TimeAgo_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_YandexQuery_StreamingDisposition_FromLastCheckpoint_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_YandexQuery_StreamingDisposition_FromLastCheckpoint_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_YandexQuery_QueryContent_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -95155,354 +95780,356 @@ public final class YandexQueryProtos {
       "\010\262\346*\004>= 0\022!\n\017max_result_size\030\004 \001(\003B\010\262\346*\004" +
       ">= 0\022!\n\017max_result_rows\030\005 \001(\003B\010\262\346*\004>= 0\022" +
       "\036\n\014memory_limit\030\006 \001(\003B\010\262\346*\004>= 0\022-\n\nresul" +
-      "t_ttl\030\007 \001(\0132\031.google.protobuf.Duration\"\243" +
+      "t_ttl\030\007 \001(\0132\031.google.protobuf.Duration\"\346" +
       "\003\n\024StreamingDisposition\022(\n\006oldest\030\001 \001(\0132" +
       "\026.google.protobuf.EmptyH\000\022\'\n\005fresh\030\002 \001(\013" +
       "2\026.google.protobuf.EmptyH\000\022?\n\tfrom_time\030" +
       "\003 \001(\0132*.YandexQuery.StreamingDisposition" +
       ".FromTimeH\000\022=\n\010time_ago\030\004 \001(\0132).YandexQu" +
-      "ery.StreamingDisposition.TimeAgoH\000\0226\n\024fr" +
-      "om_last_checkpoint\030\005 \001(\0132\026.google.protob" +
-      "uf.EmptyH\000\0329\n\010FromTime\022-\n\ttimestamp\030\001 \001(" +
-      "\0132\032.google.protobuf.Timestamp\0326\n\007TimeAgo" +
-      "\022+\n\010duration\030\001 \001(\0132\031.google.protobuf.Dur" +
-      "ationB\r\n\013disposition\"\254\002\n\014QueryContent\0221\n" +
-      "\004type\030\001 \001(\0162#.YandexQuery.QueryContent.Q" +
-      "ueryType\022\025\n\004name\030\002 \001(\tB\007\242\346*\003\030\200\010\022\035\n\003acl\030\003" +
-      " \001(\0132\020.YandexQuery.Acl\022#\n\006limits\030\004 \001(\0132\023" +
-      ".YandexQuery.Limits\022\026\n\004text\030\005 \001(\tB\010\242\346*\004\030" +
-      "\200\240\006\022\021\n\tautomatic\030\006 \001(\010\022\034\n\013description\030\007 " +
-      "\001(\tB\007\242\346*\003\030\200P\"E\n\tQueryType\022\032\n\026QUERY_TYPE_" +
-      "UNSPECIFIED\020\000\022\r\n\tANALYTICS\020\001\022\r\n\tSTREAMIN" +
-      "G\020\002\"\345\001\n\nCommonMeta\022\027\n\002id\030\001 \001(\tB\013\242\346*\007\n\005\010\001" +
-      "\020\200\010\022\037\n\ncreated_by\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022 \n\013" +
-      "modified_by\030\003 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022.\n\ncreate" +
-      "d_at\030\004 \001(\0132\032.google.protobuf.Timestamp\022/" +
-      "\n\013modified_at\030\005 \001(\0132\032.google.protobuf.Ti" +
-      "mestamp\022\032\n\010revision\030\006 \001(\003B\010\262\346*\004>= 0\"\345\005\n\t" +
-      "QueryMeta\022\'\n\006common\030\001 \001(\0132\027.YandexQuery." +
-      "CommonMeta\022.\n\nstarted_at\030\002 \001(\0132\032.google." +
-      "protobuf.Timestamp\022/\n\013finished_at\030\003 \001(\0132" +
-      "\032.google.protobuf.Timestamp\022.\n\014execute_m" +
-      "ode\030\004 \001(\0162\030.YandexQuery.ExecuteMode\0224\n\006s" +
-      "tatus\030\005 \001(\0162$.YandexQuery.QueryMeta.Comp" +
-      "uteStatus\022\037\n\027last_job_query_revision\030\006 \001" +
-      "(\003\022\023\n\013last_job_id\030\007 \001(\t\022-\n\texpire_at\030\010 \001" +
-      "(\0132\032.google.protobuf.Timestamp\0224\n\020result" +
-      "_expire_at\030\t \001(\0132\032.google.protobuf.Times" +
-      "tamp\022\022\n\nstarted_by\030\n \001(\t\022\024\n\naborted_by\030\013" +
-      " \001(\tH\000\022\023\n\tpaused_by\030\014 \001(\tH\000\"\203\002\n\rComputeS" +
-      "tatus\022\036\n\032COMPUTE_STATUS_UNSPECIFIED\020\000\022\014\n" +
-      "\010STARTING\020\001\022\023\n\017ABORTED_BY_USER\020\002\022\025\n\021ABOR" +
-      "TED_BY_SYSTEM\020\003\022\024\n\020ABORTING_BY_USER\020\004\022\026\n" +
-      "\022ABORTING_BY_SYSTEM\020\005\022\014\n\010RESUMING\020\006\022\013\n\007R" +
-      "UNNING\020\007\022\r\n\tCOMPLETED\020\010\022\016\n\nCOMPLETING\020\014\022" +
-      "\n\n\006FAILED\020\t\022\013\n\007FAILING\020\r\022\n\n\006PAUSED\020\013\022\013\n\007" +
-      "PAUSING\020\nB\010\n\006action\"\300\001\n\nBriefQuery\0221\n\004ty" +
-      "pe\030\001 \001(\0162#.YandexQuery.QueryContent.Quer" +
-      "yType\022\025\n\004name\030\002 \001(\tB\007\242\346*\003\030\200\010\022$\n\004meta\030\003 \001" +
-      "(\0132\026.YandexQuery.QueryMeta\022/\n\nvisibility" +
-      "\030\004 \001(\0162\033.YandexQuery.Acl.Visibility\022\021\n\ta" +
-      "utomatic\030\005 \001(\010\"\031\n\tQueryPlan\022\014\n\004json\030\001 \001(" +
-      "\t\"\030\n\010QueryAst\022\014\n\004data\030\001 \001(\t\"]\n\rResultSet" +
-      "Meta\022\033\n\006column\030\001 \003(\0132\013.Ydb.Column\022\034\n\nrow" +
-      "s_count\030\002 \001(\003B\010\262\346*\004>= 0\022\021\n\ttruncated\030\003 \001" +
-      "(\010\"\344\002\n\005Query\022$\n\004meta\030\001 \001(\0132\026.YandexQuery" +
-      ".QueryMeta\022*\n\007content\030\002 \001(\0132\031.YandexQuer" +
-      "y.QueryContent\022$\n\004plan\030\003 \001(\0132\026.YandexQue" +
-      "ry.QueryPlan\022&\n\005issue\030\004 \003(\0132\027.Ydb.Issue." +
-      "IssueMessage\0220\n\017transient_issue\030\005 \003(\0132\027." +
-      "Ydb.Issue.IssueMessage\0220\n\nstatistics\030\006 \001" +
-      "(\0132\034.YandexQuery.QueryStatistics\0223\n\017resu" +
-      "lt_set_meta\030\007 \003(\0132\032.YandexQuery.ResultSe" +
-      "tMeta\022\"\n\003ast\030\010 \001(\0132\025.YandexQuery.QueryAs" +
-      "t\"\037\n\017QueryStatistics\022\014\n\004json\030\001 \001(\t\"\205\002\n\022C" +
-      "reateQueryRequest\0229\n\020operation_params\030\001 " +
-      "\001(\0132\037.Ydb.Operations.OperationParams\022*\n\007" +
-      "content\030\002 \001(\0132\031.YandexQuery.QueryContent" +
-      "\022.\n\014execute_mode\030\003 \001(\0162\030.YandexQuery.Exe" +
-      "cuteMode\0226\n\013disposition\030\004 \001(\0132!.YandexQu" +
-      "ery.StreamingDisposition\022 \n\017idempotency_" +
-      "key\030\005 \001(\tB\007\242\346*\003\030\200\010\"C\n\023CreateQueryRespons" +
-      "e\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Op" +
-      "eration\".\n\021CreateQueryResult\022\031\n\010query_id" +
-      "\030\001 \001(\tB\007\242\346*\003\030\200\010\"\201\004\n\022ListQueriesRequest\0229" +
-      "\n\020operation_params\030\001 \001(\0132\037.Ydb.Operation" +
-      "s.OperationParams\022\033\n\npage_token\030\002 \001(\tB\007\242" +
-      "\346*\003\030\200\010\022\033\n\005limit\030\003 \001(\005B\014\262\346*\010[1; 100]\0226\n\006f" +
-      "ilter\030\004 \001(\0132&.YandexQuery.ListQueriesReq" +
-      "uest.Filter\032\275\002\n\006Filter\0227\n\nquery_type\030\001 \001" +
-      "(\0162#.YandexQuery.QueryContent.QueryType\022" +
-      "<\n\006status\030\002 \003(\0162$.YandexQuery.QueryMeta." +
-      "ComputeStatusB\006\232\346*\002\030\024\022.\n\004mode\030\003 \003(\0162\030.Ya" +
-      "ndexQuery.ExecuteModeB\006\232\346*\002\030\024\022\025\n\004name\030\004 " +
-      "\001(\tB\007\242\346*\003\030\200\010\022\025\n\rcreated_by_me\030\005 \001(\010\022/\n\nv" +
-      "isibility\030\006 \001(\0162\033.YandexQuery.Acl.Visibi" +
-      "lity\022-\n\tautomatic\030\007 \001(\0162\032.YandexQuery.Au" +
-      "tomaticType\"C\n\023ListQueriesResponse\022,\n\top" +
-      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
-      "\"]\n\021ListQueriesResult\022&\n\005query\030\001 \003(\0132\027.Y" +
-      "andexQuery.BriefQuery\022 \n\017next_page_token" +
-      "\030\002 \001(\tB\007\242\346*\003\030\200\010\"p\n\024DescribeQueryRequest\022" +
-      "9\n\020operation_params\030\001 \001(\0132\037.Ydb.Operatio" +
-      "ns.OperationParams\022\035\n\010query_id\030\002 \001(\tB\013\242\346" +
-      "*\007\n\005\010\001\020\200\010\"E\n\025DescribeQueryResponse\022,\n\top" +
-      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
-      "\"8\n\023DescribeQueryResult\022!\n\005query\030\001 \001(\0132\022" +
-      ".YandexQuery.Query\"q\n\025GetQueryStatusRequ" +
-      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
-      "ations.OperationParams\022\035\n\010query_id\030\002 \001(\t" +
-      "B\013\242\346*\007\n\005\010\001\020\200\010\"F\n\026GetQueryStatusResponse\022" +
-      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
-      "ation\"c\n\024GetQueryStatusResult\0224\n\006status\030" +
-      "\001 \001(\0162$.YandexQuery.QueryMeta.ComputeSta" +
-      "tus\022\025\n\rmeta_revision\030\002 \001(\003\"\265\001\n\022DeleteQue" +
-      "ryRequest\0229\n\020operation_params\030\001 \001(\0132\037.Yd" +
-      "b.Operations.OperationParams\022\035\n\010query_id" +
-      "\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022#\n\021previous_revision" +
-      "\030\003 \001(\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\004 \001(" +
-      "\tB\007\242\346*\003\030\200\010\"C\n\023DeleteQueryResponse\022,\n\tope" +
-      "ration\030\001 \001(\0132\031.Ydb.Operations.Operation\"" +
-      "\023\n\021DeleteQueryResult\"\376\002\n\022ModifyQueryRequ" +
-      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
-      "ations.OperationParams\022\035\n\010query_id\030\002 \001(\t" +
-      "B\013\242\346*\007\n\005\010\001\020\200\010\022*\n\007content\030\003 \001(\0132\031.YandexQ" +
-      "uery.QueryContent\022.\n\014execute_mode\030\004 \001(\0162" +
-      "\030.YandexQuery.ExecuteMode\0226\n\013disposition" +
-      "\030\005 \001(\0132!.YandexQuery.StreamingDispositio" +
-      "n\0223\n\017state_load_mode\030\006 \001(\0162\032.YandexQuery" +
-      ".StateLoadMode\022#\n\021previous_revision\030\007 \001(" +
-      "\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\010 \001(\tB\007\242\346" +
-      "*\003\030\200\010\"C\n\023ModifyQueryResponse\022,\n\toperatio" +
-      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\023\n\021Mo" +
-      "difyQueryResult\"\340\001\n\023ControlQueryRequest\022" +
-      "9\n\020operation_params\030\001 \001(\0132\037.Ydb.Operatio" +
-      "ns.OperationParams\022\035\n\010query_id\030\002 \001(\tB\013\242\346" +
-      "*\007\n\005\010\001\020\200\010\022(\n\006action\030\003 \001(\0162\030.YandexQuery." +
-      "QueryAction\022#\n\021previous_revision\030\004 \001(\003B\010" +
-      "\262\346*\004>= 0\022 \n\017idempotency_key\030\005 \001(\tB\007\242\346*\003\030" +
-      "\200\010\"D\n\024ControlQueryResponse\022,\n\toperation\030" +
-      "\001 \001(\0132\031.Ydb.Operations.Operation\"\024\n\022Cont" +
-      "rolQueryResult\"\344\001\n\010BriefJob\022%\n\004meta\030\001 \001(" +
-      "\0132\027.YandexQuery.CommonMeta\022*\n\nquery_meta" +
-      "\030\003 \001(\0132\026.YandexQuery.QueryMeta\022\022\n\nquery_" +
-      "name\030\t \001(\t\022/\n\nvisibility\030\n \001(\0162\033.YandexQ" +
-      "uery.Acl.Visibility\022\021\n\tautomatic\030\013 \001(\010\022-" +
-      "\n\texpire_at\030\014 \001(\0132\032.google.protobuf.Time" +
-      "stamp\"\264\003\n\003Job\022%\n\004meta\030\001 \001(\0132\027.YandexQuer" +
-      "y.CommonMeta\022\014\n\004text\030\002 \001(\t\022*\n\nquery_meta" +
-      "\030\003 \001(\0132\026.YandexQuery.QueryMeta\022$\n\004plan\030\004" +
-      " \001(\0132\026.YandexQuery.QueryPlan\022&\n\005issue\030\005 " +
-      "\003(\0132\027.Ydb.Issue.IssueMessage\0220\n\nstatisti" +
-      "cs\030\006 \001(\0132\034.YandexQuery.QueryStatistics\0223" +
-      "\n\017result_set_meta\030\007 \003(\0132\032.YandexQuery.Re" +
-      "sultSetMeta\022\"\n\003ast\030\010 \001(\0132\025.YandexQuery.Q" +
-      "ueryAst\022\022\n\nquery_name\030\t \001(\t\022\035\n\003acl\030\n \001(\013" +
-      "2\020.YandexQuery.Acl\022\021\n\tautomatic\030\013 \001(\010\022-\n" +
-      "\texpire_at\030\014 \001(\0132\032.google.protobuf.Times" +
-      "tamp\"\211\002\n\017ListJobsRequest\0229\n\020operation_pa" +
-      "rams\030\001 \001(\0132\037.Ydb.Operations.OperationPar" +
-      "ams\022\033\n\npage_token\030\002 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limi" +
-      "t\030\003 \001(\005B\014\262\346*\010[1; 100]\022\020\n\010query_id\030\005 \001(\t\022" +
-      "3\n\006filter\030\004 \001(\0132#.YandexQuery.ListJobsRe" +
-      "quest.Filter\032:\n\006Filter\022\031\n\010query_id\030\001 \001(\t" +
-      "B\007\242\346*\003\030\200\010\022\025\n\rcreated_by_me\030\002 \001(\010\"@\n\020List" +
-      "JobsResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
-      "erations.Operation\"V\n\016ListJobsResult\022\"\n\003" +
-      "job\030\001 \003(\0132\025.YandexQuery.BriefJob\022 \n\017next" +
-      "_page_token\030\002 \001(\tB\007\242\346*\003\030\200\010\"l\n\022DescribeJo" +
-      "bRequest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb" +
-      ".Operations.OperationParams\022\033\n\006job_id\030\002 " +
-      "\001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"C\n\023DescribeJobResponse\022" +
-      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
-      "ation\"2\n\021DescribeJobResult\022\035\n\003job\030\001 \001(\0132" +
-      "\020.YandexQuery.Job\"\025\n\023CurrentIAMTokenAuth" +
-      "\"\n\n\010NoneAuth\")\n\022ServiceAccountAuth\022\023\n\002id" +
-      "\030\001 \001(\tB\007\242\346*\003\030\200\010\"\261\001\n\007IamAuth\0227\n\013current_i" +
-      "am\030\001 \001(\0132 .YandexQuery.CurrentIAMTokenAu" +
-      "thH\000\022:\n\017service_account\030\002 \001(\0132\037.YandexQu" +
-      "ery.ServiceAccountAuthH\000\022%\n\004none\030\003 \001(\0132\025" +
-      ".YandexQuery.NoneAuthH\000B\n\n\010identity\"\225\001\n\013" +
-      "DataStreams\022\034\n\013database_id\030\001 \001(\tB\007\242\346*\003\030\200" +
-      "\010\022\"\n\004auth\030\002 \001(\0132\024.YandexQuery.IamAuth\022\031\n" +
-      "\010endpoint\030\003 \001(\tB\007\242\346*\003\030\200\010\022\031\n\010database\030\004 \001" +
-      "(\tB\007\242\346*\003\030\200\010\022\016\n\006secure\030\005 \001(\010\"d\n\nMonitorin" +
-      "g\022\030\n\007project\030\001 \001(\tB\007\242\346*\003\030\310\001\022\030\n\007cluster\030\002" +
-      " \001(\tB\007\242\346*\003\030\310\001\022\"\n\004auth\030\003 \001(\0132\024.YandexQuer" +
-      "y.IamAuth\"\225\001\n\013YdbDatabase\022\034\n\013database_id" +
-      "\030\001 \001(\tB\007\242\346*\003\030\200\010\022\"\n\004auth\030\002 \001(\0132\024.YandexQu" +
-      "ery.IamAuth\022\031\n\010endpoint\030\003 \001(\tB\007\242\346*\003\030\200\010\022\031" +
-      "\n\010database\030\004 \001(\tB\007\242\346*\003\030\200\010\022\016\n\006secure\030\005 \001(" +
-      "\010\"\325\001\n\021ClickHouseCluster\022\034\n\013database_id\030\001" +
-      " \001(\tB\007\242\346*\003\030\200\010\022\032\n\005login\030\002 \001(\tB\013\242\346*\003\030\200\010\270\346*" +
-      "\001\022\035\n\010password\030\003 \001(\tB\013\242\346*\003\030\200\010\270\346*\001\022\"\n\004auth" +
-      "\030\004 \001(\0132\024.YandexQuery.IamAuth\022\025\n\004host\030\005 \001" +
-      "(\tB\007\242\346*\003\030\200\010\022\034\n\004port\030\006 \001(\005B\016\262\346*\n[0; 65536" +
-      "]\022\016\n\006secure\030\007 \001(\010\"V\n\027ObjectStorageConnec" +
-      "tion\022\027\n\006bucket\030\001 \001(\tB\007\242\346*\003\030\200\010\022\"\n\004auth\030\002 " +
-      "\001(\0132\024.YandexQuery.IamAuth\"\306\003\n\021Connection" +
-      "Setting\0220\n\014ydb_database\030\001 \001(\0132\030.YandexQu" +
-      "ery.YdbDatabaseH\000\022<\n\022clickhouse_cluster\030" +
-      "\002 \001(\0132\036.YandexQuery.ClickHouseClusterH\000\022" +
-      "0\n\014data_streams\030\003 \001(\0132\030.YandexQuery.Data" +
-      "StreamsH\000\022>\n\016object_storage\030\004 \001(\0132$.Yand" +
-      "exQuery.ObjectStorageConnectionH\000\022-\n\nmon" +
-      "itoring\030\005 \001(\0132\027.YandexQuery.MonitoringH\000" +
-      "\"\221\001\n\016ConnectionType\022\037\n\033CONNECTION_TYPE_U" +
-      "NSPECIFIED\020\000\022\020\n\014YDB_DATABASE\020\001\022\026\n\022CLICKH" +
-      "OUSE_CLUSTER\020\002\022\020\n\014DATA_STREAMS\020\003\022\022\n\016OBJE" +
-      "CT_STORAGE\020\004\022\016\n\nMONITORING\020\005B\014\n\nconnecti" +
-      "on\"\234\001\n\021ConnectionContent\022\031\n\004name\030\001 \001(\tB\013" +
-      "\242\346*\007\n\005\010\001\020\200\010\022/\n\007setting\030\002 \001(\0132\036.YandexQue" +
-      "ry.ConnectionSetting\022\035\n\003acl\030\003 \001(\0132\020.Yand" +
-      "exQuery.Acl\022\034\n\013description\030\004 \001(\tB\007\242\346*\003\030\200" +
-      "P\"d\n\nConnection\022/\n\007content\030\001 \001(\0132\036.Yande" +
-      "xQuery.ConnectionContent\022%\n\004meta\030\002 \001(\0132\027" +
-      ".YandexQuery.CommonMeta\"\247\001\n\027CreateConnec" +
-      "tionRequest\0229\n\020operation_params\030\001 \001(\0132\037." +
-      "Ydb.Operations.OperationParams\022/\n\007conten" +
-      "t\030\002 \001(\0132\036.YandexQuery.ConnectionContent\022" +
-      " \n\017idempotency_key\030\003 \001(\tB\007\242\346*\003\030\200\010\"H\n\030Cre" +
-      "ateConnectionResponse\022,\n\toperation\030\001 \001(\013" +
-      "2\031.Ydb.Operations.Operation\"<\n\026CreateCon" +
-      "nectionResult\022\"\n\rconnection_id\030\001 \001(\tB\013\242\346" +
-      "*\007\n\005\010\001\020\200\010\"\311\002\n\026ListConnectionsRequest\0229\n\020" +
-      "operation_params\030\001 \001(\0132\037.Ydb.Operations." +
-      "OperationParams\022\033\n\npage_token\030\002 \001(\tB\007\242\346*" +
-      "\003\030\200\010\022\033\n\005limit\030\003 \001(\005B\014\262\346*\010[1; 100]\022:\n\006fil" +
-      "ter\030\004 \001(\0132*.YandexQuery.ListConnectionsR" +
-      "equest.Filter\032~\n\006Filter\022\025\n\004name\030\001 \001(\tB\007\242" +
-      "\346*\003\030\200\010\022\025\n\rcreated_by_me\030\002 \001(\010\022F\n\017connect" +
-      "ion_type\030\003 \001(\0162-.YandexQuery.ConnectionS" +
-      "etting.ConnectionType\"G\n\027ListConnections" +
-      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
-      "ions.Operation\"f\n\025ListConnectionsResult\022" +
-      "+\n\nconnection\030\001 \003(\0132\027.YandexQuery.Connec" +
-      "tion\022 \n\017next_page_token\030\002 \001(\tB\007\242\346*\003\030\200\010\"z" +
-      "\n\031DescribeConnectionRequest\0229\n\020operation" +
+      "ery.StreamingDisposition.TimeAgoH\000\022T\n\024fr" +
+      "om_last_checkpoint\030\005 \001(\01324.YandexQuery.S" +
+      "treamingDisposition.FromLastCheckpointH\000" +
+      "\0329\n\010FromTime\022-\n\ttimestamp\030\001 \001(\0132\032.google" +
+      ".protobuf.Timestamp\0326\n\007TimeAgo\022+\n\010durati" +
+      "on\030\001 \001(\0132\031.google.protobuf.Duration\032#\n\022F" +
+      "romLastCheckpoint\022\r\n\005force\030\001 \001(\010B\r\n\013disp" +
+      "osition\"\254\002\n\014QueryContent\0221\n\004type\030\001 \001(\0162#" +
+      ".YandexQuery.QueryContent.QueryType\022\025\n\004n" +
+      "ame\030\002 \001(\tB\007\242\346*\003\030\200\010\022\035\n\003acl\030\003 \001(\0132\020.Yandex" +
+      "Query.Acl\022#\n\006limits\030\004 \001(\0132\023.YandexQuery." +
+      "Limits\022\026\n\004text\030\005 \001(\tB\010\242\346*\004\030\200\240\006\022\021\n\tautoma" +
+      "tic\030\006 \001(\010\022\034\n\013description\030\007 \001(\tB\007\242\346*\003\030\200P\"" +
+      "E\n\tQueryType\022\032\n\026QUERY_TYPE_UNSPECIFIED\020\000" +
+      "\022\r\n\tANALYTICS\020\001\022\r\n\tSTREAMING\020\002\"\345\001\n\nCommo" +
+      "nMeta\022\027\n\002id\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\037\n\ncreate" +
+      "d_by\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022 \n\013modified_by\030\003" +
+      " \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022.\n\ncreated_at\030\004 \001(\0132\032." +
+      "google.protobuf.Timestamp\022/\n\013modified_at" +
+      "\030\005 \001(\0132\032.google.protobuf.Timestamp\022\032\n\010re" +
+      "vision\030\006 \001(\003B\010\262\346*\004>= 0\"\204\006\n\tQueryMeta\022\'\n\006" +
+      "common\030\001 \001(\0132\027.YandexQuery.CommonMeta\022.\n" +
+      "\nstarted_at\030\002 \001(\0132\032.google.protobuf.Time" +
+      "stamp\022/\n\013finished_at\030\003 \001(\0132\032.google.prot" +
+      "obuf.Timestamp\022.\n\014execute_mode\030\004 \001(\0162\030.Y" +
+      "andexQuery.ExecuteMode\0224\n\006status\030\005 \001(\0162$" +
+      ".YandexQuery.QueryMeta.ComputeStatus\022\037\n\027" +
+      "last_job_query_revision\030\006 \001(\003\022\023\n\013last_jo" +
+      "b_id\030\007 \001(\t\022-\n\texpire_at\030\010 \001(\0132\032.google.p" +
+      "rotobuf.Timestamp\0224\n\020result_expire_at\030\t " +
+      "\001(\0132\032.google.protobuf.Timestamp\022\022\n\nstart" +
+      "ed_by\030\n \001(\t\022\024\n\naborted_by\030\013 \001(\tH\000\022\023\n\tpau" +
+      "sed_by\030\014 \001(\tH\000\022\035\n\025has_saved_checkpoints\030" +
+      "\r \001(\010\"\203\002\n\rComputeStatus\022\036\n\032COMPUTE_STATU" +
+      "S_UNSPECIFIED\020\000\022\014\n\010STARTING\020\001\022\023\n\017ABORTED" +
+      "_BY_USER\020\002\022\025\n\021ABORTED_BY_SYSTEM\020\003\022\024\n\020ABO" +
+      "RTING_BY_USER\020\004\022\026\n\022ABORTING_BY_SYSTEM\020\005\022" +
+      "\014\n\010RESUMING\020\006\022\013\n\007RUNNING\020\007\022\r\n\tCOMPLETED\020" +
+      "\010\022\016\n\nCOMPLETING\020\014\022\n\n\006FAILED\020\t\022\013\n\007FAILING" +
+      "\020\r\022\n\n\006PAUSED\020\013\022\013\n\007PAUSING\020\nB\010\n\006action\"\300\001" +
+      "\n\nBriefQuery\0221\n\004type\030\001 \001(\0162#.YandexQuery" +
+      ".QueryContent.QueryType\022\025\n\004name\030\002 \001(\tB\007\242" +
+      "\346*\003\030\200\010\022$\n\004meta\030\003 \001(\0132\026.YandexQuery.Query" +
+      "Meta\022/\n\nvisibility\030\004 \001(\0162\033.YandexQuery.A" +
+      "cl.Visibility\022\021\n\tautomatic\030\005 \001(\010\"\031\n\tQuer" +
+      "yPlan\022\014\n\004json\030\001 \001(\t\"\030\n\010QueryAst\022\014\n\004data\030" +
+      "\001 \001(\t\"]\n\rResultSetMeta\022\033\n\006column\030\001 \003(\0132\013" +
+      ".Ydb.Column\022\034\n\nrows_count\030\002 \001(\003B\010\262\346*\004>= " +
+      "0\022\021\n\ttruncated\030\003 \001(\010\"\344\002\n\005Query\022$\n\004meta\030\001" +
+      " \001(\0132\026.YandexQuery.QueryMeta\022*\n\007content\030" +
+      "\002 \001(\0132\031.YandexQuery.QueryContent\022$\n\004plan" +
+      "\030\003 \001(\0132\026.YandexQuery.QueryPlan\022&\n\005issue\030" +
+      "\004 \003(\0132\027.Ydb.Issue.IssueMessage\0220\n\017transi" +
+      "ent_issue\030\005 \003(\0132\027.Ydb.Issue.IssueMessage" +
+      "\0220\n\nstatistics\030\006 \001(\0132\034.YandexQuery.Query" +
+      "Statistics\0223\n\017result_set_meta\030\007 \003(\0132\032.Ya" +
+      "ndexQuery.ResultSetMeta\022\"\n\003ast\030\010 \001(\0132\025.Y" +
+      "andexQuery.QueryAst\"\037\n\017QueryStatistics\022\014" +
+      "\n\004json\030\001 \001(\t\"\205\002\n\022CreateQueryRequest\0229\n\020o" +
+      "peration_params\030\001 \001(\0132\037.Ydb.Operations.O" +
+      "perationParams\022*\n\007content\030\002 \001(\0132\031.Yandex" +
+      "Query.QueryContent\022.\n\014execute_mode\030\003 \001(\016" +
+      "2\030.YandexQuery.ExecuteMode\0226\n\013dispositio" +
+      "n\030\004 \001(\0132!.YandexQuery.StreamingDispositi" +
+      "on\022 \n\017idempotency_key\030\005 \001(\tB\007\242\346*\003\030\200\010\"C\n\023" +
+      "CreateQueryResponse\022,\n\toperation\030\001 \001(\0132\031" +
+      ".Ydb.Operations.Operation\".\n\021CreateQuery" +
+      "Result\022\031\n\010query_id\030\001 \001(\tB\007\242\346*\003\030\200\010\"\201\004\n\022Li" +
+      "stQueriesRequest\0229\n\020operation_params\030\001 \001" +
+      "(\0132\037.Ydb.Operations.OperationParams\022\033\n\np" +
+      "age_token\030\002 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limit\030\003 \001(\005B" +
+      "\014\262\346*\010[1; 100]\0226\n\006filter\030\004 \001(\0132&.YandexQu" +
+      "ery.ListQueriesRequest.Filter\032\275\002\n\006Filter" +
+      "\0227\n\nquery_type\030\001 \001(\0162#.YandexQuery.Query" +
+      "Content.QueryType\022<\n\006status\030\002 \003(\0162$.Yand" +
+      "exQuery.QueryMeta.ComputeStatusB\006\232\346*\002\030\024\022" +
+      ".\n\004mode\030\003 \003(\0162\030.YandexQuery.ExecuteModeB" +
+      "\006\232\346*\002\030\024\022\025\n\004name\030\004 \001(\tB\007\242\346*\003\030\200\010\022\025\n\rcreate" +
+      "d_by_me\030\005 \001(\010\022/\n\nvisibility\030\006 \001(\0162\033.Yand" +
+      "exQuery.Acl.Visibility\022-\n\tautomatic\030\007 \001(" +
+      "\0162\032.YandexQuery.AutomaticType\"C\n\023ListQue" +
+      "riesResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
+      "erations.Operation\"]\n\021ListQueriesResult\022" +
+      "&\n\005query\030\001 \003(\0132\027.YandexQuery.BriefQuery\022" +
+      " \n\017next_page_token\030\002 \001(\tB\007\242\346*\003\030\200\010\"p\n\024Des" +
+      "cribeQueryRequest\0229\n\020operation_params\030\001 " +
+      "\001(\0132\037.Ydb.Operations.OperationParams\022\035\n\010" +
+      "query_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"E\n\025DescribeQ" +
+      "ueryResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Op" +
+      "erations.Operation\"8\n\023DescribeQueryResul" +
+      "t\022!\n\005query\030\001 \001(\0132\022.YandexQuery.Query\"q\n\025" +
+      "GetQueryStatusRequest\0229\n\020operation_param" +
+      "s\030\001 \001(\0132\037.Ydb.Operations.OperationParams" +
+      "\022\035\n\010query_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"F\n\026GetQu" +
+      "eryStatusResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
+      "db.Operations.Operation\"c\n\024GetQueryStatu" +
+      "sResult\0224\n\006status\030\001 \001(\0162$.YandexQuery.Qu" +
+      "eryMeta.ComputeStatus\022\025\n\rmeta_revision\030\002" +
+      " \001(\003\"\265\001\n\022DeleteQueryRequest\0229\n\020operation" +
       "_params\030\001 \001(\0132\037.Ydb.Operations.Operation" +
-      "Params\022\"\n\rconnection_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020" +
-      "\200\010\"J\n\032DescribeConnectionResponse\022,\n\toper" +
-      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"G" +
-      "\n\030DescribeConnectionResult\022+\n\nconnection" +
-      "\030\001 \001(\0132\027.YandexQuery.Connection\"\360\001\n\027Modi" +
-      "fyConnectionRequest\0229\n\020operation_params\030" +
-      "\001 \001(\0132\037.Ydb.Operations.OperationParams\022\"" +
-      "\n\rconnection_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022/\n\007co" +
-      "ntent\030\003 \001(\0132\036.YandexQuery.ConnectionCont" +
-      "ent\022#\n\021previous_revision\030\004 \001(\003B\010\262\346*\004>= 0" +
-      "\022 \n\017idempotency_key\030\005 \001(\tB\007\242\346*\003\030\200\010\"H\n\030Mo" +
-      "difyConnectionResponse\022,\n\toperation\030\001 \001(" +
-      "\0132\031.Ydb.Operations.Operation\"\030\n\026ModifyCo" +
-      "nnectionResult\"\277\001\n\027DeleteConnectionReque" +
+      "Params\022\035\n\010query_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022#\n" +
+      "\021previous_revision\030\003 \001(\003B\010\262\346*\004>= 0\022 \n\017id" +
+      "empotency_key\030\004 \001(\tB\007\242\346*\003\030\200\010\"C\n\023DeleteQu" +
+      "eryResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Ope" +
+      "rations.Operation\"\023\n\021DeleteQueryResult\"\376" +
+      "\002\n\022ModifyQueryRequest\0229\n\020operation_param" +
+      "s\030\001 \001(\0132\037.Ydb.Operations.OperationParams" +
+      "\022\035\n\010query_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022*\n\007conte" +
+      "nt\030\003 \001(\0132\031.YandexQuery.QueryContent\022.\n\014e" +
+      "xecute_mode\030\004 \001(\0162\030.YandexQuery.ExecuteM" +
+      "ode\0226\n\013disposition\030\005 \001(\0132!.YandexQuery.S" +
+      "treamingDisposition\0223\n\017state_load_mode\030\006" +
+      " \001(\0162\032.YandexQuery.StateLoadMode\022#\n\021prev" +
+      "ious_revision\030\007 \001(\003B\010\262\346*\004>= 0\022 \n\017idempot" +
+      "ency_key\030\010 \001(\tB\007\242\346*\003\030\200\010\"C\n\023ModifyQueryRe" +
+      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
+      "ns.Operation\"\023\n\021ModifyQueryResult\"\340\001\n\023Co" +
+      "ntrolQueryRequest\0229\n\020operation_params\030\001 " +
+      "\001(\0132\037.Ydb.Operations.OperationParams\022\035\n\010" +
+      "query_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022(\n\006action\030\003 " +
+      "\001(\0162\030.YandexQuery.QueryAction\022#\n\021previou" +
+      "s_revision\030\004 \001(\003B\010\262\346*\004>= 0\022 \n\017idempotenc" +
+      "y_key\030\005 \001(\tB\007\242\346*\003\030\200\010\"D\n\024ControlQueryResp" +
+      "onse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations" +
+      ".Operation\"\024\n\022ControlQueryResult\"\344\001\n\010Bri" +
+      "efJob\022%\n\004meta\030\001 \001(\0132\027.YandexQuery.Common" +
+      "Meta\022*\n\nquery_meta\030\003 \001(\0132\026.YandexQuery.Q" +
+      "ueryMeta\022\022\n\nquery_name\030\t \001(\t\022/\n\nvisibili" +
+      "ty\030\n \001(\0162\033.YandexQuery.Acl.Visibility\022\021\n" +
+      "\tautomatic\030\013 \001(\010\022-\n\texpire_at\030\014 \001(\0132\032.go" +
+      "ogle.protobuf.Timestamp\"\264\003\n\003Job\022%\n\004meta\030" +
+      "\001 \001(\0132\027.YandexQuery.CommonMeta\022\014\n\004text\030\002" +
+      " \001(\t\022*\n\nquery_meta\030\003 \001(\0132\026.YandexQuery.Q" +
+      "ueryMeta\022$\n\004plan\030\004 \001(\0132\026.YandexQuery.Que" +
+      "ryPlan\022&\n\005issue\030\005 \003(\0132\027.Ydb.Issue.IssueM" +
+      "essage\0220\n\nstatistics\030\006 \001(\0132\034.YandexQuery" +
+      ".QueryStatistics\0223\n\017result_set_meta\030\007 \003(" +
+      "\0132\032.YandexQuery.ResultSetMeta\022\"\n\003ast\030\010 \001" +
+      "(\0132\025.YandexQuery.QueryAst\022\022\n\nquery_name\030" +
+      "\t \001(\t\022\035\n\003acl\030\n \001(\0132\020.YandexQuery.Acl\022\021\n\t" +
+      "automatic\030\013 \001(\010\022-\n\texpire_at\030\014 \001(\0132\032.goo" +
+      "gle.protobuf.Timestamp\"\211\002\n\017ListJobsReque" +
       "st\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Opera" +
-      "tions.OperationParams\022\"\n\rconnection_id\030\002" +
-      " \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022#\n\021previous_revision\030\003" +
-      " \001(\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\004 \001(\tB" +
-      "\007\242\346*\003\030\200\010\"H\n\030DeleteConnectionResponse\022,\n\t" +
-      "operation\030\001 \001(\0132\031.Ydb.Operations.Operati" +
-      "on\"\030\n\026DeleteConnectionResult\"\203\001\n\025TestCon" +
-      "nectionRequest\0229\n\020operation_params\030\001 \001(\013" +
-      "2\037.Ydb.Operations.OperationParams\022/\n\007set" +
-      "ting\030\002 \001(\0132\036.YandexQuery.ConnectionSetti" +
-      "ng\"F\n\026TestConnectionResponse\022,\n\toperatio" +
-      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\026\n\024Te" +
-      "stConnectionResult\"\314\001\n\024GetResultDataRequ" +
-      "est\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Oper" +
-      "ations.OperationParams\022\035\n\010query_id\030\002 \001(\t" +
-      "B\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\020result_set_index\030\003 \001(\005B" +
-      "\010\262\346*\004>= 0\022\030\n\006offset\030\004 \001(\003B\010\262\346*\004>= 0\022\034\n\005l" +
-      "imit\030\005 \001(\003B\r\262\346*\t[1; 1000]\"E\n\025GetResultDa" +
-      "taResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
-      "ations.Operation\"9\n\023GetResultDataResult\022" +
-      "\"\n\nresult_set\030\001 \001(\0132\016.Ydb.ResultSet\"-\n\006S" +
-      "chema\022#\n\006column\030\001 \003(\0132\013.Ydb.ColumnB\006\232\346*\002" +
-      "\030d\"\234\002\n\022DataStreamsBinding\022 \n\013stream_name" +
-      "\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\027\n\006format\030\002 \001(\tB\007\242\346*" +
-      "\003\030\200\010\022\034\n\013compression\030\003 \001(\tB\007\242\346*\003\030\200\010\022#\n\006sc" +
-      "hema\030\004 \001(\0132\023.YandexQuery.Schema\022R\n\016forma" +
-      "t_setting\030\005 \003(\01322.YandexQuery.DataStream" +
-      "sBinding.FormatSettingEntryB\006\232\346*\002\030d\0324\n\022F" +
-      "ormatSettingEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030" +
-      "\002 \001(\t:\0028\001\"\355\002\n\024ObjectStorageBinding\0228\n\006su" +
-      "bset\030\001 \003(\0132(.YandexQuery.ObjectStorageBi" +
-      "nding.Subset\032\232\002\n\006Subset\022!\n\014path_pattern\030" +
-      "\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\027\n\006format\030\002 \001(\tB\007\242\346*\003" +
-      "\030\200\010\022[\n\016format_setting\030\003 \003(\0132;.YandexQuer" +
-      "y.ObjectStorageBinding.Subset.FormatSett" +
-      "ingEntryB\006\232\346*\002\030d\022\034\n\013compression\030\004 \001(\tB\007\242" +
-      "\346*\003\030\200\010\022#\n\006schema\030\005 \001(\0132\023.YandexQuery.Sch" +
-      "ema\0324\n\022FormatSettingEntry\022\013\n\003key\030\001 \001(\t\022\r" +
-      "\n\005value\030\002 \001(\t:\0028\001\"\344\001\n\016BindingSetting\0227\n\014" +
-      "data_streams\030\001 \001(\0132\037.YandexQuery.DataStr" +
-      "eamsBindingH\000\022;\n\016object_storage\030\002 \001(\0132!." +
-      "YandexQuery.ObjectStorageBindingH\000\"Q\n\013Bi" +
-      "ndingType\022\034\n\030BINDING_TYPE_UNSPECIFIED\020\000\022" +
-      "\020\n\014DATA_STREAMS\020\001\022\022\n\016OBJECT_STORAGE\020\002B\t\n" +
-      "\007binding\"\253\001\n\014BriefBinding\022\031\n\004name\030\001 \001(\tB" +
-      "\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\rconnection_id\030\002 \001(\tB\013\242\346*" +
-      "\007\n\005\010\001\020\200\010\022%\n\004meta\030\003 \001(\0132\027.YandexQuery.Com" +
-      "monMeta\0225\n\004type\030\004 \001(\0162\'.YandexQuery.Bind" +
-      "ingSetting.BindingType\"\272\001\n\016BindingConten" +
-      "t\022\031\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\rconnecti" +
-      "on_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022,\n\007setting\030\003 \001(" +
-      "\0132\033.YandexQuery.BindingSetting\022\035\n\003acl\030\004 " +
-      "\001(\0132\020.YandexQuery.Acl\022\034\n\013description\030\005 \001" +
-      "(\tB\007\242\346*\003\030\200P\"^\n\007Binding\022,\n\007content\030\001 \001(\0132" +
-      "\033.YandexQuery.BindingContent\022%\n\004meta\030\002 \001" +
-      "(\0132\027.YandexQuery.CommonMeta\"\241\001\n\024CreateBi" +
-      "ndingRequest\0229\n\020operation_params\030\001 \001(\0132\037" +
-      ".Ydb.Operations.OperationParams\022,\n\007conte" +
-      "nt\030\002 \001(\0132\033.YandexQuery.BindingContent\022 \n" +
-      "\017idempotency_key\030\003 \001(\tB\007\242\346*\003\030\200\010\"E\n\025Creat" +
-      "eBindingResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
-      "b.Operations.Operation\"6\n\023CreateBindingR" +
-      "esult\022\037\n\nbinding_id\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"\233" +
-      "\002\n\023ListBindingsRequest\0229\n\020operation_para" +
-      "ms\030\001 \001(\0132\037.Ydb.Operations.OperationParam" +
-      "s\022\033\n\npage_token\030\002 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limit\030" +
-      "\003 \001(\005B\014\262\346*\010[1; 100]\0227\n\006filter\030\004 \001(\0132\'.Ya" +
-      "ndexQuery.ListBindingsRequest.Filter\032V\n\006" +
-      "Filter\022\036\n\rconnection_id\030\001 \001(\tB\007\242\346*\003\030\200\010\022\025" +
-      "\n\004name\030\002 \001(\tB\007\242\346*\003\030\200\010\022\025\n\rcreated_by_me\030\003" +
-      " \001(\010\"D\n\024ListBindingsResponse\022,\n\toperatio" +
-      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"b\n\022Li" +
-      "stBindingsResult\022*\n\007binding\030\001 \003(\0132\031.Yand" +
-      "exQuery.BriefBinding\022 \n\017next_page_token\030" +
-      "\002 \001(\tB\007\242\346*\003\030\200\010\"t\n\026DescribeBindingRequest" +
+      "tions.OperationParams\022\033\n\npage_token\030\002 \001(" +
+      "\tB\007\242\346*\003\030\200\010\022\033\n\005limit\030\003 \001(\005B\014\262\346*\010[1; 100]\022" +
+      "\020\n\010query_id\030\005 \001(\t\0223\n\006filter\030\004 \001(\0132#.Yand" +
+      "exQuery.ListJobsRequest.Filter\032:\n\006Filter" +
+      "\022\031\n\010query_id\030\001 \001(\tB\007\242\346*\003\030\200\010\022\025\n\rcreated_b" +
+      "y_me\030\002 \001(\010\"@\n\020ListJobsResponse\022,\n\toperat" +
+      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"V\n\016" +
+      "ListJobsResult\022\"\n\003job\030\001 \003(\0132\025.YandexQuer" +
+      "y.BriefJob\022 \n\017next_page_token\030\002 \001(\tB\007\242\346*" +
+      "\003\030\200\010\"l\n\022DescribeJobRequest\0229\n\020operation_" +
+      "params\030\001 \001(\0132\037.Ydb.Operations.OperationP" +
+      "arams\022\033\n\006job_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"C\n\023De" +
+      "scribeJobResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
+      "db.Operations.Operation\"2\n\021DescribeJobRe" +
+      "sult\022\035\n\003job\030\001 \001(\0132\020.YandexQuery.Job\"\025\n\023C" +
+      "urrentIAMTokenAuth\"\n\n\010NoneAuth\")\n\022Servic" +
+      "eAccountAuth\022\023\n\002id\030\001 \001(\tB\007\242\346*\003\030\200\010\"\261\001\n\007Ia" +
+      "mAuth\0227\n\013current_iam\030\001 \001(\0132 .YandexQuery" +
+      ".CurrentIAMTokenAuthH\000\022:\n\017service_accoun" +
+      "t\030\002 \001(\0132\037.YandexQuery.ServiceAccountAuth" +
+      "H\000\022%\n\004none\030\003 \001(\0132\025.YandexQuery.NoneAuthH" +
+      "\000B\n\n\010identity\"\225\001\n\013DataStreams\022\034\n\013databas" +
+      "e_id\030\001 \001(\tB\007\242\346*\003\030\200\010\022\"\n\004auth\030\002 \001(\0132\024.Yand" +
+      "exQuery.IamAuth\022\031\n\010endpoint\030\003 \001(\tB\007\242\346*\003\030" +
+      "\200\010\022\031\n\010database\030\004 \001(\tB\007\242\346*\003\030\200\010\022\016\n\006secure\030" +
+      "\005 \001(\010\"d\n\nMonitoring\022\030\n\007project\030\001 \001(\tB\007\242\346" +
+      "*\003\030\310\001\022\030\n\007cluster\030\002 \001(\tB\007\242\346*\003\030\310\001\022\"\n\004auth\030" +
+      "\003 \001(\0132\024.YandexQuery.IamAuth\"\225\001\n\013YdbDatab" +
+      "ase\022\034\n\013database_id\030\001 \001(\tB\007\242\346*\003\030\200\010\022\"\n\004aut" +
+      "h\030\002 \001(\0132\024.YandexQuery.IamAuth\022\031\n\010endpoin" +
+      "t\030\003 \001(\tB\007\242\346*\003\030\200\010\022\031\n\010database\030\004 \001(\tB\007\242\346*\003" +
+      "\030\200\010\022\016\n\006secure\030\005 \001(\010\"\325\001\n\021ClickHouseCluste" +
+      "r\022\034\n\013database_id\030\001 \001(\tB\007\242\346*\003\030\200\010\022\032\n\005login" +
+      "\030\002 \001(\tB\013\242\346*\003\030\200\010\270\346*\001\022\035\n\010password\030\003 \001(\tB\013\242" +
+      "\346*\003\030\200\010\270\346*\001\022\"\n\004auth\030\004 \001(\0132\024.YandexQuery.I" +
+      "amAuth\022\025\n\004host\030\005 \001(\tB\007\242\346*\003\030\200\010\022\034\n\004port\030\006 " +
+      "\001(\005B\016\262\346*\n[0; 65536]\022\016\n\006secure\030\007 \001(\010\"V\n\027O" +
+      "bjectStorageConnection\022\027\n\006bucket\030\001 \001(\tB\007" +
+      "\242\346*\003\030\200\010\022\"\n\004auth\030\002 \001(\0132\024.YandexQuery.IamA" +
+      "uth\"\306\003\n\021ConnectionSetting\0220\n\014ydb_databas" +
+      "e\030\001 \001(\0132\030.YandexQuery.YdbDatabaseH\000\022<\n\022c" +
+      "lickhouse_cluster\030\002 \001(\0132\036.YandexQuery.Cl" +
+      "ickHouseClusterH\000\0220\n\014data_streams\030\003 \001(\0132" +
+      "\030.YandexQuery.DataStreamsH\000\022>\n\016object_st" +
+      "orage\030\004 \001(\0132$.YandexQuery.ObjectStorageC" +
+      "onnectionH\000\022-\n\nmonitoring\030\005 \001(\0132\027.Yandex" +
+      "Query.MonitoringH\000\"\221\001\n\016ConnectionType\022\037\n" +
+      "\033CONNECTION_TYPE_UNSPECIFIED\020\000\022\020\n\014YDB_DA" +
+      "TABASE\020\001\022\026\n\022CLICKHOUSE_CLUSTER\020\002\022\020\n\014DATA" +
+      "_STREAMS\020\003\022\022\n\016OBJECT_STORAGE\020\004\022\016\n\nMONITO" +
+      "RING\020\005B\014\n\nconnection\"\234\001\n\021ConnectionConte" +
+      "nt\022\031\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022/\n\007setting" +
+      "\030\002 \001(\0132\036.YandexQuery.ConnectionSetting\022\035" +
+      "\n\003acl\030\003 \001(\0132\020.YandexQuery.Acl\022\034\n\013descrip" +
+      "tion\030\004 \001(\tB\007\242\346*\003\030\200P\"d\n\nConnection\022/\n\007con" +
+      "tent\030\001 \001(\0132\036.YandexQuery.ConnectionConte" +
+      "nt\022%\n\004meta\030\002 \001(\0132\027.YandexQuery.CommonMet" +
+      "a\"\247\001\n\027CreateConnectionRequest\0229\n\020operati" +
+      "on_params\030\001 \001(\0132\037.Ydb.Operations.Operati" +
+      "onParams\022/\n\007content\030\002 \001(\0132\036.YandexQuery." +
+      "ConnectionContent\022 \n\017idempotency_key\030\003 \001" +
+      "(\tB\007\242\346*\003\030\200\010\"H\n\030CreateConnectionResponse\022" +
+      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
+      "ation\"<\n\026CreateConnectionResult\022\"\n\rconne" +
+      "ction_id\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"\311\002\n\026ListConn" +
+      "ectionsRequest\0229\n\020operation_params\030\001 \001(\013" +
+      "2\037.Ydb.Operations.OperationParams\022\033\n\npag" +
+      "e_token\030\002 \001(\tB\007\242\346*\003\030\200\010\022\033\n\005limit\030\003 \001(\005B\014\262" +
+      "\346*\010[1; 100]\022:\n\006filter\030\004 \001(\0132*.YandexQuer" +
+      "y.ListConnectionsRequest.Filter\032~\n\006Filte" +
+      "r\022\025\n\004name\030\001 \001(\tB\007\242\346*\003\030\200\010\022\025\n\rcreated_by_m" +
+      "e\030\002 \001(\010\022F\n\017connection_type\030\003 \001(\0162-.Yande" +
+      "xQuery.ConnectionSetting.ConnectionType\"" +
+      "G\n\027ListConnectionsResponse\022,\n\toperation\030" +
+      "\001 \001(\0132\031.Ydb.Operations.Operation\"f\n\025List" +
+      "ConnectionsResult\022+\n\nconnection\030\001 \003(\0132\027." +
+      "YandexQuery.Connection\022 \n\017next_page_toke" +
+      "n\030\002 \001(\tB\007\242\346*\003\030\200\010\"z\n\031DescribeConnectionRe" +
+      "quest\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Op" +
+      "erations.OperationParams\022\"\n\rconnection_i" +
+      "d\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"J\n\032DescribeConnecti" +
+      "onResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
+      "ations.Operation\"G\n\030DescribeConnectionRe" +
+      "sult\022+\n\nconnection\030\001 \001(\0132\027.YandexQuery.C" +
+      "onnection\"\360\001\n\027ModifyConnectionRequest\0229\n" +
+      "\020operation_params\030\001 \001(\0132\037.Ydb.Operations" +
+      ".OperationParams\022\"\n\rconnection_id\030\002 \001(\tB" +
+      "\013\242\346*\007\n\005\010\001\020\200\010\022/\n\007content\030\003 \001(\0132\036.YandexQu" +
+      "ery.ConnectionContent\022#\n\021previous_revisi" +
+      "on\030\004 \001(\003B\010\262\346*\004>= 0\022 \n\017idempotency_key\030\005 " +
+      "\001(\tB\007\242\346*\003\030\200\010\"H\n\030ModifyConnectionResponse" +
+      "\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Ope" +
+      "ration\"\030\n\026ModifyConnectionResult\"\277\001\n\027Del" +
+      "eteConnectionRequest\0229\n\020operation_params" +
+      "\030\001 \001(\0132\037.Ydb.Operations.OperationParams\022" +
+      "\"\n\rconnection_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022#\n\021p" +
+      "revious_revision\030\003 \001(\003B\010\262\346*\004>= 0\022 \n\017idem" +
+      "potency_key\030\004 \001(\tB\007\242\346*\003\030\200\010\"H\n\030DeleteConn" +
+      "ectionResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
+      "Operations.Operation\"\030\n\026DeleteConnection" +
+      "Result\"\203\001\n\025TestConnectionRequest\0229\n\020oper" +
+      "ation_params\030\001 \001(\0132\037.Ydb.Operations.Oper" +
+      "ationParams\022/\n\007setting\030\002 \001(\0132\036.YandexQue" +
+      "ry.ConnectionSetting\"F\n\026TestConnectionRe" +
+      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
+      "ns.Operation\"\026\n\024TestConnectionResult\"\314\001\n" +
+      "\024GetResultDataRequest\0229\n\020operation_param" +
+      "s\030\001 \001(\0132\037.Ydb.Operations.OperationParams" +
+      "\022\035\n\010query_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\020resul" +
+      "t_set_index\030\003 \001(\005B\010\262\346*\004>= 0\022\030\n\006offset\030\004 " +
+      "\001(\003B\010\262\346*\004>= 0\022\034\n\005limit\030\005 \001(\003B\r\262\346*\t[1; 10" +
+      "00]\"E\n\025GetResultDataResponse\022,\n\toperatio" +
+      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"9\n\023Ge" +
+      "tResultDataResult\022\"\n\nresult_set\030\001 \001(\0132\016." +
+      "Ydb.ResultSet\"-\n\006Schema\022#\n\006column\030\001 \003(\0132" +
+      "\013.Ydb.ColumnB\006\232\346*\002\030d\"\234\002\n\022DataStreamsBind" +
+      "ing\022 \n\013stream_name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\027\n" +
+      "\006format\030\002 \001(\tB\007\242\346*\003\030\200\010\022\034\n\013compression\030\003 " +
+      "\001(\tB\007\242\346*\003\030\200\010\022#\n\006schema\030\004 \001(\0132\023.YandexQue" +
+      "ry.Schema\022R\n\016format_setting\030\005 \003(\01322.Yand" +
+      "exQuery.DataStreamsBinding.FormatSetting" +
+      "EntryB\006\232\346*\002\030d\0324\n\022FormatSettingEntry\022\013\n\003k" +
+      "ey\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\355\002\n\024ObjectSt" +
+      "orageBinding\0228\n\006subset\030\001 \003(\0132(.YandexQue" +
+      "ry.ObjectStorageBinding.Subset\032\232\002\n\006Subse" +
+      "t\022!\n\014path_pattern\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\027\n\006" +
+      "format\030\002 \001(\tB\007\242\346*\003\030\200\010\022[\n\016format_setting\030" +
+      "\003 \003(\0132;.YandexQuery.ObjectStorageBinding" +
+      ".Subset.FormatSettingEntryB\006\232\346*\002\030d\022\034\n\013co" +
+      "mpression\030\004 \001(\tB\007\242\346*\003\030\200\010\022#\n\006schema\030\005 \001(\013" +
+      "2\023.YandexQuery.Schema\0324\n\022FormatSettingEn" +
+      "try\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\344\001\n\016" +
+      "BindingSetting\0227\n\014data_streams\030\001 \001(\0132\037.Y" +
+      "andexQuery.DataStreamsBindingH\000\022;\n\016objec" +
+      "t_storage\030\002 \001(\0132!.YandexQuery.ObjectStor" +
+      "ageBindingH\000\"Q\n\013BindingType\022\034\n\030BINDING_T" +
+      "YPE_UNSPECIFIED\020\000\022\020\n\014DATA_STREAMS\020\001\022\022\n\016O" +
+      "BJECT_STORAGE\020\002B\t\n\007binding\"\253\001\n\014BriefBind" +
+      "ing\022\031\n\004name\030\001 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022\"\n\rconnec" +
+      "tion_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022%\n\004meta\030\003 \001(\013" +
+      "2\027.YandexQuery.CommonMeta\0225\n\004type\030\004 \001(\0162" +
+      "\'.YandexQuery.BindingSetting.BindingType" +
+      "\"\272\001\n\016BindingContent\022\031\n\004name\030\001 \001(\tB\013\242\346*\007\n" +
+      "\005\010\001\020\200\010\022\"\n\rconnection_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020" +
+      "\200\010\022,\n\007setting\030\003 \001(\0132\033.YandexQuery.Bindin" +
+      "gSetting\022\035\n\003acl\030\004 \001(\0132\020.YandexQuery.Acl\022" +
+      "\034\n\013description\030\005 \001(\tB\007\242\346*\003\030\200P\"^\n\007Binding" +
+      "\022,\n\007content\030\001 \001(\0132\033.YandexQuery.BindingC" +
+      "ontent\022%\n\004meta\030\002 \001(\0132\027.YandexQuery.Commo" +
+      "nMeta\"\241\001\n\024CreateBindingRequest\0229\n\020operat" +
+      "ion_params\030\001 \001(\0132\037.Ydb.Operations.Operat" +
+      "ionParams\022,\n\007content\030\002 \001(\0132\033.YandexQuery" +
+      ".BindingContent\022 \n\017idempotency_key\030\003 \001(\t" +
+      "B\007\242\346*\003\030\200\010\"E\n\025CreateBindingResponse\022,\n\top" +
+      "eration\030\001 \001(\0132\031.Ydb.Operations.Operation" +
+      "\"6\n\023CreateBindingResult\022\037\n\nbinding_id\030\001 " +
+      "\001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"\233\002\n\023ListBindingsRequest" +
+      "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
+      "ons.OperationParams\022\033\n\npage_token\030\002 \001(\tB" +
+      "\007\242\346*\003\030\200\010\022\033\n\005limit\030\003 \001(\005B\014\262\346*\010[1; 100]\0227\n" +
+      "\006filter\030\004 \001(\0132\'.YandexQuery.ListBindings" +
+      "Request.Filter\032V\n\006Filter\022\036\n\rconnection_i" +
+      "d\030\001 \001(\tB\007\242\346*\003\030\200\010\022\025\n\004name\030\002 \001(\tB\007\242\346*\003\030\200\010\022" +
+      "\025\n\rcreated_by_me\030\003 \001(\010\"D\n\024ListBindingsRe" +
+      "sponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operatio" +
+      "ns.Operation\"b\n\022ListBindingsResult\022*\n\007bi" +
+      "nding\030\001 \003(\0132\031.YandexQuery.BriefBinding\022 " +
+      "\n\017next_page_token\030\002 \001(\tB\007\242\346*\003\030\200\010\"t\n\026Desc" +
+      "ribeBindingRequest\0229\n\020operation_params\030\001" +
+      " \001(\0132\037.Ydb.Operations.OperationParams\022\037\n" +
+      "\nbinding_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\"G\n\027Descri" +
+      "beBindingResponse\022,\n\toperation\030\001 \001(\0132\031.Y" +
+      "db.Operations.Operation\">\n\025DescribeBindi" +
+      "ngResult\022%\n\007binding\030\001 \001(\0132\024.YandexQuery." +
+      "Binding\"\347\001\n\024ModifyBindingRequest\0229\n\020oper" +
+      "ation_params\030\001 \001(\0132\037.Ydb.Operations.Oper" +
+      "ationParams\022\037\n\nbinding_id\030\002 \001(\tB\013\242\346*\007\n\005\010" +
+      "\001\020\200\010\022,\n\007content\030\003 \001(\0132\033.YandexQuery.Bind" +
+      "ingContent\022#\n\021previous_revision\030\004 \001(\003B\010\262" +
+      "\346*\004>= 0\022 \n\017idempotency_key\030\005 \001(\tB\007\242\346*\003\030\200" +
+      "\010\"E\n\025ModifyBindingResponse\022,\n\toperation\030" +
+      "\001 \001(\0132\031.Ydb.Operations.Operation\"\025\n\023Modi" +
+      "fyBindingResult\"\271\001\n\024DeleteBindingRequest" +
       "\0229\n\020operation_params\030\001 \001(\0132\037.Ydb.Operati" +
       "ons.OperationParams\022\037\n\nbinding_id\030\002 \001(\tB" +
-      "\013\242\346*\007\n\005\010\001\020\200\010\"G\n\027DescribeBindingResponse\022" +
-      ",\n\toperation\030\001 \001(\0132\031.Ydb.Operations.Oper" +
-      "ation\">\n\025DescribeBindingResult\022%\n\007bindin" +
-      "g\030\001 \001(\0132\024.YandexQuery.Binding\"\347\001\n\024Modify" +
-      "BindingRequest\0229\n\020operation_params\030\001 \001(\013" +
-      "2\037.Ydb.Operations.OperationParams\022\037\n\nbin" +
-      "ding_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022,\n\007content\030\003 " +
-      "\001(\0132\033.YandexQuery.BindingContent\022#\n\021prev" +
-      "ious_revision\030\004 \001(\003B\010\262\346*\004>= 0\022 \n\017idempot" +
-      "ency_key\030\005 \001(\tB\007\242\346*\003\030\200\010\"E\n\025ModifyBinding" +
-      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
-      "ions.Operation\"\025\n\023ModifyBindingResult\"\271\001" +
-      "\n\024DeleteBindingRequest\0229\n\020operation_para" +
-      "ms\030\001 \001(\0132\037.Ydb.Operations.OperationParam" +
-      "s\022\037\n\nbinding_id\030\002 \001(\tB\013\242\346*\007\n\005\010\001\020\200\010\022#\n\021pr" +
-      "evious_revision\030\003 \001(\003B\010\262\346*\004>= 0\022 \n\017idemp" +
-      "otency_key\030\004 \001(\tB\007\242\346*\003\030\200\010\"E\n\025DeleteBindi" +
-      "ngResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
-      "ations.Operation\"\025\n\023DeleteBindingResult*" +
-      "q\n\013ExecuteMode\022\034\n\030EXECUTE_MODE_UNSPECIFI" +
-      "ED\020\000\022\010\n\004SAVE\020\001\022\t\n\005PARSE\020\002\022\013\n\007COMPILE\020\003\022\014" +
-      "\n\010VALIDATE\020\004\022\013\n\007EXPLAIN\020\005\022\007\n\003RUN\020\006*y\n\013Qu" +
-      "eryAction\022\034\n\030QUERY_ACTION_UNSPECIFIED\020\000\022" +
-      "\t\n\005PAUSE\020\001\022\024\n\020PAUSE_GRACEFULLY\020\002\022\t\n\005ABOR" +
-      "T\020\003\022\024\n\020ABORT_GRACEFULLY\020\004\022\n\n\006RESUME\020\005*U\n" +
-      "\rStateLoadMode\022\037\n\033STATE_LOAD_MODE_UNSPEC" +
-      "IFIED\020\000\022\t\n\005EMPTY\020\001\022\030\n\024FROM_LAST_CHECKPOI" +
-      "NT\020\002*Q\n\rAutomaticType\022\036\n\032AUTOMATIC_TYPE_" +
-      "UNSPECIFIED\020\000\022\r\n\tAUTOMATIC\020\001\022\021\n\rNOT_AUTO" +
-      "MATIC\020\002B(\n\020com.yandex.queryB\021YandexQuery" +
-      "Protos\370\001\001b\006proto3"
+      "\013\242\346*\007\n\005\010\001\020\200\010\022#\n\021previous_revision\030\003 \001(\003B" +
+      "\010\262\346*\004>= 0\022 \n\017idempotency_key\030\004 \001(\tB\007\242\346*\003" +
+      "\030\200\010\"E\n\025DeleteBindingResponse\022,\n\toperatio" +
+      "n\030\001 \001(\0132\031.Ydb.Operations.Operation\"\025\n\023De" +
+      "leteBindingResult*q\n\013ExecuteMode\022\034\n\030EXEC" +
+      "UTE_MODE_UNSPECIFIED\020\000\022\010\n\004SAVE\020\001\022\t\n\005PARS" +
+      "E\020\002\022\013\n\007COMPILE\020\003\022\014\n\010VALIDATE\020\004\022\013\n\007EXPLAI" +
+      "N\020\005\022\007\n\003RUN\020\006*y\n\013QueryAction\022\034\n\030QUERY_ACT" +
+      "ION_UNSPECIFIED\020\000\022\t\n\005PAUSE\020\001\022\024\n\020PAUSE_GR" +
+      "ACEFULLY\020\002\022\t\n\005ABORT\020\003\022\024\n\020ABORT_GRACEFULL" +
+      "Y\020\004\022\n\n\006RESUME\020\005*U\n\rStateLoadMode\022\037\n\033STAT" +
+      "E_LOAD_MODE_UNSPECIFIED\020\000\022\t\n\005EMPTY\020\001\022\030\n\024" +
+      "FROM_LAST_CHECKPOINT\020\002*Q\n\rAutomaticType\022" +
+      "\036\n\032AUTOMATIC_TYPE_UNSPECIFIED\020\000\022\r\n\tAUTOM" +
+      "ATIC\020\001\022\021\n\rNOT_AUTOMATIC\020\002B(\n\020com.yandex." +
+      "queryB\021YandexQueryProtos\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -95546,6 +96173,12 @@ public final class YandexQueryProtos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_YandexQuery_StreamingDisposition_TimeAgo_descriptor,
         new java.lang.String[] { "Duration", });
+    internal_static_YandexQuery_StreamingDisposition_FromLastCheckpoint_descriptor =
+      internal_static_YandexQuery_StreamingDisposition_descriptor.getNestedTypes().get(2);
+    internal_static_YandexQuery_StreamingDisposition_FromLastCheckpoint_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_YandexQuery_StreamingDisposition_FromLastCheckpoint_descriptor,
+        new java.lang.String[] { "Force", });
     internal_static_YandexQuery_QueryContent_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_YandexQuery_QueryContent_fieldAccessorTable = new
@@ -95563,7 +96196,7 @@ public final class YandexQueryProtos {
     internal_static_YandexQuery_QueryMeta_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_YandexQuery_QueryMeta_descriptor,
-        new java.lang.String[] { "Common", "StartedAt", "FinishedAt", "ExecuteMode", "Status", "LastJobQueryRevision", "LastJobId", "ExpireAt", "ResultExpireAt", "StartedBy", "AbortedBy", "PausedBy", "Action", });
+        new java.lang.String[] { "Common", "StartedAt", "FinishedAt", "ExecuteMode", "Status", "LastJobQueryRevision", "LastJobId", "ExpireAt", "ResultExpireAt", "StartedBy", "AbortedBy", "PausedBy", "HasSavedCheckpoints", "Action", });
     internal_static_YandexQuery_BriefQuery_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_YandexQuery_BriefQuery_fieldAccessorTable = new

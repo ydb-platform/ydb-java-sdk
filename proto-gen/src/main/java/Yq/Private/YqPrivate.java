@@ -3808,6 +3808,21 @@ public final class YqPrivate {
        * <code>.google.protobuf.Timestamp deadline = 24;</code>
        */
       com.google.protobuf.TimestampOrBuilder getDeadlineOrBuilder();
+
+      /**
+       * <code>.YandexQuery.StreamingDisposition disposition = 25;</code>
+       * @return Whether the disposition field is set.
+       */
+      boolean hasDisposition();
+      /**
+       * <code>.YandexQuery.StreamingDisposition disposition = 25;</code>
+       * @return The disposition.
+       */
+      com.yandex.query.YandexQueryProtos.StreamingDisposition getDisposition();
+      /**
+       * <code>.YandexQuery.StreamingDisposition disposition = 25;</code>
+       */
+      com.yandex.query.YandexQueryProtos.StreamingDispositionOrBuilder getDispositionOrBuilder();
     }
     /**
      * Protobuf type {@code Yq.Private.GetTaskResult.Task}
@@ -4058,6 +4073,19 @@ public final class YqPrivate {
                 if (subBuilder != null) {
                   subBuilder.mergeFrom(deadline_);
                   deadline_ = subBuilder.buildPartial();
+                }
+
+                break;
+              }
+              case 202: {
+                com.yandex.query.YandexQueryProtos.StreamingDisposition.Builder subBuilder = null;
+                if (disposition_ != null) {
+                  subBuilder = disposition_.toBuilder();
+                }
+                disposition_ = input.readMessage(com.yandex.query.YandexQueryProtos.StreamingDisposition.parser(), extensionRegistry);
+                if (subBuilder != null) {
+                  subBuilder.mergeFrom(disposition_);
+                  disposition_ = subBuilder.buildPartial();
                 }
 
                 break;
@@ -4874,6 +4902,32 @@ public final class YqPrivate {
         return getDeadline();
       }
 
+      public static final int DISPOSITION_FIELD_NUMBER = 25;
+      private com.yandex.query.YandexQueryProtos.StreamingDisposition disposition_;
+      /**
+       * <code>.YandexQuery.StreamingDisposition disposition = 25;</code>
+       * @return Whether the disposition field is set.
+       */
+      @java.lang.Override
+      public boolean hasDisposition() {
+        return disposition_ != null;
+      }
+      /**
+       * <code>.YandexQuery.StreamingDisposition disposition = 25;</code>
+       * @return The disposition.
+       */
+      @java.lang.Override
+      public com.yandex.query.YandexQueryProtos.StreamingDisposition getDisposition() {
+        return disposition_ == null ? com.yandex.query.YandexQueryProtos.StreamingDisposition.getDefaultInstance() : disposition_;
+      }
+      /**
+       * <code>.YandexQuery.StreamingDisposition disposition = 25;</code>
+       */
+      @java.lang.Override
+      public com.yandex.query.YandexQueryProtos.StreamingDispositionOrBuilder getDispositionOrBuilder() {
+        return getDisposition();
+      }
+
       private byte memoizedIsInitialized = -1;
       @java.lang.Override
       public final boolean isInitialized() {
@@ -4962,6 +5016,9 @@ public final class YqPrivate {
         }
         if (deadline_ != null) {
           output.writeMessage(24, getDeadline());
+        }
+        if (disposition_ != null) {
+          output.writeMessage(25, getDisposition());
         }
         unknownFields.writeTo(output);
       }
@@ -5074,6 +5131,10 @@ public final class YqPrivate {
           size += com.google.protobuf.CodedOutputStream
             .computeMessageSize(24, getDeadline());
         }
+        if (disposition_ != null) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(25, getDisposition());
+        }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
         return size;
@@ -5144,6 +5205,11 @@ public final class YqPrivate {
         if (hasDeadline()) {
           if (!getDeadline()
               .equals(other.getDeadline())) return false;
+        }
+        if (hasDisposition() != other.hasDisposition()) return false;
+        if (hasDisposition()) {
+          if (!getDisposition()
+              .equals(other.getDisposition())) return false;
         }
         if (!unknownFields.equals(other.unknownFields)) return false;
         return true;
@@ -5228,6 +5294,10 @@ public final class YqPrivate {
         if (hasDeadline()) {
           hash = (37 * hash) + DEADLINE_FIELD_NUMBER;
           hash = (53 * hash) + getDeadline().hashCode();
+        }
+        if (hasDisposition()) {
+          hash = (37 * hash) + DISPOSITION_FIELD_NUMBER;
+          hash = (53 * hash) + getDisposition().hashCode();
         }
         hash = (29 * hash) + unknownFields.hashCode();
         memoizedHashCode = hash;
@@ -5472,6 +5542,12 @@ public final class YqPrivate {
             deadline_ = null;
             deadlineBuilder_ = null;
           }
+          if (dispositionBuilder_ == null) {
+            disposition_ = null;
+          } else {
+            disposition_ = null;
+            dispositionBuilder_ = null;
+          }
           return this;
         }
 
@@ -5583,6 +5659,11 @@ public final class YqPrivate {
             result.deadline_ = deadline_;
           } else {
             result.deadline_ = deadlineBuilder_.build();
+          }
+          if (dispositionBuilder_ == null) {
+            result.disposition_ = disposition_;
+          } else {
+            result.disposition_ = dispositionBuilder_.build();
           }
           onBuilt();
           return result;
@@ -5829,6 +5910,9 @@ public final class YqPrivate {
           }
           if (other.hasDeadline()) {
             mergeDeadline(other.getDeadline());
+          }
+          if (other.hasDisposition()) {
+            mergeDisposition(other.getDisposition());
           }
           this.mergeUnknownFields(other.unknownFields);
           onChanged();
@@ -8544,6 +8628,125 @@ public final class YqPrivate {
           }
           return deadlineBuilder_;
         }
+
+        private com.yandex.query.YandexQueryProtos.StreamingDisposition disposition_;
+        private com.google.protobuf.SingleFieldBuilderV3<
+            com.yandex.query.YandexQueryProtos.StreamingDisposition, com.yandex.query.YandexQueryProtos.StreamingDisposition.Builder, com.yandex.query.YandexQueryProtos.StreamingDispositionOrBuilder> dispositionBuilder_;
+        /**
+         * <code>.YandexQuery.StreamingDisposition disposition = 25;</code>
+         * @return Whether the disposition field is set.
+         */
+        public boolean hasDisposition() {
+          return dispositionBuilder_ != null || disposition_ != null;
+        }
+        /**
+         * <code>.YandexQuery.StreamingDisposition disposition = 25;</code>
+         * @return The disposition.
+         */
+        public com.yandex.query.YandexQueryProtos.StreamingDisposition getDisposition() {
+          if (dispositionBuilder_ == null) {
+            return disposition_ == null ? com.yandex.query.YandexQueryProtos.StreamingDisposition.getDefaultInstance() : disposition_;
+          } else {
+            return dispositionBuilder_.getMessage();
+          }
+        }
+        /**
+         * <code>.YandexQuery.StreamingDisposition disposition = 25;</code>
+         */
+        public Builder setDisposition(com.yandex.query.YandexQueryProtos.StreamingDisposition value) {
+          if (dispositionBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            disposition_ = value;
+            onChanged();
+          } else {
+            dispositionBuilder_.setMessage(value);
+          }
+
+          return this;
+        }
+        /**
+         * <code>.YandexQuery.StreamingDisposition disposition = 25;</code>
+         */
+        public Builder setDisposition(
+            com.yandex.query.YandexQueryProtos.StreamingDisposition.Builder builderForValue) {
+          if (dispositionBuilder_ == null) {
+            disposition_ = builderForValue.build();
+            onChanged();
+          } else {
+            dispositionBuilder_.setMessage(builderForValue.build());
+          }
+
+          return this;
+        }
+        /**
+         * <code>.YandexQuery.StreamingDisposition disposition = 25;</code>
+         */
+        public Builder mergeDisposition(com.yandex.query.YandexQueryProtos.StreamingDisposition value) {
+          if (dispositionBuilder_ == null) {
+            if (disposition_ != null) {
+              disposition_ =
+                com.yandex.query.YandexQueryProtos.StreamingDisposition.newBuilder(disposition_).mergeFrom(value).buildPartial();
+            } else {
+              disposition_ = value;
+            }
+            onChanged();
+          } else {
+            dispositionBuilder_.mergeFrom(value);
+          }
+
+          return this;
+        }
+        /**
+         * <code>.YandexQuery.StreamingDisposition disposition = 25;</code>
+         */
+        public Builder clearDisposition() {
+          if (dispositionBuilder_ == null) {
+            disposition_ = null;
+            onChanged();
+          } else {
+            disposition_ = null;
+            dispositionBuilder_ = null;
+          }
+
+          return this;
+        }
+        /**
+         * <code>.YandexQuery.StreamingDisposition disposition = 25;</code>
+         */
+        public com.yandex.query.YandexQueryProtos.StreamingDisposition.Builder getDispositionBuilder() {
+          
+          onChanged();
+          return getDispositionFieldBuilder().getBuilder();
+        }
+        /**
+         * <code>.YandexQuery.StreamingDisposition disposition = 25;</code>
+         */
+        public com.yandex.query.YandexQueryProtos.StreamingDispositionOrBuilder getDispositionOrBuilder() {
+          if (dispositionBuilder_ != null) {
+            return dispositionBuilder_.getMessageOrBuilder();
+          } else {
+            return disposition_ == null ?
+                com.yandex.query.YandexQueryProtos.StreamingDisposition.getDefaultInstance() : disposition_;
+          }
+        }
+        /**
+         * <code>.YandexQuery.StreamingDisposition disposition = 25;</code>
+         */
+        private com.google.protobuf.SingleFieldBuilderV3<
+            com.yandex.query.YandexQueryProtos.StreamingDisposition, com.yandex.query.YandexQueryProtos.StreamingDisposition.Builder, com.yandex.query.YandexQueryProtos.StreamingDispositionOrBuilder> 
+            getDispositionFieldBuilder() {
+          if (dispositionBuilder_ == null) {
+            dispositionBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+                com.yandex.query.YandexQueryProtos.StreamingDisposition, com.yandex.query.YandexQueryProtos.StreamingDisposition.Builder, com.yandex.query.YandexQueryProtos.StreamingDispositionOrBuilder>(
+                    getDisposition(),
+                    getParentForChildren(),
+                    isClean());
+            disposition_ = null;
+          }
+          return dispositionBuilder_;
+        }
         @java.lang.Override
         public final Builder setUnknownFields(
             final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -10204,6 +10407,32 @@ public final class YqPrivate {
         int index);
 
     /**
+     * <code>.YandexQuery.StateLoadMode state_load_mode = 18;</code>
+     * @return The enum numeric value on the wire for stateLoadMode.
+     */
+    int getStateLoadModeValue();
+    /**
+     * <code>.YandexQuery.StateLoadMode state_load_mode = 18;</code>
+     * @return The stateLoadMode.
+     */
+    com.yandex.query.YandexQueryProtos.StateLoadMode getStateLoadMode();
+
+    /**
+     * <code>.YandexQuery.StreamingDisposition disposition = 19;</code>
+     * @return Whether the disposition field is set.
+     */
+    boolean hasDisposition();
+    /**
+     * <code>.YandexQuery.StreamingDisposition disposition = 19;</code>
+     * @return The disposition.
+     */
+    com.yandex.query.YandexQueryProtos.StreamingDisposition getDisposition();
+    /**
+     * <code>.YandexQuery.StreamingDisposition disposition = 19;</code>
+     */
+    com.yandex.query.YandexQueryProtos.StreamingDispositionOrBuilder getDispositionOrBuilder();
+
+    /**
      * <code>.Ydb.Operations.OperationParams operation_params = 15;</code>
      * @return Whether the operationParams field is set.
      */
@@ -10307,6 +10536,7 @@ public final class YqPrivate {
       ast_ = "";
       plan_ = "";
       createdTopicConsumers_ = java.util.Collections.emptyList();
+      stateLoadMode_ = 0;
       scope_ = "";
     }
 
@@ -10481,6 +10711,25 @@ public final class YqPrivate {
               }
               createdTopicConsumers_.add(
                   input.readMessage(Yq.Private.YqPrivate.TopicConsumer.parser(), extensionRegistry));
+              break;
+            }
+            case 144: {
+              int rawValue = input.readEnum();
+
+              stateLoadMode_ = rawValue;
+              break;
+            }
+            case 154: {
+              com.yandex.query.YandexQueryProtos.StreamingDisposition.Builder subBuilder = null;
+              if (disposition_ != null) {
+                subBuilder = disposition_.toBuilder();
+              }
+              disposition_ = input.readMessage(com.yandex.query.YandexQueryProtos.StreamingDisposition.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(disposition_);
+                disposition_ = subBuilder.buildPartial();
+              }
+
               break;
             }
             case 160: {
@@ -11087,6 +11336,51 @@ public final class YqPrivate {
       return createdTopicConsumers_.get(index);
     }
 
+    public static final int STATE_LOAD_MODE_FIELD_NUMBER = 18;
+    private int stateLoadMode_;
+    /**
+     * <code>.YandexQuery.StateLoadMode state_load_mode = 18;</code>
+     * @return The enum numeric value on the wire for stateLoadMode.
+     */
+    @java.lang.Override public int getStateLoadModeValue() {
+      return stateLoadMode_;
+    }
+    /**
+     * <code>.YandexQuery.StateLoadMode state_load_mode = 18;</code>
+     * @return The stateLoadMode.
+     */
+    @java.lang.Override public com.yandex.query.YandexQueryProtos.StateLoadMode getStateLoadMode() {
+      @SuppressWarnings("deprecation")
+      com.yandex.query.YandexQueryProtos.StateLoadMode result = com.yandex.query.YandexQueryProtos.StateLoadMode.valueOf(stateLoadMode_);
+      return result == null ? com.yandex.query.YandexQueryProtos.StateLoadMode.UNRECOGNIZED : result;
+    }
+
+    public static final int DISPOSITION_FIELD_NUMBER = 19;
+    private com.yandex.query.YandexQueryProtos.StreamingDisposition disposition_;
+    /**
+     * <code>.YandexQuery.StreamingDisposition disposition = 19;</code>
+     * @return Whether the disposition field is set.
+     */
+    @java.lang.Override
+    public boolean hasDisposition() {
+      return disposition_ != null;
+    }
+    /**
+     * <code>.YandexQuery.StreamingDisposition disposition = 19;</code>
+     * @return The disposition.
+     */
+    @java.lang.Override
+    public com.yandex.query.YandexQueryProtos.StreamingDisposition getDisposition() {
+      return disposition_ == null ? com.yandex.query.YandexQueryProtos.StreamingDisposition.getDefaultInstance() : disposition_;
+    }
+    /**
+     * <code>.YandexQuery.StreamingDisposition disposition = 19;</code>
+     */
+    @java.lang.Override
+    public com.yandex.query.YandexQueryProtos.StreamingDispositionOrBuilder getDispositionOrBuilder() {
+      return getDisposition();
+    }
+
     public static final int OPERATION_PARAMS_FIELD_NUMBER = 15;
     private tech.ydb.OperationProtos.OperationParams operationParams_;
     /**
@@ -11302,6 +11596,12 @@ public final class YqPrivate {
       for (int i = 0; i < createdTopicConsumers_.size(); i++) {
         output.writeMessage(17, createdTopicConsumers_.get(i));
       }
+      if (stateLoadMode_ != com.yandex.query.YandexQueryProtos.StateLoadMode.STATE_LOAD_MODE_UNSPECIFIED.getNumber()) {
+        output.writeEnum(18, stateLoadMode_);
+      }
+      if (disposition_ != null) {
+        output.writeMessage(19, getDisposition());
+      }
       if (dqGraphIndex_ != 0) {
         output.writeInt32(20, dqGraphIndex_);
       }
@@ -11394,6 +11694,14 @@ public final class YqPrivate {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(17, createdTopicConsumers_.get(i));
       }
+      if (stateLoadMode_ != com.yandex.query.YandexQueryProtos.StateLoadMode.STATE_LOAD_MODE_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(18, stateLoadMode_);
+      }
+      if (disposition_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(19, getDisposition());
+      }
       if (dqGraphIndex_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(20, dqGraphIndex_);
@@ -11470,6 +11778,12 @@ public final class YqPrivate {
           != other.getResignQuery()) return false;
       if (!getCreatedTopicConsumersList()
           .equals(other.getCreatedTopicConsumersList())) return false;
+      if (stateLoadMode_ != other.stateLoadMode_) return false;
+      if (hasDisposition() != other.hasDisposition()) return false;
+      if (hasDisposition()) {
+        if (!getDisposition()
+            .equals(other.getDisposition())) return false;
+      }
       if (hasOperationParams() != other.hasOperationParams()) return false;
       if (hasOperationParams()) {
         if (!getOperationParams()
@@ -11553,6 +11867,12 @@ public final class YqPrivate {
       if (getCreatedTopicConsumersCount() > 0) {
         hash = (37 * hash) + CREATED_TOPIC_CONSUMERS_FIELD_NUMBER;
         hash = (53 * hash) + getCreatedTopicConsumersList().hashCode();
+      }
+      hash = (37 * hash) + STATE_LOAD_MODE_FIELD_NUMBER;
+      hash = (53 * hash) + stateLoadMode_;
+      if (hasDisposition()) {
+        hash = (37 * hash) + DISPOSITION_FIELD_NUMBER;
+        hash = (53 * hash) + getDisposition().hashCode();
       }
       if (hasOperationParams()) {
         hash = (37 * hash) + OPERATION_PARAMS_FIELD_NUMBER;
@@ -11771,6 +12091,14 @@ public final class YqPrivate {
         } else {
           createdTopicConsumersBuilder_.clear();
         }
+        stateLoadMode_ = 0;
+
+        if (dispositionBuilder_ == null) {
+          disposition_ = null;
+        } else {
+          disposition_ = null;
+          dispositionBuilder_ = null;
+        }
         if (operationParamsBuilder_ == null) {
           operationParams_ = null;
         } else {
@@ -11888,6 +12216,12 @@ public final class YqPrivate {
           result.createdTopicConsumers_ = createdTopicConsumers_;
         } else {
           result.createdTopicConsumers_ = createdTopicConsumersBuilder_.build();
+        }
+        result.stateLoadMode_ = stateLoadMode_;
+        if (dispositionBuilder_ == null) {
+          result.disposition_ = disposition_;
+        } else {
+          result.disposition_ = dispositionBuilder_.build();
         }
         if (operationParamsBuilder_ == null) {
           result.operationParams_ = operationParams_;
@@ -12112,6 +12446,12 @@ public final class YqPrivate {
               createdTopicConsumersBuilder_.addAllMessages(other.createdTopicConsumers_);
             }
           }
+        }
+        if (other.stateLoadMode_ != 0) {
+          setStateLoadModeValue(other.getStateLoadModeValue());
+        }
+        if (other.hasDisposition()) {
+          mergeDisposition(other.getDisposition());
         }
         if (other.hasOperationParams()) {
           mergeOperationParams(other.getOperationParams());
@@ -14086,6 +14426,179 @@ public final class YqPrivate {
           createdTopicConsumers_ = null;
         }
         return createdTopicConsumersBuilder_;
+      }
+
+      private int stateLoadMode_ = 0;
+      /**
+       * <code>.YandexQuery.StateLoadMode state_load_mode = 18;</code>
+       * @return The enum numeric value on the wire for stateLoadMode.
+       */
+      @java.lang.Override public int getStateLoadModeValue() {
+        return stateLoadMode_;
+      }
+      /**
+       * <code>.YandexQuery.StateLoadMode state_load_mode = 18;</code>
+       * @param value The enum numeric value on the wire for stateLoadMode to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStateLoadModeValue(int value) {
+        
+        stateLoadMode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.YandexQuery.StateLoadMode state_load_mode = 18;</code>
+       * @return The stateLoadMode.
+       */
+      @java.lang.Override
+      public com.yandex.query.YandexQueryProtos.StateLoadMode getStateLoadMode() {
+        @SuppressWarnings("deprecation")
+        com.yandex.query.YandexQueryProtos.StateLoadMode result = com.yandex.query.YandexQueryProtos.StateLoadMode.valueOf(stateLoadMode_);
+        return result == null ? com.yandex.query.YandexQueryProtos.StateLoadMode.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.YandexQuery.StateLoadMode state_load_mode = 18;</code>
+       * @param value The stateLoadMode to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStateLoadMode(com.yandex.query.YandexQueryProtos.StateLoadMode value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        stateLoadMode_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.YandexQuery.StateLoadMode state_load_mode = 18;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStateLoadMode() {
+        
+        stateLoadMode_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private com.yandex.query.YandexQueryProtos.StreamingDisposition disposition_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.query.YandexQueryProtos.StreamingDisposition, com.yandex.query.YandexQueryProtos.StreamingDisposition.Builder, com.yandex.query.YandexQueryProtos.StreamingDispositionOrBuilder> dispositionBuilder_;
+      /**
+       * <code>.YandexQuery.StreamingDisposition disposition = 19;</code>
+       * @return Whether the disposition field is set.
+       */
+      public boolean hasDisposition() {
+        return dispositionBuilder_ != null || disposition_ != null;
+      }
+      /**
+       * <code>.YandexQuery.StreamingDisposition disposition = 19;</code>
+       * @return The disposition.
+       */
+      public com.yandex.query.YandexQueryProtos.StreamingDisposition getDisposition() {
+        if (dispositionBuilder_ == null) {
+          return disposition_ == null ? com.yandex.query.YandexQueryProtos.StreamingDisposition.getDefaultInstance() : disposition_;
+        } else {
+          return dispositionBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.YandexQuery.StreamingDisposition disposition = 19;</code>
+       */
+      public Builder setDisposition(com.yandex.query.YandexQueryProtos.StreamingDisposition value) {
+        if (dispositionBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          disposition_ = value;
+          onChanged();
+        } else {
+          dispositionBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.YandexQuery.StreamingDisposition disposition = 19;</code>
+       */
+      public Builder setDisposition(
+          com.yandex.query.YandexQueryProtos.StreamingDisposition.Builder builderForValue) {
+        if (dispositionBuilder_ == null) {
+          disposition_ = builderForValue.build();
+          onChanged();
+        } else {
+          dispositionBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.YandexQuery.StreamingDisposition disposition = 19;</code>
+       */
+      public Builder mergeDisposition(com.yandex.query.YandexQueryProtos.StreamingDisposition value) {
+        if (dispositionBuilder_ == null) {
+          if (disposition_ != null) {
+            disposition_ =
+              com.yandex.query.YandexQueryProtos.StreamingDisposition.newBuilder(disposition_).mergeFrom(value).buildPartial();
+          } else {
+            disposition_ = value;
+          }
+          onChanged();
+        } else {
+          dispositionBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.YandexQuery.StreamingDisposition disposition = 19;</code>
+       */
+      public Builder clearDisposition() {
+        if (dispositionBuilder_ == null) {
+          disposition_ = null;
+          onChanged();
+        } else {
+          disposition_ = null;
+          dispositionBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.YandexQuery.StreamingDisposition disposition = 19;</code>
+       */
+      public com.yandex.query.YandexQueryProtos.StreamingDisposition.Builder getDispositionBuilder() {
+        
+        onChanged();
+        return getDispositionFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.YandexQuery.StreamingDisposition disposition = 19;</code>
+       */
+      public com.yandex.query.YandexQueryProtos.StreamingDispositionOrBuilder getDispositionOrBuilder() {
+        if (dispositionBuilder_ != null) {
+          return dispositionBuilder_.getMessageOrBuilder();
+        } else {
+          return disposition_ == null ?
+              com.yandex.query.YandexQueryProtos.StreamingDisposition.getDefaultInstance() : disposition_;
+        }
+      }
+      /**
+       * <code>.YandexQuery.StreamingDisposition disposition = 19;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.yandex.query.YandexQueryProtos.StreamingDisposition, com.yandex.query.YandexQueryProtos.StreamingDisposition.Builder, com.yandex.query.YandexQueryProtos.StreamingDispositionOrBuilder> 
+          getDispositionFieldBuilder() {
+        if (dispositionBuilder_ == null) {
+          dispositionBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.yandex.query.YandexQueryProtos.StreamingDisposition, com.yandex.query.YandexQueryProtos.StreamingDisposition.Builder, com.yandex.query.YandexQueryProtos.StreamingDispositionOrBuilder>(
+                  getDisposition(),
+                  getParentForChildren(),
+                  isClean());
+          disposition_ = null;
+        }
+        return dispositionBuilder_;
       }
 
       private tech.ydb.OperationProtos.OperationParams operationParams_;
@@ -22458,9 +22971,9 @@ public final class YqPrivate {
       "\030\002 \001(\t\022\022\n\ntopic_path\030\003 \001(\t\022\025\n\rconsumer_n" +
       "ame\030\004 \001(\t\022\030\n\020cluster_endpoint\030\005 \001(\t\022\017\n\007u" +
       "se_ssl\030\006 \001(\010\022\022\n\ntoken_name\030\007 \001(\t\022\033\n\023add_" +
-      "bearer_to_token\030\010 \001(\010\"\205\010\n\rGetTaskResult\022" +
+      "bearer_to_token\030\010 \001(\010\"\275\010\n\rGetTaskResult\022" +
       "-\n\005tasks\030\001 \003(\0132\036.Yq.Private.GetTaskResul" +
-      "t.Task\032\304\007\n\004Task\022-\n\tresult_id\030\001 \001(\0132\032.Yq." +
+      "t.Task\032\374\007\n\004Task\022-\n\tresult_id\030\001 \001(\0132\032.Yq." +
       "Private.SignedIdentity\022,\n\010query_id\030\002 \001(\013" +
       "2\032.Yq.Private.SignedIdentity\022*\n\006job_id\030\003" +
       " \001(\0132\032.Yq.Private.SignedIdentity\022\022\n\ngene" +
@@ -22483,55 +22996,59 @@ public final class YqPrivate {
       "etTaskResult.Task.SensorLabelsEntry\022\021\n\ta" +
       "utomatic\030\026 \001(\010\022\022\n\nquery_name\030\027 \001(\t\022,\n\010de" +
       "adline\030\030 \001(\0132\032.google.protobuf.Timestamp" +
-      "\0323\n\021SensorLabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005va" +
-      "lue\030\002 \001(\t:\0028\001\"?\n\017GetTaskResponse\022,\n\toper" +
-      "ation\030\001 \001(\0132\031.Ydb.Operations.Operation\"\250" +
-      "\006\n\017PingTaskRequest\022\020\n\010owner_id\030\001 \001(\t\022,\n\010" +
-      "query_id\030\002 \001(\0132\032.Yq.Private.SignedIdenti" +
-      "ty\022*\n\006job_id\030\003 \001(\0132\032.Yq.Private.SignedId" +
-      "entity\022-\n\tresult_id\030\004 \001(\0132\032.Yq.Private.S" +
-      "ignedIdentity\0224\n\006status\030\005 \001(\0162$.YandexQu" +
-      "ery.QueryMeta.ComputeStatus\022\'\n\006issues\030\006 " +
-      "\003(\0132\027.Ydb.Issue.IssueMessage\0221\n\020transien" +
-      "t_issues\030\020 \003(\0132\027.Ydb.Issue.IssueMessage\022" +
-      "\030\n\020result_set_count\030\007 \001(\r\022\022\n\nstatistics\030" +
-      "\010 \001(\t\0223\n\017result_set_meta\030\t \003(\0132\032.YandexQ" +
-      "uery.ResultSetMeta\022\025\n\rexecuter_info\030\n \001(" +
-      "\t\022\020\n\010dq_graph\030\013 \003(\014\022\026\n\016dq_graph_index\030\024 " +
-      "\001(\005\022\013\n\003ast\030\014 \001(\t\022\014\n\004plan\030\r \001(\t\022\024\n\014resign" +
-      "_query\030\016 \001(\010\022:\n\027created_topic_consumers\030" +
-      "\021 \003(\0132\031.Yq.Private.TopicConsumer\0229\n\020oper" +
-      "ation_params\030\017 \001(\0132\037.Ydb.Operations.Oper" +
-      "ationParams\022\r\n\005scope\030d \001(\t\022.\n\nstarted_at" +
-      "\030e \001(\0132\032.google.protobuf.Timestamp\022/\n\013fi" +
-      "nished_at\030f \001(\0132\032.google.protobuf.Timest" +
-      "amp\022,\n\010deadline\030g \001(\0132\032.google.protobuf." +
-      "Timestamp\":\n\016PingTaskResult\022(\n\006action\030\001 " +
-      "\001(\0162\030.YandexQuery.QueryAction\"@\n\020PingTas" +
-      "kResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Opera" +
-      "tions.Operation\"\241\002\n\026WriteTaskResultReque" +
-      "st\022\020\n\010owner_id\030\001 \001(\t\022-\n\tresult_id\030\002 \001(\0132" +
-      "\032.Yq.Private.SignedIdentity\022\"\n\nresult_se" +
-      "t\030\003 \001(\0132\016.Ydb.ResultSet\022\025\n\rresult_set_id" +
-      "\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\022\n\nrequest_id\030\006 \001" +
-      "(\004\0229\n\020operation_params\030\007 \001(\0132\037.Ydb.Opera" +
-      "tions.OperationParams\022,\n\010deadline\030\010 \001(\0132" +
-      "\032.google.protobuf.Timestamp\"+\n\025WriteTask" +
-      "ResultResult\022\022\n\nrequest_id\030\001 \001(\004\"G\n\027Writ" +
-      "eTaskResultResponse\022,\n\toperation\030\001 \001(\0132\031" +
-      ".Ydb.Operations.Operation\"\273\001\n\010NodeInfo\022\017" +
-      "\n\007node_id\030\001 \001(\r\022\023\n\013instance_id\030\002 \001(\t\022\020\n\010" +
-      "hostname\030\003 \001(\t\022\026\n\016active_workers\030\004 \001(\004\022\024" +
-      "\n\014memory_limit\030\005 \001(\004\022\030\n\020memory_allocated" +
-      "\030\006 \001(\004\022\031\n\021interconnect_port\030\007 \001(\r\022\024\n\014nod" +
-      "e_address\030\010 \001(\t\"\210\001\n\027NodesHealthCheckRequ" +
-      "est\022\016\n\006tenant\030\001 \001(\t\022\"\n\004node\030\002 \001(\0132\024.Yq.P" +
-      "rivate.NodeInfo\0229\n\020operation_params\030\006 \001(" +
-      "\0132\037.Ydb.Operations.OperationParams\"=\n\026No" +
-      "desHealthCheckResult\022#\n\005nodes\030\001 \003(\0132\024.Yq" +
-      ".Private.NodeInfo\"H\n\030NodesHealthCheckRes" +
-      "ponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operation" +
-      "s.OperationB\003\370\001\001b\006proto3"
+      "\0226\n\013disposition\030\031 \001(\0132!.YandexQuery.Stre" +
+      "amingDisposition\0323\n\021SensorLabelsEntry\022\013\n" +
+      "\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"?\n\017GetTask" +
+      "Response\022,\n\toperation\030\001 \001(\0132\031.Ydb.Operat" +
+      "ions.Operation\"\225\007\n\017PingTaskRequest\022\020\n\010ow" +
+      "ner_id\030\001 \001(\t\022,\n\010query_id\030\002 \001(\0132\032.Yq.Priv" +
+      "ate.SignedIdentity\022*\n\006job_id\030\003 \001(\0132\032.Yq." +
+      "Private.SignedIdentity\022-\n\tresult_id\030\004 \001(" +
+      "\0132\032.Yq.Private.SignedIdentity\0224\n\006status\030" +
+      "\005 \001(\0162$.YandexQuery.QueryMeta.ComputeSta" +
+      "tus\022\'\n\006issues\030\006 \003(\0132\027.Ydb.Issue.IssueMes" +
+      "sage\0221\n\020transient_issues\030\020 \003(\0132\027.Ydb.Iss" +
+      "ue.IssueMessage\022\030\n\020result_set_count\030\007 \001(" +
+      "\r\022\022\n\nstatistics\030\010 \001(\t\0223\n\017result_set_meta" +
+      "\030\t \003(\0132\032.YandexQuery.ResultSetMeta\022\025\n\rex" +
+      "ecuter_info\030\n \001(\t\022\020\n\010dq_graph\030\013 \003(\014\022\026\n\016d" +
+      "q_graph_index\030\024 \001(\005\022\013\n\003ast\030\014 \001(\t\022\014\n\004plan" +
+      "\030\r \001(\t\022\024\n\014resign_query\030\016 \001(\010\022:\n\027created_" +
+      "topic_consumers\030\021 \003(\0132\031.Yq.Private.Topic" +
+      "Consumer\0223\n\017state_load_mode\030\022 \001(\0162\032.Yand" +
+      "exQuery.StateLoadMode\0226\n\013disposition\030\023 \001" +
+      "(\0132!.YandexQuery.StreamingDisposition\0229\n" +
+      "\020operation_params\030\017 \001(\0132\037.Ydb.Operations" +
+      ".OperationParams\022\r\n\005scope\030d \001(\t\022.\n\nstart" +
+      "ed_at\030e \001(\0132\032.google.protobuf.Timestamp\022" +
+      "/\n\013finished_at\030f \001(\0132\032.google.protobuf.T" +
+      "imestamp\022,\n\010deadline\030g \001(\0132\032.google.prot" +
+      "obuf.Timestamp\":\n\016PingTaskResult\022(\n\006acti" +
+      "on\030\001 \001(\0162\030.YandexQuery.QueryAction\"@\n\020Pi" +
+      "ngTaskResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb." +
+      "Operations.Operation\"\241\002\n\026WriteTaskResult" +
+      "Request\022\020\n\010owner_id\030\001 \001(\t\022-\n\tresult_id\030\002" +
+      " \001(\0132\032.Yq.Private.SignedIdentity\022\"\n\nresu" +
+      "lt_set\030\003 \001(\0132\016.Ydb.ResultSet\022\025\n\rresult_s" +
+      "et_id\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\022\n\nrequest_i" +
+      "d\030\006 \001(\004\0229\n\020operation_params\030\007 \001(\0132\037.Ydb." +
+      "Operations.OperationParams\022,\n\010deadline\030\010" +
+      " \001(\0132\032.google.protobuf.Timestamp\"+\n\025Writ" +
+      "eTaskResultResult\022\022\n\nrequest_id\030\001 \001(\004\"G\n" +
+      "\027WriteTaskResultResponse\022,\n\toperation\030\001 " +
+      "\001(\0132\031.Ydb.Operations.Operation\"\273\001\n\010NodeI" +
+      "nfo\022\017\n\007node_id\030\001 \001(\r\022\023\n\013instance_id\030\002 \001(" +
+      "\t\022\020\n\010hostname\030\003 \001(\t\022\026\n\016active_workers\030\004 " +
+      "\001(\004\022\024\n\014memory_limit\030\005 \001(\004\022\030\n\020memory_allo" +
+      "cated\030\006 \001(\004\022\031\n\021interconnect_port\030\007 \001(\r\022\024" +
+      "\n\014node_address\030\010 \001(\t\"\210\001\n\027NodesHealthChec" +
+      "kRequest\022\016\n\006tenant\030\001 \001(\t\022\"\n\004node\030\002 \001(\0132\024" +
+      ".Yq.Private.NodeInfo\0229\n\020operation_params" +
+      "\030\006 \001(\0132\037.Ydb.Operations.OperationParams\"" +
+      "=\n\026NodesHealthCheckResult\022#\n\005nodes\030\001 \003(\013" +
+      "2\024.Yq.Private.NodeInfo\"H\n\030NodesHealthChe" +
+      "ckResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb.Oper" +
+      "ations.OperationB\003\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -22571,7 +23088,7 @@ public final class YqPrivate {
     internal_static_Yq_Private_GetTaskResult_Task_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yq_Private_GetTaskResult_Task_descriptor,
-        new java.lang.String[] { "ResultId", "QueryId", "JobId", "Generation", "Streaming", "DqGraph", "Text", "Connection", "Binding", "UserToken", "ServiceAccounts", "UserId", "QueryType", "Scope", "ExecuteMode", "StateLoadMode", "Status", "ResultSetMeta", "CreatedTopicConsumers", "DqGraphIndex", "SensorLabels", "Automatic", "QueryName", "Deadline", });
+        new java.lang.String[] { "ResultId", "QueryId", "JobId", "Generation", "Streaming", "DqGraph", "Text", "Connection", "Binding", "UserToken", "ServiceAccounts", "UserId", "QueryType", "Scope", "ExecuteMode", "StateLoadMode", "Status", "ResultSetMeta", "CreatedTopicConsumers", "DqGraphIndex", "SensorLabels", "Automatic", "QueryName", "Deadline", "Disposition", });
     internal_static_Yq_Private_GetTaskResult_Task_SensorLabelsEntry_descriptor =
       internal_static_Yq_Private_GetTaskResult_Task_descriptor.getNestedTypes().get(0);
     internal_static_Yq_Private_GetTaskResult_Task_SensorLabelsEntry_fieldAccessorTable = new
@@ -22589,7 +23106,7 @@ public final class YqPrivate {
     internal_static_Yq_Private_PingTaskRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Yq_Private_PingTaskRequest_descriptor,
-        new java.lang.String[] { "OwnerId", "QueryId", "JobId", "ResultId", "Status", "Issues", "TransientIssues", "ResultSetCount", "Statistics", "ResultSetMeta", "ExecuterInfo", "DqGraph", "DqGraphIndex", "Ast", "Plan", "ResignQuery", "CreatedTopicConsumers", "OperationParams", "Scope", "StartedAt", "FinishedAt", "Deadline", });
+        new java.lang.String[] { "OwnerId", "QueryId", "JobId", "ResultId", "Status", "Issues", "TransientIssues", "ResultSetCount", "Statistics", "ResultSetMeta", "ExecuterInfo", "DqGraph", "DqGraphIndex", "Ast", "Plan", "ResignQuery", "CreatedTopicConsumers", "StateLoadMode", "Disposition", "OperationParams", "Scope", "StartedAt", "FinishedAt", "Deadline", });
     internal_static_Yq_Private_PingTaskResult_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_Yq_Private_PingTaskResult_fieldAccessorTable = new

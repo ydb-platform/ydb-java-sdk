@@ -56,6 +56,7 @@ message Entry {
         BLOCK_STORE_VOLUME = 6;
         COORDINATION_NODE = 7;
         SEQUENCE = 15;
+        REPLICATION = 16;
     }
     
     // Name of scheme entry (dir2 of /dir1/dir2)

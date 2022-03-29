@@ -67,6 +67,7 @@ message GetTaskResult {
         bool automatic = 22;
         string query_name = 23;
         google.protobuf.Timestamp deadline = 24;
+        YandexQuery.StreamingDisposition disposition = 25;
     }
     repeated Task tasks = 1;
 }
@@ -93,6 +94,8 @@ message PingTaskRequest {
     string plan = 13;
     bool resign_query = 14;
     repeated TopicConsumer created_topic_consumers = 17;
+    YandexQuery.StateLoadMode state_load_mode = 18;
+    YandexQuery.StreamingDisposition disposition = 19;
     Ydb.Operations.OperationParams operation_params = 15;
     string scope = 100; //TODO remove
     google.protobuf.Timestamp started_at = 101;
