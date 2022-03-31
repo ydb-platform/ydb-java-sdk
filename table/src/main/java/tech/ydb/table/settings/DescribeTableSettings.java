@@ -6,6 +6,7 @@ package tech.ydb.table.settings;
 public class DescribeTableSettings extends RequestSettings<DescribeTableSettings> {
     private boolean includeTableStats;
     private boolean includeShardKeyBounds;
+    private boolean includePartitionStats;
 
     public boolean isIncludeTableStats() {
         return includeTableStats;
@@ -15,11 +16,19 @@ public class DescribeTableSettings extends RequestSettings<DescribeTableSettings
         return includeShardKeyBounds;
     }
 
+    public boolean isIncludePartitionStats() {
+        return includePartitionStats;
+    }
+
     public void setIncludeTableStats(boolean includeTableStats) {
         this.includeTableStats = includeTableStats;
     }
 
     public void setIncludeShardKeyBounds(boolean includeShardKeyBounds) {
         this.includeShardKeyBounds = includeShardKeyBounds;
+    }
+
+    public void setIncludePartitionStats(boolean includePartitionStats) {
+        this.includePartitionStats = includePartitionStats;
     }
 }

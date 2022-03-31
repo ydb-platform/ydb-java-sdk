@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableList;
+import tech.ydb.table.settings.PartitioningSettings;
 import tech.ydb.table.values.OptionalType;
 import tech.ydb.table.values.Type;
 
@@ -22,25 +23,26 @@ public class TableDescription {
     private final List<String> primaryKeys;
     private final List<TableColumn> columns;
     private final List<TableIndex> indexes;
-    @Nullable
-    private final TableStats tableStats;
     private final List<ColumnFamily> columnFamilies;
     private final List<KeyRange> keyRanges;
 
-    private TableDescription(
-            List<String> primaryKeys,
-            List<TableColumn> columns,
-            List<TableIndex> indexes,
-            TableStats tableStats,
-            List<ColumnFamily> columnFamilies,
-            List<KeyRange> keyRanges
-    ) {
-        this.primaryKeys = primaryKeys;
-        this.columns = columns;
-        this.indexes = indexes;
-        this.tableStats = tableStats;
-        this.columnFamilies = columnFamilies;
-        this.keyRanges = keyRanges;
+    @Nullable
+    private final TableStats tableStats;
+    @Nullable
+    private final PartitioningSettings partitioningSettings;
+
+    private final List<PartitionStats> partitionStats;
+
+    private TableDescription(Builder builder) {
+        this.primaryKeys = ImmutableList.copyOf(builder.primaryKeys);
+        this.columns = builder.buildColumns();
+        this.indexes = ImmutableList.copyOf(builder.indexes);
+        this.columnFamilies = ImmutableList.copyOf(builder.families);
+        this.keyRanges = ImmutableList.copyOf(builder.keyRanges);
+
+        this.tableStats = builder.tableStats;
+        this.partitioningSettings = builder.partitioningSettings;
+        this.partitionStats = ImmutableList.copyOf(builder.partitionStats);
     }
 
     public static Builder newBuilder() {
@@ -60,8 +62,17 @@ public class TableDescription {
     }
 
     @Nullable
+    public PartitioningSettings getPartitioningSettings() {
+        return partitioningSettings;
+    }
+
+    @Nullable
     public TableStats getTableStats() {
         return tableStats;
+    }
+
+    public List<PartitionStats> getPartitionStats() {
+        return partitionStats;
     }
 
     public List<ColumnFamily> getColumnFamilies() {
@@ -78,11 +89,14 @@ public class TableDescription {
     public static class Builder {
 
         private List<String> primaryKeys = Collections.emptyList();
-        private LinkedHashMap<String, TypeAndFamily> columns = new LinkedHashMap<>();
-        private List<TableIndex> indexes = Collections.emptyList();
-        private TableStats tableStats;
-        private List<ColumnFamily> families = Collections.emptyList();
-        private List<KeyRange> keyRanges = Collections.emptyList();
+        private final LinkedHashMap<String, TypeAndFamily> columns = new LinkedHashMap<>();
+        private final List<TableIndex> indexes = new ArrayList<>();
+        private final List<ColumnFamily> families = new ArrayList<>();
+        private final List<KeyRange> keyRanges = new ArrayList<>();
+
+        private TableStats tableStats = null;
+        private PartitioningSettings partitioningSettings = null;
+        private final List<PartitionStats> partitionStats = new ArrayList<>();
 
         public Builder addNonnullColumn(String name, Type type) {
             return addNonnullColumn(name, type, null);
@@ -94,9 +108,6 @@ public class TableDescription {
         }
 
         public Builder addKeyRange(KeyRange value) {
-            if (keyRanges.isEmpty()) {
-                keyRanges = new ArrayList<>();
-            }
             keyRanges.add(value);
             return this;
         }
@@ -120,10 +131,10 @@ public class TableDescription {
                 return setPrimaryKey(names[0]);
             }
 
-            HashSet<String> primaryKeys = new HashSet<>(names.length);
+            HashSet<String> keys = new HashSet<>(names.length);
             for (String name : names) {
                 checkColumnKnown(name);
-                if (!primaryKeys.add(name)) {
+                if (!keys.add(name)) {
                     throw new IllegalArgumentException("non unique primary column name: " + name);
                 }
             }
@@ -137,10 +148,10 @@ public class TableDescription {
                 return setPrimaryKey(names.get(0));
             }
 
-            HashSet<String> primaryKeys = new HashSet<>(names.size());
+            HashSet<String> keys = new HashSet<>(names.size());
             for (String name : names) {
                 checkColumnKnown(name);
-                if (!primaryKeys.add(name)) {
+                if (!keys.add(name)) {
                     throw new IllegalArgumentException("non unique primary column name: " + name);
                 }
             }
@@ -150,45 +161,47 @@ public class TableDescription {
         }
 
         public Builder addGlobalIndex(String name, List<String> columns) {
-            if (indexes.isEmpty()) {
-                indexes = new ArrayList<>(1);
-            }
             indexes.add(new TableIndex(name, columns, TableIndex.Type.GLOBAL));
             return this;
         }
 
-        public Builder tableStats(TableStats tableStats) {
+        public Builder setTableStats(TableStats tableStats) {
             this.tableStats = tableStats;
             return this;
         }
 
+        public Builder setPartitioningSettings(PartitioningSettings partitioningSettings) {
+            this.partitioningSettings = partitioningSettings;
+            return this;
+        }
+
         public Builder addColumnFamily(ColumnFamily family) {
-            if (families.isEmpty()) {
-                families = new ArrayList<>();
-            }
             this.families.add(family);
             return this;
         }
 
-        public TableDescription build() {
+        public Builder addPartitionStat(long rows, long size) {
+            this.partitionStats.add(new PartitionStats(rows, size));
+            return this;
+        }
+
+        private List<TableColumn> buildColumns() {
             if (columns.isEmpty()) {
                 throw new IllegalStateException("cannot build table description with no columns");
             }
 
             int i = 0;
-            TableColumn[] columns = new TableColumn[this.columns.size()];
-            for (Map.Entry<String, TypeAndFamily> e : this.columns.entrySet()) {
-                columns[i++] = new TableColumn(e.getKey(), e.getValue().type, e.getValue().family);
+            TableColumn[] array = new TableColumn[this.columns.size()];
+            for (Map.Entry<String, Builder.TypeAndFamily> e : this.columns.entrySet()) {
+                array[i++] = new TableColumn(e.getKey(), e.getValue().type, e.getValue().family);
             }
 
-            return new TableDescription(
-                    primaryKeys,
-                    ImmutableList.copyOf(columns),
-                    ImmutableList.copyOf(indexes),
-                    tableStats,
-                    families,
-                    keyRanges
-            );
+            return ImmutableList.copyOf(array);
+        }
+
+
+        public TableDescription build() {
+            return new TableDescription(this);
         }
 
         private void checkColumnKnown(String name) {
@@ -205,6 +218,24 @@ public class TableDescription {
                 this.type = type;
                 this.family = family;
             }
+        }
+    }
+
+    public static class PartitionStats {
+        private final long rowsEstimate;
+        private final long storeSize;
+
+        public PartitionStats(long rowsEstimate, long storeSize) {
+            this.rowsEstimate = rowsEstimate;
+            this.storeSize = storeSize;
+        }
+
+        public long rowsEstimate() {
+            return this.rowsEstimate;
+        }
+
+        public long storeSize() {
+            return this.storeSize;
         }
     }
 

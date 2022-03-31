@@ -70,6 +70,7 @@ import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.utils.OperationParamUtils;
 import tech.ydb.table.utils.RequestSettingsUtils;
 import tech.ydb.table.values.ListValue;
+import tech.ydb.table.values.TupleValue;
 import tech.ydb.table.values.Value;
 import tech.ydb.table.values.proto.ProtoType;
 import tech.ydb.table.values.proto.ProtoValue;
@@ -134,6 +135,41 @@ class SessionImpl implements Session {
         return stateUpdater.compareAndSet(this, from, to);
     }
 
+    private static void applyPartitioningSettings(
+            PartitioningSettings partitioningSettings,
+            Consumer<YdbTable.PartitioningSettings> consumer) {
+        if (partitioningSettings == null) {
+            return;
+        }
+
+        YdbTable.PartitioningSettings.Builder builder = YdbTable.PartitioningSettings.newBuilder();
+        if (partitioningSettings.getPartitioningByLoad() != null) {
+            builder.setPartitioningByLoad(
+                    partitioningSettings.getPartitioningByLoad()
+                            ? CommonProtos.FeatureFlag.Status.ENABLED
+                            : CommonProtos.FeatureFlag.Status.DISABLED
+            );
+        }
+        if (partitioningSettings.getPartitioningBySize() != null) {
+            builder.setPartitioningBySize(
+                    partitioningSettings.getPartitioningBySize()
+                            ? CommonProtos.FeatureFlag.Status.ENABLED
+                            : CommonProtos.FeatureFlag.Status.DISABLED
+            );
+        }
+        if (partitioningSettings.getPartitionSizeMb() != null) {
+            builder.setPartitionSizeMb(partitioningSettings.getPartitionSizeMb());
+        }
+        if (partitioningSettings.getMinPartitionsCount() != null) {
+            builder.setMinPartitionsCount(partitioningSettings.getMinPartitionsCount());
+        }
+        if (partitioningSettings.getMaxPartitionsCount() != null) {
+            builder.setMaxPartitionsCount(partitioningSettings.getMaxPartitionsCount());
+        }
+
+        consumer.accept(builder.build());
+    }
+
     @Override
     public CompletableFuture<Status> createTable(
         String path,
@@ -146,28 +182,7 @@ class SessionImpl implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .addAllPrimaryKey(tableDescriptions.getPrimaryKeys());
 
-        if (settings.getPartitioningSettings() != null) {
-            PartitioningSettings partitioningSettings = settings.getPartitioningSettings();
-            YdbTable.PartitioningSettings.Builder builder = YdbTable.PartitioningSettings.newBuilder();
-            if (partitioningSettings.getPartitioningByLoad() != null) {
-                builder.setPartitioningByLoad(
-                        partitioningSettings.getPartitioningByLoad()
-                                ? CommonProtos.FeatureFlag.Status.ENABLED
-                                : CommonProtos.FeatureFlag.Status.DISABLED
-                );
-            }
-            if (partitioningSettings.getPartitioningBySize() != null) {
-                builder.setPartitioningBySize(
-                        partitioningSettings.getPartitioningBySize()
-                                ? CommonProtos.FeatureFlag.Status.ENABLED
-                                : CommonProtos.FeatureFlag.Status.DISABLED
-                );
-            }
-            if (partitioningSettings.getPartitionSizeMb() != null) {
-                builder.setPartitionSizeMb(partitioningSettings.getPartitionSizeMb());
-            }
-            request.setPartitioningSettings(builder.build());
-        }
+        applyPartitioningSettings(settings.getPartitioningSettings(), request::setPartitioningSettings);
 
         for (TableColumn column : tableDescriptions.getColumns()) {
             YdbTable.ColumnMeta.Builder builder = YdbTable.ColumnMeta.newBuilder()
@@ -243,10 +258,13 @@ class SessionImpl implements Session {
 
                 if (policy.getUniformPartitions() > 0) {
                     policyProto.setUniformPartitions(policy.getUniformPartitions());
-                } else if (policy.getExplicitPartitioningPoints() != null) {
-                    YdbTable.ExplicitPartitions.Builder b = policyProto.getExplicitPartitionsBuilder();
-                    for (Value p : policy.getExplicitPartitioningPoints()) {
-                        b.addSplitPoints(ProtoValue.toTypedValue(p));
+                } else {
+                    List<TupleValue> points = policy.getExplicitPartitioningPoints();
+                    if (points != null) {
+                        YdbTable.ExplicitPartitions.Builder b = policyProto.getExplicitPartitionsBuilder();
+                        for (Value p : points) {
+                            b.addSplitPoints(ProtoValue.toTypedValue(p));
+                        }
                     }
                 }
             }
@@ -359,28 +377,8 @@ class SessionImpl implements Session {
             dateTypeColumnBuilder.setColumnName(ttlSettings.getDateTimeColumn());
             dateTypeColumnBuilder.setExpireAfterSeconds(ttlSettings.getExpireAfterSeconds());
         }
-        PartitioningSettings partitioningSettings = settings.getPartitioningSettings();
-        if (partitioningSettings != null) {
-            YdbTable.PartitioningSettings.Builder partitionSettingsBuilder = YdbTable.PartitioningSettings.newBuilder();
-            if (partitioningSettings.getPartitioningByLoad() != null) {
-                partitionSettingsBuilder.setPartitioningByLoad(
-                        partitioningSettings.getPartitioningByLoad()
-                                ? CommonProtos.FeatureFlag.Status.ENABLED
-                                : CommonProtos.FeatureFlag.Status.DISABLED
-                );
-            }
-            if (partitioningSettings.getPartitioningBySize() != null) {
-                partitionSettingsBuilder.setPartitioningBySize(
-                        partitioningSettings.getPartitioningBySize()
-                                ? CommonProtos.FeatureFlag.Status.ENABLED
-                                : CommonProtos.FeatureFlag.Status.DISABLED
-                );
-            }
-            if (partitioningSettings.getPartitionSizeMb() != null) {
-                partitionSettingsBuilder.setPartitionSizeMb(partitioningSettings.getPartitionSizeMb());
-            }
-            builder.setAlterPartitioningSettings(partitionSettingsBuilder);
-        }
+
+        applyPartitioningSettings(settings.getPartitioningSettings(), builder::setAlterPartitioningSettings);
 
         final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
         return tableRpc.alterTable(builder.build(), deadlineAfter)
@@ -414,12 +412,13 @@ class SessionImpl implements Session {
     @Override
     public CompletableFuture<Result<TableDescription>> describeTable(String path, DescribeTableSettings settings) {
         YdbTable.DescribeTableRequest request = YdbTable.DescribeTableRequest.newBuilder()
-            .setSessionId(id)
-            .setPath(path)
-            .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
-            .setIncludeTableStats(settings.isIncludeTableStats())
-            .setIncludeShardKeyBounds(settings.isIncludeShardKeyBounds())
-            .build();
+                .setSessionId(id)
+                .setPath(path)
+                .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
+                .setIncludeTableStats(settings.isIncludeTableStats())
+                .setIncludeShardKeyBounds(settings.isIncludeShardKeyBounds())
+                .setIncludePartitionStats(settings.isIncludePartitionStats())
+                .build();
 
         final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
         return tableRpc.describeTable(request, deadlineAfter)
@@ -449,15 +448,32 @@ class SessionImpl implements Session {
             YdbTable.TableIndexDescription index = result.getIndexes(i);
             description.addGlobalIndex(index.getName(), index.getIndexColumnsList());
         }
-        YdbTable.TableStats resultTableStats = result.getTableStats();
-        if (resultTableStats != null) {
-            Timestamp creationTime = resultTableStats.getCreationTime();
+        YdbTable.TableStats tableStats = result.getTableStats();
+        if (describeTableSettings.isIncludeTableStats() && tableStats != null) {
+            Timestamp creationTime = tableStats.getCreationTime();
             Instant createdAt = creationTime == null ? null : Instant.ofEpochSecond(creationTime.getSeconds(), creationTime.getNanos());
-            Timestamp modificationTime = resultTableStats.getCreationTime();
+            Timestamp modificationTime = tableStats.getCreationTime();
             Instant modifiedAt = modificationTime == null ? null : Instant.ofEpochSecond(modificationTime.getSeconds(), modificationTime.getNanos());
-            TableDescription.TableStats tableStats = new TableDescription.TableStats(
-                    createdAt, modifiedAt, resultTableStats.getRowsEstimate(), resultTableStats.getStoreSize());
-            description.tableStats(tableStats);
+            TableDescription.TableStats stats = new TableDescription.TableStats(
+                    createdAt, modifiedAt, tableStats.getRowsEstimate(), tableStats.getStoreSize());
+            description.setTableStats(stats);
+
+            List<YdbTable.PartitionStats> partitionStats = tableStats.getPartitionStatsList();
+            if (describeTableSettings.isIncludePartitionStats() && partitionStats != null) {
+                for (YdbTable.PartitionStats stat: partitionStats) {
+                    description.addPartitionStat(stat.getRowsEstimate(), stat.getStoreSize());
+                }
+            }
+        }
+        YdbTable.PartitioningSettings partitioningSettings = result.getPartitioningSettings();
+        if (partitioningSettings != null) {
+            PartitioningSettings settings = new PartitioningSettings();
+            settings.setPartitionSize(partitioningSettings.getPartitionSizeMb());
+            settings.setMinPartitionsCount(partitioningSettings.getMinPartitionsCount());
+            settings.setMaxPartitionsCount(partitioningSettings.getMaxPartitionsCount());
+            settings.setPartitioningByLoad(partitioningSettings.getPartitioningByLoad() == CommonProtos.FeatureFlag.Status.ENABLED);
+            settings.setPartitioningBySize(partitioningSettings.getPartitioningBySize() == CommonProtos.FeatureFlag.Status.ENABLED);
+            description.setPartitioningSettings(settings);
         }
 
         List<YdbTable.ColumnFamily> columnFamiliesList = result.getColumnFamiliesList();
@@ -504,12 +520,20 @@ class SessionImpl implements Session {
 
     private static YdbTable.TransactionSettings txSettings(TransactionMode transactionMode) {
         YdbTable.TransactionSettings.Builder settings = YdbTable.TransactionSettings.newBuilder();
-        if (transactionMode == TransactionMode.SERIALIZABLE_READ_WRITE) {
-            settings.setSerializableReadWrite(YdbTable.SerializableModeSettings.getDefaultInstance());
-        } else if (transactionMode == TransactionMode.ONLINE_READ_ONLY) {
-            settings.setOnlineReadOnly(YdbTable.OnlineModeSettings.getDefaultInstance());
-        } else if (transactionMode == TransactionMode.STALE_READ_ONLY) {
-            settings.setStaleReadOnly(YdbTable.StaleModeSettings.getDefaultInstance());
+        if (transactionMode != null) {
+            switch (transactionMode) {
+                case SERIALIZABLE_READ_WRITE:
+                    settings.setSerializableReadWrite(YdbTable.SerializableModeSettings.getDefaultInstance());
+                    break;
+                case ONLINE_READ_ONLY:
+                    settings.setOnlineReadOnly(YdbTable.OnlineModeSettings.getDefaultInstance());
+                    break;
+                case STALE_READ_ONLY:
+                    settings.setStaleReadOnly(YdbTable.StaleModeSettings.getDefaultInstance());
+                    break;
+                default:
+                    break;
+            }
         }
         return settings.build();
     }
@@ -612,8 +636,31 @@ class SessionImpl implements Session {
                 .setKeepInCache(true);
         }
 
+        String msg = "prepared query";
+        if (log.isDebugEnabled() && keepQueryText) {
+            StringBuilder sb = new StringBuilder("prepared,");
+            if (queryText != null) {
+                sb.append(queryText.replaceAll("\\s", " "));
+            }
+            if (!params.isEmpty()) {
+                sb.append(" [");
+                boolean one = true;
+                for (Map.Entry<String, Value<?>> entry : params.values().entrySet()) {
+                    if (!one) {
+                        sb.append(", ");
+                    }
+                    sb.append(entry.getKey());
+                    sb.append("=");
+                    sb.append(entry.getValue());
+                    one = false;
+                }
+                sb.append("]");
+            }
+            msg = sb.toString();
+        }
+
         final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
-        return interceptResult(tableRpc.executeDataQuery(request.build(), deadlineAfter)
+        return interceptResultWithLog(msg, tableRpc.executeDataQuery(request.build(), deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
@@ -705,7 +752,7 @@ class SessionImpl implements Session {
             .build();
 
         final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
-        return interceptResult(tableRpc.beginTransaction(request, deadlineAfter)
+        return interceptResultWithLog("begin transaction", tableRpc.beginTransaction(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
@@ -788,6 +835,7 @@ class SessionImpl implements Session {
         });
     }
 
+    @Override
     public CompletableFuture<Status> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings, Consumer<ResultSetReader> fn)
     {
         YdbTable.ExecuteScanQueryRequest request = YdbTable.ExecuteScanQueryRequest.newBuilder()
@@ -835,6 +883,7 @@ class SessionImpl implements Session {
         });
     }
 
+    @Override
     public CompletableFuture<Status> commitTransaction(String txId, CommitTxSettings settings) {
         YdbTable.CommitTransactionRequest request = YdbTable.CommitTransactionRequest.newBuilder()
             .setSessionId(id)
@@ -843,7 +892,7 @@ class SessionImpl implements Session {
             .build();
 
         final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
-        return interceptStatus(tableRpc.commitTransaction(request, deadlineAfter)
+        return interceptStatusWithLog("commit transaction", tableRpc.commitTransaction(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
@@ -853,6 +902,7 @@ class SessionImpl implements Session {
             }));
     }
 
+    @Override
     public CompletableFuture<Status> rollbackTransaction(String txId, RollbackTxSettings settings) {
         YdbTable.RollbackTransactionRequest request = YdbTable.RollbackTransactionRequest.newBuilder()
             .setSessionId(id)
@@ -861,7 +911,7 @@ class SessionImpl implements Session {
             .build();
 
         final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
-        return interceptStatus(tableRpc.rollbackTransaction(request, deadlineAfter)
+        return interceptStatusWithLog("rollback transaction", tableRpc.rollbackTransaction(request, deadlineAfter)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
@@ -977,6 +1027,15 @@ class SessionImpl implements Session {
 
     private CompletableFuture<Status> interceptStatus(CompletableFuture<Status> future) {
         return future.whenComplete((r, t) -> {
+            changeSessionState(t, r.getCode());
+        });
+    }
+
+    private CompletableFuture<Status> interceptStatusWithLog(String msg, CompletableFuture<Status> future) {
+        final long start = Instant.now().toEpochMilli();
+        return future.whenComplete((r, t) -> {
+            long ms = Instant.now().toEpochMilli() - start;
+            log.debug("Session[{}] {} => {}, took {} ms", hashCode(), msg, r.getCode(), ms);
             changeSessionState(t, r.getCode());
         });
     }

@@ -1,3 +1,12 @@
+## 1.11.0 ##
+
+* Additional timing logs for Session
+
+## 1.11.0 ##
+
+* Added minPartitionsCount and maxPartitionsCount to PartitioningSettings
+* Added PartitioningSettings and PartitionStats to describeTable result
+
 ## 1.10.11 ##
 
 * Fix unwrapped CompletionException for getOrCreateSession
