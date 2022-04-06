@@ -24,17 +24,17 @@ public final class YqlDbV1 {
   static {
     java.lang.String[] descriptorData = {
       "\n)ydb/public/api/grpc/draft/yql_db_v1.pr" +
-      "oto\022\rYq.Private.V1\032,ydb/public/api/proto" +
-      "s/draft/yq_private.proto2\334\002\n\024YqPrivateTa" +
-      "skService\022B\n\007GetTask\022\032.Yq.Private.GetTas" +
-      "kRequest\032\033.Yq.Private.GetTaskResponse\022E\n" +
-      "\010PingTask\022\033.Yq.Private.PingTaskRequest\032\034" +
-      ".Yq.Private.PingTaskResponse\022Z\n\017WriteTas" +
-      "kResult\022\".Yq.Private.WriteTaskResultRequ" +
-      "est\032#.Yq.Private.WriteTaskResultResponse" +
-      "\022]\n\020NodesHealthCheck\022#.Yq.Private.NodesH" +
-      "ealthCheckRequest\032$.Yq.Private.NodesHeal" +
-      "thCheckResponseb\006proto3"
+      "oto\022\rYq.Private.V1\032(ydb/core/yq/libs/pro" +
+      "tos/yq_private.proto2\334\002\n\024YqPrivateTaskSe" +
+      "rvice\022B\n\007GetTask\022\032.Yq.Private.GetTaskReq" +
+      "uest\032\033.Yq.Private.GetTaskResponse\022E\n\010Pin" +
+      "gTask\022\033.Yq.Private.PingTaskRequest\032\034.Yq." +
+      "Private.PingTaskResponse\022Z\n\017WriteTaskRes" +
+      "ult\022\".Yq.Private.WriteTaskResultRequest\032" +
+      "#.Yq.Private.WriteTaskResultResponse\022]\n\020" +
+      "NodesHealthCheck\022#.Yq.Private.NodesHealt" +
+      "hCheckRequest\032$.Yq.Private.NodesHealthCh" +
+      "eckResponseb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
