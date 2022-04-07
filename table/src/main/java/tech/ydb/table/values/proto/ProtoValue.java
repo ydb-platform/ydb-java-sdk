@@ -176,6 +176,10 @@ public class ProtoValue {
         return value.getBytesValue().toByteArray();
     }
 
+    public static String toString(ValueProtos.Value value, Charset charset) {
+        return value.getBytesValue().toString(charset);
+    }
+
     // - utf8 -
 
     public static ValueProtos.Value text(String value) {

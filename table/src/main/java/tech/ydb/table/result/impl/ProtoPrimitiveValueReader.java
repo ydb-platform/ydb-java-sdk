@@ -1,5 +1,6 @@
 package tech.ydb.table.result.impl;
 
+import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -159,6 +160,12 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
     public byte[] getString() {
         checkPrimitive(PrimitiveTypeId.STRING);
         return ProtoValue.toString(value);
+    }
+
+    @Override
+    public String getString(Charset charset) {
+        checkPrimitive(PrimitiveTypeId.STRING);
+        return ProtoValue.toString(value, charset);
     }
 
     @Override
