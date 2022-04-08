@@ -76,6 +76,7 @@ public class GrpcTransport implements RpcTransport {
 
     public static final int DEFAULT_PORT = 2135;
     public static final long WAIT_FOR_CONNECTION_MS = 10000;
+    public static final long WAIT_FOR_CLOSING_MS = 1000;
 
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransport.class);
 
@@ -370,8 +371,22 @@ public class GrpcTransport implements RpcTransport {
 
     @Override
     public void close() {
-        operationTray.close();
-        realChannel.shutdown();
+        try {
+            operationTray.close();
+            boolean closed = realChannel.shutdown()
+                .awaitTermination(WAIT_FOR_CLOSING_MS, TimeUnit.MILLISECONDS);
+            if (!closed) {
+                logger.warn("closing transport timeout exceeded, terminate");
+                closed = realChannel.shutdownNow()
+                   .awaitTermination(WAIT_FOR_CLOSING_MS, TimeUnit.MILLISECONDS);
+                if (!closed) {
+                    logger.warn("closing transport problem");
+                }
+            }
+        } catch (InterruptedException e) {
+            logger.error("transport shutdown interrupted", e);
+            Thread.currentThread().interrupt();
+        }
     }
 
     private static void registerPreferNearestLB(String localDc) {

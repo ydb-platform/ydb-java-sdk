@@ -1,3 +1,8 @@
+## 1.11.3 ##
+
+* Removed double byte copy for getString(Charset charset)
+* Added termination waiting for GrpcTransport
+
 ## 1.11.2 ##
 
 * Fixed Netty TLS on JDK8 builds
