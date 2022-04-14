@@ -10228,12 +10228,12 @@ public final class YqPrivate {
     com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus getStatus();
 
     /**
-     * <code>.NYql.NDqProto.StatusIds.StatusCode StatusCode = 21;</code>
+     * <code>.NYql.NDqProto.StatusIds.StatusCode status_code = 21;</code>
      * @return The enum numeric value on the wire for statusCode.
      */
     int getStatusCodeValue();
     /**
-     * <code>.NYql.NDqProto.StatusIds.StatusCode StatusCode = 21;</code>
+     * <code>.NYql.NDqProto.StatusIds.StatusCode status_code = 21;</code>
      * @return The statusCode.
      */
     NYql.NDqProto.DqStatusCodes.StatusIds.StatusCode getStatusCode();
@@ -10993,17 +10993,17 @@ public final class YqPrivate {
       return result == null ? com.yandex.query.YandexQueryProtos.QueryMeta.ComputeStatus.UNRECOGNIZED : result;
     }
 
-    public static final int STATUSCODE_FIELD_NUMBER = 21;
+    public static final int STATUS_CODE_FIELD_NUMBER = 21;
     private int statusCode_;
     /**
-     * <code>.NYql.NDqProto.StatusIds.StatusCode StatusCode = 21;</code>
+     * <code>.NYql.NDqProto.StatusIds.StatusCode status_code = 21;</code>
      * @return The enum numeric value on the wire for statusCode.
      */
     @java.lang.Override public int getStatusCodeValue() {
       return statusCode_;
     }
     /**
-     * <code>.NYql.NDqProto.StatusIds.StatusCode StatusCode = 21;</code>
+     * <code>.NYql.NDqProto.StatusIds.StatusCode status_code = 21;</code>
      * @return The statusCode.
      */
     @java.lang.Override public NYql.NDqProto.DqStatusCodes.StatusIds.StatusCode getStatusCode() {
@@ -11927,7 +11927,7 @@ public final class YqPrivate {
       }
       hash = (37 * hash) + STATUS_FIELD_NUMBER;
       hash = (53 * hash) + status_;
-      hash = (37 * hash) + STATUSCODE_FIELD_NUMBER;
+      hash = (37 * hash) + STATUS_CODE_FIELD_NUMBER;
       hash = (53 * hash) + statusCode_;
       if (getIssuesCount() > 0) {
         hash = (37 * hash) + ISSUES_FIELD_NUMBER;
@@ -13099,14 +13099,14 @@ public final class YqPrivate {
 
       private int statusCode_ = 0;
       /**
-       * <code>.NYql.NDqProto.StatusIds.StatusCode StatusCode = 21;</code>
+       * <code>.NYql.NDqProto.StatusIds.StatusCode status_code = 21;</code>
        * @return The enum numeric value on the wire for statusCode.
        */
       @java.lang.Override public int getStatusCodeValue() {
         return statusCode_;
       }
       /**
-       * <code>.NYql.NDqProto.StatusIds.StatusCode StatusCode = 21;</code>
+       * <code>.NYql.NDqProto.StatusIds.StatusCode status_code = 21;</code>
        * @param value The enum numeric value on the wire for statusCode to set.
        * @return This builder for chaining.
        */
@@ -13117,7 +13117,7 @@ public final class YqPrivate {
         return this;
       }
       /**
-       * <code>.NYql.NDqProto.StatusIds.StatusCode StatusCode = 21;</code>
+       * <code>.NYql.NDqProto.StatusIds.StatusCode status_code = 21;</code>
        * @return The statusCode.
        */
       @java.lang.Override
@@ -13127,7 +13127,7 @@ public final class YqPrivate {
         return result == null ? NYql.NDqProto.DqStatusCodes.StatusIds.StatusCode.UNRECOGNIZED : result;
       }
       /**
-       * <code>.NYql.NDqProto.StatusIds.StatusCode StatusCode = 21;</code>
+       * <code>.NYql.NDqProto.StatusIds.StatusCode status_code = 21;</code>
        * @param value The statusCode to set.
        * @return This builder for chaining.
        */
@@ -13141,7 +13141,7 @@ public final class YqPrivate {
         return this;
       }
       /**
-       * <code>.NYql.NDqProto.StatusIds.StatusCode StatusCode = 21;</code>
+       * <code>.NYql.NDqProto.StatusIds.StatusCode status_code = 21;</code>
        * @return This builder for chaining.
        */
       public Builder clearStatusCode() {
@@ -23222,57 +23222,57 @@ public final class YqPrivate {
       "exQuery.StreamingDisposition\0323\n\021SensorLa" +
       "belsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028" +
       "\001\"?\n\017GetTaskResponse\022,\n\toperation\030\001 \001(\0132" +
-      "\031.Ydb.Operations.Operation\"\336\007\n\017PingTaskR" +
+      "\031.Ydb.Operations.Operation\"\337\007\n\017PingTaskR" +
       "equest\022\020\n\010owner_id\030\001 \001(\t\022,\n\010query_id\030\002 \001" +
       "(\0132\032.Yq.Private.SignedIdentity\022*\n\006job_id" +
       "\030\003 \001(\0132\032.Yq.Private.SignedIdentity\022-\n\tre" +
       "sult_id\030\004 \001(\0132\032.Yq.Private.SignedIdentit" +
       "y\0224\n\006status\030\005 \001(\0162$.YandexQuery.QueryMet" +
-      "a.ComputeStatus\0227\n\nStatusCode\030\025 \001(\0162#.NY" +
-      "ql.NDqProto.StatusIds.StatusCode\022\'\n\006issu" +
-      "es\030\006 \003(\0132\027.Ydb.Issue.IssueMessage\0221\n\020tra" +
-      "nsient_issues\030\020 \003(\0132\027.Ydb.Issue.IssueMes" +
-      "sage\022\030\n\020result_set_count\030\007 \001(\r\022\022\n\nstatis" +
-      "tics\030\010 \001(\t\0223\n\017result_set_meta\030\t \003(\0132\032.Ya" +
-      "ndexQuery.ResultSetMeta\022\025\n\rexecuter_info" +
-      "\030\n \001(\t\022\020\n\010dq_graph\030\013 \003(\014\022\026\n\016dq_graph_ind" +
-      "ex\030\024 \001(\005\022\013\n\003ast\030\014 \001(\t\022\014\n\004plan\030\r \001(\t\022\024\n\014r" +
-      "esign_query\030\016 \001(\010\022:\n\027created_topic_consu" +
-      "mers\030\021 \003(\0132\031.Yq.Private.TopicConsumer\0223\n" +
-      "\017state_load_mode\030\022 \001(\0162\032.YandexQuery.Sta" +
-      "teLoadMode\0226\n\013disposition\030\023 \001(\0132!.Yandex" +
-      "Query.StreamingDisposition\0229\n\020operation_" +
-      "params\030\017 \001(\0132\037.Ydb.Operations.OperationP" +
-      "arams\022\r\n\005scope\030d \001(\t\022\016\n\006tenant\030h \001(\t\022.\n\n" +
-      "started_at\030e \001(\0132\032.google.protobuf.Times" +
-      "tamp\022/\n\013finished_at\030f \001(\0132\032.google.proto" +
-      "buf.Timestamp\022,\n\010deadline\030g \001(\0132\032.google" +
-      ".protobuf.Timestamp\":\n\016PingTaskResult\022(\n" +
-      "\006action\030\001 \001(\0162\030.YandexQuery.QueryAction\"" +
-      "@\n\020PingTaskResponse\022,\n\toperation\030\001 \001(\0132\031" +
-      ".Ydb.Operations.Operation\"\241\002\n\026WriteTaskR" +
-      "esultRequest\022\020\n\010owner_id\030\001 \001(\t\022-\n\tresult" +
-      "_id\030\002 \001(\0132\032.Yq.Private.SignedIdentity\022\"\n" +
-      "\nresult_set\030\003 \001(\0132\016.Ydb.ResultSet\022\025\n\rres" +
-      "ult_set_id\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\022\n\nrequ" +
-      "est_id\030\006 \001(\004\0229\n\020operation_params\030\007 \001(\0132\037" +
-      ".Ydb.Operations.OperationParams\022,\n\010deadl" +
-      "ine\030\010 \001(\0132\032.google.protobuf.Timestamp\"+\n" +
-      "\025WriteTaskResultResult\022\022\n\nrequest_id\030\001 \001" +
-      "(\004\"G\n\027WriteTaskResultResponse\022,\n\toperati" +
-      "on\030\001 \001(\0132\031.Ydb.Operations.Operation\"\273\001\n\010" +
-      "NodeInfo\022\017\n\007node_id\030\001 \001(\r\022\023\n\013instance_id" +
-      "\030\002 \001(\t\022\020\n\010hostname\030\003 \001(\t\022\026\n\016active_worke" +
-      "rs\030\004 \001(\004\022\024\n\014memory_limit\030\005 \001(\004\022\030\n\020memory" +
-      "_allocated\030\006 \001(\004\022\031\n\021interconnect_port\030\007 " +
-      "\001(\r\022\024\n\014node_address\030\010 \001(\t\"\210\001\n\027NodesHealt" +
-      "hCheckRequest\022\016\n\006tenant\030\001 \001(\t\022\"\n\004node\030\002 " +
-      "\001(\0132\024.Yq.Private.NodeInfo\0229\n\020operation_p" +
-      "arams\030\006 \001(\0132\037.Ydb.Operations.OperationPa" +
-      "rams\"=\n\026NodesHealthCheckResult\022#\n\005nodes\030" +
-      "\001 \003(\0132\024.Yq.Private.NodeInfo\"H\n\030NodesHeal" +
-      "thCheckResponse\022,\n\toperation\030\001 \001(\0132\031.Ydb" +
-      ".Operations.OperationB\003\370\001\001b\006proto3"
+      "a.ComputeStatus\0228\n\013status_code\030\025 \001(\0162#.N" +
+      "Yql.NDqProto.StatusIds.StatusCode\022\'\n\006iss" +
+      "ues\030\006 \003(\0132\027.Ydb.Issue.IssueMessage\0221\n\020tr" +
+      "ansient_issues\030\020 \003(\0132\027.Ydb.Issue.IssueMe" +
+      "ssage\022\030\n\020result_set_count\030\007 \001(\r\022\022\n\nstati" +
+      "stics\030\010 \001(\t\0223\n\017result_set_meta\030\t \003(\0132\032.Y" +
+      "andexQuery.ResultSetMeta\022\025\n\rexecuter_inf" +
+      "o\030\n \001(\t\022\020\n\010dq_graph\030\013 \003(\014\022\026\n\016dq_graph_in" +
+      "dex\030\024 \001(\005\022\013\n\003ast\030\014 \001(\t\022\014\n\004plan\030\r \001(\t\022\024\n\014" +
+      "resign_query\030\016 \001(\010\022:\n\027created_topic_cons" +
+      "umers\030\021 \003(\0132\031.Yq.Private.TopicConsumer\0223" +
+      "\n\017state_load_mode\030\022 \001(\0162\032.YandexQuery.St" +
+      "ateLoadMode\0226\n\013disposition\030\023 \001(\0132!.Yande" +
+      "xQuery.StreamingDisposition\0229\n\020operation" +
+      "_params\030\017 \001(\0132\037.Ydb.Operations.Operation" +
+      "Params\022\r\n\005scope\030d \001(\t\022\016\n\006tenant\030h \001(\t\022.\n" +
+      "\nstarted_at\030e \001(\0132\032.google.protobuf.Time" +
+      "stamp\022/\n\013finished_at\030f \001(\0132\032.google.prot" +
+      "obuf.Timestamp\022,\n\010deadline\030g \001(\0132\032.googl" +
+      "e.protobuf.Timestamp\":\n\016PingTaskResult\022(" +
+      "\n\006action\030\001 \001(\0162\030.YandexQuery.QueryAction" +
+      "\"@\n\020PingTaskResponse\022,\n\toperation\030\001 \001(\0132" +
+      "\031.Ydb.Operations.Operation\"\241\002\n\026WriteTask" +
+      "ResultRequest\022\020\n\010owner_id\030\001 \001(\t\022-\n\tresul" +
+      "t_id\030\002 \001(\0132\032.Yq.Private.SignedIdentity\022\"" +
+      "\n\nresult_set\030\003 \001(\0132\016.Ydb.ResultSet\022\025\n\rre" +
+      "sult_set_id\030\004 \001(\r\022\016\n\006offset\030\005 \001(\004\022\022\n\nreq" +
+      "uest_id\030\006 \001(\004\0229\n\020operation_params\030\007 \001(\0132" +
+      "\037.Ydb.Operations.OperationParams\022,\n\010dead" +
+      "line\030\010 \001(\0132\032.google.protobuf.Timestamp\"+" +
+      "\n\025WriteTaskResultResult\022\022\n\nrequest_id\030\001 " +
+      "\001(\004\"G\n\027WriteTaskResultResponse\022,\n\toperat" +
+      "ion\030\001 \001(\0132\031.Ydb.Operations.Operation\"\273\001\n" +
+      "\010NodeInfo\022\017\n\007node_id\030\001 \001(\r\022\023\n\013instance_i" +
+      "d\030\002 \001(\t\022\020\n\010hostname\030\003 \001(\t\022\026\n\016active_work" +
+      "ers\030\004 \001(\004\022\024\n\014memory_limit\030\005 \001(\004\022\030\n\020memor" +
+      "y_allocated\030\006 \001(\004\022\031\n\021interconnect_port\030\007" +
+      " \001(\r\022\024\n\014node_address\030\010 \001(\t\"\210\001\n\027NodesHeal" +
+      "thCheckRequest\022\016\n\006tenant\030\001 \001(\t\022\"\n\004node\030\002" +
+      " \001(\0132\024.Yq.Private.NodeInfo\0229\n\020operation_" +
+      "params\030\006 \001(\0132\037.Ydb.Operations.OperationP" +
+      "arams\"=\n\026NodesHealthCheckResult\022#\n\005nodes" +
+      "\030\001 \003(\0132\024.Yq.Private.NodeInfo\"H\n\030NodesHea" +
+      "lthCheckResponse\022,\n\toperation\030\001 \001(\0132\031.Yd" +
+      "b.Operations.OperationB\003\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
