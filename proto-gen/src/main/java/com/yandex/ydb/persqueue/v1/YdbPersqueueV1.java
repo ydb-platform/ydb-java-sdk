@@ -27,35 +27,38 @@ public final class YdbPersqueueV1 {
       "e_v1.proto\022\020Ydb.PersQueue.V1\032;ydb/public" +
       "/api/protos/ydb_persqueue_cluster_discov" +
       "ery.proto\032,ydb/public/api/protos/ydb_per" +
-      "squeue_v1.proto2\237\007\n\020PersQueueService\022r\n\016" +
+      "squeue_v1.proto2\220\010\n\020PersQueueService\022r\n\016" +
       "StreamingWrite\022-.Ydb.PersQueue.V1.Stream" +
       "ingWriteClientMessage\032-.Ydb.PersQueue.V1" +
-      ".StreamingWriteServerMessage(\0010\001\022\212\001\n\026Mig" +
-      "rationStreamingRead\0225.Ydb.PersQueue.V1.M" +
-      "igrationStreamingReadClientMessage\0325.Ydb" +
-      ".PersQueue.V1.MigrationStreamingReadServ" +
-      "erMessage(\0010\001\022\\\n\023GetReadSessionsInfo\022!.Y" +
-      "db.PersQueue.V1.ReadInfoRequest\032\".Ydb.Pe" +
-      "rsQueue.V1.ReadInfoResponse\022`\n\rDescribeT" +
-      "opic\022&.Ydb.PersQueue.V1.DescribeTopicReq" +
-      "uest\032\'.Ydb.PersQueue.V1.DescribeTopicRes" +
-      "ponse\022T\n\tDropTopic\022\".Ydb.PersQueue.V1.Dr" +
-      "opTopicRequest\032#.Ydb.PersQueue.V1.DropTo" +
-      "picResponse\022Z\n\013CreateTopic\022$.Ydb.PersQue" +
-      "ue.V1.CreateTopicRequest\032%.Ydb.PersQueue" +
-      ".V1.CreateTopicResponse\022W\n\nAlterTopic\022#." +
-      "Ydb.PersQueue.V1.AlterTopicRequest\032$.Ydb" +
-      ".PersQueue.V1.AlterTopicResponse\022Z\n\013AddR" +
-      "eadRule\022$.Ydb.PersQueue.V1.AddReadRuleRe" +
-      "quest\032%.Ydb.PersQueue.V1.AddReadRuleResp" +
-      "onse\022c\n\016RemoveReadRule\022\'.Ydb.PersQueue.V" +
-      "1.RemoveReadRuleRequest\032(.Ydb.PersQueue." +
-      "V1.RemoveReadRuleResponse2\241\001\n\027ClusterDis" +
-      "coveryService\022\205\001\n\020DiscoverClusters\0227.Ydb" +
-      ".PersQueue.ClusterDiscovery.DiscoverClus" +
-      "tersRequest\0328.Ydb.PersQueue.ClusterDisco" +
-      "very.DiscoverClustersResponseB \n\033com.yan" +
-      "dex.ydb.persqueue.v1\370\001\001b\006proto3"
+      ".StreamingWriteServerMessage(\0010\001\022o\n\rStre" +
+      "amingRead\022,.Ydb.PersQueue.V1.StreamingRe" +
+      "adClientMessage\032,.Ydb.PersQueue.V1.Strea" +
+      "mingReadServerMessage(\0010\001\022\212\001\n\026MigrationS" +
+      "treamingRead\0225.Ydb.PersQueue.V1.Migratio" +
+      "nStreamingReadClientMessage\0325.Ydb.PersQu" +
+      "eue.V1.MigrationStreamingReadServerMessa" +
+      "ge(\0010\001\022\\\n\023GetReadSessionsInfo\022!.Ydb.Pers" +
+      "Queue.V1.ReadInfoRequest\032\".Ydb.PersQueue" +
+      ".V1.ReadInfoResponse\022`\n\rDescribeTopic\022&." +
+      "Ydb.PersQueue.V1.DescribeTopicRequest\032\'." +
+      "Ydb.PersQueue.V1.DescribeTopicResponse\022T" +
+      "\n\tDropTopic\022\".Ydb.PersQueue.V1.DropTopic" +
+      "Request\032#.Ydb.PersQueue.V1.DropTopicResp" +
+      "onse\022Z\n\013CreateTopic\022$.Ydb.PersQueue.V1.C" +
+      "reateTopicRequest\032%.Ydb.PersQueue.V1.Cre" +
+      "ateTopicResponse\022W\n\nAlterTopic\022#.Ydb.Per" +
+      "sQueue.V1.AlterTopicRequest\032$.Ydb.PersQu" +
+      "eue.V1.AlterTopicResponse\022Z\n\013AddReadRule" +
+      "\022$.Ydb.PersQueue.V1.AddReadRuleRequest\032%" +
+      ".Ydb.PersQueue.V1.AddReadRuleResponse\022c\n" +
+      "\016RemoveReadRule\022\'.Ydb.PersQueue.V1.Remov" +
+      "eReadRuleRequest\032(.Ydb.PersQueue.V1.Remo" +
+      "veReadRuleResponse2\241\001\n\027ClusterDiscoveryS" +
+      "ervice\022\205\001\n\020DiscoverClusters\0227.Ydb.PersQu" +
+      "eue.ClusterDiscovery.DiscoverClustersReq" +
+      "uest\0328.Ydb.PersQueue.ClusterDiscovery.Di" +
+      "scoverClustersResponseB \n\033tech.ydb" +
+      ".persqueue.v1\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
