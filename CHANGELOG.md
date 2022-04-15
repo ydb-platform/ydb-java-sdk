@@ -1,3 +1,7 @@
+## 1.11.4 ##
+
+* Fix grpc-netty-shaded dependency
+
 ## 1.11.3 ##
 
 * Removed double byte copy for getString(Charset charset)
