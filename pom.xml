@@ -8,20 +8,23 @@
 
     <groupId>tech.ydb</groupId>
     <artifactId>ydb-sdk-parent</artifactId>
-    <version>1.11.4</version>
+    <version>1.11.5</version>
 
     <name>Java SDK for YDB</name>
     <description>Java SDK for YDB</description>
     <url>https://github.com/ydb-platform/ydb-java-sdk</url>
 
     <modules>
+        <module>protobuf-api</module>
         <module>core</module>
-        <module>proto-gen</module>
         <module>table</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+        <grpc.version>1.26.0</grpc.version>
+        <google.protobuf.version>3.15.8</google.protobuf.version>
     </properties>
 
     <licenses>
@@ -37,6 +40,31 @@
         <url>https://github.com/ydb-platform/ydb-java-sdk.git</url>
     </scm>
 
+    
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>${google.protobuf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-stub</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-protobuf</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-netty</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
@@ -106,4 +134,5 @@
         </plugins>
     </build>
 
+    
 </project>

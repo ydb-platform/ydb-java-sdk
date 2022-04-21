@@ -1,3 +1,7 @@
+## 1.11.5 ##
+
+* Added module protobuf-api with proto files
+
 ## 1.11.4 ##
 
 * Fix grpc-netty-shaded dependency
