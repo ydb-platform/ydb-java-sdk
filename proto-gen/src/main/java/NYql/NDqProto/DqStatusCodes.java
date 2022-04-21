@@ -140,6 +140,14 @@ public final class DqStatusCodes {
        * <code>OVERLOADED = 9;</code>
        */
       OVERLOADED(9),
+      /**
+       * <code>LIMIT_EXCEEDED = 10;</code>
+       */
+      LIMIT_EXCEEDED(10),
+      /**
+       * <code>UNSUPPORTED = 11;</code>
+       */
+      UNSUPPORTED(11),
       UNRECOGNIZED(-1),
       ;
 
@@ -183,6 +191,14 @@ public final class DqStatusCodes {
        * <code>OVERLOADED = 9;</code>
        */
       public static final int OVERLOADED_VALUE = 9;
+      /**
+       * <code>LIMIT_EXCEEDED = 10;</code>
+       */
+      public static final int LIMIT_EXCEEDED_VALUE = 10;
+      /**
+       * <code>UNSUPPORTED = 11;</code>
+       */
+      public static final int UNSUPPORTED_VALUE = 11;
 
 
       public final int getNumber() {
@@ -219,6 +235,8 @@ public final class DqStatusCodes {
           case 7: return PRECONDITION_FAILED;
           case 8: return CANCELLED;
           case 9: return OVERLOADED;
+          case 10: return LIMIT_EXCEEDED;
+          case 11: return UNSUPPORTED;
           default: return null;
         }
       }
@@ -627,12 +645,13 @@ public final class DqStatusCodes {
   static {
     java.lang.String[] descriptorData = {
       "\n6ydb/library/yql/dq/actors/protos/dq_st" +
-      "atus_codes.proto\022\rNYql.NDqProto\"\300\001\n\tStat" +
-      "usIds\"\262\001\n\nStatusCode\022\017\n\013UNSPECIFIED\020\000\022\013\n" +
+      "atus_codes.proto\022\rNYql.NDqProto\"\345\001\n\tStat" +
+      "usIds\"\327\001\n\nStatusCode\022\017\n\013UNSPECIFIED\020\000\022\013\n" +
       "\007SUCCESS\020\001\022\022\n\016INTERNAL_ERROR\020\002\022\013\n\007TIMEOU" +
       "T\020\003\022\013\n\007ABORTED\020\004\022\017\n\013UNAVAILABLE\020\005\022\017\n\013BAD" +
       "_REQUEST\020\006\022\027\n\023PRECONDITION_FAILED\020\007\022\r\n\tC" +
-      "ANCELLED\020\010\022\016\n\nOVERLOADED\020\tb\006proto3"
+      "ANCELLED\020\010\022\016\n\nOVERLOADED\020\t\022\022\n\016LIMIT_EXCE" +
+      "EDED\020\n\022\017\n\013UNSUPPORTED\020\013b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

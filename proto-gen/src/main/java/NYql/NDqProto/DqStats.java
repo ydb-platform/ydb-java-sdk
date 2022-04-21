@@ -2666,8 +2666,8 @@ public final class DqStats {
 
   }
 
-  public interface TDqSinkStatsOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:NYql.NDqProto.TDqSinkStats)
+  public interface TDqAsyncOutputBufferStatsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:NYql.NDqProto.TDqAsyncOutputBufferStats)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -2736,25 +2736,25 @@ public final class DqStats {
     com.google.protobuf.AnyOrBuilder getExtraOrBuilder();
   }
   /**
-   * Protobuf type {@code NYql.NDqProto.TDqSinkStats}
+   * Protobuf type {@code NYql.NDqProto.TDqAsyncOutputBufferStats}
    */
-  public static final class TDqSinkStats extends
+  public static final class TDqAsyncOutputBufferStats extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:NYql.NDqProto.TDqSinkStats)
-      TDqSinkStatsOrBuilder {
+      // @@protoc_insertion_point(message_implements:NYql.NDqProto.TDqAsyncOutputBufferStats)
+      TDqAsyncOutputBufferStatsOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use TDqSinkStats.newBuilder() to construct.
-    private TDqSinkStats(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use TDqAsyncOutputBufferStats.newBuilder() to construct.
+    private TDqAsyncOutputBufferStats(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private TDqSinkStats() {
+    private TDqAsyncOutputBufferStats() {
     }
 
     @java.lang.Override
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
-      return new TDqSinkStats();
+      return new TDqAsyncOutputBufferStats();
     }
 
     @java.lang.Override
@@ -2762,7 +2762,7 @@ public final class DqStats {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private TDqSinkStats(
+    private TDqAsyncOutputBufferStats(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2849,15 +2849,15 @@ public final class DqStats {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return NYql.NDqProto.DqStats.internal_static_NYql_NDqProto_TDqSinkStats_descriptor;
+      return NYql.NDqProto.DqStats.internal_static_NYql_NDqProto_TDqAsyncOutputBufferStats_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return NYql.NDqProto.DqStats.internal_static_NYql_NDqProto_TDqSinkStats_fieldAccessorTable
+      return NYql.NDqProto.DqStats.internal_static_NYql_NDqProto_TDqAsyncOutputBufferStats_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              NYql.NDqProto.DqStats.TDqSinkStats.class, NYql.NDqProto.DqStats.TDqSinkStats.Builder.class);
+              NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats.class, NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats.Builder.class);
     }
 
     public static final int OUTPUTINDEX_FIELD_NUMBER = 1;
@@ -3060,10 +3060,10 @@ public final class DqStats {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof NYql.NDqProto.DqStats.TDqSinkStats)) {
+      if (!(obj instanceof NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats)) {
         return super.equals(obj);
       }
-      NYql.NDqProto.DqStats.TDqSinkStats other = (NYql.NDqProto.DqStats.TDqSinkStats) obj;
+      NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats other = (NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats) obj;
 
       if (getOutputIndex()
           != other.getOutputIndex()) return false;
@@ -3124,69 +3124,69 @@ public final class DqStats {
       return hash;
     }
 
-    public static NYql.NDqProto.DqStats.TDqSinkStats parseFrom(
+    public static NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static NYql.NDqProto.DqStats.TDqSinkStats parseFrom(
+    public static NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static NYql.NDqProto.DqStats.TDqSinkStats parseFrom(
+    public static NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static NYql.NDqProto.DqStats.TDqSinkStats parseFrom(
+    public static NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static NYql.NDqProto.DqStats.TDqSinkStats parseFrom(byte[] data)
+    public static NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static NYql.NDqProto.DqStats.TDqSinkStats parseFrom(
+    public static NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static NYql.NDqProto.DqStats.TDqSinkStats parseFrom(java.io.InputStream input)
+    public static NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static NYql.NDqProto.DqStats.TDqSinkStats parseFrom(
+    public static NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static NYql.NDqProto.DqStats.TDqSinkStats parseDelimitedFrom(java.io.InputStream input)
+    public static NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static NYql.NDqProto.DqStats.TDqSinkStats parseDelimitedFrom(
+    public static NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static NYql.NDqProto.DqStats.TDqSinkStats parseFrom(
+    public static NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static NYql.NDqProto.DqStats.TDqSinkStats parseFrom(
+    public static NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -3199,7 +3199,7 @@ public final class DqStats {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(NYql.NDqProto.DqStats.TDqSinkStats prototype) {
+    public static Builder newBuilder(NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -3215,26 +3215,26 @@ public final class DqStats {
       return builder;
     }
     /**
-     * Protobuf type {@code NYql.NDqProto.TDqSinkStats}
+     * Protobuf type {@code NYql.NDqProto.TDqAsyncOutputBufferStats}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:NYql.NDqProto.TDqSinkStats)
-        NYql.NDqProto.DqStats.TDqSinkStatsOrBuilder {
+        // @@protoc_insertion_point(builder_implements:NYql.NDqProto.TDqAsyncOutputBufferStats)
+        NYql.NDqProto.DqStats.TDqAsyncOutputBufferStatsOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return NYql.NDqProto.DqStats.internal_static_NYql_NDqProto_TDqSinkStats_descriptor;
+        return NYql.NDqProto.DqStats.internal_static_NYql_NDqProto_TDqAsyncOutputBufferStats_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return NYql.NDqProto.DqStats.internal_static_NYql_NDqProto_TDqSinkStats_fieldAccessorTable
+        return NYql.NDqProto.DqStats.internal_static_NYql_NDqProto_TDqAsyncOutputBufferStats_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                NYql.NDqProto.DqStats.TDqSinkStats.class, NYql.NDqProto.DqStats.TDqSinkStats.Builder.class);
+                NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats.class, NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats.Builder.class);
       }
 
-      // Construct using NYql.NDqProto.DqStats.TDqSinkStats.newBuilder()
+      // Construct using NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -3278,17 +3278,17 @@ public final class DqStats {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return NYql.NDqProto.DqStats.internal_static_NYql_NDqProto_TDqSinkStats_descriptor;
+        return NYql.NDqProto.DqStats.internal_static_NYql_NDqProto_TDqAsyncOutputBufferStats_descriptor;
       }
 
       @java.lang.Override
-      public NYql.NDqProto.DqStats.TDqSinkStats getDefaultInstanceForType() {
-        return NYql.NDqProto.DqStats.TDqSinkStats.getDefaultInstance();
+      public NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats getDefaultInstanceForType() {
+        return NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats.getDefaultInstance();
       }
 
       @java.lang.Override
-      public NYql.NDqProto.DqStats.TDqSinkStats build() {
-        NYql.NDqProto.DqStats.TDqSinkStats result = buildPartial();
+      public NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats build() {
+        NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -3296,8 +3296,8 @@ public final class DqStats {
       }
 
       @java.lang.Override
-      public NYql.NDqProto.DqStats.TDqSinkStats buildPartial() {
-        NYql.NDqProto.DqStats.TDqSinkStats result = new NYql.NDqProto.DqStats.TDqSinkStats(this);
+      public NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats buildPartial() {
+        NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats result = new NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats(this);
         result.outputIndex_ = outputIndex_;
         result.chunks_ = chunks_;
         result.bytes_ = bytes_;
@@ -3348,16 +3348,16 @@ public final class DqStats {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof NYql.NDqProto.DqStats.TDqSinkStats) {
-          return mergeFrom((NYql.NDqProto.DqStats.TDqSinkStats)other);
+        if (other instanceof NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats) {
+          return mergeFrom((NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(NYql.NDqProto.DqStats.TDqSinkStats other) {
-        if (other == NYql.NDqProto.DqStats.TDqSinkStats.getDefaultInstance()) return this;
+      public Builder mergeFrom(NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats other) {
+        if (other == NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats.getDefaultInstance()) return this;
         if (other.getOutputIndex() != 0L) {
           setOutputIndex(other.getOutputIndex());
         }
@@ -3397,11 +3397,11 @@ public final class DqStats {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        NYql.NDqProto.DqStats.TDqSinkStats parsedMessage = null;
+        NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (NYql.NDqProto.DqStats.TDqSinkStats) e.getUnfinishedMessage();
+          parsedMessage = (NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -3783,41 +3783,41 @@ public final class DqStats {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:NYql.NDqProto.TDqSinkStats)
+      // @@protoc_insertion_point(builder_scope:NYql.NDqProto.TDqAsyncOutputBufferStats)
     }
 
-    // @@protoc_insertion_point(class_scope:NYql.NDqProto.TDqSinkStats)
-    private static final NYql.NDqProto.DqStats.TDqSinkStats DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:NYql.NDqProto.TDqAsyncOutputBufferStats)
+    private static final NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new NYql.NDqProto.DqStats.TDqSinkStats();
+      DEFAULT_INSTANCE = new NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats();
     }
 
-    public static NYql.NDqProto.DqStats.TDqSinkStats getDefaultInstance() {
+    public static NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<TDqSinkStats>
-        PARSER = new com.google.protobuf.AbstractParser<TDqSinkStats>() {
+    private static final com.google.protobuf.Parser<TDqAsyncOutputBufferStats>
+        PARSER = new com.google.protobuf.AbstractParser<TDqAsyncOutputBufferStats>() {
       @java.lang.Override
-      public TDqSinkStats parsePartialFrom(
+      public TDqAsyncOutputBufferStats parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TDqSinkStats(input, extensionRegistry);
+        return new TDqAsyncOutputBufferStats(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<TDqSinkStats> parser() {
+    public static com.google.protobuf.Parser<TDqAsyncOutputBufferStats> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<TDqSinkStats> getParserForType() {
+    public com.google.protobuf.Parser<TDqAsyncOutputBufferStats> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public NYql.NDqProto.DqStats.TDqSinkStats getDefaultInstanceForType() {
+    public NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -7756,27 +7756,27 @@ public final class DqStats {
         int index);
 
     /**
-     * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+     * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
      */
-    java.util.List<NYql.NDqProto.DqStats.TDqSinkStats> 
+    java.util.List<NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats> 
         getSinksList();
     /**
-     * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+     * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
      */
-    NYql.NDqProto.DqStats.TDqSinkStats getSinks(int index);
+    NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats getSinks(int index);
     /**
-     * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+     * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
      */
     int getSinksCount();
     /**
-     * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+     * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
      */
-    java.util.List<? extends NYql.NDqProto.DqStats.TDqSinkStatsOrBuilder> 
+    java.util.List<? extends NYql.NDqProto.DqStats.TDqAsyncOutputBufferStatsOrBuilder> 
         getSinksOrBuilderList();
     /**
-     * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+     * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
      */
-    NYql.NDqProto.DqStats.TDqSinkStatsOrBuilder getSinksOrBuilder(
+    NYql.NDqProto.DqStats.TDqAsyncOutputBufferStatsOrBuilder getSinksOrBuilder(
         int index);
 
     /**
@@ -7998,11 +7998,11 @@ public final class DqStats {
             }
             case 1218: {
               if (!((mutable_bitField0_ & 0x00000020) != 0)) {
-                sinks_ = new java.util.ArrayList<NYql.NDqProto.DqStats.TDqSinkStats>();
+                sinks_ = new java.util.ArrayList<NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats>();
                 mutable_bitField0_ |= 0x00000020;
               }
               sinks_.add(
-                  input.readMessage(NYql.NDqProto.DqStats.TDqSinkStats.parser(), extensionRegistry));
+                  input.readMessage(NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats.parser(), extensionRegistry));
               break;
             }
             case 1226: {
@@ -9082,41 +9082,41 @@ public final class DqStats {
     }
 
     public static final int SINKS_FIELD_NUMBER = 152;
-    private java.util.List<NYql.NDqProto.DqStats.TDqSinkStats> sinks_;
+    private java.util.List<NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats> sinks_;
     /**
-     * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+     * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
      */
     @java.lang.Override
-    public java.util.List<NYql.NDqProto.DqStats.TDqSinkStats> getSinksList() {
+    public java.util.List<NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats> getSinksList() {
       return sinks_;
     }
     /**
-     * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+     * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
      */
     @java.lang.Override
-    public java.util.List<? extends NYql.NDqProto.DqStats.TDqSinkStatsOrBuilder> 
+    public java.util.List<? extends NYql.NDqProto.DqStats.TDqAsyncOutputBufferStatsOrBuilder> 
         getSinksOrBuilderList() {
       return sinks_;
     }
     /**
-     * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+     * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
      */
     @java.lang.Override
     public int getSinksCount() {
       return sinks_.size();
     }
     /**
-     * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+     * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
      */
     @java.lang.Override
-    public NYql.NDqProto.DqStats.TDqSinkStats getSinks(int index) {
+    public NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats getSinks(int index) {
       return sinks_.get(index);
     }
     /**
-     * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+     * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
      */
     @java.lang.Override
-    public NYql.NDqProto.DqStats.TDqSinkStatsOrBuilder getSinksOrBuilder(
+    public NYql.NDqProto.DqStats.TDqAsyncOutputBufferStatsOrBuilder getSinksOrBuilder(
         int index) {
       return sinks_.get(index);
     }
@@ -12076,22 +12076,22 @@ public final class DqStats {
         return inputChannelsBuilder_;
       }
 
-      private java.util.List<NYql.NDqProto.DqStats.TDqSinkStats> sinks_ =
+      private java.util.List<NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats> sinks_ =
         java.util.Collections.emptyList();
       private void ensureSinksIsMutable() {
         if (!((bitField0_ & 0x00000020) != 0)) {
-          sinks_ = new java.util.ArrayList<NYql.NDqProto.DqStats.TDqSinkStats>(sinks_);
+          sinks_ = new java.util.ArrayList<NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats>(sinks_);
           bitField0_ |= 0x00000020;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          NYql.NDqProto.DqStats.TDqSinkStats, NYql.NDqProto.DqStats.TDqSinkStats.Builder, NYql.NDqProto.DqStats.TDqSinkStatsOrBuilder> sinksBuilder_;
+          NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats, NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats.Builder, NYql.NDqProto.DqStats.TDqAsyncOutputBufferStatsOrBuilder> sinksBuilder_;
 
       /**
-       * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+       * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
        */
-      public java.util.List<NYql.NDqProto.DqStats.TDqSinkStats> getSinksList() {
+      public java.util.List<NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats> getSinksList() {
         if (sinksBuilder_ == null) {
           return java.util.Collections.unmodifiableList(sinks_);
         } else {
@@ -12099,7 +12099,7 @@ public final class DqStats {
         }
       }
       /**
-       * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+       * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
        */
       public int getSinksCount() {
         if (sinksBuilder_ == null) {
@@ -12109,9 +12109,9 @@ public final class DqStats {
         }
       }
       /**
-       * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+       * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
        */
-      public NYql.NDqProto.DqStats.TDqSinkStats getSinks(int index) {
+      public NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats getSinks(int index) {
         if (sinksBuilder_ == null) {
           return sinks_.get(index);
         } else {
@@ -12119,10 +12119,10 @@ public final class DqStats {
         }
       }
       /**
-       * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+       * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
        */
       public Builder setSinks(
-          int index, NYql.NDqProto.DqStats.TDqSinkStats value) {
+          int index, NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats value) {
         if (sinksBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -12136,10 +12136,10 @@ public final class DqStats {
         return this;
       }
       /**
-       * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+       * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
        */
       public Builder setSinks(
-          int index, NYql.NDqProto.DqStats.TDqSinkStats.Builder builderForValue) {
+          int index, NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats.Builder builderForValue) {
         if (sinksBuilder_ == null) {
           ensureSinksIsMutable();
           sinks_.set(index, builderForValue.build());
@@ -12150,9 +12150,9 @@ public final class DqStats {
         return this;
       }
       /**
-       * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+       * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
        */
-      public Builder addSinks(NYql.NDqProto.DqStats.TDqSinkStats value) {
+      public Builder addSinks(NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats value) {
         if (sinksBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -12166,10 +12166,10 @@ public final class DqStats {
         return this;
       }
       /**
-       * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+       * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
        */
       public Builder addSinks(
-          int index, NYql.NDqProto.DqStats.TDqSinkStats value) {
+          int index, NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats value) {
         if (sinksBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -12183,10 +12183,10 @@ public final class DqStats {
         return this;
       }
       /**
-       * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+       * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
        */
       public Builder addSinks(
-          NYql.NDqProto.DqStats.TDqSinkStats.Builder builderForValue) {
+          NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats.Builder builderForValue) {
         if (sinksBuilder_ == null) {
           ensureSinksIsMutable();
           sinks_.add(builderForValue.build());
@@ -12197,10 +12197,10 @@ public final class DqStats {
         return this;
       }
       /**
-       * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+       * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
        */
       public Builder addSinks(
-          int index, NYql.NDqProto.DqStats.TDqSinkStats.Builder builderForValue) {
+          int index, NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats.Builder builderForValue) {
         if (sinksBuilder_ == null) {
           ensureSinksIsMutable();
           sinks_.add(index, builderForValue.build());
@@ -12211,10 +12211,10 @@ public final class DqStats {
         return this;
       }
       /**
-       * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+       * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
        */
       public Builder addAllSinks(
-          java.lang.Iterable<? extends NYql.NDqProto.DqStats.TDqSinkStats> values) {
+          java.lang.Iterable<? extends NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats> values) {
         if (sinksBuilder_ == null) {
           ensureSinksIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -12226,7 +12226,7 @@ public final class DqStats {
         return this;
       }
       /**
-       * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+       * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
        */
       public Builder clearSinks() {
         if (sinksBuilder_ == null) {
@@ -12239,7 +12239,7 @@ public final class DqStats {
         return this;
       }
       /**
-       * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+       * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
        */
       public Builder removeSinks(int index) {
         if (sinksBuilder_ == null) {
@@ -12252,16 +12252,16 @@ public final class DqStats {
         return this;
       }
       /**
-       * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+       * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
        */
-      public NYql.NDqProto.DqStats.TDqSinkStats.Builder getSinksBuilder(
+      public NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats.Builder getSinksBuilder(
           int index) {
         return getSinksFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+       * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
        */
-      public NYql.NDqProto.DqStats.TDqSinkStatsOrBuilder getSinksOrBuilder(
+      public NYql.NDqProto.DqStats.TDqAsyncOutputBufferStatsOrBuilder getSinksOrBuilder(
           int index) {
         if (sinksBuilder_ == null) {
           return sinks_.get(index);  } else {
@@ -12269,9 +12269,9 @@ public final class DqStats {
         }
       }
       /**
-       * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+       * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
        */
-      public java.util.List<? extends NYql.NDqProto.DqStats.TDqSinkStatsOrBuilder> 
+      public java.util.List<? extends NYql.NDqProto.DqStats.TDqAsyncOutputBufferStatsOrBuilder> 
            getSinksOrBuilderList() {
         if (sinksBuilder_ != null) {
           return sinksBuilder_.getMessageOrBuilderList();
@@ -12280,33 +12280,33 @@ public final class DqStats {
         }
       }
       /**
-       * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+       * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
        */
-      public NYql.NDqProto.DqStats.TDqSinkStats.Builder addSinksBuilder() {
+      public NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats.Builder addSinksBuilder() {
         return getSinksFieldBuilder().addBuilder(
-            NYql.NDqProto.DqStats.TDqSinkStats.getDefaultInstance());
+            NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats.getDefaultInstance());
       }
       /**
-       * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+       * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
        */
-      public NYql.NDqProto.DqStats.TDqSinkStats.Builder addSinksBuilder(
+      public NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats.Builder addSinksBuilder(
           int index) {
         return getSinksFieldBuilder().addBuilder(
-            index, NYql.NDqProto.DqStats.TDqSinkStats.getDefaultInstance());
+            index, NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats.getDefaultInstance());
       }
       /**
-       * <code>repeated .NYql.NDqProto.TDqSinkStats Sinks = 152;</code>
+       * <code>repeated .NYql.NDqProto.TDqAsyncOutputBufferStats Sinks = 152;</code>
        */
-      public java.util.List<NYql.NDqProto.DqStats.TDqSinkStats.Builder> 
+      public java.util.List<NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats.Builder> 
            getSinksBuilderList() {
         return getSinksFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          NYql.NDqProto.DqStats.TDqSinkStats, NYql.NDqProto.DqStats.TDqSinkStats.Builder, NYql.NDqProto.DqStats.TDqSinkStatsOrBuilder> 
+          NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats, NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats.Builder, NYql.NDqProto.DqStats.TDqAsyncOutputBufferStatsOrBuilder> 
           getSinksFieldBuilder() {
         if (sinksBuilder_ == null) {
           sinksBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              NYql.NDqProto.DqStats.TDqSinkStats, NYql.NDqProto.DqStats.TDqSinkStats.Builder, NYql.NDqProto.DqStats.TDqSinkStatsOrBuilder>(
+              NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats, NYql.NDqProto.DqStats.TDqAsyncOutputBufferStats.Builder, NYql.NDqProto.DqStats.TDqAsyncOutputBufferStatsOrBuilder>(
                   sinks_,
                   ((bitField0_ & 0x00000020) != 0),
                   getParentForChildren(),
@@ -23484,10 +23484,10 @@ public final class DqStats {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_NYql_NDqProto_TDqInputChannelStats_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_NYql_NDqProto_TDqSinkStats_descriptor;
+    internal_static_NYql_NDqProto_TDqAsyncOutputBufferStats_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_NYql_NDqProto_TDqSinkStats_fieldAccessorTable;
+      internal_static_NYql_NDqProto_TDqAsyncOutputBufferStats_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_NYql_NDqProto_TDqOutputChannelStats_descriptor;
   private static final 
@@ -23565,95 +23565,96 @@ public final class DqStats {
       "ionTimeUs\030\006 \001(\004\022\026\n\016MaxMemoryUsage\030\007 \001(\004\022" +
       "\024\n\014PollRequests\030\010 \001(\r\022\026\n\016ResentMessages\030" +
       "\t \001(\r\022\022\n\nWaitTimeUs\030\n \001(\004\022#\n\005Extra\030d \001(\013" +
-      "2\024.google.protobuf.Any\"\265\001\n\014TDqSinkStats\022" +
-      "\023\n\013OutputIndex\030\001 \001(\004\022\016\n\006Chunks\030\002 \001(\004\022\r\n\005" +
-      "Bytes\030\003 \001(\004\022\016\n\006RowsIn\030\004 \001(\004\022\017\n\007RowsOut\030\005" +
-      " \001(\004\022\026\n\016MaxMemoryUsage\030\006 \001(\004\022\023\n\013ErrorsCo" +
-      "unt\030\007 \001(\r\022#\n\005Extra\030d \001(\0132\024.google.protob" +
-      "uf.Any\"\347\002\n\025TDqOutputChannelStats\022\021\n\tChan" +
-      "nelId\030\001 \001(\004\022\016\n\006Chunks\030\002 \001(\004\022\r\n\005Bytes\030\003 \001" +
-      "(\004\022\016\n\006RowsIn\030\004 \001(\004\022\017\n\007RowsOut\030\005 \001(\004\022\033\n\023S" +
-      "erializationTimeUs\030\006 \001(\004\022\031\n\021BlockedByCap" +
-      "acity\030\007 \001(\r\022\026\n\016ResentMessages\030\010 \001(\r\022\024\n\014N" +
-      "oDstActorId\030\t \001(\r\022\027\n\017MaxRowsInMemory\030\n \001" +
-      "(\r\022\026\n\016MaxMemoryUsage\030\013 \001(\004\022\024\n\014SpilledByt" +
-      "es\030\014 \001(\004\022\023\n\013SpilledRows\030\r \001(\004\022\024\n\014Spilled" +
-      "Blobs\030\016 \001(\004\022#\n\005Extra\030d \001(\0132\024.google.prot" +
-      "obuf.Any\"\326\001\n\rTDqTableStats\022\021\n\tTablePath\030" +
-      "\001 \001(\t\022\020\n\010ReadRows\030\002 \001(\004\022\021\n\tReadBytes\030\003 \001" +
-      "(\004\022\021\n\tWriteRows\030\004 \001(\004\022\022\n\nWriteBytes\030\005 \001(" +
-      "\004\022\021\n\tEraseRows\030\006 \001(\004\022\022\n\nEraseBytes\030\007 \001(\004" +
-      "\022\032\n\022AffectedPartitions\030\010 \001(\r\022#\n\005Extra\030d " +
-      "\001(\0132\024.google.protobuf.Any\"9\n\013TDqMkqlStat" +
-      "\022\014\n\004Name\030\001 \001(\t\022\r\n\005Value\030\002 \001(\003\022\r\n\005Deriv\030\003" +
-      " \001(\010\"\277\006\n\014TDqTaskStats\022\016\n\006TaskId\030\001 \001(\004\022\017\n" +
-      "\007StageId\030\002 \001(\r\022\021\n\tCpuTimeUs\030\003 \001(\004\022\026\n\016Fir" +
-      "stRowTimeMs\030\004 \001(\004\022\024\n\014FinishTimeMs\030\005 \001(\004\022" +
-      "\021\n\tInputRows\030\006 \001(\004\022\022\n\nInputBytes\030\007 \001(\004\022\022" +
-      "\n\nOutputRows\030\010 \001(\004\022\023\n\013OutputBytes\030\t \001(\004\022" +
-      ",\n\006Tables\030\n \003(\0132\034.NYql.NDqProto.TDqTable" +
-      "Stats\022\026\n\016BuildCpuTimeUs\030g \001(\004\022\022\n\nWaitTim" +
-      "eUs\030h \001(\004\022\030\n\020WaitOutputTimeUs\030i \001(\004\022\030\n\020C" +
-      "omputeCpuTimeUs\030f \001(\004\022\032\n\022PendingInputTim" +
-      "eUs\030k \001(\004\022\033\n\023PendingOutputTimeUs\030l \001(\004\022\024" +
-      "\n\014FinishTimeUs\030m \001(\004\022-\n\tMkqlStats\030n \003(\0132" +
-      "\032.NYql.NDqProto.TDqMkqlStat\022D\n\023ComputeCp" +
-      "uTimeByRun\030j \003(\0132\'.NYql.NDqProto.TDqTask" +
-      "Stats.THistBucket\022/\n\007Sources\030\226\001 \003(\0132\035.NY" +
-      "ql.NDqProto.TDqSourceStats\022;\n\rInputChann" +
-      "els\030\227\001 \003(\0132#.NYql.NDqProto.TDqInputChann" +
-      "elStats\022+\n\005Sinks\030\230\001 \003(\0132\033.NYql.NDqProto." +
-      "TDqSinkStats\022=\n\016OutputChannels\030\231\001 \003(\0132$." +
-      "NYql.NDqProto.TDqOutputChannelStats\022$\n\005E" +
-      "xtra\030\310\001 \001(\0132\024.google.protobuf.Any\032+\n\013THi" +
-      "stBucket\022\r\n\005Bound\030\001 \001(\001\022\r\n\005Value\030\002 \001(\004\"\352" +
-      "\001\n\024TDqComputeActorStats\022\021\n\tCpuTimeUs\030\001 \001" +
-      "(\004\022\022\n\nDurationUs\030\002 \001(\004\022*\n\005Tasks\030\003 \003(\0132\033." +
-      "NYql.NDqProto.TDqTaskStats\022\032\n\022MkqlMaxMem" +
-      "oryUsage\030f \001(\004\022\034\n\024MkqlExtraMemoryBytes\030g" +
-      " \001(\004\022\037\n\027MkqlExtraMemoryRequests\030h \001(\r\022$\n" +
-      "\005Extra\030\310\001 \001(\0132\024.google.protobuf.Any\"B\n\014T" +
-      "DqStatsAggr\022\013\n\003Min\030\001 \001(\004\022\013\n\003Max\030\002 \001(\004\022\013\n" +
-      "\003Sum\030\003 \001(\004\022\013\n\003Cnt\030\004 \001(\004\"*\n\016TDqStatsMinMa" +
-      "x\022\013\n\003Min\030\001 \001(\004\022\013\n\003Max\030\002 \001(\004\"\210\003\n\021TDqTable" +
-      "AggrStats\022\021\n\tTablePath\030\001 \001(\t\022-\n\010ReadRows" +
-      "\030\002 \001(\0132\033.NYql.NDqProto.TDqStatsAggr\022.\n\tR" +
-      "eadBytes\030\003 \001(\0132\033.NYql.NDqProto.TDqStatsA" +
-      "ggr\022.\n\tWriteRows\030\004 \001(\0132\033.NYql.NDqProto.T" +
-      "DqStatsAggr\022/\n\nWriteBytes\030\005 \001(\0132\033.NYql.N" +
-      "DqProto.TDqStatsAggr\022.\n\tEraseRows\030\006 \001(\0132" +
-      "\033.NYql.NDqProto.TDqStatsAggr\022/\n\nEraseByt" +
-      "es\030\007 \001(\0132\033.NYql.NDqProto.TDqStatsAggr\022\032\n" +
-      "\022AffectedPartitions\030\010 \001(\r\022#\n\005Extra\030d \001(\013" +
-      "2\024.google.protobuf.Any\"\376\004\n\rTDqStageStats" +
-      "\022\017\n\007StageId\030\001 \001(\r\022\021\n\tStageGuid\030\002 \001(\t\022\017\n\007" +
-      "Program\030\003 \001(\t\022\027\n\017TotalTasksCount\030\005 \001(\r\022\030" +
-      "\n\020FailedTasksCount\030\006 \001(\r\022.\n\tCpuTimeUs\030\010 " +
-      "\001(\0132\033.NYql.NDqProto.TDqStatsAggr\022.\n\tInpu" +
-      "tRows\030\t \001(\0132\033.NYql.NDqProto.TDqStatsAggr" +
-      "\022/\n\nInputBytes\030\n \001(\0132\033.NYql.NDqProto.TDq" +
-      "StatsAggr\022/\n\nOutputRows\030\013 \001(\0132\033.NYql.NDq" +
-      "Proto.TDqStatsAggr\0220\n\013OutputBytes\030\014 \001(\0132" +
-      "\033.NYql.NDqProto.TDqStatsAggr\0225\n\016FirstRow" +
-      "TimeMs\030\r \001(\0132\035.NYql.NDqProto.TDqStatsMin" +
-      "Max\0223\n\014FinishTimeMs\030\016 \001(\0132\035.NYql.NDqProt" +
-      "o.TDqStatsMinMax\022\022\n\nDurationUs\030\017 \001(\004\0220\n\006" +
-      "Tables\030\020 \003(\0132 .NYql.NDqProto.TDqTableAgg" +
-      "rStats\022:\n\rComputeActors\030\021 \003(\0132#.NYql.NDq" +
-      "Proto.TDqComputeActorStats\022#\n\005Extra\030d \001(" +
-      "\0132\024.google.protobuf.Any\"\334\002\n\021TDqExecution" +
-      "Stats\022\021\n\tCpuTimeUs\030\001 \001(\004\022\022\n\nDurationUs\030\002" +
-      " \001(\004\022\022\n\nResultRows\030\003 \001(\004\022\023\n\013ResultBytes\030" +
-      "\004 \001(\004\022,\n\006Tables\030\006 \003(\0132\034.NYql.NDqProto.TD" +
-      "qTableStats\022\031\n\021ExecuterCpuTimeUs\030\n \001(\004\022\023" +
-      "\n\013StartTimeMs\030\013 \001(\004\022\024\n\014FinishTimeMs\030\014 \001(" +
-      "\004\022\026\n\016FirstRowTimeMs\030\r \001(\004\022,\n\006Stages\030\016 \003(" +
-      "\0132\034.NYql.NDqProto.TDqStageStats\022\030\n\020TxPla" +
-      "nsWithStats\030\017 \003(\t\022#\n\005Extra\030d \001(\0132\024.googl" +
-      "e.protobuf.Any*y\n\014EDqStatsMode\022\035\n\031DQ_STA" +
-      "TS_MODE_UNSPECIFIED\020\000\022\026\n\022DQ_STATS_MODE_N" +
-      "ONE\020\n\022\027\n\023DQ_STATS_MODE_BASIC\020\024\022\031\n\025DQ_STA" +
-      "TS_MODE_PROFILE\020\036B\003\370\001\001b\006proto3"
+      "2\024.google.protobuf.Any\"\302\001\n\031TDqAsyncOutpu" +
+      "tBufferStats\022\023\n\013OutputIndex\030\001 \001(\004\022\016\n\006Chu" +
+      "nks\030\002 \001(\004\022\r\n\005Bytes\030\003 \001(\004\022\016\n\006RowsIn\030\004 \001(\004" +
+      "\022\017\n\007RowsOut\030\005 \001(\004\022\026\n\016MaxMemoryUsage\030\006 \001(" +
+      "\004\022\023\n\013ErrorsCount\030\007 \001(\r\022#\n\005Extra\030d \001(\0132\024." +
+      "google.protobuf.Any\"\347\002\n\025TDqOutputChannel" +
+      "Stats\022\021\n\tChannelId\030\001 \001(\004\022\016\n\006Chunks\030\002 \001(\004" +
+      "\022\r\n\005Bytes\030\003 \001(\004\022\016\n\006RowsIn\030\004 \001(\004\022\017\n\007RowsO" +
+      "ut\030\005 \001(\004\022\033\n\023SerializationTimeUs\030\006 \001(\004\022\031\n" +
+      "\021BlockedByCapacity\030\007 \001(\r\022\026\n\016ResentMessag" +
+      "es\030\010 \001(\r\022\024\n\014NoDstActorId\030\t \001(\r\022\027\n\017MaxRow" +
+      "sInMemory\030\n \001(\r\022\026\n\016MaxMemoryUsage\030\013 \001(\004\022" +
+      "\024\n\014SpilledBytes\030\014 \001(\004\022\023\n\013SpilledRows\030\r \001" +
+      "(\004\022\024\n\014SpilledBlobs\030\016 \001(\004\022#\n\005Extra\030d \001(\0132" +
+      "\024.google.protobuf.Any\"\326\001\n\rTDqTableStats\022" +
+      "\021\n\tTablePath\030\001 \001(\t\022\020\n\010ReadRows\030\002 \001(\004\022\021\n\t" +
+      "ReadBytes\030\003 \001(\004\022\021\n\tWriteRows\030\004 \001(\004\022\022\n\nWr" +
+      "iteBytes\030\005 \001(\004\022\021\n\tEraseRows\030\006 \001(\004\022\022\n\nEra" +
+      "seBytes\030\007 \001(\004\022\032\n\022AffectedPartitions\030\010 \001(" +
+      "\r\022#\n\005Extra\030d \001(\0132\024.google.protobuf.Any\"9" +
+      "\n\013TDqMkqlStat\022\014\n\004Name\030\001 \001(\t\022\r\n\005Value\030\002 \001" +
+      "(\003\022\r\n\005Deriv\030\003 \001(\010\"\314\006\n\014TDqTaskStats\022\016\n\006Ta" +
+      "skId\030\001 \001(\004\022\017\n\007StageId\030\002 \001(\r\022\021\n\tCpuTimeUs" +
+      "\030\003 \001(\004\022\026\n\016FirstRowTimeMs\030\004 \001(\004\022\024\n\014Finish" +
+      "TimeMs\030\005 \001(\004\022\021\n\tInputRows\030\006 \001(\004\022\022\n\nInput" +
+      "Bytes\030\007 \001(\004\022\022\n\nOutputRows\030\010 \001(\004\022\023\n\013Outpu" +
+      "tBytes\030\t \001(\004\022,\n\006Tables\030\n \003(\0132\034.NYql.NDqP" +
+      "roto.TDqTableStats\022\026\n\016BuildCpuTimeUs\030g \001" +
+      "(\004\022\022\n\nWaitTimeUs\030h \001(\004\022\030\n\020WaitOutputTime" +
+      "Us\030i \001(\004\022\030\n\020ComputeCpuTimeUs\030f \001(\004\022\032\n\022Pe" +
+      "ndingInputTimeUs\030k \001(\004\022\033\n\023PendingOutputT" +
+      "imeUs\030l \001(\004\022\024\n\014FinishTimeUs\030m \001(\004\022-\n\tMkq" +
+      "lStats\030n \003(\0132\032.NYql.NDqProto.TDqMkqlStat" +
+      "\022D\n\023ComputeCpuTimeByRun\030j \003(\0132\'.NYql.NDq" +
+      "Proto.TDqTaskStats.THistBucket\022/\n\007Source" +
+      "s\030\226\001 \003(\0132\035.NYql.NDqProto.TDqSourceStats\022" +
+      ";\n\rInputChannels\030\227\001 \003(\0132#.NYql.NDqProto." +
+      "TDqInputChannelStats\0228\n\005Sinks\030\230\001 \003(\0132(.N" +
+      "Yql.NDqProto.TDqAsyncOutputBufferStats\022=" +
+      "\n\016OutputChannels\030\231\001 \003(\0132$.NYql.NDqProto." +
+      "TDqOutputChannelStats\022$\n\005Extra\030\310\001 \001(\0132\024." +
+      "google.protobuf.Any\032+\n\013THistBucket\022\r\n\005Bo" +
+      "und\030\001 \001(\001\022\r\n\005Value\030\002 \001(\004\"\352\001\n\024TDqComputeA" +
+      "ctorStats\022\021\n\tCpuTimeUs\030\001 \001(\004\022\022\n\nDuration" +
+      "Us\030\002 \001(\004\022*\n\005Tasks\030\003 \003(\0132\033.NYql.NDqProto." +
+      "TDqTaskStats\022\032\n\022MkqlMaxMemoryUsage\030f \001(\004" +
+      "\022\034\n\024MkqlExtraMemoryBytes\030g \001(\004\022\037\n\027MkqlEx" +
+      "traMemoryRequests\030h \001(\r\022$\n\005Extra\030\310\001 \001(\0132" +
+      "\024.google.protobuf.Any\"B\n\014TDqStatsAggr\022\013\n" +
+      "\003Min\030\001 \001(\004\022\013\n\003Max\030\002 \001(\004\022\013\n\003Sum\030\003 \001(\004\022\013\n\003" +
+      "Cnt\030\004 \001(\004\"*\n\016TDqStatsMinMax\022\013\n\003Min\030\001 \001(\004" +
+      "\022\013\n\003Max\030\002 \001(\004\"\210\003\n\021TDqTableAggrStats\022\021\n\tT" +
+      "ablePath\030\001 \001(\t\022-\n\010ReadRows\030\002 \001(\0132\033.NYql." +
+      "NDqProto.TDqStatsAggr\022.\n\tReadBytes\030\003 \001(\013" +
+      "2\033.NYql.NDqProto.TDqStatsAggr\022.\n\tWriteRo" +
+      "ws\030\004 \001(\0132\033.NYql.NDqProto.TDqStatsAggr\022/\n" +
+      "\nWriteBytes\030\005 \001(\0132\033.NYql.NDqProto.TDqSta" +
+      "tsAggr\022.\n\tEraseRows\030\006 \001(\0132\033.NYql.NDqProt" +
+      "o.TDqStatsAggr\022/\n\nEraseBytes\030\007 \001(\0132\033.NYq" +
+      "l.NDqProto.TDqStatsAggr\022\032\n\022AffectedParti" +
+      "tions\030\010 \001(\r\022#\n\005Extra\030d \001(\0132\024.google.prot" +
+      "obuf.Any\"\376\004\n\rTDqStageStats\022\017\n\007StageId\030\001 " +
+      "\001(\r\022\021\n\tStageGuid\030\002 \001(\t\022\017\n\007Program\030\003 \001(\t\022" +
+      "\027\n\017TotalTasksCount\030\005 \001(\r\022\030\n\020FailedTasksC" +
+      "ount\030\006 \001(\r\022.\n\tCpuTimeUs\030\010 \001(\0132\033.NYql.NDq" +
+      "Proto.TDqStatsAggr\022.\n\tInputRows\030\t \001(\0132\033." +
+      "NYql.NDqProto.TDqStatsAggr\022/\n\nInputBytes" +
+      "\030\n \001(\0132\033.NYql.NDqProto.TDqStatsAggr\022/\n\nO" +
+      "utputRows\030\013 \001(\0132\033.NYql.NDqProto.TDqStats" +
+      "Aggr\0220\n\013OutputBytes\030\014 \001(\0132\033.NYql.NDqProt" +
+      "o.TDqStatsAggr\0225\n\016FirstRowTimeMs\030\r \001(\0132\035" +
+      ".NYql.NDqProto.TDqStatsMinMax\0223\n\014FinishT" +
+      "imeMs\030\016 \001(\0132\035.NYql.NDqProto.TDqStatsMinM" +
+      "ax\022\022\n\nDurationUs\030\017 \001(\004\0220\n\006Tables\030\020 \003(\0132 " +
+      ".NYql.NDqProto.TDqTableAggrStats\022:\n\rComp" +
+      "uteActors\030\021 \003(\0132#.NYql.NDqProto.TDqCompu" +
+      "teActorStats\022#\n\005Extra\030d \001(\0132\024.google.pro" +
+      "tobuf.Any\"\334\002\n\021TDqExecutionStats\022\021\n\tCpuTi" +
+      "meUs\030\001 \001(\004\022\022\n\nDurationUs\030\002 \001(\004\022\022\n\nResult" +
+      "Rows\030\003 \001(\004\022\023\n\013ResultBytes\030\004 \001(\004\022,\n\006Table" +
+      "s\030\006 \003(\0132\034.NYql.NDqProto.TDqTableStats\022\031\n" +
+      "\021ExecuterCpuTimeUs\030\n \001(\004\022\023\n\013StartTimeMs\030" +
+      "\013 \001(\004\022\024\n\014FinishTimeMs\030\014 \001(\004\022\026\n\016FirstRowT" +
+      "imeMs\030\r \001(\004\022,\n\006Stages\030\016 \003(\0132\034.NYql.NDqPr" +
+      "oto.TDqStageStats\022\030\n\020TxPlansWithStats\030\017 " +
+      "\003(\t\022#\n\005Extra\030d \001(\0132\024.google.protobuf.Any" +
+      "*y\n\014EDqStatsMode\022\035\n\031DQ_STATS_MODE_UNSPEC" +
+      "IFIED\020\000\022\026\n\022DQ_STATS_MODE_NONE\020\n\022\027\n\023DQ_ST" +
+      "ATS_MODE_BASIC\020\024\022\031\n\025DQ_STATS_MODE_PROFIL" +
+      "E\020\036B\003\370\001\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -23672,11 +23673,11 @@ public final class DqStats {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_NYql_NDqProto_TDqInputChannelStats_descriptor,
         new java.lang.String[] { "ChannelId", "Chunks", "Bytes", "RowsIn", "RowsOut", "DeserializationTimeUs", "MaxMemoryUsage", "PollRequests", "ResentMessages", "WaitTimeUs", "Extra", });
-    internal_static_NYql_NDqProto_TDqSinkStats_descriptor =
+    internal_static_NYql_NDqProto_TDqAsyncOutputBufferStats_descriptor =
       getDescriptor().getMessageTypes().get(2);
-    internal_static_NYql_NDqProto_TDqSinkStats_fieldAccessorTable = new
+    internal_static_NYql_NDqProto_TDqAsyncOutputBufferStats_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_NYql_NDqProto_TDqSinkStats_descriptor,
+        internal_static_NYql_NDqProto_TDqAsyncOutputBufferStats_descriptor,
         new java.lang.String[] { "OutputIndex", "Chunks", "Bytes", "RowsIn", "RowsOut", "MaxMemoryUsage", "ErrorsCount", "Extra", });
     internal_static_NYql_NDqProto_TDqOutputChannelStats_descriptor =
       getDescriptor().getMessageTypes().get(3);
