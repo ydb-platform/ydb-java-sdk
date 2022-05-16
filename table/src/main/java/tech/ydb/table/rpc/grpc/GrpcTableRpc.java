@@ -10,7 +10,6 @@ import javax.annotation.WillNotClose;
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.rpc.OperationTray;
-import tech.ydb.core.rpc.RpcTransport;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.table.YdbTable;
@@ -66,19 +65,13 @@ public final class GrpcTableRpc implements TableRpc {
     }
 
     @Nullable
-    public static GrpcTableRpc useTransport(@WillNotClose RpcTransport transport) {
-        if (transport instanceof GrpcTransport) {
-            return new GrpcTableRpc((GrpcTransport) transport, false);
-        }
-        return null;
+    public static GrpcTableRpc useTransport(@WillNotClose GrpcTransport transport) {
+        return new GrpcTableRpc(transport, false);
     }
 
     @Nullable
-    public static GrpcTableRpc ownTransport(@WillClose RpcTransport transport) {
-        if (transport instanceof GrpcTransport) {
-            return new GrpcTableRpc((GrpcTransport) transport, true);
-        }
-        return null;
+    public static GrpcTableRpc ownTransport(@WillClose GrpcTransport transport) {
+        return new GrpcTableRpc(transport, true);
     }
 
     @Override

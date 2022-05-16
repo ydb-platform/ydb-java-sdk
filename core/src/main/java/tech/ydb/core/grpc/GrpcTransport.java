@@ -1,5 +1,6 @@
 package tech.ydb.core.grpc;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import java.net.URI;
 import java.time.Duration;
 import java.util.Arrays;
@@ -28,8 +29,6 @@ import tech.ydb.core.grpc.impl.grpc.GrpcTransportImpl;
 import tech.ydb.core.grpc.impl.ydb.YdbTransportImpl;
 import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.rpc.OutStreamObserver;
-import tech.ydb.core.rpc.RpcTransport;
-import tech.ydb.core.rpc.RpcTransportBuilder;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.core.utils.Version;
@@ -48,10 +47,11 @@ import io.grpc.stub.MetadataUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Collections.singletonList;
+import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.CompletableFuture.completedFuture;
+import java.util.concurrent.Executor;
 
 
 /**
@@ -59,7 +59,7 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
  * @author Evgeniy Pshenitsin
  * @author Nikolay Perfilov
  */
-public abstract class GrpcTransport implements RpcTransport {
+public abstract class GrpcTransport implements AutoCloseable {
 
     public static final int DEFAULT_PORT = 2135;
     public static final long WAIT_FOR_CONNECTION_MS = 10000;
@@ -337,12 +337,10 @@ public abstract class GrpcTransport implements RpcTransport {
         return adapter;
     }
 
-    @Override
     public String getDatabase() {
         return database;
     }
 
-    @Override
     public OperationTray getOperationTray() {
         return operationTray;
     }
@@ -403,7 +401,7 @@ public abstract class GrpcTransport implements RpcTransport {
      * BUILDER
      */
     @ParametersAreNonnullByDefault
-    public static final class Builder extends RpcTransportBuilder<GrpcTransport, Builder> {
+    public static final class Builder {
         private final String endpoint;
         private String database;
         private final List<HostAndPort> hosts;
@@ -416,6 +414,9 @@ public abstract class GrpcTransport implements RpcTransport {
         private DiscoveryMode discoveryMode = DiscoveryMode.SYNC;
         private TransportImplType transportImplType = TransportImplType.GRPC_TRANSPORT_IMPL;
         private BalancingSettings balancingSettings;
+        private Executor callExecutor = MoreExecutors.directExecutor();
+        private AuthProvider authProvider = NopAuthProvider.INSTANCE;
+        private long readTimeoutMillis = 0;
 
         private Builder(@Nullable String endpoint, @Nullable String database, @Nullable List<HostAndPort> hosts) {
             this.endpoint = endpoint;
@@ -470,7 +471,7 @@ public abstract class GrpcTransport implements RpcTransport {
             return localDc;
         }
 
-        public DiscoveryMode getDiscoveryMode() {
+        private DiscoveryMode getDiscoveryMode() {
             return discoveryMode;
         }
 
@@ -519,7 +520,40 @@ public abstract class GrpcTransport implements RpcTransport {
             return this;
         }
 
-        @Override
+        public Builder withAuthProvider(AuthProvider authProvider) {
+            this.authProvider = requireNonNull(authProvider);
+            return this;
+        }
+
+        public Builder withReadTimeout(Duration timeout) {
+            this.readTimeoutMillis = timeout.toMillis();
+            checkArgument(readTimeoutMillis > 0, "readTimeoutMillis must be greater than 0");
+            return this;
+        }
+
+        public Builder withReadTimeout(long timeout, TimeUnit unit) {
+            this.readTimeoutMillis = unit.toMillis(timeout);
+            checkArgument(readTimeoutMillis > 0, "readTimeoutMillis must be greater than 0");
+            return this;
+        }
+
+        public Builder withCallExecutor(Executor executor) {
+            this.callExecutor = requireNonNull(executor);
+            return this;
+        }
+
+        public Executor getCallExecutor() {
+            return callExecutor;
+        }
+
+        public AuthProvider getAuthProvider() {
+            return authProvider;
+        }
+
+        private long getReadTimeoutMillis() {
+            return readTimeoutMillis;
+        }
+
         public GrpcTransport build() {
             switch (transportImplType) {
                 case YDB_TRANSPORT_IMPL:

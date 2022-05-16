@@ -1,6 +1,7 @@
 package tech.ydb.core.rpc;
 
 import javax.annotation.Nullable;
+import tech.ydb.core.grpc.GrpcTransport;
 
 
 /**
@@ -9,6 +10,6 @@ import javax.annotation.Nullable;
 public interface RpcFactory<R extends Rpc> {
 
     @Nullable
-    R create(RpcTransport transport);
+    R create(GrpcTransport transport);
 
 }

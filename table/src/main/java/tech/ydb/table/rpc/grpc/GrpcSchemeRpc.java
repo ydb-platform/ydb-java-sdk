@@ -10,7 +10,6 @@ import javax.annotation.WillNotClose;
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.rpc.OperationTray;
-import tech.ydb.core.rpc.RpcTransport;
 import tech.ydb.scheme.v1.SchemeServiceGrpc;
 import tech.ydb.table.rpc.SchemeRpc;
 
@@ -39,19 +38,13 @@ public final class GrpcSchemeRpc implements SchemeRpc {
     }
 
     @Nullable
-    public static GrpcSchemeRpc useTransport(@WillNotClose RpcTransport transport) {
-        if (transport instanceof GrpcTransport) {
-            return new GrpcSchemeRpc((GrpcTransport) transport, false);
-        }
-        return null;
+    public static GrpcSchemeRpc useTransport(@WillNotClose GrpcTransport transport) {
+        return new GrpcSchemeRpc(transport, false);
     }
 
     @Nullable
-    public static GrpcSchemeRpc ownTransport(@WillClose RpcTransport transport) {
-        if (transport instanceof GrpcTransport) {
-            return new GrpcSchemeRpc((GrpcTransport) transport, true);
-        }
-        return null;
+    public static GrpcSchemeRpc ownTransport(@WillClose GrpcTransport transport) {
+        return new GrpcSchemeRpc(transport, true);
     }
 
     @Override
