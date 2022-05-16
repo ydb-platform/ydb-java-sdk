@@ -1,0 +1,10 @@
+# Maven build folders
+**/target
+
+# NetBeans project files
+**/nbactions.xml
+
+# Intellij project files
+**/.idea/
+**/*.iml
+**/*.iws
