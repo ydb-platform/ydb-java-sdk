@@ -7,9 +7,6 @@ import io.grpc.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId.S_ERROR;
-
-
 /**
  * @author Sergey Polovko
  */
@@ -29,7 +26,7 @@ public final class GrpcStatuses {
         }
 
         StatusCode code = getStatusCode(status.getCode());
-        return Result.fail(code, Issue.of(message, S_ERROR));
+        return Result.fail(code, Issue.of(message, Issue.Severity.ERROR));
     }
 
     public static tech.ydb.core.Status toStatus(Status status) {
@@ -38,7 +35,7 @@ public final class GrpcStatuses {
         }
         String message = getMessage(status);
         StatusCode code = getStatusCode(status.getCode());
-        return tech.ydb.core.Status.of(code, Issue.of(message, S_ERROR));
+        return tech.ydb.core.Status.of(code, Issue.of(message, Issue.Severity.ERROR));
     }
 
     private static String getMessage(Status status) {

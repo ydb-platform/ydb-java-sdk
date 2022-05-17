@@ -47,9 +47,6 @@ import tech.ydb.table.YdbTable.RollbackTransactionRequest;
 import tech.ydb.table.YdbTable.RollbackTransactionResponse;
 import tech.ydb.table.rpc.TableRpc;
 import tech.ydb.table.utils.Async;
-import com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId;
-
-import static java.util.concurrent.CompletableFuture.completedFuture;
 
 
 /**
@@ -134,14 +131,14 @@ public class TableRpcStub implements TableRpc {
 
     @Override
     public StreamControl streamReadTable(ReadTableRequest request, StreamObserver<ReadTableResponse> observer, long deadlineAfter) {
-        Issue issue = Issue.of("streamReadTable() is not implemented", ESeverityId.S_ERROR);
+        Issue issue = Issue.of("streamReadTable() is not implemented", Issue.Severity.ERROR);
         observer.onError(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
         return () -> {};
     }
 
     @Override
     public StreamControl streamExecuteScanQuery(YdbTable.ExecuteScanQueryRequest request, StreamObserver<YdbTable.ExecuteScanQueryPartialResponse> observer, long deadlineAfter) {
-        Issue issue = Issue.of("streamExecuteScanQuery() is not implemented", ESeverityId.S_ERROR);
+        Issue issue = Issue.of("streamExecuteScanQuery() is not implemented", Issue.Severity.ERROR);
         observer.onError(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
         return () -> {};
     }
@@ -176,7 +173,7 @@ public class TableRpcStub implements TableRpc {
     private static final class ImmediateOperationTray implements OperationTray {
         @Override
         public CompletableFuture<Status> waitStatus(Operation operation, long deadlineAfter) {
-            return completedFuture(Operations.status(operation));
+            return CompletableFuture.completedFuture(Operations.status(operation));
         }
 
         @Override
@@ -186,9 +183,9 @@ public class TableRpcStub implements TableRpc {
             Status status = Operations.status(operation);
             if (status.isSuccess()) {
                 M resultMessage = Operations.unpackResult(operation, resultClass);
-                return completedFuture(Result.success(mapper.apply(resultMessage), status.getIssues()));
+                return CompletableFuture.completedFuture(Result.success(mapper.apply(resultMessage), status.getIssues()));
             }
-            return completedFuture(Result.fail(status));
+            return CompletableFuture.completedFuture(Result.fail(status));
         }
 
         @Override

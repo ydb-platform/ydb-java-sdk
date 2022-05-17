@@ -24,17 +24,17 @@ dependencies:
     <dependency>
         <groupId>tech.ydb</groupId>
         <artifactId>ydb-sdk-core</artifactId>
-        <version>1.11.5</version>
+        <version>1.11.6</version>
     </dependency>
     <dependency>
         <groupId>tech.ydb</groupId>
         <artifactId>ydb-sdk-table</artifactId>
-        <version>1.11.5</version>
+        <version>1.11.6</version>
     </dependency>
     <dependency>
         <groupId>tech.ydb</groupId>
         <artifactId>ydb-sdk-auth-iam</artifactId>
-        <version>1.11.5</version>
+        <version>1.11.6</version>
     </dependency>
 </dependencies>
 ```
@@ -48,12 +48,12 @@ See the [Connect to a database][connect-to-a-database] section of the documentat
 
 #### Generic examples ####
 
-In [examples/ydb-cookbook][ydb-cookbook] folder you can find more example applications with YDB Java SDK usage.
+In [examples][generic-examples] folder you can find more example applications with YDB Java SDK usage.
 
 
 [ydb-docs]: https://ydb.tech/en/docs
-[sdk-docs]: https://ydb.tech/en/docsquickstart/yql-api/ydb-sdk
-[prerequisites]: https://ydb.tech/en/docsoperations/connect_to_a_database#prerequisites
-[connect-to-a-database]: https://ydb.tech/en/docsoperations/connect_to_a_database
-[maven-project]: https://github.com/ydb-platform/ydb-java-examples/tree/master/simple_project
+[sdk-docs]: https://ydb.tech/en/docsreference/ydb-sdk/
+[prerequisites]: https://ydb.tech/en/docsconcepts/connect
+[connect-to-a-database]: https://ydb.tech/en/docsreference/ydb-sdk/example/java#init
+[basic_example]: https://github.com/ydb-platform/ydb-java-examples/tree/master/ydb-cookbook/basic_example
 [generic-examples]: https://github.com/ydb-platform/ydb-java-examples/tree/master/ydb-cookbook

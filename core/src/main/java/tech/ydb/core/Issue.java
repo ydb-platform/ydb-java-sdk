@@ -7,8 +7,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.concurrent.Immutable;
 
 import tech.ydb.YdbIssueMessage.IssueMessage;
-import com.yandex.yql.proto.IssueSeverity;
-import com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId;
 
 
 /**
@@ -18,16 +16,42 @@ import com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId;
 @ParametersAreNonnullByDefault
 public class Issue {
 
+    public enum Severity {
+        FATAL(0),
+        ERROR(1),
+        WARNING(2),
+        INFO(3);
+
+        private final int code;
+
+        private Severity(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return this.code;
+        }
+
+        public static Severity of(int code) {
+            for (Severity s: Severity.values()) {
+                if (s.code == code) {
+                    return s;
+                }
+            }
+            return FATAL;
+        }
+    }
+
     public static final Issue[] EMPTY_ARRAY = new Issue[0];
 
     private final Position position;
     private final Position endPosition;
     private final int code;
     private final String message;
-    private final ESeverityId severity;
+    private final Severity severity;
     private final Issue[] issues;
 
-    private Issue(Position position, Position endPosition, int code, String message, ESeverityId severity, Issue... issues) {
+    private Issue(Position position, Position endPosition, int code, String message, Severity severity, Issue... issues) {
         this.position = Objects.requireNonNull(position, "position");
         this.endPosition = Objects.requireNonNull(endPosition, "endPosition");
         this.code = code;
@@ -36,23 +60,23 @@ public class Issue {
         this.issues = Objects.requireNonNull(issues, "issues");
     }
 
-    public static Issue of(Position position, Position endPosition, int code, String message, ESeverityId severity, Issue... issues) {
+    public static Issue of(Position position, Position endPosition, int code, String message, Severity severity, Issue... issues) {
         return new Issue(position, endPosition, code, message, severity, issues);
     }
 
-    public static Issue of(Position position, Position endPosition, int code, String message, ESeverityId severity) {
+    public static Issue of(Position position, Position endPosition, int code, String message, Severity severity) {
         return new Issue(position, endPosition, code, message, severity, EMPTY_ARRAY);
     }
 
-    public static Issue of(Position position, int code, String message, ESeverityId severity) {
+    public static Issue of(Position position, int code, String message, Severity severity) {
         return new Issue(position, Position.EMPTY, code, message, severity, EMPTY_ARRAY);
     }
 
-    public static Issue of(int code, String message, ESeverityId severity) {
+    public static Issue of(int code, String message, Severity severity) {
         return new Issue(Position.EMPTY, Position.EMPTY, code, message, severity, EMPTY_ARRAY);
     }
 
-    public static Issue of(String message, ESeverityId severity) {
+    public static Issue of(String message, Severity severity) {
         return new Issue(Position.EMPTY, Position.EMPTY, 0, message, severity, EMPTY_ARRAY);
     }
 
@@ -62,7 +86,7 @@ public class Issue {
             m.hasEndPosition() ? Position.fromPb(m.getEndPosition()) : Issue.Position.EMPTY,
             m.getIssueCode(),
             m.getMessage(),
-            IssueSeverity.TSeverityIds.ESeverityId.forNumber(m.getSeverity()),
+            Severity.of(m.getSeverity()),
             fromPb(m.getIssuesList()));
     }
 
@@ -93,7 +117,7 @@ public class Issue {
         return code;
     }
 
-    public ESeverityId getSeverity() {
+    public Severity getSeverity() {
         return severity;
     }
 
@@ -145,7 +169,7 @@ public class Issue {
             sb.append('#').append(code).append(' ');
         }
         sb.append(message);
-        sb.append(" (").append(severity).append(")\n");
+        sb.append(" (S_").append(severity).append(")\n");
         for (Issue issue : issues) {
             sb.append("  ").append(issue.toString()).append('\n');
         }

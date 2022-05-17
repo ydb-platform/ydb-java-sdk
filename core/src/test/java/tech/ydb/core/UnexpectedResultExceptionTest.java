@@ -1,6 +1,5 @@
 package tech.ydb.core;
 
-import com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -21,7 +20,7 @@ public class UnexpectedResultExceptionTest {
         UnexpectedResultException e3 = new UnexpectedResultException(
             "some message",
             StatusCode.OVERLOADED,
-            Issue.of("issue message", ESeverityId.S_ERROR));
+            Issue.of("issue message", Issue.Severity.ERROR));
         Assert.assertEquals("some message, code: OVERLOADED, issues: [issue message (S_ERROR)]", e3.getMessage());
     }
 }

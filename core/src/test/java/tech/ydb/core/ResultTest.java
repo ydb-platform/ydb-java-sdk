@@ -2,7 +2,6 @@ package tech.ydb.core;
 
 import java.util.Optional;
 
-import com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -23,8 +22,8 @@ public class ResultTest {
 
     @Test
     public void successWithIssue() {
-        Issue issue1 = Issue.of("issue1", ESeverityId.S_ERROR);
-        Issue issue2 = Issue.of("issue2", ESeverityId.S_FATAL);
+        Issue issue1 = Issue.of("issue1", Issue.Severity.ERROR);
+        Issue issue2 = Issue.of("issue2", Issue.Severity.FATAL);
 
         Result<Integer> r = Result.success(1, issue1, issue2);
         Assert.assertTrue(r.isSuccess());
@@ -43,8 +42,8 @@ public class ResultTest {
 
     @Test
     public void fail() {
-        Issue issue1 = Issue.of("issue1", ESeverityId.S_ERROR);
-        Issue issue2 = Issue.of("issue2", ESeverityId.S_FATAL);
+        Issue issue1 = Issue.of("issue1", Issue.Severity.ERROR);
+        Issue issue2 = Issue.of("issue2", Issue.Severity.FATAL);
 
         Result<Void> r = Result.fail(StatusCode.BAD_SESSION, issue1, issue2);
 

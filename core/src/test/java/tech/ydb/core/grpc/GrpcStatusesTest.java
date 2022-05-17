@@ -7,7 +7,6 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
-import com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId;
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -35,7 +34,7 @@ public class GrpcStatusesTest {
         assertFalse(result.isSuccess());
         assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, result.getCode());
         assertArrayEquals(new Issue[] {
-            Issue.of("gRPC error: (INTERNAL) error description", ESeverityId.S_ERROR)
+            Issue.of("gRPC error: (INTERNAL) error description", Issue.Severity.ERROR)
         }, result.getIssues());
 
         Optional<Throwable> error = result.error();
@@ -73,7 +72,7 @@ public class GrpcStatusesTest {
     @Test
     public void statusFail() {
         Status status = GrpcStatuses.toStatus(io.grpc.Status.DEADLINE_EXCEEDED);
-        Issue issue = Issue.of("gRPC error: (DEADLINE_EXCEEDED)", ESeverityId.S_ERROR);
+        Issue issue = Issue.of("gRPC error: (DEADLINE_EXCEEDED)", Issue.Severity.ERROR);
         assertEquals(Status.of(StatusCode.CLIENT_DEADLINE_EXCEEDED, issue), status);
     }
 }

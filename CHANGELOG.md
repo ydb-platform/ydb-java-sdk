@@ -1,3 +1,7 @@
+## 1.11.6 ##
+
+* Removed internal proto files
+
 ## 1.11.5 ##
 
 * Added module protobuf-api with proto files

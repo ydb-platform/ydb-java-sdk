@@ -11,8 +11,6 @@ import io.grpc.ClientCall;
 import io.grpc.Metadata;
 import io.grpc.Status;
 
-import static com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId.S_ERROR;
-
 
 /**
  * @author Sergey Polovko
@@ -29,7 +27,7 @@ public class UnaryStreamToFuture<T> extends ClientCall.Listener<T> {
     @Override
     public void onMessage(T value) {
         if (this.value != null) {
-            Issue issue = Issue.of("More than one value received for gRPC unary call", S_ERROR);
+            Issue issue = Issue.of("More than one value received for gRPC unary call", Issue.Severity.ERROR);
             responseFuture.complete(Result.fail(StatusCode.CLIENT_INTERNAL_ERROR, issue));
         }
         this.value = value;
@@ -39,7 +37,7 @@ public class UnaryStreamToFuture<T> extends ClientCall.Listener<T> {
     public void onClose(Status status, @Nullable Metadata trailers) {
         if (status.isOk()) {
             if (value == null) {
-                Issue issue = Issue.of("No value received for gRPC unary call", S_ERROR);
+                Issue issue = Issue.of("No value received for gRPC unary call", Issue.Severity.ERROR);
                 responseFuture.complete(Result.fail(StatusCode.CLIENT_INTERNAL_ERROR, issue));
             } else {
                 responseFuture.complete(Result.success(value));

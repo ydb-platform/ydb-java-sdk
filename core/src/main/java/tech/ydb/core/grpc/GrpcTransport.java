@@ -37,7 +37,6 @@ import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.core.ssl.YandexTrustManagerFactory;
 import tech.ydb.core.utils.Version;
-import com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId;
 import io.grpc.CallOptions;
 import io.grpc.Channel;
 import io.grpc.ClientCall;
@@ -549,7 +548,7 @@ public class GrpcTransport implements RpcTransport {
 
     private static <T> Result<T> deadlineExpiredResult(MethodDescriptor<?, T> method) {
         String message = "deadline expired before calling method " + method.getFullMethodName();
-        return Result.fail(StatusCode.CLIENT_DEADLINE_EXPIRED, Issue.of(message, ESeverityId.S_ERROR));
+        return Result.fail(StatusCode.CLIENT_DEADLINE_EXPIRED, Issue.of(message, Issue.Severity.ERROR));
     }
 
     private static Status deadlineExpiredStatus(MethodDescriptor<?, ?> method) {

@@ -3,7 +3,6 @@ package tech.ydb.core;
 import tech.ydb.OperationProtos.Operation;
 import tech.ydb.StatusCodesProtos.StatusIds;
 import tech.ydb.YdbIssueMessage.IssueMessage;
-import com.yandex.yql.proto.IssueSeverity.TSeverityIds.ESeverityId;
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -36,14 +35,14 @@ public class OperationsTest {
             .setReady(true)
             .addIssues(IssueMessage.newBuilder()
                 .setIssueCode(12345)
-                .setSeverity(ESeverityId.S_INFO.getNumber())
+                .setSeverity(Issue.Severity.INFO.getCode())
                 .setMessage("some-issue")
                 .build())
             .build());
 
         assertTrue(s.isSuccess());
         assertArrayEquals(new Issue[]{
-            Issue.of(12345, "some-issue", ESeverityId.S_INFO)
+            Issue.of(12345, "some-issue", Issue.Severity.INFO)
         }, s.getIssues());
     }
 }
