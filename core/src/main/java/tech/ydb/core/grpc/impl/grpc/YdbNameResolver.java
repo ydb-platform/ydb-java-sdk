@@ -1,4 +1,4 @@
-package tech.ydb.core.grpc;
+package tech.ydb.core.grpc.impl.grpc;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -19,6 +19,9 @@ import javax.annotation.Nullable;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.auth.AuthProvider;
+import tech.ydb.core.grpc.DiscoveryMode;
+import tech.ydb.core.grpc.GrpcDiscoveryRpc;
+import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.utils.Async;
 import tech.ydb.discovery.DiscoveryProtos.EndpointInfo;
 import tech.ydb.discovery.DiscoveryProtos.ListEndpointsResult;
@@ -127,6 +130,9 @@ final class YdbNameResolver extends NameResolver {
 
                     List<EquivalentAddressGroup> groups = new ArrayList<>(response.getEndpointsCount());
                     for (EndpointInfo e : response.getEndpointsList()) {
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("resolving endpoint with host: {}, port: {}...", e.getAddress(), e.getPort());
+                        }
                         try {
                             groups.add(createAddressGroup(e));
                         } catch (UnknownHostException x) {

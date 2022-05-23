@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package tech.ydb.core.grpc;
+package tech.ydb.core.grpc.impl.grpc;
 
 import java.util.ArrayList;
 import java.util.Collection;

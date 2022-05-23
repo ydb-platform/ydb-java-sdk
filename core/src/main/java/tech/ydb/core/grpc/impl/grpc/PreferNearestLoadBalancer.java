@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package tech.ydb.core.grpc;
+package tech.ydb.core.grpc.impl.grpc;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -107,7 +107,7 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
         Set<EquivalentAddressGroup> addedAddrs = setsDifference(latestAddrs, currentAddrs);
         Set<EquivalentAddressGroup> removedAddrs = setsDifference(currentAddrs, latestAddrs);
 
-        logger.info(String.format("handle resolved address groups attr - %s",  attributes.toString()));
+        logger.debug(String.format("handle resolved address groups attr - %s",  attributes.toString()));
 
         Map<String, ?> serviceConfig =
                 attributes.get(GrpcAttributes.NAME_RESOLVER_SERVICE_CONFIG);
@@ -135,6 +135,7 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
 
             if (preferLocalDc && addressGroup.getAttributes().get(YdbNameResolver.LOCATION_ATTR) != null &&
                     !addressGroup.getAttributes().get(YdbNameResolver.LOCATION_ATTR).equalsIgnoreCase(localDc)) {
+                logger.debug("skipping addressGroup {}", addressGroup.toString());
                 continue;
             }
 
@@ -155,6 +156,7 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
             if (stickyRef != null) {
                 stickyRef.value = subchannel;
             }
+            logger.debug("adding channel for {}", addressGroup.toString());
             subchannels.put(addressGroup, subchannel);
             subchannel.requestConnection();
         }
@@ -272,15 +274,15 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
                         .get(YdbNameResolver.LOCATION_ATTR).equalsIgnoreCase(localDc)).count();
 
                 int startIndex = random.nextInt(localDcCount == 0 ? 1 : localDcCount);
-                logger.info(String.format("update balancing state preferLocalDc %d first - %s",
+                logger.debug(String.format("update balancing state preferLocalDc %d first - %s",
                         localDcCount, activeList.get(startIndex).getAddresses().toString()));
                 updateBalancingState(READY, new ReadyPicker(activeList, startIndex, localDcCount == 0 ? activeList.size() : localDcCount, stickinessState));
             } else {
                 int startIndex = random.nextInt(activeList.size());
-                logger.info(String.format("update balancing state first - %s", activeList.get(startIndex).getAddresses().toString()));
+                logger.debug(String.format("update balancing state first - %s", activeList.get(startIndex).getAddresses().toString()));
                 updateBalancingState(READY, new ReadyPicker(activeList, startIndex, activeList.size(), stickinessState));
             }
-            logger.info(String.format("update balancing state list - %s",
+            logger.debug(String.format("update balancing state list - %s",
                     activeList.stream().map(s -> s.getAddresses().toString()).collect(Collectors.joining(","))));
         }
     }

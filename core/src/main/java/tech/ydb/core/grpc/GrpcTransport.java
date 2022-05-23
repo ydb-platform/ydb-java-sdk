@@ -1,9 +1,7 @@
 package tech.ydb.core.grpc;
 
-import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.time.Duration;
-import java.time.Instant;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -11,15 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import javax.net.ssl.SSLException;
 
 import com.google.common.base.Strings;
 import com.google.common.net.HostAndPort;
@@ -29,13 +24,14 @@ import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.auth.AuthProvider;
 import tech.ydb.core.auth.NopAuthProvider;
+import tech.ydb.core.grpc.impl.grpc.GrpcTransportImpl;
+import tech.ydb.core.grpc.impl.ydb.YdbTransportImpl;
 import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.rpc.OutStreamObserver;
 import tech.ydb.core.rpc.RpcTransport;
 import tech.ydb.core.rpc.RpcTransportBuilder;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
-import tech.ydb.core.ssl.YandexTrustManagerFactory;
 import tech.ydb.core.utils.Version;
 import io.grpc.CallOptions;
 import io.grpc.Channel;
@@ -43,21 +39,12 @@ import io.grpc.ClientCall;
 import io.grpc.ClientInterceptor;
 import io.grpc.ClientInterceptors;
 import io.grpc.ConnectivityState;
-import io.grpc.LoadBalancer;
-import io.grpc.LoadBalancerProvider;
-import io.grpc.LoadBalancerRegistry;
 import io.grpc.ManagedChannel;
 import io.grpc.Metadata;
 import io.grpc.MethodDescriptor;
 import io.grpc.Status;
-import io.grpc.netty.GrpcSslContexts;
-import io.grpc.netty.NegotiationType;
 import io.grpc.netty.NettyChannelBuilder;
 import io.grpc.stub.MetadataUtils;
-import io.netty.buffer.ByteBufAllocator;
-import io.netty.channel.ChannelOption;
-import io.netty.handler.ssl.SslContext;
-import io.netty.util.internal.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,91 +57,39 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
 /**
  * @author Sergey Polovko
  * @author Evgeniy Pshenitsin
+ * @author Nikolay Perfilov
  */
-public class GrpcTransport implements RpcTransport {
+public abstract class GrpcTransport implements RpcTransport {
 
     public static final int DEFAULT_PORT = 2135;
     public static final long WAIT_FOR_CONNECTION_MS = 10000;
     public static final long WAIT_FOR_CLOSING_MS = 1000;
+    public static final long DISCOVERY_TIMEOUT_SECONDS = 10;
 
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransport.class);
 
-    private static final EnumSet<ConnectivityState> TEMPORARY_STATES = EnumSet.of(
+    protected static final EnumSet<ConnectivityState> TEMPORARY_STATES = EnumSet.of(
         ConnectivityState.IDLE,
         ConnectivityState.CONNECTING
     );
 
-    private final ManagedChannel realChannel;
-    private final Channel channel;
     private final CallOptions callOptions;
-    private final String database;
+    protected final String database;
     private final GrpcOperationTray operationTray;
-    private final long defautlReadTimeoutMillis;
-    private final DiscoveryMode discoveryMode;
+    private final long defaultReadTimeoutMillis;
+    protected final DiscoveryMode discoveryMode;
+    private volatile boolean shutdown = false;
 
-    private GrpcTransport(Builder builder) {
-        this.realChannel = createChannel(builder);
-        this.channel = interceptChannel(realChannel, builder);
+    protected GrpcTransport(Builder builder) {
         this.callOptions = createCallOptions(builder);
-        this.defautlReadTimeoutMillis = builder.getReadTimeoutMillis();
+        this.defaultReadTimeoutMillis = builder.getReadTimeoutMillis();
         this.database = Strings.nullToEmpty(builder.getDatabase());
         this.operationTray = new GrpcOperationTray(this);
         this.discoveryMode = builder.getDiscoveryMode();
-        init();
     }
 
-    private void init() {
-        switch (discoveryMode) {
-            case SYNC:
-                try {
-                    Instant start = Instant.now();
-                    tryToConnect().get(WAIT_FOR_CONNECTION_MS, TimeUnit.MILLISECONDS);
-                    logger.info("GrpcTransport sync initialization took {} ms",
-                            Duration.between(start, Instant.now()).toMillis());
-                } catch (TimeoutException ignore) {
-                    logger.warn("Couldn't establish YDB transport connection in {} ms", WAIT_FOR_CONNECTION_MS);
-                    // Keep going
-                    // Use ASYNC discovery mode and tryToConnect() method to add actions in case of connection timeout
-                } catch (InterruptedException | ExecutionException e) {
-                    logger.error("Exception thrown while establishing YDB transport connection: " + e);
-                    throw new RuntimeException("Exception thrown while establishing YDB transport connection", e);
-                }
-                break;
-            case ASYNC:
-            default:
-                break;
-        }
-    }
-
-    /**
-     * Establish connection for grpc channel(s) if its currently IDLE
-     * Returns a future to a first {@link ConnectivityState} that is not IDLE or CONNECTING
-     */
-    public CompletableFuture<ConnectivityState> tryToConnect() {
-        CompletableFuture<ConnectivityState> promise = new CompletableFuture<>();
-        ConnectivityState initialState = realChannel.getState(true);
-        logger.debug("GrpcTransport channel initial state: {}", initialState);
-        if (!TEMPORARY_STATES.contains(initialState)) {
-            promise.complete(initialState);
-        } else {
-            realChannel.notifyWhenStateChanged(
-                initialState,
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        ConnectivityState currState = realChannel.getState(false);
-                        logger.debug("GrpcTransport channel new state: {}", currState);
-                        if (TEMPORARY_STATES.contains(currState)) {
-                            realChannel.notifyWhenStateChanged(currState, this);
-                        } else {
-                            promise.complete(currState);
-                        }
-                    }
-                }
-            );
-        }
-        return promise;
-    }
+    @Nullable
+    protected abstract Channel getChannel();
 
     public static Builder forHost(String host, int port) {
         return new Builder(null, null, singletonList(HostAndPort.fromParts(host, port)));
@@ -205,6 +140,11 @@ public class GrpcTransport implements RpcTransport {
         return builder;
     }
 
+    private <RespT> Result<RespT> CancelResultDueToShutdown() {
+        Issue issue = Issue.of("Request was not sent: transport is shutting down", Issue.Severity.ERROR);
+        return Result.fail(StatusCode.CLIENT_CANCELLED, issue);
+    }
+
     public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
@@ -216,14 +156,22 @@ public class GrpcTransport implements RpcTransport {
                 return completedFuture(deadlineExpiredResult(method));
             }
             callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
-        } else if (defautlReadTimeoutMillis > 0) {
-            callOptions = this.callOptions.withDeadlineAfter(defautlReadTimeoutMillis, TimeUnit.MILLISECONDS);
+        } else if (defaultReadTimeoutMillis > 0) {
+            callOptions = this.callOptions.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
 
         CompletableFuture<Result<RespT>> promise = new CompletableFuture<>();
-        ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
-        logger.debug("Call: method: `{}', request: `{}', channel: `{}'", method, request, channel.authority());
-        sendOneRequest(call, request, new UnaryStreamToFuture<>(promise));
+
+        if (!shutdown) {
+            final Channel channel = getChannel();
+            ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
+            if (logger.isDebugEnabled()) {
+                logger.debug("Sending request to {}, method `{}', request: `{}'", channel.authority(), method, request );
+            }
+            sendOneRequest(call, request, new UnaryStreamToFuture<>(promise));
+        } else {
+            promise.complete(CancelResultDueToShutdown());
+        }
         return promise;
     }
 
@@ -240,13 +188,20 @@ public class GrpcTransport implements RpcTransport {
                 return;
             }
             callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
-        } else if (defautlReadTimeoutMillis > 0) {
-            callOptions = this.callOptions.withDeadlineAfter(defautlReadTimeoutMillis, TimeUnit.MILLISECONDS);
+        } else if (defaultReadTimeoutMillis > 0) {
+            callOptions = this.callOptions.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
 
-        ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
-        logger.debug("Call: method: `{}', request: `{}', channel: `{}'", method, request, channel.authority());
-        sendOneRequest(call, request, new UnaryStreamToConsumer<>(consumer));
+        if (!shutdown) {
+            final Channel channel = getChannel();
+            ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
+            if (logger.isDebugEnabled()) {
+                logger.debug("Sending request to {}, method `{}', request: `{}'", channel.authority(), method, request);
+            }
+            sendOneRequest(call, request, new UnaryStreamToConsumer<>(consumer));
+        } else {
+            consumer.accept(CancelResultDueToShutdown());
+        }
     }
 
     public <ReqT, RespT> void unaryCall(
@@ -262,13 +217,20 @@ public class GrpcTransport implements RpcTransport {
                 return;
             }
             callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
-        } else if (defautlReadTimeoutMillis > 0) {
-            callOptions = this.callOptions.withDeadlineAfter(defautlReadTimeoutMillis, TimeUnit.MILLISECONDS);
+        } else if (defaultReadTimeoutMillis > 0) {
+            callOptions = this.callOptions.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
 
-        ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
-        logger.debug("Call: method: `{}', request: `{}', channel: `{}'", method, request, channel.authority());
-        sendOneRequest(call, request, new UnaryStreamToBiConsumer<>(consumer));
+        if (!shutdown) {
+            final Channel channel = getChannel();
+            ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
+            if (logger.isDebugEnabled()) {
+                logger.debug("Sending request to {}, method `{}', request: `{}'", channel.authority(), method, request );
+            }
+            sendOneRequest(call, request, new UnaryStreamToBiConsumer<>(consumer));
+        } else {
+            consumer.accept(null, Status.CANCELLED);
+        }
     }
 
     public <ReqT, RespT> StreamControl serverStreamCall(
@@ -284,14 +246,36 @@ public class GrpcTransport implements RpcTransport {
                 return () -> {};
             }
             callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
-        } else if (defautlReadTimeoutMillis > 0) {
-            callOptions = this.callOptions.withDeadlineAfter(defautlReadTimeoutMillis, TimeUnit.MILLISECONDS);
+        } else if (defaultReadTimeoutMillis > 0) {
+            callOptions = this.callOptions.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
 
-        ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
-        sendOneRequest(call, request, new ServerStreamToObserver<>(observer, call));
-        return () -> {
-            call.cancel("Cancelled on user request", new CancellationException());
+        if (!shutdown) {
+            final Channel channel = getChannel();
+            ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
+            sendOneRequest(call, request, new ServerStreamToObserver<>(observer, call));
+            return () -> {
+                call.cancel("Cancelled on user request", new CancellationException());
+            };
+        } else {
+            observer.onError(CancelResultDueToShutdown().toStatus());
+            return () -> {};
+        }
+    }
+
+    private <ReqT> OutStreamObserver<ReqT> makeEmptyObserverStub() {
+        return new OutStreamObserver<ReqT>() {
+            @Override
+            public void onNext(ReqT value) {
+            }
+
+            @Override
+            public void onError(Throwable t) {
+            }
+
+            @Override
+            public void onCompleted() {
+            }
         };
     }
 
@@ -304,26 +288,21 @@ public class GrpcTransport implements RpcTransport {
             final long now = System.nanoTime();
             if (now >= deadlineAfter) {
                 observer.onError(GrpcStatuses.toStatus(deadlineExpiredStatus(method)));
-                return new OutStreamObserver<ReqT>() {
-                    @Override
-                    public void onNext(ReqT value) {
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                    }
-
-                    @Override
-                    public void onCompleted() {
-                    }
-                };
+                return makeEmptyObserverStub();
             }
             callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
-        } else if (defautlReadTimeoutMillis > 0) {
-            callOptions = this.callOptions.withDeadlineAfter(defautlReadTimeoutMillis, TimeUnit.MILLISECONDS);
+        } else if (defaultReadTimeoutMillis > 0) {
+            callOptions = this.callOptions.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
-        ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
-        return asyncBidiStreamingCall(call, observer);
+
+        if (!shutdown) {
+            final Channel channel = getChannel();
+            ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
+            return asyncBidiStreamingCall(call, observer);
+        } else {
+            observer.onError(CancelResultDueToShutdown().toStatus());
+            return makeEmptyObserverStub();
+        }
     }
 
     private static <ReqT, RespT> void sendOneRequest(
@@ -370,166 +349,18 @@ public class GrpcTransport implements RpcTransport {
 
     @Override
     public void close() {
-        try {
-            operationTray.close();
-            boolean closed = realChannel.shutdown()
-                .awaitTermination(WAIT_FOR_CLOSING_MS, TimeUnit.MILLISECONDS);
-            if (!closed) {
-                logger.warn("closing transport timeout exceeded, terminate");
-                closed = realChannel.shutdownNow()
-                   .awaitTermination(WAIT_FOR_CLOSING_MS, TimeUnit.MILLISECONDS);
-                if (!closed) {
-                    logger.warn("closing transport problem");
-                }
-            }
-        } catch (InterruptedException e) {
-            logger.error("transport shutdown interrupted", e);
-            Thread.currentThread().interrupt();
-        }
+        shutdown = true;
+        operationTray.close();
     }
 
-    private static void registerPreferNearestLB(String localDc) {
-        final LoadBalancerRegistry lbr = LoadBalancerRegistry.getDefaultRegistry();
-
-        lbr.register(new LoadBalancerProvider() {
-            @Override
-            public boolean isAvailable() {
-                return true;
-            }
-
-            @Override
-            public int getPriority() {
-                return 10;
-            }
-
-            @Override
-            public String getPolicyName() {
-                return "prefer_nearest";
-            }
-
-            @Override
-            public LoadBalancer newLoadBalancer(LoadBalancer.Helper helper) {
-                return new PreferNearestLoadBalancer(helper, localDc);
-            }
-        });
-    }
-
-    private static void registerRandomChoiceLB() {
-        final LoadBalancerRegistry lbr = LoadBalancerRegistry.getDefaultRegistry();
-
-        lbr.register(new LoadBalancerProvider() {
-            @Override
-            public boolean isAvailable() {
-                return true;
-            }
-
-            @Override
-            public int getPriority() {
-                return 5;
-            }
-
-            @Override
-            public String getPolicyName() {
-                return "random_choice";
-            }
-
-            @Override
-            public LoadBalancer newLoadBalancer(LoadBalancer.Helper helper) {
-                return new RandomChoiceLoadBalancer(helper);
-            }
-        });
-    }
-
-    private static ManagedChannel createChannel(Builder builder) {
-        String endpoint = builder.getEndpoint();
-        String database = builder.getDatabase();
-        List<HostAndPort> hosts = builder.getHosts();
-        assert (endpoint == null) || ((endpoint != null) && (database != null));
-        assert (endpoint == null) != (hosts == null);
-
-        final String localDc = builder.getLocalDc();
-
-        String defaultPolicy;
-
-        if (!StringUtil.isNullOrEmpty(localDc)) {
-            defaultPolicy = "prefer_nearest";
-            registerPreferNearestLB(localDc);
-        } else {
-            defaultPolicy = "random_choice";
-            registerRandomChoiceLB();
-        }
-
-        final NettyChannelBuilder channelBuilder;
-        if (endpoint != null) {
-            channelBuilder = NettyChannelBuilder.forTarget(YdbNameResolver.makeTarget(endpoint, database))
-                    .nameResolverFactory(YdbNameResolver.newFactory(
-                            builder.getAuthProvider(),
-                            builder.cert,
-                            builder.useTLS,
-                            builder.endpointsDiscoveryPeriod,
-                            builder.getCallExecutor(),
-                            builder.getChannelInitializer()))
-                    .defaultLoadBalancingPolicy(defaultPolicy);
-        } else if (hosts.size() > 1) {
-            channelBuilder = NettyChannelBuilder.forTarget(HostsNameResolver.makeTarget(hosts))
-                    .nameResolverFactory(HostsNameResolver.newFactory(hosts, builder.getCallExecutor()))
-                    .defaultLoadBalancingPolicy(defaultPolicy);
-        } else {
-            channelBuilder = NettyChannelBuilder.forAddress(
-                    hosts.get(0).getHost(),
-                    hosts.get(0).getPortOrDefault(DEFAULT_PORT));
-        }
-
-        if (builder.useTLS) {
-            if (builder.cert != null) {
-                channelBuilder
-                        .negotiationType(NegotiationType.TLS)
-                        .sslContext(createSslContext(builder.cert));
-            } else {
-                channelBuilder
-                        .negotiationType(NegotiationType.TLS)
-                        .sslContext(createSslContext());
-            }
-        } else {
-            channelBuilder.negotiationType(NegotiationType.PLAINTEXT);
-        }
-
-        channelBuilder
-                .maxInboundMessageSize(64 << 20) // 64 MiB
-                .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
-
-        builder.getChannelInitializer().accept(channelBuilder);
-        return channelBuilder.build();
-    }
-
-    private static SslContext createSslContext() {
-        try {
-            return GrpcSslContexts.forClient()
-                    .trustManager(new YandexTrustManagerFactory(""))
-                    .build();
-        } catch (SSLException e) {
-            throw new RuntimeException("cannot create ssl context", e);
-        }
-    }
-
-    private static SslContext createSslContext(byte[] cert) {
-        try {
-            return GrpcSslContexts.forClient()
-                    .trustManager(new ByteArrayInputStream(cert))
-                    .build();
-        } catch (SSLException e) {
-            throw new RuntimeException("cannot create ssl context", e);
-        }
-    }
-
-    private static Channel interceptChannel(ManagedChannel realChannel, Builder builder) {
-        if (builder.getDatabase() == null) {
+    protected static Channel interceptChannel(ManagedChannel realChannel, ChannelSettings channelSettings) {
+        if (channelSettings.getDatabase() == null) {
             return realChannel;
         }
 
         Metadata extraHeaders = new Metadata();
-        extraHeaders.put(YdbHeaders.DATABASE, builder.getDatabase());
-        extraHeaders.put(YdbHeaders.BUILD_INFO, builder.getVersionString());
+        extraHeaders.put(YdbHeaders.DATABASE, channelSettings.getDatabase());
+        extraHeaders.put(YdbHeaders.BUILD_INFO, channelSettings.getVersion());
         ClientInterceptor interceptor = MetadataUtils.newAttachHeadersInterceptor(extraHeaders);
         return ClientInterceptors.intercept(realChannel, interceptor);
     }
@@ -558,7 +389,7 @@ public class GrpcTransport implements RpcTransport {
 
     private static Map<String, String> getQueryMap(String query) {
         String[] params = query.split("&");
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
 
         for (String param : params) {
             String name = param.split("=")[0];
@@ -583,6 +414,8 @@ public class GrpcTransport implements RpcTransport {
         private String localDc;
         private Duration endpointsDiscoveryPeriod = Duration.ofSeconds(60);
         private DiscoveryMode discoveryMode = DiscoveryMode.SYNC;
+        private TransportImplType transportImplType = TransportImplType.GRPC_TRANSPORT_IMPL;
+        private BalancingSettings balancingSettings;
 
         private Builder(@Nullable String endpoint, @Nullable String database, @Nullable List<HostAndPort> hosts) {
             this.endpoint = endpoint;
@@ -593,6 +426,15 @@ public class GrpcTransport implements RpcTransport {
         @Nullable
         public List<HostAndPort> getHosts() {
             return hosts;
+        }
+
+        @Nullable
+        public byte[] getCert() {
+            return cert;
+        }
+
+        public boolean getUseTls() {
+            return useTLS;
         }
 
         @Nullable
@@ -632,6 +474,10 @@ public class GrpcTransport implements RpcTransport {
             return discoveryMode;
         }
 
+        public BalancingSettings getBalancingSettings() {
+            return balancingSettings;
+        }
+
         public Builder withChannelInitializer(Consumer<NettyChannelBuilder> channelInitializer) {
             this.channelInitializer = checkNotNull(channelInitializer, "channelInitializer is null");
             return this;
@@ -663,9 +509,25 @@ public class GrpcTransport implements RpcTransport {
             return this;
         }
 
+        public Builder withTransportImplType(TransportImplType transportImplType) {
+            this.transportImplType = transportImplType;
+            return this;
+        }
+
+        public Builder withBalancingSettings(BalancingSettings balancingSettings) {
+            this.balancingSettings = balancingSettings;
+            return this;
+        }
+
         @Override
         public GrpcTransport build() {
-            return new GrpcTransport(this);
+            switch (transportImplType) {
+                case YDB_TRANSPORT_IMPL:
+                    return new YdbTransportImpl(this);
+                case GRPC_TRANSPORT_IMPL:
+                default:
+                    return new GrpcTransportImpl(this);
+            }
         }
     }
 }

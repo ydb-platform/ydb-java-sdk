@@ -1,4 +1,4 @@
-package tech.ydb.core.grpc;
+package tech.ydb.core.grpc.impl.grpc;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -19,6 +19,7 @@ import javax.annotation.Nullable;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.common.net.HostAndPort;
+import tech.ydb.core.grpc.GrpcTransport;
 import io.grpc.Attributes;
 import io.grpc.EquivalentAddressGroup;
 import io.grpc.NameResolver;

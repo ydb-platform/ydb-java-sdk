@@ -1,3 +1,8 @@
+## 1.12.0 ##
+
+* Added YDB transport implementation (YDB_TRANSPORT_IMPL). Grpc transport implementation (GRPC_TRANSPORT_IMPL) is still used by default.
+New transport implementation doesnt have noticable advantages over grpc implementation yet. But it makes room for some further improvements.
+
 ## 1.11.6 ##
 
 * Removed internal proto files
