@@ -1,3 +1,7 @@
+## 1.12.1 ##
+
+* Fixed PreferNearestLoadBalancer
+
 ## 1.12.0 ##
 
 * Added YDB transport implementation (YDB_TRANSPORT_IMPL). Grpc transport implementation (GRPC_TRANSPORT_IMPL) is still used by default.
