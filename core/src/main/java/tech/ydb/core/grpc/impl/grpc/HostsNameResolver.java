@@ -162,7 +162,7 @@ final class HostsNameResolver extends NameResolver {
 
         @Nullable
         @Override
-        public NameResolver newNameResolver(URI targetUri, Helper helper) {
+        public NameResolver newNameResolver(URI targetUri, Args args) {
             if (!SCHEME.equals(targetUri.getScheme())) {
                 return null;
             }

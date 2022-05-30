@@ -1,3 +1,8 @@
+## 1.12.2 ##
+
+* PreferNearestLoadBalancer and RandomChoiceLoadBalancer merged to YdbLoadBalancer
+* Fixed problems with java-grpc > 1.26.x
+
 ## 1.12.1 ##
 
 * Fixed PreferNearestLoadBalancer
