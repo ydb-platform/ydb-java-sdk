@@ -12,12 +12,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package tech.ydb.core.grpc.impl.grpc;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -29,7 +27,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
-import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -57,28 +54,28 @@ import static io.grpc.ConnectivityState.READY;
 import static io.grpc.ConnectivityState.SHUTDOWN;
 import static io.grpc.ConnectivityState.TRANSIENT_FAILURE;
 
-
 /**
- * A {@link LoadBalancer} that provides prefer nearest DC round-robin load-balancing over the {@link
- * EquivalentAddressGroup}s from the {@link io.grpc.NameResolver}.
- * copy of RoundRobinLoadBalancer with prefer local DC changes -
+ * A {@link LoadBalancer} that provides prefer nearest DC round-robin
+ * load-balancing over the {@link
+ * EquivalentAddressGroup}s from the {@link io.grpc.NameResolver}. copy of
+ * RoundRobinLoadBalancer with prefer local DC changes -
  * https://github.com/grpc/grpc-java/blob/master/core/src/main/java/io/grpc/util/RoundRobinLoadBalancer.java
+ *
  * @author Evgeniy Pshenitsin
  */
-
 public class PreferNearestLoadBalancer extends LoadBalancer {
 
     private final static Logger logger = LoggerFactory.getLogger(PreferNearestLoadBalancer.class);
 
-    static final Attributes.Key<Ref<ConnectivityStateInfo>> STATE_INFO =
-            Attributes.Key.create("state-info");
+    static final Attributes.Key<Ref<ConnectivityStateInfo>> STATE_INFO
+            = Attributes.Key.create("state-info");
 
     // package-private to avoid synthetic access
     static final Attributes.Key<Ref<Subchannel>> STICKY_REF = Attributes.Key.create("sticky-ref");
 
     private final Helper helper;
-    private final Map<EquivalentAddressGroup, Subchannel> subchannels =
-            new HashMap<>();
+    private final Map<EquivalentAddressGroup, Subchannel> subchannels
+            = new HashMap<>();
     private final Random random;
 
     private ConnectivityState currentState;
@@ -88,32 +85,24 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
     private StickinessState stickinessState;
 
     private final String localDc;
-    private boolean preferLocalDc = false;
 
     PreferNearestLoadBalancer(Helper helper, String localDc) {
         this.helper = checkNotNull(helper, "helper");
         this.localDc = localDc;
-        if (localDc != null) {
-            this.preferLocalDc = true;
-        }
         this.random = new Random();
     }
 
     @Override
-    public void handleResolvedAddressGroups(
-            List<EquivalentAddressGroup> servers, Attributes attributes) {
+    public void handleResolvedAddressGroups(List<EquivalentAddressGroup> servers, Attributes attributes) {
         Set<EquivalentAddressGroup> currentAddrs = subchannels.keySet();
-        Set<EquivalentAddressGroup> latestAddrs = stripAttrs(servers);
+        Set<EquivalentAddressGroup> latestAddrs = filteredAddrs(servers, localDc);
         Set<EquivalentAddressGroup> addedAddrs = setsDifference(latestAddrs, currentAddrs);
         Set<EquivalentAddressGroup> removedAddrs = setsDifference(currentAddrs, latestAddrs);
 
-        logger.debug(String.format("handle resolved address groups attr - %s",  attributes.toString()));
-
-        Map<String, ?> serviceConfig =
-                attributes.get(GrpcAttributes.NAME_RESOLVER_SERVICE_CONFIG);
+        Map<String, ?> serviceConfig = attributes.get(GrpcAttributes.NAME_RESOLVER_SERVICE_CONFIG);
         if (serviceConfig != null) {
-            String stickinessMetadataKey =
-                    ServiceConfigUtil.getStickinessMetadataKeyFromServiceConfig(serviceConfig);
+            String stickinessMetadataKey
+                    = ServiceConfigUtil.getStickinessMetadataKeyFromServiceConfig(serviceConfig);
             if (stickinessMetadataKey != null) {
                 if (stickinessMetadataKey.endsWith(Metadata.BINARY_HEADER_SUFFIX)) {
                     helper.getChannelLogger().log(
@@ -132,13 +121,6 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
             // NB(lukaszx0): we don't merge `attributes` with `subchannelAttr` because subchannel
             // doesn't need them. They're describing the resolved server list but we're not taking
             // any action based on this information.
-
-            if (preferLocalDc && addressGroup.getAttributes().get(YdbNameResolver.LOCATION_ATTR) != null &&
-                    !addressGroup.getAttributes().get(YdbNameResolver.LOCATION_ATTR).equalsIgnoreCase(localDc)) {
-                logger.debug("skipping addressGroup {}", addressGroup.toString());
-                continue;
-            }
-
             Attributes.Builder subchannelAttrs = Attributes.newBuilder()
                     // NB(lukaszx0): because attributes are immutable we can't set new value for the key
                     // after creation but since we can mutate the values we leverage that and set
@@ -156,7 +138,7 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
             if (stickyRef != null) {
                 stickyRef.value = subchannel;
             }
-            logger.debug("adding channel for {}", addressGroup.toString());
+
             subchannels.put(addressGroup, subchannel);
             subchannel.requestConnection();
         }
@@ -180,8 +162,7 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
     public void handleNameResolutionError(Status error) {
         // ready pickers aren't affected by status changes
         updateBalancingState(TRANSIENT_FAILURE,
-                currentPicker instanceof ReadyPicker
-                        ? currentPicker : new EmptyPicker(error));
+                currentPicker instanceof ReadyPicker ? currentPicker : new EmptyPicker(error));
     }
 
     @Override
@@ -201,8 +182,8 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
 
     private void shutdownSubchannel(Subchannel subchannel) {
         subchannel.shutdown();
-        getSubchannelStateInfoRef(subchannel).value =
-                ConnectivityStateInfo.forNonError(SHUTDOWN);
+        getSubchannelStateInfoRef(subchannel).value
+                = ConnectivityStateInfo.forNonError(SHUTDOWN);
         if (stickinessState != null) {
             stickinessState.remove(subchannel);
         }
@@ -244,46 +225,8 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
                     // an arbitrary subchannel, otherwise return OK.
                     new EmptyPicker(aggStatus));
         } else {
-            if (preferLocalDc) {
-                // initialize the Picker to a random use of localDC address
-                //sort to insert local DC nodes to the start of list
-                //later all this nodes will be ignored
-                activeList = activeList.stream().sorted(new Comparator<Subchannel>() {
-                    @Override
-                    public int compare(Subchannel o1, Subchannel o2) {
-                        if (o1.getAddresses().getAttributes().get(YdbNameResolver.LOCATION_ATTR) == null ||
-                                o2.getAddresses().getAttributes().get(YdbNameResolver.LOCATION_ATTR) == null) {
-                            return 0;
-                        }
-                        boolean contains1 =  o1.getAddresses().getAttributes().get(YdbNameResolver.LOCATION_ATTR).equalsIgnoreCase(localDc);
-                        boolean contains2 =  o2.getAddresses().getAttributes().get(YdbNameResolver.LOCATION_ATTR).equalsIgnoreCase(localDc);
-
-                        if (contains1) {
-                            return -1;
-                        } else if (contains2) {
-                            return 1;
-                        } else {
-                            return 0;
-                        }
-                    }
-                }).collect(Collectors.toList());
-                final int localDcCount = (int)activeList.stream()
-                        .filter(s -> s.getAddresses().getAttributes()
-                                .get(YdbNameResolver.LOCATION_ATTR) != null)
-                        .filter( s -> s.getAddresses().getAttributes()
-                        .get(YdbNameResolver.LOCATION_ATTR).equalsIgnoreCase(localDc)).count();
-
-                int startIndex = random.nextInt(localDcCount == 0 ? 1 : localDcCount);
-                logger.debug(String.format("update balancing state preferLocalDc %d first - %s",
-                        localDcCount, activeList.get(startIndex).getAddresses().toString()));
-                updateBalancingState(READY, new ReadyPicker(activeList, startIndex, localDcCount == 0 ? activeList.size() : localDcCount, stickinessState));
-            } else {
-                int startIndex = random.nextInt(activeList.size());
-                logger.debug(String.format("update balancing state first - %s", activeList.get(startIndex).getAddresses().toString()));
-                updateBalancingState(READY, new ReadyPicker(activeList, startIndex, activeList.size(), stickinessState));
-            }
-            logger.debug(String.format("update balancing state list - %s",
-                    activeList.stream().map(s -> s.getAddresses().toString()).collect(Collectors.joining(","))));
+            int startIndex = random.nextInt(activeList.size());
+            updateBalancingState(READY, new ReadyPicker(activeList, startIndex, stickinessState));
         }
     }
 
@@ -310,15 +253,31 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
     }
 
     /**
-     * Converts list of {@link EquivalentAddressGroup} to {@link EquivalentAddressGroup} set and
-     * remove all attributes.
+     * Converts list of {@link EquivalentAddressGroup} to filtered by DC
+     * {@link EquivalentAddressGroup} set and remove all attributes.
      */
-    private static Set<EquivalentAddressGroup> stripAttrs(List<EquivalentAddressGroup> groupList) {
-        Set<EquivalentAddressGroup> addrs = new HashSet<>(groupList.size());
+    private static Set<EquivalentAddressGroup> filteredAddrs(List<EquivalentAddressGroup> groupList, String localDC) {
+        Set<EquivalentAddressGroup> all = new HashSet<>(groupList.size());
+        Set<EquivalentAddressGroup> filtered = new HashSet<>(groupList.size());
+
         for (EquivalentAddressGroup group : groupList) {
-            addrs.add(new EquivalentAddressGroup(group.getAddresses(), group.getAttributes()));
+            // strip attribures
+            EquivalentAddressGroup stripped = new EquivalentAddressGroup(group.getAddresses());
+            all.add(stripped);
+
+            String location = group.getAttributes().get(YdbNameResolver.LOCATION_ATTR);
+            if (localDC != null && localDC.equalsIgnoreCase(location)) {
+                filtered.add(stripped);
+            }
         }
-        return addrs;
+
+        if (filtered.isEmpty()) {
+            logger.warn("Local dc nodes not found, switch to fallback mode - use all {} nodes", all.size());
+            return all;
+        }
+
+        logger.debug("Found {} filtered nodes from {} all", filtered.size(), all.size());
+        return filtered;
     }
 
     @VisibleForTesting
@@ -350,16 +309,18 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
     }
 
     /**
-     * Holds stickiness related states: The stickiness key, a registry mapping stickiness values to
-     * the associated Subchannel Ref, and a map from Subchannel to Subchannel Ref.
+     * Holds stickiness related states: The stickiness key, a registry mapping
+     * stickiness values to the associated Subchannel Ref, and a map from
+     * Subchannel to Subchannel Ref.
      */
     @VisibleForTesting
     static final class StickinessState {
+
         static final int MAX_ENTRIES = 1000;
 
         final Metadata.Key<String> key;
-        final ConcurrentMap<String, Ref<Subchannel>> stickinessMap =
-                new ConcurrentHashMap<>();
+        final ConcurrentMap<String, Ref<Subchannel>> stickinessMap
+                = new ConcurrentHashMap<>();
 
         final Queue<String> evictionQueue = new ConcurrentLinkedQueue<>();
 
@@ -368,17 +329,18 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
         }
 
         /**
-         * Returns the subchannel associated to the stickiness value if available in both the
-         * registry and the round robin list, otherwise associates the given subchannel with the
-         * stickiness key in the registry and returns the given subchannel.
+         * Returns the subchannel associated to the stickiness value if
+         * available in both the registry and the round robin list, otherwise
+         * associates the given subchannel with the stickiness key in the
+         * registry and returns the given subchannel.
          */
         @Nonnull
         Subchannel maybeRegister(
                 String stickinessValue, @Nonnull Subchannel subchannel) {
             final Ref<Subchannel> newSubchannelRef = subchannel.getAttributes().get(STICKY_REF);
             while (true) {
-                Ref<Subchannel> existingSubchannelRef =
-                        stickinessMap.putIfAbsent(stickinessValue, newSubchannelRef);
+                Ref<Subchannel> existingSubchannelRef
+                        = stickinessMap.putIfAbsent(stickinessValue, newSubchannelRef);
                 if (existingSubchannelRef == null) {
                     // new entry
                     addToEvictionQueue(stickinessValue);
@@ -428,28 +390,27 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
 
     // Only subclasses are ReadyPicker or EmptyPicker
     private abstract static class RoundRobinPicker extends SubchannelPicker {
+
         abstract boolean isEquivalentTo(RoundRobinPicker picker);
     }
 
     @VisibleForTesting
     static final class ReadyPicker extends RoundRobinPicker {
-        private static final AtomicIntegerFieldUpdater<ReadyPicker> indexUpdater =
-                AtomicIntegerFieldUpdater.newUpdater(ReadyPicker.class, "index");
+
+        private static final AtomicIntegerFieldUpdater<ReadyPicker> indexUpdater
+                = AtomicIntegerFieldUpdater.newUpdater(ReadyPicker.class, "index");
 
         private final List<Subchannel> list; // non-empty
         @Nullable
         private final StickinessState stickinessState;
         @SuppressWarnings("unused")
         private volatile int index;
-        private final int nearestCount;
 
-        ReadyPicker(List<Subchannel> list, int startIndex, int nearestCount,
-                @Nullable StickinessState stickinessState) {
+        ReadyPicker(List<Subchannel> list, int startIndex, @Nullable StickinessState stickinessState) {
             Preconditions.checkArgument(!list.isEmpty(), "empty list");
             this.list = list;
             this.stickinessState = stickinessState;
             this.index = startIndex - 1;
-            this.nearestCount = nearestCount;
         }
 
         @Override
@@ -469,10 +430,12 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
         }
 
         private Subchannel nextSubchannel() {
-            int size = nearestCount; //list.size();
+            int size = list.size();
             int i = indexUpdater.incrementAndGet(this);
             if (i >= size) {
+                int oldi = i;
                 i %= size;
+                indexUpdater.compareAndSet(this, oldi, i);
             }
             return list.get(i);
         }
@@ -511,9 +474,8 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
 
         @Override
         boolean isEquivalentTo(RoundRobinPicker picker) {
-            return picker instanceof EmptyPicker && (
-                    Objects.equal(status, ((EmptyPicker) picker).status)
-                            || (status.isOk() && ((EmptyPicker) picker).status.isOk()));
+            return picker instanceof EmptyPicker && (Objects.equal(status, ((EmptyPicker) picker).status)
+                    || (status.isOk() && ((EmptyPicker) picker).status.isOk()));
         }
     }
 
@@ -522,6 +484,7 @@ public class PreferNearestLoadBalancer extends LoadBalancer {
      */
     @VisibleForTesting
     static final class Ref<T> {
+
         T value;
 
         Ref(T value) {
