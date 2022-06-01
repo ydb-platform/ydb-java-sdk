@@ -45,6 +45,12 @@
             <groupId>com.google.truth.extensions</groupId>
             <artifactId>truth-proto-extension</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.protobuf</groupId>
+                    <artifactId>protobuf-java</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>

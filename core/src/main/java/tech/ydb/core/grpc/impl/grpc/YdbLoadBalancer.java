@@ -12,7 +12,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package tech.ydb.core.grpc.impl.grpc;
 
 import java.util.ArrayList;
@@ -24,11 +23,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import io.grpc.Attributes;
@@ -48,40 +50,69 @@ import static io.grpc.ConnectivityState.SHUTDOWN;
 import static io.grpc.ConnectivityState.TRANSIENT_FAILURE;
 
 /**
- * A {@link LoadBalancer} that provides random choice load-balancing over the {@link
- * EquivalentAddressGroup}s from the {@link io.grpc.NameResolver}.
- * copy of RoundRobinLoadBalancer (version 1.26.0) with random choice changes and without stickiness logic -
- * https://github.com/grpc/grpc-java/blob/master/core/src/main/java/io/grpc/util/RoundRobinLoadBalancer.java
- * @author Nikolay Perfilov
+ * @author Alexandr Gorshenin
+ *
+ * copy of RoundRobinLoadBalancer with prefer local DC changes and random choice of subchannel
+ * https://github.com/grpc/grpc-java/blob/v1.42.x/core/src/main/java/io/grpc/util/RoundRobinLoadBalancer.java
  */
-final class RandomChoiceLoadBalancer extends LoadBalancer {
-    private final static Logger logger = LoggerFactory.getLogger(RandomChoiceLoadBalancer.class);
+final class YdbLoadBalancer extends LoadBalancer {
+    private final static Logger logger = LoggerFactory.getLogger(YdbLoadBalancer.class);
 
     @VisibleForTesting
-    static final Attributes.Key<Ref<ConnectivityStateInfo>> STATE_INFO =
-            Attributes.Key.create("state-info");
+    static final Attributes.Key<Ref<ConnectivityStateInfo>> STATE_INFO
+            = Attributes.Key.create("state-info");
 
     private final Helper helper;
-    private final Map<EquivalentAddressGroup, Subchannel> subchannels =
-            new HashMap<>();
+    private final Map<EquivalentAddressGroup, Subchannel> subchannels
+            = new HashMap<>();
+    private final Random random;
 
     private ConnectivityState currentState;
-    private RandomChoicePicker currentPicker = new EmptyPicker(EMPTY_OK);
+    private YdbPicker currentPicker = new EmptyPicker(EMPTY_OK);
 
-    RandomChoiceLoadBalancer(Helper helper) {
+    private final boolean randomChoice;
+    private final String localDc;
+
+    YdbLoadBalancer(Helper helper, boolean randomChoice, String localDc) {
         this.helper = checkNotNull(helper, "helper");
+        this.random = new Random();
+        this.randomChoice = randomChoice;
+        this.localDc = localDc;
     }
+
+    /**
+     * Converts list of {@link EquivalentAddressGroup} to filtered by DC
+     * {@link EquivalentAddressGroup} list
+     */
+    private static List<EquivalentAddressGroup> localServers(List<EquivalentAddressGroup> servers, String localDC) {
+        if (localDC == null || localDC.isEmpty()) {
+            logger.debug("Local dc disabled, use all {} nodes", servers.size());
+            return servers;
+        }
+
+        List<EquivalentAddressGroup> local = servers.stream()
+                .filter(eag -> localDC.equalsIgnoreCase(eag.getAttributes().get(YdbNameResolver.LOCATION_ATTR)))
+                .collect(Collectors.toList());
+
+        if (local.isEmpty()) {
+            logger.warn("Local dc nodes not found, switch to fallback mode - use all {} nodes", servers.size());
+            return servers;
+        }
+
+        logger.debug("Found {} filtered nodes from {} all", local.size(), servers.size());
+        return local;
+    }
+
 
     @Override
     public void handleResolvedAddresses(ResolvedAddresses resolvedAddresses) {
-        List<EquivalentAddressGroup> servers = resolvedAddresses.getAddresses();
+        List<EquivalentAddressGroup> servers = localServers(resolvedAddresses.getAddresses(), localDc);
         Set<EquivalentAddressGroup> currentAddrs = subchannels.keySet();
         Map<EquivalentAddressGroup, EquivalentAddressGroup> latestAddrs = stripAttrs(servers);
         Set<EquivalentAddressGroup> removedAddrs = setsDifference(currentAddrs, latestAddrs.keySet());
-        logger.debug(String.format("handle resolved address - %d latest addresses",  latestAddrs.size()));
 
-        for (Map.Entry<EquivalentAddressGroup, EquivalentAddressGroup> latestEntry :
-                latestAddrs.entrySet()) {
+        for (Map.Entry<EquivalentAddressGroup, EquivalentAddressGroup> latestEntry
+                : latestAddrs.entrySet()) {
             EquivalentAddressGroup strippedAddressGroup = latestEntry.getKey();
             EquivalentAddressGroup originalAddressGroup = latestEntry.getValue();
             Subchannel existingSubchannel = subchannels.get(strippedAddressGroup);
@@ -135,27 +166,35 @@ final class RandomChoiceLoadBalancer extends LoadBalancer {
 
     @Override
     public void handleNameResolutionError(Status error) {
-        logger.error("handle name resolution error");
-        // ready pickers aren't affected by status changes
-        updateBalancingState(TRANSIENT_FAILURE,
-                currentPicker instanceof ReadyPicker ? currentPicker : new EmptyPicker(error));
+        if (currentState != READY) {
+            updateBalancingState(TRANSIENT_FAILURE, new EmptyPicker(error));
+        }
     }
 
     private void processSubchannelState(Subchannel subchannel, ConnectivityStateInfo stateInfo) {
         if (subchannels.get(stripAttrs(subchannel.getAddresses())) != subchannel) {
             return;
         }
+        if (stateInfo.getState() == TRANSIENT_FAILURE || stateInfo.getState() == IDLE) {
+            helper.refreshNameResolution();
+        }
         if (stateInfo.getState() == IDLE) {
             subchannel.requestConnection();
         }
-        getSubchannelStateInfoRef(subchannel).value = stateInfo;
+        Ref<ConnectivityStateInfo> subchannelStateRef = getSubchannelStateInfoRef(subchannel);
+        if (subchannelStateRef.value.getState().equals(TRANSIENT_FAILURE)) {
+            if (stateInfo.getState().equals(CONNECTING) || stateInfo.getState().equals(IDLE)) {
+                return;
+            }
+        }
+        subchannelStateRef.value = stateInfo;
         updateBalancingState();
     }
 
     private void shutdownSubchannel(Subchannel subchannel) {
         subchannel.shutdown();
-        getSubchannelStateInfoRef(subchannel).value =
-                ConnectivityStateInfo.forNonError(SHUTDOWN);
+        getSubchannelStateInfoRef(subchannel).value
+                = ConnectivityStateInfo.forNonError(SHUTDOWN);
     }
 
     @Override
@@ -163,6 +202,7 @@ final class RandomChoiceLoadBalancer extends LoadBalancer {
         for (Subchannel subchannel : getSubchannels()) {
             shutdownSubchannel(subchannel);
         }
+        subchannels.clear();
     }
 
     private static final Status EMPTY_OK = Status.OK.withDescription("no subchannels ready");
@@ -181,7 +221,7 @@ final class RandomChoiceLoadBalancer extends LoadBalancer {
                 ConnectivityStateInfo stateInfo = getSubchannelStateInfoRef(subchannel).value;
                 // This subchannel IDLE is not because of channel IDLE_TIMEOUT,
                 // in which case LB is already shutdown.
-                // RCLB will request connection immediately on subchannel IDLE.
+                // RRLB will request connection immediately on subchannel IDLE.
                 if (stateInfo.getState() == CONNECTING || stateInfo.getState() == IDLE) {
                     isConnecting = true;
                 }
@@ -194,17 +234,18 @@ final class RandomChoiceLoadBalancer extends LoadBalancer {
                     // an arbitrary subchannel, otherwise return OK.
                     new EmptyPicker(aggStatus));
         } else {
-            updateBalancingState(READY, new ReadyPicker(activeList));
-        }
-        if (logger.isTraceEnabled()) {
-            logger.trace(String.format("update balancing state list - %d active connections: %s", activeList.size(),
-                    activeList.stream().map(s -> s.getAddresses().toString()).collect(Collectors.joining(","))));
-        } else if(logger.isDebugEnabled()) {
-            logger.debug(String.format("update balancing state list - %d active connections.", activeList.size()));
+            if (randomChoice) {
+                updateBalancingState(READY, new RandomReadyPicker(activeList));
+            } else {
+                // initialize the Picker to a random start index to ensure that a high frequency of Picker
+                // churn does not skew subchannel selection.
+                int startIndex = random.nextInt(activeList.size());
+                updateBalancingState(READY, new RoundRobinReadyPicker(activeList, startIndex));
+            }
         }
     }
 
-    private void updateBalancingState(ConnectivityState state, RandomChoicePicker picker) {
+    private void updateBalancingState(ConnectivityState state, YdbPicker picker) {
         if (state != currentState || !picker.isEquivalentTo(currentPicker)) {
             helper.updateBalancingState(state, picker);
             currentState = state;
@@ -227,8 +268,9 @@ final class RandomChoiceLoadBalancer extends LoadBalancer {
     }
 
     /**
-     * Converts list of {@link EquivalentAddressGroup} to {@link EquivalentAddressGroup} set and
-     * remove all attributes. The values are the original EAGs.
+     * Converts list of {@link EquivalentAddressGroup} to
+     * {@link EquivalentAddressGroup} set and remove all attributes. The values
+     * are the original EAGs.
      */
     private static Map<EquivalentAddressGroup, EquivalentAddressGroup> stripAttrs(
             List<EquivalentAddressGroup> groupList) {
@@ -264,29 +306,47 @@ final class RandomChoiceLoadBalancer extends LoadBalancer {
         return aCopy;
     }
 
-    // Only subclasses are ReadyPicker or EmptyPicker
-    private abstract static class RandomChoicePicker extends SubchannelPicker {
-        abstract boolean isEquivalentTo(RandomChoicePicker picker);
+    // Only subclasses are RoundRobinReadyPicker, RandomReadyPicker or EmptyPicker
+    private abstract static class YdbPicker extends SubchannelPicker {
+
+        abstract boolean isEquivalentTo(YdbPicker picker);
     }
 
     @VisibleForTesting
-    static final class ReadyPicker extends RandomChoicePicker {
-        private final List<Subchannel> list; // non-empty
-        private final Random random;
+    static final class RoundRobinReadyPicker extends YdbPicker {
 
-        ReadyPicker(List<Subchannel> list) {
+        private static final AtomicIntegerFieldUpdater<RoundRobinReadyPicker> indexUpdater
+                = AtomicIntegerFieldUpdater.newUpdater(RoundRobinReadyPicker.class, "index");
+
+        private final List<Subchannel> list; // non-empty
+        @SuppressWarnings("unused")
+        private volatile int index;
+
+        RoundRobinReadyPicker(List<Subchannel> list, int startIndex) {
             Preconditions.checkArgument(!list.isEmpty(), "empty list");
             this.list = list;
-            this.random = new Random();
+            this.index = startIndex - 1;
         }
 
         @Override
         public PickResult pickSubchannel(PickSubchannelArgs args) {
-            return PickResult.withSubchannel(chooseSubchannel());
+            return PickResult.withSubchannel(nextSubchannel());
         }
 
-        private Subchannel chooseSubchannel() {
-            return list.get(random.nextInt(list.size()));
+        @Override
+        public String toString() {
+            return MoreObjects.toStringHelper(RoundRobinReadyPicker.class).add("list", list).toString();
+        }
+
+        private Subchannel nextSubchannel() {
+            int size = list.size();
+            int i = indexUpdater.incrementAndGet(this);
+            if (i >= size) {
+                int oldi = i;
+                i %= size;
+                indexUpdater.compareAndSet(this, oldi, i);
+            }
+            return list.get(i);
         }
 
         @VisibleForTesting
@@ -295,18 +355,61 @@ final class RandomChoiceLoadBalancer extends LoadBalancer {
         }
 
         @Override
-        boolean isEquivalentTo(RandomChoicePicker picker) {
-            if (!(picker instanceof ReadyPicker)) {
+        boolean isEquivalentTo(YdbPicker picker) {
+            if (!(picker instanceof RoundRobinReadyPicker)) {
                 return false;
             }
-            ReadyPicker other = (ReadyPicker) picker;
+            RoundRobinReadyPicker other = (RoundRobinReadyPicker) picker;
             // the lists cannot contain duplicate subchannels
-            return other == this || (list.size() == other.list.size() && new HashSet<>(list).containsAll(other.list));
+            return other == this
+                    || (list.size() == other.list.size() && new HashSet<>(list).containsAll(other.list));
         }
     }
 
     @VisibleForTesting
-    static final class EmptyPicker extends RandomChoicePicker {
+    static final class RandomReadyPicker extends YdbPicker {
+
+        private final List<Subchannel> list; // non-empty
+
+        RandomReadyPicker(List<Subchannel> list) {
+            Preconditions.checkArgument(!list.isEmpty(), "empty list");
+            this.list = list;
+        }
+
+        @Override
+        public PickResult pickSubchannel(PickSubchannelArgs args) {
+            return PickResult.withSubchannel(nextSubchannel());
+        }
+
+        @Override
+        public String toString() {
+            return MoreObjects.toStringHelper(RandomReadyPicker.class).add("list", list).toString();
+        }
+
+        private Subchannel nextSubchannel() {
+            int nextIdx = ThreadLocalRandom.current().nextInt(list.size());
+            return list.get(nextIdx);
+        }
+
+        @VisibleForTesting
+        List<Subchannel> getList() {
+            return list;
+        }
+
+        @Override
+        boolean isEquivalentTo(YdbPicker picker) {
+            if (!(picker instanceof RandomReadyPicker)) {
+                return false;
+            }
+            RandomReadyPicker other = (RandomReadyPicker) picker;
+            // the lists cannot contain duplicate subchannels
+            return other == this
+                    || (list.size() == other.list.size() && new HashSet<>(list).containsAll(other.list));
+        }
+    }
+
+    @VisibleForTesting
+    static final class EmptyPicker extends YdbPicker {
 
         private final Status status;
 
@@ -320,9 +423,14 @@ final class RandomChoiceLoadBalancer extends LoadBalancer {
         }
 
         @Override
-        boolean isEquivalentTo(RandomChoicePicker picker) {
+        boolean isEquivalentTo(YdbPicker picker) {
             return picker instanceof EmptyPicker && (Objects.equal(status, ((EmptyPicker) picker).status)
                     || (status.isOk() && ((EmptyPicker) picker).status.isOk()));
+        }
+
+        @Override
+        public String toString() {
+            return MoreObjects.toStringHelper(EmptyPicker.class).add("status", status).toString();
         }
     }
 
@@ -331,6 +439,7 @@ final class RandomChoiceLoadBalancer extends LoadBalancer {
      */
     @VisibleForTesting
     static final class Ref<T> {
+
         T value;
 
         Ref(T value) {

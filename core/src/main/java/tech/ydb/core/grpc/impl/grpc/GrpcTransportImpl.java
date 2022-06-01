@@ -20,7 +20,6 @@ import io.grpc.ManagedChannel;
 import io.grpc.netty.NettyChannelBuilder;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelOption;
-import io.netty.util.internal.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -110,15 +109,8 @@ public class GrpcTransportImpl extends GrpcTransport {
 
         final String localDc = builder.getLocalDc();
 
-        String defaultPolicy;
-
-        if (!StringUtil.isNullOrEmpty(localDc)) {
-            defaultPolicy = "prefer_nearest";
-            registerPreferNearestLB(localDc);
-        } else {
-            defaultPolicy = "random_choice";
-            registerRandomChoiceLB();
-        }
+        // Always use random choice policy, may be add option for that?
+        String defaultPolicy = registerYdbLoadBalancer(localDc, true);
 
         final NettyChannelBuilder channelBuilder;
         if (endpoint != null) {
@@ -151,7 +143,8 @@ public class GrpcTransportImpl extends GrpcTransport {
         return channelBuilder.build();
     }
 
-    private static void registerPreferNearestLB(String localDc) {
+    private static String registerYdbLoadBalancer(String localDc, boolean randomChoice) {
+        String policyName = "ydb_load_balancer";
         final LoadBalancerRegistry lbr = LoadBalancerRegistry.getDefaultRegistry();
 
         lbr.register(new LoadBalancerProvider() {
@@ -167,40 +160,15 @@ public class GrpcTransportImpl extends GrpcTransport {
 
             @Override
             public String getPolicyName() {
-                return "prefer_nearest";
+                return policyName;
             }
 
             @Override
             public LoadBalancer newLoadBalancer(LoadBalancer.Helper helper) {
-                return new PreferNearestLoadBalancer(helper, localDc);
+                return new YdbLoadBalancer(helper, randomChoice, localDc);
             }
         });
-    }
-
-    private static void registerRandomChoiceLB() {
-        final LoadBalancerRegistry lbr = LoadBalancerRegistry.getDefaultRegistry();
-
-        lbr.register(new LoadBalancerProvider() {
-            @Override
-            public boolean isAvailable() {
-                return true;
-            }
-
-            @Override
-            public int getPriority() {
-                return 5;
-            }
-
-            @Override
-            public String getPolicyName() {
-                return "random_choice";
-            }
-
-            @Override
-            public LoadBalancer newLoadBalancer(LoadBalancer.Helper helper) {
-                return new RandomChoiceLoadBalancer(helper);
-            }
-        });
+        return policyName;
     }
 
     @Override
