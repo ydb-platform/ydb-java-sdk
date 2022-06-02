@@ -17,6 +17,7 @@ import io.netty.util.Timeout;
 import io.netty.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tech.ydb.core.grpc.GrpcTransportBuilder;
 
 /**
  * @author Nikolay Perfilov
@@ -33,7 +34,7 @@ public class YdbTransportImpl extends GrpcTransport {
     private final long discoveryPeriodMillis = DISCOVERY_PERIOD_NORMAL_MS;
     private final PeriodicDiscoveryTask periodicDiscoveryTask = new PeriodicDiscoveryTask();
 
-    public YdbTransportImpl(GrpcTransport.Builder builder) {
+    public YdbTransportImpl(GrpcTransportBuilder builder) {
         super(builder);
 
         this.discoveryRpc = createDiscoveryRpc(builder);
@@ -61,7 +62,7 @@ public class YdbTransportImpl extends GrpcTransport {
         channelPool = new GrpcChannelPool(ChannelSettings.fromBuilder(builder), endpointPool.getRecords());
     }
 
-    private GrpcDiscoveryRpc createDiscoveryRpc(Builder builder) {
+    private GrpcDiscoveryRpc createDiscoveryRpc(GrpcTransportBuilder builder) {
         String endpoint = builder.getEndpoint();
         if (endpoint == null || builder.getDatabase() == null) {
             throw new IllegalArgumentException(
@@ -70,7 +71,7 @@ public class YdbTransportImpl extends GrpcTransport {
                             " Or use Grpc transport implementation (TransportImplType.GRPC_TRANSPORT_IMPL)");
         }
         HostAndPort hostAndPort = HostAndPort.fromString(endpoint);
-        GrpcTransport.Builder transportBuilder = GrpcTransport
+        GrpcTransportBuilder transportBuilder = GrpcTransport
                 .forHost(hostAndPort.getHost(), hostAndPort.getPortOrDefault(DEFAULT_PORT))
                 .withAuthProvider(builder.getAuthProvider())
                 .withCallExecutor(builder.getCallExecutor())

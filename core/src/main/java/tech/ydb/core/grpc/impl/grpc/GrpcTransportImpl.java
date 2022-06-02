@@ -22,6 +22,7 @@ import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelOption;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tech.ydb.core.grpc.GrpcTransportBuilder;
 
 /**
  * @author Sergey Polovko
@@ -33,7 +34,7 @@ public class GrpcTransportImpl extends GrpcTransport {
     private final ManagedChannel realChannel;
     private final Channel channel;
 
-    public GrpcTransportImpl(GrpcTransport.Builder builder) {
+    public GrpcTransportImpl(GrpcTransportBuilder builder) {
         super(builder);
 
         ChannelSettings channelSettings = ChannelSettings.fromBuilder(builder);
@@ -100,7 +101,7 @@ public class GrpcTransportImpl extends GrpcTransport {
         return channel;
     }
 
-    private static ManagedChannel createChannel(GrpcTransport.Builder builder, ChannelSettings channelSettings) {
+    private static ManagedChannel createChannel(GrpcTransportBuilder builder, ChannelSettings channelSettings) {
         String endpoint = builder.getEndpoint();
         String database = builder.getDatabase();
         List<HostAndPort> hosts = builder.getHosts();

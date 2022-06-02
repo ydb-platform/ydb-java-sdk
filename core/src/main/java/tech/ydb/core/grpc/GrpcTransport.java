@@ -1,8 +1,6 @@
 package tech.ydb.core.grpc;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import java.net.URI;
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -15,7 +13,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.base.Strings;
 import com.google.common.net.HostAndPort;
@@ -25,13 +22,10 @@ import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.auth.AuthProvider;
 import tech.ydb.core.auth.NopAuthProvider;
-import tech.ydb.core.grpc.impl.grpc.GrpcTransportImpl;
-import tech.ydb.core.grpc.impl.ydb.YdbTransportImpl;
 import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.rpc.OutStreamObserver;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
-import tech.ydb.core.utils.Version;
 import io.grpc.CallOptions;
 import io.grpc.Channel;
 import io.grpc.ClientCall;
@@ -42,16 +36,14 @@ import io.grpc.ManagedChannel;
 import io.grpc.Metadata;
 import io.grpc.MethodDescriptor;
 import io.grpc.Status;
-import io.grpc.netty.NettyChannelBuilder;
 import io.grpc.stub.MetadataUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Collections.singletonList;
-import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.CompletableFuture.completedFuture;
-import java.util.concurrent.Executor;
 
 
 /**
@@ -80,7 +72,7 @@ public abstract class GrpcTransport implements AutoCloseable {
     protected final DiscoveryMode discoveryMode;
     private volatile boolean shutdown = false;
 
-    protected GrpcTransport(Builder builder) {
+    protected GrpcTransport(GrpcTransportBuilder builder) {
         this.callOptions = createCallOptions(builder);
         this.defaultReadTimeoutMillis = builder.getReadTimeoutMillis();
         this.database = Strings.nullToEmpty(builder.getDatabase());
@@ -91,30 +83,30 @@ public abstract class GrpcTransport implements AutoCloseable {
     @Nullable
     protected abstract Channel getChannel();
 
-    public static Builder forHost(String host, int port) {
-        return new Builder(null, null, singletonList(HostAndPort.fromParts(host, port)));
+    public static GrpcTransportBuilder forHost(String host, int port) {
+        return new GrpcTransportBuilder(null, null, singletonList(HostAndPort.fromParts(host, port)));
     }
 
-    public static Builder forHosts(HostAndPort... hosts) {
+    public static GrpcTransportBuilder forHosts(HostAndPort... hosts) {
         checkNotNull(hosts, "hosts is null");
         checkArgument(hosts.length > 0, "empty hosts array");
-        return new Builder(null, null, Arrays.asList(hosts));
+        return new GrpcTransportBuilder(null, null, Arrays.asList(hosts));
     }
 
-    public static Builder forHosts(List<HostAndPort> hosts) {
+    public static GrpcTransportBuilder forHosts(List<HostAndPort> hosts) {
         checkNotNull(hosts, "hosts is null");
         checkArgument(!hosts.isEmpty(), "empty hosts list");
-        return new Builder(null, null, hosts);
+        return new GrpcTransportBuilder(null, null, hosts);
     }
 
-    public static Builder forEndpoint(String endpoint, String database) {
+    public static GrpcTransportBuilder forEndpoint(String endpoint, String database) {
         checkNotNull(endpoint, "endpoint is null");
         checkNotNull(database, "database is null");
-        return new Builder(endpoint, database, null);
+        return new GrpcTransportBuilder(endpoint, database, null);
     }
 
     // [<protocol>://]<host>[:<port>]/?database=<database-path>
-    public static Builder forConnectionString(String connectionString) {
+    public static GrpcTransportBuilder forConnectionString(String connectionString) {
         checkNotNull(connectionString, "connection string is null");
         String endpoint;
         String database;
@@ -131,7 +123,7 @@ public abstract class GrpcTransport implements AutoCloseable {
             throw new IllegalArgumentException("Failed to parse connection string '" + connectionString +
                     "'. Expected format: [<protocol>://]<host>[:<port>]/?database=<database-path>", e);
         }
-        Builder builder = new Builder(endpoint, database, null);
+        GrpcTransportBuilder builder = new GrpcTransportBuilder(endpoint, database, null);
         if (scheme.equals("grpcs")) {
             builder.withSecureConnection();
         } else if (!scheme.equals("grpc")) {
@@ -363,7 +355,7 @@ public abstract class GrpcTransport implements AutoCloseable {
         return ClientInterceptors.intercept(realChannel, interceptor);
     }
 
-    private static CallOptions createCallOptions(Builder builder) {
+    private static CallOptions createCallOptions(GrpcTransportBuilder builder) {
         CallOptions callOptions = CallOptions.DEFAULT;
         AuthProvider authProvider = builder.getAuthProvider();
         if (authProvider != NopAuthProvider.INSTANCE) {
@@ -395,173 +387,5 @@ public abstract class GrpcTransport implements AutoCloseable {
             map.put(name, value);
         }
         return map;
-    }
-
-    /**
-     * BUILDER
-     */
-    @ParametersAreNonnullByDefault
-    public static final class Builder {
-        private final String endpoint;
-        private String database;
-        private final List<HostAndPort> hosts;
-        private byte[] cert = null;
-        private boolean useTLS = false;
-        private Consumer<NettyChannelBuilder> channelInitializer = (cb) -> {
-        };
-        private String localDc;
-        private Duration endpointsDiscoveryPeriod = Duration.ofSeconds(60);
-        private DiscoveryMode discoveryMode = DiscoveryMode.SYNC;
-        private TransportImplType transportImplType = TransportImplType.GRPC_TRANSPORT_IMPL;
-        private BalancingSettings balancingSettings;
-        private Executor callExecutor = MoreExecutors.directExecutor();
-        private AuthProvider authProvider = NopAuthProvider.INSTANCE;
-        private long readTimeoutMillis = 0;
-
-        private Builder(@Nullable String endpoint, @Nullable String database, @Nullable List<HostAndPort> hosts) {
-            this.endpoint = endpoint;
-            this.database = database;
-            this.hosts = hosts;
-        }
-
-        @Nullable
-        public List<HostAndPort> getHosts() {
-            return hosts;
-        }
-
-        @Nullable
-        public byte[] getCert() {
-            return cert;
-        }
-
-        public boolean getUseTls() {
-            return useTLS;
-        }
-
-        @Nullable
-        public String getEndpoint() {
-            return endpoint;
-        }
-
-        public Duration getEndpointsDiscoveryPeriod() {
-            return endpointsDiscoveryPeriod;
-        }
-
-        @Nullable
-        public String getDatabase() {
-            return database;
-        }
-
-        public Builder withDataBase(String dataBase) {
-            this.database = dataBase;
-            return this;
-        }
-
-        public String getVersionString() {
-            return Version.getVersion()
-                    .map(version -> "ydb-java-sdk/" + version)
-                    .orElse("unknown-version");
-        }
-
-        public Consumer<NettyChannelBuilder> getChannelInitializer() {
-            return channelInitializer;
-        }
-
-        public String getLocalDc() {
-            return localDc;
-        }
-
-        private DiscoveryMode getDiscoveryMode() {
-            return discoveryMode;
-        }
-
-        public BalancingSettings getBalancingSettings() {
-            return balancingSettings;
-        }
-
-        public Builder withChannelInitializer(Consumer<NettyChannelBuilder> channelInitializer) {
-            this.channelInitializer = checkNotNull(channelInitializer, "channelInitializer is null");
-            return this;
-        }
-
-        public Builder withLocalDataCenter(String dc) {
-            this.localDc = dc;
-            return this;
-        }
-
-        public Builder withEndpointsDiscoveryPeriod(Duration period) {
-            this.endpointsDiscoveryPeriod = period;
-            return this;
-        }
-
-        public Builder withSecureConnection(byte[] cert) {
-            this.cert = cert.clone();
-            this.useTLS = true;
-            return this;
-        }
-
-        public Builder withSecureConnection() {
-            this.useTLS = true;
-            return this;
-        }
-
-        public Builder withDiscoveryMode(DiscoveryMode discoveryMode) {
-            this.discoveryMode = discoveryMode;
-            return this;
-        }
-
-        public Builder withTransportImplType(TransportImplType transportImplType) {
-            this.transportImplType = transportImplType;
-            return this;
-        }
-
-        public Builder withBalancingSettings(BalancingSettings balancingSettings) {
-            this.balancingSettings = balancingSettings;
-            return this;
-        }
-
-        public Builder withAuthProvider(AuthProvider authProvider) {
-            this.authProvider = requireNonNull(authProvider);
-            return this;
-        }
-
-        public Builder withReadTimeout(Duration timeout) {
-            this.readTimeoutMillis = timeout.toMillis();
-            checkArgument(readTimeoutMillis > 0, "readTimeoutMillis must be greater than 0");
-            return this;
-        }
-
-        public Builder withReadTimeout(long timeout, TimeUnit unit) {
-            this.readTimeoutMillis = unit.toMillis(timeout);
-            checkArgument(readTimeoutMillis > 0, "readTimeoutMillis must be greater than 0");
-            return this;
-        }
-
-        public Builder withCallExecutor(Executor executor) {
-            this.callExecutor = requireNonNull(executor);
-            return this;
-        }
-
-        public Executor getCallExecutor() {
-            return callExecutor;
-        }
-
-        public AuthProvider getAuthProvider() {
-            return authProvider;
-        }
-
-        private long getReadTimeoutMillis() {
-            return readTimeoutMillis;
-        }
-
-        public GrpcTransport build() {
-            switch (transportImplType) {
-                case YDB_TRANSPORT_IMPL:
-                    return new YdbTransportImpl(this);
-                case GRPC_TRANSPORT_IMPL:
-                default:
-                    return new GrpcTransportImpl(this);
-            }
-        }
     }
 }

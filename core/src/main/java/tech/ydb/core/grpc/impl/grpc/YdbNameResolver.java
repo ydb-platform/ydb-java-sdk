@@ -35,6 +35,7 @@ import io.grpc.netty.NettyChannelBuilder;
 import io.netty.util.Timeout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tech.ydb.core.grpc.GrpcTransportBuilder;
 
 
 /**
@@ -247,7 +248,7 @@ final class YdbNameResolver extends NameResolver {
                 String host = targetUri.getHost();
                 String database = targetUri.getPath();
                 String authority = GrpcUtil.authorityFromHostAndPort(host, port);
-                GrpcTransport.Builder transportBuilder = GrpcTransport.forHost(host, port)
+                GrpcTransportBuilder transportBuilder = GrpcTransport.forHost(host, port)
                         .withAuthProvider(authProvider)
                         .withCallExecutor(executor)
                         .withDataBase(database)
