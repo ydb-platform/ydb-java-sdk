@@ -43,33 +43,15 @@ public interface Session {
 
     CompletableFuture<Status> createTable(String path, TableDescription tableDescriptions, CreateTableSettings settings);
 
-    default CompletableFuture<Status> createTable(String path, TableDescription tableDescriptions) {
-        return createTable(path, tableDescriptions, new CreateTableSettings());
-    }
-
     CompletableFuture<Status> dropTable(String path, DropTableSettings settings);
-
-    default CompletableFuture<Status> dropTable(String path) {
-        return dropTable(path, new DropTableSettings());
-    }
 
     CompletableFuture<Status> alterTable(String path, AlterTableSettings settings);
 
-    default CompletableFuture<Status> alterTable(String path) {
-        return alterTable(path, new AlterTableSettings());
-    }
-
     CompletableFuture<Status> copyTable(String src, String dst, CopyTableSettings settings);
-
-    default CompletableFuture<Status> copyTable(String src, String dst) {
-        return copyTable(src, dst, new CopyTableSettings());
-    }
 
     CompletableFuture<Result<TableDescription>> describeTable(String path, DescribeTableSettings settings);
 
-    default CompletableFuture<Result<TableDescription>> describeTable(String path) {
-        return describeTable(path, new DescribeTableSettings());
-    }
+    CompletableFuture<Result<DataQuery>> prepareDataQuery(String query, PrepareDataQuerySettings settings);
 
     CompletableFuture<Result<DataQueryResult>> executeDataQuery(
         String query,
@@ -77,37 +59,11 @@ public interface Session {
         Params params,
         ExecuteDataQuerySettings settings);
 
-    default CompletableFuture<Result<DataQueryResult>> executeDataQuery(String query, TxControl txControl, Params params) {
-        return executeDataQuery(query, txControl, params, new ExecuteDataQuerySettings());
-    }
-
-    default CompletableFuture<Result<DataQueryResult>> executeDataQuery(String query, TxControl txControl) {
-        return executeDataQuery(query, txControl, Params.empty(), new ExecuteDataQuerySettings());
-    }
-
-    CompletableFuture<Result<DataQuery>> prepareDataQuery(String query, PrepareDataQuerySettings settings);
-
-    default CompletableFuture<Result<DataQuery>> prepareDataQuery(String query) {
-        return prepareDataQuery(query, new PrepareDataQuerySettings());
-    }
-
     CompletableFuture<Status> executeSchemeQuery(String query, ExecuteSchemeQuerySettings settings);
-
-    default CompletableFuture<Status> executeSchemeQuery(String query) {
-        return executeSchemeQuery(query, new ExecuteSchemeQuerySettings());
-    }
 
     CompletableFuture<Result<ExplainDataQueryResult>> explainDataQuery(String query, ExplainDataQuerySettings settings);
 
-    default CompletableFuture<Result<ExplainDataQueryResult>> explainDataQuery(String query) {
-        return explainDataQuery(query, new ExplainDataQuerySettings());
-    }
-
     CompletableFuture<Result<Transaction>> beginTransaction(TransactionMode transactionMode, BeginTxSettings settings);
-
-    default CompletableFuture<Result<Transaction>> beginTransaction(TransactionMode transactionMode) {
-        return beginTransaction(transactionMode, new BeginTxSettings());
-    }
 
     CompletableFuture<Status> commitTransaction(String txId, CommitTxSettings settings);
 
@@ -121,13 +77,62 @@ public interface Session {
 
     CompletableFuture<Status> executeBulkUpsert(String tablePath, ListValue rows, BulkUpsertSettings settings);
 
-    default CompletableFuture<Result<SessionStatus>> keepAlive() {
-        return keepAlive(new KeepAliveSessionSettings());
-    }
+    CompletableFuture<Status> close(CloseSessionSettings settings);
 
     boolean release();
 
-    CompletableFuture<Status> close(CloseSessionSettings settings);
+
+    default CompletableFuture<Status> createTable(String path, TableDescription tableDescriptions) {
+        return createTable(path, tableDescriptions, new CreateTableSettings());
+    }
+
+    default CompletableFuture<Status> dropTable(String path) {
+        return dropTable(path, new DropTableSettings());
+    }
+
+    default CompletableFuture<Status> alterTable(String path) {
+        return alterTable(path, new AlterTableSettings());
+    }
+
+    default CompletableFuture<Status> copyTable(String src, String dst) {
+        return copyTable(src, dst, new CopyTableSettings());
+    }
+
+    default CompletableFuture<Result<TableDescription>> describeTable(String path) {
+        return describeTable(path, new DescribeTableSettings());
+    }
+
+    default CompletableFuture<Result<DataQueryResult>> executeDataQuery(String query, TxControl txControl, Params params) {
+        return executeDataQuery(query, txControl, params, new ExecuteDataQuerySettings());
+    }
+
+    default CompletableFuture<Result<DataQueryResult>> executeDataQuery(String query, TxControl txControl) {
+        return executeDataQuery(query, txControl, Params.empty(), new ExecuteDataQuerySettings());
+    }
+
+    default CompletableFuture<Result<DataQuery>> prepareDataQuery(String query) {
+        return prepareDataQuery(query, new PrepareDataQuerySettings());
+    }
+
+    default CompletableFuture<Status> executeSchemeQuery(String query) {
+        return executeSchemeQuery(query, new ExecuteSchemeQuerySettings());
+    }
+
+    default CompletableFuture<Result<ExplainDataQueryResult>> explainDataQuery(String query) {
+        return explainDataQuery(query, new ExplainDataQuerySettings());
+    }
+
+    default CompletableFuture<Result<Transaction>> beginTransaction(TransactionMode transactionMode) {
+        return beginTransaction(transactionMode, new BeginTxSettings());
+    }
+
+    default CompletableFuture<Status> executeBulkUpsert(String tablePath, ListValue rows) {
+        return executeBulkUpsert(tablePath, rows, new BulkUpsertSettings());
+    }
+
+    default CompletableFuture<Result<SessionStatus>> keepAlive() {
+        return keepAlive(new KeepAliveSessionSettings());
+    }
 
     default CompletableFuture<Status> close() {
         return close(new CloseSessionSettings());
