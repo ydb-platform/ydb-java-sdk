@@ -125,8 +125,6 @@ public interface Session {
         return keepAlive(new KeepAliveSessionSettings());
     }
 
-    void invalidateQueryCache();
-
     boolean release();
 
     CompletableFuture<Status> close(CloseSessionSettings settings);

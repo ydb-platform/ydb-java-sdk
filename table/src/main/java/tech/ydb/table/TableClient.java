@@ -53,8 +53,6 @@ public interface TableClient extends SessionSupplier, AutoCloseable {
      */
     interface Builder {
 
-        Builder queryCacheSize(int size);
-
         Builder keepQueryText(boolean keep);
 
         Builder sessionPoolSize(int minSize, int maxSize);
