@@ -8,7 +8,7 @@
 
     <groupId>tech.ydb</groupId>
     <artifactId>ydb-sdk-parent</artifactId>
-    <version>1.12.2</version>
+    <version>1.13.0</version>
 
     <name>Java SDK for YDB</name>
     <description>Java SDK for YDB</description>
@@ -23,8 +23,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
-        <grpc.version>1.26.0</grpc.version>
-        <google.protobuf.version>3.15.8</google.protobuf.version>
+        <grpc.version>1.43.2</grpc.version>
+        <google.protobuf.version>3.19.4</google.protobuf.version>
         <slf4j.version>1.7.36</slf4j.version>
         
         <google.truth.version>0.34</google.truth.version>
@@ -67,6 +67,11 @@
             <dependency>
                 <groupId>io.grpc</groupId>
                 <artifactId>grpc-netty</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-netty-shaded</artifactId>
                 <version>${grpc.version}</version>
             </dependency>
 
