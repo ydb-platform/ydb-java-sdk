@@ -19,10 +19,10 @@ public class ChannelSettings {
     private final String database;
     private final String version;
     private final Consumer<NettyChannelBuilder> channelInitializer;
-    private boolean useTLS;
-    private byte[] cert;
+    private final boolean useTLS;
+    private final byte[] cert;
 
-    private ChannelSettings(GrpcTransport.Builder builder) {
+    private ChannelSettings(GrpcTransportBuilder builder) {
         this.database = builder.getDatabase();
         this.version = builder.getVersionString();
         this.channelInitializer = builder.getChannelInitializer();
@@ -75,7 +75,7 @@ public class ChannelSettings {
         }
     }
 
-    public static ChannelSettings fromBuilder(GrpcTransport.Builder builder) {
+    public static ChannelSettings fromBuilder(GrpcTransportBuilder builder) {
         return new ChannelSettings(builder);
     }
 }
