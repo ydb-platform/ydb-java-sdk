@@ -145,11 +145,6 @@ public class SessionStub implements Session {
     }
 
     @Override
-    public void invalidateQueryCache() {
-        throw new UnsupportedOperationException("invalidateQueryCache() not implemented");
-    }
-
-    @Override
     public boolean release() {
         return false;
     }

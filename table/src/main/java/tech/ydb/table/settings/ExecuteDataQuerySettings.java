@@ -5,14 +5,14 @@ package tech.ydb.table.settings;
  */
 public class ExecuteDataQuerySettings extends RequestSettings<ExecuteDataQuerySettings> {
 
-    private boolean keepInQueryCache = false;
+    private boolean keepInQueryCache = true;
 
     public boolean isKeepInQueryCache() {
         return keepInQueryCache;
     }
 
-    public ExecuteDataQuerySettings keepInQueryCache() {
-        keepInQueryCache = true;
+    public ExecuteDataQuerySettings disableQueryCache() {
+        keepInQueryCache = false;
         return this;
     }
 }
