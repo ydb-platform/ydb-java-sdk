@@ -165,6 +165,11 @@ public class TableDescription {
             return this;
         }
 
+        public Builder addGlobalIndex(String name, List<String> columns, List<String> dataColumns) {
+            indexes.add(new TableIndex(name, columns, dataColumns, TableIndex.Type.GLOBAL));
+            return this;
+        }
+
         public Builder setTableStats(TableStats tableStats) {
             this.tableStats = tableStats;
             return this;
