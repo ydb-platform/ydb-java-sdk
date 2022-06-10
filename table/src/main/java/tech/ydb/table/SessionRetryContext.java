@@ -47,6 +47,7 @@ public class SessionRetryContext {
 
     private final SessionSupplier sessionSupplier;
     private final Executor executor;
+    private final Duration sessionCreationTimeout;
     private final int maxRetries;
     private final long backoffSlotMillis;
     private final int backoffCeiling;
@@ -58,6 +59,7 @@ public class SessionRetryContext {
     private SessionRetryContext(Builder b) {
         this.sessionSupplier = b.sessionSupplier;
         this.executor = b.executor;
+        this.sessionCreationTimeout = b.sessionCreationTimeout;
         this.maxRetries = b.maxRetries;
         this.backoffSlotMillis = b.backoffSlotMillis;
         this.backoffCeiling = b.backoffCeiling;
@@ -204,7 +206,7 @@ public class SessionRetryContext {
         }
 
         public void run() {
-            CompletableFuture<Result<Session>> sessionFuture = sessionSupplier.createSession();
+            CompletableFuture<Result<Session>> sessionFuture = sessionSupplier.createSession(sessionCreationTimeout);
             if (sessionFuture.isDone() && !sessionFuture.isCompletedExceptionally()) {
                 // faster than subscribing on future
                 accept(sessionFuture.getNow(null), null);
@@ -352,6 +354,7 @@ public class SessionRetryContext {
     public static final class Builder {
         private final SessionSupplier sessionSupplier;
         private Executor executor = MoreExecutors.directExecutor();
+        private Duration sessionCreationTimeout = Duration.ofSeconds(5);
         private int maxRetries = 10;
         private long backoffSlotMillis = 1000;
         private int backoffCeiling = 6;
@@ -366,6 +369,11 @@ public class SessionRetryContext {
 
         public Builder executor(Executor executor) {
             this.executor = Objects.requireNonNull(executor);
+            return this;
+        }
+
+        public Builder sessionCreationTimeout(Duration duration) {
+            this.sessionCreationTimeout = duration;
             return this;
         }
 

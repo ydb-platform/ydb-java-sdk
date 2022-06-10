@@ -1,0 +1,72 @@
+package tech.ydb.table.impl;
+
+import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
+
+import tech.ydb.core.Result;
+import tech.ydb.core.StatusCode;
+import tech.ydb.table.Session;
+import tech.ydb.table.SessionSupplier;
+import tech.ydb.table.rpc.TableRpc;
+import tech.ydb.table.settings.CreateSessionSettings;
+import tech.ydb.table.settings.DeleteSessionSettings;
+
+
+/**
+ * @author Aleksandr Gorshenin
+ */
+final class BaseTableClient implements SessionSupplier {
+    static public Builder newClient(TableRpc rpc) {
+        return new Builder(rpc);
+    }
+
+    private final TableRpc tableRpc;
+    private final boolean keepQueryText;
+    
+    BaseTableClient(Builder builder) {
+        this.tableRpc = builder.tableRpc;
+        this.keepQueryText = builder.keepQueryText;
+    }
+
+    @Override
+    public CompletableFuture<Result<Session>> createSession(Duration duration) {
+        CreateSessionSettings settings = new CreateSessionSettings()
+                .setTimeout(duration);
+        return BaseSession.createSessionId(tableRpc, settings)
+                .thenApply(response -> response.map(SimpleSession::new));
+    }
+
+    public static class Builder {
+        private final TableRpc tableRpc;
+        private boolean keepQueryText = true;
+
+        public Builder(TableRpc tableRpc) {
+            this.tableRpc = tableRpc;
+        }
+
+        public Builder keepQueryText(boolean keep) {
+            this.keepQueryText = keep;
+            return this;
+        }
+
+        public BaseTableClient build() {
+            return new BaseTableClient(this);
+        }
+    }
+    
+    private class SimpleSession extends BaseSession {
+        SimpleSession(String id) {
+            super(id, tableRpc, keepQueryText);
+        }
+
+        @Override
+        protected void updateSessionState(Throwable th, StatusCode code) {
+            // Nothing
+        }
+
+        @Override
+        public void close() {
+            delete(new DeleteSessionSettings()).join();
+        }
+    }
+}

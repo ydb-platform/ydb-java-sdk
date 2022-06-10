@@ -6,12 +6,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
 import com.google.protobuf.Timestamp;
+import javax.annotation.concurrent.ThreadSafe;
 import tech.ydb.StatusCodesProtos.StatusIds;
 import tech.ydb.ValueProtos;
 import tech.ydb.common.CommonProtos;
@@ -19,11 +19,9 @@ import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
-import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.table.Session;
-import tech.ydb.table.SessionStatus;
 import tech.ydb.table.YdbTable;
 import tech.ydb.table.YdbTable.ReadTableRequest;
 import tech.ydb.table.YdbTable.ReadTableResponse;
@@ -45,7 +43,7 @@ import tech.ydb.table.settings.AlterTableSettings;
 import tech.ydb.table.settings.AutoPartitioningPolicy;
 import tech.ydb.table.settings.BeginTxSettings;
 import tech.ydb.table.settings.BulkUpsertSettings;
-import tech.ydb.table.settings.CloseSessionSettings;
+import tech.ydb.table.settings.DeleteSessionSettings;
 import tech.ydb.table.settings.CommitTxSettings;
 import tech.ydb.table.settings.CopyTableSettings;
 import tech.ydb.table.settings.CreateTableSettings;
@@ -65,7 +63,6 @@ import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.settings.StoragePolicy;
 import tech.ydb.table.settings.TtlSettings;
 import tech.ydb.table.transaction.Transaction;
-import tech.ydb.table.transaction.TransactionMode;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.utils.OperationParamUtils;
 import tech.ydb.table.utils.RequestSettingsUtils;
@@ -80,38 +77,23 @@ import org.slf4j.LoggerFactory;
 import static tech.ydb.table.YdbTable.ColumnFamily.Compression.COMPRESSION_LZ4;
 import static tech.ydb.table.YdbTable.ColumnFamily.Compression.COMPRESSION_NONE;
 import static tech.ydb.table.YdbTable.ColumnFamily.Compression.COMPRESSION_UNSPECIFIED;
+import tech.ydb.table.settings.CreateSessionSettings;
 
 
 /**
  * @author Sergey Polovko
  */
-class SessionImpl implements Session {
+@ThreadSafe
+public abstract class BaseSession implements Session {
     private final static Logger log = LoggerFactory.getLogger(Session.class);
-
-    enum State {
-        IDLE,
-        BROKEN,
-        ACTIVE,
-        DISCONNECTED,
-    }
-
-    private static final AtomicReferenceFieldUpdater<SessionImpl, State> stateUpdater =
-        AtomicReferenceFieldUpdater.newUpdater(SessionImpl.class, State.class, "state");
 
     private final String id;
     private final TableRpc tableRpc;
-    private final OperationTray operationTray;
-    @Nullable
-    private final SessionPool sessionPool;
     private final boolean keepQueryText;
 
-    private volatile State state = State.ACTIVE;
-
-    SessionImpl(String id, TableRpc tableRpc, SessionPool sessionPool, boolean keepQueryText) {
+    protected BaseSession(String id, TableRpc tableRpc, boolean keepQueryText) {
         this.id = id;
         this.tableRpc = tableRpc;
-        this.operationTray = tableRpc.getOperationTray();
-        this.sessionPool = sessionPool;
         this.keepQueryText = keepQueryText;
     }
 
@@ -120,16 +102,24 @@ class SessionImpl implements Session {
         return id;
     }
 
-    State getState() {
-        return stateUpdater.get(this);
-    }
+    public static CompletableFuture<Result<String>> createSessionId(TableRpc tableRpc, CreateSessionSettings settings) {
+        YdbTable.CreateSessionRequest request = YdbTable.CreateSessionRequest.newBuilder()
+            .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
+            .build();
 
-    void setState(State state) {
-        stateUpdater.set(this, state);
-    }
+        long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
 
-    boolean switchState(State from, State to) {
-        return stateUpdater.compareAndSet(this, from, to);
+        return tableRpc.createSession(request, deadlineAfter)
+            .thenCompose(response -> {
+                if (!response.isSuccess()) {
+                    return CompletableFuture.completedFuture(response.cast());
+                }
+                return tableRpc.getOperationTray().waitResult(
+                    response.expect("createSession()").getOperation(),
+                    YdbTable.CreateSessionResult.class,
+                    YdbTable.CreateSessionResult::getSessionId,
+                    deadlineAfter);
+            });
     }
 
     private static void applyPartitioningSettings(
@@ -327,7 +317,7 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
-                return operationTray.waitStatus(response.expect("createTable()").getOperation(), deadlineAfter);
+                return tableRpc.getOperationTray().waitStatus(response.expect("createTable()").getOperation(), deadlineAfter);
             });
     }
 
@@ -354,7 +344,7 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
-                return operationTray.waitStatus(response.expect("dropTable()").getOperation(), deadlineAfter);
+                return tableRpc.getOperationTray().waitStatus(response.expect("dropTable()").getOperation(), deadlineAfter);
             });
     }
 
@@ -389,7 +379,7 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
-                return operationTray.waitStatus(response.expect("alterTable()").getOperation(), deadlineAfter);
+                return tableRpc.getOperationTray().waitStatus(response.expect("alterTable()").getOperation(), deadlineAfter);
             });
     }
 
@@ -408,7 +398,7 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
-                return operationTray.waitStatus(response.expect("copyTable()").getOperation(), deadlineAfter);
+                return tableRpc.getOperationTray().waitStatus(response.expect("copyTable()").getOperation(), deadlineAfter);
             });
     }
 
@@ -429,10 +419,9 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
                 }
-                return operationTray.waitResult(
-                    response.expect("describeTable()").getOperation(),
+                return tableRpc.getOperationTray().waitResult(response.expect("describeTable()").getOperation(),
                     YdbTable.DescribeTableResult.class,
-                    result -> SessionImpl.mapDescribeTable(result, settings),
+                    result -> BaseSession.mapDescribeTable(result, settings),
                     deadlineAfter);
             });
     }
@@ -521,7 +510,7 @@ class SessionImpl implements Session {
         return description.build();
     }
 
-    private static YdbTable.TransactionSettings txSettings(TransactionMode transactionMode) {
+    private static YdbTable.TransactionSettings txSettings(Transaction.Mode transactionMode) {
         YdbTable.TransactionSettings.Builder settings = YdbTable.TransactionSettings.newBuilder();
         if (transactionMode != null) {
             switch (transactionMode) {
@@ -584,7 +573,7 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
                 }
-                return operationTray.waitResult(
+                return tableRpc.getOperationTray().waitResult(
                     response.expect("executeDataQuery()").getOperation(),
                     YdbTable.ExecuteQueryResult.class,
                     result -> new DataQueryResult(result.getTxMeta().getId(), result.getResultSetsList()),
@@ -659,7 +648,7 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
                 }
-                return operationTray.waitResult(
+                return tableRpc.getOperationTray().waitResult(
                     response.expect("prepareDataQuery()").getOperation(),
                     YdbTable.PrepareQueryResult.class,
                     result -> {
@@ -686,7 +675,7 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
-                return operationTray.waitStatus(response.expect("executeSchemaQuery()").getOperation(), deadlineAfter);
+                return tableRpc.getOperationTray().waitStatus(response.expect("executeSchemaQuery()").getOperation(), deadlineAfter);
             }));
     }
 
@@ -704,7 +693,7 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
                 }
-                return operationTray.waitResult(
+                return tableRpc.getOperationTray().waitResult(
                     response.expect("explainDataQuery()").getOperation(),
                     YdbTable.ExplainQueryResult.class,
                     result -> new ExplainDataQueryResult(result.getQueryAst(), result.getQueryPlan()),
@@ -713,7 +702,7 @@ class SessionImpl implements Session {
     }
 
     @Override
-    public CompletableFuture<Result<Transaction>> beginTransaction(TransactionMode transactionMode, BeginTxSettings settings) {
+    public CompletableFuture<Result<Transaction>> beginTransaction(Transaction.Mode transactionMode, BeginTxSettings settings) {
         YdbTable.BeginTransactionRequest request = YdbTable.BeginTransactionRequest.newBuilder()
             .setSessionId(id)
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
@@ -726,7 +715,7 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
                 }
-                return operationTray.waitResult(
+                return tableRpc.getOperationTray().waitResult(
                     response.expect("beginTransaction()").getOperation(),
                     YdbTable.BeginTransactionResult.class,
                     result -> new TransactionImpl(this, result.getTxMeta().getId()),
@@ -891,7 +880,7 @@ class SessionImpl implements Session {
     }
 
     @Override
-    public CompletableFuture<Result<SessionStatus>> keepAlive(KeepAliveSessionSettings settings) {
+    public CompletableFuture<Result<State>> keepAlive(KeepAliveSessionSettings settings) {
         YdbTable.KeepAliveRequest request = YdbTable.KeepAliveRequest.newBuilder()
             .setSessionId(id)
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
@@ -903,10 +892,9 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
                 }
-                return operationTray.waitResult(
-                    response.expect("keepAlive()").getOperation(),
+                return tableRpc.getOperationTray().waitResult(response.expect("keepAlive()").getOperation(),
                     YdbTable.KeepAliveResult.class,
-                    SessionImpl::mapSessionStatus,
+                    BaseSession::mapSessionStatus,
                     deadlineAfter
                 );
             }));
@@ -932,31 +920,21 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
-                return operationTray.waitStatus(response.expect("bulkUpsert()").getOperation(), deadlineAfter);
+                return tableRpc.getOperationTray().waitStatus(response.expect("bulkUpsert()").getOperation(), deadlineAfter);
             }));
     }
 
-    private static SessionStatus mapSessionStatus(YdbTable.KeepAliveResult result) {
+    private static State mapSessionStatus(YdbTable.KeepAliveResult result) {
         switch (result.getSessionStatus()) {
             case UNRECOGNIZED:
-            case SESSION_STATUS_UNSPECIFIED: return SessionStatus.UNSPECIFIED;
-            case SESSION_STATUS_BUSY: return SessionStatus.BUSY;
-            case SESSION_STATUS_READY: return SessionStatus.READY;
+            case SESSION_STATUS_UNSPECIFIED: return State.UNSPECIFIED;
+            case SESSION_STATUS_BUSY: return State.BUSY;
+            case SESSION_STATUS_READY: return State.READY;
         }
         throw new IllegalStateException("unknown session status: " + result.getSessionStatus());
     }
 
-    @Override
-    public boolean release() {
-        if (sessionPool != null) {
-            sessionPool.release(this);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public CompletableFuture<Status> close(CloseSessionSettings settings) {
+    public CompletableFuture<Status> delete(DeleteSessionSettings settings) {
         YdbTable.DeleteSessionRequest request = YdbTable.DeleteSessionRequest.newBuilder()
             .setSessionId(id)
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
@@ -968,7 +946,7 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
-                return operationTray.waitStatus(response.expect("deleteSession()").getOperation(), deadlineAfter);
+                return tableRpc.getOperationTray().waitStatus(response.expect("deleteSession()").getOperation(), deadlineAfter);
             }));
     }
 
@@ -977,19 +955,19 @@ class SessionImpl implements Session {
         return future.whenComplete((r, t) -> {
             long ms = Instant.now().toEpochMilli() - start;
             log.debug("Session[{}] {} => {}, took {} ms", hashCode(), msg, r.getCode(), ms);
-            changeSessionState(t, r.getCode());
+            updateSessionState(t, r.getCode());
         });
     }
 
     private <T> CompletableFuture<Result<T>> interceptResult(CompletableFuture<Result<T>> future) {
         return future.whenComplete((r, t) -> {
-            changeSessionState(t, r.getCode());
+            updateSessionState(t, r.getCode());
         });
     }
 
     private CompletableFuture<Status> interceptStatus(CompletableFuture<Status> future) {
         return future.whenComplete((r, t) -> {
-            changeSessionState(t, r.getCode());
+            updateSessionState(t, r.getCode());
         });
     }
 
@@ -998,33 +976,14 @@ class SessionImpl implements Session {
         return future.whenComplete((r, t) -> {
             long ms = Instant.now().toEpochMilli() - start;
             log.debug("Session[{}] {} => {}, took {} ms", hashCode(), msg, r.getCode(), ms);
-            changeSessionState(t, r.getCode());
+            updateSessionState(t, r.getCode());
         });
     }
-
-    private void changeSessionState(Throwable t, StatusCode code) {
-        State oldState = getState();
-        if (t != null) {
-            switchState(oldState, State.BROKEN);
-            return;
-        }
-
-        if (code.isTransportError() && code != StatusCode.CLIENT_RESOURCE_EXHAUSTED) {
-            switchState(oldState, State.DISCONNECTED);
-        } else if (code == StatusCode.BAD_SESSION) {
-            switchState(oldState, State.BROKEN);
-        } else if (code == StatusCode.SESSION_BUSY) {
-            switchState(oldState, State.BROKEN);
-        } else if (code == StatusCode.INTERNAL_ERROR) {
-            switchState(oldState, State.BROKEN);
-        }
-    }
+    
+    protected abstract void updateSessionState(Throwable th, StatusCode code);
 
     @Override
     public String toString() {
-        return "Session{" +
-            "id='" + id + '\'' +
-            ", state=" + state +
-            '}';
+        return "Session{" + id + "}";
     }
 }
