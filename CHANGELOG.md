@@ -1,3 +1,11 @@
+## 1.13.1 ##
+
+* Added data columns (for covered indexes) to TableDescription
+
+## 1.13.0 ##
+
+* Upgrade to use java-grpc 1.43.2
+
 ## 1.12.2 ##
 
 * PreferNearestLoadBalancer and RandomChoiceLoadBalancer merged to YdbLoadBalancer
