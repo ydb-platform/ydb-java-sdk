@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 import tech.ydb.core.utils.Async;
-import tech.ydb.table.SessionStatus;
+import tech.ydb.table.Session;
 import io.netty.util.Timeout;
 import io.netty.util.TimerTask;
 import org.slf4j.Logger;
@@ -139,8 +139,8 @@ public class SettlersPool<T> {
                             logger.warn("Keep alive for " + po.object + " failed", throwable);
                         } else {
                             if (result.isSuccess()) {
-                                SessionStatus status = result.expect("cannot keep alive session: " + po.object);
-                                if (status == SessionStatus.READY) {
+                                Session.State status = result.expect("cannot keep alive session: " + po.object);
+                                if (status == Session.State.READY) {
                                     it.remove();
                                     size.decrementAndGet();
                                     mainPool.offerOrDestroy(po.object);

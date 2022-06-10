@@ -52,7 +52,6 @@ public class SessionRetryContext {
     private final int backoffCeiling;
     private final long fastBackoffSlotMillis;
     private final int fastBackoffCeiling;
-    private final Duration sessionSupplyTimeout;
     private final boolean retryNotFound;
     private final boolean idempotent;
 
@@ -64,7 +63,6 @@ public class SessionRetryContext {
         this.backoffCeiling = b.backoffCeiling;
         this.fastBackoffSlotMillis = b.fastBackoffSlotMillis;
         this.fastBackoffCeiling = b.fastBackoffCeiling;
-        this.sessionSupplyTimeout = b.sessionSupplyTimeout;
         this.retryNotFound = b.retryNotFound;
         this.idempotent = b.idempotent;
     }
@@ -206,7 +204,7 @@ public class SessionRetryContext {
         }
 
         public void run() {
-            CompletableFuture<Result<Session>> sessionFuture = sessionSupplier.getOrCreateSession(sessionSupplyTimeout);
+            CompletableFuture<Result<Session>> sessionFuture = sessionSupplier.createSession();
             if (sessionFuture.isDone() && !sessionFuture.isCompletedExceptionally()) {
                 // faster than subscribing on future
                 accept(sessionFuture.getNow(null), null);
@@ -234,7 +232,7 @@ public class SessionRetryContext {
             Async.safeCall(session, fn)
                 .whenComplete((fnResult, fnException) -> {
                     try {
-                        session.release();
+                        session.close();
 
                         if (fnException != null) {
                             handleException(fnException);
@@ -359,7 +357,6 @@ public class SessionRetryContext {
         private int backoffCeiling = 6;
         private long fastBackoffSlotMillis = 5;
         private int fastBackoffCeiling = 10;
-        private Duration sessionSupplyTimeout = Duration.ofSeconds(5);
         private boolean retryNotFound = true;
         private boolean idempotent = false;
 
@@ -396,12 +393,6 @@ public class SessionRetryContext {
 
         public Builder fastBackoffCeiling(int backoffCeiling) {
             this.fastBackoffCeiling = backoffCeiling;
-            return this;
-        }
-
-        public Builder sessionSupplyTimeout(Duration duration) {
-            checkArgument(!duration.isNegative(), "sessionSupplyTimeout(%s) is negative", duration);
-            this.sessionSupplyTimeout = duration;
             return this;
         }
 

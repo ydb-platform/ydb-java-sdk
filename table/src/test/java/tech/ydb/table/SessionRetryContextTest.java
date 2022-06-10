@@ -383,7 +383,7 @@ public class SessionRetryContextTest {
      */
     private static final class SuccessSupplier implements SessionSupplier {
         @Override
-        public CompletableFuture<Result<Session>> getOrCreateSession(Duration timeout) {
+        public CompletableFuture<Result<Session>> createSession() {
             return completedFuture(Result.success(new SessionStub()));
         }
     }
@@ -406,7 +406,7 @@ public class SessionRetryContextTest {
         }
 
         @Override
-        public CompletableFuture<Result<Session>> getOrCreateSession(Duration timeout) {
+        public CompletableFuture<Result<Session>> createSession() {
             if (requestsCount.getAndIncrement() >= maxFails) {
                 return completedFuture(Result.success(new SessionStub()));
             }
@@ -425,7 +425,7 @@ public class SessionRetryContextTest {
         }
 
         @Override
-        public CompletableFuture<Result<Session>> getOrCreateSession(Duration timeout) {
+        public CompletableFuture<Result<Session>> createSession() {
             retriesCount.incrementAndGet();
             return Async.failedFuture(new RuntimeException("something goes wrong here"));
         }

@@ -16,6 +16,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.hash.Hashing;
 import tech.ydb.ValueProtos;
 import tech.ydb.core.Result;
+import tech.ydb.table.Session;
 import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.Params;
@@ -33,7 +34,7 @@ import static com.google.common.base.Preconditions.checkArgument;
  */
 final class DataQueryImpl implements DataQuery {
 
-    private final SessionImpl session;
+    private final Session session;
     private final String queryId;
     private final ImmutableMap<String, Type> types;
     private final ImmutableMap<String, ValueProtos.Type> typesPb;
@@ -42,7 +43,7 @@ final class DataQueryImpl implements DataQuery {
     private final String textHash;
 
     DataQueryImpl(
-            SessionImpl session,
+            Session session,
             String queryId,
             String text,
             boolean keepText,

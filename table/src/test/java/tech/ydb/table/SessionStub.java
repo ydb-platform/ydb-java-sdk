@@ -15,7 +15,6 @@ import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.settings.AlterTableSettings;
 import tech.ydb.table.settings.BeginTxSettings;
 import tech.ydb.table.settings.BulkUpsertSettings;
-import tech.ydb.table.settings.CloseSessionSettings;
 import tech.ydb.table.settings.CommitTxSettings;
 import tech.ydb.table.settings.CopyTableSettings;
 import tech.ydb.table.settings.CreateTableSettings;
@@ -30,7 +29,6 @@ import tech.ydb.table.settings.PrepareDataQuerySettings;
 import tech.ydb.table.settings.ReadTableSettings;
 import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.transaction.Transaction;
-import tech.ydb.table.transaction.TransactionMode;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.utils.Async;
 import tech.ydb.table.values.ListValue;
@@ -109,7 +107,7 @@ public class SessionStub implements Session {
 
     @Override
     public CompletableFuture<Result<Transaction>> beginTransaction(
-        TransactionMode transactionMode, BeginTxSettings settings)
+        Transaction.Mode transactionMode, BeginTxSettings settings)
     {
         return notImplemented("beginTransaction()");
     }
@@ -135,7 +133,7 @@ public class SessionStub implements Session {
     }
 
     @Override
-    public CompletableFuture<Result<SessionStatus>> keepAlive(KeepAliveSessionSettings settings) {
+    public CompletableFuture<Result<Session.State>> keepAlive(KeepAliveSessionSettings settings) {
         return notImplemented("keepAlive()");
     }
 
@@ -144,17 +142,12 @@ public class SessionStub implements Session {
         return notImplemented("bulkUpsert()");
     }
 
-    @Override
-    public boolean release() {
-        return false;
-    }
-
-    @Override
-    public CompletableFuture<Status> close(CloseSessionSettings settings) {
-        return notImplemented("close()");
-    }
-
     private static <U> CompletableFuture<U> notImplemented(String method) {
         return Async.failedFuture(new UnsupportedOperationException(method + " not implemented"));
+    }
+
+    @Override
+    public void close() {
+        // nothing
     }
 }
