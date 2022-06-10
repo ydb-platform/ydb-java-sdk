@@ -1,4 +1,4 @@
-package tech.ydb.table.stats;
+package tech.ydb.table;
 
 /**
  * @author Sergey Polovko

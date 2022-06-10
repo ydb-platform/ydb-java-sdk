@@ -1,56 +1,49 @@
 package tech.ydb.table;
 
 import java.time.Duration;
-import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.WillClose;
 import javax.annotation.WillNotClose;
 
-import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.table.impl.TableClientBuilderImpl;
+import tech.ydb.table.impl.pool.FixedPoolTableClient;
 import tech.ydb.table.rpc.TableRpc;
 import tech.ydb.table.rpc.grpc.GrpcTableRpc;
-import tech.ydb.table.settings.CreateSessionSettings;
-import tech.ydb.table.stats.SessionPoolStats;
 
 
 /**
  * @author Sergey Polovko
+ * @author Aleksandr Gorshenin
+ * 
+ * TableClient is a main point for accepting and releasing sessions
+ * It has factory method {@link newClient(GrpcTransport)} which
+ * return instance of default implementation {@link FixedPoolTableClient}. This
+ * implementation contains session pool with fixed sizes. This is recommended way
+ * to create implementation of SessionSupplier.
+ * If you want to use implementation without session pool, you may use 
+ * {@link tech.ydb.table.impl.SimpleTableClient}
  */
 public interface TableClient extends SessionSupplier, AutoCloseable {
 
     @Deprecated
     static Builder newClient(@WillClose TableRpc tableRpc) {
-        return new TableClientBuilderImpl(tableRpc);
+        return FixedPoolTableClient.newClient(tableRpc);
     }
     
     /** 
      * Return TableClient builder used passed {@link GrpcTransport}
-     * @param transport - instance of grpc transport
-     * @return ${@link TableClient.Builder} for TableClient creating
+     * @param transport instance of grpc transport
+     * @return {@link TableClient.Builder} for TableClient creating
      */
     static Builder newClient(@WillNotClose GrpcTransport transport) {
-        return new TableClientBuilderImpl(GrpcTableRpc.useTransport(transport));
+        return FixedPoolTableClient.newClient(GrpcTableRpc.useTransport(transport));
     }
 
-    /**
-     * Create new session.
-     */
-    CompletableFuture<Result<Session>> createSession(CreateSessionSettings settings);
-
-    default CompletableFuture<Result<Session>> createSession() {
-        return createSession(new CreateSessionSettings());
-    }
-
-    SessionPoolStats getSessionPoolStats();
+    SessionPoolStats sessionPoolStats();
 
     @Override
     void close();
 
-    /**
-     * BUILDER
-     */
     interface Builder {
 
         Builder keepQueryText(boolean keep);
@@ -60,8 +53,6 @@ public interface TableClient extends SessionSupplier, AutoCloseable {
         Builder sessionKeepAliveTime(Duration duration);
 
         Builder sessionMaxIdleTime(Duration duration);
-
-        Builder sessionCreationMaxRetries(int maxRetries);
 
         TableClient build();
     }
