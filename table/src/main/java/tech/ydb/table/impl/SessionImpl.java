@@ -173,18 +173,24 @@ class SessionImpl implements Session {
     @Override
     public CompletableFuture<Status> createTable(
         String path,
-        TableDescription tableDescriptions,
+        TableDescription tableDescription,
         CreateTableSettings settings
     ) {
         YdbTable.CreateTableRequest.Builder request = YdbTable.CreateTableRequest.newBuilder()
             .setSessionId(id)
             .setPath(path)
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
-            .addAllPrimaryKey(tableDescriptions.getPrimaryKeys());
+            .addAllPrimaryKey(tableDescription.getPrimaryKeys());
 
-        applyPartitioningSettings(settings.getPartitioningSettings(), request::setPartitioningSettings);
+        PartitioningSettings partitioningSettings = tableDescription.getPartitioningSettings();
+        if (partitioningSettings == null) {
+            // TODO: remove CreateTableSettings.getPartitioningSettings in further releases
+            partitioningSettings = settings.getPartitioningSettings();
+        }
 
-        for (TableColumn column : tableDescriptions.getColumns()) {
+        applyPartitioningSettings(partitioningSettings, request::setPartitioningSettings);
+
+        for (TableColumn column : tableDescription.getColumns()) {
             YdbTable.ColumnMeta.Builder builder = YdbTable.ColumnMeta.newBuilder()
                     .setName(column.getName())
                     .setType(column.getType().toPb());
@@ -194,7 +200,7 @@ class SessionImpl implements Session {
             request.addColumns(builder.build());
         }
 
-        for (TableIndex index : tableDescriptions.getIndexes()) {
+        for (TableIndex index : tableDescription.getIndexes()) {
             YdbTable.TableIndex.Builder b = request.addIndexesBuilder();
             b.setName(index.getName());
             b.addAllIndexColumns(index.getColumns());
@@ -204,7 +210,7 @@ class SessionImpl implements Session {
         }
 
 
-        for (ColumnFamily family : tableDescriptions.getColumnFamilies()) {
+        for (ColumnFamily family : tableDescription.getColumnFamilies()) {
             YdbTable.ColumnFamily.Compression compression;
             switch (family.getCompression()) {
                 case COMPRESSION_NONE:

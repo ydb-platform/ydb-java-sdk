@@ -1,5 +1,9 @@
 ## 1.13.1 ##
 
+* Use TableDescription.getPartitioningSettings() by default, mark CreateTableSettings.getPartitioningSettings() deprected
+
+## 1.13.1 ##
+
 * Added data columns (for covered indexes) to TableDescription
 
 ## 1.13.0 ##
