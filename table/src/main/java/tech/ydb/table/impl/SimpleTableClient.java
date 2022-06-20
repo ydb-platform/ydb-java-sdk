@@ -15,7 +15,7 @@ import tech.ydb.table.settings.DeleteSessionSettings;
 /**
  * @author Aleksandr Gorshenin
  */
-final class BaseTableClient implements SessionSupplier {
+final class SimpleTableClient implements SessionSupplier {
     static public Builder newClient(TableRpc rpc) {
         return new Builder(rpc);
     }
@@ -23,7 +23,7 @@ final class BaseTableClient implements SessionSupplier {
     private final TableRpc tableRpc;
     private final boolean keepQueryText;
     
-    BaseTableClient(Builder builder) {
+    SimpleTableClient(Builder builder) {
         this.tableRpc = builder.tableRpc;
         this.keepQueryText = builder.keepQueryText;
     }
@@ -49,8 +49,8 @@ final class BaseTableClient implements SessionSupplier {
             return this;
         }
 
-        public BaseTableClient build() {
-            return new BaseTableClient(this);
+        public SimpleTableClient build() {
+            return new SimpleTableClient(this);
         }
     }
     

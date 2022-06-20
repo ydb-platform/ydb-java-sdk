@@ -84,7 +84,7 @@ public class TableClientImplTest {
             }
         };
 
-        SessionSupplier client = BaseTableClient.newClient(fakeRpc).build();
+        SessionSupplier client = SimpleTableClient.newClient(fakeRpc).build();
         // Test TableClient interface
         client.createSession(Duration.ZERO).join().expect("cannot create session");
         // Server has 1 session
@@ -109,7 +109,7 @@ public class TableClientImplTest {
             }
         };
 
-        SessionSupplier client = BaseTableClient.newClient(fakeRpc).build();
+        SessionSupplier client = SimpleTableClient.newClient(fakeRpc).build();
 
         // Test TableClient interface
         Result<Session> sessionResult = client.createSession(Duration.ZERO).join();
