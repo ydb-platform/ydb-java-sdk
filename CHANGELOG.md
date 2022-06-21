@@ -1,3 +1,7 @@
+## 1.13.3 ##
+
+* Added QueryStatsCollection.Mode parameter to ExecuteDataQuerySettings
+
 ## 1.13.1 ##
 
 * Use TableDescription.getPartitioningSettings() by default, mark CreateTableSettings.getPartitioningSettings() deprected

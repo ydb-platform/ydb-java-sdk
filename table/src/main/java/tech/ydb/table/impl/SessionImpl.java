@@ -565,6 +565,7 @@ class SessionImpl implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .setTxControl(txControl.toPb())
             .setQuery(YdbTable.Query.newBuilder().setYqlText(query))
+            .setCollectStats(settings.collectStats())
             .putAllParameters(params.toPb());
 
         final boolean keepInServerQueryCache = settings.isKeepInQueryCache();
@@ -630,7 +631,8 @@ class SessionImpl implements Session {
         YdbTable.ExecuteDataQueryRequest.Builder request = YdbTable.ExecuteDataQueryRequest.newBuilder()
             .setSessionId(id)
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
-            .setTxControl(txControl.toPb());
+            .setTxControl(txControl.toPb())
+            .setCollectStats(settings.collectStats());
 
         request.getQueryBuilder().setId(queryId);
         request.putAllParameters(params.toPb());
