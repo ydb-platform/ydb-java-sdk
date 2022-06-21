@@ -10,6 +10,7 @@ import tech.ydb.table.impl.SessionImpl.State;
 import tech.ydb.table.impl.pool.FixedAsyncPool;
 import tech.ydb.table.impl.pool.PooledObjectHandler;
 import tech.ydb.table.impl.pool.SettlersPool;
+import tech.ydb.table.settings.CloseSessionSettings;
 import tech.ydb.table.settings.CreateSessionSettings;
 import tech.ydb.table.stats.SessionPoolStats;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
     private final TableClientImpl tableClient;
 
     /**
-     * Pool to store sessions which are ready but ide right now
+     * Pool to store sessions which are ready but idle right now
      */
     private final FixedAsyncPool<SessionImpl> idlePool;
 
@@ -62,7 +63,7 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
 
     @Override
     public CompletableFuture<Void> destroy(SessionImpl s) {
-        return s.close()
+        return s.delete(new CloseSessionSettings())
             .thenAccept(r -> r.expect("cannot close session: " + s.getId()));
     }
 
@@ -104,6 +105,10 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
             idlePool.release(session);
             logger.debug("session `{}' released", session);
         }
+    }
+
+    void delete(SessionImpl session) {
+        idlePool.delete(session);
     }
 
     void close() {

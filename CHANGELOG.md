@@ -1,8 +1,12 @@
+## 1.13.4 ##
+
+* Fix some issues in session pool
+
 ## 1.13.3 ##
 
 * Added QueryStatsCollection.Mode parameter to ExecuteDataQuerySettings
 
-## 1.13.1 ##
+## 1.13.2 ##
 
 * Use TableDescription.getPartitioningSettings() by default, mark CreateTableSettings.getPartitioningSettings() deprected
 

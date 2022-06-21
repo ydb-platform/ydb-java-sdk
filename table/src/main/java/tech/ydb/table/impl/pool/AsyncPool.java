@@ -16,6 +16,8 @@ public interface AsyncPool<T> {
 
     void release(T object);
 
+    void delete(T object);
+
     void close();
 
     int getAcquiredCount();

@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -34,6 +35,8 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
     private static final Logger keepAliveTaskLogger = LoggerFactory.getLogger(FixedAsyncPool.KeepAliveTask.class);
 
     private final Deque<PooledObject<T>> objects = new LinkedList<>();
+    private final ConcurrentHashMap<T, T> acquiredObjects = new ConcurrentHashMap<>();
+
     private final AtomicInteger acquiredObjectsCount = new AtomicInteger(0);
     private final Queue<PendingAcquireTask> pendingAcquireTasks = new ConcurrentLinkedQueue<>();
     private final AtomicInteger pendingAcquireCount = new AtomicInteger(0);
@@ -139,6 +142,11 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
             throw new IllegalStateException("pool was closed");
         }
 
+        if (!acquiredObjects.contains(object)) {
+            return;
+        }
+
+        acquiredObjects.remove(object);
         if (handler.isValid(object)) {
             if (tryToMoveObjectToPendingTask(object)) {
                 // fast way for pending task to meet its requirements (a.k.a. randevouze)
@@ -157,6 +165,22 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
         runPendingAcquireTasks();
     }
 
+    @Override
+    public void delete(T object) {
+        synchronized (objects) {
+            Iterator<PooledObject<T>> it = objects.iterator();
+            while (it.hasNext()) {
+                PooledObject<T> pooled = it.next();
+                if (pooled.value == object) {
+                    it.remove();
+                }
+            }
+        }
+        if (acquiredObjects.remove(object, object)) {
+            acquiredObjectsCount.decrementAndGet();
+        }
+    }
+
     void fakeRelease() {
         acquiredObjectsCount.decrementAndGet();
     }
@@ -171,6 +195,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
 
         // create wrapper outside from synchronized block
         PooledObject<T> po = new PooledObject<>(object, System.currentTimeMillis());
+        acquiredObjects.remove(object);
         synchronized (objects) {
             if (acquiredObjectsCount.get() + objects.size() < maxSize) {
                 objects.offerLast(po);
@@ -219,7 +244,9 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
                 if (ex != null) {
                     acquiredObjectsCount.decrementAndGet();
                     onAcquire(promise, null, ex);
-                } else if (!promise.complete(o)) {
+                } else if (promise.complete(o)) {
+                    acquiredObjects.put(o, o);
+                } else {
                     // do not leak object if promise already completed
                     release(o);
                 }
@@ -242,6 +269,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
             }
             promise.completeExceptionally(new IllegalStateException("pool was closed"));
         } else if (error == null) {
+            acquiredObjects.put(object, object);
             promise.complete(object);
         } else {
             promise.completeExceptionally(error);

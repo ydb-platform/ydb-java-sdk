@@ -1001,8 +1001,7 @@ class SessionImpl implements Session {
         return false;
     }
 
-    @Override
-    public CompletableFuture<Status> close(CloseSessionSettings settings) {
+    CompletableFuture<Status> delete(CloseSessionSettings settings) {
         YdbTable.DeleteSessionRequest request = YdbTable.DeleteSessionRequest.newBuilder()
             .setSessionId(id)
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
@@ -1015,7 +1014,18 @@ class SessionImpl implements Session {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
                 return operationTray.waitStatus(response.expect("deleteSession()").getOperation(), deadlineAfter);
-            }));
+            })
+        );
+    }
+
+    @Override
+    public CompletableFuture<Status> close(CloseSessionSettings settings) {
+        return delete(settings).thenApply(response -> {
+            if (response.isSuccess() && sessionPool != null) {
+                sessionPool.delete(SessionImpl.this);
+            }
+            return response;
+        });
     }
 
     private <T> CompletableFuture<Result<T>> interceptResultWithLog(String msg, CompletableFuture<Result<T>> future) {
