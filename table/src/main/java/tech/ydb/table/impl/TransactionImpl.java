@@ -3,6 +3,7 @@ package tech.ydb.table.impl;
 import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.core.Status;
+import tech.ydb.table.Session;
 import tech.ydb.table.settings.CommitTxSettings;
 import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.transaction.Transaction;
@@ -13,10 +14,10 @@ import tech.ydb.table.transaction.Transaction;
  */
 final class TransactionImpl implements Transaction {
 
-    private final SessionImpl session;
+    private final Session session;
     private final String txId;
 
-    TransactionImpl(SessionImpl session, String txId) {
+    TransactionImpl(Session session, String txId) {
         this.session = session;
         this.txId = txId;
     }

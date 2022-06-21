@@ -14,7 +14,6 @@ import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.settings.AlterTableSettings;
 import tech.ydb.table.settings.BeginTxSettings;
 import tech.ydb.table.settings.BulkUpsertSettings;
-import tech.ydb.table.settings.CloseSessionSettings;
 import tech.ydb.table.settings.CommitTxSettings;
 import tech.ydb.table.settings.CopyTableSettings;
 import tech.ydb.table.settings.CreateTableSettings;
@@ -29,7 +28,6 @@ import tech.ydb.table.settings.PrepareDataQuerySettings;
 import tech.ydb.table.settings.ReadTableSettings;
 import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.transaction.Transaction;
-import tech.ydb.table.transaction.TransactionMode;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.values.ListValue;
 
@@ -37,9 +35,18 @@ import tech.ydb.table.values.ListValue;
 /**
  * @author Sergey Polovko
  */
-public interface Session {
+public interface Session extends AutoCloseable {
+    public enum State {
+        UNSPECIFIED,
+        READY,
+        BUSY,
+        ;
+    }
 
     String getId();
+    
+    @Override
+    void close();
 
     CompletableFuture<Status> createTable(String path, TableDescription tableDescriptions, CreateTableSettings settings);
 
@@ -63,7 +70,7 @@ public interface Session {
 
     CompletableFuture<Result<ExplainDataQueryResult>> explainDataQuery(String query, ExplainDataQuerySettings settings);
 
-    CompletableFuture<Result<Transaction>> beginTransaction(TransactionMode transactionMode, BeginTxSettings settings);
+    CompletableFuture<Result<Transaction>> beginTransaction(Transaction.Mode transactionMode, BeginTxSettings settings);
 
     CompletableFuture<Status> commitTransaction(String txId, CommitTxSettings settings);
 
@@ -73,14 +80,9 @@ public interface Session {
 
     CompletableFuture<Status> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings, Consumer<ResultSetReader> fn);
 
-    CompletableFuture<Result<SessionStatus>> keepAlive(KeepAliveSessionSettings settings);
+    CompletableFuture<Result<State>> keepAlive(KeepAliveSessionSettings settings);
 
     CompletableFuture<Status> executeBulkUpsert(String tablePath, ListValue rows, BulkUpsertSettings settings);
-
-    CompletableFuture<Status> close(CloseSessionSettings settings);
-
-    boolean release();
-
 
     default CompletableFuture<Status> createTable(String path, TableDescription tableDescriptions) {
         return createTable(path, tableDescriptions, new CreateTableSettings());
@@ -122,7 +124,7 @@ public interface Session {
         return explainDataQuery(query, new ExplainDataQuerySettings());
     }
 
-    default CompletableFuture<Result<Transaction>> beginTransaction(TransactionMode transactionMode) {
+    default CompletableFuture<Result<Transaction>> beginTransaction(Transaction.Mode transactionMode) {
         return beginTransaction(transactionMode, new BeginTxSettings());
     }
 
@@ -130,11 +132,7 @@ public interface Session {
         return executeBulkUpsert(tablePath, rows, new BulkUpsertSettings());
     }
 
-    default CompletableFuture<Result<SessionStatus>> keepAlive() {
+    default CompletableFuture<Result<State>> keepAlive() {
         return keepAlive(new KeepAliveSessionSettings());
-    }
-
-    default CompletableFuture<Status> close() {
-        return close(new CloseSessionSettings());
     }
 }

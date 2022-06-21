@@ -33,7 +33,7 @@ import static com.google.common.base.Preconditions.checkArgument;
  */
 final class DataQueryImpl implements DataQuery {
 
-    private final SessionImpl session;
+    private final BaseSession session;
     private final String queryId;
     private final ImmutableMap<String, Type> types;
     private final ImmutableMap<String, ValueProtos.Type> typesPb;
@@ -42,7 +42,7 @@ final class DataQueryImpl implements DataQuery {
     private final String textHash;
 
     DataQueryImpl(
-            SessionImpl session,
+            BaseSession session,
             String queryId,
             String text,
             boolean keepText,

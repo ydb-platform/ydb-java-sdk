@@ -7,10 +7,16 @@ import tech.ydb.core.Result;
 
 
 /**
- * @author Sergey Polovko
+ * @author Aleksandr Gorshenin
  */
 public interface SessionSupplier {
-
-    CompletableFuture<Result<Session>> getOrCreateSession(Duration timeout);
+    /**
+     * Create new session asynchronous
+     *
+     * @param duration - timeout of operation completion waiting
+     * @return Return a new CompletableFuture that is completed with successful
+     * Result when session created, and fail Result otherwise
+     */
+    CompletableFuture<Result<Session>> createSession(Duration duration);
 
 }
