@@ -169,13 +169,7 @@ public abstract class BaseSession implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .addAllPrimaryKey(tableDescription.getPrimaryKeys());
 
-        PartitioningSettings partitioningSettings = tableDescription.getPartitioningSettings();
-        if (partitioningSettings == null) {
-            // TODO: remove CreateTableSettings.getPartitioningSettings in further releases
-            partitioningSettings = settings.getPartitioningSettings();
-        }
-
-        applyPartitioningSettings(partitioningSettings, request::setPartitioningSettings);
+        applyPartitioningSettings(tableDescription.getPartitioningSettings(), request::setPartitioningSettings);
 
         for (TableColumn column : tableDescription.getColumns()) {
             YdbTable.ColumnMeta.Builder builder = YdbTable.ColumnMeta.newBuilder()

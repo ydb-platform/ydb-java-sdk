@@ -23,8 +23,6 @@ public class CreateTableSettings extends RequestSettings<CreateTableSettings> {
     private ReplicationPolicy replicationPolicy;
     @Nullable
     private TtlSettings ttlSettings;
-    @Nullable
-    private PartitioningSettings partitioningSettings;
 
     @Nullable
     public String getPresetName() {
@@ -93,24 +91,5 @@ public class CreateTableSettings extends RequestSettings<CreateTableSettings> {
 
     public void setTtlSettings(@Nullable TtlSettings ttlSettings) {
         this.ttlSettings = ttlSettings;
-    }
-
-    /**
-     * Deprecated, will be removed in further releases
-     * use {@link tech.ydb.table.description.TableDescription#getPartitioningSettings()} instead
-     */
-    @Nullable
-    @Deprecated
-    public PartitioningSettings getPartitioningSettings() {
-        return partitioningSettings;
-    }
-
-    /**
-     * Deprecated, will be removed in further releases
-     * use {@link tech.ydb.table.description.TableDescription.Builder#setPartitioningSettings(PartitioningSettings)} instead
-     */
-    @Deprecated
-    public void setPartitioningSettings(@Nullable PartitioningSettings partitioningSettings) {
-        this.partitioningSettings = partitioningSettings;
     }
 }
