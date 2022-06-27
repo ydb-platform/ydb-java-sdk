@@ -533,6 +533,7 @@ public abstract class BaseSession implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .setTxControl(txControl.toPb())
             .setQuery(YdbTable.Query.newBuilder().setYqlText(query))
+            .setCollectStats(settings.collectStats())
             .putAllParameters(params.toPb());
 
         final boolean keepInServerQueryCache = settings.isKeepInQueryCache();
@@ -581,7 +582,8 @@ public abstract class BaseSession implements Session {
         YdbTable.ExecuteDataQueryRequest.Builder request = YdbTable.ExecuteDataQueryRequest.newBuilder()
             .setSessionId(id)
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
-            .setTxControl(txControl.toPb());
+            .setTxControl(txControl.toPb())
+            .setCollectStats(settings.collectStats());
 
         request.getQueryBuilder().setId(queryId);
         request.putAllParameters(params.toPb());
@@ -941,7 +943,8 @@ public abstract class BaseSession implements Session {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
                 return tableRpc.getOperationTray().waitStatus(response.expect("deleteSession()").getOperation(), deadlineAfter);
-            }));
+            })
+        );
     }
 
     private <T> CompletableFuture<Result<T>> interceptResultWithLog(String msg, CompletableFuture<Result<T>> future) {

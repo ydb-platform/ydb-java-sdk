@@ -27,4 +27,5 @@ public final class Operations {
             throw new RuntimeException("cannot unpack result of operation: " + operation.getId(), e);
         }
     }
+
 }
