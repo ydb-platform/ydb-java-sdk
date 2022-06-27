@@ -1,3 +1,7 @@
+## 1.13.5 ##
+
+* Use cached version of IAM Auth Provider
+
 ## 1.13.4 ##
 
 * Fix some issues in session pool

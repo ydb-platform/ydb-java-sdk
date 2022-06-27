@@ -24,17 +24,17 @@ dependencies:
     <dependency>
         <groupId>tech.ydb</groupId>
         <artifactId>ydb-sdk-core</artifactId>
-        <version>1.13.4</version>
+        <version>1.13.5</version>
     </dependency>
     <dependency>
         <groupId>tech.ydb</groupId>
         <artifactId>ydb-sdk-table</artifactId>
-        <version>1.13.4</version>
+        <version>1.13.5</version>
     </dependency>
     <dependency>
         <groupId>tech.ydb</groupId>
         <artifactId>ydb-sdk-auth-iam</artifactId>
-        <version>1.13.4</version>
+        <version>1.13.5</version>
     </dependency>
 </dependencies>
 ```
