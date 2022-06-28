@@ -98,6 +98,7 @@ public class FixedPoolTableClient implements TableClient {
     public void close() {
         idlePool.close();
         settlersPool.close();
+        handler.close();
     }
 
     @Override
@@ -111,7 +112,7 @@ public class FixedPoolTableClient implements TableClient {
             idlePool.getPendingAcquireCount());
     }
 
-    private class SessionHandler implements PooledObjectHandler<PooledSession> {
+    private class SessionHandler implements PooledObjectHandler<PooledSession>, AutoCloseable {
         private final TableRpc rpc;
         private final boolean keepQueryText;
 
@@ -143,6 +144,11 @@ public class FixedPoolTableClient implements TableClient {
         @Override
         public CompletableFuture<Result<Session.State>> keepAlive(PooledSession s) {
             return s.keepAlive();
+        }
+        
+        @Override
+        public void close() {
+            rpc.close();
         }
     }
 
