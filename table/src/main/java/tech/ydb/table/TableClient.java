@@ -2,12 +2,10 @@ package tech.ydb.table;
 
 import java.time.Duration;
 
-import javax.annotation.WillClose;
 import javax.annotation.WillNotClose;
 
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.table.impl.pool.FixedPoolTableClient;
-import tech.ydb.table.rpc.TableRpc;
 import tech.ydb.table.rpc.grpc.GrpcTableRpc;
 
 
@@ -25,11 +23,6 @@ import tech.ydb.table.rpc.grpc.GrpcTableRpc;
  */
 public interface TableClient extends SessionSupplier, AutoCloseable {
 
-    @Deprecated
-    static Builder newClient(@WillClose TableRpc tableRpc) {
-        return FixedPoolTableClient.newClient(tableRpc);
-    }
-    
     /** 
      * Return TableClient builder used passed {@link GrpcTransport}
      * @param transport instance of grpc transport
