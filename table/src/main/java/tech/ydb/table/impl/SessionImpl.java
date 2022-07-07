@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 import javax.annotation.Nullable;
 
 import com.google.protobuf.Timestamp;
+import tech.ydb.OperationProtos.Operation;
 import tech.ydb.StatusCodesProtos.StatusIds;
 import tech.ydb.ValueProtos;
 import tech.ydb.common.CommonProtos;
@@ -601,18 +602,20 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
                 }
+                Operation operation = response.expect("executeDataQuery()").getOperation();
                 return operationTray.waitResult(
-                    response.expect("executeDataQuery()").getOperation(),
+                    operation,
                     YdbTable.ExecuteQueryResult.class,
-                    result -> mapExecuteDataQuery(result, query, keepInClientQueryCache),
+                    result -> mapExecuteDataQuery(result, operation, query, keepInClientQueryCache),
                     deadlineAfter);
             }));
     }
 
     private DataQueryResult mapExecuteDataQuery(
-        YdbTable.ExecuteQueryResult result,
-        @Nullable String queryText,
-        boolean keepInClientQueryCache)
+            YdbTable.ExecuteQueryResult result,
+            Operation operation,
+            @Nullable String queryText,
+            boolean keepInClientQueryCache)
     {
         if (keepInClientQueryCache && result.hasQueryMeta() && queryText != null) {
             assert queryCache != null;
@@ -622,7 +625,11 @@ class SessionImpl implements Session {
         }
 
         YdbTable.TransactionMeta txMeta = result.getTxMeta();
-        return new DataQueryResult(txMeta.getId(), result.getResultSetsList());
+        return new DataQueryResult(
+                txMeta.getId(),
+                result.getResultSetsList(),
+                operation.hasCostInfo() ? new DataQueryResult.CostInfo(operation.getCostInfo()) : null
+        );
     }
 
     CompletableFuture<Result<DataQueryResult>> executePreparedDataQuery(
@@ -673,10 +680,11 @@ class SessionImpl implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
                 }
+                Operation operation = response.expect("executeDataQuery()").getOperation();
                 return tableRpc.getOperationTray().waitResult(
-                    response.expect("executeDataQuery()").getOperation(),
+                    operation,
                     YdbTable.ExecuteQueryResult.class,
-                    result -> mapExecuteDataQuery(result, queryText, keepInClientQueryCache),
+                    result -> mapExecuteDataQuery(result, operation, queryText, keepInClientQueryCache),
                     deadlineAfter);
             }));
     }

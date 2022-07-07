@@ -15,6 +15,7 @@ public class RequestSettings<Self extends RequestSettings> {
     private Duration operationTimeout;
     private Duration cancelAfter;
     private Duration timeout;
+    private Boolean reportCostInfo;
 
     public String getTraceId() {
         return traceId;
@@ -91,4 +92,14 @@ public class RequestSettings<Self extends RequestSettings> {
         this.cancelAfter = cancelAfter;
         return self();
     }
+
+    public Optional<Boolean> getReportCostInfo() {
+        return Optional.ofNullable(reportCostInfo);
+    }
+
+    public Self setReportCostInfo(Boolean reportCostInfo) {
+        this.reportCostInfo = reportCostInfo;
+        return self();
+    }
+
 }

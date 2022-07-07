@@ -1,3 +1,8 @@
+## 1.13.6 ##
+
+* Added reportCostInfo flag to RequestSettings
+* Added costInfo to DataQueryResult
+
 ## 1.13.5 ##
 
 * Use cached version of IAM Auth Provider
