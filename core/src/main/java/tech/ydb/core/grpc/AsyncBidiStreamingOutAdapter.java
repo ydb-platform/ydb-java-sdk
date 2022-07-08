@@ -3,13 +3,13 @@ package tech.ydb.core.grpc;
 import tech.ydb.core.rpc.OutStreamObserver;
 import io.grpc.ClientCall;
 
-class AsyncBidiStreamingOutAdapter<ReqT, RespT> implements OutStreamObserver<ReqT> {
+public class AsyncBidiStreamingOutAdapter<ReqT, RespT> implements OutStreamObserver<ReqT> {
 
     private final ClientCall<ReqT, RespT> call;
     private boolean aborted = false;
     private boolean completed = false;
 
-    AsyncBidiStreamingOutAdapter(ClientCall<ReqT, RespT> call) {
+    public AsyncBidiStreamingOutAdapter(ClientCall<ReqT, RespT> call) {
         this.call = call;
     }
 

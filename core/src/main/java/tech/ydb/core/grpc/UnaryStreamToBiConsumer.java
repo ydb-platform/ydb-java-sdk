@@ -2,6 +2,7 @@ package tech.ydb.core.grpc;
 
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
@@ -19,11 +20,18 @@ public class UnaryStreamToBiConsumer<T> extends ClientCall.Listener<T> {
         AtomicIntegerFieldUpdater.newUpdater(UnaryStreamToBiConsumer.class, "accepted");
 
     private final BiConsumer<T, Status> consumer;
+    private final Consumer<Status> errorHandler;
     private volatile int accepted = 0;
     private T value;
 
     public UnaryStreamToBiConsumer(BiConsumer<T, Status> consumer) {
         this.consumer = consumer;
+        this.errorHandler = null;
+    }
+
+    public UnaryStreamToBiConsumer(BiConsumer<T, Status> consumer, Consumer<Status> errorHandler) {
+        this.consumer = consumer;
+        this.errorHandler = errorHandler;
     }
 
     @Override
@@ -45,6 +53,9 @@ public class UnaryStreamToBiConsumer<T> extends ClientCall.Listener<T> {
             }
         } else {
             accept(null, status);
+            if (errorHandler != null) {
+                errorHandler.accept(status);
+            }
         }
     }
 

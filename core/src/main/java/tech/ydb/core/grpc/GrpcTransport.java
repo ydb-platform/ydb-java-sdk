@@ -7,7 +7,6 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
@@ -88,9 +87,6 @@ public abstract class GrpcTransport implements RpcTransport {
         this.discoveryMode = builder.getDiscoveryMode();
     }
 
-    @Nullable
-    protected abstract Channel getChannel();
-
     public static Builder forHost(String host, int port) {
         return new Builder(null, null, singletonList(HostAndPort.fromParts(host, port)));
     }
@@ -163,17 +159,18 @@ public abstract class GrpcTransport implements RpcTransport {
         CompletableFuture<Result<RespT>> promise = new CompletableFuture<>();
 
         if (!shutdown) {
-            final Channel channel = getChannel();
-            ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
-            if (logger.isDebugEnabled()) {
-                logger.debug("Sending request to {}, method `{}', request: `{}'", channel.authority(), method, request );
-            }
-            sendOneRequest(call, request, new UnaryStreamToFuture<>(promise));
+            return makeUnaryCall(method, request, callOptions, promise);
         } else {
             promise.complete(CancelResultDueToShutdown());
         }
         return promise;
     }
+
+    protected abstract <ReqT, RespT> CompletableFuture<Result<RespT>> makeUnaryCall(
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            CallOptions callOptions,
+            CompletableFuture<Result<RespT>> promise);
 
     public <ReqT, RespT> void unaryCall(
             MethodDescriptor<ReqT, RespT> method,
@@ -193,16 +190,17 @@ public abstract class GrpcTransport implements RpcTransport {
         }
 
         if (!shutdown) {
-            final Channel channel = getChannel();
-            ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
-            if (logger.isDebugEnabled()) {
-                logger.debug("Sending request to {}, method `{}', request: `{}'", channel.authority(), method, request);
-            }
-            sendOneRequest(call, request, new UnaryStreamToConsumer<>(consumer));
+            makeUnaryCall(method, request, callOptions, consumer);
         } else {
             consumer.accept(CancelResultDueToShutdown());
         }
     }
+
+    protected abstract <ReqT, RespT> void makeUnaryCall(
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            CallOptions callOptions,
+            Consumer<Result<RespT>> consumer);
 
     public <ReqT, RespT> void unaryCall(
             MethodDescriptor<ReqT, RespT> method,
@@ -222,16 +220,17 @@ public abstract class GrpcTransport implements RpcTransport {
         }
 
         if (!shutdown) {
-            final Channel channel = getChannel();
-            ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
-            if (logger.isDebugEnabled()) {
-                logger.debug("Sending request to {}, method `{}', request: `{}'", channel.authority(), method, request );
-            }
-            sendOneRequest(call, request, new UnaryStreamToBiConsumer<>(consumer));
+            makeUnaryCall(method, request, callOptions, consumer);
         } else {
             consumer.accept(null, Status.CANCELLED);
         }
     }
+
+    protected abstract <ReqT, RespT> void makeUnaryCall(
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            CallOptions callOptions,
+            BiConsumer<RespT, Status> consumer);
 
     public <ReqT, RespT> StreamControl serverStreamCall(
             MethodDescriptor<ReqT, RespT> method,
@@ -251,17 +250,18 @@ public abstract class GrpcTransport implements RpcTransport {
         }
 
         if (!shutdown) {
-            final Channel channel = getChannel();
-            ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
-            sendOneRequest(call, request, new ServerStreamToObserver<>(observer, call));
-            return () -> {
-                call.cancel("Cancelled on user request", new CancellationException());
-            };
+            return makeServerStreamCall(method, request, callOptions, observer);
         } else {
             observer.onError(CancelResultDueToShutdown().toStatus());
             return () -> {};
         }
     }
+
+    protected abstract <ReqT, RespT> StreamControl makeServerStreamCall(
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            CallOptions callOptions,
+            StreamObserver<RespT> observer);
 
     private <ReqT> OutStreamObserver<ReqT> makeEmptyObserverStub() {
         return new OutStreamObserver<ReqT>() {
@@ -296,16 +296,19 @@ public abstract class GrpcTransport implements RpcTransport {
         }
 
         if (!shutdown) {
-            final Channel channel = getChannel();
-            ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
-            return asyncBidiStreamingCall(call, observer);
+            return makeBidirectionalStreamCall(method, callOptions, observer);
         } else {
             observer.onError(CancelResultDueToShutdown().toStatus());
             return makeEmptyObserverStub();
         }
     }
 
-    private static <ReqT, RespT> void sendOneRequest(
+    protected abstract <ReqT, RespT> OutStreamObserver<ReqT> makeBidirectionalStreamCall(
+            MethodDescriptor<ReqT, RespT> method,
+            CallOptions callOptions,
+            StreamObserver<RespT> observer);
+
+    protected static <ReqT, RespT> void sendOneRequest(
             ClientCall<ReqT, RespT> call,
             ReqT request,
             ClientCall.Listener<RespT> listener) {
@@ -325,7 +328,7 @@ public abstract class GrpcTransport implements RpcTransport {
         }
     }
 
-    private static <ReqT, RespT> OutStreamObserver<ReqT> asyncBidiStreamingCall(
+    protected static <ReqT, RespT> OutStreamObserver<ReqT> asyncBidiStreamingCall(
             ClientCall<ReqT, RespT> call,
             StreamObserver<RespT> responseObserver) {
         AsyncBidiStreamingOutAdapter<ReqT, RespT> adapter

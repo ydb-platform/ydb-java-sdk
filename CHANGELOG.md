@@ -1,3 +1,8 @@
+## 1.13.7 ##
+
+* Added regular re-discovery for new YDB transport implementation
+* Added node pessimization on receiving transport error in new YDB transport implementation
+
 ## 1.13.6 ##
 
 * Added reportCostInfo flag to RequestSettings

@@ -3,20 +3,38 @@ package tech.ydb.core.grpc.impl.grpc;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import com.google.common.net.HostAndPort;
+import tech.ydb.core.Result;
+import tech.ydb.core.grpc.AsyncBidiStreamingInAdapter;
+import tech.ydb.core.grpc.AsyncBidiStreamingOutAdapter;
 import tech.ydb.core.grpc.ChannelSettings;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.grpc.ServerStreamToObserver;
+import tech.ydb.core.grpc.UnaryStreamToBiConsumer;
+import tech.ydb.core.grpc.UnaryStreamToConsumer;
+import tech.ydb.core.grpc.UnaryStreamToFuture;
+import tech.ydb.core.rpc.OutStreamObserver;
+import tech.ydb.core.rpc.StreamControl;
+import tech.ydb.core.rpc.StreamObserver;
+import io.grpc.CallOptions;
 import io.grpc.Channel;
+import io.grpc.ClientCall;
 import io.grpc.ConnectivityState;
 import io.grpc.LoadBalancer;
 import io.grpc.LoadBalancerProvider;
 import io.grpc.LoadBalancerRegistry;
 import io.grpc.ManagedChannel;
+import io.grpc.Metadata;
+import io.grpc.MethodDescriptor;
+import io.grpc.Status;
 import io.grpc.netty.NettyChannelBuilder;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelOption;
@@ -95,11 +113,6 @@ public class GrpcTransportImpl extends GrpcTransport {
         return promise;
     }
 
-    @Override
-    protected Channel getChannel() {
-        return channel;
-    }
-
     private static ManagedChannel createChannel(GrpcTransport.Builder builder, ChannelSettings channelSettings) {
         String endpoint = builder.getEndpoint();
         String database = builder.getDatabase();
@@ -169,6 +182,74 @@ public class GrpcTransportImpl extends GrpcTransport {
             }
         });
         return policyName;
+    }
+
+    @Override
+    protected <ReqT, RespT> CompletableFuture<Result<RespT>> makeUnaryCall(
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            CallOptions callOptions,
+            CompletableFuture<Result<RespT>> promise) {
+        ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
+        if (logger.isDebugEnabled()) {
+            logger.debug("Sending request to {}, method `{}', request: `{}'", channel.authority(), method, request );
+        }
+        sendOneRequest(call, request, new UnaryStreamToFuture<>(promise));
+        return promise;
+    }
+
+    @Override
+    protected <ReqT, RespT> void makeUnaryCall(
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            CallOptions callOptions,
+            Consumer<Result<RespT>> consumer) {
+        ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
+        if (logger.isDebugEnabled()) {
+            logger.debug("Sending request to {}, method `{}', request: `{}'", channel.authority(), method, request );
+        }
+        sendOneRequest(call, request, new UnaryStreamToConsumer<>(consumer));
+    }
+
+    @Override
+    protected <ReqT, RespT> void makeUnaryCall(
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            CallOptions callOptions,
+            BiConsumer<RespT, Status> consumer) {
+        ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
+        if (logger.isDebugEnabled()) {
+            logger.debug("Sending request to {}, method `{}', request: `{}'", channel.authority(), method, request );
+        }
+        sendOneRequest(call, request, new UnaryStreamToBiConsumer<>(consumer));
+    }
+
+    @Override
+    protected <ReqT, RespT> StreamControl makeServerStreamCall(
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            CallOptions callOptions,
+            StreamObserver<RespT> observer) {
+        ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
+        sendOneRequest(call, request, new ServerStreamToObserver<>(observer, call));
+        return () -> {
+            call.cancel("Cancelled on user request", new CancellationException());
+        };
+    }
+
+    @Override
+    protected <ReqT, RespT> OutStreamObserver<ReqT> makeBidirectionalStreamCall(
+            MethodDescriptor<ReqT, RespT> method,
+            CallOptions callOptions,
+            StreamObserver<RespT> observer) {
+        ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
+        AsyncBidiStreamingOutAdapter<ReqT, RespT> adapter
+                = new AsyncBidiStreamingOutAdapter<>(call);
+        AsyncBidiStreamingInAdapter<ReqT, RespT> responseListener
+                = new AsyncBidiStreamingInAdapter<>(observer, adapter);
+        call.start(responseListener, new Metadata());
+        responseListener.onStart();
+        return adapter;
     }
 
     @Override

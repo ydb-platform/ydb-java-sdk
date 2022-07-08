@@ -20,11 +20,18 @@ public class UnaryStreamToConsumer<T> extends ClientCall.Listener<T> {
         AtomicIntegerFieldUpdater.newUpdater(UnaryStreamToConsumer.class, "accepted");
 
     private final Consumer<Result<T>> consumer;
+    private final Consumer<Status> errorHandler;
     private volatile int accepted = 0;
     private T value;
 
     public UnaryStreamToConsumer(Consumer<Result<T>> consumer) {
         this.consumer = consumer;
+        this.errorHandler = null;
+    }
+
+    public UnaryStreamToConsumer(Consumer<Result<T>> consumer, Consumer<Status> errorHandler) {
+        this.consumer = consumer;
+        this.errorHandler = errorHandler;
     }
 
     @Override
@@ -48,6 +55,9 @@ public class UnaryStreamToConsumer<T> extends ClientCall.Listener<T> {
             }
         } else {
             accept(GrpcStatuses.toResult(status));
+            if (errorHandler != null) {
+                errorHandler.accept(status);
+            }
         }
     }
 

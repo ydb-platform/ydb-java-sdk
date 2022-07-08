@@ -1,18 +1,35 @@
 package tech.ydb.core.grpc.impl.ydb;
 
 import java.time.Duration;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import com.google.common.net.HostAndPort;
+import tech.ydb.core.Result;
+import tech.ydb.core.grpc.AsyncBidiStreamingInAdapter;
+import tech.ydb.core.grpc.AsyncBidiStreamingOutAdapter;
 import tech.ydb.core.grpc.BalancingSettings;
 import tech.ydb.core.grpc.ChannelSettings;
 import tech.ydb.core.grpc.DiscoveryMode;
 import tech.ydb.core.grpc.GrpcDiscoveryRpc;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.grpc.ServerStreamToObserver;
 import tech.ydb.core.grpc.TransportImplType;
+import tech.ydb.core.grpc.UnaryStreamToBiConsumer;
+import tech.ydb.core.grpc.UnaryStreamToConsumer;
+import tech.ydb.core.grpc.UnaryStreamToFuture;
+import tech.ydb.core.rpc.OutStreamObserver;
+import tech.ydb.core.rpc.StreamControl;
+import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.core.utils.Async;
-import io.grpc.Channel;
+import io.grpc.CallOptions;
+import io.grpc.ClientCall;
+import io.grpc.Metadata;
+import io.grpc.MethodDescriptor;
+import io.grpc.Status;
 import io.netty.util.Timeout;
 import io.netty.util.TimerTask;
 import org.slf4j.Logger;
@@ -22,15 +39,18 @@ import org.slf4j.LoggerFactory;
  * @author Nikolay Perfilov
  */
 public class YdbTransportImpl extends GrpcTransport {
-
-    public static final long DISCOVERY_PERIOD_NORMAL_MS = 60000;
+    // Interval between discovery requests when everything is ok
+    private static final long DISCOVERY_PERIOD_NORMAL_SECONDS = 60;
+    // Interval between discovery requests when pessimization threshold is exceeded
+    private static final long DISCOVERY_PERIOD_MIN_SECONDS = 5;
+    // Maximum percent of endpoints pessimized by transport errors to start recheck
+    private static final long DISCOVERY_PESSIMIZATION_THRESHOLD = 50;
 
     private static final Logger logger = LoggerFactory.getLogger(YdbTransportImpl.class);
 
     private final GrpcDiscoveryRpc discoveryRpc;
     private final EndpointPool endpointPool;
     private final GrpcChannelPool channelPool;
-    private final long discoveryPeriodMillis = DISCOVERY_PERIOD_NORMAL_MS;
     private final PeriodicDiscoveryTask periodicDiscoveryTask = new PeriodicDiscoveryTask();
 
     public YdbTransportImpl(GrpcTransport.Builder builder) {
@@ -90,9 +110,128 @@ public class YdbTransportImpl extends GrpcTransport {
         return new GrpcDiscoveryRpc(transport);
     }
 
+    private void checkEndpointResponse(Result<?> result, String endpoint) {
+        if (result.getCode().isTransportError()) {
+            endpointPool.pessimizeEndpoint(endpoint);
+        }
+    }
+
+    private void checkEndpointResponse(Status grpcStatus, String endpoint) {
+        if (!grpcStatus.isOk()) {
+            endpointPool.pessimizeEndpoint(endpoint);
+        }
+    }
+
     @Override
-    protected Channel getChannel() {
-        return channelPool.getChannel(endpointPool.getEndpoint()).channel;
+    protected <ReqT, RespT> CompletableFuture<Result<RespT>> makeUnaryCall(
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            CallOptions callOptions,
+            CompletableFuture<Result<RespT>> promise) {
+        GrpcChannel channel = channelPool.getChannel(endpointPool.getEndpoint());
+        ClientCall<ReqT, RespT> call = channel.channel.newCall(method, callOptions);
+        if (logger.isDebugEnabled()) {
+            logger.debug("Sending request to {}, method `{}', request: `{}'", channel.getEndpoint(), method,
+                    request);
+        }
+        sendOneRequest(call, request, new UnaryStreamToFuture<>(promise));
+        return promise.thenApply(result -> {
+            checkEndpointResponse(result, channel.getEndpoint());
+            return result;
+        });
+    }
+
+    @Override
+    protected <ReqT, RespT> void makeUnaryCall(
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            CallOptions callOptions,
+            Consumer<Result<RespT>> consumer) {
+        GrpcChannel channel = channelPool.getChannel(endpointPool.getEndpoint());
+        ClientCall<ReqT, RespT> call = channel.channel.newCall(method, callOptions);
+        if (logger.isDebugEnabled()) {
+            logger.debug("Sending request to {}, method `{}', request: `{}'", channel.getEndpoint(), method,
+                    request);
+        }
+        sendOneRequest(
+                call,
+                request,
+                new UnaryStreamToConsumer<>(
+                        consumer,
+                        (status) -> {
+                            checkEndpointResponse(status, channel.getEndpoint());
+                        }
+                )
+        );
+    }
+
+    @Override
+    protected <ReqT, RespT> void makeUnaryCall(
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            CallOptions callOptions,
+            BiConsumer<RespT, Status> consumer) {
+        GrpcChannel channel = channelPool.getChannel(endpointPool.getEndpoint());
+        ClientCall<ReqT, RespT> call = channel.channel.newCall(method, callOptions);
+        if (logger.isDebugEnabled()) {
+            logger.debug("Sending request to {}, method `{}', request: `{}'", channel.channel.authority(),method,
+                    request);
+        }
+        sendOneRequest(
+                call,
+                request,
+                new UnaryStreamToBiConsumer<>(
+                        consumer,
+                        (status) -> {
+                            checkEndpointResponse(status, channel.getEndpoint());
+                        }
+                )
+        );
+    }
+
+    @Override
+    protected <ReqT, RespT> StreamControl makeServerStreamCall(
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            CallOptions callOptions,
+            StreamObserver<RespT> observer) {
+        GrpcChannel channel = channelPool.getChannel(endpointPool.getEndpoint());
+        ClientCall<ReqT, RespT> call = channel.channel.newCall(method, callOptions);
+        sendOneRequest(
+                call,
+                request,
+                new ServerStreamToObserver<>(
+                        observer,
+                        call,
+                        (status) -> {
+                            checkEndpointResponse(status, channel.getEndpoint());
+                        }
+                )
+        );
+        return () -> {
+            call.cancel("Cancelled on user request", new CancellationException());
+        };
+    }
+
+    @Override
+    protected <ReqT, RespT> OutStreamObserver<ReqT> makeBidirectionalStreamCall(
+            MethodDescriptor<ReqT, RespT> method,
+            CallOptions callOptions,
+            StreamObserver<RespT> observer) {
+        GrpcChannel channel = channelPool.getChannel(endpointPool.getEndpoint());
+        ClientCall<ReqT, RespT> call = channel.channel.newCall(method, callOptions);
+        AsyncBidiStreamingOutAdapter<ReqT, RespT> adapter
+                = new AsyncBidiStreamingOutAdapter<>(call);
+        AsyncBidiStreamingInAdapter<ReqT, RespT> responseListener = new AsyncBidiStreamingInAdapter<>(
+                    observer,
+                    adapter,
+                    (status) -> {
+                        checkEndpointResponse(status, channel.getEndpoint());
+                    }
+                );
+        call.start(responseListener, new Metadata());
+        responseListener.onStart();
+        return adapter;
     }
 
     @Override
@@ -121,6 +260,7 @@ public class YdbTransportImpl extends GrpcTransport {
         void start() {
             CompletableFuture<EndpointPool.EndpointUpdateResultData> firstRunFuture = runDiscovery(true);
             if (firstRunFuture == null) {
+                // TODO: Retry?
                 throw new RuntimeException("Couldn't perform discovery on GrpcTransport start");
             }
             // Waiting for first discovery result...
@@ -133,7 +273,18 @@ public class YdbTransportImpl extends GrpcTransport {
 
         @Override
         public void run(Timeout timeout) {
-            runDiscovery(false);
+            int pessimizationRatio = endpointPool.getPessimizationRatio();
+            if (pessimizationRatio > DISCOVERY_PESSIMIZATION_THRESHOLD) {
+                logger.info("launching discovery due to pessimization threshold is exceeded: {} is more than {}",
+                        pessimizationRatio, DISCOVERY_PESSIMIZATION_THRESHOLD);
+                runDiscovery(false);
+            } else if (endpointPool.getTimeSinceLastUpdate().getSeconds() > DISCOVERY_PERIOD_NORMAL_SECONDS) {
+                logger.debug("launching discovery in normal mode");
+                runDiscovery(false);
+            } else {
+                scheduleNextDiscovery();
+                logger.trace("no need to run discovery yet");
+            }
         }
 
         private CompletableFuture<EndpointPool.EndpointUpdateResultData> runDiscovery(boolean firstRun) {
@@ -172,8 +323,7 @@ public class YdbTransportImpl extends GrpcTransport {
         }
 
         void scheduleNextDiscovery() {
-            logger.debug("scheduling next discovery in {}ms", discoveryPeriodMillis);
-            scheduledHandle = Async.runAfter(this, discoveryPeriodMillis, TimeUnit.MILLISECONDS);
+            scheduledHandle = Async.runAfter(this, DISCOVERY_PERIOD_MIN_SECONDS, TimeUnit.SECONDS);
         }
     }
 }

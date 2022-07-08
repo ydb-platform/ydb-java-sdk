@@ -1,18 +1,32 @@
 package tech.ydb.core.grpc;
 
+import java.util.function.Consumer;
+
 import tech.ydb.core.rpc.StreamObserver;
 import io.grpc.ClientCall;
 import io.grpc.Metadata;
 import io.grpc.Status;
 
-class AsyncBidiStreamingInAdapter<ReqT, RespT> extends ClientCall.Listener<RespT> {
+public class AsyncBidiStreamingInAdapter<ReqT, RespT> extends ClientCall.Listener<RespT> {
 
     private final StreamObserver<RespT> observer;
     private final AsyncBidiStreamingOutAdapter<ReqT, RespT> adapter;
+    private final Consumer<Status> errorHandler;
 
-    AsyncBidiStreamingInAdapter(StreamObserver<RespT> observer, AsyncBidiStreamingOutAdapter<ReqT, RespT> adapter) {
+    public AsyncBidiStreamingInAdapter(StreamObserver<RespT> observer,
+                                       AsyncBidiStreamingOutAdapter<ReqT, RespT> adapter
+                                       ) {
         this.observer = observer;
         this.adapter = adapter;
+        this.errorHandler = null;
+    }
+
+    public AsyncBidiStreamingInAdapter(StreamObserver<RespT> observer,
+                                       AsyncBidiStreamingOutAdapter<ReqT, RespT> adapter,
+                                       Consumer<Status> errorHandler) {
+        this.observer = observer;
+        this.adapter = adapter;
+        this.errorHandler = errorHandler;
     }
 
     @Override
@@ -31,6 +45,9 @@ class AsyncBidiStreamingInAdapter<ReqT, RespT> extends ClientCall.Listener<RespT
             observer.onCompleted();
         } else {
             observer.onError(GrpcStatuses.toStatus(status));
+            if (errorHandler != null) {
+                errorHandler.accept(status);
+            }
         }
     }
 
@@ -38,7 +55,7 @@ class AsyncBidiStreamingInAdapter<ReqT, RespT> extends ClientCall.Listener<RespT
     public void onReady() {
     }
 
-    void onStart() {
+    public void onStart() {
         adapter.requestOne();
     }
 
