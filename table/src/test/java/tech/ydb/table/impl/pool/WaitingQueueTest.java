@@ -3,6 +3,7 @@ package tech.ydb.table.impl.pool;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -714,5 +715,101 @@ public class WaitingQueueTest {
     @Test(expected = IllegalArgumentException.class)
     public void validateQueueHandler() {
         (new WaitingQueue<>(null, 1)).getClass();
+    }
+    
+    @Test
+    public void testColdIterator() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 5);
+
+        CompletableFuture<Resource> f1 = acquirePending(queue);
+        CompletableFuture<Resource> f2 = acquirePending(queue);
+        CompletableFuture<Resource> f3 = acquirePending(queue);
+        
+        rs.completeNext().completeNext().completeNext();
+        
+        Resource r1 = pendingIsReady(f1);
+        Resource r2 = pendingIsReady(f2);
+        Resource r3 = pendingIsReady(f3);
+        
+        Iterator<Resource> cold = queue.coldIterator();
+        Assert.assertFalse("All of resources in use, nothing is cold", cold.hasNext());
+        
+        queue.release(r1);
+        queue.release(r3);
+        queue.release(r2);
+        
+        cold = queue.coldIterator();
+
+        Assert.assertTrue("There is next cold resource", cold.hasNext());
+        Assert.assertEquals("Next cold resource is r1", r1, cold.next());
+        Assert.assertTrue("There is next cold resource", cold.hasNext());
+        Assert.assertEquals("Next cold resource is r3", r3, cold.next());
+        Assert.assertTrue("There is next cold resource", cold.hasNext());
+        Assert.assertEquals("Next cold resource is r2", r2, cold.next());
+        
+        Assert.assertFalse("There isn't cold resource", cold.hasNext());
+
+        queue.close();
+    }
+
+    @Test
+    public void testRemoveColdResources() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 5);
+
+        CompletableFuture<Resource> f1 = acquirePending(queue);
+        CompletableFuture<Resource> f2 = acquirePending(queue);
+        CompletableFuture<Resource> f3 = acquirePending(queue);
+        
+        rs.completeNext().completeNext().completeNext();
+        check(rs).activeCount(3);
+        
+        check(queue).queueSize(3).idleSize(0);
+        Resource r1 = pendingIsReady(f1);
+        Resource r2 = pendingIsReady(f2);
+        Resource r3 = pendingIsReady(f3);
+        
+        Iterator<Resource> cold = queue.coldIterator();
+        Assert.assertFalse("All of resources in use, nothing is cold", cold.hasNext());
+        // remove without next() do nothing
+        cold.remove();
+        
+        queue.release(r1);
+        
+        check(queue).queueSize(3).idleSize(1);
+        cold = queue.coldIterator();
+        Assert.assertTrue("There is next cold resource", cold.hasNext());
+        Assert.assertEquals("Next cold resource is r1", r1, cold.next());
+        cold.remove();
+
+        check(rs).activeCount(2);
+        check(queue).queueSize(2).idleSize(0);
+        Assert.assertFalse("There isn't cold resource", cold.hasNext());
+
+        queue.release(r2);
+        queue.release(r3);
+
+        check(queue).queueSize(2).idleSize(2);
+        cold = queue.coldIterator();
+
+        Assert.assertTrue("There is next cold resource", cold.hasNext());
+        Assert.assertEquals("Next cold resource is r2", r2, cold.next());
+        Assert.assertTrue("There is next cold resource", cold.hasNext());
+        Assert.assertEquals("Next cold resource is r3", r3, cold.next());
+        
+        check(queue).queueSize(2).idleSize(2);
+        // acquire the hottest resource r3
+        Resource r4 = acquireReady(queue);
+        check(queue).queueSize(2).idleSize(1);
+        
+        // try to remove already used resource - nothing is changed
+        cold.remove();
+        check(rs).activeCount(2);
+        check(queue).queueSize(2).idleSize(1);
+        
+        queue.delete(r4);
+        
+        queue.close();
     }
 }

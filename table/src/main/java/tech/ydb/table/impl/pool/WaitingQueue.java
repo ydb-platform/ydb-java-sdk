@@ -2,7 +2,7 @@ package tech.ydb.table.impl.pool;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
-import java.util.Deque;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.CancellationException;
@@ -12,12 +12,14 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
+import javax.annotation.concurrent.ThreadSafe;
 
 /**
  *
  * @author Aleksandr Gorshenin
  * @param <T> type of objects in queue
 */
+@ThreadSafe
 public class WaitingQueue<T> implements AutoCloseable {
     public interface Handler<T> {
         CompletableFuture<T> create();
@@ -35,7 +37,7 @@ public class WaitingQueue<T> implements AutoCloseable {
     private volatile boolean stopped = false;
     
     /** Deque of idle objects */
-    private final Deque<T> idle = new ConcurrentLinkedDeque<>();
+    private final ConcurrentLinkedDeque<T> idle = new ConcurrentLinkedDeque<>();
     /** Non idle objects managed by WaitingQueue */
     private final Map<T, T> used = new ConcurrentHashMap<>();
     /** Set of pending object creations */
@@ -108,6 +110,10 @@ public class WaitingQueue<T> implements AutoCloseable {
     public void close() {
         stopped = true;
         clear();
+    }
+    
+    public Iterator<T> coldIterator() {
+        return new ColdIterator(idle.descendingIterator());
     }
     
     public int idleSize() {
@@ -289,6 +295,40 @@ public class WaitingQueue<T> implements AutoCloseable {
             if (stopped) {
                 clear();
             }
+        }
+    }
+    
+    /** Iterator with custom remove action */
+    private class ColdIterator implements Iterator<T> {
+        private final Iterator<T> iter;
+        private volatile T lastRet = null;
+
+        public ColdIterator(Iterator<T> iter) {
+            this.iter = iter;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return this.iter.hasNext();
+        }
+        
+        @Override
+        public void remove() {
+            if (lastRet == null) {
+                return;
+            }
+            if (idle.removeLastOccurrence(lastRet)) {
+                handler.destroy(lastRet);
+                lastRet = null;
+                queueSize.decrementAndGet();
+                checkCurrentWaitings();
+            }
+        }
+
+        @Override
+        public T next() {
+            lastRet = iter.next();
+            return lastRet;
         }
     }
 }
