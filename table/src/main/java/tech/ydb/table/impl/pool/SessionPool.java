@@ -5,7 +5,6 @@ import java.time.Instant;
 import java.util.Iterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -14,6 +13,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tech.ydb.table.Session;
+import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.impl.BaseSession;
 import tech.ydb.table.rpc.TableRpc;
 import tech.ydb.table.settings.CreateSessionSettings;
@@ -25,13 +26,15 @@ import tech.ydb.table.settings.DeleteSessionSettings;
  */
 class SessionPool implements AutoCloseable {
     private final static Logger logger = LoggerFactory.getLogger(SessionPool.class);
+    private final int minSize;
+    private final WaitingQueue<ClosableSession> queue;
     private final ScheduledFuture<?> keepAliveFuture;
-    private final WaitingQueue<SessionImpl> queue;
     
     public SessionPool(ScheduledExecutorService scheduler, TableRpc rpc, boolean keepQueryText, SessionPoolOptions options) {
         this.queue = new WaitingQueue(new Handler(rpc, keepQueryText), options.getMaxSize());
-        KeepAliveTask keepAlive = new KeepAliveTask(options);
+        this.minSize = options.getMinSize();
 
+        KeepAliveTask keepAlive = new KeepAliveTask(options);
         this.keepAliveFuture = scheduler.scheduleAtFixedRate(
                 keepAlive,
                 keepAlive.period / 2,
@@ -44,45 +47,54 @@ class SessionPool implements AutoCloseable {
     public void close() {
         logger.info("closing session pool");
 
-        try {
-            keepAliveFuture.cancel(false);
-            keepAliveFuture.get(100, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException | ExecutionException | TimeoutException ex) {
-            logger.warn("can't stop keep alive task", ex);
-        }
+        keepAliveFuture.cancel(false);
         queue.close();
     }
 
-    private CompletableFuture<SessionImpl> pollNext(Duration timeout) {
-        Instant deadline = Instant.now().plusMillis(timeout.toMillis());
-        CompletableFuture<SessionImpl> future = new CompletableFuture<SessionImpl>()
-                .orTimeout(timeout.toMillis(), TimeUnit.MILLISECONDS)
-                .thenApply(new SessionValidator(deadline));
-        queue.acquire(future);
-        return future;
+    public SessionPoolStats stats() {
+        return new SessionPoolStats(
+                minSize,
+                queue.queueLimit(),
+                queue.idleSize(),
+                queue.queueSize() - queue.idleSize(),
+                queue.waitingsSize());
     }
     
-    private class SessionImpl extends StatefulSession {
-        public SessionImpl(String id, TableRpc rpc, boolean keepQueryText) {
+    public CompletableFuture<? extends Session> acquire(Duration timeout) {
+        return pollNext(timeout);
+    }
+
+    private CompletableFuture<ClosableSession> pollNext(Duration timeout) {
+        Instant deadline = Instant.now().plusMillis(timeout.toMillis());
+        CompletableFuture<ClosableSession> future = new CompletableFuture<>();
+        queue.acquire(future);
+
+        return future
+                .orTimeout(timeout.toMillis(), TimeUnit.MILLISECONDS)
+                .thenApply(new SessionValidator(deadline));
+    }
+    
+    private class ClosableSession extends StatefulSession {
+        public ClosableSession(String id, TableRpc rpc, boolean keepQueryText) {
             super(id, rpc, keepQueryText);
-            logger.debug("new session[{}] is created", id);
+            logger.debug("new session {} is created", id);
         }
         
         @Override
         public void close() {
             if (state().switchToIdle(Instant.now())) {
-                logger.debug("session[{}] release", getId());
+                logger.debug("session {} release", getId());
                 queue.release(this);
             } else {
                 if (state().needShutdown()) {
-                    logger.debug("session[{}] shutdown", getId());
+                    logger.debug("session {} shutdown", getId());
                     queue.delete(this);
                 }
             }
         }
     }
     
-    private class Handler implements WaitingQueue.Handler<SessionImpl> {
+    private class Handler implements WaitingQueue.Handler<ClosableSession> {
         private final TableRpc tableRpc;
         private final boolean keepQueryText;
 
@@ -92,17 +104,17 @@ class SessionPool implements AutoCloseable {
         }
         
         @Override
-        public CompletableFuture<SessionImpl> create() {
+        public CompletableFuture<ClosableSession> create() {
             return BaseSession
                     .createSessionId(tableRpc, new CreateSessionSettings())
                     .thenApply(response -> {
                         String id = response.expect("cannot create session");
-                        return new SessionImpl(id, tableRpc, keepQueryText);
+                        return new ClosableSession(id, tableRpc, keepQueryText);
                     });
         }
 
         @Override
-        public void destroy(SessionImpl session) {
+        public void destroy(ClosableSession session) {
             logger.debug("remove session[{}]", session.getId());
             session.delete(new DeleteSessionSettings()).whenComplete((status, tw) -> {
                 if (tw != null) {
@@ -116,7 +128,6 @@ class SessionPool implements AutoCloseable {
     }
     
     private class KeepAliveTask implements Runnable {
-        private final int minQueueSize;
         private final long maxIdleTimeMillis;
         private final long keepAliveTimeMillis;
 
@@ -126,7 +137,6 @@ class SessionPool implements AutoCloseable {
         private final AtomicInteger keepAliveCount = new AtomicInteger(0);
 
         public KeepAliveTask(SessionPoolOptions options) {
-            this.minQueueSize = options.getMinSize();
             this.maxIdleTimeMillis = options.getMaxIdleTimeMillis();
             this.keepAliveTimeMillis = options.getKeepAliveTimeMillis();
             
@@ -136,7 +146,7 @@ class SessionPool implements AutoCloseable {
         
         @Override
         public void run() {
-            Iterator<SessionImpl> coldIterator = queue.coldIterator();
+            Iterator<ClosableSession> coldIterator = queue.coldIterator();
             Instant now = Instant.now();
             Instant idleToRemove = now.minusMillis(maxIdleTimeMillis);
             Instant keepAlive = now.minusMillis(keepAliveTimeMillis);
@@ -149,7 +159,7 @@ class SessionPool implements AutoCloseable {
                     continue;
                 }
                 
-                if (state.lastActive().isBefore(idleToRemove) && queue.queueSize() > minQueueSize) {
+                if (state.lastActive().isBefore(idleToRemove) && queue.queueSize() > minSize) {
                     coldIterator.remove();
                     continue;
                 }
@@ -180,7 +190,7 @@ class SessionPool implements AutoCloseable {
         }
     }
     
-    private class SessionValidator implements Function<SessionImpl, SessionImpl> {
+    private class SessionValidator implements Function<ClosableSession, ClosableSession> {
         private final Instant deadline;
         
         public SessionValidator(Instant deadline) {
@@ -188,7 +198,7 @@ class SessionPool implements AutoCloseable {
         }
 
         @Override
-        public SessionImpl apply(SessionImpl session) {
+        public ClosableSession apply(ClosableSession session) {
             Instant now = Instant.now();
             if (session.state().switchToActive(now)) {
                 return session;
@@ -199,7 +209,7 @@ class SessionPool implements AutoCloseable {
                 throw new CompletionException(new TimeoutException("deadline was expired"));
             }
 
-            CompletableFuture<SessionImpl> next = pollNext(Duration.between(now, deadline));
+            CompletableFuture<ClosableSession> next = pollNext(Duration.between(now, deadline));
             queue.release(session);
             return next.join();
         }

@@ -62,7 +62,7 @@ abstract class StatefulSession extends BaseSession {
         }
         
         public boolean needShutdown() {
-            return this.status == Status.BROKEN; // or greasful shutdown
+            return this.status == Status.BROKEN;
         }
         
         public boolean switchToActive(Instant now) {
