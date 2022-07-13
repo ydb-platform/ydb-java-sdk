@@ -24,7 +24,7 @@ import tech.ydb.table.settings.DeleteSessionSettings;
  *
  * @author Aleksandr Gorshenin
  */
-class SessionPool implements AutoCloseable {
+public class SessionPool implements AutoCloseable {
     private final static Logger logger = LoggerFactory.getLogger(SessionPool.class);
     private final int minSize;
     private final WaitingQueue<ClosableSession> queue;

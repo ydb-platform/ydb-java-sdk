@@ -1,4 +1,4 @@
-package tech.ydb.table.impl.pool;
+package tech.ydb.table.impl;
 
 import com.google.common.base.Preconditions;
 import java.time.Duration;
@@ -11,12 +11,14 @@ import tech.ydb.core.Result;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.TableClient;
+import tech.ydb.table.impl.pool.SessionPool;
+import tech.ydb.table.impl.pool.SessionPoolOptions;
 import tech.ydb.table.rpc.TableRpc;
 
 /**
  * @author Aleksandr Gorshenin
  */
-public class FixedPoolTableClient implements TableClient {
+public class PooledTableClient implements TableClient {
     static public TableClient.Builder newClient(TableRpc rpc) {
         return new Builder(rpc);
     }
@@ -26,7 +28,7 @@ public class FixedPoolTableClient implements TableClient {
     );
     private final SessionPool pool;
 
-    FixedPoolTableClient(Builder builder) {
+    PooledTableClient(Builder builder) {
         this.pool = new SessionPool(
                 executor, 
                 builder.tableRpc, 
@@ -117,7 +119,7 @@ public class FixedPoolTableClient implements TableClient {
 
         @Override
         public TableClient build() {
-            return new FixedPoolTableClient(this);
+            return new PooledTableClient(this);
         }
     }
 }

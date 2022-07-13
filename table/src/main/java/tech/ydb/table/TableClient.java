@@ -5,7 +5,7 @@ import java.time.Duration;
 import javax.annotation.WillNotClose;
 
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.table.impl.pool.FixedPoolTableClient;
+import tech.ydb.table.impl.PooledTableClient;
 import tech.ydb.table.rpc.grpc.GrpcTableRpc;
 
 
@@ -15,7 +15,7 @@ import tech.ydb.table.rpc.grpc.GrpcTableRpc;
  * 
  * TableClient is a main point for accepting and releasing sessions
  * It has factory method {@link newClient(GrpcTransport)} which
- * return instance of default implementation {@link FixedPoolTableClient}. This
+ * return instance of default implementation {@link PooledTableClient}. This
  * implementation contains session pool with fixed sizes. This is recommended way
  * to create implementation of SessionSupplier.
  * If you want to use implementation without session pool, you may use 
@@ -29,7 +29,7 @@ public interface TableClient extends SessionSupplier, AutoCloseable {
      * @return {@link TableClient.Builder} for TableClient creating
      */
     static Builder newClient(@WillNotClose GrpcTransport transport) {
-        return FixedPoolTableClient.newClient(GrpcTableRpc.useTransport(transport));
+        return PooledTableClient.newClient(GrpcTableRpc.useTransport(transport));
     }
 
     SessionPoolStats sessionPoolStats();

@@ -24,7 +24,7 @@ import tech.ydb.table.SessionSupplier;
 /**
  * @author Sergey Polovko
  */
-public class TableClientImplTest {
+public class SimpleTableClientTest {
     public static <M extends Message> OperationProtos.Operation resultOperation(M message) {
         return OperationProtos.Operation.newBuilder()
             .setId("fake_id")
@@ -109,7 +109,9 @@ public class TableClientImplTest {
             }
         };
 
-        SessionSupplier client = SimpleTableClient.newClient(fakeRpc).build();
+        SessionSupplier client = SimpleTableClient.newClient(fakeRpc)
+                .keepQueryText(true)
+                .build();
 
         // Test TableClient interface
         Result<Session> sessionResult = client.createSession(Duration.ZERO).join();
