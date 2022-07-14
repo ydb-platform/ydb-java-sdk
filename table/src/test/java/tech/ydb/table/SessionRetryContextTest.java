@@ -11,11 +11,11 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
-import tech.ydb.table.utils.Async;
 import org.junit.Assert;
 import org.junit.Test;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
+import tech.ydb.core.utils.Async;
 
 
 /**

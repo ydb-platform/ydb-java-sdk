@@ -98,6 +98,9 @@
                 <configuration>
                     <target>1.8</target>
                     <source>1.8</source>
+                    <compilerArgs>
+                        <arg>-Xlint</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>

@@ -13,6 +13,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
+import tech.ydb.core.utils.Async;
 import tech.ydb.table.YdbTable.AlterTableRequest;
 import tech.ydb.table.YdbTable.AlterTableResponse;
 import tech.ydb.table.YdbTable.BeginTransactionRequest;
@@ -46,7 +47,6 @@ import tech.ydb.table.YdbTable.ReadTableResponse;
 import tech.ydb.table.YdbTable.RollbackTransactionRequest;
 import tech.ydb.table.YdbTable.RollbackTransactionResponse;
 import tech.ydb.table.rpc.TableRpc;
-import tech.ydb.table.utils.Async;
 
 
 /**

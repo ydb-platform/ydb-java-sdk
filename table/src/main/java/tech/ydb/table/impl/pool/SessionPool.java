@@ -31,7 +31,7 @@ public class SessionPool implements AutoCloseable {
     private final ScheduledFuture<?> keepAliveFuture;
     
     public SessionPool(ScheduledExecutorService scheduler, TableRpc rpc, boolean keepQueryText, SessionPoolOptions options) {
-        this.queue = new WaitingQueue(new Handler(rpc, keepQueryText), options.getMaxSize());
+        this.queue = new WaitingQueue<>(new Handler(rpc, keepQueryText), options.getMaxSize());
         this.minSize = options.getMinSize();
 
         KeepAliveTask keepAlive = new KeepAliveTask(options);

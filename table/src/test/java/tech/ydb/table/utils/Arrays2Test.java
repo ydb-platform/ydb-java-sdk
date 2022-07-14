@@ -64,7 +64,8 @@ public class Arrays2Test {
     }
 
     // sugar
-    private static <T extends Comparable<T>> T[] array(T... array) {
+    @SuppressWarnings("unchecked")
+    private static <T> T[] array(T... array) {
         return array;
     }
 }
