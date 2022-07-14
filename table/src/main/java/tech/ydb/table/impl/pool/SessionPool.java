@@ -5,11 +5,13 @@ import java.time.Instant;
 import java.util.Iterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +29,12 @@ import tech.ydb.table.settings.DeleteSessionSettings;
 public class SessionPool implements AutoCloseable {
     private final static Logger logger = LoggerFactory.getLogger(SessionPool.class);
     private final int minSize;
+    private final ScheduledExecutorService scheduler;
     private final WaitingQueue<ClosableSession> queue;
     private final ScheduledFuture<?> keepAliveFuture;
     
     public SessionPool(ScheduledExecutorService scheduler, TableRpc rpc, boolean keepQueryText, SessionPoolOptions options) {
+        this.scheduler = scheduler;
         this.queue = new WaitingQueue<>(new Handler(rpc, keepQueryText), options.getMaxSize());
         this.minSize = options.getMinSize();
 
@@ -61,17 +65,25 @@ public class SessionPool implements AutoCloseable {
     }
     
     public CompletableFuture<? extends Session> acquire(Duration timeout) {
-        return pollNext(timeout);
+        return pollNext(timeout != null ? timeout : Duration.ZERO);
     }
 
     private CompletableFuture<ClosableSession> pollNext(Duration timeout) {
         Instant deadline = Instant.now().plusMillis(timeout.toMillis());
         CompletableFuture<ClosableSession> future = new CompletableFuture<>();
         queue.acquire(future);
+        
+        // On JDK9 may be replaced 
+        // with future.onTimeout(timeout.toMillis(), TimeUnit.MILLISECONDS)
+        if (!future.isDone()) {
+            future.whenComplete(new Canceller(scheduler.schedule(
+                    new Timeout(future),
+                    timeout.toMillis(),
+                    TimeUnit.MILLISECONDS)
+            ));
+        }
 
-        return future
-                .orTimeout(timeout.toMillis(), TimeUnit.MILLISECONDS)
-                .thenApply(new SessionValidator(deadline));
+        return future.thenApply(new SessionValidator(deadline));
     }
     
     private class ClosableSession extends StatefulSession {
@@ -214,5 +226,28 @@ public class SessionPool implements AutoCloseable {
             return next.join();
         }
     }
+
+    /** Action to cancel unneeded timeouts */
+    static final class Canceller implements BiConsumer<Object, Throwable> {
+        final Future<?> f;
+        Canceller(Future<?> f) { this.f = f; }
+        @Override
+        public void accept(Object ignore, Throwable ex) {
+            if (ex == null && f != null && !f.isDone())
+                f.cancel(false);
+        }
+    }
+
+    /** Action to completeExceptionally on timeout */
+    static final class Timeout implements Runnable {
+        final CompletableFuture<?> f;
+        Timeout(CompletableFuture<?> f) { this.f = f; }
+        @Override
+        public void run() {
+            if (f != null && !f.isDone())
+                f.completeExceptionally(new TimeoutException());
+        }
+    }
+    
 }
 
