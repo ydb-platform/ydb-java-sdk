@@ -1,5 +1,6 @@
 package tech.ydb.table.impl.pool;
 
+import java.time.Clock;
 import java.time.Instant;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.annotation.concurrent.ThreadSafe;
@@ -13,18 +14,19 @@ import tech.ydb.table.rpc.TableRpc;
  */
 @ThreadSafe
 abstract class StatefulSession extends BaseSession {
+    private final Clock clock;
     private final AtomicReference<State> state;
 
-    protected StatefulSession(String id, TableRpc tableRpc, boolean keepQueryText) {
+    protected StatefulSession(String id, Clock clock, TableRpc tableRpc, boolean keepQueryText) {
         super(id, tableRpc, keepQueryText);
-        Instant now = Instant.now();
-        this.state = new AtomicReference<>(new State(Status.IDLE, now, now));
+        this.clock = clock;
+        this.state = new AtomicReference<>(new State(Status.IDLE, clock.instant()));
     }
 
     @Override
     protected void updateSessionState(Throwable th, StatusCode code) {
         State current = state.get();
-        while (!state.compareAndSet(current, current.updated(Instant.now(), th, code))) {
+        while (!state.compareAndSet(current, current.updated(clock.instant(), th, code))) {
             current = state.get();
         }
     }
@@ -47,6 +49,12 @@ abstract class StatefulSession extends BaseSession {
         private final Status status;
         private final Instant lastActive;
         private final Instant lastUpdate;
+        
+        private State(Status status, Instant now) {
+            this.status = status;
+            this.lastActive = now;
+            this.lastUpdate = now;
+        }
         
         private State(Status status, Instant lastActive, Instant lastUpdate) {
             this.status = status;
@@ -96,7 +104,7 @@ abstract class StatefulSession extends BaseSession {
             }
 
             if (status == Status.ACTIVE) {
-                return new State(status, now, now);
+                return new State(status, now);
             }
 
             return new State(status, lastActive, now);
@@ -118,7 +126,7 @@ abstract class StatefulSession extends BaseSession {
             }
             
             if (nextStatus == Status.ACTIVE) {
-                return new State(nextStatus, now, now);
+                return new State(nextStatus, now);
             }
             
             return new State(nextStatus, lastActive, now);

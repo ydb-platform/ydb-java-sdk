@@ -1,5 +1,6 @@
 package tech.ydb.table.impl.pool;
 
+import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Iterator;
@@ -29,14 +30,17 @@ import tech.ydb.table.settings.DeleteSessionSettings;
 public class SessionPool implements AutoCloseable {
     private final static Logger logger = LoggerFactory.getLogger(SessionPool.class);
     private final int minSize;
+    private final Clock clock;
     private final ScheduledExecutorService scheduler;
     private final WaitingQueue<ClosableSession> queue;
     private final ScheduledFuture<?> keepAliveFuture;
     
-    public SessionPool(ScheduledExecutorService scheduler, TableRpc rpc, boolean keepQueryText, SessionPoolOptions options) {
+    public SessionPool(ScheduledExecutorService scheduler, Clock clock, TableRpc rpc, boolean keepQueryText, SessionPoolOptions options) {
+        this.minSize = options.getMinSize();
+        
+        this.clock = clock;
         this.scheduler = scheduler;
         this.queue = new WaitingQueue<>(new Handler(rpc, keepQueryText), options.getMaxSize());
-        this.minSize = options.getMinSize();
 
         KeepAliveTask keepAlive = new KeepAliveTask(options);
         this.keepAliveFuture = scheduler.scheduleAtFixedRate(
@@ -69,7 +73,7 @@ public class SessionPool implements AutoCloseable {
     }
 
     private CompletableFuture<ClosableSession> pollNext(Duration timeout) {
-        Instant deadline = Instant.now().plusMillis(timeout.toMillis());
+        Instant deadline = clock.instant().plusMillis(timeout.toMillis());
         CompletableFuture<ClosableSession> future = new CompletableFuture<>();
         queue.acquire(future);
         
@@ -88,13 +92,13 @@ public class SessionPool implements AutoCloseable {
     
     private class ClosableSession extends StatefulSession {
         public ClosableSession(String id, TableRpc rpc, boolean keepQueryText) {
-            super(id, rpc, keepQueryText);
+            super(id, clock, rpc, keepQueryText);
             logger.debug("new session {} is created", id);
         }
         
         @Override
         public void close() {
-            if (state().switchToIdle(Instant.now())) {
+            if (state().switchToIdle(clock.instant())) {
                 logger.debug("session {} release", getId());
                 queue.release(this);
             } else {
@@ -121,19 +125,26 @@ public class SessionPool implements AutoCloseable {
                     .createSessionId(tableRpc, new CreateSessionSettings())
                     .thenApply(response -> {
                         String id = response.expect("cannot create session");
+                        logger.debug("session {} successful created", id);
                         return new ClosableSession(id, tableRpc, keepQueryText);
                     });
         }
 
         @Override
         public void destroy(ClosableSession session) {
-            logger.debug("remove session[{}]", session.getId());
             session.delete(new DeleteSessionSettings()).whenComplete((status, tw) -> {
+                if (!logger.isWarnEnabled()) {
+                    return;
+                }
                 if (tw != null) {
-                    logger.warn("session[{}] removed with exception {}", session.getId(), tw.getMessage());
+                    logger.warn("session {} removed with exception {}", session.getId(), tw.getMessage());
                 }
                 if (status != null && !status.isSuccess()) {
-                    logger.warn("session[{}] removed with status {}", session.getId(), status.toString());
+                    if (status.isSuccess()) {
+                        logger.debug("session {} successful removed", session.getId());
+                    } else {
+                        logger.warn("session {} removed with status {}", session.getId(), status.toString());
+                    }
                 }
             });
         }
@@ -159,7 +170,7 @@ public class SessionPool implements AutoCloseable {
         @Override
         public void run() {
             Iterator<ClosableSession> coldIterator = queue.coldIterator();
-            Instant now = Instant.now();
+            Instant now = clock.instant();
             Instant idleToRemove = now.minusMillis(maxIdleTimeMillis);
             Instant keepAlive = now.minusMillis(keepAliveTimeMillis);
 
@@ -190,10 +201,10 @@ public class SessionPool implements AutoCloseable {
                             keepAliveCount.decrementAndGet();
                             if (ok) {
                                 logger.debug("keep alive session {} ok", session.getId());
-                                keepAliveState.switchToIdle(Instant.now());
+                                keepAliveState.switchToIdle(clock.instant());
                             } else {
                                 logger.debug("keep alive session {} error, change status to broken", session.getId());
-                                keepAliveState.switchToBroken(Instant.now());
+                                keepAliveState.switchToBroken(clock.instant());
                             }
                         });
                     }
@@ -211,7 +222,7 @@ public class SessionPool implements AutoCloseable {
 
         @Override
         public ClosableSession apply(ClosableSession session) {
-            Instant now = Instant.now();
+            Instant now = clock.instant();
             if (session.state().switchToActive(now)) {
                 return session;
             }

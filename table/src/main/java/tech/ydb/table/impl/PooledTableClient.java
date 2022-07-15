@@ -1,6 +1,7 @@
 package tech.ydb.table.impl;
 
 import com.google.common.base.Preconditions;
+import java.time.Clock;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
@@ -30,7 +31,8 @@ public class PooledTableClient implements TableClient {
 
     PooledTableClient(Builder builder) {
         this.pool = new SessionPool(
-                executor, 
+                executor,
+                Clock.systemUTC(),
                 builder.tableRpc, 
                 builder.keepQueryText, 
                 builder.sessionPoolOptions
