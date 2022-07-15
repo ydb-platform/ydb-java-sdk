@@ -42,6 +42,7 @@ abstract class StatefulSession extends BaseSession {
     private enum Status {
         IDLE,
         ACTIVE,
+        KEEPALIVE,
         BROKEN;
     }
 
@@ -75,6 +76,10 @@ abstract class StatefulSession extends BaseSession {
         
         public boolean switchToActive(Instant now) {
             return switchState(this, nextState(Status.ACTIVE, now));
+        }
+
+        public boolean switchToKeepAlive(Instant now) {
+            return switchState(this, nextState(Status.KEEPALIVE, now));
         }
 
         public boolean switchToIdle(Instant now) {

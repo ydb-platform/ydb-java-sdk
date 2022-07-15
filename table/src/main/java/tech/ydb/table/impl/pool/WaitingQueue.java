@@ -67,7 +67,7 @@ public class WaitingQueue<T> implements AutoCloseable {
 
     public void acquire(CompletableFuture<T> acquire) {
         if (stopped) {
-             acquire.completeExceptionally(new IllegalStateException("Pool is already closed"));
+             acquire.completeExceptionally(new IllegalStateException("Queue is already closed"));
              return;
         }
 
@@ -120,9 +120,18 @@ public class WaitingQueue<T> implements AutoCloseable {
         return idle.size();
     }
     
+    public int usedSize() {
+        return used.size();
+    }
+
     public int queueSize() {
         return queueSize.get();
     }
+
+    public int pendingsSize() {
+        return pendingRequests.size();
+    }
+
     public int waitingsSize() {
         return waitingAcqueiresCount.get();
     }
@@ -138,7 +147,7 @@ public class WaitingQueue<T> implements AutoCloseable {
     private void safeAcquireObject(CompletableFuture<T> acquire, T object) {
         used.put(object, object);
         if (stopped) {
-            acquire.completeExceptionally(new CancellationException("Pool is already closed"));
+            acquire.completeExceptionally(new CancellationException("Queue is already closed"));
             if (used.remove(object, object)) {
                 queueSize.decrementAndGet();
                 handler.destroy(object);
@@ -239,7 +248,7 @@ public class WaitingQueue<T> implements AutoCloseable {
         
         CompletableFuture<T> waiting = waitingAcquires.poll();
         while (waiting != null) {
-            waiting.completeExceptionally(new CancellationException("Pool is already closed"));
+            waiting.completeExceptionally(new CancellationException("Queue is already closed"));
             waiting = waitingAcquires.poll();
         }
         
@@ -267,7 +276,7 @@ public class WaitingQueue<T> implements AutoCloseable {
             // If pool is already closed and clean
             if (!pendingRequests.remove(pending, pending)) {
                 if (ready) {
-                    acquire.completeExceptionally(new CancellationException("Pool is already closed"));
+                    acquire.completeExceptionally(new CancellationException("Queue is already closed"));
                 }
                 if (object != null) {
                     handler.destroy(object);

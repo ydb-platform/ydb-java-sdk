@@ -16,6 +16,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.junit.Assert;
 
 /**
  *
@@ -30,25 +31,31 @@ public class MockedScheduler implements ScheduledExecutorService {
         this.clock = clock;
     }
     
-    public int runTasksTo(Instant timestamp) {
-        int count = 0;
-        MockedTask<?> next = tasks.poll();
-        while (next != null && next.time.isBefore(timestamp)) {
-            tasks.remove(next);
+    public Checker check() {
+        return new Checker();
+    }
+    
+    public void runTasksTo(Instant timestamp, Runnable... runs) {
+        int runIdx = 0;
+        MockedTask<?> next = tasks.peek();
+        while (next != null && !next.time.isAfter(timestamp)) {
+            next = tasks.poll();
 
-            clock.goToFuture(timestamp);
+            clock.goToFuture(next.time);
             next.run();
-            count += 1;
+            if (runIdx < runs.length) {
+                runs[runIdx].run();
+                runIdx += 1;
+            }
 
             if (next.time != null) {
                 tasks.add(next);
             }
 
-            next = tasks.poll();
+            next = tasks.peek();
         }
-        clock.goToFuture(timestamp);
 
-        return count;
+        clock.goToFuture(timestamp);
     }
     
     @Override
@@ -70,7 +77,7 @@ public class MockedScheduler implements ScheduledExecutorService {
     @Override
     public ScheduledFuture<?> scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit) {
         Instant time = clock.instant().plusNanos(unit.toNanos(initialDelay));
-        MockedTask<?> task = new MockedTask<Void>(command, null, time, unit.toMillis(initialDelay));
+        MockedTask<?> task = new MockedTask<Void>(command, null, time, unit.toMillis(period));
         tasks.add(task);
         return task;
     }
@@ -220,13 +227,26 @@ public class MockedScheduler implements ScheduledExecutorService {
             }
             
             if (isPeriodic()) {
-                if (runAndReset()) {
+                if (super.runAndReset()) {
                     setNextRunTime();
                 }
             } else {
-                run();
+                super.run();
                 time = null;
             }
+        }
+    }
+    
+    public class Checker {
+        public Checker isClosed() {
+            Assert.assertTrue("Scheduler is shutdown", isShutdown());
+            Assert.assertTrue("Scheduler is terminated", isTerminated());
+            return this;
+        }
+    
+        public Checker hasNoTasks() {
+            Assert.assertTrue("Scheduler hasn't tasks", tasks.isEmpty());
+            return this;
         }
     }
 }

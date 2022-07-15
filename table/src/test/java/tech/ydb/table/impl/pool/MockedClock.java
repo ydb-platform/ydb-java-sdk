@@ -1,6 +1,5 @@
 package tech.ydb.table.impl.pool;
 
-import com.google.common.truth.Truth;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -36,7 +35,7 @@ public class MockedClock extends Clock {
     public void goToFuture(Instant future) {
         mock.goToFuture(future);
     }
-    
+
     public void reset(Instant now) {
         mock.reset(now);
     }
@@ -47,7 +46,6 @@ public class MockedClock extends Clock {
     
     private static class MockedInstant {
         private volatile Instant now;
-        private volatile long millis;
 
         public MockedInstant(Instant now) {
             reset(now);
@@ -55,18 +53,16 @@ public class MockedClock extends Clock {
 
         private void reset(Instant now) {
             this.now = now;
-            this.millis = System.currentTimeMillis();
         }
 
         private Instant instant() {
-            long diff = System.currentTimeMillis() - millis;
-            return now.plusMillis(diff);
+            return now;
         }
         
         private void goToFuture(Instant future) {
-            Truth.assertThat(future).isGreaterThan(now);
-            this.now = future;
-            this.millis = System.currentTimeMillis();
+            if (future.isAfter(now)) {
+                this.now = future;
+            }
         }
     }
 }

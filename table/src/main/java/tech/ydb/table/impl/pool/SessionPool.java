@@ -48,7 +48,10 @@ public class SessionPool implements AutoCloseable {
                 keepAlive.period / 2,
                 keepAlive.period,
                 TimeUnit.MILLISECONDS);
-        logger.info("init session pool, min size = {}, max size = {}", options.getMinSize(), options.getMaxSize());
+        logger.info("init session pool, min size = {}, max size = {}, keep alive period = {}",
+                options.getMinSize(),
+                options.getMaxSize(),
+                keepAlive.period);
     }
 
     @Override
@@ -64,12 +67,13 @@ public class SessionPool implements AutoCloseable {
                 minSize,
                 queue.queueLimit(),
                 queue.idleSize(),
-                queue.queueSize() - queue.idleSize(),
-                queue.waitingsSize());
+                queue.usedSize(),
+                queue.waitingsSize() + queue.pendingsSize());
     }
     
-    public CompletableFuture<? extends Session> acquire(Duration timeout) {
-        return pollNext(timeout != null ? timeout : Duration.ZERO);
+    public CompletableFuture<Session> acquire(Duration timeout) {
+        CompletableFuture<ClosableSession> future = pollNext(timeout != null ? timeout : Duration.ZERO);
+        return future.thenCompose(s -> CompletableFuture.completedFuture((Session)s));
     }
 
     private CompletableFuture<ClosableSession> pollNext(Duration timeout) {
@@ -77,8 +81,6 @@ public class SessionPool implements AutoCloseable {
         CompletableFuture<ClosableSession> future = new CompletableFuture<>();
         queue.acquire(future);
         
-        // On JDK9 may be replaced 
-        // with future.onTimeout(timeout.toMillis(), TimeUnit.MILLISECONDS)
         if (!future.isDone()) {
             future.whenComplete(new Canceller(scheduler.schedule(
                     new Timeout(future),
@@ -164,7 +166,7 @@ public class SessionPool implements AutoCloseable {
             this.keepAliveTimeMillis = options.getKeepAliveTimeMillis();
             
             this.maxKeepAliveCount = Math.max(2, options.getMaxSize() / 5);
-            this.period = Math.max(1_000, Math.min(keepAliveTimeMillis / 5, maxIdleTimeMillis / 2));
+            this.period = Math.max(100, Math.min(keepAliveTimeMillis / 5, maxIdleTimeMillis / 2));
         }
         
         @Override
@@ -182,29 +184,30 @@ public class SessionPool implements AutoCloseable {
                     continue;
                 }
                 
-                if (state.lastActive().isBefore(idleToRemove) && queue.queueSize() > minSize) {
+                if (!state.lastActive().isAfter(idleToRemove) && queue.queueSize() > minSize) {
                     coldIterator.remove();
                     continue;
                 }
 
-                if (state.lastUpdate().isBefore(keepAlive)) {
+                if (!state.lastUpdate().isAfter(keepAlive)) {
                     if (keepAliveCount.get() >= maxKeepAliveCount) {
                         continue;
                     }
                     
-                    if (state.switchToActive(now)) {
-                        StatefulSession.State keepAliveState = session.state();
+                    if (state.switchToKeepAlive(now)) {
                         keepAliveCount.incrementAndGet();
                         logger.debug("keep alive session {}", session.getId());
                         session.keepAlive().whenComplete((res, tw) -> {
-                            boolean ok = tw == null && res.isSuccess();
+                            boolean ok = tw == null
+                                    && res.isSuccess()
+                                    && res.expect("keep alive") == Session.State.READY;
                             keepAliveCount.decrementAndGet();
                             if (ok) {
                                 logger.debug("keep alive session {} ok", session.getId());
-                                keepAliveState.switchToIdle(clock.instant());
+                                session.state().switchToIdle(clock.instant());
                             } else {
                                 logger.debug("keep alive session {} error, change status to broken", session.getId());
-                                keepAliveState.switchToBroken(clock.instant());
+                                session.state().switchToBroken(clock.instant());
                             }
                         });
                     }
@@ -244,7 +247,7 @@ public class SessionPool implements AutoCloseable {
         Canceller(Future<?> f) { this.f = f; }
         @Override
         public void accept(Object ignore, Throwable ex) {
-            if (ex == null && f != null && !f.isDone())
+            if (f != null && !f.isDone())
                 f.cancel(false);
         }
     }
@@ -256,7 +259,7 @@ public class SessionPool implements AutoCloseable {
         @Override
         public void run() {
             if (f != null && !f.isDone())
-                f.completeExceptionally(new TimeoutException());
+                f.completeExceptionally(new TimeoutException("deadline was expired"));
         }
     }
     

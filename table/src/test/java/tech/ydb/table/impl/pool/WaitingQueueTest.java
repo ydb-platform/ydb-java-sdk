@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Supplier;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -16,9 +17,11 @@ import org.junit.Test;
  *
  * @author Aleksandr Gorshenin
  */
-public class WaitingQueueTest {
+public class WaitingQueueTest extends FutureHelper {
+    private final static String LIMIT_EXCEEDED = "Objects limit exceeded";
+    private final static String QUEUE_IS_CLOSED = "Queue is already closed";
 
-    private class Resource {
+    public class Resource {
         private final int id;
 
         Resource(int id) {
@@ -102,47 +105,8 @@ public class WaitingQueueTest {
             return this;
         }
     }
-
-    private Resource acquireReady(WaitingQueue<Resource> queue) {
-        CompletableFuture<Resource> future = new CompletableFuture<>();
-        queue.acquire(future);
-        Assert.assertTrue("Ready future is done", future.isDone());
-        Assert.assertFalse("Ready future is not canceled", future.isCompletedExceptionally());
-        return future.join();
-    }
-
-    private CompletableFuture<Resource> acquirePending(WaitingQueue<Resource> queue) {
-        CompletableFuture<Resource> future = new CompletableFuture<>();
-        queue.acquire(future);
-        Assert.assertFalse("Pending future is not done", future.isDone());
-        return future;
-    }
-
-    private void acquireRejectedLimitExceeded(WaitingQueue<Resource> queue) {
-        CompletableFuture<Resource> future = new CompletableFuture<>();
-        queue.acquire(future);
-        Assert.assertTrue("Rejected future is done", future.isDone());
-        Assert.assertFalse("Pending future is canceled", future.isCancelled());
-        Assert.assertTrue("Pending future is rejected", future.isCompletedExceptionally());
-        future.whenComplete((obj, tw) -> {
-            Assert.assertNull("Future result is null", obj);
-            Assert.assertNotNull("Future exception is not null", tw);
-            Assert.assertEquals("Exception message", "Objects limit exceeded", tw.getMessage());
-        });
-    }
-
-    private void acquireRejectedIllegalState(WaitingQueue<Resource> queue) {
-        CompletableFuture<Resource> future = new CompletableFuture<>();
-        queue.acquire(future);
-        Assert.assertTrue("Rejected future is done", future.isDone());
-        Assert.assertFalse("Pending future is canceled", future.isCancelled());
-        Assert.assertTrue("Pending future is rejected", future.isCompletedExceptionally());
-        future.whenComplete((obj, tw) -> {
-            Assert.assertNull("Future result is null", obj);
-            Assert.assertNotNull("Future exception is not null", tw);
-            Assert.assertEquals("Exception message", "Pool is already closed", tw.getMessage());
-        });
-    }
+    
+    
 
     private QueueChecker check(WaitingQueue<Resource> queue) {
         return new QueueChecker(queue);
@@ -158,24 +122,12 @@ public class WaitingQueueTest {
         return future.join();
     }
 
-    private void pendingIsWaiting(CompletableFuture<Resource> future) {
-        Assert.assertFalse("Pending future is waiting", future.isDone());
-    }
-
-    private void pendingIsCanceled(CompletableFuture<Resource> future) {
-        Assert.assertTrue("Pending future is done", future.isDone());
-        Assert.assertTrue("Pending future is canceled", future.isCancelled());
-        Assert.assertTrue("Pending future is execptionally", future.isCompletedExceptionally());
-    }
-
-    private void pendingIsExeceptionally(CompletableFuture<Resource> future, String exceptionMessage) {
-        Assert.assertTrue("Pending future is done", future.isDone());
-        Assert.assertTrue("Pending future is rejected", future.isCompletedExceptionally());
-        future.whenComplete((obj, tw) -> {
-            Assert.assertNull("Future result is null", obj);
-            Assert.assertNotNull("Future exception is not null", tw);
-            Assert.assertEquals("Exception message", exceptionMessage, tw.getMessage());
-        });
+    private<T> Supplier<CompletableFuture<T>> acquire(WaitingQueue<T> queue) {
+        return () ->  {
+            CompletableFuture<T> future = new CompletableFuture<>();
+            queue.acquire(future);
+            return future;
+        };
     }
 
     @Test
@@ -187,10 +139,10 @@ public class WaitingQueueTest {
         check(rs).requestsCount(0).activeCount(0);
 
         // first acquire is pending 
-        CompletableFuture<Resource> first = acquirePending(queue);
+        CompletableFuture<Resource> first = pendingFuture(acquire(queue));
         check(queue).queueSize(1).idleSize(0);
         // second acquire is rejected
-        acquireRejectedLimitExceeded(queue);
+        exceptionallyFuture(acquire(queue), LIMIT_EXCEEDED);
 
         check(rs).requestsCount(1).activeCount(0);
         rs.completeNext();
@@ -199,16 +151,16 @@ public class WaitingQueueTest {
 
         Resource r1 = pendingIsReady(first);
         // next acquire already will be rejected
-        acquireRejectedLimitExceeded(queue);
+        exceptionallyFuture(acquire(queue), LIMIT_EXCEEDED);
 
         queue.release(r1);
         check(queue).queueSize(1).idleSize(1);
 
         // after release next acquire will be returned immediately
-        Resource r2 = acquireReady(queue);
+        Resource r2 = readyFuture(acquire(queue));
         check(queue).queueSize(1).idleSize(0);
         // but next acquire will be rejected
-        acquireRejectedLimitExceeded(queue);
+        exceptionallyFuture(acquire(queue), LIMIT_EXCEEDED);
 
         Assert.assertEquals("Pool returned the same resource", r1, r2);
 
@@ -218,9 +170,9 @@ public class WaitingQueueTest {
         check(rs).requestsCount(0).activeCount(0);
 
         // afrer deleting resource pool is empty
-        CompletableFuture<Resource> second = acquirePending(queue);
+        CompletableFuture<Resource> second = pendingFuture(acquire(queue));
         // next acquire is rejected
-        acquireRejectedLimitExceeded(queue);
+        exceptionallyFuture(acquire(queue), LIMIT_EXCEEDED);
 
         check(queue).queueSize(1).idleSize(0);
         check(rs).requestsCount(1).activeCount(0);
@@ -246,7 +198,7 @@ public class WaitingQueueTest {
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 0);
 
         // first acquire is pending 
-        CompletableFuture<Resource> first = acquirePending(queue);
+        CompletableFuture<Resource> first = pendingFuture(acquire(queue));
 
         check(queue).queueSize(1).idleSize(0);
 
@@ -256,7 +208,7 @@ public class WaitingQueueTest {
         check(queue).queueSize(1).idleSize(1);
         
         // And resource can be acquired from idle immediately
-        Resource r1 = acquireReady(queue);
+        Resource r1 = readyFuture(acquire(queue));
         check(queue).queueSize(1).idleSize(0);
 
         queue.delete(r1);
@@ -274,7 +226,7 @@ public class WaitingQueueTest {
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 0);
 
         // first acquire is pending 
-        CompletableFuture<Resource> first = acquirePending(queue);
+        CompletableFuture<Resource> first = pendingFuture(acquire(queue));
         rs.completeNext();
         Resource one = pendingIsReady(first);
 
@@ -282,7 +234,7 @@ public class WaitingQueueTest {
         queue.release(one);
         queue.release(one);
 
-        Resource two = acquireReady(queue);
+        Resource two = readyFuture(acquire(queue));
         Assert.assertEquals("Pool returned the same resource", one, two);
 
         queue.release(one);
@@ -298,7 +250,7 @@ public class WaitingQueueTest {
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 0);
 
         // first acquire is pending 
-        CompletableFuture<Resource> first = acquirePending(queue);
+        CompletableFuture<Resource> first = pendingFuture(acquire(queue));
         rs.completeNext();
 
         Resource one = pendingIsReady(first);
@@ -307,7 +259,7 @@ public class WaitingQueueTest {
         queue.delete(one);
         queue.delete(one);
 
-        CompletableFuture<Resource> second = acquirePending(queue);
+        CompletableFuture<Resource> second = pendingFuture(acquire(queue));
         rs.completeNext();
 
         Resource two = pendingIsReady(second);
@@ -326,7 +278,7 @@ public class WaitingQueueTest {
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 0);
 
         // first acquire is pending 
-        CompletableFuture<Resource> first = acquirePending(queue);
+        CompletableFuture<Resource> first = pendingFuture(acquire(queue));
         rs.completeNext();
 
         Resource one = pendingIsReady(first);
@@ -335,7 +287,7 @@ public class WaitingQueueTest {
         // Delete after releasing will be ignored
         queue.delete(one);
 
-        Resource two = acquireReady(queue);
+        Resource two = readyFuture(acquire(queue));
         Assert.assertEquals("Pool returned the same resource", one, two);
 
         queue.release(two);
@@ -351,17 +303,17 @@ public class WaitingQueueTest {
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 0);
 
         // first acquire is pending 
-        CompletableFuture<Resource> first = acquirePending(queue);
+        CompletableFuture<Resource> first = pendingFuture(acquire(queue));
         rs.completeNext();
 
         Resource one = pendingIsReady(first);
-        acquireRejectedLimitExceeded(queue);
+        exceptionallyFuture(acquire(queue), LIMIT_EXCEEDED);
 
         queue.delete(one);
         // Delete after releasing will be ignored
         queue.delete(one);
 
-        CompletableFuture<Resource> second = acquirePending(queue);
+        CompletableFuture<Resource> second = pendingFuture(acquire(queue));
         rs.completeNext();
 
         Resource two = pendingIsReady(second);
@@ -380,11 +332,11 @@ public class WaitingQueueTest {
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 0);
 
         // first acquire is pending 
-        CompletableFuture<Resource> first = acquirePending(queue);
+        CompletableFuture<Resource> first = pendingFuture(acquire(queue));
         rs.completeNext();
 
         Resource one = pendingIsReady(first);
-        acquireRejectedLimitExceeded(queue);
+        exceptionallyFuture(acquire(queue), LIMIT_EXCEEDED);
 
         check(queue).queueSize(1).idleSize(0);
         check(rs).requestsCount(0).activeCount(1);
@@ -393,7 +345,7 @@ public class WaitingQueueTest {
         queue.close();
 
         // But new acquires will be rejected
-        acquireRejectedIllegalState(queue);
+        exceptionallyFuture(acquire(queue), QUEUE_IS_CLOSED);
         check(queue).queueSize(1).idleSize(0);
         check(rs).requestsCount(0).activeCount(1);
 
@@ -410,13 +362,13 @@ public class WaitingQueueTest {
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 0);
 
         // first acquire is pending 
-        CompletableFuture<Resource> first = acquirePending(queue);
+        CompletableFuture<Resource> first = pendingFuture(acquire(queue));
         check(rs).requestsCount(1).activeCount(0);
         rs.completeNext();
         check(rs).requestsCount(0).activeCount(1);
 
         Resource one = pendingIsReady(first);
-        acquireRejectedLimitExceeded(queue);
+        exceptionallyFuture(acquire(queue), LIMIT_EXCEEDED);
         check(rs).requestsCount(0).activeCount(1);
 
         // Closing of queue doesn't affect to active objects
@@ -425,7 +377,7 @@ public class WaitingQueueTest {
         check(queue).queueSize(1).idleSize(0);
 
         // But new acquires will be rejected
-        acquireRejectedIllegalState(queue);
+        exceptionallyFuture(acquire(queue), QUEUE_IS_CLOSED);
 
         // After object deleting it will be cleaned
         queue.delete(one);
@@ -440,7 +392,7 @@ public class WaitingQueueTest {
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 0);
 
         // first acquire is pending 
-        CompletableFuture<Resource> first = acquirePending(queue);
+        CompletableFuture<Resource> first = pendingFuture(acquire(queue));
         check(rs).requestsCount(1).activeCount(0);
         check(queue).queueSize(1).idleSize(0);
 
@@ -449,12 +401,12 @@ public class WaitingQueueTest {
         check(rs).requestsCount(1).activeCount(0);
         check(queue).queueSize(0).idleSize(0);
 
-        pendingIsWaiting(first);
+        futureIsPending(first);
 
         // After complete obejct to closed queue
         // object will be released and future will be canceled
         rs.completeNext();
-        pendingIsCanceled(first);
+        futureIsCanceled(first, QUEUE_IS_CLOSED);
 
         check(queue).queueSize(0).idleSize(0);
         check(rs).requestsCount(0).activeCount(0);
@@ -467,13 +419,13 @@ public class WaitingQueueTest {
         check(queue).queueSize(0).idleSize(0);
         check(rs).requestsCount(0).activeCount(0);
         
-        CompletableFuture<Resource> f1 = acquirePending(queue);
-        CompletableFuture<Resource> f2 = acquirePending(queue);
-        CompletableFuture<Resource> f3 = acquirePending(queue);
-        CompletableFuture<Resource> f4 = acquirePending(queue);
-        CompletableFuture<Resource> f5 = acquirePending(queue);
+        CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> f2 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> f3 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> f4 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> f5 = pendingFuture(acquire(queue));
 
-        acquireRejectedLimitExceeded(queue);
+        exceptionallyFuture(acquire(queue), LIMIT_EXCEEDED);
 
         check(queue).queueSize(5).idleSize(0);
         check(rs).requestsCount(5).activeCount(0);
@@ -484,9 +436,9 @@ public class WaitingQueueTest {
         rs.completeNext();
         rs.completeNextWithException(new Exception("trouble 3"));
         
-        pendingIsExeceptionally(f1, "trouble 1");
-        pendingIsExeceptionally(f3, "trouble 1");
-        pendingIsExeceptionally(f5, "trouble 1");
+        futureIsExceptionally(f1, "trouble 1");
+        futureIsExceptionally(f3, "trouble 2");
+        futureIsExceptionally(f5, "trouble 3");
         
         Resource r2 = pendingIsReady(f2);
         Resource r4 = pendingIsReady(f4);
@@ -512,7 +464,7 @@ public class WaitingQueueTest {
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 0);
 
         // first acquire is pending 
-        CompletableFuture<Resource> first = acquirePending(queue);
+        CompletableFuture<Resource> first = pendingFuture(acquire(queue));
         check(rs).requestsCount(1).activeCount(0);
         check(queue).queueSize(1).idleSize(0);
 
@@ -521,12 +473,12 @@ public class WaitingQueueTest {
         check(rs).requestsCount(1).activeCount(0);
         check(queue).queueSize(0).idleSize(0);
 
-        pendingIsWaiting(first);
+        futureIsPending(first);
 
         // After complete obejct to closed queue
         // object will be released and future will be canceled
         rs.completeNextWithException(new RuntimeException("big problem"));
-        pendingIsExeceptionally(first, "big problem");
+        futureIsCanceled(first, QUEUE_IS_CLOSED);
         
         check(queue).queueSize(0).idleSize(0);
         check(rs).requestsCount(0).activeCount(0);
@@ -544,20 +496,20 @@ public class WaitingQueueTest {
         check(queue).queueSize(0).idleSize(0).waitingsCount(0);
 
         // Make first request and get pending future
-        CompletableFuture<Resource> first = acquirePending(queue);
+        CompletableFuture<Resource> first = pendingFuture(acquire(queue));
         check(queue).queueSize(1).idleSize(0).waitingsCount(0);
 
         // Make few requests for fill waiting queue
         Deque<CompletableFuture<Resource>> waitings = new ArrayDeque<>(queue.waitingsLimit());
         for (int idx = 0; idx < queue.waitingsLimit(); idx += 1) {
-            waitings.offer(acquirePending(queue));
+            waitings.offer(pendingFuture(acquire(queue)));
         }
 
         check(rs).requestsCount(1).activeCount(0);
         check(queue).queueSize(1).idleSize(0).waitingsCount(WaitingQueue.WAITINGS_LIMIT_FACTOR);
 
         // When wainting queue is filled - next poll must be rejected
-        acquireRejectedLimitExceeded(queue);
+        exceptionallyFuture(acquire(queue), LIMIT_EXCEEDED);
 
         // Complete first pending resource
         rs.completeNext();
@@ -589,10 +541,10 @@ public class WaitingQueueTest {
         ResourceHandler rs = new ResourceHandler();
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 3);
 
-        CompletableFuture<Resource> f1 = acquirePending(queue);
-        CompletableFuture<Resource> w1 = acquirePending(queue);
-        CompletableFuture<Resource> w2 = acquirePending(queue);
-        CompletableFuture<Resource> w3 = acquirePending(queue);
+        CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> w1 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> w2 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> w3 = pendingFuture(acquire(queue));
 
         check(queue).queueSize(1).idleSize(0).waitingsCount(3);
         rs.completeNext();
@@ -628,10 +580,10 @@ public class WaitingQueueTest {
         ResourceHandler rs = new ResourceHandler();
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 3);
 
-        CompletableFuture<Resource> f1 = acquirePending(queue);
-        CompletableFuture<Resource> w1 = acquirePending(queue);
-        CompletableFuture<Resource> w2 = acquirePending(queue);
-        CompletableFuture<Resource> w3 = acquirePending(queue);
+        CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> w1 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> w2 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> w3 = pendingFuture(acquire(queue));
 
         check(queue).queueSize(1).idleSize(0).waitingsCount(3);
         rs.completeNext();
@@ -644,16 +596,16 @@ public class WaitingQueueTest {
 
         check(rs).requestsCount(1).activeCount(0);
         check(queue).queueSize(1).idleSize(0).waitingsCount(3);
-        pendingIsWaiting(w1);
-        pendingIsWaiting(w2);
-        pendingIsWaiting(w3);
+        futureIsPending(w1);
+        futureIsPending(w2);
+        futureIsPending(w3);
         
         rs.completeNext();
         check(rs).requestsCount(0).activeCount(1);
         check(queue).queueSize(1).idleSize(0).waitingsCount(2);
         
         Resource r2 = pendingIsReady(w1);
-        pendingIsWaiting(w2);
+        futureIsPending(w2);
 
         Assert.assertNotEquals("After deleting waiting got different resource ", r1, r2);
         
@@ -667,7 +619,7 @@ public class WaitingQueueTest {
         rs.completeNext();
         
         Resource r3 = pendingIsReady(w2);
-        pendingIsWaiting(w3);
+        futureIsPending(w3);
 
         Assert.assertNotEquals("After deleting waiting got different resource ", r1, r2);
         check(rs).requestsCount(0).activeCount(1);
@@ -691,8 +643,8 @@ public class WaitingQueueTest {
         ResourceHandler rs = new ResourceHandler();
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 2);
 
-        CompletableFuture<Resource> f1 = acquirePending(queue);
-        CompletableFuture<Resource> w1 = acquirePending(queue);
+        CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> w1 = pendingFuture(acquire(queue));
 
         rs.completeNext();
         Resource r1 = pendingIsReady(f1);
@@ -702,7 +654,7 @@ public class WaitingQueueTest {
         
         check(rs).requestsCount(0).activeCount(1);
         
-        pendingIsCanceled(w1);
+        futureIsCanceled(w1, QUEUE_IS_CLOSED);
         
         queue.release(r1);
     }
@@ -722,9 +674,9 @@ public class WaitingQueueTest {
         ResourceHandler rs = new ResourceHandler();
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 5);
 
-        CompletableFuture<Resource> f1 = acquirePending(queue);
-        CompletableFuture<Resource> f2 = acquirePending(queue);
-        CompletableFuture<Resource> f3 = acquirePending(queue);
+        CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> f2 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> f3 = pendingFuture(acquire(queue));
         
         rs.completeNext().completeNext().completeNext();
         
@@ -758,9 +710,9 @@ public class WaitingQueueTest {
         ResourceHandler rs = new ResourceHandler();
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 5);
 
-        CompletableFuture<Resource> f1 = acquirePending(queue);
-        CompletableFuture<Resource> f2 = acquirePending(queue);
-        CompletableFuture<Resource> f3 = acquirePending(queue);
+        CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> f2 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> f3 = pendingFuture(acquire(queue));
         
         rs.completeNext().completeNext().completeNext();
         check(rs).activeCount(3);
@@ -800,7 +752,7 @@ public class WaitingQueueTest {
         
         check(queue).queueSize(2).idleSize(2);
         // acquire the hottest resource r3
-        Resource r4 = acquireReady(queue);
+        Resource r4 = readyFuture(acquire(queue));
         check(queue).queueSize(2).idleSize(1);
         
         // try to remove already used resource - nothing is changed
