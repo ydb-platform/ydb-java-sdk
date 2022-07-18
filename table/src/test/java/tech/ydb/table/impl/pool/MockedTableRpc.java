@@ -149,6 +149,10 @@ public class MockedTableRpc extends TableRpcStub {
         public void completeOverloaded() {
             future.complete(Result.fail(StatusCode.OVERLOADED));
         }
+
+        public void completeTransportUnavailable() {
+            future.complete(Result.fail(StatusCode.TRANSPORT_UNAVAILABLE));
+        }
     }
 
     public class ExecuteDataQuery {

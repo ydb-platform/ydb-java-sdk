@@ -9,6 +9,8 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import tech.ydb.core.Result;
+import tech.ydb.core.UnexpectedResultException;
+import tech.ydb.core.utils.Async;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.TableClient;
@@ -43,7 +45,12 @@ public class PooledTableClient implements TableClient {
     public CompletableFuture<Result<Session>> createSession(Duration timeout) {
         return pool.acquire(timeout).handle((session, tw) -> {
             if (tw != null) {
-                return Result.error(tw);
+                Throwable ex = Async.unwrapCompletionException(tw);
+                if (ex instanceof UnexpectedResultException) {
+                    return Result.fail((UnexpectedResultException)ex);
+                } else {
+                    return Result.error(ex);
+                }
             }
             return Result.success(session);
         });
@@ -66,6 +73,7 @@ public class PooledTableClient implements TableClient {
         private SessionPoolOptions sessionPoolOptions = SessionPoolOptions.DEFAULT;
 
         public Builder(TableRpc tableRpc) {
+            Preconditions.checkArgument(tableRpc != null, "table rpc is null");
             this.tableRpc = tableRpc;
         }
 
@@ -77,7 +85,7 @@ public class PooledTableClient implements TableClient {
 
         @Override
         public Builder sessionPoolSize(int minSize, int maxSize) {
-            Preconditions.checkArgument(minSize > 0, "sessionPoolMinSize(%d) is negative", minSize);
+            Preconditions.checkArgument(minSize >= 0, "sessionPoolMinSize(%d) is negative", minSize);
             Preconditions.checkArgument(maxSize > 0, "sessionPoolMaxSize(%d) is negative", maxSize);
             Preconditions.checkArgument(
                 minSize <= maxSize,

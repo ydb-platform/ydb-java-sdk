@@ -94,6 +94,7 @@ public class SimpleTableClientTest {
         try (Session session2 = client.createSession(Duration.ZERO).join().expect("cannot create session")) {
             // Server has 2 session
             Assert.assertEquals(2, sessionIDs.size());
+            session2.getId();
         }
         // But server still has 1 session
         Assert.assertEquals(1, sessionIDs.size());
