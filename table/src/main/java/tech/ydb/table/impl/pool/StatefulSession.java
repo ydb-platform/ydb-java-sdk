@@ -90,14 +90,14 @@ abstract class StatefulSession extends BaseSession {
             return switchState(this, nextState(Status.BROKEN, now));
         }
 
-        private State updated(Instant now, Throwable tw, StatusCode code) {
+        private State updated(Instant now, Throwable th, StatusCode code) {
             // Broken state never will be updated
             if (status == Status.BROKEN) {
                 return this;
             }
 
             // Check problems
-            boolean broken = tw != null
+            boolean broken = th != null
                     || (code.isTransportError() && code != StatusCode.CLIENT_RESOURCE_EXHAUSTED)
                     || code == StatusCode.BAD_SESSION
                     || code == StatusCode.SESSION_BUSY

@@ -134,12 +134,12 @@ public class SessionPool implements AutoCloseable {
 
         @Override
         public void destroy(ClosableSession session) {
-            session.delete(new DeleteSessionSettings()).whenComplete((status, tw) -> {
+            session.delete(new DeleteSessionSettings()).whenComplete((status, th) -> {
                 if (!logger.isWarnEnabled()) {
                     return;
                 }
-                if (tw != null) {
-                    logger.warn("session {} removed with exception {}", session.getId(), tw.getMessage());
+                if (th != null) {
+                    logger.warn("session {} removed with exception {}", session.getId(), th.getMessage());
                 }
                 if (status != null && !status.isSuccess()) {
                     if (status.isSuccess()) {
@@ -197,8 +197,8 @@ public class SessionPool implements AutoCloseable {
                     if (state.switchToKeepAlive(now)) {
                         keepAliveCount.incrementAndGet();
                         logger.debug("keep alive session {}", session.getId());
-                        session.keepAlive().whenComplete((res, tw) -> {
-                            boolean ok = tw == null
+                        session.keepAlive().whenComplete((res, th) -> {
+                            boolean ok = th == null
                                     && res.isSuccess()
                                     && res.expect("keep alive") == Session.State.READY;
                             keepAliveCount.decrementAndGet();

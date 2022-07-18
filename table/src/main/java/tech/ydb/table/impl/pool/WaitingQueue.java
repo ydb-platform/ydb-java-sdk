@@ -226,8 +226,8 @@ public class WaitingQueue<T> implements AutoCloseable {
         // Try to create new pending request
         CompletableFuture<T> pending = new CompletableFuture<>();
         if (tryToCreateNewPending(pending)) {
-            pending.whenComplete((object, tw) -> {
-                if (tw != null) {
+            pending.whenComplete((object, th) -> {
+                if (th != null) {
                     checkCurrentWaitings();
                 }
                 if (object != null) {
@@ -270,7 +270,7 @@ public class WaitingQueue<T> implements AutoCloseable {
         }
 
         @Override
-        public void accept(T object, Throwable tw) {
+        public void accept(T object, Throwable th) {
             boolean ready = !acquire.isDone() && !acquire.isCancelled();
         
             // If pool is already closed and clean
@@ -285,11 +285,11 @@ public class WaitingQueue<T> implements AutoCloseable {
             }
 
             // The implementation of CompletableFuture
-            // guarantees that if object is null then tw is not null
-            if (tw != null) {
+            // guarantees that if object is null then th is not null
+            if (th != null) {
                 queueSize.decrementAndGet();
                 if (ready) {
-                    acquire.completeExceptionally(tw);
+                    acquire.completeExceptionally(th);
                 }
                 return;
             }
