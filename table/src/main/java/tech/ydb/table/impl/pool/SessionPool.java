@@ -35,7 +35,8 @@ public class SessionPool implements AutoCloseable {
     private final WaitingQueue<ClosableSession> queue;
     private final ScheduledFuture<?> keepAliveFuture;
     
-    public SessionPool(ScheduledExecutorService scheduler, Clock clock, TableRpc rpc, boolean keepQueryText, SessionPoolOptions options) {
+    public SessionPool(ScheduledExecutorService scheduler, Clock clock,
+            TableRpc rpc, boolean keepQueryText, SessionPoolOptions options) {
         this.minSize = options.getMinSize();
         
         this.clock = clock;
@@ -65,10 +66,10 @@ public class SessionPool implements AutoCloseable {
     public SessionPoolStats stats() {
         return new SessionPoolStats(
                 minSize,
-                queue.queueLimit(),
-                queue.idleSize(),
-                queue.usedSize(),
-                queue.waitingsSize() + queue.pendingsSize());
+                queue.getTotalLimit(),
+                queue.getIdleCount(),
+                queue.getUsedCount(),
+                queue.getWaitingCount() + queue.getPendingCount());
     }
     
     public CompletableFuture<Session> acquire(Duration timeout) {
@@ -184,7 +185,7 @@ public class SessionPool implements AutoCloseable {
                     continue;
                 }
                 
-                if (!state.lastActive().isAfter(idleToRemove) && queue.queueSize() > minSize) {
+                if (!state.lastActive().isAfter(idleToRemove) && queue.getTotalCount() > minSize) {
                     coldIterator.remove();
                     continue;
                 }

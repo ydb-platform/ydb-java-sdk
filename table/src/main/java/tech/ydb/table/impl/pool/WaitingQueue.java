@@ -49,7 +49,7 @@ public class WaitingQueue<T> implements AutoCloseable {
     /** Queue of waiting acquire requests */
     private final Queue<CompletableFuture<T>> waitingAcquires = new ConcurrentLinkedQueue<>();
     /** Size of waiting acquires queue */
-    private final AtomicInteger waitingAcqueiresCount = new AtomicInteger(0);
+    private final AtomicInteger waitingAcqueireCount = new AtomicInteger(0);
 
     @VisibleForTesting
     WaitingQueue(Handler<T> handler, int maxSize, int waitingsLimit) {
@@ -103,7 +103,7 @@ public class WaitingQueue<T> implements AutoCloseable {
         handler.destroy(object);
         
         // After deleting one object we can try to create new pending if it needed
-        checkCurrentWaitings();
+        checkNextWaitingAcquire();
     }
     
     @Override
@@ -116,31 +116,31 @@ public class WaitingQueue<T> implements AutoCloseable {
         return new ColdIterator(idle.descendingIterator());
     }
     
-    public int idleSize() {
+    public int getIdleCount() {
         return idle.size();
     }
     
-    public int usedSize() {
+    public int getUsedCount() {
         return used.size();
     }
 
-    public int queueSize() {
+    public int getTotalCount() {
         return queueSize.get();
     }
 
-    public int pendingsSize() {
+    public int getPendingCount() {
         return pendingRequests.size();
     }
 
-    public int waitingsSize() {
-        return waitingAcqueiresCount.get();
+    public int getWaitingCount() {
+        return waitingAcqueireCount.get();
     }
 
-    public int queueLimit() {
+    public int getTotalLimit() {
         return maxSize;
     }
     
-    public int waitingsLimit() {
+    public int getWaitingLimit() {
         return waitingsLimit;
     }
 
@@ -185,10 +185,10 @@ public class WaitingQueue<T> implements AutoCloseable {
     }
     
     private boolean tryToCreateNewWaiting(CompletableFuture<T> acquire) {
-        int waitingsCount = waitingAcqueiresCount.get();
+        int waitingsCount = waitingAcqueireCount.get();
         while (waitingsCount < waitingsLimit) {
-            if (!waitingAcqueiresCount.compareAndSet(waitingsCount, waitingsCount + 1)) {
-                waitingsCount = waitingAcqueiresCount.get();
+            if (!waitingAcqueireCount.compareAndSet(waitingsCount, waitingsCount + 1)) {
+                waitingsCount = waitingAcqueireCount.get();
                 continue;
             }
 
@@ -206,7 +206,7 @@ public class WaitingQueue<T> implements AutoCloseable {
 
         CompletableFuture<T> next = waitingAcquires.poll();
         while (next != null) {
-            waitingAcqueiresCount.decrementAndGet();
+            waitingAcqueireCount.decrementAndGet();
 
             if (!next.isDone() && !next.isCancelled()) {
                 safeAcquireObject(next, object);
@@ -218,7 +218,7 @@ public class WaitingQueue<T> implements AutoCloseable {
         return false;
     }
 
-    private void checkCurrentWaitings() {
+    private void checkNextWaitingAcquire() {
         if (stopped || waitingAcquires.isEmpty()) {
             return;
         }
@@ -228,7 +228,7 @@ public class WaitingQueue<T> implements AutoCloseable {
         if (tryToCreateNewPending(pending)) {
             pending.whenComplete((object, th) -> {
                 if (th != null) {
-                    checkCurrentWaitings();
+                    checkNextWaitingAcquire();
                 }
                 if (object != null) {
                     if (!tryToCompleteWaiting(object)) {
@@ -330,7 +330,7 @@ public class WaitingQueue<T> implements AutoCloseable {
                 handler.destroy(lastRet);
                 lastRet = null;
                 queueSize.decrementAndGet();
-                checkCurrentWaitings();
+                checkNextWaitingAcquire();
             }
         }
 

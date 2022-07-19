@@ -73,17 +73,17 @@ public class WaitingQueueTest extends FutureHelper {
         }
 
         QueueChecker queueSize(int size) {
-            Assert.assertEquals("Check queue size", size, queue.queueSize());
+            Assert.assertEquals("Check queue size", size, queue.getTotalCount());
             return this;
         }
 
         QueueChecker idleSize(int size) {
-            Assert.assertEquals("Check idle size", size, queue.idleSize());
+            Assert.assertEquals("Check idle size", size, queue.getIdleCount());
             return this;
         }
 
         QueueChecker waitingsCount(int size) {
-            Assert.assertEquals("Check waitings size", size, queue.waitingsSize());
+            Assert.assertEquals("Check waitings size", size, queue.getWaitingCount());
             return this;
         }
     }
@@ -489,8 +489,8 @@ public class WaitingQueueTest extends FutureHelper {
         ResourceHandler rs = new ResourceHandler();
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1);
         
-        Assert.assertEquals("Validate queue limit", 1, queue.queueLimit());
-        Assert.assertEquals("Validate waitings limit", WaitingQueue.WAITINGS_LIMIT_FACTOR, queue.waitingsLimit());
+        Assert.assertEquals("Validate queue limit", 1, queue.getTotalLimit());
+        Assert.assertEquals("Validate waitings limit", WaitingQueue.WAITINGS_LIMIT_FACTOR, queue.getWaitingLimit());
 
         check(rs).requestsCount(0).activeCount(0);
         check(queue).queueSize(0).idleSize(0).waitingsCount(0);
@@ -500,8 +500,8 @@ public class WaitingQueueTest extends FutureHelper {
         check(queue).queueSize(1).idleSize(0).waitingsCount(0);
 
         // Make few requests for fill waiting queue
-        Deque<CompletableFuture<Resource>> waitings = new ArrayDeque<>(queue.waitingsLimit());
-        for (int idx = 0; idx < queue.waitingsLimit(); idx += 1) {
+        Deque<CompletableFuture<Resource>> waitings = new ArrayDeque<>(queue.getWaitingLimit());
+        for (int idx = 0; idx < queue.getWaitingLimit(); idx += 1) {
             waitings.offer(pendingFuture(acquire(queue)));
         }
 
