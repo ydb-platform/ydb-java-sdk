@@ -44,6 +44,10 @@ class GrpcChannel {
         channel = interceptChannel(realChannel, channelSettings);
     }
 
+    public String getEndpoint() {
+        return endpoint;
+    }
+
     private Channel interceptChannel(ManagedChannel realChannel, ChannelSettings channelSettings) {
         if (channelSettings.getDatabase() == null) {
             return realChannel;

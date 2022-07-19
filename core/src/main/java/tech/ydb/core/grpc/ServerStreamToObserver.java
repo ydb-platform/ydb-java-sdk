@@ -1,5 +1,7 @@
 package tech.ydb.core.grpc;
 
+import java.util.function.Consumer;
+
 import javax.annotation.Nullable;
 
 import tech.ydb.core.rpc.StreamObserver;
@@ -12,14 +14,22 @@ import io.grpc.stub.ClientCallStreamObserver;
 /**
  * @author Sergey Polovko
  */
-final class ServerStreamToObserver<ReqT, RespT> extends ClientCall.Listener<RespT> {
+public class ServerStreamToObserver<ReqT, RespT> extends ClientCall.Listener<RespT> {
 
     private final StreamObserver<RespT> observer;
     private final CallToStreamObserverAdapter<ReqT> adapter;
+    private final Consumer<Status> errorHandler;
 
-    ServerStreamToObserver(StreamObserver<RespT> observer, ClientCall<ReqT, RespT> call) {
+    public ServerStreamToObserver(StreamObserver<RespT> observer, ClientCall<ReqT, RespT> call) {
         this.observer = observer;
         this.adapter = new CallToStreamObserverAdapter<>(call);
+        this.errorHandler = null;
+    }
+
+    public ServerStreamToObserver(StreamObserver<RespT> observer, ClientCall<ReqT, RespT> call, Consumer<Status> errorHandler) {
+        this.observer = observer;
+        this.adapter = new CallToStreamObserverAdapter<>(call);
+        this.errorHandler = errorHandler;
     }
 
     @Override
@@ -43,6 +53,9 @@ final class ServerStreamToObserver<ReqT, RespT> extends ClientCall.Listener<Resp
             observer.onCompleted();
         } else {
             observer.onError(GrpcStatuses.toStatus(status));
+            if (errorHandler != null) {
+                errorHandler.accept(status);
+            }
         }
     }
 

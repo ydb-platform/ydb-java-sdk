@@ -1,5 +1,6 @@
 package tech.ydb.core.grpc.impl.ydb;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -12,12 +13,14 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -46,7 +49,8 @@ public final class EndpointPool {
     private final BalancingSettings balancingSettings;
     private final AtomicBoolean updateInProgress = new AtomicBoolean();
     private final ReadWriteLock recordsLock = new ReentrantReadWriteLock();
-    private AtomicLong lastUpdateTime;
+    private AtomicInteger pessimizationRatio = new AtomicInteger();
+    private AtomicLong lastUpdateTime = new AtomicLong();
     private List<EndpointEntry> records = new ArrayList<>();
     private Map<String, EndpointEntry> knownEndpoints = new HashMap<>();
     // Number of endpoints with best load factor (priority)
@@ -57,7 +61,7 @@ public final class EndpointPool {
                         BalancingSettings balancingSettings) {
         this.provider = provider;
         this.balancingSettings = balancingSettings;
-        this.lastUpdateTime = new AtomicLong(Instant.EPOCH.toEpochMilli());
+        this.lastUpdateTime.set(Instant.EPOCH.toEpochMilli());
         this.random = new Random();
     }
 
@@ -136,7 +140,9 @@ public final class EndpointPool {
             future.complete(new EndpointUpdateResultData(removed, result.toStatus()));
             updateInProgress.set(false);
         }).exceptionally(e -> {
-            future.complete(new EndpointUpdateResultData(null, Status.of(StatusCode.CLIENT_INTERNAL_ERROR)));
+            Issue issue = Issue.of(e.toString(), Issue.Severity.ERROR);
+            future.complete(new EndpointUpdateResultData(null,
+                    Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue)));
             updateInProgress.set(false);
             return null;
         });
@@ -199,6 +205,10 @@ public final class EndpointPool {
         return "";
     }
 
+    public Duration getTimeSinceLastUpdate() {
+        return Duration.between(Instant.ofEpochMilli(lastUpdateTime.get()), Instant.now());
+    }
+
     // Sets new endpoints, returns removed
     private List<String> setNewState(List<EndpointEntry> newRecords) {
         Set<String> index = new HashSet<String>();
@@ -246,10 +256,59 @@ public final class EndpointPool {
             records = uniqueRecords;
             knownEndpoints = newKnownEndpoints;
             bestEndpointsCount = newBestEndpointsCount;
+            pessimizationRatio.set(0);
         } finally {
             recordsLock.writeLock().unlock();
         }
         return removed;
+    }
+
+    public void pessimizeEndpoint(String endpoint) {
+        recordsLock.readLock().lock();
+        try {
+            EndpointEntry knownEndpoint = knownEndpoints.get(endpoint);
+            if (knownEndpoint == null || knownEndpoint.priority == Integer.MAX_VALUE) {
+                if (logger.isTraceEnabled()) {
+                    logger.trace("Endpoint {} is already pessimized", endpoint);
+                }
+                return;
+            }
+        } finally {
+            recordsLock.readLock().unlock();
+        }
+        int newRatio = -1;
+        boolean pessimized = false;
+        recordsLock.writeLock().lock();
+        try {
+            for (EndpointEntry record : records) {
+                if (endpoint.equals(record.endpoint.getHostAndPort())) {
+                    if (record.priority != Integer.MAX_VALUE) {
+                        newRatio = (pessimizationRatio.get() * records.size() + 100) / records.size();
+                        pessimizationRatio.set(newRatio);
+                        record.priority = Integer.MAX_VALUE;
+                        EndpointEntry knownEndpoint = knownEndpoints.get(endpoint);
+                        if (knownEndpoint != null) {
+                            knownEndpoint.priority = Integer.MAX_VALUE;
+                        }
+                        pessimized = true;
+                    }
+                    break;
+                }
+            }
+            records.sort(Comparator.comparingInt(e -> e.priority));
+            bestEndpointsCount = getBestEndpointsCount(records);
+        } finally {
+            recordsLock.writeLock().unlock();
+        }
+        if (pessimized) {
+            logger.info("Endpoint {} was pessimized. New pessimization ratio: {}", endpoint, newRatio);
+        } else {
+            logger.trace("Endpoint {} was already pessimized recently", endpoint);
+        }
+    }
+
+    public int getPessimizationRatio() {
+        return pessimizationRatio.get();
     }
 
     // returns amount of endpoints with best load factor (priority)

@@ -9,9 +9,10 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.ThreadSafe;
 
 import com.google.protobuf.Timestamp;
-import javax.annotation.concurrent.ThreadSafe;
+import tech.ydb.OperationProtos.Operation;
 import tech.ydb.StatusCodesProtos.StatusIds;
 import tech.ydb.ValueProtos;
 import tech.ydb.common.CommonProtos;
@@ -568,10 +569,18 @@ public abstract class BaseSession implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
                 }
+                Operation operation = response.expect("executeDataQuery()").getOperation();
+                DataQueryResult.CostInfo costInfo = operation.hasCostInfo()
+                        ? new DataQueryResult.CostInfo(operation.getCostInfo())
+                        : null;
                 return tableRpc.getOperationTray().waitResult(
-                    response.expect("executeDataQuery()").getOperation(),
+                    operation,
                     YdbTable.ExecuteQueryResult.class,
-                    result -> new DataQueryResult(result.getTxMeta().getId(), result.getResultSetsList()),
+                    result -> new DataQueryResult(
+                            result.getTxMeta().getId(),
+                            result.getResultSetsList(),
+                            costInfo
+                    ),
                     deadlineAfter);
             }));
     }
@@ -623,10 +632,19 @@ public abstract class BaseSession implements Session {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
                 }
+                Operation operation = response.expect("executeDataQuery()").getOperation();
+                DataQueryResult.CostInfo costInfo = operation.hasCostInfo()
+                        ? new DataQueryResult.CostInfo(operation.getCostInfo())
+                        : null;
+
                 return tableRpc.getOperationTray().waitResult(
-                    response.expect("executeDataQuery()").getOperation(),
+                    operation,
                     YdbTable.ExecuteQueryResult.class,
-                    result -> new DataQueryResult(result.getTxMeta().getId(), result.getResultSetsList()),
+                    result -> new DataQueryResult(
+                            result.getTxMeta().getId(),
+                            result.getResultSetsList(),
+                            costInfo
+                    ),
                     deadlineAfter);
             }));
     }

@@ -111,7 +111,7 @@ public class GrpcChannelPool {
     }
 
     public void shutdown(long shutdownTimeoutMs) {
-        logger.debug("starting grpc pool shutdown with {} channels...", channels.size());
+        logger.debug("initiating grpc pool shutdown with {} channels...", channels.size());
         Collection<GrpcChannel> channelsToShutdown = channels.values();
         boolean shutDownResult =
                 shutdownChannels(channelsToShutdown.stream(), channelsToShutdown.size(), shutdownTimeoutMs)
