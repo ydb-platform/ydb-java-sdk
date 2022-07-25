@@ -46,13 +46,13 @@ public class SessionPool implements AutoCloseable {
         KeepAliveTask keepAlive = new KeepAliveTask(options);
         this.keepAliveFuture = scheduler.scheduleAtFixedRate(
                 keepAlive,
-                keepAlive.period / 2,
-                keepAlive.period,
+                keepAlive.periodMillis / 2,
+                keepAlive.periodMillis,
                 TimeUnit.MILLISECONDS);
         logger.info("init session pool, min size = {}, max size = {}, keep alive period = {}",
                 options.getMinSize(),
                 options.getMaxSize(),
-                keepAlive.period);
+                keepAlive.periodMillis);
     }
 
     @Override
@@ -158,7 +158,7 @@ public class SessionPool implements AutoCloseable {
         private final long keepAliveTimeMillis;
 
         private final int maxKeepAliveCount;
-        private final long period;
+        private final long periodMillis;
 
         private final AtomicInteger keepAliveCount = new AtomicInteger(0);
 
@@ -166,8 +166,12 @@ public class SessionPool implements AutoCloseable {
             this.maxIdleTimeMillis = options.getMaxIdleTimeMillis();
             this.keepAliveTimeMillis = options.getKeepAliveTimeMillis();
             
+            // Simple heuristics to limit task
+            // Limit count of keepalive - not more than 20 percent but not less than two
             this.maxKeepAliveCount = Math.max(2, options.getMaxSize() / 5);
-            this.period = Math.max(100, Math.min(keepAliveTimeMillis / 5, maxIdleTimeMillis / 2));
+            // The task must be executed at least 5 times for keepAlive 
+            // and at least 2 times for idle, but no more than once every 100 ms
+            this.periodMillis = Math.max(100, Math.min(keepAliveTimeMillis / 5, maxIdleTimeMillis / 2));
         }
         
         @Override
@@ -242,27 +246,42 @@ public class SessionPool implements AutoCloseable {
         }
     }
 
+    /**
+     * This is the part based on the code written by Doug Lea with assistance from members 
+     * of JCP JSR-166 Expert Group and released to the public domain, as explained at
+     * http://creativecommons.org/publicdomain/zero/1.0/
+     */
+
     /** Action to cancel unneeded timeouts */
     static final class Canceller implements BiConsumer<Object, Throwable> {
-        final Future<?> f;
-        Canceller(Future<?> f) { this.f = f; }
+        private final Future<?> f;
+
+        Canceller(Future<?> f) {
+            this.f = f;
+        }
+
         @Override
         public void accept(Object ignore, Throwable ex) {
-            if (f != null && !f.isDone())
+            if (f != null && !f.isDone()) {
                 f.cancel(false);
+            }
         }
     }
 
     /** Action to completeExceptionally on timeout */
     static final class Timeout implements Runnable {
-        final CompletableFuture<?> f;
-        Timeout(CompletableFuture<?> f) { this.f = f; }
+        private final CompletableFuture<?> f;
+
+        Timeout(CompletableFuture<?> f) {
+            this.f = f;
+        }
+
         @Override
         public void run() {
-            if (f != null && !f.isDone())
+            if (f != null && !f.isDone()) {
                 f.completeExceptionally(new TimeoutException("deadline was expired"));
+            }
         }
     }
-    
 }
 
