@@ -1,6 +1,6 @@
 package tech.ydb.core.grpc;
 
-import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -15,23 +15,19 @@ import io.grpc.Status;
  * @author Sergey Polovko
  */
 public class UnaryStreamToBiConsumer<T> extends ClientCall.Listener<T> {
-
-    private static final AtomicIntegerFieldUpdater<UnaryStreamToBiConsumer> acceptedUpdater =
-        AtomicIntegerFieldUpdater.newUpdater(UnaryStreamToBiConsumer.class, "accepted");
-
     private final BiConsumer<T, Status> consumer;
     private final Consumer<Status> errorHandler;
-    private volatile int accepted = 0;
+    private final Consumer<Metadata> trailersHandler;
+    private final AtomicBoolean accepted = new AtomicBoolean(false);
     private T value;
 
-    public UnaryStreamToBiConsumer(BiConsumer<T, Status> consumer) {
-        this.consumer = consumer;
-        this.errorHandler = null;
-    }
-
-    public UnaryStreamToBiConsumer(BiConsumer<T, Status> consumer, Consumer<Status> errorHandler) {
+    public UnaryStreamToBiConsumer(
+            BiConsumer<T, Status> consumer,
+            Consumer<Status> errorHandler,
+            Consumer<Metadata> trailersHandler) {
         this.consumer = consumer;
         this.errorHandler = errorHandler;
+        this.trailersHandler = trailersHandler;
     }
 
     @Override
@@ -45,6 +41,9 @@ public class UnaryStreamToBiConsumer<T> extends ClientCall.Listener<T> {
 
     @Override
     public void onClose(Status status, @Nullable Metadata trailers) {
+        if (trailersHandler != null && trailers != null) {
+            trailersHandler.accept(trailers);
+        }
         if (status.isOk()) {
             if (value == null) {
                 accept(null, Status.INTERNAL.withDescription("No value received for gRPC unary call"));
@@ -61,7 +60,7 @@ public class UnaryStreamToBiConsumer<T> extends ClientCall.Listener<T> {
 
     private void accept(T value, Status status) {
         // protect from double accept
-        if (acceptedUpdater.compareAndSet(this, 0, 1)) {
+        if (accepted.compareAndSet(false, true)) {
             consumer.accept(value, status);
         }
     }

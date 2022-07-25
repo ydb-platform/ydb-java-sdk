@@ -101,6 +101,10 @@ final class SessionPool implements PooledObjectHandler<SessionImpl> {
                 session.close(); // do not await session to be closed
                 idlePool.release(session);
             }
+        } else if (session.isGracefulShutdown()) {
+            logger.debug("Destroy {} because graceful shutdown hook was recived", session);
+            session.close(); // do not await session to be closed
+            idlePool.release(session);
         } else {
             idlePool.release(session);
             logger.debug("session `{}' released", session);

@@ -1,3 +1,8 @@
+## 1.14.1 ##
+
+* Added support of server-side session balancer
+* Added support of session graceful shutdown
+
 ## 1.14.0 ##
 
 * Bind session to server node it was created at

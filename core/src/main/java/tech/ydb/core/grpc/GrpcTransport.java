@@ -368,9 +368,11 @@ public abstract class GrpcTransport implements RpcTransport {
     protected static <ReqT, RespT> void sendOneRequest(
             ClientCall<ReqT, RespT> call,
             ReqT request,
+            GrpcRequestSettings settings,
             ClientCall.Listener<RespT> listener) {
         try {
-            call.start(listener, new Metadata());
+            Metadata headers = settings.getExtraHeaders();
+            call.start(listener, headers != null ? headers : new Metadata());
             call.request(1);
             call.sendMessage(request);
             call.halfClose();
@@ -387,12 +389,14 @@ public abstract class GrpcTransport implements RpcTransport {
 
     protected static <ReqT, RespT> OutStreamObserver<ReqT> asyncBidiStreamingCall(
             ClientCall<ReqT, RespT> call,
+            GrpcRequestSettings settings,
             StreamObserver<RespT> responseObserver) {
         AsyncBidiStreamingOutAdapter<ReqT, RespT> adapter
                 = new AsyncBidiStreamingOutAdapter<>(call);
         AsyncBidiStreamingInAdapter<ReqT, RespT> responseListener
-                = new AsyncBidiStreamingInAdapter<>(responseObserver, adapter);
-        call.start(responseListener, new Metadata());
+                = new AsyncBidiStreamingInAdapter<>(responseObserver, adapter, null, settings.getTrailersHandler());
+        Metadata extra = settings.getExtraHeaders();
+        call.start(responseListener, extra != null ? extra :new Metadata());
         responseListener.onStart();
         return adapter;
     }

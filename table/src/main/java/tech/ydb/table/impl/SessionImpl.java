@@ -24,6 +24,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.EndpointInfo;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
@@ -80,6 +81,7 @@ import tech.ydb.table.values.TupleValue;
 import tech.ydb.table.values.Value;
 import tech.ydb.table.values.proto.ProtoType;
 import tech.ydb.table.values.proto.ProtoValue;
+import io.grpc.Metadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -109,6 +111,7 @@ class SessionImpl implements Session {
     private final EndpointInfo endpoint;
     private final TableRpc tableRpc;
     private final OperationTray operationTray;
+    private final ShutdownHandler shutdownHandler;
     @Nullable
     private final SessionPool sessionPool;
     @Nullable
@@ -126,6 +129,7 @@ class SessionImpl implements Session {
         this.keepQueryText = keepQueryText;
         Integer nodeId = getNodeIdFromSessionId(id);
         this.endpoint = nodeId == null ? null : new EndpointInfo(nodeId, tableRpc.getEndpointByNodeId(nodeId));
+        this.shutdownHandler = new ShutdownHandler();
     }
 
     @Nullable
@@ -158,6 +162,7 @@ class SessionImpl implements Session {
         return GrpcRequestSettings.newBuilder()
                 .withDeadlineAfter(RequestSettingsUtils.calculateDeadlineAfter(settings))
                 .withPreferredEndpoint(endpoint)
+                .withTrailersHandler(shutdownHandler)
                 .build();
     }
 
@@ -176,6 +181,10 @@ class SessionImpl implements Session {
 
     boolean switchState(State from, State to) {
         return stateUpdater.compareAndSet(this, from, to);
+    }
+
+    boolean isGracefulShutdown() {
+        return shutdownHandler.isGracefulShutdown();
     }
 
     private static void applyPartitioningSettings(
@@ -865,6 +874,7 @@ class SessionImpl implements Session {
         final GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder()
                 .withDeadlineAfter(settings.getDeadlineAfter())
                 .withPreferredEndpoint(endpoint)
+                .withTrailersHandler(shutdownHandler)
                 .build();
         CompletableFuture<Status> promise = new CompletableFuture<>();
         StreamControl control = tableRpc.streamReadTable(request.build(), new StreamObserver<ReadTableResponse>() {
@@ -917,6 +927,7 @@ class SessionImpl implements Session {
         final GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder()
                 .withDeadlineAfter(settings.getDeadlineAfter())
                 .withPreferredEndpoint(endpoint)
+                .withTrailersHandler(shutdownHandler)
                 .build();
         StreamControl control = tableRpc.streamExecuteScanQuery(request, new StreamObserver<YdbTable.ExecuteScanQueryPartialResponse>() {
             @Override
@@ -1147,5 +1158,31 @@ class SessionImpl implements Session {
             "id='" + id + '\'' +
             ", state=" + state +
             '}';
+    }
+
+    private static class ShutdownHandler implements Consumer<Metadata> {
+        private static final String GRACEFUL_SHUTDOWN_HINT = "session-close";
+        private volatile boolean needShutdown = false;
+
+        public boolean isGracefulShutdown() {
+            return needShutdown;
+        }
+
+        @Override
+        public void accept(Metadata metadata) {
+            if (metadata == null) {
+                return;
+            }
+
+            Iterable<String> serverHints = metadata.getAll(YdbHeaders.YDB_SERVER_HINTS);
+            if (serverHints != null) {
+                for (String value : serverHints) {
+                    if (GRACEFUL_SHUTDOWN_HINT.equals(value)) {
+                        needShutdown = true;
+                        return;
+                    }
+                }
+            }
+        }
     }
 }

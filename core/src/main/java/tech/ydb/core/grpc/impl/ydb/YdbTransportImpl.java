@@ -146,7 +146,7 @@ public class YdbTransportImpl extends GrpcTransport {
             logger.debug("Sending request to {}, method `{}', request: `{}'", channel.getEndpoint(), method,
                     request);
         }
-        sendOneRequest(call, request, new UnaryStreamToFuture<>(promise));
+        sendOneRequest(call, request, settings, new UnaryStreamToFuture<>(promise, settings.getTrailersHandler()));
         return promise.thenApply(result -> {
             checkEndpointResponse(result, channel.getEndpoint());
             return result;
@@ -171,11 +171,13 @@ public class YdbTransportImpl extends GrpcTransport {
         sendOneRequest(
                 call,
                 request,
+                settings,
                 new UnaryStreamToConsumer<>(
                         consumer,
                         (status) -> {
                             checkEndpointResponse(status, channel.getEndpoint());
-                        }
+                        },
+                        settings.getTrailersHandler()
                 )
         );
     }
@@ -198,11 +200,13 @@ public class YdbTransportImpl extends GrpcTransport {
         sendOneRequest(
                 call,
                 request,
+                settings,
                 new UnaryStreamToBiConsumer<>(
                         consumer,
                         (status) -> {
                             checkEndpointResponse(status, channel.getEndpoint());
-                        }
+                        },
+                        settings.getTrailersHandler()
                 )
         );
     }
@@ -221,6 +225,7 @@ public class YdbTransportImpl extends GrpcTransport {
         sendOneRequest(
                 call,
                 request,
+                settings,
                 new ServerStreamToObserver<>(
                         observer,
                         call,
@@ -251,9 +256,11 @@ public class YdbTransportImpl extends GrpcTransport {
                     adapter,
                     (status) -> {
                         checkEndpointResponse(status, channel.getEndpoint());
-                    }
+                    },
+                    settings.getTrailersHandler()
                 );
-        call.start(responseListener, new Metadata());
+        Metadata extra = settings.getExtraHeaders();
+        call.start(responseListener, extra != null ? extra :new Metadata());
         responseListener.onStart();
         return adapter;
     }

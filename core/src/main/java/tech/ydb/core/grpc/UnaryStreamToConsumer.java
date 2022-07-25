@@ -1,6 +1,6 @@
 package tech.ydb.core.grpc;
 
-import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 import tech.ydb.core.Issue;
@@ -16,22 +16,20 @@ import io.grpc.Status;
  */
 public class UnaryStreamToConsumer<T> extends ClientCall.Listener<T> {
 
-    private static final AtomicIntegerFieldUpdater<UnaryStreamToConsumer> acceptedUpdater =
-        AtomicIntegerFieldUpdater.newUpdater(UnaryStreamToConsumer.class, "accepted");
-
     private final Consumer<Result<T>> consumer;
     private final Consumer<Status> errorHandler;
-    private volatile int accepted = 0;
+    private final Consumer<Metadata> trailersHandler;
+    private final AtomicBoolean accepted = new AtomicBoolean(false);
+
     private T value;
 
-    public UnaryStreamToConsumer(Consumer<Result<T>> consumer) {
-        this.consumer = consumer;
-        this.errorHandler = null;
-    }
-
-    public UnaryStreamToConsumer(Consumer<Result<T>> consumer, Consumer<Status> errorHandler) {
+    public UnaryStreamToConsumer(
+            Consumer<Result<T>> consumer,
+            Consumer<Status> errorHandler,
+            Consumer<Metadata> trailersHandler) {
         this.consumer = consumer;
         this.errorHandler = errorHandler;
+        this.trailersHandler = trailersHandler;
     }
 
     @Override
@@ -46,6 +44,9 @@ public class UnaryStreamToConsumer<T> extends ClientCall.Listener<T> {
 
     @Override
     public void onClose(Status status, Metadata trailers) {
+        if (trailersHandler != null && trailers != null) {
+            trailersHandler.accept(trailers);
+        }
         if (status.isOk()) {
             if (value == null) {
                 Issue issue = Issue.of("No value received for gRPC unary call", Issue.Severity.ERROR);
@@ -63,7 +64,7 @@ public class UnaryStreamToConsumer<T> extends ClientCall.Listener<T> {
 
     void accept(Result<T> result) {
         // protect from double accept
-        if (acceptedUpdater.compareAndSet(this, 0, 1)) {
+        if (accepted.compareAndSet(false, true)) {
             consumer.accept(result);
         }
     }

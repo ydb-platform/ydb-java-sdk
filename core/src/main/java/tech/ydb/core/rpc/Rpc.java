@@ -12,6 +12,8 @@ public interface Rpc extends AutoCloseable {
     /**
      * Returns endpoint (host:port) for corresponding node id.
      * Returns null if there is no such node id.
+     * @param nodeId number identity of the node
+     * @return endpoint associated with the node
      */
     @Nullable
     String getEndpointByNodeId(int nodeId);

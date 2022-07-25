@@ -1,6 +1,7 @@
 package tech.ydb.core.grpc;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
@@ -18,10 +19,13 @@ import io.grpc.Status;
 public class UnaryStreamToFuture<T> extends ClientCall.Listener<T> {
 
     private final CompletableFuture<Result<T>> responseFuture;
+    private final Consumer<Metadata> trailersHandler;
     private T value;
 
-    public UnaryStreamToFuture(CompletableFuture<Result<T>> responseFuture) {
+    public UnaryStreamToFuture(CompletableFuture<Result<T>> responseFuture,
+            Consumer<Metadata> trailersHandler) {
         this.responseFuture = responseFuture;
+        this.trailersHandler = trailersHandler;
     }
 
     @Override
@@ -35,6 +39,10 @@ public class UnaryStreamToFuture<T> extends ClientCall.Listener<T> {
 
     @Override
     public void onClose(Status status, @Nullable Metadata trailers) {
+        if (trailersHandler != null && trailers != null) {
+            trailersHandler.accept(trailers);
+        }
+
         if (status.isOk()) {
             if (value == null) {
                 Issue issue = Issue.of("No value received for gRPC unary call", Issue.Severity.ERROR);
