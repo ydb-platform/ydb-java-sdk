@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.UnexpectedResultException;
+import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.utils.Async;
 import tech.ydb.table.Session;
@@ -58,9 +59,11 @@ final class TableClientImpl implements TableClient {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
-        long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
+        final GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder()
+                .withDeadlineAfter(RequestSettingsUtils.calculateDeadlineAfter(settings))
+                .build();
 
-        return tableRpc.createSession(request, deadlineAfter)
+        return tableRpc.createSession(request, grpcRequestSettings)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
@@ -69,7 +72,7 @@ final class TableClientImpl implements TableClient {
                     response.expect("createSession()").getOperation(),
                     YdbTable.CreateSessionResult.class,
                     result -> new SessionImpl(result.getSessionId(), tableRpc, sessionPool, queryCacheSize, keepQueryText),
-                    deadlineAfter);
+                        grpcRequestSettings);
             });
     }
 

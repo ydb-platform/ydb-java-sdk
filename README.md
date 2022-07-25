@@ -24,17 +24,17 @@ dependencies:
     <dependency>
         <groupId>tech.ydb</groupId>
         <artifactId>ydb-sdk-core</artifactId>
-        <version>1.13.6</version>
+        <version>1.13.8</version>
     </dependency>
     <dependency>
         <groupId>tech.ydb</groupId>
         <artifactId>ydb-sdk-table</artifactId>
-        <version>1.13.6</version>
+        <version>1.13.8</version>
     </dependency>
     <dependency>
         <groupId>tech.ydb</groupId>
         <artifactId>ydb-sdk-auth-iam</artifactId>
-        <version>1.13.6</version>
+        <version>1.13.8</version>
     </dependency>
 </dependencies>
 ```
@@ -43,7 +43,7 @@ dependencies:
 
 #### Using Maven ####
 
-In [examples/basic_example][basic-example] folder there is simple example application that uses YDB Java SDK from Maven.
+In [examples/basic_example][basic_example] folder there is simple example application that uses YDB Java SDK from Maven.
 See the [Connect to a database][connect-to-a-database] section of the documentation for an instruction on how to setup and launch it.
 
 #### Generic examples ####

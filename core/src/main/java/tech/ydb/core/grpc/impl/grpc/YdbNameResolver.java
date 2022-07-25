@@ -21,6 +21,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.auth.AuthProvider;
 import tech.ydb.core.grpc.DiscoveryMode;
 import tech.ydb.core.grpc.GrpcDiscoveryRpc;
+import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.utils.Async;
 import tech.ydb.discovery.DiscoveryProtos.EndpointInfo;
@@ -121,7 +122,12 @@ final class YdbNameResolver extends NameResolver {
             return;
         }
 
-        discoveryRpc.listEndpoints(database, System.nanoTime() + discoveryPeriod.dividedBy(2).toNanos())
+        discoveryRpc.listEndpoints(
+                    database,
+                    GrpcRequestSettings.newBuilder()
+                            .withDeadlineAfter(System.nanoTime() + discoveryPeriod.dividedBy(2).toNanos())
+                            .build()
+                )
                 .thenAccept(result -> {
                     ListEndpointsResult response = ensureSuccessResolved(result);
                     if (response == null) {

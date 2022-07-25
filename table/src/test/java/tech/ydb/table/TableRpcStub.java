@@ -3,6 +3,8 @@ package tech.ydb.table;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
+import javax.annotation.Nullable;
+
 import com.google.protobuf.Message;
 import tech.ydb.OperationProtos.Operation;
 import tech.ydb.core.Issue;
@@ -10,6 +12,7 @@ import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
@@ -55,102 +58,126 @@ import tech.ydb.table.utils.Async;
 public class TableRpcStub implements TableRpc {
 
     @Override
-    public CompletableFuture<Result<CreateSessionResponse>> createSession(CreateSessionRequest request, long deadlineAfter) {
+    public CompletableFuture<Result<CreateSessionResponse>> createSession(CreateSessionRequest request,
+                                                                          GrpcRequestSettings settings) {
         return notImplemented("createSession()");
     }
 
     @Override
-    public CompletableFuture<Result<DeleteSessionResponse>> deleteSession(DeleteSessionRequest request, long deadlineAfter) {
+    public CompletableFuture<Result<DeleteSessionResponse>> deleteSession(DeleteSessionRequest request,
+                                                                          GrpcRequestSettings settings) {
         return notImplemented("deleteSession()");
     }
 
     @Override
-    public CompletableFuture<Result<KeepAliveResponse>> keepAlive(KeepAliveRequest request, long deadlineAfter) {
+    public CompletableFuture<Result<KeepAliveResponse>> keepAlive(KeepAliveRequest request,
+                                                                  GrpcRequestSettings settings) {
         return notImplemented("keepAlive()");
     }
 
     @Override
-    public CompletableFuture<Result<CreateTableResponse>> createTable(CreateTableRequest request, long deadlineAfter) {
+    public CompletableFuture<Result<CreateTableResponse>> createTable(CreateTableRequest request,
+                                                                      GrpcRequestSettings settings) {
         return notImplemented("createTable()");
     }
 
     @Override
-    public CompletableFuture<Result<DropTableResponse>> dropTable(DropTableRequest request, long deadlineAfter) {
+    public CompletableFuture<Result<DropTableResponse>> dropTable(DropTableRequest request,
+                                                                  GrpcRequestSettings settings) {
         return notImplemented("dropTable()");
     }
 
     @Override
-    public CompletableFuture<Result<AlterTableResponse>> alterTable(AlterTableRequest request, long deadlineAfter) {
+    public CompletableFuture<Result<AlterTableResponse>> alterTable(AlterTableRequest request,
+                                                                    GrpcRequestSettings settings) {
         return notImplemented("alterTable()");
     }
 
     @Override
-    public CompletableFuture<Result<CopyTableResponse>> copyTable(CopyTableRequest request, long deadlineAfter) {
+    public CompletableFuture<Result<CopyTableResponse>> copyTable(CopyTableRequest request,
+                                                                  GrpcRequestSettings settings) {
         return notImplemented("copyTable()");
     }
 
     @Override
-    public CompletableFuture<Result<DescribeTableResponse>> describeTable(DescribeTableRequest request, long deadlineAfter) {
+    public CompletableFuture<Result<DescribeTableResponse>> describeTable(DescribeTableRequest request,
+                                                                          GrpcRequestSettings settings) {
         return notImplemented("describeTable()");
     }
 
     @Override
-    public CompletableFuture<Result<ExplainDataQueryResponse>> explainDataQuery(ExplainDataQueryRequest request, long deadlineAfter) {
+    public CompletableFuture<Result<ExplainDataQueryResponse>> explainDataQuery(ExplainDataQueryRequest request,
+                                                                                GrpcRequestSettings settings) {
         return notImplemented("explainDataQuery()");
     }
 
     @Override
-    public CompletableFuture<Result<PrepareDataQueryResponse>> prepareDataQuery(PrepareDataQueryRequest request, long deadlineAfter) {
+    public CompletableFuture<Result<PrepareDataQueryResponse>> prepareDataQuery(PrepareDataQueryRequest request,
+                                                                                GrpcRequestSettings settings) {
         return notImplemented("prepareDataQuery()");
     }
 
     @Override
-    public CompletableFuture<Result<ExecuteDataQueryResponse>> executeDataQuery(ExecuteDataQueryRequest request, long deadlineAfter) {
+    public CompletableFuture<Result<ExecuteDataQueryResponse>> executeDataQuery(ExecuteDataQueryRequest request,
+                                                                                GrpcRequestSettings settings) {
         return notImplemented("executeDataQuery()");
     }
 
     @Override
-    public CompletableFuture<Result<ExecuteSchemeQueryResponse>> executeSchemeQuery(ExecuteSchemeQueryRequest request, long deadlineAfter) {
+    public CompletableFuture<Result<ExecuteSchemeQueryResponse>> executeSchemeQuery(ExecuteSchemeQueryRequest request,
+                                                                                    GrpcRequestSettings settings) {
         return notImplemented("executeSchemeQuery()");
     }
 
     @Override
-    public CompletableFuture<Result<BeginTransactionResponse>> beginTransaction(BeginTransactionRequest request, long deadlineAfter) {
+    public CompletableFuture<Result<BeginTransactionResponse>> beginTransaction(BeginTransactionRequest request,
+                                                                                GrpcRequestSettings settings) {
         return notImplemented("beginTransaction()");
     }
 
     @Override
-    public CompletableFuture<Result<CommitTransactionResponse>> commitTransaction(CommitTransactionRequest request, long deadlineAfter) {
+    public CompletableFuture<Result<CommitTransactionResponse>> commitTransaction(CommitTransactionRequest request,
+                                                                                  GrpcRequestSettings settings) {
         return notImplemented("commitTransaction()");
     }
 
     @Override
-    public CompletableFuture<Result<RollbackTransactionResponse>> rollbackTransaction(RollbackTransactionRequest request, long deadlineAfter) {
+    public CompletableFuture<Result<RollbackTransactionResponse>> rollbackTransaction(
+            RollbackTransactionRequest request, GrpcRequestSettings settings) {
         return notImplemented("rollbackTransaction()");
     }
 
     @Override
-    public StreamControl streamReadTable(ReadTableRequest request, StreamObserver<ReadTableResponse> observer, long deadlineAfter) {
+    public StreamControl streamReadTable(ReadTableRequest request, StreamObserver<ReadTableResponse> observer,
+                                         GrpcRequestSettings settings) {
         Issue issue = Issue.of("streamReadTable() is not implemented", Issue.Severity.ERROR);
         observer.onError(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
         return () -> {};
     }
 
     @Override
-    public StreamControl streamExecuteScanQuery(YdbTable.ExecuteScanQueryRequest request, StreamObserver<YdbTable.ExecuteScanQueryPartialResponse> observer, long deadlineAfter) {
+    public StreamControl streamExecuteScanQuery(YdbTable.ExecuteScanQueryRequest request,
+            StreamObserver<YdbTable.ExecuteScanQueryPartialResponse> observer, GrpcRequestSettings settings) {
         Issue issue = Issue.of("streamExecuteScanQuery() is not implemented", Issue.Severity.ERROR);
         observer.onError(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
         return () -> {};
     }
 
     @Override
-    public CompletableFuture<Result<YdbTable.BulkUpsertResponse>> bulkUpsert(YdbTable.BulkUpsertRequest request, long deadlineAfter) {
+    public CompletableFuture<Result<YdbTable.BulkUpsertResponse>> bulkUpsert(YdbTable.BulkUpsertRequest request,
+                                                                             GrpcRequestSettings settings) {
         return notImplemented("bulkUpsert()");
     }
 
     @Override
     public String getDatabase() {
         return "";
+    }
+
+    @Override
+    @Nullable
+    public String getEndpointByNodeId(int nodeId) {
+        return null;
     }
 
     @Override
@@ -172,13 +199,13 @@ public class TableRpcStub implements TableRpc {
      */
     private static final class ImmediateOperationTray implements OperationTray {
         @Override
-        public CompletableFuture<Status> waitStatus(Operation operation, long deadlineAfter) {
+        public CompletableFuture<Status> waitStatus(Operation operation, GrpcRequestSettings settings) {
             return CompletableFuture.completedFuture(Operations.status(operation));
         }
 
         @Override
         public <M extends Message, R> CompletableFuture<Result<R>> waitResult(
-            Operation operation, Class<M> resultClass, Function<M, R> mapper, long deadlineAfter)
+            Operation operation, Class<M> resultClass, Function<M, R> mapper, GrpcRequestSettings settings)
         {
             Status status = Operations.status(operation);
             if (status.isSuccess()) {

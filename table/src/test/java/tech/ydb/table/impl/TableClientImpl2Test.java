@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.core.Result;
+import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.table.Session;
 import tech.ydb.table.TableClient;
 import tech.ydb.table.TableRpcStub;
@@ -33,7 +34,7 @@ public class TableClientImpl2Test {
 
             @Override
             public CompletableFuture<Result<CreateSessionResponse>> createSession(
-                    YdbTable.CreateSessionRequest request, long deadlineAfter) {
+                    YdbTable.CreateSessionRequest request, GrpcRequestSettings settings) {
                 CreateSessionResult result = CreateSessionResult.newBuilder()
                         .setSessionId("session1")
                         .build();
@@ -45,7 +46,7 @@ public class TableClientImpl2Test {
 
             @Override
             public CompletableFuture<Result<DeleteSessionResponse>> deleteSession(
-                    YdbTable.DeleteSessionRequest request, long deadlineAfter) {
+                    YdbTable.DeleteSessionRequest request, GrpcRequestSettings settings) {
 
                 DeleteSessionResponse response = DeleteSessionResponse.newBuilder()
                         .setOperation(TableClientImplTest.successOperation())

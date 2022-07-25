@@ -14,7 +14,9 @@ import tech.ydb.core.grpc.AsyncBidiStreamingOutAdapter;
 import tech.ydb.core.grpc.BalancingSettings;
 import tech.ydb.core.grpc.ChannelSettings;
 import tech.ydb.core.grpc.DiscoveryMode;
+import tech.ydb.core.grpc.EndpointInfo;
 import tech.ydb.core.grpc.GrpcDiscoveryRpc;
+import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.grpc.ServerStreamToObserver;
 import tech.ydb.core.grpc.TransportImplType;
@@ -69,11 +71,13 @@ public class YdbTransportImpl extends GrpcTransport {
         logger.debug("creating YDB transport with {}", balancingSettings);
 
         this.endpointPool = new EndpointPool(
-                () -> discoveryRpc.listEndpoints(
-                        database,
-                        System.nanoTime() + Duration.ofSeconds(DISCOVERY_TIMEOUT_SECONDS).toNanos()
-                ),
-                balancingSettings
+            () -> discoveryRpc.listEndpoints(
+                database,
+                GrpcRequestSettings.newBuilder()
+                        .withDeadlineAfter(System.nanoTime() + Duration.ofSeconds(DISCOVERY_TIMEOUT_SECONDS).toNanos())
+                        .build()
+            ),
+            balancingSettings
         );
 
         periodicDiscoveryTask.start();
@@ -123,12 +127,20 @@ public class YdbTransportImpl extends GrpcTransport {
     }
 
     @Override
+    public String getEndpointByNodeId(int nodeId) {
+        return endpointPool.getEndpointByNodeId(nodeId);
+    }
+
+    @Override
     protected <ReqT, RespT> CompletableFuture<Result<RespT>> makeUnaryCall(
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             CompletableFuture<Result<RespT>> promise) {
-        GrpcChannel channel = channelPool.getChannel(endpointPool.getEndpoint());
+        EndpointInfo preferredEndpoint = settings.getPreferredEndpoint();
+        GrpcChannel channel = channelPool.getChannel(endpointPool.getEndpoint(
+                preferredEndpoint != null ? preferredEndpoint.getEndpoint() : null));
         ClientCall<ReqT, RespT> call = channel.channel.newCall(method, callOptions);
         if (logger.isDebugEnabled()) {
             logger.debug("Sending request to {}, method `{}', request: `{}'", channel.getEndpoint(), method,
@@ -146,8 +158,11 @@ public class YdbTransportImpl extends GrpcTransport {
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             Consumer<Result<RespT>> consumer) {
-        GrpcChannel channel = channelPool.getChannel(endpointPool.getEndpoint());
+        EndpointInfo preferredEndpoint = settings.getPreferredEndpoint();
+        GrpcChannel channel = channelPool.getChannel(endpointPool.getEndpoint(
+                preferredEndpoint != null ? preferredEndpoint.getEndpoint() : null));
         ClientCall<ReqT, RespT> call = channel.channel.newCall(method, callOptions);
         if (logger.isDebugEnabled()) {
             logger.debug("Sending request to {}, method `{}', request: `{}'", channel.getEndpoint(), method,
@@ -170,8 +185,11 @@ public class YdbTransportImpl extends GrpcTransport {
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             BiConsumer<RespT, Status> consumer) {
-        GrpcChannel channel = channelPool.getChannel(endpointPool.getEndpoint());
+        EndpointInfo preferredEndpoint = settings.getPreferredEndpoint();
+        GrpcChannel channel = channelPool.getChannel(endpointPool.getEndpoint(
+                preferredEndpoint != null ? preferredEndpoint.getEndpoint() : null));
         ClientCall<ReqT, RespT> call = channel.channel.newCall(method, callOptions);
         if (logger.isDebugEnabled()) {
             logger.debug("Sending request to {}, method `{}', request: `{}'", channel.channel.authority(),method,
@@ -194,8 +212,11 @@ public class YdbTransportImpl extends GrpcTransport {
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             StreamObserver<RespT> observer) {
-        GrpcChannel channel = channelPool.getChannel(endpointPool.getEndpoint());
+        EndpointInfo preferredEndpoint = settings.getPreferredEndpoint();
+        GrpcChannel channel = channelPool.getChannel(endpointPool.getEndpoint(
+                preferredEndpoint != null ? preferredEndpoint.getEndpoint() : null));
         ClientCall<ReqT, RespT> call = channel.channel.newCall(method, callOptions);
         sendOneRequest(
                 call,
@@ -217,8 +238,11 @@ public class YdbTransportImpl extends GrpcTransport {
     protected <ReqT, RespT> OutStreamObserver<ReqT> makeBidirectionalStreamCall(
             MethodDescriptor<ReqT, RespT> method,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             StreamObserver<RespT> observer) {
-        GrpcChannel channel = channelPool.getChannel(endpointPool.getEndpoint());
+        EndpointInfo preferredEndpoint = settings.getPreferredEndpoint();
+        GrpcChannel channel = channelPool.getChannel(endpointPool.getEndpoint(
+                preferredEndpoint != null ? preferredEndpoint.getEndpoint() : null));
         ClientCall<ReqT, RespT> call = channel.channel.newCall(method, callOptions);
         AsyncBidiStreamingOutAdapter<ReqT, RespT> adapter
                 = new AsyncBidiStreamingOutAdapter<>(call);

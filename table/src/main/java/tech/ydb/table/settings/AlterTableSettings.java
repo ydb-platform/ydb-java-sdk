@@ -1,8 +1,9 @@
 package tech.ydb.table.settings;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -22,6 +23,10 @@ public class AlterTableSettings extends RequestSettings<AlterTableSettings> {
     private TtlSettings ttlSettings;
     @Nullable
     private PartitioningSettings partitioningSettings;
+    @Nullable
+    private List<Changefeed> addChangefeeds = new ArrayList<>();
+    @Nullable
+    private List<String> dropChangefeeds = new ArrayList<>();
 
     public AlterTableSettings() {
     }
@@ -36,14 +41,30 @@ public class AlterTableSettings extends RequestSettings<AlterTableSettings> {
         return this;
     }
 
+    public AlterTableSettings addChangefeed(Changefeed changefeed) {
+        addChangefeeds.add(changefeed);
+        return this;
+    }
+
+    public AlterTableSettings dropChangefeed(String changefeed) {
+        dropChangefeeds.add(changefeed);
+        return this;
+    }
+
     public void forEachAddColumn(BiConsumer<String, Type> fn) {
-        for (Map.Entry<String, Type> e : addColumns.entrySet()) {
-            fn.accept(e.getKey(), e.getValue());
-        }
+        addColumns.forEach(fn);
     }
 
     public void forEachDropColumn(Consumer<String> fn) {
         dropColumns.forEach(fn);
+    }
+
+    public void forEachAddChangefeed(Consumer<Changefeed> fn) {
+        addChangefeeds.forEach(fn);
+    }
+
+    public void forEachDropChangefeed(Consumer<String> fn) {
+        dropChangefeeds.forEach(fn);
     }
 
     @Nullable

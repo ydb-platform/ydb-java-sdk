@@ -16,6 +16,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.grpc.AsyncBidiStreamingInAdapter;
 import tech.ydb.core.grpc.AsyncBidiStreamingOutAdapter;
 import tech.ydb.core.grpc.ChannelSettings;
+import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.grpc.ServerStreamToObserver;
 import tech.ydb.core.grpc.UnaryStreamToBiConsumer;
@@ -185,10 +186,16 @@ public class GrpcTransportImpl extends GrpcTransport {
     }
 
     @Override
+    public String getEndpointByNodeId(int nodeId) {
+        return null;
+    }
+
+    @Override
     protected <ReqT, RespT> CompletableFuture<Result<RespT>> makeUnaryCall(
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             CompletableFuture<Result<RespT>> promise) {
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
         if (logger.isDebugEnabled()) {
@@ -203,6 +210,7 @@ public class GrpcTransportImpl extends GrpcTransport {
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             Consumer<Result<RespT>> consumer) {
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
         if (logger.isDebugEnabled()) {
@@ -216,6 +224,7 @@ public class GrpcTransportImpl extends GrpcTransport {
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             BiConsumer<RespT, Status> consumer) {
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
         if (logger.isDebugEnabled()) {
@@ -229,6 +238,7 @@ public class GrpcTransportImpl extends GrpcTransport {
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             StreamObserver<RespT> observer) {
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
         sendOneRequest(call, request, new ServerStreamToObserver<>(observer, call));
@@ -241,6 +251,7 @@ public class GrpcTransportImpl extends GrpcTransport {
     protected <ReqT, RespT> OutStreamObserver<ReqT> makeBidirectionalStreamCall(
             MethodDescriptor<ReqT, RespT> method,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             StreamObserver<RespT> observer) {
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
         AsyncBidiStreamingOutAdapter<ReqT, RespT> adapter

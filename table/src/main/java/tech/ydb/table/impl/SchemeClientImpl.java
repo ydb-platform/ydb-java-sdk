@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture;
 import com.google.common.base.Splitter;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
+import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.scheme.SchemeOperationProtos;
 import tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest;
 import tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest;
@@ -77,14 +78,14 @@ final class SchemeClientImpl implements SchemeClient {
         MakeDirectoryRequest request = MakeDirectoryRequest.newBuilder()
             .setPath(path)
             .build();
-        final long deadlineAfter = 0;
-        return schemeRpc.makeDirectory(request, deadlineAfter)
+        final GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder().build();
+        return schemeRpc.makeDirectory(request, grpcRequestSettings)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return completedFuture(response.toStatus());
                 }
                 return schemeRpc.getOperationTray()
-                    .waitStatus(response.expect("makeDirectory()").getOperation(), deadlineAfter);
+                    .waitStatus(response.expect("makeDirectory()").getOperation(), grpcRequestSettings);
             });
     }
 
@@ -93,14 +94,14 @@ final class SchemeClientImpl implements SchemeClient {
         RemoveDirectoryRequest request = RemoveDirectoryRequest.newBuilder()
             .setPath(path)
             .build();
-        final long deadlineAfter = 0;
-        return schemeRpc.removeDirectory(request, deadlineAfter)
+        final GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder().build();
+        return schemeRpc.removeDirectory(request, grpcRequestSettings)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return completedFuture(response.toStatus());
                 }
                 return schemeRpc.getOperationTray()
-                    .waitStatus(response.expect("removeDirectory()").getOperation(), deadlineAfter);
+                    .waitStatus(response.expect("removeDirectory()").getOperation(), grpcRequestSettings);
             });
     }
 
@@ -109,8 +110,8 @@ final class SchemeClientImpl implements SchemeClient {
         DescribePathRequest request = DescribePathRequest.newBuilder()
             .setPath(path)
             .build();
-        final long deadlineAfter = 0;
-        return schemeRpc.describePath(request, deadlineAfter)
+        final GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder().build();
+        return schemeRpc.describePath(request, grpcRequestSettings)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return completedFuture(response.cast());
@@ -119,7 +120,7 @@ final class SchemeClientImpl implements SchemeClient {
                     response.expect("describePath()").getOperation(),
                     SchemeOperationProtos.DescribePathResult.class,
                     result -> new DescribePathResult(result.getSelf()),
-                    deadlineAfter);
+                    grpcRequestSettings);
             });
     }
 
@@ -128,8 +129,8 @@ final class SchemeClientImpl implements SchemeClient {
         ListDirectoryRequest request = ListDirectoryRequest.newBuilder()
             .setPath(path)
             .build();
-        final long deadlineAfter = 0;
-        return schemeRpc.describeDirectory(request, deadlineAfter)
+        final GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder().build();
+        return schemeRpc.describeDirectory(request, grpcRequestSettings)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return completedFuture(response.cast());
@@ -138,7 +139,7 @@ final class SchemeClientImpl implements SchemeClient {
                     response.expect("describeDirectory()").getOperation(),
                     SchemeOperationProtos.ListDirectoryResult.class,
                     result -> new ListDirectoryResult(result.getSelf(), result.getChildrenList()),
-                    deadlineAfter);
+                        grpcRequestSettings);
             });
     }
 

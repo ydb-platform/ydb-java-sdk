@@ -141,17 +141,28 @@ public abstract class GrpcTransport implements RpcTransport {
         return Result.fail(StatusCode.CLIENT_CANCELLED, issue);
     }
 
+    public abstract String getEndpointByNodeId(int nodeId);
+
     public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             long deadlineAfter) {
+        return unaryCall(method, request, GrpcRequestSettings.newBuilder()
+                .withDeadlineAfter(deadlineAfter)
+                .build());
+    }
+
+    public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            GrpcRequestSettings settings) {
         CallOptions callOptions = this.callOptions;
-        if (deadlineAfter > 0) {
+        if (settings.getDeadlineAfter() > 0) {
             final long now = System.nanoTime();
-            if (now >= deadlineAfter) {
+            if (now >= settings.getDeadlineAfter()) {
                 return completedFuture(deadlineExpiredResult(method));
             }
-            callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
+            callOptions = this.callOptions.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
         } else if (defaultReadTimeoutMillis > 0) {
             callOptions = this.callOptions.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
@@ -159,7 +170,7 @@ public abstract class GrpcTransport implements RpcTransport {
         CompletableFuture<Result<RespT>> promise = new CompletableFuture<>();
 
         if (!shutdown) {
-            return makeUnaryCall(method, request, callOptions, promise);
+            return makeUnaryCall(method, request, callOptions, settings, promise);
         } else {
             promise.complete(CancelResultDueToShutdown());
         }
@@ -170,6 +181,7 @@ public abstract class GrpcTransport implements RpcTransport {
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             CompletableFuture<Result<RespT>> promise);
 
     public <ReqT, RespT> void unaryCall(
@@ -177,20 +189,30 @@ public abstract class GrpcTransport implements RpcTransport {
             ReqT request,
             Consumer<Result<RespT>> consumer,
             long deadlineAfter) {
+        unaryCall(method, request, consumer, GrpcRequestSettings.newBuilder()
+                .withDeadlineAfter(deadlineAfter)
+                .build());
+    }
+
+    public <ReqT, RespT> void unaryCall(
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            Consumer<Result<RespT>> consumer,
+            GrpcRequestSettings settings) {
         CallOptions callOptions = this.callOptions;
-        if (deadlineAfter > 0) {
+        if (settings.getDeadlineAfter() > 0) {
             final long now = System.nanoTime();
-            if (now >= deadlineAfter) {
+            if (now >= settings.getDeadlineAfter()) {
                 consumer.accept(deadlineExpiredResult(method));
                 return;
             }
-            callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
+            callOptions = this.callOptions.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
         } else if (defaultReadTimeoutMillis > 0) {
             callOptions = this.callOptions.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
 
         if (!shutdown) {
-            makeUnaryCall(method, request, callOptions, consumer);
+            makeUnaryCall(method, request, callOptions, settings, consumer);
         } else {
             consumer.accept(CancelResultDueToShutdown());
         }
@@ -200,6 +222,7 @@ public abstract class GrpcTransport implements RpcTransport {
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             Consumer<Result<RespT>> consumer);
 
     public <ReqT, RespT> void unaryCall(
@@ -207,20 +230,30 @@ public abstract class GrpcTransport implements RpcTransport {
             ReqT request,
             BiConsumer<RespT, Status> consumer,
             long deadlineAfter) {
+        unaryCall(method, request, consumer, GrpcRequestSettings.newBuilder()
+                .withDeadlineAfter(deadlineAfter)
+                .build());
+    }
+
+    public <ReqT, RespT> void unaryCall(
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            BiConsumer<RespT, Status> consumer,
+            GrpcRequestSettings settings) {
         CallOptions callOptions = this.callOptions;
-        if (deadlineAfter > 0) {
+        if (settings.getDeadlineAfter() > 0) {
             final long now = System.nanoTime();
-            if (now >= deadlineAfter) {
+            if (now >= settings.getDeadlineAfter()) {
                 consumer.accept(null, deadlineExpiredStatus(method));
                 return;
             }
-            callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
+            callOptions = this.callOptions.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
         } else if (defaultReadTimeoutMillis > 0) {
             callOptions = this.callOptions.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
 
         if (!shutdown) {
-            makeUnaryCall(method, request, callOptions, consumer);
+            makeUnaryCall(method, request, callOptions, settings, consumer);
         } else {
             consumer.accept(null, Status.CANCELLED);
         }
@@ -230,6 +263,7 @@ public abstract class GrpcTransport implements RpcTransport {
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             BiConsumer<RespT, Status> consumer);
 
     public <ReqT, RespT> StreamControl serverStreamCall(
@@ -237,20 +271,31 @@ public abstract class GrpcTransport implements RpcTransport {
             ReqT request,
             StreamObserver<RespT> observer,
             long deadlineAfter) {
+        return serverStreamCall(method, request, observer,
+                GrpcRequestSettings.newBuilder()
+                        .withDeadlineAfter(deadlineAfter)
+                        .build());
+    }
+
+    public <ReqT, RespT> StreamControl serverStreamCall(
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            StreamObserver<RespT> observer,
+            GrpcRequestSettings settings) {
         CallOptions callOptions = this.callOptions;
-        if (deadlineAfter > 0) {
+        if (settings.getDeadlineAfter() > 0) {
             final long now = System.nanoTime();
-            if (now >= deadlineAfter) {
+            if (now >= settings.getDeadlineAfter()) {
                 observer.onError(GrpcStatuses.toStatus(deadlineExpiredStatus(method)));
                 return () -> {};
             }
-            callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
+            callOptions = this.callOptions.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
         } else if (defaultReadTimeoutMillis > 0) {
             callOptions = this.callOptions.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
 
         if (!shutdown) {
-            return makeServerStreamCall(method, request, callOptions, observer);
+            return makeServerStreamCall(method, request, callOptions, settings, observer);
         } else {
             observer.onError(CancelResultDueToShutdown().toStatus());
             return () -> {};
@@ -261,6 +306,7 @@ public abstract class GrpcTransport implements RpcTransport {
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             StreamObserver<RespT> observer);
 
     private <ReqT> OutStreamObserver<ReqT> makeEmptyObserverStub() {
@@ -283,20 +329,30 @@ public abstract class GrpcTransport implements RpcTransport {
             MethodDescriptor<ReqT, RespT> method,
             StreamObserver<RespT> observer,
             long deadlineAfter) {
+        return bidirectionalStreamCall(method, observer,
+                GrpcRequestSettings.newBuilder()
+                        .withDeadlineAfter(deadlineAfter)
+                        .build());
+    }
+
+    public <ReqT, RespT> OutStreamObserver<ReqT> bidirectionalStreamCall(
+            MethodDescriptor<ReqT, RespT> method,
+            StreamObserver<RespT> observer,
+            GrpcRequestSettings settings) {
         CallOptions callOptions = this.callOptions;
-        if (deadlineAfter > 0) {
+        if (settings.getDeadlineAfter() > 0) {
             final long now = System.nanoTime();
-            if (now >= deadlineAfter) {
+            if (now >= settings.getDeadlineAfter()) {
                 observer.onError(GrpcStatuses.toStatus(deadlineExpiredStatus(method)));
                 return makeEmptyObserverStub();
             }
-            callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
+            callOptions = this.callOptions.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
         } else if (defaultReadTimeoutMillis > 0) {
             callOptions = this.callOptions.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
 
         if (!shutdown) {
-            return makeBidirectionalStreamCall(method, callOptions, observer);
+            return makeBidirectionalStreamCall(method, callOptions, settings, observer);
         } else {
             observer.onError(CancelResultDueToShutdown().toStatus());
             return makeEmptyObserverStub();
@@ -306,6 +362,7 @@ public abstract class GrpcTransport implements RpcTransport {
     protected abstract <ReqT, RespT> OutStreamObserver<ReqT> makeBidirectionalStreamCall(
             MethodDescriptor<ReqT, RespT> method,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             StreamObserver<RespT> observer);
 
     protected static <ReqT, RespT> void sendOneRequest(

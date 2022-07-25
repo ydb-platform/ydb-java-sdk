@@ -1,3 +1,11 @@
+## 1.14.0 ##
+
+* Bind session to server node it was created at
+
+## 1.13.8 ##
+
+* Added support of changefeeds to alterTable
+
 ## 1.13.7 ##
 
 * Added regular re-discovery for new YDB transport implementation

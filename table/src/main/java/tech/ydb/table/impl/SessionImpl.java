@@ -1,6 +1,8 @@
 package tech.ydb.table.impl;
 
+import java.net.URI;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,6 +22,8 @@ import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.grpc.EndpointInfo;
+import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
@@ -62,6 +66,7 @@ import tech.ydb.table.settings.PartitioningSettings;
 import tech.ydb.table.settings.PrepareDataQuerySettings;
 import tech.ydb.table.settings.ReadTableSettings;
 import tech.ydb.table.settings.ReplicationPolicy;
+import tech.ydb.table.settings.RequestSettings;
 import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.settings.StoragePolicy;
 import tech.ydb.table.settings.TtlSettings;
@@ -78,6 +83,7 @@ import tech.ydb.table.values.proto.ProtoValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static tech.ydb.table.YdbTable.ColumnFamily.Compression.COMPRESSION_LZ4;
 import static tech.ydb.table.YdbTable.ColumnFamily.Compression.COMPRESSION_NONE;
 import static tech.ydb.table.YdbTable.ColumnFamily.Compression.COMPRESSION_UNSPECIFIED;
@@ -100,6 +106,7 @@ class SessionImpl implements Session {
         AtomicReferenceFieldUpdater.newUpdater(SessionImpl.class, State.class, "state");
 
     private final String id;
+    private final EndpointInfo endpoint;
     private final TableRpc tableRpc;
     private final OperationTray operationTray;
     @Nullable
@@ -117,6 +124,41 @@ class SessionImpl implements Session {
         this.sessionPool = sessionPool;
         this.queryCache = (queryCacheSize > 0) ? new QueryCache(queryCacheSize) : null;
         this.keepQueryText = keepQueryText;
+        Integer nodeId = getNodeIdFromSessionId(id);
+        this.endpoint = nodeId == null ? null : new EndpointInfo(nodeId, tableRpc.getEndpointByNodeId(nodeId));
+    }
+
+    @Nullable
+    private static Integer getNodeIdFromSessionId(String sessionId) {
+        try {
+            URI uri = new URI(sessionId);
+            Map<String, String> params = getQueryMap(uri.getQuery());
+            String nodeStr = params.get("node_id");
+            checkNotNull(nodeStr, "no node_id in session id");
+            return Integer.parseUnsignedInt(nodeStr);
+        } catch (Exception e) {
+            log.debug("Failed to parse session_id for node_id: {}", e.toString());
+            return null;
+        }
+    }
+
+    private static Map<String, String> getQueryMap(String query) {
+        String[] params = query.split("&");
+        Map<String, String> map = new HashMap<>();
+
+        for (String param : params) {
+            String name = param.split("=")[0];
+            String value = param.split("=")[1];
+            map.put(name, value);
+        }
+        return map;
+    }
+
+    private GrpcRequestSettings makeGrpcRequestSettings(RequestSettings<?> settings) {
+        return GrpcRequestSettings.newBuilder()
+                .withDeadlineAfter(RequestSettingsUtils.calculateDeadlineAfter(settings))
+                .withPreferredEndpoint(endpoint)
+                .build();
     }
 
     @Override
@@ -325,13 +367,13 @@ class SessionImpl implements Session {
             }
         }
 
-        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
-        return tableRpc.createTable(request.build(), deadlineAfter)
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        return tableRpc.createTable(request.build(), grpcRequestSettings)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
-                return operationTray.waitStatus(response.expect("createTable()").getOperation(), deadlineAfter);
+                return operationTray.waitStatus(response.expect("createTable()").getOperation(), grpcRequestSettings);
             });
     }
 
@@ -352,14 +394,14 @@ class SessionImpl implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
-        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
-        return tableRpc.dropTable(request, deadlineAfter)
-            .thenCompose(response -> {
-                if (!response.isSuccess()) {
-                    return CompletableFuture.completedFuture(response.toStatus());
-                }
-                return operationTray.waitStatus(response.expect("dropTable()").getOperation(), deadlineAfter);
-            });
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        return tableRpc.dropTable(request, grpcRequestSettings)
+                .thenCompose(response -> {
+                    if (!response.isSuccess()) {
+                        return CompletableFuture.completedFuture(response.toStatus());
+                    }
+                    return operationTray.waitStatus(response.expect("dropTable()").getOperation(), grpcRequestSettings);
+                });
     }
 
     @Override
@@ -378,6 +420,10 @@ class SessionImpl implements Session {
 
         settings.forEachDropColumn(builder::addDropColumns);
 
+        settings.forEachAddChangefeed(changefeed -> builder.addAddChangefeeds(changefeed.toProto()));
+
+        settings.forEachDropChangefeed(builder::addDropChangefeeds);
+
         TtlSettings ttlSettings = settings.getTtlSettings();
         if (ttlSettings != null) {
             YdbTable.DateTypeColumnModeSettings.Builder dateTypeColumnBuilder = builder.getSetTtlSettingsBuilder().getDateTypeColumnBuilder();
@@ -387,14 +433,15 @@ class SessionImpl implements Session {
 
         applyPartitioningSettings(settings.getPartitioningSettings(), builder::setAlterPartitioningSettings);
 
-        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
-        return tableRpc.alterTable(builder.build(), deadlineAfter)
-            .thenCompose(response -> {
-                if (!response.isSuccess()) {
-                    return CompletableFuture.completedFuture(response.toStatus());
-                }
-                return operationTray.waitStatus(response.expect("alterTable()").getOperation(), deadlineAfter);
-            });
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        return tableRpc.alterTable(builder.build(),grpcRequestSettings)
+                .thenCompose(response -> {
+                    if (!response.isSuccess()) {
+                        return CompletableFuture.completedFuture(response.toStatus());
+                    }
+                    return operationTray.waitStatus(response.expect("alterTable()").getOperation(),
+                            grpcRequestSettings);
+                });
     }
 
     @Override
@@ -406,13 +453,13 @@ class SessionImpl implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
-        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
-        return tableRpc.copyTable(request, deadlineAfter)
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        return tableRpc.copyTable(request, grpcRequestSettings)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
-                return operationTray.waitStatus(response.expect("copyTable()").getOperation(), deadlineAfter);
+                return operationTray.waitStatus(response.expect("copyTable()").getOperation(), grpcRequestSettings);
             });
     }
 
@@ -427,8 +474,8 @@ class SessionImpl implements Session {
                 .setIncludePartitionStats(settings.isIncludePartitionStats())
                 .build();
 
-        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
-        return tableRpc.describeTable(request, deadlineAfter)
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        return tableRpc.describeTable(request, grpcRequestSettings)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
@@ -437,7 +484,7 @@ class SessionImpl implements Session {
                     response.expect("describeTable()").getOperation(),
                     YdbTable.DescribeTableResult.class,
                     result -> SessionImpl.mapDescribeTable(result, settings),
-                    deadlineAfter);
+                    grpcRequestSettings);
             });
     }
 
@@ -596,8 +643,8 @@ class SessionImpl implements Session {
             msg = sb.toString();
         }
 
-        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
-        return interceptResultWithLog(msg, tableRpc.executeDataQuery(request.build(), deadlineAfter)
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        return interceptResultWithLog(msg, tableRpc.executeDataQuery(request.build(), grpcRequestSettings)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
@@ -607,7 +654,7 @@ class SessionImpl implements Session {
                     operation,
                     YdbTable.ExecuteQueryResult.class,
                     result -> mapExecuteDataQuery(result, operation, query, keepInClientQueryCache),
-                    deadlineAfter);
+                    grpcRequestSettings);
             }));
     }
 
@@ -674,8 +721,8 @@ class SessionImpl implements Session {
             msg = sb.toString();
         }
 
-        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
-        return interceptResultWithLog(msg, tableRpc.executeDataQuery(request.build(), deadlineAfter)
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        return interceptResultWithLog(msg, tableRpc.executeDataQuery(request.build(), grpcRequestSettings)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
@@ -685,7 +732,7 @@ class SessionImpl implements Session {
                     operation,
                     YdbTable.ExecuteQueryResult.class,
                     result -> mapExecuteDataQuery(result, operation, queryText, keepInClientQueryCache),
-                    deadlineAfter);
+                    grpcRequestSettings);
             }));
     }
 
@@ -697,8 +744,8 @@ class SessionImpl implements Session {
             .setYqlText(query);
 
         final boolean keepInClientQueryCache = (queryCache != null) && settings.isKeepInQueryCache();
-        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
-        return interceptResult(tableRpc.prepareDataQuery(request.build(), deadlineAfter)
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        return interceptResult(tableRpc.prepareDataQuery(request.build(), grpcRequestSettings)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
@@ -715,7 +762,7 @@ class SessionImpl implements Session {
                         }
                         return dataQuery;
                     },
-                    deadlineAfter);
+                    grpcRequestSettings);
             }));
     }
 
@@ -727,13 +774,14 @@ class SessionImpl implements Session {
             .setYqlText(query)
             .build();
 
-        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
-        return interceptStatus(tableRpc.executeSchemeQuery(request, deadlineAfter)
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        return interceptStatus(tableRpc.executeSchemeQuery(request, grpcRequestSettings)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
-                return operationTray.waitStatus(response.expect("executeSchemaQuery()").getOperation(), deadlineAfter);
+                return operationTray.waitStatus(response.expect("executeSchemaQuery()").getOperation(),
+                        grpcRequestSettings);
             }));
     }
 
@@ -745,8 +793,8 @@ class SessionImpl implements Session {
             .setYqlText(query)
             .build();
 
-        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
-        return interceptResult(tableRpc.explainDataQuery(request, deadlineAfter)
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        return interceptResult(tableRpc.explainDataQuery(request, grpcRequestSettings)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
@@ -755,7 +803,7 @@ class SessionImpl implements Session {
                     response.expect("explainDataQuery()").getOperation(),
                     YdbTable.ExplainQueryResult.class,
                     result -> new ExplainDataQueryResult(result.getQueryAst(), result.getQueryPlan()),
-                    deadlineAfter);
+                    grpcRequestSettings);
             }));
     }
 
@@ -767,8 +815,9 @@ class SessionImpl implements Session {
             .setTxSettings(txSettings(transactionMode))
             .build();
 
-        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
-        return interceptResultWithLog("begin transaction", tableRpc.beginTransaction(request, deadlineAfter)
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        return interceptResultWithLog("begin transaction",
+                tableRpc.beginTransaction(request, grpcRequestSettings)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
@@ -777,7 +826,7 @@ class SessionImpl implements Session {
                     response.expect("beginTransaction()").getOperation(),
                     YdbTable.BeginTransactionResult.class,
                     result -> new TransactionImpl(this, result.getTxMeta().getId()),
-                    deadlineAfter);
+                    grpcRequestSettings);
             }));
     }
 
@@ -813,7 +862,10 @@ class SessionImpl implements Session {
             request.addAllColumns(settings.getColumns());
         }
 
-        final long deadlineAfter = settings.getDeadlineAfter();
+        final GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder()
+                .withDeadlineAfter(settings.getDeadlineAfter())
+                .withPreferredEndpoint(endpoint)
+                .build();
         CompletableFuture<Status> promise = new CompletableFuture<>();
         StreamControl control = tableRpc.streamReadTable(request.build(), new StreamObserver<ReadTableResponse>() {
             @Override
@@ -843,7 +895,7 @@ class SessionImpl implements Session {
             public void onCompleted() {
                 promise.complete(Status.SUCCESS);
             }
-        }, deadlineAfter);
+        }, grpcRequestSettings);
         return promise.whenComplete((status, ex) -> {
             if (ex instanceof CancellationException) {
                 control.cancel();
@@ -862,7 +914,10 @@ class SessionImpl implements Session {
             .build();
 
         CompletableFuture<Status> promise = new CompletableFuture<>();
-        final long deadlineAfter = settings.getDeadlineAfter();
+        final GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder()
+                .withDeadlineAfter(settings.getDeadlineAfter())
+                .withPreferredEndpoint(endpoint)
+                .build();
         StreamControl control = tableRpc.streamExecuteScanQuery(request, new StreamObserver<YdbTable.ExecuteScanQueryPartialResponse>() {
             @Override
             public void onNext(YdbTable.ExecuteScanQueryPartialResponse response) {
@@ -891,7 +946,7 @@ class SessionImpl implements Session {
             public void onCompleted() {
                 promise.complete(Status.SUCCESS);
             }
-        }, deadlineAfter);
+        }, grpcRequestSettings);
         return promise.whenComplete((status, ex) -> {
             if (ex instanceof CancellationException) {
                 control.cancel();
@@ -907,14 +962,15 @@ class SessionImpl implements Session {
             .setTxId(txId)
             .build();
 
-        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
-        return interceptStatusWithLog("commit transaction", tableRpc.commitTransaction(request, deadlineAfter)
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        return interceptStatusWithLog("commit transaction",
+                tableRpc.commitTransaction(request, grpcRequestSettings)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
                 return tableRpc.getOperationTray()
-                    .waitStatus(response.expect("commitTransaction()").getOperation(), deadlineAfter);
+                    .waitStatus(response.expect("commitTransaction()").getOperation(), grpcRequestSettings);
             }));
     }
 
@@ -926,14 +982,15 @@ class SessionImpl implements Session {
             .setTxId(txId)
             .build();
 
-        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
-        return interceptStatusWithLog("rollback transaction", tableRpc.rollbackTransaction(request, deadlineAfter)
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        return interceptStatusWithLog("rollback transaction",
+                tableRpc.rollbackTransaction(request, grpcRequestSettings)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
                 return tableRpc.getOperationTray()
-                    .waitStatus(response.expect("rollbackTransaction()").getOperation(), deadlineAfter);
+                    .waitStatus(response.expect("rollbackTransaction()").getOperation(), grpcRequestSettings);
             }));
     }
 
@@ -944,8 +1001,8 @@ class SessionImpl implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
-        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
-        return interceptResult(tableRpc.keepAlive(request, deadlineAfter)
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        return interceptResult(tableRpc.keepAlive(request, grpcRequestSettings)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.cast());
@@ -954,7 +1011,7 @@ class SessionImpl implements Session {
                     response.expect("keepAlive()").getOperation(),
                     YdbTable.KeepAliveResult.class,
                     SessionImpl::mapSessionStatus,
-                    deadlineAfter
+                    grpcRequestSettings
                 );
             }));
     }
@@ -972,14 +1029,14 @@ class SessionImpl implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
-        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
 
-        return interceptStatus(tableRpc.bulkUpsert(request, deadlineAfter)
+        return interceptStatus(tableRpc.bulkUpsert(request, grpcRequestSettings)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
-                return operationTray.waitStatus(response.expect("bulkUpsert()").getOperation(), deadlineAfter);
+                return operationTray.waitStatus(response.expect("bulkUpsert()").getOperation(), grpcRequestSettings);
             }));
     }
 
@@ -1015,13 +1072,13 @@ class SessionImpl implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
-        final long deadlineAfter = RequestSettingsUtils.calculateDeadlineAfter(settings);
-        return interceptStatus(tableRpc.deleteSession(request, deadlineAfter)
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        return interceptStatus(tableRpc.deleteSession(request, grpcRequestSettings)
             .thenCompose(response -> {
                 if (!response.isSuccess()) {
                     return CompletableFuture.completedFuture(response.toStatus());
                 }
-                return operationTray.waitStatus(response.expect("deleteSession()").getOperation(), deadlineAfter);
+                return operationTray.waitStatus(response.expect("deleteSession()").getOperation(), grpcRequestSettings);
             })
         );
     }

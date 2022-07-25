@@ -12,6 +12,7 @@ import tech.ydb.OperationProtos;
 import tech.ydb.StatusCodesProtos;
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.table.Session;
 import tech.ydb.table.TableClient;
 import tech.ydb.table.TableRpcStub;
@@ -51,7 +52,7 @@ public class TableClientImplTest {
 
             @Override
             public CompletableFuture<Result<YdbTable.CreateSessionResponse>> createSession(
-                YdbTable.CreateSessionRequest request, long deadlineAfter) {
+                YdbTable.CreateSessionRequest request, GrpcRequestSettings settings) {
 
                 counter += 1;
                 String id = "session " + counter;
@@ -68,7 +69,7 @@ public class TableClientImplTest {
 
             @Override
             public CompletableFuture<Result<YdbTable.DeleteSessionResponse>> deleteSession(
-                    YdbTable.DeleteSessionRequest request, long deadlineAfter) {
+                    YdbTable.DeleteSessionRequest request, GrpcRequestSettings settings) {
                 String id = request.getSessionId();
                 YdbTable.DeleteSessionResponse response = YdbTable.DeleteSessionResponse
                         .newBuilder()
@@ -118,7 +119,7 @@ public class TableClientImplTest {
         TableRpc fakeRpc = new TableRpcStub() {
             @Override
             public CompletableFuture<Result<YdbTable.CreateSessionResponse>> createSession(
-                YdbTable.CreateSessionRequest request, long deadlineAfter) {
+                YdbTable.CreateSessionRequest request, GrpcRequestSettings settings) {
                 return CompletableFuture.completedFuture(Result.fail(StatusCode.TRANSPORT_UNAVAILABLE));
             }
         };
